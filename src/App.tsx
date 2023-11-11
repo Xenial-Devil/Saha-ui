@@ -7,7 +7,7 @@ function App() {
       <Alert
         status={"success"}
         variant={"outline"}
-        message={"this is success alert"}
+        message={"this is success alert go to https://github.com/"}
         title={"Success"}
         closeable={true}
       />

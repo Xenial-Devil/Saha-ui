@@ -38,6 +38,16 @@ const Alert = ({
   const styleElement = document.createElement("style");
   styleElement.innerText = dynamicStyleRule;
   document.head.appendChild(styleElement);
+  const messageParts = message.split(/(https?:\/\/[^\s]+)/);
+  const renderedMessage = messageParts.map((part, index) =>
+    part.match(/(https?:\/\/[^\s]+)/) ? (
+      <a key={index} className="alert-link" href={part} target="_blank">
+        {part}
+      </a>
+    ) : (
+      part
+    )
+  );
   return (
     <>
       {isOpen && (
@@ -185,10 +195,7 @@ const Alert = ({
                   variant == "solid" ? "text-white" : "alert-text"
                 }`}
               >
-                {message.replace(
-                  /(https?:\/\/[^\s]+)/g,
-                  '<span className="alert-link">$1</span>'
-                )}
+                {renderedMessage}
               </div>
             </div>
           </div>

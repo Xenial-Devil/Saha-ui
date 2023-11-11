@@ -56,14 +56,17 @@ $bg-color: (
     }
   }
   .alert-#{$key} .alert-title {
+    font-size: 1.25rem;
     color: $color;
+    font-weight: bold;
   }
   .alert-#{$key} .alert-text {
     color: $color;
   }
   .alert-#{$key} .alert-link {
     color: $color;
-    font: bolder;
+    font-weight: bolder;
+    text-decoration: none;
     &:hover {
       color: darken($color, 10%);
     }
