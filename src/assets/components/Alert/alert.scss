@@ -1,0 +1,107 @@
+$colors: (
+  danger: #ef273b,
+  success: #12a735,
+  warning: #ecb100,
+  info: #0096ad,
+);
+$bg-color: (
+  danger: #ffd8dd,
+  success: #d1fcdc,
+  warning: #fcf3d9,
+  info: #c4f7ff,
+);
+@each $key, $color in $colors {
+  .alert-#{$key} {
+    background-color: map-get($bg-color, $key);
+    color: $color;
+  }
+  .alert-#{$key} .alert-icon {
+    color: $color;
+    fill: $color;
+    stroke: $color;
+    &:hover {
+      color: darken($color, 10%);
+      fill: darken($color, 10%);
+      stroke: darken($color, 10%);
+    }
+    &:focus {
+      color: darken($color, 10%);
+      fill: darken($color, 10%);
+      stroke: darken($color, 10%);
+    }
+    &:active {
+      color: darken($color, 10%);
+      fill: darken($color, 10%);
+      stroke: darken($color, 10%);
+    }
+  }
+  .alert-#{$key} .alert-close {
+    color: $color;
+    fill: $color;
+    stroke: $color;
+    &:hover {
+      color: darken($color, 10%);
+      fill: darken($color, 10%);
+      stroke: darken($color, 10%);
+    }
+    &:focus {
+      color: darken($color, 10%);
+      fill: darken($color, 10%);
+      stroke: darken($color, 10%);
+    }
+    &:active {
+      color: darken($color, 10%);
+      fill: darken($color, 10%);
+      stroke: darken($color, 10%);
+    }
+  }
+  .alert-#{$key} .alert-title {
+    color: $color;
+  }
+  .alert-#{$key} .alert-text {
+    color: $color;
+  }
+  .alert-#{$key} .alert-link {
+    color: $color;
+    font: bolder;
+    &:hover {
+      color: darken($color, 10%);
+    }
+    &:focus {
+      color: darken($color, 10%);
+    }
+    &:active {
+      color: darken($color, 10%);
+    }
+  }
+  .alert-#{$key}.alert-border {
+    border-width: .25rem;
+    border-color: $color;
+  }
+  .alert-#{$key}.alert-filled {
+    background-color: $color;
+  }
+  .alert-#{$key} .alert-filled {
+    background-color: $color;
+  }
+  .alert-#{$key} .alert-border {
+    border-width: .25rem;
+    border-color: $color;
+  }
+  .alert-#{$key}.alert-border-left {
+    border-left-width: .65rem;
+    border-left-color: $color;
+  }
+  .alert-#{$key} .alert-border-left {
+    border-left-width: .65rem;
+    border-left-color: $color;
+  }
+  .alert-#{$key}.alert-border-top {
+    border-top-width: .6rem;
+    border-top-color: $color;
+  }
+  .alert-#{$key} .alert-border-top {
+    border-top-width: .6rem;
+    border-top-color: $color;
+  }
+}
