@@ -15,9 +15,9 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   content,
 }) => {
   return (
-    <div className="w-full box-border Accordion relative bg-gray-200 text-gray-600 dark:text-gray-100 dark:bg-gray-900 border-b border-b-gray-500 last:border-0">
+    <div className="w-full box-border Accordion relative bg-gray-200 text-gray-600 dark:text-gray-100 dark:bg-[#151515] border-b border-b-gray-500 last:border-0">
       <div
-        className="w-full flex justify-between items-center cursor-pointer bg-gray-300 dark:bg-gray-700 px-8 py-3"
+        className="w-full flex justify-between items-center cursor-pointer bg-gray-300 dark:bg-[#404040] px-8 py-3"
         onClick={onClick}
       >
         <h2>{title}</h2>
@@ -37,7 +37,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
         </svg>
       </div>
       <div
-        className={`w-full px-8 content bg-gray-200 dark:bg-gray-800 ${
+        className={`w-full px-8 content bg-gray-200 dark:bg-[#313131] ${
           isOpen && "open"
         }`}
       >
