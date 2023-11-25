@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { defaultAlertProps, AlertProps } from "./AlertProps";
-import "./alert.scss";
+import "./index.scss";
 const Alert = ({
   variant = defaultAlertProps.variant,
   message = defaultAlertProps.message,
