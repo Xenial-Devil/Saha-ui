@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import "./index.scss";
 
 interface AccordionItemProps {
@@ -15,9 +15,9 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   content,
 }) => {
   return (
-    <div className="w-full overscroll-none box-border transition-[height] Accordion">
+    <div className="w-full box-border Accordion relative bg-gray-200 text-gray-600 dark:text-gray-100 dark:bg-gray-900 border-b border-b-gray-500 last:border-0">
       <div
-        className="w-full flex justify-between items-center cursor-pointer bg-gray-200 text-gray-600 dark:text-gray-100 dark:bg-gray-900"
+        className="w-full flex justify-between items-center cursor-pointer bg-gray-300 dark:bg-gray-700 px-8 py-3"
         onClick={onClick}
       >
         <h2>{title}</h2>
@@ -26,7 +26,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
           width="24"
           height="24"
           viewBox="0 0 16 16"
-          className={`fill-current text-gray-600 dark:text-gray-100 transform duration-500 ${
+          className={`fill-current transform duration-500 ${
             isOpen ? "rotate-180" : ""
           }`}
         >
@@ -36,11 +36,15 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
           />
         </svg>
       </div>
-      <div className={`w-full ${isOpen ? "open" : "closed"} transition-[height]`}>
-        {content}
+      <div
+        className={`w-full px-8 content bg-gray-200 dark:bg-gray-800 ${
+          isOpen && "open"
+        }`}
+      >
+        <p className="w-full py-4"> {content}</p>
       </div>
     </div>
   );
 };
 
-export default AccordionItem;
+export default memo(AccordionItem);

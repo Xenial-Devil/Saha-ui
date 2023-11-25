@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import AccordionItem from "./AccordionItem";
 
 type AccordionVariant =
@@ -36,7 +36,7 @@ const Accordion: React.FC<AccordionProps> = ({ variant, items }) => {
     });
 
 
-const handleAccordionClick = (index: number) => {
+const handleAccordionClick = useCallback((index: number) => {
   switch (variant) {
     case "default": {
       const newIsOpen = [...isOpen];
@@ -78,7 +78,7 @@ const handleAccordionClick = (index: number) => {
     default:
       break;
   }
-};
+},[]);
 
 
     return (

@@ -1,16 +1,11 @@
-.Accordion{
-    .open {
-  height: auto;
-  overflow: visible;
-  transition: height 500ms cubic-bezier(0.4, 0, 0.2, 1) 300ms;
-  visibility: visible;
+.Accordion {
+  overflow-anchor: none;
+  .content{
+    overflow: hidden;
+    max-height: 0;
+&.open {
+    max-height: 1000px;
+    transition: max-height 2s linear 0ms;
+  }
+  }
 }
-
-.closed {
-  height: 0;
-  overflow: hidden;
-  transition: height 500ms cubic-bezier(0.4, 0, 0.2, 1) 300ms;
-  visibility: hidden;
-}
-}
-
