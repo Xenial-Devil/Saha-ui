@@ -13,7 +13,7 @@ const Alert = ({
   height = defaultAlertProps.height,
   rounded = defaultAlertProps.rounded,
   closeable = defaultAlertProps.closeable,
-}: AlertProps) => {
+}: AlertProps):JSX.Element => {
   const [isOpen, setIsOpen] = useState(true);
   const generateUniqueClassName = () => {
     const randomString = Math.random().toString(36).substring(2, 15);
@@ -140,7 +140,7 @@ const Alert = ({
                   />
                 </svg>
               )}
-              {(status == "warning" || status == "error") && (
+              {(status == "warning" || status == "danger") && (
                 <svg
                   width="24"
                   height="24"
