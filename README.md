@@ -43,12 +43,15 @@ Props:
   closeable={true}
 />
 ```
+
 ### Component Name:Accordion
 
 #### Description:
+
 The Accordion interface defines the properties required for an accordion item component. This interface is used to manage the state and behavior of individual items within an accordion, a UI component that allows users to toggle the visibility of sections of content. Each accordion item can be opened or closed, displaying its content conditionally based on its state.
 
 #### Props
+
 `isOpen (boolean)`: Indicates whether the accordion item is currently open (true) or closed (false).
 
 `onClick (() => void)`: A callback function that is invoked when the accordion item is clicked. This function typically toggles the isOpen state.
@@ -58,6 +61,7 @@ The Accordion interface defines the properties required for an accordion item co
 `content (string)`: The content of the accordion item. This content is shown when the item is open and hidden when the item is closed.
 
 #### Use
+
 ```javascript
 const items = [
   {
@@ -83,9 +87,11 @@ const items = [
 ### Component Name:Avatar
 
 #### Description:
+
 The Avatar type defines the properties required for an avatar component. This interface is used to manage the visual representation of an avatar, which can be a user's profile picture or any other image in various shapes and sizes. It ensures the avatar is rendered with appropriate attributes such as source URL, alternative text, size, and shape.
 
 #### Props:
+
 `src (string, default: "")`: The URL of the image to be used as the avatar. It specifies the source of the image.
 
 `alt (string, default: "Avatar")`: The alternative text for the avatar image. This text is displayed if the image cannot be loaded and is important for accessibility.
@@ -99,11 +105,46 @@ The Avatar type defines the properties required for an avatar component. This in
 - `rounded`: The avatar is displayed with rounded corners.
 
 #### Use
+
 ```javascript
 <Avatar
-        src="https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg"
-        alt="Avatar"
-        size={100}
-        shape={"rounded"}
-      />
+  src="https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg"
+  alt="Avatar"
+  size={100}
+  shape={"rounded"}
+/>
 ```
+
+### Component Name:AvatarGroup
+
+#### Description
+
+The AvatarGroup interface defines the properties for an avatar group component. This component is used to display a group of avatar images, allowing customization of their arrangement and appearance.
+
+#### Props
+
+`avatars (AvatarProps[])`: An array of AvatarProps objects representing the avatars to be displayed in the group.
+
+`max (number, optional)`: Maximum number of avatars to display. If specified, only the first max avatars from the avatars array will be shown.
+
+`size (number, optional)`: Size of each avatar in pixels. This defines the width and height dimensions of each avatar.
+
+`overlap (number, optional)`: Amount of overlap between consecutive avatars in pixels. This can be used to create a stacked or overlapping effect.
+
+`reverse (boolean, optional)`: If true, reverses the order of avatars in the group.
+
+`gap (boolean,optional)`: If true, adds a gap between avatars. This is useful for creating a separation between avatars in the group.
+
+#### Use
+
+```javascript
+const avatars = [
+  { src: "avatar1.png", alt: "Avatar 1" },
+  { src: "avatar2.png", alt: "Avatar 2" },
+  { src: "avatar3.png", alt: "Avatar 3" },
+  // Add more avatars as needed
+];
+<AvatarGroup avatars={avatars} max={3} size={50} overlap={0.2} gap={false} />;
+```
+>Note: If you are using gap then overlap is ignored and use as gap instead of overlaping.
+

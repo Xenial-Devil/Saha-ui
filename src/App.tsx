@@ -54,7 +54,7 @@ function App() {
         shape={"rounded"}
       />
       */}
-      <AvatarGroup avatars={avatars} max={3} size={50} overlap={0.2} />
+      <AvatarGroup avatars={avatars} max={3} size={50} overlap={0.2} gap={false} />
     </>
   );
 }

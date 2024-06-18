@@ -7,7 +7,8 @@ interface AvatarGroupProps {
   max?: number;
   size?: number;
   overlap?: number;
-  reverse?:boolean // Percentage of overlap between avatars
+  reverse?:boolean;
+  gap:boolean;
 }
 
 const AvatarGroup: React.FC<AvatarGroupProps> = ({
@@ -16,40 +17,25 @@ const AvatarGroup: React.FC<AvatarGroupProps> = ({
   size = DefaultAvatarProps.size,
   overlap = 0.1, // 10% overlap by default
   reverse = true, // recerse by default
+  gap = false, // no gap by default
 }) => {
     console.log("avatar", size, overlap);
   const displayedAvatars = avatars.slice(0, max);
   const overlapOffset = `${size * overlap}px`;
 
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: gap? overlapOffset:0}}>
       {displayedAvatars.map((avatar, index) => (
         <div
           key={index}
           style={{
-            marginLeft: index === 0 ? "0px" : `-${overlapOffset}`,
+            marginLeft: index === 0 || gap ? "0px" : `-${overlapOffset}`,
             zIndex: reverse ? max - index : index,
           }}
         >
           <Avatar {...avatar} size={size}/>
         </div>
       ))}
-      {avatars.length > max && (
-        <div
-          style={{
-            marginLeft: `-${overlapOffset}`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#ccc",
-            borderRadius: "50%",
-            fontSize: `${size * 0.4}px`,
-            color: "white",
-          }}
-        >
-          +{avatars.length - max}
-        </div>
-      )}
     </div>
   );
 };
