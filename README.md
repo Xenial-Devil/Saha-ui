@@ -146,5 +146,5 @@ const avatars = [
 ];
 <AvatarGroup avatars={avatars} max={3} size={50} overlap={0.2} gap={false} />;
 ```
->Note: If you are using gap then overlap is ignored and use as gap instead of overlaping.
+>$\textcolor{red}{\textsf{*Note:}}$ If you are using gap then overlap is ignored and use as gap instead of overlapping.
 
