@@ -1,60 +1,60 @@
 import "./App.css";
-import Accordion from "./assets/components/Accordion";
-import Alert from "./assets/components/Alert";
-import Avatar from "./assets/components/Avatar";
-import AvatarGroup from "./assets/components/AvatarGroup";
-const items = [
-  {
-    title: "Title 1",
-    content:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi ipsa dolor tempore eum, at excepturi! Nam itaque nostrum blanditiis, tempore obcaecati officiis molestias incidunt possimus omnis esse deserunt, officia consequatur?",
-  },
-  {
-    title: "Title 2",
-    content:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci illo deleniti recusandae doloribus enim, laboriosam quae eos iure iste asperiores cum neque vel. Laudantium laboriosam aliquam rem nam! Eligendi, ea.",
-  },
-  {
-    title: "Title 3",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur libero illo corporis aliquid iusto, voluptas earum perspiciatis corrupti hic nobis. Nam neque numquam, eligendi commodi placeat itaque sed ullam culpa!",
-  },
-];
-
-const avatars = [
-  {
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHDRlp-KGr_M94k_oor4Odjn2UzbAS7n1YoA&usqp=CAU",
-    alt: "Avatar 1",
-  },
-  {
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHDRlp-KGr_M94k_oor4Odjn2UzbAS7n1YoA&usqp=CAU",
-    alt: "Avatar 2",
-  },
-  {
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHDRlp-KGr_M94k_oor4Odjn2UzbAS7n1YoA&usqp=CAU",
-    alt: "Avatar 3",
-  },
-  // Add more avatars as needed
-];
+import List from "./assets/components/List";
+const unorderedItems = ["Item 1", "Item 2", "Item 3", "Item 4"];
+const orderedItems = ["First", "Second", "Third", "Fourth"];
+const customItems = ["Custom 1", "Custom 2", "Custom 3", "Custom 4"];
+const circleItems = ["Circle 1", "Circle 2", "Circle 3", "Circle 4"];
+const squareItems = ["Square 1", "Square 2", "Square 3", "Square 4"];
+const lowerRomanItems = ["Roman i", "Roman ii", "Roman iii", "Roman iv"];
+const upperAlphaItems = ["Alpha A", "Alpha B", "Alpha C", "Alpha D"];
 function App() {
   return (
     <>
-      {/* <Alert
-        status={"danger"}
-        variant={"subtle"}
-        message={"this is success alert go to https://github.com/"}
-        title={"Success"}
-        closeable={true}
-      <Accordion variant={"firstopen"} items={items} />
-      /> 
-      <Avatar
-        src="https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg"
-        alt="Avatar"
-        size={100}
-        shape={"rounded"}
-      />
-      */}
-      <AvatarGroup avatars={avatars} max={3} size={50} overlap={0.2} gap={false} />
+      <div>
+        <h1>My Lists</h1>
+        <h2>Unordered List (Disc)</h2>
+        <List
+          items={unorderedItems}
+          listType="disc"
+          itemClassName="list-item"
+        />
+        <h2>Ordered List (Decimal)</h2>
+        <List
+          items={orderedItems}
+          listType="decimal"
+          itemClassName="list-item"
+        />
+        <h2>Custom List</h2>
+        <List
+          items={customItems}
+          listType="none"
+          itemClassName="custom-list-item"
+        />
+        <h2>Circle List</h2>
+        <List
+          items={circleItems}
+          listType="circle"
+          itemClassName="list-item"
+        />
+        <h2>Square List</h2>
+        <List
+          items={squareItems}
+          listType="square"
+          itemClassName="list-item"
+        />
+        <h2>Lower Roman List</h2>
+        <List
+          items={lowerRomanItems}
+          listType="lower-roman"
+          itemClassName="list-item"
+        />
+        <h2>Upper Alpha List</h2>
+        <List
+          items={upperAlphaItems}
+          listType="upper-alpha"
+          itemClassName="list-item"
+        />
+      </div>
     </>
   );
 }
