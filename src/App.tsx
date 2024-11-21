@@ -1,5 +1,5 @@
 import "./App.css";
-import List from "./assets/components/List";
+import List from "./components/List";
 const unorderedItems = ["Item 1", "Item 2", "Item 3", "Item 4"];
 const orderedItems = ["First", "Second", "Third", "Fourth"];
 const customItems = ["Custom 1", "Custom 2", "Custom 3", "Custom 4"];
