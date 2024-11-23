@@ -1,5 +1,6 @@
 import React from 'react'
 import {AvatarProps,DefaultAvatarProps} from './AvatarProps'
+import Image from '../Image';
 
 
 const Avatar = ({
@@ -8,7 +9,7 @@ const Avatar = ({
     size= DefaultAvatarProps.size,
     shape= DefaultAvatarProps.shape}:AvatarProps):JSX.Element=> {
   return (
-    <img
+    <Image
       src={src}
       alt={alt}
       style={{

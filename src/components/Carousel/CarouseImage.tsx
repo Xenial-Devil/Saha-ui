@@ -1,5 +1,6 @@
 import React from "react";
 import { CarouseItemProps, DefaultCarouselImageProps } from "./CarouselProps";
+import Image from "../Image";
 
 const CarouseItem: React.FC<CarouseItemProps> = ({
   image = DefaultCarouselImageProps.image,
@@ -20,7 +21,7 @@ const CarouseItem: React.FC<CarouseItemProps> = ({
 }) => {
   return (
     <div className={`item relative ${className}}`}>
-      <img src={image} alt={alt} />
+      <Image src={image} alt={alt} />
       <div className="absolute top-0 left-0 flex flex-col justify-center items-start p-6 gap-4">
         <h1 className="text-white text-7xl " style={{ ...titleStyle }}>
           {title}

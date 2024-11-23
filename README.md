@@ -302,3 +302,47 @@ const images: CarouseItemProps[] = [
 ```
 
 > $\textcolor{red}{\textsf{*Note:}}$ If you are using onClick then link and linkTarget is ignored and use onClick Function.
+
+## Component Name:Tooltip
+
+### Description
+Tooltip make easier to use ui component
+
+### Props
+
+ `content(string)`:Specifies the text or content displayed in the tooltip.
+
+  `children(React.ReactNode)`:The element that triggers the tooltip on hover.
+
+  `position("top" | "bottom" | "left" | "right")`:Determines where the tooltip appears relative to the child element (`top`, `bottom`, `left`, `right`).
+  
+  ### Usage
+
+  #### Tooltip on Text:
+
+  ```javascript
+  <Tooltip content="This is a tooltip">
+  <span className="text-blue-500 underline cursor-pointer">Hover over me</span>
+</Tooltip>
+  ```
+  #### Tooltip on Button:
+
+  ```javascript
+  <Tooltip content="Click to submit the form" position="right">
+  <button className="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
+</Tooltip>
+  ```
+  #### Tooltip on an Icon:
+
+  ```javascript
+  <Tooltip content="Settings" position="bottom">
+  <svg className="w-6 h-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M12 8c1.656854 0 3-1.343146 3-3s-1.343146-3-3-3-3 1.343146-3 3 1.343146 3 3 3zm0 6c-1.656854 0-3 1.343146-3 3s1.343146 3 3 3 3-1.343146 3-3-1.343146-3-3-3z"
+    />
+  </svg>
+</Tooltip>
+  ```
