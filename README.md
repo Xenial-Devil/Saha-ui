@@ -146,5 +146,159 @@ const avatars = [
 ];
 <AvatarGroup avatars={avatars} max={3} size={50} overlap={0.2} gap={false} />;
 ```
->$\textcolor{red}{\textsf{*Note:}}$ If you are using gap then overlap is ignored and use as gap instead of overlapping.
 
+> $\textcolor{red}{\textsf{*Note:}}$ If you are using gap then overlap is ignored and use as gap instead of overlapping.
+
+### Component Name:List
+
+#### Description
+
+List is a component that displays a different type of list.
+
+#### Props
+
+##### List
+
+`children(React.ReactNode)`: React component.
+
+`listType('disc' | 'circle' | 'square' | 'decimal' | 'decimal-leading-zero' | 'lower-roman' | 'upper-roman' | 'lower-alpha' | 'upper-alpha' | 'none')`:type of list.
+
+`className(string,optional)`:add ClassName to modify the list style
+
+##### ListItem
+
+`item:(string)`: A List Item To show
+`className(string,optional)`:add ClassName to modify the list style
+
+#### Uses
+
+```javascript
+const jsonArray = ["apple", "banana", "cherry"];
+<List>
+  jsonArray.map((arr,index)=>(
+    <ListItem key={index} item={arr} />
+  ))
+</List>
+
+```
+
+
+### Component Name:Carousel
+
+#### Description
+
+The Carousel interface defines the properties for an carousel component. This component is used to display a group of images as a slides, allowing customization of their arrangement and appearance.
+
+#### Props
+
+##### for Carousel
+
+`autoplay(boolean)`: automatically set the slide animation.
+
+`autoplayInterval(number,optional)`: set the interval to change slide.
+
+`showNavigation(boolean,optional)`: navigation shows or not.
+
+`showIndicators(boolean,optional)`: Indicator shows or not.
+
+`className(string,optional)`: for add css class to modification.
+
+`containerStyle(React.CSSProperties,optional)`: directly add css style to container.
+
+`navigationStyle(React.CSSProperties,optional)`: directly add css style to navigation.
+
+`indicatorsStyle(React.CSSProperties,optional)`: directly add css style to indicators.
+`children(React.ReactNode)`: A react component.
+
+##### CarouseItem
+
+`image(string)`: set the image.
+
+`alt(string)`: set the alt.
+
+`caption(string,optional)`:set the image caption that shows bottom center of image.
+
+`title(string,optional)`:Set Title to show.
+
+`description(string,optional)`: Set description.
+
+`link(string,optional)`: Set Link to show.
+
+`linkText?(string,optional)`: Set Link to link text.
+
+`onClick?(() => void,optional)`:Set button as a click.
+
+`linkTarget?("_blank" | "_self" | "_parent" | "_top",optional)`:Set Link behaviour.
+
+`className?(string,optional)`:Add class name to modify.
+
+`captionStyle?(React.CSSProperties,optional)`:directly add css style.
+
+`titleStyle?(React.CSSProperties,optional)`:directly add css style.
+
+`linkStyle?(React.CSSProperties,optional)`:directly add css style.
+
+`descriptionStyle?(React.CSSProperties,optional)`:directly add css style.
+
+`LinkIcon?(React.ElementType | null,optional)`: react element.
+
+#### Use
+
+```javascript
+const images: CarouseItemProps[] = [
+  {
+    image:
+      "https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_1280.jpg",
+    alt: "Sample Image 1",
+    caption: "This is the first image",
+    title: "Image 1 Title",
+    description: "Description for the first image",
+    link: "https://example.com/link1",
+    linkText: "Go",
+    linkTarget: "_blank",
+    className: "image-class",
+    captionStyle: {},
+    titleStyle: {},
+    linkStyle: {},
+    onClick: () => {
+      alert("Click");
+    },
+  },
+  {
+    image:
+      "https://cdn.pixabay.com/photo/2021/07/06/19/26/drops-6392473_960_720.jpg",
+    alt: "Sample Image 2",
+    caption: "This is the second image",
+    title: "Image 2 Title",
+    description: "Description for the second image",
+    link: "https://example.com/link2",
+    linkTarget: "_self",
+    className: "image-class-secondary",
+    captionStyle: {},
+    titleStyle: {},
+    linkStyle: {},
+  },
+  {
+    image:
+      "https://cdn.pixabay.com/photo/2024/01/02/14/58/leaf-8483401_960_720.jpg",
+    alt: "Sample Image 3",
+    caption: "This is the third image",
+    title: "Image 3 Title",
+    description: "Description for the third image",
+    link: "https://example.com/link3",
+    linkTarget: "_top",
+    className: "image-class-tertiary",
+    captionStyle: {},
+    titleStyle: {},
+    linkStyle: {},
+  },
+];
+
+<Carousel>
+  {images.map((image, index) => (
+    <CarouseItem key={index} {...image} />
+  ))}
+</Carousel>;
+```
+
+> $\textcolor{red}{\textsf{*Note:}}$ If you are using onClick then link and linkTarget is ignored and use onClick Function.

@@ -1,60 +1,72 @@
 import "./App.css";
-import List from "./components/List";
-const unorderedItems = ["Item 1", "Item 2", "Item 3", "Item 4"];
-const orderedItems = ["First", "Second", "Third", "Fourth"];
-const customItems = ["Custom 1", "Custom 2", "Custom 3", "Custom 4"];
-const circleItems = ["Circle 1", "Circle 2", "Circle 3", "Circle 4"];
-const squareItems = ["Square 1", "Square 2", "Square 3", "Square 4"];
-const lowerRomanItems = ["Roman i", "Roman ii", "Roman iii", "Roman iv"];
-const upperAlphaItems = ["Alpha A", "Alpha B", "Alpha C", "Alpha D"];
+import Carousel from "./components/Carousel";
+import CarouseItem from "./components/Carousel/CarouseImage";
+import { CarouseItemProps } from "./components/Carousel/CarouselProps";
+
 function App() {
+  // const imagelist = [
+  //   "https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_1280.jpg",
+  //   "https://cdn.pixabay.com/photo/2021/07/06/19/26/drops-6392473_960_720.jpg",
+  //   "https://cdn.pixabay.com/photo/2024/01/02/14/58/leaf-8483401_960_720.jpg",
+  //   "https://cdn.pixabay.com/photo/2018/09/23/18/30/drop-3698073_960_720.jpg",
+  //   "https://cdn.pixabay.com/photo/2018/01/05/02/50/boat-3062045_960_720.jpg",
+  // ];
+  const images: CarouseItemProps[] = [
+    {
+      image:
+        "https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_1280.jpg",
+      alt: "Sample Image 1",
+      caption: "This is the first image",
+      title: "Image 1 Title",
+      description: "Description for the first image",
+      link: "https://example.com/link1",
+      linkText: "Go",
+      linkTarget: "_blank",
+      className: "image-class",
+      captionStyle: {},
+      titleStyle: {},
+      linkStyle: {},
+      onClick: () => {
+        alert("Click");
+      },
+    },
+    {
+      image:
+        "https://cdn.pixabay.com/photo/2021/07/06/19/26/drops-6392473_960_720.jpg",
+      alt: "Sample Image 2",
+      caption: "This is the second image",
+      title: "Image 2 Title",
+      description: "Description for the second image",
+      link: "https://example.com/link2",
+      linkTarget: "_self",
+      className: "image-class-secondary",
+      captionStyle: {},
+      titleStyle: {},
+      linkStyle: {},
+    },
+    {
+      image:
+        "https://cdn.pixabay.com/photo/2024/01/02/14/58/leaf-8483401_960_720.jpg",
+      alt: "Sample Image 3",
+      caption: "This is the third image",
+      title: "Image 3 Title",
+      description: "Description for the third image",
+      link: "https://example.com/link3",
+      linkTarget: "_top",
+      className: "image-class-tertiary",
+      captionStyle: {},
+      titleStyle: {},
+      linkStyle: {},
+    },
+  ];
+
   return (
     <>
-      <div>
-        <h1>My Lists</h1>
-        <h2>Unordered List (Disc)</h2>
-        <List
-          items={unorderedItems}
-          listType="disc"
-          itemClassName="list-item"
-        />
-        <h2>Ordered List (Decimal)</h2>
-        <List
-          items={orderedItems}
-          listType="decimal"
-          itemClassName="list-item"
-        />
-        <h2>Custom List</h2>
-        <List
-          items={customItems}
-          listType="none"
-          itemClassName="custom-list-item"
-        />
-        <h2>Circle List</h2>
-        <List
-          items={circleItems}
-          listType="circle"
-          itemClassName="list-item"
-        />
-        <h2>Square List</h2>
-        <List
-          items={squareItems}
-          listType="square"
-          itemClassName="list-item"
-        />
-        <h2>Lower Roman List</h2>
-        <List
-          items={lowerRomanItems}
-          listType="lower-roman"
-          itemClassName="list-item"
-        />
-        <h2>Upper Alpha List</h2>
-        <List
-          items={upperAlphaItems}
-          listType="upper-alpha"
-          itemClassName="list-item"
-        />
-      </div>
+      <Carousel>
+        {images.map((image, index) => (
+          <CarouseItem key={index} {...image} />
+        ))}
+      </Carousel>
     </>
   );
 }
