@@ -33,20 +33,10 @@ const buttonVariants = cva(
         lg: "h-13 px-8 text-lg gap-3 min-w-[6rem] rounded-2xl",
         xl: "h-16 px-10 text-xl gap-3.5 min-w-[7rem] rounded-2xl",
       },
-      fullWidth: {
-        true: "w-full",
-        false: "",
-      },
-      rounded: {
-        true: "!rounded-full",
-        false: "",
-      },
     },
     defaultVariants: {
       variant: "primary",
       size: "md",
-      fullWidth: false,
-      rounded: false,
     },
   }
 );
@@ -81,8 +71,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     {
       variant = "primary",
       size = "md",
-      fullWidth,
-      rounded,
       className,
       children,
       disabled,
@@ -96,7 +84,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          buttonVariants({ variant, size, fullWidth, rounded }),
+          buttonVariants({ variant, size }),
           shimmerVariants({ variant }),
           className
         )}
