@@ -84,11 +84,6 @@ jobs:
           cat > release_notes.md <<EOF
           $RELEASE_NOTES
 
-          ## 📦 Docker Image
-          - Registry: \`ghcr.io/$REPO_OWNER/city_pos_fe\`
-          - Tag: \`$LATEST_TAG\`
-          - Pull Command: \`docker pull ghcr.io/$REPO_OWNER/city_pos_fe:$LATEST_TAG\`
-
           ## 🔄 Changes
 
           ### Commits
