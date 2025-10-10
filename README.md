@@ -34,7 +34,8 @@
 - ♿ **Accessible** - ARIA-compliant with keyboard navigation
 - 🎭 **CVA Variants** - Type-safe variant management with class-variance-authority
 - 🎨 **OKLCH Colors** - Perceptually uniform color system for accurate theming
-- ⚡ **Performance** - Tree-shakeable, optimized bundle size
+- ⚡ **Tree-Shakeable** - Import only what you need, optimized bundle size
+- 📦 **Modular** - Individual component imports for maximum flexibility
 - 📱 **Responsive** - Mobile-first design with touch gesture support
 - 🔧 **Customizable** - Easy to extend and customize with Tailwind CSS
 
@@ -55,11 +56,13 @@ pnpm add saha-ui
 
 ### Peer Dependencies
 
-```bash
-npm install react react-dom tailwindcss
-```
+Saha UI requires React 18+ or React 19+:
 
----
+
+### Optional Dependencies
+
+For icons (if using Link or ThemeToggle components):
+
 
 ## 🚀 Quick Start
 
@@ -75,8 +78,11 @@ function App() {
 
 ### 2. Import and use components
 
+**Option A: Named imports from main entry (recommended)**
+
 ```tsx
 import { Button, Card, Avatar } from "saha-ui";
+import type { ButtonVariant, CardProps } from "saha-ui";
 
 function MyComponent() {
   return (
@@ -89,6 +95,37 @@ function MyComponent() {
   );
 }
 ```
+
+**Option B: Direct component imports (better tree-shaking)**
+
+```tsx
+import { Button } from "saha-ui/components/Button";
+import { Card } from "saha-ui/components/Card";
+import { Avatar } from "saha-ui/components/Avatar";
+import type { ButtonProps } from "saha-ui/components/Button/Button.types";
+
+function MyComponent() {
+  return (
+    <Card variant="glass" hoverable>
+      <Avatar src="/user.jpg" alt="User" size="lg" status="online" />
+      <Button variant="primary" size="md">
+        Click me
+      </Button>
+    </Card>
+  );
+}
+```
+
+**Option C: Utility imports**
+
+```tsx
+import { cn } from "saha-ui/lib/utils";
+
+// Use cn() for className merging
+<div className={cn("base-class", condition && "conditional-class")} />;
+```
+
+````
 
 ---
 
@@ -118,7 +155,7 @@ function MyComponent() {
 
 Action buttons with modern effects and 8 visual variants.
 
-**Variants:** `primary` `secondary` `accent` `success` `warning` `error` `ghost` `glass`  
+**Variants:** `primary` `secondary` `accent` `success` `warning` `error` `ghost` `glass`
 **Sizes:** `sm` `md` `lg` `xl`
 
 ```tsx
@@ -134,7 +171,7 @@ import { Sparkles } from "lucide-react";
   <Sparkles size={18} />
   Glass Effect
 </Button>;
-```
+````
 
 **Features:**
 
@@ -510,6 +547,10 @@ import { ThemeToggle } from "saha-ui";
 
 All components are fully typed with comprehensive prop types and JSDoc documentation.
 
+### Type Imports
+
+**From main entry:**
+
 ```typescript
 import type {
   ButtonVariant,
@@ -519,17 +560,27 @@ import type {
   AvatarSize,
   AvatarStatus,
   TooltipPosition,
-  // ... and many more
+  // ... and 90+ more types
 } from "saha-ui";
 
 // Type-safe component usage
 const variant: ButtonVariant = "primary"; // ✅ Valid
 const invalid: ButtonVariant = "invalid"; // ❌ TypeScript error
+```
 
-// Full IntelliSense support
-<Button
-  variant="p..." // Autocomplete shows: primary, secondary, accent, etc.
-/>;
+**From individual components:**
+
+```typescript
+import type { ButtonProps } from "saha-ui/components/Button/Button.types";
+import type { CardProps } from "saha-ui/components/Card/Card.types";
+import type { AvatarProps } from "saha-ui/components/Avatar/Avatar.types";
+
+// Full type safety with direct imports
+const buttonProps: ButtonProps = {
+  variant: "primary",
+  size: "lg",
+  children: "Click me",
+};
 ```
 
 **Benefits:**
@@ -538,6 +589,69 @@ const invalid: ButtonVariant = "invalid"; // ❌ TypeScript error
 - 📝 IntelliSense autocomplete
 - 📚 JSDoc hover documentation
 - 🔍 Jump to definition support
+- 🎯 Full type inference
+
+---
+
+## 📦 Package Structure
+
+Saha UI uses a **modular architecture** for optimal tree-shaking and flexibility:
+
+```
+saha-ui/
+├── dist/
+│   ├── components/
+│   │   ├── Accordion/
+│   │   │   ├── index.js
+│   │   │   ├── index.d.ts
+│   │   │   ├── AccordionItem.js
+│   │   │   └── Accordion.types.d.ts
+│   │   ├── Alert/
+│   │   ├── Avatar/
+│   │   ├── Button/
+│   │   ├── Card/
+│   │   └── ... (11 components)
+│   ├── lib/
+│   │   └── utils.js
+│   ├── assets/
+│   │   └── components/
+│   │       └── Accordion/
+│   │           └── index.css
+│   └── index.js (main entry)
+```
+
+### Import Strategies
+
+**1. Main Entry (Convenience)**
+
+```tsx
+import { Button, Card, Alert } from "saha-ui";
+```
+
+- ✅ Simple and clean
+- ✅ Good for small apps
+- ⚠️ Imports all components (rely on bundler tree-shaking)
+
+**2. Direct Imports (Recommended for Production)**
+
+```tsx
+import { Button } from "saha-ui/components/Button";
+import { Card } from "saha-ui/components/Card";
+```
+
+- ✅ Maximum tree-shaking
+- ✅ Smaller bundle size
+- ✅ Explicit dependencies
+- ✅ Better for large apps
+
+**3. Utility Imports**
+
+```tsx
+import { cn } from "saha-ui/lib/utils";
+```
+
+- ✅ Import utilities separately
+- ✅ Minimal bundle impact
 
 ---
 
@@ -548,22 +662,19 @@ const invalid: ButtonVariant = "invalid"; // ❌ TypeScript error
 All components support the `className` prop for easy customization:
 
 ```tsx
-<Button
-  variant="primary"
-  className="w-full rounded-full shadow-2xl"
->
+<Button variant="primary" className="w-full rounded-full shadow-2xl">
   Custom Button
 </Button>
 
-<Card className="max-w-md mx-auto">
-  Custom Card
-</Card>
+<Card className="max-w-md mx-auto">Custom Card</Card>
 ```
 
 ### Using the cn() Utility
 
+The `cn()` utility combines `clsx` and `tailwind-merge` for optimal className handling:
+
 ```tsx
-import { cn } from "saha-ui";
+import { cn } from "saha-ui/lib/utils";
 
 <div
   className={cn(
@@ -572,15 +683,153 @@ import { cn } from "saha-ui";
     "more-classes"
   )}
 />;
+
+// Tailwind classes are intelligently merged
+<Button
+  className={cn(
+    "bg-blue-500", // This will be overridden
+    "bg-red-500" // This wins
+  )}
+/>;
 ```
+
+---
+
+## 📊 Bundle Size
+
+Saha UI is optimized for minimal bundle impact:
+
+| Import Strategy   | Approximate Size |
+| ----------------- | ---------------- |
+| Single component  | ~4-8 KB          |
+| 3 components      | ~12-20 KB        |
+| All components    | ~30-40 KB        |
+| With dependencies | +20 KB (CVA)     |
+
+**Dependencies:**
+
+- `class-variance-authority` (~1 KB)
+- `clsx` (~0.5 KB)
+- `tailwind-merge` (~12 KB)
+- `lucide-react` (optional, tree-shakeable)
 
 ---
 
 ## 📖 Documentation
 
-- [Component Modernization Summary](./ULTRA_MODERN_SUMMARY.md)
-- [Type Safety Guide](./TYPE_SAFETY_GUIDE.md)
-- [Migration Guide](./CHANGELOG.md#migration-guide)
+- [Installation Guide](./INSTALLATION.md) - Setup and framework integration
+- [Publishing Guide](./PUBLISHING.md) - For contributors
+- [NPM Package Summary](./NPM_PACKAGE_SUMMARY.md) - Package details
+- [Type Safety Guide](./TYPE_SAFETY_GUIDE.md) - TypeScript best practices
+- [Component Modernization](./ULTRA_MODERN_SUMMARY.md) - Architecture details
+
+---
+
+## 💡 Usage Examples
+
+### Example 1: Dashboard Card (Main Entry)
+
+```tsx
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  Avatar,
+  Button,
+} from "saha-ui";
+import type { CardVariant } from "saha-ui";
+
+function DashboardCard() {
+  const variant: CardVariant = "glass";
+
+  return (
+    <Card variant={variant} padding="lg" rounded="xl" hoverable>
+      <CardHeader>
+        <Avatar src="/user.jpg" size="lg" status="online" />
+        <CardTitle>Welcome Back!</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Button variant="primary" size="md">
+          Get Started
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+### Example 2: Alert System (Direct Imports)
+
+```tsx
+import { Alert } from "saha-ui/components/Alert";
+import type { AlertStatus } from "saha-ui/components/Alert/Alert.types";
+
+function NotificationSystem() {
+  const [status, setStatus] = React.useState<AlertStatus>("info");
+
+  return (
+    <Alert
+      variant="left-accent"
+      status={status}
+      title="System Update"
+      message="Your application has been updated successfully."
+      closeable
+      rounded
+    />
+  );
+}
+```
+
+### Example 3: Custom Form (Utilities)
+
+```tsx
+import { Button } from "saha-ui/components/Button";
+import { cn } from "saha-ui/lib/utils";
+
+function CustomForm() {
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  return (
+    <form className={cn("space-y-4", isSubmitting && "opacity-50")}>
+      <input className={cn("input", "w-full")} />
+      <Button
+        variant="primary"
+        className={cn("w-full", isSubmitting && "cursor-not-allowed")}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Submitting..." : "Submit"}
+      </Button>
+    </form>
+  );
+}
+```
+
+### Example 4: Theme-Aware Component
+
+```tsx
+import { ThemeProvider, useTheme, ThemeToggle } from "saha-ui";
+import { Card } from "saha-ui/components/Card";
+
+function App() {
+  return (
+    <ThemeProvider defaultTheme="light">
+      <ThemedCard />
+    </ThemeProvider>
+  );
+}
+
+function ThemedCard() {
+  const { theme } = useTheme();
+
+  return (
+    <Card variant="glass">
+      <p>Current theme: {theme}</p>
+      <ThemeToggle />
+    </Card>
+  );
+}
+```
 
 ---
 
@@ -615,6 +864,8 @@ Built with ❤️ using:
 - [Tailwind CSS](https://tailwindcss.com/)
 - [class-variance-authority](https://cva.style/)
 - [Lucide Icons](https://lucide.dev/)
+- [clsx](https://github.com/lukeed/clsx)
+- [tailwind-merge](https://github.com/dcastil/tailwind-merge)
 
 ---
 

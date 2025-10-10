@@ -1,41 +1,82 @@
 {
   "name": "saha-ui",
   "version": "1.0.0",
-  "description": "Official React components built for React using Tailwind CSS",
+  "description": "Ultra-modern React component library built with TypeScript, Tailwind CSS v4, and OKLCH colors",
   "type": "module",
   "license": "MIT",
+  "author": "Saha UI Team",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Xenial-Devil/Saha-ui.git"
+  },
+  "homepage": "https://github.com/Xenial-Devil/Saha-ui#readme",
+  "bugs": {
+    "url": "https://github.com/Xenial-Devil/Saha-ui/issues"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./components/*": {
+      "types": "./dist/components/*/index.d.ts",
+      "import": "./dist/components/*/index.js"
+    },
+    "./lib/*": {
+      "types": "./dist/lib/*.d.ts",
+      "import": "./dist/lib/*.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
   "keywords": [
-    "design-system",
-    "saha-design-system",
-    "saha-react",
-    "saha-ui",
-    "saha-ui-react",
-    "saha-ui-react-components",
-    "saha-ui-react-components-library",
-    "saha-ui-react-components-library-tailwind",
-    "saha-ui-react-components-library-tailwind-css",
-    "saha-ui-react-components-library-tailwindcss",
-    "saha-ui-react-tailwind-css",
-    "saha-ui-react-tailwindcss",
     "react",
+    "react-components",
+    "component-library",
+    "ui-components",
+    "design-system",
     "tailwind",
     "tailwindcss",
-    "tailwind-css"
+    "tailwind-css",
+    "typescript",
+    "oklch",
+    "glass-morphism",
+    "cva",
+    "saha-ui",
+    "modern-ui",
+    "dark-mode"
   ],
   "scripts": {
     "dev": "vite",
-    "start": "tsc && vite build",
-    "build": "tsc && vite build",
+    "build": "vite build",
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationMap",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.545.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
     "tailwind-merge": "^3.3.1"
+  },
+  "optionalDependencies": {
+    "lucide-react": "^0.545.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.14",
@@ -49,10 +90,14 @@
     "eslint": "^9.37.0",
     "eslint-plugin-react-hooks": "^7.0.0",
     "eslint-plugin-react-refresh": "^0.4.23",
+    "glob": "^11.0.3",
     "postcss": "^8.5.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "sass": "^1.93.2",
     "tailwindcss": "^4.1.14",
     "typescript": "^5.9.3",
-    "vite": "^7.1.9"
+    "vite": "^7.1.9",
+    "vite-plugin-dts": "^4.5.4"
   }
 }
