@@ -2,6 +2,9 @@
 export { ThemeProvider, useTheme } from "./components/ThemeProvider";
 export { ThemeToggle } from "./components/ThemeToggle";
 
+// Utilities
+export { cn } from "./lib/utils";
+
 // Components
 export { default as Accordion } from "./components/Accordion";
 export { default as Alert } from "./components/Alert";

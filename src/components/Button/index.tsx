@@ -1,56 +1,128 @@
 import React from "react";
+import { cva } from "class-variance-authority";
+import { cn } from "../../lib/utils";
 import { ButtonProps } from "./Button.types";
 
-const Button: React.FC<ButtonProps> = ({
-  variant = "primary",
-  size = "md",
-  fullWidth = false,
-  rounded = false,
-  className = "",
-  children,
-  disabled,
-  ...props
-}) => {
-  const baseStyles =
-    "inline-flex items-center justify-center font-medium transition-all duration-base focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95";
+// Define button variants using CVA
+const buttonVariants = cva(
+  // Base styles - applied to all buttons
+  "group relative inline-flex items-center justify-center font-semibold transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40 disabled:saturate-50 overflow-hidden isolate",
+  {
+    variants: {
+      variant: {
+        primary:
+          "bg-primary text-primary-foreground shadow-[0_4px_14px_0] shadow-primary/40 hover:shadow-[0_6px_20px_0] hover:shadow-primary/60 hover:brightness-110 active:brightness-90 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black/20 after:to-transparent after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300",
+        secondary:
+          "bg-secondary text-secondary-foreground shadow-[0_4px_14px_0] shadow-secondary/40 hover:shadow-[0_6px_20px_0] hover:shadow-secondary/60 hover:brightness-110 active:brightness-90 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black/20 after:to-transparent after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300",
+        accent:
+          "bg-accent text-accent-foreground shadow-[0_4px_14px_0] shadow-accent/40 hover:shadow-[0_6px_20px_0] hover:shadow-accent/60 hover:brightness-110 active:brightness-90 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black/20 after:to-transparent after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300",
+        success:
+          "bg-success text-success-foreground shadow-[0_4px_14px_0] shadow-success/40 hover:shadow-[0_6px_20px_0] hover:shadow-success/60 hover:brightness-110 active:brightness-90 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black/20 after:to-transparent after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300",
+        warning:
+          "bg-warning text-warning-foreground shadow-[0_4px_14px_0] shadow-warning/40 hover:shadow-[0_6px_20px_0] hover:shadow-warning/60 hover:brightness-110 active:brightness-90 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black/20 after:to-transparent after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300",
+        error:
+          "bg-destructive text-destructive-foreground shadow-[0_4px_14px_0] shadow-destructive/40 hover:shadow-[0_6px_20px_0] hover:shadow-destructive/60 hover:brightness-110 active:brightness-90 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black/20 after:to-transparent after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300",
+        ghost:
+          "bg-transparent hover:bg-accent/15 active:bg-accent/25 text-foreground border-2 border-border hover:border-accent/50 active:border-accent shadow-sm hover:shadow-md transition-colors backdrop-blur-sm",
+        glass:
+          "glass backdrop-blur-2xl border-2 border-border/30 hover:border-primary/40 shadow-[0_8px_32px_0] shadow-black/10 hover:shadow-[0_12px_48px_0] hover:shadow-primary/20 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500",
+      },
+      size: {
+        sm: "h-9 px-4 text-sm gap-2 min-w-[4rem] rounded-xl",
+        md: "h-11 px-6 text-base gap-2.5 min-w-[5rem] rounded-xl",
+        lg: "h-13 px-8 text-lg gap-3 min-w-[6rem] rounded-2xl",
+        xl: "h-16 px-10 text-xl gap-3.5 min-w-[7rem] rounded-2xl",
+      },
+      fullWidth: {
+        true: "w-full",
+        false: "",
+      },
+      rounded: {
+        true: "!rounded-full",
+        false: "",
+      },
+    },
+    defaultVariants: {
+      variant: "primary",
+      size: "md",
+      fullWidth: false,
+      rounded: false,
+    },
+  }
+);
 
-  const variantStyles = {
-    primary:
-      "bg-primary text-text-inverse hover:bg-primary-dark focus:ring-primary shadow-md hover:shadow-lg",
-    secondary:
-      "bg-secondary text-text-inverse hover:bg-secondary-dark focus:ring-secondary shadow-md hover:shadow-lg",
-    accent:
-      "bg-accent text-text-inverse hover:bg-accent-dark focus:ring-accent shadow-md hover:shadow-lg",
-    success:
-      "bg-success text-text-inverse hover:bg-success-dark focus:ring-success shadow-md hover:shadow-lg",
-    warning:
-      "bg-warning text-text-inverse hover:bg-warning-dark focus:ring-warning shadow-md hover:shadow-lg",
-    error:
-      "bg-error text-text-inverse hover:bg-error-dark focus:ring-error shadow-md hover:shadow-lg",
-    ghost:
-      "bg-transparent text-text hover:bg-surface-hover focus:ring-primary border border-border",
-    glass: "glass glass-hover text-text focus:ring-primary",
-  };
+// Shimmer effect classes
+const shimmerVariants = cva("", {
+  variants: {
+    variant: {
+      primary:
+        "after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/25 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-1000 after:ease-in-out",
+      secondary:
+        "after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/25 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-1000 after:ease-in-out",
+      accent:
+        "after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/25 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-1000 after:ease-in-out",
+      success:
+        "after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/25 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-1000 after:ease-in-out",
+      warning:
+        "after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/25 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-1000 after:ease-in-out",
+      error:
+        "after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/25 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-1000 after:ease-in-out",
+      ghost: "",
+      glass: "",
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+  },
+});
 
-  const sizeStyles = {
-    sm: "px-3 py-1.5 text-sm gap-1.5",
-    md: "px-4 py-2 text-base gap-2",
-    lg: "px-6 py-3 text-lg gap-2.5",
-    xl: "px-8 py-4 text-xl gap-3",
-  };
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      variant = "primary",
+      size = "md",
+      fullWidth,
+      rounded,
+      className,
+      children,
+      disabled,
+      ...props
+    },
+    ref
+  ) => {
+    const hasGlow = !["ghost", "glass"].includes(variant);
 
-  const roundedStyles = rounded ? "rounded-full" : "rounded-lg";
-  const widthStyles = fullWidth ? "w-full" : "";
+    return (
+      <button
+        ref={ref}
+        className={cn(
+          buttonVariants({ variant, size, fullWidth, rounded }),
+          shimmerVariants({ variant }),
+          className
+        )}
+        disabled={disabled}
+        {...props}
+      >
+        {/* Ripple effect container */}
+        <span className="absolute inset-0 rounded-inherit overflow-hidden">
+          <span className="absolute inset-0 bg-white/0 group-active:bg-white/20 transition-colors duration-150 rounded-inherit"></span>
+        </span>
 
-  return (
-    <button
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${roundedStyles} ${widthStyles} ${className}`}
-      disabled={disabled}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
+        {/* Content */}
+        <span className="relative z-10 flex items-center justify-center gap-inherit font-semibold tracking-wide">
+          {children}
+        </span>
+
+        {/* Glow effect on hover for colored variants */}
+        {hasGlow && (
+          <span className="absolute -inset-1 bg-gradient-to-r from-transparent via-current to-transparent opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500 -z-10"></span>
+        )}
+      </button>
+    );
+  }
+);
+
+Button.displayName = "Button";
 
 export default Button;
+export { buttonVariants };

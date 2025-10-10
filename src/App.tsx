@@ -1,5 +1,6 @@
 import "./App.css";
 import ThemeProvider from "./components/ThemeProvider";
+import { useTheme } from "./components/ThemeProvider";
 import ThemeToggle from "./components/ThemeToggle";
 import Button from "./components/Button";
 import Card, {
@@ -9,14 +10,87 @@ import Card, {
   CardContent,
   CardFooter,
 } from "./components/Card";
-import { Sparkles, Zap, Heart, Star } from "lucide-react";
+import Accordion from "./components/Accordion";
+import Alert from "./components/Alert";
+import Avatar from "./components/Avatar";
+import AvatarGroup from "./components/AvatarGroup";
+import Carousel from "./components/Carousel";
+import Image from "./components/Image";
+import Link from "./components/Link";
+import List from "./components/List";
+import Tooltip from "./components/Tooltip";
+import {
+  Sparkles,
+  Zap,
+  Heart,
+  Star,
+  Info,
+  CheckCircle,
+  AlertTriangle,
+  XCircle,
+  Mail,
+  User,
+  Bell,
+} from "lucide-react";
 import { DebugTheme } from "./DebugTheme";
+
+// Color palette component that uses theme colors from CSS variables
+const ColorPalette = () => {
+  // Read colors directly from CSS custom properties
+  const getColorValue = (varName: string) => {
+    if (typeof window !== "undefined") {
+      return getComputedStyle(document.documentElement)
+        .getPropertyValue(varName)
+        .trim();
+    }
+    return "";
+  };
+
+  const colors = [
+    { name: "Primary", var: "--primary", fg: "--primary-foreground" },
+    { name: "Secondary", var: "--secondary", fg: "--secondary-foreground" },
+    { name: "Accent", var: "--accent", fg: "--accent-foreground" },
+    { name: "Success", var: "--success", fg: "--success-foreground" },
+    { name: "Warning", var: "--warning", fg: "--warning-foreground" },
+    { name: "Error", var: "--error", fg: "--error-foreground" },
+    { name: "Info", var: "--info", fg: "--info-foreground" },
+    { name: "Muted", var: "--muted", fg: "--muted-foreground" },
+    { name: "Card", var: "--card", fg: "--card-foreground" },
+    { name: "Popover", var: "--popover", fg: "--popover-foreground" },
+    { name: "Border", var: "--border", fg: "--foreground" },
+    { name: "Ring", var: "--ring", fg: "--foreground" },
+  ];
+
+  return (
+    <div className="mb-16">
+      <h3 className="text-2xl font-bold mb-6">Color Palette (oklch)</h3>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {colors.map(({ name, var: colorVar, fg }) => (
+          <div key={name} className="glass p-4 rounded-lg">
+            <div
+              className="w-full h-16 rounded-md mb-2 flex items-center justify-center text-sm font-medium"
+              style={{
+                backgroundColor: `oklch(var(${colorVar}))`,
+                color: `oklch(var(${fg}))`,
+              }}
+            >
+              {name}
+            </div>
+            <p className="text-xs font-mono opacity-70">
+              {getColorValue(colorVar)}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 function App() {
   return (
     <ThemeProvider>
       <DebugTheme />
-      <div className="min-h-screen bg-background transition-colors duration-300">
+      <div className="min-h-screen transition-colors duration-300">
         {/* Header */}
         <header className="glass sticky top-0 z-50 border-b border-border/50">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -195,36 +269,306 @@ function App() {
             </div>
           </div>
 
-          {/* Color Palette */}
+          {/* Alerts Showcase */}
           <div className="mb-16">
-            <h3 className="text-2xl font-bold mb-6 text-text">Color Palette</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              <div className="glass p-4 rounded-lg text-center">
-                <div className="w-full h-16 bg-primary rounded-md mb-2"></div>
-                <p className="text-sm font-medium">Primary</p>
+            <h3 className="text-2xl font-bold mb-6">Alert Variants</h3>
+            <div className="space-y-4">
+              <Alert
+                variant="solid"
+                status="info"
+                title="Information"
+                message="This is an informational alert with helpful details."
+                closeable={false}
+              />
+              <Alert
+                variant="left-accent"
+                status="success"
+                title="Success"
+                message="Your action was completed successfully!"
+                closeable={false}
+              />
+              <Alert
+                variant="subtle"
+                status="warning"
+                title="Warning"
+                message="Please review this warning before proceeding."
+                closeable={false}
+              />
+              <Alert
+                variant="outline"
+                status="danger"
+                title="Error"
+                message="An error occurred. Please try again."
+                closeable={true}
+              />
+            </div>
+          </div>
+
+          {/* Accordion Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6">Accordion</h3>
+            <Accordion
+              variant="default"
+              items={[
+                {
+                  title: "What is Saha UI?",
+                  content:
+                    "Saha UI is a modern React component library built with TypeScript, Tailwind CSS, and featuring beautiful glassmorphism effects for both light and dark modes.",
+                },
+                {
+                  title: "How do I install it?",
+                  content:
+                    "You can install Saha UI via npm or yarn. Simply run: npm install saha-ui or yarn add saha-ui",
+                },
+                {
+                  title: "Is it customizable?",
+                  content:
+                    "Yes! All components are highly customizable with props and support both light and dark themes out of the box.",
+                },
+              ]}
+            />
+          </div>
+
+          {/* Avatar & AvatarGroup Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6">Avatars</h3>
+            <div className="space-y-6">
+              <div>
+                <h4 className="text-lg font-semibold mb-3">Single Avatars</h4>
+                <div className="flex gap-4 items-center flex-wrap">
+                  <Avatar
+                    src="https://i.pravatar.cc/150?img=1"
+                    alt="User 1"
+                    size={40}
+                    shape="circle"
+                  />
+                  <Avatar
+                    src="https://i.pravatar.cc/150?img=2"
+                    alt="User 2"
+                    size={60}
+                    shape="circle"
+                  />
+                  <Avatar
+                    src="https://i.pravatar.cc/150?img=3"
+                    alt="User 3"
+                    size={80}
+                    shape="rounded"
+                  />
+                  <Avatar
+                    src="https://i.pravatar.cc/150?img=4"
+                    alt="User 4"
+                    size={100}
+                    shape="square"
+                  />
+                </div>
               </div>
-              <div className="glass p-4 rounded-lg text-center">
-                <div className="w-full h-16 bg-secondary rounded-md mb-2"></div>
-                <p className="text-sm font-medium">Secondary</p>
-              </div>
-              <div className="glass p-4 rounded-lg text-center">
-                <div className="w-full h-16 bg-accent rounded-md mb-2"></div>
-                <p className="text-sm font-medium">Accent</p>
-              </div>
-              <div className="glass p-4 rounded-lg text-center">
-                <div className="w-full h-16 bg-success rounded-md mb-2"></div>
-                <p className="text-sm font-medium">Success</p>
-              </div>
-              <div className="glass p-4 rounded-lg text-center">
-                <div className="w-full h-16 bg-warning rounded-md mb-2"></div>
-                <p className="text-sm font-medium">Warning</p>
-              </div>
-              <div className="glass p-4 rounded-lg text-center">
-                <div className="w-full h-16 bg-error rounded-md mb-2"></div>
-                <p className="text-sm font-medium">Error</p>
+              <div>
+                <h4 className="text-lg font-semibold mb-3">Avatar Group</h4>
+                <AvatarGroup
+                  avatars={[
+                    {
+                      src: "https://i.pravatar.cc/150?img=5",
+                      alt: "User 5",
+                      size: 50,
+                    },
+                    {
+                      src: "https://i.pravatar.cc/150?img=6",
+                      alt: "User 6",
+                      size: 50,
+                    },
+                    {
+                      src: "https://i.pravatar.cc/150?img=7",
+                      alt: "User 7",
+                      size: 50,
+                    },
+                    {
+                      src: "https://i.pravatar.cc/150?img=8",
+                      alt: "User 8",
+                      size: 50,
+                    },
+                    {
+                      src: "https://i.pravatar.cc/150?img=9",
+                      alt: "User 9",
+                      size: 50,
+                    },
+                  ]}
+                  max={3}
+                  size={50}
+                  gap={false}
+                />
               </div>
             </div>
           </div>
+
+          {/* Tooltip Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6">Tooltips</h3>
+            <div className="flex gap-4 flex-wrap">
+              <Tooltip content="This is a tooltip" position="top">
+                <Button variant="primary">
+                  <User size={18} />
+                  Hover Top
+                </Button>
+              </Tooltip>
+              <Tooltip content="Tooltip on the right" position="right">
+                <Button variant="secondary">
+                  <Mail size={18} />
+                  Hover Right
+                </Button>
+              </Tooltip>
+              <Tooltip content="Tooltip at bottom" position="bottom">
+                <Button variant="accent">
+                  <Bell size={18} />
+                  Hover Bottom
+                </Button>
+              </Tooltip>
+              <Tooltip content="Tooltip on the left" position="left">
+                <Button variant="success">
+                  <Star size={18} />
+                  Hover Left
+                </Button>
+              </Tooltip>
+            </div>
+          </div>
+
+          {/* Link Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6">Links</h3>
+            <div className="space-y-4">
+              <div className="flex gap-4 flex-wrap">
+                <Link href="#" className="text-primary hover:underline">
+                  Primary Link
+                </Link>
+                <Link href="#" className="text-secondary hover:underline">
+                  Secondary Link
+                </Link>
+                <Link href="#" className="text-accent hover:underline">
+                  Accent Link
+                </Link>
+                <Link href="#" className="underline">
+                  Underlined Link
+                </Link>
+              </div>
+              <div className="flex gap-4 flex-wrap">
+                <Link
+                  href="#"
+                  target="_blank"
+                  rel="noopener"
+                  className="text-primary"
+                >
+                  External Link
+                </Link>
+                <Link
+                  href="#"
+                  className="text-muted-foreground cursor-not-allowed"
+                >
+                  Disabled Link
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* List Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6">Lists</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="text-lg font-semibold mb-3">Disc List</h4>
+                <List listType="disc">
+                  <li>Modern React components</li>
+                  <li>TypeScript support</li>
+                  <li>Tailwind CSS styling</li>
+                  <li>Dark mode support</li>
+                  <li>Glassmorphism effects</li>
+                </List>
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold mb-3">Decimal List</h4>
+                <List listType="decimal">
+                  <li>Install the library</li>
+                  <li>Import components</li>
+                  <li>Customize with props</li>
+                  <li>Build amazing UIs</li>
+                  <li>Deploy with confidence</li>
+                </List>
+              </div>
+            </div>
+          </div>
+
+          {/* Image Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6">Images</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <h4 className="text-lg font-semibold mb-3">Default</h4>
+                <Image
+                  src="https://picsum.photos/400/300?random=1"
+                  alt="Sample 1"
+                  className="w-full rounded-lg"
+                />
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold mb-3">With Loading</h4>
+                <Image
+                  src="https://picsum.photos/400/300?random=2"
+                  alt="Sample 2"
+                  className="w-full rounded-lg"
+                  lazy
+                />
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold mb-3">Custom Size</h4>
+                <Image
+                  src="https://picsum.photos/400/300?random=3"
+                  alt="Sample 3"
+                  className="w-full rounded-lg"
+                  style={{ objectFit: "cover", height: "200px" }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Carousel Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6">Carousel</h3>
+            <Carousel
+              items={[
+                {
+                  image: "https://picsum.photos/1200/500?random=4",
+                  alt: "Slide 1",
+                  title: "Welcome to Saha UI",
+                  description:
+                    "Modern component library with beautiful designs",
+                  link: "#",
+                  linkText: "Get Started",
+                },
+                {
+                  image: "https://picsum.photos/1200/500?random=5",
+                  alt: "Slide 2",
+                  title: "Glassmorphism Effects",
+                  description: "Beautiful glass effects for modern UIs",
+                  link: "#",
+                  linkText: "Learn More",
+                },
+                {
+                  image: "https://picsum.photos/1200/500?random=6",
+                  alt: "Slide 3",
+                  title: "Dark Mode Support",
+                  description: "Seamless light and dark theme switching",
+                  link: "#",
+                  linkText: "Explore",
+                },
+              ]}
+              autoplay
+              autoplayInterval={5000}
+              showNavigation
+              showIndicators
+              className="rounded-xl overflow-hidden"
+            />
+          </div>
+
+          {/* Color Palette */}
+          <ColorPalette />
         </section>
 
         {/* Footer */}
