@@ -1,0 +1,46 @@
+# Source files
+src/
+public/
+
+# Development files
+.vscode/
+.github/
+node_modules/
+*.log
+
+# Config files
+tsconfig.json
+tsconfig.node.json
+vite.config.ts
+postcss.config.js
+tailwind.config.js
+.gitignore
+.eslintrc.*
+.prettierrc.*
+
+# Documentation (except README)
+CHANGELOG.md
+COMPONENT_MODERNIZATION_SUMMARY.md
+DARK_MODE_FIX.md
+DOCUMENTATION.md
+GLASS_EFFECT_ENHANCEMENT.md
+MODERNIZATION_SUMMARY.md
+PROPS_SEPARATION_SUMMARY.md
+TYPE_SAFETY_GUIDE.md
+ULTRA_MODERN_SUMMARY.md
+
+# Demo files
+index.html
+
+# Git
+.git/
+.gitattributes
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+
+# Build artifacts (keep only dist)
+*.tsbuildinfo
