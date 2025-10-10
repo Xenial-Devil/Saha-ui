@@ -50,7 +50,21 @@ export interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   reverse?: boolean;
 
   /**
-   * Custom spacing between avatars (overrides variant defaults)
+   * If true, avatars will have space between them. If false, they will overlap.
+   * Only applies to 'stack' variant.
+   * @default false
+   */
+  gap?: boolean;
+
+  /**
+   * Show ring/border around each avatar (useful for overlapping avatars)
+   * @default false
+   */
+  withRing?: boolean;
+
+  /**
+   * Custom spacing between avatars in pixels (overrides gap and variant defaults)
+   * Use negative values for custom overlap amount.
    */
   spacing?: number;
 

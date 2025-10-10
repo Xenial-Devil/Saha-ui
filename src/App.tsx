@@ -89,7 +89,6 @@ const ColorPalette = () => {
 function App() {
   return (
     <ThemeProvider>
-      <DebugTheme />
       <div className="min-h-screen transition-colors duration-300">
         {/* Header */}
         <header className="glass sticky top-0 z-50 border-b border-border/50">
@@ -339,25 +338,25 @@ function App() {
                   <Avatar
                     src="https://i.pravatar.cc/150?img=1"
                     alt="User 1"
-                    size={40}
+                    size="md"
                     shape="circle"
                   />
                   <Avatar
                     src="https://i.pravatar.cc/150?img=2"
                     alt="User 2"
-                    size={60}
+                    size="lg"
                     shape="circle"
                   />
                   <Avatar
                     src="https://i.pravatar.cc/150?img=3"
                     alt="User 3"
-                    size={80}
+                    size="xl"
                     shape="rounded"
                   />
                   <Avatar
                     src="https://i.pravatar.cc/150?img=4"
                     alt="User 4"
-                    size={100}
+                    size="2xl"
                     shape="square"
                   />
                 </div>
@@ -369,31 +368,26 @@ function App() {
                     {
                       src: "https://i.pravatar.cc/150?img=5",
                       alt: "User 5",
-                      size: 50,
                     },
                     {
                       src: "https://i.pravatar.cc/150?img=6",
                       alt: "User 6",
-                      size: 50,
                     },
                     {
                       src: "https://i.pravatar.cc/150?img=7",
                       alt: "User 7",
-                      size: 50,
                     },
                     {
                       src: "https://i.pravatar.cc/150?img=8",
                       alt: "User 8",
-                      size: 50,
                     },
                     {
                       src: "https://i.pravatar.cc/150?img=9",
                       alt: "User 9",
-                      size: 50,
                     },
                   ]}
                   max={3}
-                  size={50}
+                  size="2xl"
                   gap={false}
                 />
               </div>

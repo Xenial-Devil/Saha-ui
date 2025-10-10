@@ -29,12 +29,12 @@ const avatarWrapperVariants = cva(
   {
     variants: {
       size: {
-        xs: "ring-1",
-        sm: "ring-1",
-        md: "ring-2",
-        lg: "ring-2",
-        xl: "ring-2",
-        "2xl": "ring-3",
+        xs: "ring-0",
+        sm: "ring-0",
+        md: "ring-0",
+        lg: "ring-0",
+        xl: "ring-0",
+        "2xl": "ring-0",
       },
     },
     defaultVariants: {
@@ -134,6 +134,8 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
       variant = "stack",
       showCount = false,
       reverse = false,
+      gap = false,
+      withRing = false,
       spacing,
       onMoreClick,
       className,
@@ -153,8 +155,8 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
         key={index}
         className={cn(
           avatarWrapperVariants({ size }),
-          "ring-background",
-          index > 0 && !spacing && getStackOverlap(size)
+          withRing && "ring-background",
+          index > 0 && !gap && !spacing && getStackOverlap(size)
         )}
         style={spacing ? { marginLeft: index > 0 ? `-${spacing}px` : 0 } : {}}
       >
