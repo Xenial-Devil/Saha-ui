@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { defaultAlertProps, AlertProps } from "./AlertProps";
+import { defaultAlertProps, AlertProps } from "./Alert.types";
 import "./index.scss";
 const Alert = ({
   variant = defaultAlertProps.variant,
@@ -13,7 +13,7 @@ const Alert = ({
   height = defaultAlertProps.height,
   rounded = defaultAlertProps.rounded,
   closeable = defaultAlertProps.closeable,
-}: AlertProps):JSX.Element => {
+}: AlertProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(true);
   const generateUniqueClassName = () => {
     const randomString = Math.random().toString(36).substring(2, 15);

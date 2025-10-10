@@ -1,5 +1,5 @@
 import React from "react";
-import { AvatarProps, DefaultAvatarProps } from "./AvatarProps";
+import { AvatarProps, DefaultAvatarProps } from "./AvatarGroup.types";
 import Avatar from "../Avatar"; // Make sure this path is correct based on your file structure
 
 interface AvatarGroupProps {
@@ -7,8 +7,8 @@ interface AvatarGroupProps {
   max?: number;
   size?: number;
   overlap?: number;
-  reverse?:boolean;
-  gap:boolean;
+  reverse?: boolean;
+  gap: boolean;
 }
 
 const AvatarGroup: React.FC<AvatarGroupProps> = ({
@@ -19,12 +19,18 @@ const AvatarGroup: React.FC<AvatarGroupProps> = ({
   reverse = true, // recerse by default
   gap = false, // no gap by default
 }) => {
-    console.log("avatar", size, overlap);
+  console.log("avatar", size, overlap);
   const displayedAvatars = avatars.slice(0, max);
   const overlapOffset = `${size * overlap}px`;
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: gap? overlapOffset:0}}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: gap ? overlapOffset : 0,
+      }}
+    >
       {displayedAvatars.map((avatar, index) => (
         <div
           key={index}
@@ -33,7 +39,7 @@ const AvatarGroup: React.FC<AvatarGroupProps> = ({
             zIndex: reverse ? max - index : index,
           }}
         >
-          <Avatar {...avatar} size={size}/>
+          <Avatar {...avatar} size={size} />
         </div>
       ))}
     </div>

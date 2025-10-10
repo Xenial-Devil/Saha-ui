@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { CarouselProps, DefaultCarouselProps } from "./CarouselProps";
+import { CarouselProps, DefaultCarouselProps } from "./Carousel.types";
 import CarouseItem from "./CarouseImage";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "./index.scss";

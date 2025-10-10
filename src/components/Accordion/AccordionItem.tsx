@@ -1,12 +1,6 @@
 import React, { memo } from "react";
 import "./index.scss";
-
-interface AccordionItemProps {
-  isOpen: boolean;
-  onClick: () => void;
-  title: string;
-  content: string;
-}
+import { AccordionItemProps } from "./Accordion.types";
 
 const AccordionItem: React.FC<AccordionItemProps> = ({
   isOpen,
