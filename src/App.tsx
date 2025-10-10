@@ -671,38 +671,196 @@ function App() {
 
           {/* Link Showcase */}
           <div className="mb-16">
-            <h3 className="text-2xl font-bold mb-6">Links</h3>
-            <div className="space-y-4">
-              <div className="flex gap-4 flex-wrap">
-                <Link href="#" className="text-primary hover:underline">
+            <h3 className="text-2xl font-bold mb-6 text-text">
+              Link Component
+            </h3>
+
+            {/* Link Variants */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Variants</h4>
+              <div className="flex flex-wrap gap-4">
+                <Link variant="default" href="#">
+                  Default Link
+                </Link>
+                <Link variant="primary" href="#">
                   Primary Link
                 </Link>
-                <Link href="#" className="text-secondary hover:underline">
+                <Link variant="secondary" href="#">
                   Secondary Link
                 </Link>
-                <Link href="#" className="text-accent hover:underline">
+                <Link variant="accent" href="#">
                   Accent Link
                 </Link>
-                <Link href="#" className="underline">
+                <Link variant="muted" href="#">
+                  Muted Link
+                </Link>
+                <Link variant="underline" href="#">
                   Underlined Link
                 </Link>
               </div>
-              <div className="flex gap-4 flex-wrap">
-                <Link
-                  href="#"
-                  target="_blank"
-                  rel="noopener"
-                  className="text-primary"
-                >
-                  External Link
+
+              <div className="flex flex-wrap gap-4 mt-4">
+                <Link variant="ghost" href="#">
+                  Ghost Link
                 </Link>
-                <Link
-                  href="#"
-                  className="text-muted-foreground cursor-not-allowed"
-                >
-                  Disabled Link
+                <Link variant="button" href="#">
+                  Button Style Link
+                </Link>
+                <Link variant="glass" href="#">
+                  Glass Link
                 </Link>
               </div>
+            </div>
+
+            {/* Link Sizes */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Sizes</h4>
+              <div className="flex flex-wrap gap-4 items-center">
+                <Link variant="primary" size="sm" href="#">
+                  Small Link
+                </Link>
+                <Link variant="primary" size="md" href="#">
+                  Medium Link
+                </Link>
+                <Link variant="primary" size="lg" href="#">
+                  Large Link
+                </Link>
+              </div>
+            </div>
+
+            {/* External Links */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                External Links (with icon)
+              </h4>
+              <div className="flex flex-wrap gap-4">
+                <Link variant="primary" external href="https://github.com">
+                  GitHub
+                </Link>
+                <Link variant="secondary" external href="https://npmjs.com">
+                  npm
+                </Link>
+                <Link variant="button" external href="https://reactjs.org">
+                  React Docs
+                </Link>
+                <Link variant="glass" external href="https://tailwindcss.com">
+                  Tailwind CSS
+                </Link>
+              </div>
+            </div>
+
+            {/* Links with Icons */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Links with Custom Icons
+              </h4>
+              <div className="flex flex-wrap gap-4">
+                <Link variant="primary" icon={<Star size={16} />} href="#">
+                  Featured
+                </Link>
+                <Link variant="secondary" icon={<Heart size={16} />} href="#">
+                  Favorites
+                </Link>
+                <Link variant="accent" icon={<Mail size={16} />} href="#">
+                  Contact
+                </Link>
+                <Link variant="ghost" icon={<User size={16} />} href="#">
+                  Profile
+                </Link>
+              </div>
+            </div>
+
+            {/* Animated Underline */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Custom Underline Animation
+              </h4>
+              <div className="flex flex-wrap gap-4">
+                <Link variant="default" showUnderline href="#">
+                  Hover to see animation
+                </Link>
+                <Link variant="muted" showUnderline href="#">
+                  Muted with underline
+                </Link>
+                <Link variant="ghost" showUnderline href="#">
+                  Ghost with underline
+                </Link>
+              </div>
+            </div>
+
+            {/* Disabled State */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Disabled State
+              </h4>
+              <div className="flex flex-wrap gap-4">
+                <Link variant="primary" disabled href="#">
+                  Disabled Primary
+                </Link>
+                <Link variant="button" disabled href="#">
+                  Disabled Button
+                </Link>
+                <Link variant="glass" disabled href="#">
+                  Disabled Glass
+                </Link>
+              </div>
+            </div>
+
+            {/* Contextual Usage */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Contextual Usage
+              </h4>
+              <Card variant="glass-strong" padding="lg" className="max-w-2xl">
+                <CardHeader>
+                  <CardTitle>Navigation Example</CardTitle>
+                  <CardDescription>
+                    Links integrated in a card component
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex gap-4 flex-wrap">
+                      <Link variant="primary" href="#docs">
+                        Documentation
+                      </Link>
+                      <Link variant="secondary" href="#api">
+                        API Reference
+                      </Link>
+                      <Link variant="accent" href="#examples">
+                        Examples
+                      </Link>
+                    </div>
+                    <div className="flex gap-4 flex-wrap">
+                      <Link
+                        variant="ghost"
+                        icon={<Star size={16} />}
+                        external
+                        href="https://github.com"
+                      >
+                        Star on GitHub
+                      </Link>
+                      <Link
+                        variant="glass"
+                        icon={<Mail size={16} />}
+                        href="#contact"
+                      >
+                        Get in Touch
+                      </Link>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <ButtonGroup>
+                    <Link variant="button" href="#get-started">
+                      Get Started
+                    </Link>
+                    <Link variant="ghost" href="#learn-more">
+                      Learn More
+                    </Link>
+                  </ButtonGroup>
+                </CardFooter>
+              </Card>
             </div>
           </div>
 

@@ -152,7 +152,7 @@ import { cn } from "saha-ui/lib/utils";
 | **Avatar**      | User profile images with status indicators         | ✅     | ✅  |
 | **AvatarGroup** | Grouped avatars with overlap and count             | ✅     | ✅  |
 | **Tooltip**     | Contextual hints with 5 variants                   | ✅     | ✅  |
-| **Link**        | Smart links with external detection                | ✅     | ✅  |
+| **Link**        | Smart links with 9 variants and icon support       | ✅     | ✅  |
 | **List**        | Versatile lists with 10 types                      | ✅     | ✅  |
 | **Image**       | Advanced image with lazy loading                   | ✅     | ✅  |
 | **Carousel**    | Image slider with 4 transition effects             | ✅     | ✅  |
@@ -546,34 +546,98 @@ import { Tooltip } from "saha-ui";
 
 ### Link
 
-Smart links with automatic external link detection.
+Smart, versatile links with automatic external detection and multiple visual variants.
 
-**Variants:** `default` `primary` `muted` `underline` `ghost` `button`  
+**Variants:** `default` `primary` `secondary` `accent` `muted` `underline` `ghost` `button` `glass`  
 **Sizes:** `sm` `md` `lg`
 
 ```tsx
-import { Link } from 'saha-ui';
+import { Link } from "saha-ui";
+import { Star } from "lucide-react";
 
-<Link
-  href="https://example.com"
-  variant="primary"
-  size="md"
-  external
->
-  External Link
+// Basic link with animated underline
+<Link variant="primary" href="/docs">
+  Documentation
 </Link>
 
-<Link variant="button" href="/action">
-  Link as Button
+// External link (auto-detects and shows icon)
+<Link external href="https://github.com">
+  GitHub
+</Link>
+
+// Button style link
+<Link variant="button" href="/get-started">
+  Get Started
+</Link>
+
+// Glass variant
+<Link variant="glass" href="/premium">
+  Premium Features
+</Link>
+
+// With custom icon
+<Link variant="accent" icon={<Star size={16} />} href="/featured">
+  Featured
+</Link>
+
+// Custom underline animation
+<Link variant="muted" showUnderline href="/about">
+  About Us
+</Link>
+
+// Disabled state
+<Link variant="primary" disabled href="#">
+  Coming Soon
 </Link>
 ```
 
 **Features:**
 
-- 🔗 Auto-detection of external links
-- 🔒 Auto rel="noopener noreferrer" for security
-- 🎨 Animated underline effects
-- 🔘 Button-like variant option
+- 🎨 **9 Visual Variants** - default, primary, secondary, accent, muted, underline, ghost, button, glass
+- 🔗 **Auto External Detection** - Automatically detects external links
+- 🔒 **Security First** - Auto rel="noopener noreferrer" for external links
+- ✨ **Animated Underlines** - Smooth gradient underline animations
+- 🎯 **Custom Icons** - Support for custom icons with hover effects
+- 💫 **Hover Animations** - Icon translation and glow effects
+- 🔘 **Button Variant** - Links styled as buttons with gradient overlays
+- 🔮 **Glass Morphism** - Backdrop blur variant for modern UIs
+- ♿ **Accessible** - Proper ARIA attributes and focus states
+- � **CVA Integration** - Type-safe variant management
+
+**Props:**
+
+- `variant` - Visual style (default, primary, secondary, accent, muted, underline, ghost, button, glass)
+- `size` - Text size (sm, md, lg)
+- `external` - Show external link icon
+- `disabled` - Disable the link
+- `showUnderline` - Show animated underline on hover
+- `icon` - Custom icon element to display before text
+
+**Contextual Usage:**
+
+```tsx
+// In navigation
+<nav>
+  <Link variant="ghost" href="/home">Home</Link>
+  <Link variant="ghost" href="/about">About</Link>
+  <Link variant="button" href="/contact">Contact</Link>
+</nav>
+
+// Social links
+<Link variant="primary" icon={<Star size={16} />} external href="https://github.com">
+  Star on GitHub
+</Link>
+
+// Call-to-action
+<Link variant="button" href="/signup">
+  Sign Up Free
+</Link>
+
+// Inline text link
+<p>
+  Read our <Link variant="primary" href="/docs">documentation</Link> to learn more.
+</p>
+```
 
 ---
 
