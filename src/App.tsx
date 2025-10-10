@@ -52,7 +52,7 @@ const ColorPalette = () => {
 
   return (
     <div className="mb-16">
-      <h3 className="text-2xl font-bold mb-6">Color Palette (oklch)</h3>
+      <h3 className="text-2xl font-bold mb-6">Color Palette</h3>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {colors.map(({ name, var: colorVar, fg }) => (
           <div key={name} className="glass p-4 rounded-lg">
