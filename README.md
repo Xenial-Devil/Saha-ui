@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **11 Modern Components** - Button, Alert, Card, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Image, Carousel
+- 🎨 **13 Modern Components** - Button, ButtonGroup, Alert, Badge, Card, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Image, Carousel
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -58,11 +58,9 @@ pnpm add saha-ui
 
 Saha UI requires React 18+ or React 19+:
 
-
 ### Optional Dependencies
 
 For icons (if using Link or ThemeToggle components):
-
 
 ## 🚀 Quick Start
 
@@ -81,16 +79,26 @@ function App() {
 **Option A: Named imports from main entry (recommended)**
 
 ```tsx
-import { Button, Card, Avatar } from "saha-ui";
-import type { ButtonVariant, CardProps } from "saha-ui";
+import { Button, ButtonGroup, Card, Avatar, Badge } from "saha-ui";
+import type { ButtonVariant, CardProps, BadgeProps } from "saha-ui";
 
 function MyComponent() {
   return (
     <Card variant="glass" hoverable>
-      <Avatar src="/user.jpg" alt="User" size="lg" status="online" />
-      <Button variant="primary" size="md">
-        Click me
-      </Button>
+      <div className="flex items-center gap-2">
+        <Avatar src="/user.jpg" alt="User" size="lg" status="online" />
+        <Badge variant="success" dot pulse>
+          Active
+        </Badge>
+      </div>
+      <ButtonGroup>
+        <Button variant="primary" size="md">
+          Save
+        </Button>
+        <Button variant="ghost" size="md">
+          Cancel
+        </Button>
+      </ButtonGroup>
     </Card>
   );
 }
@@ -136,7 +144,9 @@ import { cn } from "saha-ui/lib/utils";
 | Component       | Description                                        | Status | CVA |
 | --------------- | -------------------------------------------------- | ------ | --- |
 | **Button**      | Action buttons with 8 variants and 4 sizes         | ✅     | ✅  |
+| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts   | ✅     | ✅  |
 | **Alert**       | Notification messages with 5 variants × 4 statuses | ✅     | ✅  |
+| **Badge**       | Status indicators and labels with 9 variants       | ✅     | ✅  |
 | **Card**        | Container with 5 variants and sub-components       | ✅     | ✅  |
 | **Accordion**   | Collapsible content with 5 behavior modes          | ✅     | ✅  |
 | **Avatar**      | User profile images with status indicators         | ✅     | ✅  |
@@ -182,6 +192,104 @@ import { Sparkles } from "lucide-react";
 
 ---
 
+### ButtonGroup
+
+Container component that groups multiple buttons together with seamless styling.
+
+**Variants:** `default` `outline` `ghost` `glass`  
+**Sizes:** `sm` `md` `lg` `xl`  
+**Orientation:** `horizontal` `vertical`
+
+```tsx
+import { ButtonGroup, Button } from "saha-ui";
+
+// Basic horizontal group
+<ButtonGroup>
+  <Button variant="primary">Left</Button>
+  <Button variant="primary">Center</Button>
+  <Button variant="primary">Right</Button>
+</ButtonGroup>
+
+// Vertical orientation
+<ButtonGroup orientation="vertical">
+  <Button variant="accent">Top</Button>
+  <Button variant="accent">Middle</Button>
+  <Button variant="accent">Bottom</Button>
+</ButtonGroup>
+
+// Glass variant with full width
+<ButtonGroup variant="glass" fullWidth>
+  <Button variant="glass">Save</Button>
+  <Button variant="glass">Cancel</Button>
+</ButtonGroup>
+
+// Full rounded (pill style)
+<ButtonGroup fullRounded>
+  <Button variant="secondary">Option 1</Button>
+  <Button variant="secondary">Option 2</Button>
+  <Button variant="secondary">Option 3</Button>
+</ButtonGroup>
+
+// Detached buttons (with gaps)
+<ButtonGroup attached={false}>
+  <Button variant="primary">Accept</Button>
+  <Button variant="ghost">Decline</Button>
+</ButtonGroup>
+```
+
+**Features:**
+
+- 🔗 Seamless button integration with smart rounding
+- 🎨 4 visual variants (default, outline, ghost, glass)
+- 📐 Horizontal & vertical orientations
+- 📏 Auto-sizing all buttons in group
+- 🔲 Full width support
+- 🎯 Attached or detached modes
+- 💫 Hover z-index management
+- ♿ ARIA role="group" for accessibility
+
+**Props:**
+
+- `variant` - Visual style (default, outline, ghost, glass)
+- `size` - Size applied to all child buttons (sm, md, lg, xl)
+- `orientation` - Layout direction (horizontal, vertical)
+- `fullRounded` - Pill-style rounding on outer buttons
+- `fullWidth` - Make buttons fill container width equally
+- `attached` - Whether buttons are connected (true) or have gaps (false)
+
+**Contextual Usage:**
+
+```tsx
+// In modal footer
+<Card>
+  <CardHeader>
+    <CardTitle>Confirm Action</CardTitle>
+  </CardHeader>
+  <CardFooter>
+    <ButtonGroup fullWidth>
+      <Button variant="error">Delete</Button>
+      <Button variant="ghost">Cancel</Button>
+    </ButtonGroup>
+  </CardFooter>
+</Card>
+
+// Navigation menu
+<ButtonGroup orientation="vertical" variant="outline" fullWidth>
+  <Button variant="ghost"><User size={16} /> Profile</Button>
+  <Button variant="ghost"><Bell size={16} /> Notifications</Button>
+  <Button variant="ghost"><Mail size={16} /> Messages</Button>
+</ButtonGroup>
+
+// Toolbar
+<ButtonGroup variant="glass">
+  <Button variant="glass"><Star size={16} /></Button>
+  <Button variant="glass"><Heart size={16} /></Button>
+  <Button variant="glass"><Mail size={16} /></Button>
+</ButtonGroup>
+```
+
+---
+
 ### Alert
 
 Display important messages with inline icons and auto-link detection.
@@ -208,6 +316,91 @@ import { Alert } from "saha-ui";
 - 🔗 Auto-link detection in messages
 - ✖️ Closeable with smooth animation
 - 🎯 Inline SVG icons
+
+---
+
+### Badge
+
+Small status indicators and labels with rich visual variants.
+
+**Variants:** `default` `primary` `secondary` `success` `warning` `error` `info` `outline` `glass`  
+**Sizes:** `sm` `md` `lg`  
+**Shapes:** `rounded` `pill` `square`
+
+```tsx
+import { Badge } from "saha-ui";
+
+// Basic usage
+<Badge variant="primary">New</Badge>
+
+// With status dot
+<Badge variant="success" dot pulse>
+  Online
+</Badge>
+
+// With icon
+<Badge variant="warning" icon={AlertCircle}>
+  Warning
+</Badge>
+
+// Removable tag
+<Badge variant="outline" removable onRemove={() => console.log("Removed")}>
+  Design
+</Badge>
+
+// Custom styling
+<Badge
+  variant="glass"
+  size="lg"
+  shape="pill"
+  className="backdrop-blur-xl"
+>
+  Premium
+</Badge>
+```
+
+**Features:**
+
+- 🎨 9 visual variants with gradients
+- 📏 3 sizes (sm, md, lg)
+- 🔷 3 shapes (rounded, pill, square)
+- 🔴 Status dot indicators with pulse
+- 🎯 Icon integration
+- ✖️ Removable tags
+- ✨ Hover scale animations
+
+**Contextual Usage:**
+
+```tsx
+// In Card header
+<Card>
+  <CardHeader>
+    <div className="flex items-center gap-2">
+      <CardTitle>Premium Feature</CardTitle>
+      <Badge variant="primary" size="sm">New</Badge>
+    </div>
+  </CardHeader>
+</Card>
+
+// Status tags with dots
+<Badge variant="success" dot pulse>Active</Badge>
+<Badge variant="error" dot>Offline</Badge>
+<Badge variant="warning" dot pulse>Away</Badge>
+
+// Tag list
+<div className="flex gap-2 flex-wrap">
+  {tags.map(tag => (
+    <Badge
+      key={tag}
+      variant="outline"
+      removable
+      onRemove={() => removeTag(tag)}
+    >
+      {tag}
+    </Badge>
+  ))}
+</div>
+```
 
 ---
 
@@ -727,7 +920,7 @@ Saha UI is optimized for minimal bundle impact:
 
 ## 💡 Usage Examples
 
-### Example 1: Dashboard Card (Main Entry)
+### Example 1: Dashboard Card with Status Badge (Main Entry)
 
 ```tsx
 import {
@@ -737,6 +930,7 @@ import {
   CardContent,
   Avatar,
   Button,
+  Badge,
 } from "saha-ui";
 import type { CardVariant } from "saha-ui";
 
@@ -746,8 +940,20 @@ function DashboardCard() {
   return (
     <Card variant={variant} padding="lg" rounded="xl" hoverable>
       <CardHeader>
-        <Avatar src="/user.jpg" size="lg" status="online" />
-        <CardTitle>Welcome Back!</CardTitle>
+        <div className="flex items-center gap-3">
+          <Avatar src="/user.jpg" size="lg" status="online" />
+          <div>
+            <div className="flex items-center gap-2">
+              <CardTitle>Welcome Back!</CardTitle>
+              <Badge variant="success" dot pulse>
+                Active
+              </Badge>
+            </div>
+            <Badge variant="primary" size="sm">
+              Premium
+            </Badge>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <Button variant="primary" size="md">
