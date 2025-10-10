@@ -3,9 +3,9 @@
  *
  * This file demonstrates how TypeScript catches invalid inputs at compile-time.
  * Uncomment the error examples to see TypeScript errors in your IDE.
- */
+import React from "react"; */
 
-import React from "react";
+
 import {
   Button,
   Alert,
@@ -16,8 +16,6 @@ import {
   ButtonSize,
   AlertVariant,
   AlertStatus,
-  CardVariant,
-  AccordionVariant,
   AccordionItem,
 } from "./index";
 
@@ -80,10 +78,6 @@ export const DynamicButton = ({ variant, size, label }: DynamicButtonProps) => {
 };
 
 // Usage - TypeScript will enforce valid values
-const Example1 = () => (
-  <DynamicButton variant="primary" size="md" label="Click Me" />
-  // ✅ This works - TypeScript validates the values
-);
 
 // ============================================
 // ✅ TYPE-SAFE MAPPINGS
@@ -211,18 +205,6 @@ function isValidAlertStatus(value: string): value is AlertStatus {
   return ["success", "danger", "warning", "info"].includes(value);
 }
 
-function isValidButtonVariant(value: string): value is ButtonVariant {
-  return [
-    "primary",
-    "secondary",
-    "accent",
-    "success",
-    "warning",
-    "error",
-    "ghost",
-    "glass",
-  ].includes(value);
-}
 
 // Use with runtime data (e.g., from API)
 export const SafeRuntimeAlert = ({
@@ -265,16 +247,6 @@ export const StatusAlert = <T extends keyof typeof statusConfigs>({
   return <Alert {...config} message={message} />;
 };
 
-// Usage - TypeScript enforces only 'ok' | 'error' | 'pending'
-const StatusExample = () => (
-  <>
-    <StatusAlert type="ok" message="All good!" />
-    <StatusAlert type="error" message="Something went wrong" />
-    <StatusAlert type="pending" message="Processing..." />
-    {/* <StatusAlert type="invalid" message="Nope" /> */}{" "}
-    {/* ❌ TypeScript error */}
-  </>
-);
 
 // ============================================
 // ✅ CONCLUSION
