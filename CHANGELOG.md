@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.0.0...v1.1.0) (2025-10-10)
+
+
+### Features
+
+* prepare package build, publish config, and typings ([9c39209](https://github.com/Xenial-Devil/Saha-ui/commit/9c392093ce662d3556fb1855ffd97a687e98ac57))
+
 # 1.0.0 (2025-10-10)
 
 
