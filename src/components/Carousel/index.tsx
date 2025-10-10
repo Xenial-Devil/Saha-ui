@@ -1,133 +1,308 @@
-import React, { useEffect, useRef, useState } from "react";
-import { CarouselProps, DefaultCarouselProps } from "./Carousel.types";
-import CarouseItem from "./CarouseImage";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import { cva } from "class-variance-authority";
+import { cn } from "../../lib/utils";
+import { CarouselProps } from "./Carousel.types";
+import CarouselItem from "./CarouseImage";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import "./index.scss";
 
-const Carousel: React.FC<CarouselProps> = ({
-  autoplay = DefaultCarouselProps.autoplay,
-  autoplayInterval = DefaultCarouselProps.autoplayInterval,
-  showNavigation = DefaultCarouselProps.showNavigation,
-  showIndicators = DefaultCarouselProps.showIndicators,
-  className = DefaultCarouselProps.className,
-  containerStyle = DefaultCarouselProps.containerStyle,
-  navigationStyle = DefaultCarouselProps.navigationStyle,
-  indicatorsStyle = DefaultCarouselProps.indicatorsStyle,
-  children,
-}) => {
-  const [active, setActive] = useState<number>(0); // Tracks the active slide index
-  const sliderRef = useRef<HTMLDivElement | null>(null); // Ref for the slider container
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+/**
+ * CVA variants for Carousel container
+ */
+const carouselVariants = cva("relative w-full overflow-hidden", {
+  variants: {
+    variant: {
+      default: "rounded-none",
+      contained: "max-w-7xl mx-auto",
+      bordered: "rounded-xl border-2 border-border shadow-lg",
+      glass:
+        "rounded-xl border border-border/30 bg-background/5 backdrop-blur-sm shadow-2xl",
+    },
+    effect: {
+      slide: "",
+      fade: "",
+      cube: "perspective-1000",
+      flip: "perspective-1000",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    effect: "slide",
+  },
+});
 
-  const image = [
-    "https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_1280.jpg",
-    "https://cdn.pixabay.com/photo/2021/07/06/19/26/drops-6392473_960_720.jpg",
-    "https://cdn.pixabay.com/photo/2024/01/02/14/58/leaf-8483401_960_720.jpg",
-    "https://cdn.pixabay.com/photo/2018/09/23/18/30/drop-3698073_960_720.jpg",
-    "https://cdn.pixabay.com/photo/2018/01/05/02/50/boat-3062045_960_720.jpg",
-  ];
+/**
+ * CVA variants for navigation buttons
+ */
+const navigationVariants = cva(
+  "absolute top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200",
+  {
+    variants: {
+      variant: {
+        default:
+          "bg-white/80 text-black hover:bg-white hover:scale-110 shadow-lg",
+        contained:
+          "bg-white/80 text-black hover:bg-white hover:scale-110 shadow-lg",
+        bordered:
+          "bg-primary/90 text-white hover:bg-primary hover:scale-110 shadow-xl",
+        glass:
+          "bg-white/20 text-white hover:bg-white/30 backdrop-blur-md hover:scale-110 shadow-xl",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
 
-  const childArray = React.Children.toArray(children); // Convert children to an array for indexing
-  const lengthItems = childArray.length;
+/**
+ * CVA variants for dot indicators
+ */
+const indicatorVariants = cva(
+  "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer",
+  {
+    variants: {
+      active: {
+        true: "w-8 bg-white shadow-lg shadow-white/50",
+        false: "bg-white/50 hover:bg-white/75",
+      },
+    },
+    defaultVariants: {
+      active: false,
+    },
+  }
+);
 
-  const reloadSlider = (newActive: number) => {
-    setActive(newActive);
+/**
+ * Ultra-modern Carousel component
+ *
+ * Advanced carousel/slider with multiple transition effects, autoplay,
+ * navigation controls, dot indicators, and responsive design.
+ * Supports both items array and children elements.
+ *
+ * @example
+ * ```tsx
+ * <Carousel
+ *   items={[
+ *     { image: '/slide1.jpg', alt: 'Slide 1', title: 'Welcome' },
+ *     { image: '/slide2.jpg', alt: 'Slide 2', title: 'Features' },
+ *   ]}
+ *   autoplay
+ *   effect="fade"
+ *   variant="glass"
+ * />
+ * ```
+ */
+const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
+  (
+    {
+      items,
+      children,
+      autoplay = false,
+      autoplayInterval = 5000,
+      direction = "forward",
+      showNavigation = true,
+      showIndicators = true,
+      showThumbnails = false,
+      effect = "slide",
+      variant = "default",
+      loop = true,
+      pauseOnHover = true,
+      swipeable = true,
+      onSlideChange,
+      className,
+      ...props
+    },
+    ref
+  ) => {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [isPaused, setIsPaused] = useState(false);
+    const [touchStart, setTouchStart] = useState(0);
+    const [touchEnd, setTouchEnd] = useState(0);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const sliderRef = useRef<HTMLDivElement>(null);
 
-    // Reset the autoplay interval on manual interactions
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    if (autoplay || (!showIndicators && !showIndicators)) {
+    // Use items if provided, otherwise use children
+    const content = items
+      ? items.map((item, index) => <CarouselItem key={index} {...item} />)
+      : React.Children.toArray(children);
+
+    const totalSlides = content.length;
+
+    // Navigate to specific slide
+    const goToSlide = useCallback(
+      (index: number) => {
+        const newIndex = loop
+          ? (index + totalSlides) % totalSlides
+          : Math.max(0, Math.min(index, totalSlides - 1));
+
+        setActiveIndex(newIndex);
+        onSlideChange?.(newIndex);
+      },
+      [totalSlides, loop, onSlideChange]
+    );
+
+    // Navigate to next slide
+    const nextSlide = useCallback(() => {
+      goToSlide(activeIndex + 1);
+    }, [activeIndex, goToSlide]);
+
+    // Navigate to previous slide
+    const prevSlide = useCallback(() => {
+      goToSlide(activeIndex - 1);
+    }, [activeIndex, goToSlide]);
+
+    // Setup autoplay
+    useEffect(() => {
+      if (!autoplay || isPaused || totalSlides <= 1) return;
+
       intervalRef.current = setInterval(() => {
-        setActive((prev) => (prev + 1) % lengthItems);
+        if (direction === "forward") {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
       }, autoplayInterval);
-    }
-  };
 
-  const handleNext = () => reloadSlider((active + 1) % lengthItems);
+      return () => {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+        }
+      };
+    }, [
+      autoplay,
+      isPaused,
+      autoplayInterval,
+      direction,
+      nextSlide,
+      prevSlide,
+      totalSlides,
+    ]);
 
-  const handlePrev = () =>
-    reloadSlider((active - 1 + lengthItems) % lengthItems);
-
-  const handleDotClick = (index: number) => reloadSlider(index);
-
-  // Automatically switch slides on mount
-  useEffect(() => {
-    if (autoplay || (!showIndicators && !showIndicators)) {
-      intervalRef.current = setInterval(() => {
-        setActive((prev) => (prev + 1) % lengthItems);
-      }, autoplayInterval);
-    }
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current); // Cleanup interval on unmount
+    // Handle touch start
+    const handleTouchStart = (e: React.TouchEvent) => {
+      if (!swipeable) return;
+      setTouchStart(e.targetTouches[0].clientX);
     };
-  }, [lengthItems]);
 
-  // Adjust slider position on window resize
-  useEffect(() => {
-    const resizeHandler = () => {
-      if (sliderRef.current) {
-        sliderRef.current.style.left = `-${
-          sliderRef.current.children[active]?.clientWidth * active
-        }px`;
+    // Handle touch move
+    const handleTouchMove = (e: React.TouchEvent) => {
+      if (!swipeable) return;
+      setTouchEnd(e.targetTouches[0].clientX);
+    };
+
+    // Handle touch end
+    const handleTouchEnd = () => {
+      if (!swipeable) return;
+      if (!touchStart || !touchEnd) return;
+
+      const distance = touchStart - touchEnd;
+      const isLeftSwipe = distance > 50;
+      const isRightSwipe = distance < -50;
+
+      if (isLeftSwipe) {
+        nextSlide();
+      } else if (isRightSwipe) {
+        prevSlide();
+      }
+
+      setTouchStart(0);
+      setTouchEnd(0);
+    };
+
+    // Get transition classes based on effect
+    const getEffectClass = () => {
+      switch (effect) {
+        case "fade":
+          return "transition-opacity duration-700";
+        case "slide":
+          return "transition-transform duration-700";
+        case "cube":
+          return "transition-all duration-700 transform-gpu";
+        case "flip":
+          return "transition-all duration-700 transform-gpu";
+        default:
+          return "transition-transform duration-700";
       }
     };
 
-    window.addEventListener("resize", resizeHandler);
-    resizeHandler(); // Adjust position on component mount
-    return () => window.removeEventListener("resize", resizeHandler);
-  }, [active]);
-
-  // Update slider's position when the active slide changes
-  useEffect(() => {
-    if (sliderRef.current) {
-      sliderRef.current.style.left = `-${
-        sliderRef.current.children[active]?.clientWidth * active
-      }px`;
-    }
-  }, [active]);
-
-  return (
-    <div
-      className={`slider ${className}`}
-      style={{ position: "relative", display: "flex", ...containerStyle }}
-    >
-      <div className="list" ref={sliderRef}>
-        {childArray.map((child, index) => (
-          <div
-            key={index}
-            className="item"
-            style={{ flexShrink: 0, width: "100%" }}
-          >
-            {child}
-          </div>
-        ))}
-      </div>
-      {showNavigation && (
-        <div className="buttons">
-          <button id="prev" style={{ ...navigationStyle }} onClick={handlePrev}>
-            <ChevronLeft />
-          </button>
-          <button id="next" style={{ ...navigationStyle }} onClick={handleNext}>
-            <ChevronRight />
-          </button>
-        </div>
-      )}
-      {showIndicators && (
-        <ul className="dots">
-          {childArray.map((_, index) => (
-            <li
+    return (
+      <div
+        ref={ref}
+        className={cn(carouselVariants({ variant, effect }), className)}
+        onMouseEnter={() => pauseOnHover && setIsPaused(true)}
+        onMouseLeave={() => pauseOnHover && setIsPaused(false)}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        {...props}
+      >
+        {/* Slides container */}
+        <div
+          ref={sliderRef}
+          className={cn("relative h-full flex", getEffectClass())}
+          style={{
+            transform:
+              effect === "slide"
+                ? `translateX(-${activeIndex * 100}%)`
+                : undefined,
+          }}
+        >
+          {content.map((slide, index) => (
+            <div
               key={index}
-              style={{ ...indicatorsStyle }}
-              className={index === active ? "active" : ""}
-              onClick={() => reloadSlider(index)}
-            ></li>
+              className={cn(
+                "min-w-full h-full flex-shrink-0",
+                effect === "fade" &&
+                  (index === activeIndex
+                    ? "opacity-100"
+                    : "opacity-0 absolute inset-0")
+              )}
+            >
+              {slide}
+            </div>
           ))}
-        </ul>
-      )}
-    </div>
-  );
-};
+        </div>
+
+        {/* Navigation buttons */}
+        {showNavigation && totalSlides > 1 && (
+          <>
+            <button
+              onClick={prevSlide}
+              className={cn(navigationVariants({ variant }), "left-4")}
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className={cn(navigationVariants({ variant }), "right-4")}
+              aria-label="Next slide"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </>
+        )}
+
+        {/* Dot indicators */}
+        {showIndicators && totalSlides > 1 && (
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+            {content.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={cn(
+                  indicatorVariants({ active: index === activeIndex })
+                )}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+
+Carousel.displayName = "Carousel";
 
 export default Carousel;
