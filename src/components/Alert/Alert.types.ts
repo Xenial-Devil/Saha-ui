@@ -1,27 +1,46 @@
-export type AlertProps = {
-  variant: "solid" | "subtle" | "left-accent" | "top-accent" | "outline";
-  message: string;
-  title: string;
-  status: "success" | "danger" | "warning" | "info";
-  direction?: "row" | "column";
-  align?: 'left' | 'center' | 'right' | 'justify';
-  justify?: 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly' | 'stretch';
-  textAlign?: 'left' | 'center' | 'right' | 'justify';
-  height?: string | undefined;
-  rounded?: boolean | undefined;
-  closeable: boolean;
-};
+import React from "react";
 
-export const defaultAlertProps: AlertProps = {
-  variant: "solid",
-  message: "",
-  title: "",
-  status: "info",
-  direction: "row",
-  align: 'left',
-  justify:'center',
-  textAlign: 'left',
-  height:'',
-  rounded: false,
-  closeable: false,
-};
+// Explicit types for better type safety
+export type AlertVariant =
+  | "solid"
+  | "subtle"
+  | "left-accent"
+  | "top-accent"
+  | "outline";
+export type AlertStatus = "success" | "danger" | "warning" | "info";
+
+export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Visual style variant of the alert
+   * @default "solid"
+   */
+  variant?: AlertVariant;
+
+  /**
+   * The main message content of the alert
+   */
+  message?: string;
+
+  /**
+   * Optional title displayed above the message
+   */
+  title?: string;
+
+  /**
+   * Semantic status that determines color and icon
+   * @default "info"
+   */
+  status?: AlertStatus;
+
+  /**
+   * Whether the alert should have rounded corners
+   * @default true
+   */
+  rounded?: boolean;
+
+  /**
+   * Whether the alert can be dismissed with a close button
+   * @default false
+   */
+  closeable?: boolean;
+}

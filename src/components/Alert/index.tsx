@@ -1,287 +1,318 @@
 import React, { useState } from "react";
-import { defaultAlertProps, AlertProps } from "./Alert.types";
-import "./index.scss";
-const Alert = ({
-  variant = defaultAlertProps.variant,
-  message = defaultAlertProps.message,
-  title = defaultAlertProps.title,
-  status = defaultAlertProps.status,
-  direction = defaultAlertProps.direction,
-  align = defaultAlertProps.align,
-  justify = defaultAlertProps.justify,
-  textAlign = defaultAlertProps.textAlign,
-  height = defaultAlertProps.height,
-  rounded = defaultAlertProps.rounded,
-  closeable = defaultAlertProps.closeable,
-}: AlertProps): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(true);
-  const generateUniqueClassName = () => {
-    const randomString = Math.random().toString(36).substring(2, 15);
-    return `css-${randomString}`;
-  };
-  const dynamicClassName = generateUniqueClassName();
-  const dynamicStyles = {
-    // Define your dynamic styles here
-    height: `${height && height}`,
-    textAlign: `${textAlign}`,
-    justifyContent: `${justify}`,
-    alignItems: `${align}`,
-    flexDirection: `${direction}`,
+import { cva } from "class-variance-authority";
+import { cn } from "../../lib/utils";
+import { AlertProps } from "./Alert.types";
 
-    // Add more styles as needed
-  };
-  const dynamicStyleRule = `.${dynamicClassName} { ${Object.entries(
-    dynamicStyles
-  )
-    .map(([property, value]) => `${property}: ${value};`)
-    .join(" ")} }`;
-  const styleElement = document.createElement("style");
-  styleElement.innerText = dynamicStyleRule;
-  document.head.appendChild(styleElement);
-  const messageParts = message.split(/(https?:\/\/[^\s]+)/);
-  const renderedMessage = messageParts.map((part, index) =>
-    part.match(/(https?:\/\/[^\s]+)/) ? (
-      <a key={index} className="alert-link" href={part} target="_blank">
-        {part}
-      </a>
-    ) : (
-      part
-    )
-  );
+// CVA variants for Alert
+const alertVariants = cva(
+  "relative w-full p-4 transition-all duration-300 ease-out overflow-hidden isolate",
+  {
+    variants: {
+      variant: {
+        solid:
+          "shadow-lg before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-50",
+        subtle:
+          "backdrop-blur-sm bg-opacity-10 border border-current/20 shadow-md",
+        "left-accent":
+          "border-l-4 bg-opacity-10 backdrop-blur-sm shadow-md before:absolute before:left-0 before:inset-y-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:via-current before:to-transparent",
+        "top-accent":
+          "border-t-4 bg-opacity-10 backdrop-blur-sm shadow-md before:absolute before:top-0 before:inset-x-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-current before:to-transparent",
+        outline:
+          "bg-card/50 backdrop-blur-sm border-2 border-current/30 shadow-md hover:border-current/50 hover:shadow-lg",
+      },
+      status: {
+        info: "",
+        success: "",
+        warning: "",
+        danger: "",
+      },
+      rounded: {
+        true: "rounded-xl",
+        false: "rounded-none",
+      },
+    },
+    compoundVariants: [
+      // Solid variant colors
+      {
+        variant: "solid",
+        status: "info",
+        className: "bg-info text-info-foreground",
+      },
+      {
+        variant: "solid",
+        status: "success",
+        className: "bg-success text-success-foreground",
+      },
+      {
+        variant: "solid",
+        status: "warning",
+        className: "bg-warning text-warning-foreground",
+      },
+      {
+        variant: "solid",
+        status: "danger",
+        className: "bg-destructive text-destructive-foreground",
+      },
+      // Subtle variant colors
+      {
+        variant: "subtle",
+        status: "info",
+        className: "bg-info/10 text-info border-info/20",
+      },
+      {
+        variant: "subtle",
+        status: "success",
+        className: "bg-success/10 text-success border-success/20",
+      },
+      {
+        variant: "subtle",
+        status: "warning",
+        className: "bg-warning/10 text-warning border-warning/20",
+      },
+      {
+        variant: "subtle",
+        status: "danger",
+        className: "bg-destructive/10 text-destructive border-destructive/20",
+      },
+      // Left-accent variant colors
+      {
+        variant: "left-accent",
+        status: "info",
+        className: "bg-info/5 text-foreground border-info",
+      },
+      {
+        variant: "left-accent",
+        status: "success",
+        className: "bg-success/5 text-foreground border-success",
+      },
+      {
+        variant: "left-accent",
+        status: "warning",
+        className: "bg-warning/5 text-foreground border-warning",
+      },
+      {
+        variant: "left-accent",
+        status: "danger",
+        className: "bg-destructive/5 text-foreground border-destructive",
+      },
+      // Top-accent variant colors
+      {
+        variant: "top-accent",
+        status: "info",
+        className: "bg-info/5 text-foreground border-info",
+      },
+      {
+        variant: "top-accent",
+        status: "success",
+        className: "bg-success/5 text-foreground border-success",
+      },
+      {
+        variant: "top-accent",
+        status: "warning",
+        className: "bg-warning/5 text-foreground border-warning",
+      },
+      {
+        variant: "top-accent",
+        status: "danger",
+        className: "bg-destructive/5 text-foreground border-destructive",
+      },
+      // Outline variant colors
+      {
+        variant: "outline",
+        status: "info",
+        className: "border-info/30 text-foreground hover:border-info/50",
+      },
+      {
+        variant: "outline",
+        status: "success",
+        className: "border-success/30 text-foreground hover:border-success/50",
+      },
+      {
+        variant: "outline",
+        status: "warning",
+        className: "border-warning/30 text-foreground hover:border-warning/50",
+      },
+      {
+        variant: "outline",
+        status: "danger",
+        className:
+          "border-destructive/30 text-foreground hover:border-destructive/50",
+      },
+    ],
+    defaultVariants: {
+      variant: "solid",
+      status: "info",
+      rounded: true,
+    },
+  }
+);
+
+// Status icon components
+const StatusIcon: React.FC<{
+  status: "info" | "success" | "warning" | "danger";
+}> = ({ status }) => {
+  const iconClasses = "w-6 h-6 flex-shrink-0";
+
+  if (status === "success") {
+    return (
+      <svg
+        className={iconClasses}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    );
+  }
+
+  if (status === "warning") {
+    return (
+      <svg
+        className={iconClasses}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+        />
+      </svg>
+    );
+  }
+
+  if (status === "danger") {
+    return (
+      <svg
+        className={iconClasses}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    );
+  }
+
+  // Info icon
   return (
-    <>
-      {isOpen && (
-        <div
-          className={`w-full flex justify-between alert-${status} ${
-            variant == "outline" ? "alert-border" : ""
-          } p-4 ${rounded ? "rounded-lg" : ""} ${
-            variant == "solid" ? "alert-filled" : ""
-          } ${variant == "left-accent" ? "alert-border-left" : ""} ${
-            variant == "top-accent" ? "alert-border-top" : ""
-          } ${dynamicClassName}`}
-        >
-          <div className="w-full flex">
-            <div
-              className={`flex justify-center items-center ${
-                direction == "row" ? "mr-4" : "flex-col"
-              }`}
-            >
-              {status == "success" && (
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 48 48"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M24 44C29.5228 44 34.5228 41.7614 38.1421 38.1421C41.7614 34.5228 44 29.5228 44 24C44 18.4772 41.7614 13.4772 38.1421 9.85786C34.5228 6.23858 29.5228 4 24 4C18.4772 4 13.4772 6.23858 9.85786 9.85786C6.23858 13.4772 4 18.4772 4 24C4 29.5228 6.23858 34.5228 9.85786 38.1421C13.4772 41.7614 18.4772 44 24 44Z"
-                    className={`${
-                      variant == "solid"
-                        ? " fill-white stroke-white "
-                        : "alert-icon"
-                    }`}
-                    stroke-width="4"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M16 24L22 30L34 18"
-                    className={`${
-                      variant == "solid" ? "alert-icon" : "stroke-white "
-                    }`}
-                    stroke-width="4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              )}
-              {status == "info" && (
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 48 48"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M24 44C29.5228 44 34.5228 41.7614 38.1421 38.1421C41.7614 34.5228 44 29.5228 44 24C44 18.4772 41.7614 13.4772 38.1421 9.85786C34.5228 6.23858 29.5228 4 24 4C18.4772 4 13.4772 6.23858 9.85786 9.85786C6.23858 13.4772 4 18.4772 4 24C4 29.5228 6.23858 34.5228 9.85786 38.1421C13.4772 41.7614 18.4772 44 24 44Z"
-                    className={`${
-                      variant == "solid"
-                        ? "stroke-white fill-white "
-                        : "alert-icon"
-                    }`}
-                    stroke-width="4"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M24 11C25.3807 11 26.5 12.1193 26.5 13.5C26.5 14.8807 25.3807 16 24 16C22.6193 16 21.5 14.8807 21.5 13.5C21.5 12.1193 22.6193 11 24 11Z"
-                    className={`${
-                      variant == "solid" ? "alert-icon " : "fill-white "
-                    }`}
-                  />
-                  <path
-                    d="M24.5 34V20H23.5H22.5"
-                    className={`${
-                      variant == "solid" ? "alert-icon " : "stroke-white"
-                    }`}
-                    stroke-width="4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M21 34H28"
-                    className={`${
-                      variant == "solid" ? "alert-icon " : "stroke-white"
-                    }`}
-                    stroke-width="4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              )}
-              {(status == "warning" || status == "danger") && (
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 48 48"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M24 44C29.5228 44 34.5228 41.7614 38.1421 38.1421C41.7614 34.5228 44 29.5228 44 24C44 18.4772 41.7614 13.4772 38.1421 9.85786C34.5228 6.23858 29.5228 4 24 4C18.4772 4 13.4772 6.23858 9.85786 9.85786C6.23858 13.4772 4 18.4772 4 24C4 29.5228 6.23858 34.5228 9.85786 38.1421C13.4772 41.7614 18.4772 44 24 44Z"
-                    className={`${
-                      variant == "solid"
-                        ? "stroke-white fill-white"
-                        : "alert-icon"
-                    }`}
-                    stroke-width="4"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M24 37C25.3807 37 26.5 35.8807 26.5 34.5C26.5 33.1193 25.3807 32 24 32C22.6193 32 21.5 33.1193 21.5 34.5C21.5 35.8807 22.6193 37 24 37Z"
-                    className={`${
-                      variant == "solid"
-                        ? "alert-icon"
-                        : "stroke-white fill-white"
-                    }`}
-                  />
-                  <path
-                    d="M24 12V28"
-                    className={`${
-                      variant == "solid"
-                        ? "alert-icon"
-                        : "stroke-white fill-white"
-                    }`}
-                    stroke-width="4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              )}
-            </div>
-            <div className="flex flex-col">
-              <div
-                className={`${
-                  variant == "solid" ? "text-white" : "alert-title"
-                }`}
-              >
-                {title}
-              </div>
-              <div
-                className={`${
-                  variant == "solid" ? "text-white" : "alert-text"
-                }`}
-              >
-                {renderedMessage}
-              </div>
-            </div>
-          </div>
-          {closeable && (
-            <div
-              className="relative justify-center group cursor-pointer"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              <div className="hidden absolute top-[.89rem] -left-[.6rem] group-hover:block">
-                <div className="flex justify-center items-center flex-col">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 48 48"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12 29L24 17L36 29H12Z"
-                      className={`${
-                        variant == "solid"
-                          ? "stroke-white fill-white"
-                          : "alert-icon"
-                      }`}
-                      stroke-width="4"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  <div
-                    className={`${
-                      variant == "solid"
-                        ? "alert-text bg-white"
-                        : "text-white alert-filled"
-                    } -mt-[.6rem] p-1 rounded-md`}
-                  >
-                    colse
-                  </div>
-                </div>
-              </div>
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 48 48"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="cursor-pointer alert-icon"
-              >
-                <path
-                  d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z"
-                  className={`${
-                    variant == "solid"
-                      ? "stroke-white fill-white"
-                      : "alert-icon"
-                  }`}
-                  stroke-width="4"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M29.6567 18.3432L18.343 29.6569"
-                  className={`${
-                    variant == "solid"
-                      ? "alert-icon"
-                      : "stroke-white fill-white"
-                  }`}
-                  stroke-width="4"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M18.3433 18.3432L29.657 29.6569"
-                  className={`${
-                    variant == "solid"
-                      ? "alert-icon"
-                      : "stroke-white fill-white"
-                  }`}
-                  stroke-width="4"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          )}
-        </div>
-      )}
-    </>
+    <svg
+      className={iconClasses}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
   );
 };
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
+  (
+    {
+      variant = "solid",
+      message = "",
+      title,
+      status = "info",
+      rounded = true,
+      closeable = false,
+      className,
+      ...props
+    },
+    ref
+  ) => {
+    const [isOpen, setIsOpen] = useState(true);
+
+    if (!isOpen) return null;
+
+    // Parse message for links
+    const messageParts = message.split(/(https?:\/\/[^\s]+)/);
+    const renderedMessage = messageParts.map((part, index) =>
+      part.match(/(https?:\/\/[^\s]+)/) ? (
+        <a
+          key={index}
+          className="underline hover:opacity-80 transition-opacity font-medium"
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {part}
+        </a>
+      ) : (
+        <span key={index}>{part}</span>
+      )
+    );
+
+    return (
+      <div
+        ref={ref}
+        className={cn(alertVariants({ variant, status, rounded }), className)}
+        role="alert"
+        {...props}
+      >
+        {/* Content wrapper */}
+        <div className="relative z-10 flex items-start gap-3">
+          {/* Status Icon */}
+          <StatusIcon status={status} />
+
+          {/* Message Content */}
+          <div className="flex-1 min-w-0">
+            {title && (
+              <h4 className="font-semibold text-base mb-1 tracking-tight">
+                {title}
+              </h4>
+            )}
+            <div className="text-sm leading-relaxed opacity-95">
+              {renderedMessage}
+            </div>
+          </div>
+
+          {/* Close Button */}
+          {closeable && (
+            <button
+              onClick={() => setIsOpen(false)}
+              className="flex-shrink-0 p-1 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-current/30"
+              aria-label="Close alert"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+);
+
+Alert.displayName = "Alert";
 
 export default Alert;
