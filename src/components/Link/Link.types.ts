@@ -1,47 +1,36 @@
 import React from "react";
 
-export interface LinkProps {
-  href?: string;
-  target?: "_self" | "_blank" | "_parent" | "_top";
-  rel?:
-    | "alternate"
-    | "author"
-    | "bookmark"
-    | "external"
-    | "help"
-    | "license"
-    | "next"
-    | "nofollow"
-    | "noreferrer"
-    | "noopener"
-    | "prev"
-    | "search"
-    | "tag"
-    | "";
-  download?: string | boolean;
-  hreflang?: string;
-  type?: string;
-  referrerPolicy?:
-    | "no-referrer"
-    | "no-referrer-when-downgrade"
-    | "origin"
-    | "origin-when-cross-origin"
-    | "unsafe-url"
-    | "strict-origin"
-    | "strict-origin-when-cross-origin"
-    | "";
-  ping?: string;
-  name?: string;
-  style?: React.CSSProperties;
-  className?: string;
-  id?: string;
-  title?: string;
-  draggable?: boolean;
-  tabIndex?: number;
-  accessKey?: string;
-  role?: string;
-  ariaLabel?: string;
-  ariaHidden?: boolean;
-  ariaCurrent?: "page" | "step" | "location" | "date" | "time" | boolean;
+// Explicit types for better type safety
+export type LinkVariant = "default" | "primary" | "muted" | "underline" | "ghost" | "button";
+export type LinkSize = "sm" | "md" | "lg";
+
+export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  /**
+   * Visual style variant of the link
+   * @default "default"
+   */
+  variant?: LinkVariant;
+  
+  /**
+   * Size of the link
+   * @default "md"
+   */
+  size?: LinkSize;
+  
+  /**
+   * Whether to show an external link icon
+   * @default false
+   */
+  external?: boolean;
+  
+  /**
+   * Whether the link is disabled
+   * @default false
+   */
+  disabled?: boolean;
+  
+  /**
+   * Link content
+   */
   children: React.ReactNode;
 }
