@@ -1,348 +1,628 @@
-# Saha-ui
+<div align="center">
+  <h1>🎨 Saha UI</h1>
+  <p><strong>Ultra-Modern React Component Library</strong></p>
+  
+  <p>
+    <a href="https://www.npmjs.com/package/saha-ui"><img src="https://img.shields.io/npm/v/saha-ui.svg?style=flat-square" alt="npm version"></a>
+    <a href="https://www.npmjs.com/package/saha-ui"><img src="https://img.shields.io/npm/dm/saha-ui.svg?style=flat-square" alt="npm downloads"></a>
+    <a href="https://github.com/Xenial-Devil/Saha-ui/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/saha-ui.svg?style=flat-square" alt="license"></a>
+    <a href="https://github.com/Xenial-Devil/Saha-ui"><img src="https://img.shields.io/github/stars/Xenial-Devil/Saha-ui?style=flat-square" alt="stars"></a>
+  </p>
 
-## Components
+  <p>
+    A beautiful, accessible, and type-safe React component library built with<br/>
+    <strong>TypeScript</strong> • <strong>Tailwind CSS v4</strong> • <strong>OKLCH Colors</strong> • <strong>Glass Morphism</strong>
+  </p>
 
-### Component Name: Alert
+  <p>
+    <a href="#-installation">Installation</a> •
+    <a href="#-features">Features</a> •
+    <a href="#-components">Components</a> •
+    <a href="#-usage">Usage</a> •
+    <a href="#-documentation">Documentation</a>
+  </p>
+</div>
 
-#### Description:
+---
 
-The Alert component is a versatile notification element designed to display important messages or alerts to the user. It supports different alert types (success, error, warning, info) and can be customized with optional icons and actions, making it suitable for use in various applications to convey critical information.
+## ✨ Features
 
-Props:
+- 🎨 **11 Modern Components** - Button, Alert, Card, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Image, Carousel
+- 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
+- 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
+- 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
+- ♿ **Accessible** - ARIA-compliant with keyboard navigation
+- 🎭 **CVA Variants** - Type-safe variant management with class-variance-authority
+- 🎨 **OKLCH Colors** - Perceptually uniform color system for accurate theming
+- ⚡ **Performance** - Tree-shakeable, optimized bundle size
+- 📱 **Responsive** - Mobile-first design with touch gesture support
+- 🔧 **Customizable** - Easy to extend and customize with Tailwind CSS
 
-`variant` : solid | subtle | left-accent | top-accent | outline `default solid`
+---
 
-`message` :string `default ""`
+## 📦 Installation
 
-`title`: string `default ""`
+```bash
+# npm
+npm install saha-ui
 
-`status`: "success" | "danger" | "warning" | "info" `default info`
+# yarn
+yarn add saha-ui
 
-`direction`: "row" | "column" `default row`
+# pnpm
+pnpm add saha-ui
+```
 
-`align`: 'left' | 'center' | 'right' | 'justify' `default left`
+### Peer Dependencies
 
-`justify`: 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly' | 'stretch' `default center`
+```bash
+npm install react react-dom tailwindcss
+```
 
-`textAlign`: 'left' | 'center' | 'right' | 'justify' `default left`
+---
 
-`height`: string `default ''`
+## 🚀 Quick Start
 
-`rounded`: boolean `default false`
+### 1. Wrap your app with ThemeProvider
 
-`closeable`: boolean `default false`
+```tsx
+import { ThemeProvider } from "saha-ui";
 
-#### Use
+function App() {
+  return <ThemeProvider>{/* Your app content */}</ThemeProvider>;
+}
+```
 
-```javascript
+### 2. Import and use components
+
+```tsx
+import { Button, Card, Avatar } from "saha-ui";
+
+function MyComponent() {
+  return (
+    <Card variant="glass" hoverable>
+      <Avatar src="/user.jpg" alt="User" size="lg" status="online" />
+      <Button variant="primary" size="md">
+        Click me
+      </Button>
+    </Card>
+  );
+}
+```
+
+---
+
+## 🎨 Components
+
+### Overview
+
+| Component       | Description                                        | Status | CVA |
+| --------------- | -------------------------------------------------- | ------ | --- |
+| **Button**      | Action buttons with 8 variants and 4 sizes         | ✅     | ✅  |
+| **Alert**       | Notification messages with 5 variants × 4 statuses | ✅     | ✅  |
+| **Card**        | Container with 5 variants and sub-components       | ✅     | ✅  |
+| **Accordion**   | Collapsible content with 5 behavior modes          | ✅     | ✅  |
+| **Avatar**      | User profile images with status indicators         | ✅     | ✅  |
+| **AvatarGroup** | Grouped avatars with overlap and count             | ✅     | ✅  |
+| **Tooltip**     | Contextual hints with 5 variants                   | ✅     | ✅  |
+| **Link**        | Smart links with external detection                | ✅     | ✅  |
+| **List**        | Versatile lists with 10 types                      | ✅     | ✅  |
+| **Image**       | Advanced image with lazy loading                   | ✅     | ✅  |
+| **Carousel**    | Image slider with 4 transition effects             | ✅     | ✅  |
+
+---
+
+## 📚 Component Documentation
+
+### Button
+
+Action buttons with modern effects and 8 visual variants.
+
+**Variants:** `primary` `secondary` `accent` `success` `warning` `error` `ghost` `glass`  
+**Sizes:** `sm` `md` `lg` `xl`
+
+```tsx
+import { Button } from "saha-ui";
+
+<Button variant="primary" size="lg">
+  Click Me
+</Button>;
+
+// With icons
+import { Sparkles } from "lucide-react";
+<Button variant="glass">
+  <Sparkles size={18} />
+  Glass Effect
+</Button>;
+```
+
+**Features:**
+
+- ✨ Shimmer animation on hover
+- 🌈 Gradient overlays
+- 💫 Dynamic shadows
+- 🔄 React.forwardRef support
+
+---
+
+### Alert
+
+Display important messages with inline icons and auto-link detection.
+
+**Variants:** `solid` `subtle` `left-accent` `top-accent` `outline`  
+**Status:** `info` `success` `warning` `danger`
+
+```tsx
+import { Alert } from "saha-ui";
+
 <Alert
-  status={"danger"}
-  variant={"subtle"}
-  message={"this is success alert go to https://github.com/"}
-  title={"Success"}
-  closeable={true}
-/>
+  variant="left-accent"
+  status="success"
+  title="Success!"
+  message="Your action was completed successfully."
+  closeable
+  rounded
+/>;
 ```
 
-### Component Name:Accordion
+**Features:**
 
-#### Description:
+- 🎨 Compound variants (variant × status)
+- 🔗 Auto-link detection in messages
+- ✖️ Closeable with smooth animation
+- 🎯 Inline SVG icons
 
-The Accordion interface defines the properties required for an accordion item component. This interface is used to manage the state and behavior of individual items within an accordion, a UI component that allows users to toggle the visibility of sections of content. Each accordion item can be opened or closed, displaying its content conditionally based on its state.
+---
 
-#### Props
+### Card
 
-`isOpen (boolean)`: Indicates whether the accordion item is currently open (true) or closed (false).
+Versatile container component with sub-components for structured layouts.
 
-`onClick (() => void)`: A callback function that is invoked when the accordion item is clicked. This function typically toggles the isOpen state.
+**Variants:** `default` `glass` `glass-strong` `glass-subtle` `bordered`  
+**Padding:** `none` `sm` `md` `lg` `xl`  
+**Rounded:** `sm` `md` `lg` `xl` `2xl`
 
-`title (string)`: The title of the accordion item. This title is displayed when the item is closed and serves as the clickable element to open or close the item.
+```tsx
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "saha-ui";
 
-`content (string)`: The content of the accordion item. This content is shown when the item is open and hidden when the item is closed.
-
-#### Use
-
-```javascript
-const items = [
-  {
-    title: "Title 1",
-    content:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi ipsa dolor tempore eum, at excepturi! Nam itaque nostrum blanditiis, tempore obcaecati officiis molestias incidunt possimus omnis esse deserunt, officia consequatur?",
-  },
-  {
-    title: "Title 2",
-    content:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci illo deleniti recusandae doloribus enim, laboriosam quae eos iure iste asperiores cum neque vel. Laudantium laboriosam aliquam rem nam! Eligendi, ea.",
-  },
-  {
-    title: "Title 3",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur libero illo corporis aliquid iusto, voluptas earum perspiciatis corrupti hic nobis. Nam neque numquam, eligendi commodi placeat itaque sed ullam culpa!",
-  },
-];
-<Accordion variant={"firstopen"} items={items} />
-      />
+<Card variant="glass-strong" padding="lg" rounded="2xl" hoverable>
+  <CardHeader>
+    <CardTitle>Beautiful Card</CardTitle>
+    <CardDescription>Ultra-modern design</CardDescription>
+  </CardHeader>
+  <CardContent>Your content here</CardContent>
+  <CardFooter>
+    <Button>Action</Button>
+  </CardFooter>
+</Card>;
 ```
 
-### Component Name:Avatar
+**Features:**
 
-#### Description:
+- 🔮 Glass morphism effects
+- ✨ Hover scale and shadow effects
+- 🎨 Gradient overlays
+- 📦 Composable sub-components
 
-The Avatar type defines the properties required for an avatar component. This interface is used to manage the visual representation of an avatar, which can be a user's profile picture or any other image in various shapes and sizes. It ensures the avatar is rendered with appropriate attributes such as source URL, alternative text, size, and shape.
+---
 
-#### Props:
+### Avatar
 
-`src (string, default: "")`: The URL of the image to be used as the avatar. It specifies the source of the image.
+Profile images with status indicators and smart fallbacks.
 
-`alt (string, default: "Avatar")`: The alternative text for the avatar image. This text is displayed if the image cannot be loaded and is important for accessibility.
+**Sizes:** `xs` `sm` `md` `lg` `xl` `2xl`  
+**Shapes:** `circle` `square` `rounded`  
+**Status:** `online` `offline` `away` `busy` `none`
 
-`size (number, default: 25)`: The size of the avatar in pixels. It defines the width and height dimensions of the avatar.
+```tsx
+import { Avatar } from "saha-ui";
 
-`shape ("circle" | "square" | "rounded", default: "circle")`: The shape of the avatar. It can be one of three values:
-
-- `circle`: The avatar is displayed as a circle.
-- `square`: The avatar is displayed as a square.
-- `rounded`: The avatar is displayed with rounded corners.
-
-#### Use
-
-```javascript
 <Avatar
-  src="https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg"
-  alt="Avatar"
-  size={100}
-  shape={"rounded"}
-/>
+  src="/user.jpg"
+  alt="John Doe"
+  size="lg"
+  shape="circle"
+  status="online"
+  bordered
+  ring
+  initials="JD"
+/>;
 ```
 
-### Component Name:AvatarGroup
+**Features:**
 
-#### Description
+- 🎨 Auto-generated initials fallback
+- 🌈 Smart color generation from name
+- 💫 Status indicators with pulse animation
+- ⚡ Loading skeleton
+- 🔄 Image error handling
 
-The AvatarGroup interface defines the properties for an avatar group component. This component is used to display a group of avatar images, allowing customization of their arrangement and appearance.
+---
 
-#### Props
+### AvatarGroup
 
-`avatars (AvatarProps[])`: An array of AvatarProps objects representing the avatars to be displayed in the group.
+Display multiple avatars with overlap and count indicator.
 
-`max (number, optional)`: Maximum number of avatars to display. If specified, only the first max avatars from the avatars array will be shown.
+**Variants:** `stack` `row` `grid` `grid-dense`  
+**Sizes:** `xs` `sm` `md` `lg` `xl` `2xl`
 
-`size (number, optional)`: Size of each avatar in pixels. This defines the width and height dimensions of each avatar.
+```tsx
+import { AvatarGroup } from "saha-ui";
 
-`overlap (number, optional)`: Amount of overlap between consecutive avatars in pixels. This can be used to create a stacked or overlapping effect.
-
-`reverse (boolean, optional)`: If true, reverses the order of avatars in the group.
-
-`gap (boolean,optional)`: If true, adds a gap between avatars. This is useful for creating a separation between avatars in the group.
-
-#### Use
-
-```javascript
-const avatars = [
-  { src: "avatar1.png", alt: "Avatar 1" },
-  { src: "avatar2.png", alt: "Avatar 2" },
-  { src: "avatar3.png", alt: "Avatar 3" },
-  // Add more avatars as needed
-];
-<AvatarGroup avatars={avatars} max={3} size={50} overlap={0.2} gap={false} />;
+<AvatarGroup
+  avatars={[
+    { src: "/user1.jpg", alt: "User 1" },
+    { src: "/user2.jpg", alt: "User 2" },
+    { src: "/user3.jpg", alt: "User 3" },
+    { src: "/user4.jpg", alt: "User 4" },
+  ]}
+  max={3}
+  size="md"
+  variant="stack"
+  gap={false}
+  withRing={false}
+  showCount
+/>;
 ```
 
-> $\textcolor{red}{\textsf{*Note:}}$ If you are using gap then overlap is ignored and use as gap instead of overlapping.
+**Features:**
 
-### Component Name:List
+- 📊 Smart "+X more" indicator
+- 🎭 4 layout variants
+- ✨ Hover scale effects
+- 🔄 Reverse order option
+- 📏 Custom spacing control
 
-#### Description
+---
 
-List is a component that displays a different type of list.
+### Tooltip
 
-#### Props
+Contextual hints with smart positioning and delays.
 
-##### List
+**Variants:** `default` `dark` `light` `glass` `primary`  
+**Positions:** `top` `bottom` `left` `right`  
+**Sizes:** `sm` `md` `lg`
 
-`children(React.ReactNode)`: React component.
+```tsx
+import { Tooltip } from "saha-ui";
 
-`listType('disc' | 'circle' | 'square' | 'decimal' | 'decimal-leading-zero' | 'lower-roman' | 'upper-roman' | 'lower-alpha' | 'upper-alpha' | 'none')`:type of list.
+<Tooltip
+  content="This is helpful information"
+  position="top"
+  variant="glass"
+  size="md"
+  delay={200}
+  arrow
+>
+  <Button>Hover me</Button>
+</Tooltip>;
+```
 
-`className(string,optional)`:add ClassName to modify the list style
+**Features:**
 
-##### ListItem
+- ⏱️ Configurable delay (default 200ms)
+- ➡️ Optional arrow pointer
+- 🎨 5 beautiful variants
+- 🔮 Glass morphism support
 
-`item:(string)`: A List Item To show
-`className(string,optional)`:add ClassName to modify the list style
+---
 
-#### Uses
+### Link
 
-```javascript
-const jsonArray = ["apple", "banana", "cherry"];
-<List>
-  jsonArray.map((arr,index)=>(
-    <ListItem key={index} item={arr} />
-  ))
+Smart links with automatic external link detection.
+
+**Variants:** `default` `primary` `muted` `underline` `ghost` `button`  
+**Sizes:** `sm` `md` `lg`
+
+```tsx
+import { Link } from 'saha-ui';
+
+<Link
+  href="https://example.com"
+  variant="primary"
+  size="md"
+  external
+>
+  External Link
+</Link>
+
+<Link variant="button" href="/action">
+  Link as Button
+</Link>
+```
+
+**Features:**
+
+- 🔗 Auto-detection of external links
+- 🔒 Auto rel="noopener noreferrer" for security
+- 🎨 Animated underline effects
+- 🔘 Button-like variant option
+
+---
+
+### List
+
+Versatile lists with icons and multiple visual styles.
+
+**Types:** `disc` `circle` `square` `decimal` `decimal-leading-zero` `lower-roman` `upper-roman` `lower-alpha` `upper-alpha` `none`  
+**Variants:** `default` `bordered` `divided` `striped` `cards`  
+**Sizes:** `sm` `md` `lg`
+
+```tsx
+import { List, ListItem } from 'saha-ui';
+import { CheckCircle } from 'lucide-react';
+
+<List variant="bordered" size="md" listType="disc">
+  <ListItem icon={<CheckCircle />}>
+    Item with custom icon
+  </ListItem>
+  <ListItem>Regular item</ListItem>
+  <ListItem>Another item</ListItem>
 </List>
 
+// Ordered list
+<List variant="cards" ordered listType="decimal">
+  <ListItem>Step 1</ListItem>
+  <ListItem>Step 2</ListItem>
+</List>
 ```
 
+**Features:**
 
-### Component Name:Carousel
+- 🔢 Ordered and unordered support
+- 🎨 5 visual variants
+- ✨ Icon support per item
+- 💫 Hover effects
 
-#### Description
+---
 
-The Carousel interface defines the properties for an carousel component. This component is used to display a group of images as a slides, allowing customization of their arrangement and appearance.
+### Image
 
-#### Props
+Advanced image component with loading states and effects.
 
-##### for Carousel
+**Variants:** `default` `rounded` `circular` `bordered` `glass`  
+**Fit:** `cover` `contain` `fill` `none` `scale-down`  
+**Sizes:** `xs` `sm` `md` `lg` `xl` `2xl` `full`
 
-`autoplay(boolean)`: automatically set the slide animation.
+```tsx
+import { Image } from "saha-ui";
 
-`autoplayInterval(number,optional)`: set the interval to change slide.
+<Image
+  src="/photo.jpg"
+  alt="Beautiful photo"
+  variant="rounded"
+  size="lg"
+  fit="cover"
+  zoomOnHover
+  aspectRatio="16/9"
+  lazy
+  showSkeleton
+  fallbackSrc="/fallback.jpg"
+/>;
+```
 
-`showNavigation(boolean,optional)`: navigation shows or not.
+**Features:**
 
-`showIndicators(boolean,optional)`: Indicator shows or not.
+- ⚡ Lazy loading by default
+- 💀 Animated loading skeleton
+- 🔄 Smart error handling with fallback
+- 🔍 Zoom on hover effect
+- 📐 Aspect ratio control
 
-`className(string,optional)`: for add css class to modification.
+---
 
-`containerStyle(React.CSSProperties,optional)`: directly add css style to container.
+### Carousel
 
-`navigationStyle(React.CSSProperties,optional)`: directly add css style to navigation.
+Feature-rich image slider with multiple transition effects.
 
-`indicatorsStyle(React.CSSProperties,optional)`: directly add css style to indicators.
-`children(React.ReactNode)`: A react component.
+**Variants:** `default` `contained` `bordered` `glass`  
+**Effects:** `slide` `fade` `cube` `flip`  
+**Direction:** `forward` `backward`
 
-##### CarouseItem
+```tsx
+import { Carousel } from "saha-ui";
 
-`image(string)`: set the image.
-
-`alt(string)`: set the alt.
-
-`caption(string,optional)`:set the image caption that shows bottom center of image.
-
-`title(string,optional)`:Set Title to show.
-
-`description(string,optional)`: Set description.
-
-`link(string,optional)`: Set Link to show.
-
-`linkText?(string,optional)`: Set Link to link text.
-
-`onClick?(() => void,optional)`:Set button as a click.
-
-`linkTarget?("_blank" | "_self" | "_parent" | "_top",optional)`:Set Link behaviour.
-
-`className?(string,optional)`:Add class name to modify.
-
-`captionStyle?(React.CSSProperties,optional)`:directly add css style.
-
-`titleStyle?(React.CSSProperties,optional)`:directly add css style.
-
-`linkStyle?(React.CSSProperties,optional)`:directly add css style.
-
-`descriptionStyle?(React.CSSProperties,optional)`:directly add css style.
-
-`LinkIcon?(React.ElementType | null,optional)`: react element.
-
-#### Use
-
-```javascript
-const images: CarouseItemProps[] = [
-  {
-    image:
-      "https://cdn.pixabay.com/photo/2016/10/21/14/50/plouzane-1758197_1280.jpg",
-    alt: "Sample Image 1",
-    caption: "This is the first image",
-    title: "Image 1 Title",
-    description: "Description for the first image",
-    link: "https://example.com/link1",
-    linkText: "Go",
-    linkTarget: "_blank",
-    className: "image-class",
-    captionStyle: {},
-    titleStyle: {},
-    linkStyle: {},
-    onClick: () => {
-      alert("Click");
+<Carousel
+  items={[
+    {
+      image: "/slide1.jpg",
+      alt: "Slide 1",
+      title: "Welcome",
+      description: "Beautiful design",
+      link: "#",
+      linkText: "Learn More",
     },
-  },
-  {
-    image:
-      "https://cdn.pixabay.com/photo/2021/07/06/19/26/drops-6392473_960_720.jpg",
-    alt: "Sample Image 2",
-    caption: "This is the second image",
-    title: "Image 2 Title",
-    description: "Description for the second image",
-    link: "https://example.com/link2",
-    linkTarget: "_self",
-    className: "image-class-secondary",
-    captionStyle: {},
-    titleStyle: {},
-    linkStyle: {},
-  },
-  {
-    image:
-      "https://cdn.pixabay.com/photo/2024/01/02/14/58/leaf-8483401_960_720.jpg",
-    alt: "Sample Image 3",
-    caption: "This is the third image",
-    title: "Image 3 Title",
-    description: "Description for the third image",
-    link: "https://example.com/link3",
-    linkTarget: "_top",
-    className: "image-class-tertiary",
-    captionStyle: {},
-    titleStyle: {},
-    linkStyle: {},
-  },
-];
-
-<Carousel>
-  {images.map((image, index) => (
-    <CarouseItem key={index} {...image} />
-  ))}
-</Carousel>;
+    {
+      image: "/slide2.jpg",
+      alt: "Slide 2",
+      title: "Features",
+      description: "Amazing capabilities",
+    },
+  ]}
+  autoplay
+  autoplayInterval={5000}
+  effect="fade"
+  variant="glass"
+  showNavigation
+  showIndicators
+  loop
+  pauseOnHover
+  swipeable
+/>;
 ```
 
-> $\textcolor{red}{\textsf{*Note:}}$ If you are using onClick then link and linkTarget is ignored and use onClick Function.
+**Features:**
 
-## Component Name:Tooltip
+- 🎬 4 transition effects
+- 👆 Touch/swipe gestures
+- ⏸️ Pause on hover
+- 🔄 Infinite loop
+- 🎯 Dot indicators
+- 🎨 Modern navigation buttons
 
-### Description
-Tooltip make easier to use ui component
+---
 
-### Props
+## 🎨 Theming
 
- `content(string)`:Specifies the text or content displayed in the tooltip.
+### Theme Provider
 
-  `children(React.ReactNode)`:The element that triggers the tooltip on hover.
+```tsx
+import { ThemeProvider, useTheme } from "saha-ui";
 
-  `position("top" | "bottom" | "left" | "right")`:Determines where the tooltip appears relative to the child element (`top`, `bottom`, `left`, `right`).
-  
-  ### Usage
+function App() {
+  return (
+    <ThemeProvider defaultTheme="light">
+      <YourApp />
+    </ThemeProvider>
+  );
+}
 
-  #### Tooltip on Text:
+// Use theme in components
+function MyComponent() {
+  const { theme, setTheme } = useTheme();
 
-  ```javascript
-  <Tooltip content="This is a tooltip">
-  <span className="text-blue-500 underline cursor-pointer">Hover over me</span>
-</Tooltip>
-  ```
-  #### Tooltip on Button:
+  return (
+    <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+      Toggle theme
+    </button>
+  );
+}
+```
 
-  ```javascript
-  <Tooltip content="Click to submit the form" position="right">
-  <button className="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
-</Tooltip>
-  ```
-  #### Tooltip on an Icon:
+### Theme Toggle
 
-  ```javascript
-  <Tooltip content="Settings" position="bottom">
-  <svg className="w-6 h-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 8c1.656854 0 3-1.343146 3-3s-1.343146-3-3-3-3 1.343146-3 3 1.343146 3 3 3zm0 6c-1.656854 0-3 1.343146-3 3s1.343146 3 3 3 3-1.343146 3-3-1.343146-3-3-3z"
-    />
-  </svg>
-</Tooltip>
-  ```
+```tsx
+import { ThemeToggle } from "saha-ui";
+
+<ThemeToggle />;
+```
+
+---
+
+## 🎯 Type Safety
+
+All components are fully typed with comprehensive prop types and JSDoc documentation.
+
+```typescript
+import type {
+  ButtonVariant,
+  ButtonSize,
+  AlertStatus,
+  CardVariant,
+  AvatarSize,
+  AvatarStatus,
+  TooltipPosition,
+  // ... and many more
+} from "saha-ui";
+
+// Type-safe component usage
+const variant: ButtonVariant = "primary"; // ✅ Valid
+const invalid: ButtonVariant = "invalid"; // ❌ TypeScript error
+
+// Full IntelliSense support
+<Button
+  variant="p..." // Autocomplete shows: primary, secondary, accent, etc.
+/>;
+```
+
+**Benefits:**
+
+- ✅ Compile-time error checking
+- 📝 IntelliSense autocomplete
+- 📚 JSDoc hover documentation
+- 🔍 Jump to definition support
+
+---
+
+## 🎨 Customization
+
+### Using with Tailwind CSS
+
+All components support the `className` prop for easy customization:
+
+```tsx
+<Button
+  variant="primary"
+  className="w-full rounded-full shadow-2xl"
+>
+  Custom Button
+</Button>
+
+<Card className="max-w-md mx-auto">
+  Custom Card
+</Card>
+```
+
+### Using the cn() Utility
+
+```tsx
+import { cn } from "saha-ui";
+
+<div
+  className={cn(
+    "base-classes",
+    condition && "conditional-classes",
+    "more-classes"
+  )}
+/>;
+```
+
+---
+
+## 📖 Documentation
+
+- [Component Modernization Summary](./ULTRA_MODERN_SUMMARY.md)
+- [Type Safety Guide](./TYPE_SAFETY_GUIDE.md)
+- [Migration Guide](./CHANGELOG.md#migration-guide)
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](./CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+### Commit Convention
+
+We use [Conventional Commits](https://www.conventionalcommits.org/) for automated changelog generation:
+
+```bash
+feat(button): add shimmer effect
+fix(tooltip): correct positioning issue
+docs(readme): update installation steps
+```
+
+---
+
+## 📄 License
+
+MIT © [Saha UI](https://github.com/Xenial-Devil/Saha-ui)
+
+---
+
+## 🌟 Acknowledgments
+
+Built with ❤️ using:
+
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [class-variance-authority](https://cva.style/)
+- [Lucide Icons](https://lucide.dev/)
+
+---
+
+<div align="center">
+  <p>If you find this library useful, please consider giving it a ⭐️</p>
+  <p>
+    <a href="https://github.com/Xenial-Devil/Saha-ui">GitHub</a> •
+    <a href="https://www.npmjs.com/package/saha-ui">npm</a> •
+    <a href="https://github.com/Xenial-Devil/Saha-ui/issues">Issues</a>
+  </p>
+</div>
