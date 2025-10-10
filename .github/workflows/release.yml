@@ -30,6 +30,22 @@ jobs:
       - name: Install dependencies
         run: npm install --no-save semantic-release @semantic-release/git @semantic-release/npm @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/exec
 
+      - name: Analyze project structure
+        id: project_analysis
+        run: |
+          # Analyze components
+          COMPONENTS=$(find src/components -type f -name "*.tsx" | sort)
+          # Analyze routes
+          ROUTES=$(grep -R --include="*.tsx" "<Route" src/ | sed -n 's/.*path="\(.*\)".*/\1/p' | sort)
+          # Get dependencies
+          DEPENDENCIES=$(jq '.dependencies' package.json)
+          # Save analysis
+          echo "COMPONENTS<<EOF" >> $GITHUB_ENV
+          echo "$COMPONENTS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "ROUTES<<EOF" >> $GITHUB_ENV
+          echo "$ROUTES" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
       - name: Run semantic-release
         id: release_version
         run: |
@@ -37,3 +53,84 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Get the latest tag
+        id: latest_tag
+        run: |
+          if git describe --tags --abbrev=0 > /dev/null 2>&1; then
+            LATEST_TAG=$(git describe --tags --abbrev=0)
+          else
+            LATEST_TAG="v0.0.0"
+          fi
+          echo "Latest tag: $LATEST_TAG"
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+          echo "::set-output name=LATEST_TAG::$LATEST_TAG"
+        
+      - name: Update GitHub Release with Detailed Information
+        run: |
+          # Get env values first
+          LATEST_TAG="${{ steps.latest_tag.outputs.LATEST_TAG }}"
+          REPO="${{ github.repository }}"
+          REPO_OWNER="${{ github.repository_owner }}"
+          BUILD_ID="${{ github.run_id }}"
+          COMMIT_SHA="${{ github.sha }}"
+
+          RELEASE_NOTES=$(gh release view "$LATEST_TAG" --repo "$REPO" --json body -q '.body')
+          COMMITS=$(git log --pretty=format:"- %s (%h)" "$(git describe --tags --abbrev=0 HEAD^)"..HEAD)
+          NODE_VERSION=$(node -v)
+          RELEASE_DATE=$(date +'%Y-%m-%d %H:%M:%S UTC')
+          FILES_CHANGED=$(git diff --name-only "$(git describe --tags --abbrev=0 HEAD^)"..HEAD)
+
+          cat > release_notes.md <<EOF
+          $RELEASE_NOTES
+
+          ## 📦 Docker Image
+          - Registry: \`ghcr.io/$REPO_OWNER/city_pos_fe\`
+          - Tag: \`$LATEST_TAG\`
+          - Pull Command: \`docker pull ghcr.io/$REPO_OWNER/city_pos_fe:$LATEST_TAG\`
+
+          ## 🔄 Changes
+
+          ### Commits
+          $COMMITS
+          ### Changed Files
+          \`\`\`
+          ${FILES_CHANGED}
+          \`\`\`
+
+          ## 🛠️ Installation
+          \`\`\`bash
+          # Clone the repository
+          git clone https://github.com/$REPO
+
+          # Install dependencies
+          npm install
+
+          # Start the application
+          npm run dev
+          \`\`\`
+
+          ## 🔧 Technical Details
+          - Release Date: $RELEASE_DATE
+          - Node.js Version: $NODE_VERSION
+          - Build ID: $BUILD_ID
+          - Commit: $COMMIT_SHA
+
+          ### Key Features
+          - Point of Sale System
+          - Invoice Management
+          - User Authentication
+          - Dark Mode Support
+          - Real-time Updates
+
+          ## 📋 Additional Information
+          - [View Workflow Run](https://github.com/$REPO/actions/runs/$BUILD_ID)
+          - [View Changes on GitHub](https://github.com/$REPO/compare/$(git describe --tags --abbrev=0 HEAD^)...$LATEST_TAG)
+          - [Documentation](https://github.com/$REPO/blob/$LATEST_TAG/README.md)
+          EOF
+
+          gh release edit "$LATEST_TAG" \
+            --repo "$REPO" \
+            --notes-file release_notes.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
