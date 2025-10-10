@@ -1,0 +1,11 @@
+.Accordion {
+  overflow-anchor: none;
+  .content{
+    overflow: hidden;
+    max-height: 0;
+&.open {
+    max-height: 1000px;
+    transition: max-height 2s linear 0ms;
+  }
+  }
+}
