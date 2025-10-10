@@ -1,12 +1,55 @@
 import React, { memo } from "react";
+import { cva } from "class-variance-authority";
+import { cn } from "../../lib/utils";
+import { ChevronDown } from "lucide-react";
 import "./index.scss";
+import { AccordionItemProps } from "./Accordion.types";
 
-interface AccordionItemProps {
-  isOpen: boolean;
-  onClick: () => void;
-  title: string;
-  content: string;
-}
+// CVA variants for accordion item
+const accordionItemVariants = cva(
+  "group relative w-full overflow-hidden transition-all duration-300 ease-out",
+  {
+    variants: {
+      isOpen: {
+        true: "bg-card/50",
+        false: "bg-card/30 hover:bg-card/40",
+      },
+    },
+    defaultVariants: {
+      isOpen: false,
+    },
+  }
+);
+
+const accordionHeaderVariants = cva(
+  "w-full flex justify-between items-center cursor-pointer transition-all duration-300 px-6 py-4 gap-4",
+  {
+    variants: {
+      isOpen: {
+        true: "bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 border-b border-border/50",
+        false: "hover:bg-muted/30 active:scale-[0.99]",
+      },
+    },
+    defaultVariants: {
+      isOpen: false,
+    },
+  }
+);
+
+const accordionContentVariants = cva(
+  "w-full px-6 overflow-hidden transition-all duration-500 ease-in-out bg-card/20",
+  {
+    variants: {
+      isOpen: {
+        true: "max-h-[500px] opacity-100 py-4",
+        false: "max-h-0 opacity-0 py-0",
+      },
+    },
+    defaultVariants: {
+      isOpen: false,
+    },
+  }
+);
 
 const AccordionItem: React.FC<AccordionItemProps> = ({
   isOpen,
@@ -15,33 +58,50 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   content,
 }) => {
   return (
-    <div className="w-full box-border Accordion relative bg-gray-200 text-gray-600 dark:text-gray-100 dark:bg-[#151515] border-b border-b-gray-500 last:border-0">
+    <div
+      className={cn(
+        accordionItemVariants({ isOpen }),
+        "border-b border-border/30 last:border-b-0 backdrop-blur-sm",
+        "shadow-sm hover:shadow-md transition-shadow"
+      )}
+    >
       <div
-        className="w-full flex justify-between items-center cursor-pointer bg-gray-300 dark:bg-[#404040] px-8 py-3"
+        className={cn(accordionHeaderVariants({ isOpen }))}
         onClick={onClick}
+        role="button"
+        tabIndex={0}
+        aria-expanded={isOpen}
       >
-        <h2>{title}</h2>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 16 16"
-          className={`fill-current transform duration-500 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        >
-          <path
-            fill="currentColor"
-            d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+        <h3 className="text-base font-semibold text-foreground tracking-wide flex-1">
+          {title}
+        </h3>
+        <div className="relative">
+          {/* Glow effect on icon */}
+          <div
+            className={cn(
+              "absolute -inset-2 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 rounded-full blur-md opacity-0 transition-opacity duration-300",
+              isOpen && "opacity-100"
+            )}
           />
-        </svg>
+          <ChevronDown
+            className={cn(
+              "relative h-5 w-5 transition-all duration-500 ease-out",
+              isOpen
+                ? "rotate-180 text-primary"
+                : "rotate-0 text-muted-foreground group-hover:text-foreground"
+            )}
+          />
+        </div>
       </div>
-      <div
-        className={`w-full px-8 content bg-gray-200 dark:bg-[#313131] ${
-          isOpen && "open"
-        }`}
-      >
-        <p className="w-full py-4"> {content}</p>
+      <div className={cn(accordionContentVariants({ isOpen }))}>
+        <div
+          className={cn(
+            "text-muted-foreground leading-relaxed transition-all duration-300",
+            isOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+          )}
+        >
+          {content}
+        </div>
       </div>
     </div>
   );

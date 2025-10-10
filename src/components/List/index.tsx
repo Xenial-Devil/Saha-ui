@@ -1,22 +1,59 @@
-// List.tsx
 import React from "react";
-import "./index.scss"
+import { cva } from "class-variance-authority";
+import { cn } from "../../lib/utils";
+import { ListProps } from "./List.types";
 
-interface ListProps {
-  children: React.ReactNode;
-  listType: 'disc' | 'circle' | 'square' | 'decimal' | 'decimal-leading-zero' | 'lower-roman' | 'upper-roman' | 'lower-alpha' | 'upper-alpha' | 'none';
-  className?: string;
-}
+// CVA variants for List
+const listVariants = cva("w-full transition-all duration-200", {
+  variants: {
+    variant: {
+      default: "space-y-2",
+      bordered: "border border-border rounded-xl overflow-hidden",
+      divided: "divide-y divide-border",
+      striped: "space-y-0",
+      cards: "space-y-3",
+    },
+    size: {
+      sm: "text-sm",
+      md: "text-base",
+      lg: "text-lg",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "md",
+  },
+});
 
-const List: React.FC<ListProps> = ({ children, listType, className }) => {
-  const listClass = `${className ? className : ""} ${listType}-list`;
-  return (
-    <>
-      <ul className={`${listClass} w-full p-6`}>
+const List = React.forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
+  (
+    {
+      children,
+      listType = "disc",
+      variant = "default",
+      size = "md",
+      ordered = false,
+      className,
+      ...props
+    },
+    ref
+  ) => {
+    const listStyle = listType !== "none" ? listType : undefined;
+    const Component = ordered ? "ol" : "ul";
+
+    return (
+      <Component
+        ref={ref as any}
+        className={cn(listVariants({ variant, size }), className)}
+        style={{ listStyleType: listStyle }}
+        {...props}
+      >
         {children}
-      </ul>
-    </>
-  );
-};
+      </Component>
+    );
+  }
+);
+
+List.displayName = "List";
 
 export default List;

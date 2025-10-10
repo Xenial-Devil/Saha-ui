@@ -1,34 +1,226 @@
-interface ImgAttributes {
-  alt?: string; // Alternative text
-  src?: string; // Image source URL
-  srcset?: string; // Image source set for responsive images
-  sizes?: string; // Image sizes for responsive images
-  crossOrigin?: "anonymous" | "use-credentials" | ""; // Cross-origin policy
-  useMap?: string; // Associated image map
-  isMap?: boolean; // Indicates if the image is part of a server-side image map
-  width?: number | string; // Width of the image
-  height?: number | string; // Height of the image
-  decoding?: "sync" | "async" | "auto"; // Decoding hint for the browser
-  loading?: "eager" | "lazy"; // Lazy loading behavior
-  referrerPolicy?:
-    | "no-referrer"
-    | "no-referrer-when-downgrade"
-    | "origin"
-    | "origin-when-cross-origin"
-    | "unsafe-url"
-    | ""
-    | "strict-origin"
-    | "strict-origin-when-cross-origin"; // Referrer policy
-  fetchPriority?: "high" | "low" | "auto"; // Priority for fetching the image
-  style?: React.CSSProperties; // Inline styles (if used in React)
-  className?: string; // CSS class names (if used in React or similar)
-  id?: string; // ID of the element
-  title?: string; // Tooltip text
-  draggable?: boolean; // Whether the element is draggable
-}
+import React, { useState } from "react";
+import { cva } from "class-variance-authority";
+import { cn } from "../../lib/utils";
+import { ImageProps } from "./Image.types";
 
-const Image: React.FC<ImgAttributes> = (props) => {
-  return <img {...props} />;
-};
+/**
+ * CVA variants for Image container
+ */
+const imageContainerVariants = cva(
+  "relative overflow-hidden transition-all duration-300",
+  {
+    variants: {
+      variant: {
+        default: "rounded-none",
+        rounded: "rounded-lg",
+        circular: "rounded-full",
+        bordered: "rounded-lg border-2 border-border",
+        glass:
+          "rounded-lg border border-border/30 bg-background/5 backdrop-blur-sm shadow-lg",
+      },
+      size: {
+        xs: "w-16 h-16",
+        sm: "w-24 h-24",
+        md: "w-32 h-32",
+        lg: "w-48 h-48",
+        xl: "w-64 h-64",
+        "2xl": "w-96 h-96",
+        full: "w-full h-full",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
+
+/**
+ * CVA variants for the actual image element
+ */
+const imageVariants = cva("w-full h-full transition-all duration-500", {
+  variants: {
+    fit: {
+      cover: "object-cover",
+      contain: "object-contain",
+      fill: "object-fill",
+      none: "object-none",
+      "scale-down": "object-scale-down",
+    },
+    zoom: {
+      true: "hover:scale-110 cursor-zoom-in",
+      false: "",
+    },
+  },
+  defaultVariants: {
+    fit: "cover",
+    zoom: false,
+  },
+});
+
+/**
+ * CVA variants for loading skeleton
+ */
+const skeletonVariants = cva(
+  "absolute inset-0 animate-pulse bg-gradient-to-r from-muted via-muted-foreground/10 to-muted",
+  {
+    variants: {
+      variant: {
+        default: "rounded-none",
+        rounded: "rounded-lg",
+        circular: "rounded-full",
+        bordered: "rounded-lg",
+        glass: "rounded-lg",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
+
+/**
+ * Ultra-modern Image component
+ *
+ * Advanced image component with lazy loading, skeleton states, error fallbacks,
+ * zoom effects, and multiple visual variants. Handles loading and error states
+ * gracefully with beautiful transitions.
+ *
+ * @example
+ * ```tsx
+ * <Image
+ *   src="/photo.jpg"
+ *   alt="Beautiful photo"
+ *   variant="rounded"
+ *   size="lg"
+ *   zoomOnHover
+ *   aspectRatio="16/9"
+ * />
+ * ```
+ */
+const Image = React.forwardRef<HTMLImageElement, ImageProps>(
+  (
+    {
+      src,
+      alt,
+      variant = "default",
+      fit = "cover",
+      size,
+      aspectRatio,
+      zoomOnHover = false,
+      showSkeleton = true,
+      fallbackSrc,
+      fallbackContent,
+      lazy = true,
+      priority = "auto",
+      onLoadSuccess,
+      onLoadError,
+      containerClassName,
+      className,
+      width,
+      height,
+      ...props
+    },
+    ref
+  ) => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [hasError, setHasError] = useState(false);
+    const [currentSrc, setCurrentSrc] = useState(src);
+
+    // Handle image load
+    const handleLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+      setIsLoading(false);
+      setHasError(false);
+      onLoadSuccess?.(e);
+    };
+
+    // Handle image error
+    const handleError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+      setIsLoading(false);
+
+      // Try fallback src if available and not already tried
+      if (fallbackSrc && currentSrc !== fallbackSrc) {
+        setCurrentSrc(fallbackSrc);
+        return;
+      }
+
+      setHasError(true);
+      onLoadError?.(e);
+    };
+
+    // Render fallback content
+    const renderFallback = () => {
+      if (fallbackContent) {
+        return fallbackContent;
+      }
+
+      return (
+        <div className="flex flex-col items-center justify-center h-full bg-muted text-muted-foreground p-4">
+          <svg
+            className="w-12 h-12 mb-2 opacity-50"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
+          <span className="text-xs text-center">Image unavailable</span>
+        </div>
+      );
+    };
+
+    // Container styles
+    const containerStyle: React.CSSProperties = {
+      ...(aspectRatio && { aspectRatio }),
+      ...(width && !size && { width }),
+      ...(height && !size && { height }),
+    };
+
+    return (
+      <div
+        className={cn(
+          imageContainerVariants({ variant, size }),
+          containerClassName
+        )}
+        style={containerStyle}
+      >
+        {/* Loading skeleton */}
+        {isLoading && showSkeleton && (
+          <div className={skeletonVariants({ variant })} />
+        )}
+
+        {/* Error fallback */}
+        {hasError ? (
+          renderFallback()
+        ) : (
+          <img
+            ref={ref}
+            src={currentSrc}
+            alt={alt}
+            loading={lazy ? "lazy" : "eager"}
+            fetchPriority={priority}
+            onLoad={handleLoad}
+            onError={handleError}
+            className={cn(
+              imageVariants({ fit, zoom: zoomOnHover }),
+              isLoading && "opacity-0",
+              !isLoading && "opacity-100",
+              className
+            )}
+            width={width}
+            height={height}
+            {...props}
+          />
+        )}
+      </div>
+    );
+  }
+);
+
+Image.displayName = "Image";
 
 export default Image;
