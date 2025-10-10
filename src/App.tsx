@@ -1,6 +1,6 @@
 import "./App.css";
 import ThemeProvider from "./components/ThemeProvider";
-import { useTheme } from "./components/ThemeProvider";
+
 import ThemeToggle from "./components/ThemeToggle";
 import Button from "./components/Button";
 import Card, {
@@ -24,15 +24,10 @@ import {
   Zap,
   Heart,
   Star,
-  Info,
-  CheckCircle,
-  AlertTriangle,
-  XCircle,
   Mail,
   User,
   Bell,
 } from "lucide-react";
-import { DebugTheme } from "./DebugTheme";
 
 // Color palette component that uses theme colors from CSS variables
 const ColorPalette = () => {
