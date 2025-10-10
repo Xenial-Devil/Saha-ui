@@ -38,11 +38,29 @@ export type {
   AccordionVariant,
   AccordionProps,
   AccordionItemProps,
+  AccordionItem,
 } from "./components/Accordion/Accordion.types";
-export type { AlertProps } from "./components/Alert/Alert.types";
-export type { AvatarProps } from "./components/Avatar/Avatar.types";
-export type { AvatarProps as AvatarGroupAvatarProps } from "./components/AvatarGroup/AvatarGroup.types";
-export type { ButtonProps } from "./components/Button/Button.types";
+export type {
+  AlertProps,
+  AlertVariant,
+  AlertStatus,
+} from "./components/Alert/Alert.types";
+export type {
+  AvatarProps,
+  AvatarSize,
+  AvatarShape,
+  AvatarStatus,
+} from "./components/Avatar/Avatar.types";
+export type {
+  AvatarGroupProps,
+  AvatarGroupSize,
+  AvatarGroupVariant,
+} from "./components/AvatarGroup/AvatarGroup.types";
+export type {
+  ButtonProps,
+  ButtonVariant,
+  ButtonSize,
+} from "./components/Button/Button.types";
 export type {
   CardProps,
   CardHeaderProps,
@@ -50,13 +68,32 @@ export type {
   CardDescriptionProps,
   CardContentProps,
   CardFooterProps,
+  CardVariant,
+  CardPadding,
+  CardRounded,
 } from "./components/Card/Card.types";
 export type { CarouselProps } from "./components/Carousel/Carousel.types";
-export type { ImageProps } from "./components/Image/Image.types";
-export type { LinkProps } from "./components/Link/Link.types";
+export type {
+  ImageProps,
+  ImageVariant,
+  ImageFit,
+  ImageSize,
+} from "./components/Image/Image.types";
+export type {
+  LinkProps,
+  LinkVariant,
+  LinkSize,
+} from "./components/Link/Link.types";
 export type {
   ListType,
   ListProps,
   ListItemProps,
+  ListVariant,
+  ListSize,
 } from "./components/List/List.types";
-export type { TooltipProps } from "./components/Tooltip/Tooltip.types";
+export type {
+  TooltipProps,
+  TooltipPosition,
+  TooltipVariant,
+  TooltipSize,
+} from "./components/Tooltip/Tooltip.types";

@@ -154,11 +154,11 @@ function App() {
             </div>
 
             <div className="flex flex-wrap gap-4 mt-6">
-              <Button variant="primary" rounded>
+              <Button variant="primary">
                 <Heart size={18} />
                 Rounded
               </Button>
-              <Button variant="glass" fullWidth>
+              <Button variant="glass">
                 Full Width Glass Button
               </Button>
             </div>
@@ -513,7 +513,6 @@ function App() {
                   src="https://picsum.photos/400/300?random=2"
                   alt="Sample 2"
                   className="w-full rounded-lg"
-                  lazy
                 />
               </div>
               <div>

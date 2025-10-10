@@ -1,3 +1,6 @@
+import React from "react";
+
+// Explicit types for better type safety
 export type ListType =
   | "disc"
   | "circle"
@@ -10,13 +13,54 @@ export type ListType =
   | "upper-alpha"
   | "none";
 
-export interface ListProps {
+export type ListVariant =
+  | "default"
+  | "bordered"
+  | "divided"
+  | "striped"
+  | "cards";
+export type ListSize = "sm" | "md" | "lg";
+
+export interface ListProps
+  extends React.HTMLAttributes<HTMLUListElement | HTMLOListElement> {
+  /**
+   * List items
+   */
   children: React.ReactNode;
-  listType: ListType;
-  className?: string;
+
+  /**
+   * List marker type
+   * @default "disc"
+   */
+  listType?: ListType;
+
+  /**
+   * Visual style variant
+   * @default "default"
+   */
+  variant?: ListVariant;
+
+  /**
+   * Size of the list items
+   * @default "md"
+   */
+  size?: ListSize;
+
+  /**
+   * Whether to use ordered list (ol) instead of unordered (ul)
+   * @default false
+   */
+  ordered?: boolean;
 }
 
-export interface ListItemProps {
+export interface ListItemProps extends React.HTMLAttributes<HTMLLIElement> {
+  /**
+   * List item content
+   */
   children: React.ReactNode;
-  className?: string;
+
+  /**
+   * Optional icon before the content
+   */
+  icon?: React.ReactNode;
 }
