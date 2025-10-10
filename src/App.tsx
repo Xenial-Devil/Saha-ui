@@ -35,16 +35,6 @@ import {
 
 // Color palette component that uses theme colors from CSS variables
 const ColorPalette = () => {
-  // Read colors directly from CSS custom properties
-  const getColorValue = (varName: string) => {
-    if (typeof window !== "undefined") {
-      return getComputedStyle(document.documentElement)
-        .getPropertyValue(varName)
-        .trim();
-    }
-    return "";
-  };
-
   const colors = [
     { name: "Primary", var: "--primary", fg: "--primary-foreground" },
     { name: "Secondary", var: "--secondary", fg: "--secondary-foreground" },
@@ -67,17 +57,15 @@ const ColorPalette = () => {
         {colors.map(({ name, var: colorVar, fg }) => (
           <div key={name} className="glass p-4 rounded-lg">
             <div
-              className="w-full h-16 rounded-md mb-2 flex items-center justify-center text-sm font-medium"
+              className="w-full h-16 rounded-md mb-2 flex items-center justify-center text-sm font-medium shadow-sm"
               style={{
-                backgroundColor: `oklch(var(${colorVar}))`,
-                color: `oklch(var(${fg}))`,
+                backgroundColor: `var(${colorVar})`,
+                color: `var(${fg})`,
               }}
             >
               {name}
             </div>
-            <p className="text-xs font-mono opacity-70">
-              {getColorValue(colorVar)}
-            </p>
+            <p className="text-xs font-mono opacity-70">{colorVar}</p>
           </div>
         ))}
       </div>
