@@ -3062,6 +3062,382 @@ function App() {
             />
           </div>
 
+          {/* Tooltip Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6 text-text">
+              Tooltip Component
+            </h3>
+
+            {/* Variants */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Variants</h4>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-sm text-muted-foreground">Default</p>
+                  <Tooltip content="Default tooltip style" variant="default">
+                    <Button variant="outline">Hover Me</Button>
+                  </Tooltip>
+                </div>
+
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-sm text-muted-foreground">Dark</p>
+                  <Tooltip content="Dark theme tooltip" variant="dark">
+                    <Button variant="outline">Hover Me</Button>
+                  </Tooltip>
+                </div>
+
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-sm text-muted-foreground">Light</p>
+                  <Tooltip content="Light theme tooltip" variant="light">
+                    <Button variant="outline">Hover Me</Button>
+                  </Tooltip>
+                </div>
+
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-sm text-muted-foreground">Glass</p>
+                  <Tooltip content="Glass morphism effect" variant="glass">
+                    <Button variant="outline">Hover Me</Button>
+                  </Tooltip>
+                </div>
+
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-sm text-muted-foreground">Primary</p>
+                  <Tooltip content="Primary color tooltip" variant="primary">
+                    <Button variant="outline">Hover Me</Button>
+                  </Tooltip>
+                </div>
+
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-sm text-muted-foreground">Success</p>
+                  <Tooltip content="Success message! ✓" variant="success">
+                    <Button variant="outline">Hover Me</Button>
+                  </Tooltip>
+                </div>
+
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-sm text-muted-foreground">Warning</p>
+                  <Tooltip content="Warning: Check this!" variant="warning">
+                    <Button variant="outline">Hover Me</Button>
+                  </Tooltip>
+                </div>
+
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-sm text-muted-foreground">Error</p>
+                  <Tooltip content="Error occurred!" variant="error">
+                    <Button variant="outline">Hover Me</Button>
+                  </Tooltip>
+                </div>
+
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-sm text-muted-foreground">Info</p>
+                  <Tooltip content="Information tooltip" variant="info">
+                    <Button variant="outline">Hover Me</Button>
+                  </Tooltip>
+                </div>
+              </div>
+            </div>
+
+            {/* Positions */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Positions
+              </h4>
+              <div className="flex justify-center items-center gap-8 min-h-[200px]">
+                <Tooltip
+                  content="Left position"
+                  position="left"
+                  variant="primary"
+                >
+                  <Button variant="ghost">Left</Button>
+                </Tooltip>
+
+                <div className="flex flex-col gap-8">
+                  <Tooltip
+                    content="Top position"
+                    position="top"
+                    variant="primary"
+                  >
+                    <Button variant="ghost">Top</Button>
+                  </Tooltip>
+                  <Tooltip
+                    content="Bottom position"
+                    position="bottom"
+                    variant="primary"
+                  >
+                    <Button variant="ghost">Bottom</Button>
+                  </Tooltip>
+                </div>
+
+                <Tooltip
+                  content="Right position"
+                  position="right"
+                  variant="primary"
+                >
+                  <Button variant="ghost">Right</Button>
+                </Tooltip>
+              </div>
+            </div>
+
+            {/* Sizes */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Sizes</h4>
+              <div className="flex justify-center gap-6">
+                <Tooltip content="Small tooltip" size="sm" variant="glass">
+                  <Button size="sm">Small</Button>
+                </Tooltip>
+
+                <Tooltip
+                  content="Medium tooltip (default)"
+                  size="md"
+                  variant="glass"
+                >
+                  <Button size="md">Medium</Button>
+                </Tooltip>
+
+                <Tooltip
+                  content="Large tooltip with more content"
+                  size="lg"
+                  variant="glass"
+                >
+                  <Button size="lg">Large</Button>
+                </Tooltip>
+              </div>
+            </div>
+
+            {/* Trigger Types */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Trigger Types
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Hover (Default)</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex justify-center">
+                    <Tooltip
+                      content="Appears on hover"
+                      trigger="hover"
+                      variant="default"
+                    >
+                      <Button>Hover Me</Button>
+                    </Tooltip>
+                  </CardContent>
+                </Card>
+
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Click</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex justify-center">
+                    <Tooltip
+                      content="Click to toggle"
+                      trigger="click"
+                      variant="primary"
+                    >
+                      <Button>Click Me</Button>
+                    </Tooltip>
+                  </CardContent>
+                </Card>
+
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Focus</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex justify-center">
+                    <Tooltip
+                      content="Focus to show"
+                      trigger="focus"
+                      variant="info"
+                    >
+                      <Button>Tab to Focus</Button>
+                    </Tooltip>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Interactive Tooltip */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Interactive Tooltip
+              </h4>
+              <Card variant="glass-strong" padding="lg">
+                <CardContent className="flex justify-center">
+                  <Tooltip
+                    content={
+                      <div className="space-y-2">
+                        <p className="font-semibold">Interactive Content</p>
+                        <p className="text-xs">This tooltip is interactive!</p>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          className="w-full"
+                        >
+                          Click Me
+                        </Button>
+                      </div>
+                    }
+                    interactive={true}
+                    trigger="click"
+                    variant="glass"
+                    maxWidth="200px"
+                  >
+                    <Button variant="primary">
+                      Click for Interactive Tooltip
+                    </Button>
+                  </Tooltip>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Real-World Examples */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Real-World Examples
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Help Icons */}
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Help Icons</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm">Username</span>
+                      <Tooltip
+                        content="Enter your unique username (3-20 characters)"
+                        variant="info"
+                        size="sm"
+                      >
+                        <span className="cursor-help text-muted-foreground">
+                          ⓘ
+                        </span>
+                      </Tooltip>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm">Email</span>
+                      <Tooltip
+                        content="We'll never share your email with anyone"
+                        variant="success"
+                        size="sm"
+                      >
+                        <span className="cursor-help text-muted-foreground">
+                          ✓
+                        </span>
+                      </Tooltip>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm">Password</span>
+                      <Tooltip
+                        content="Must be at least 8 characters with 1 number"
+                        variant="warning"
+                        size="sm"
+                      >
+                        <span className="cursor-help text-muted-foreground">
+                          ⚠
+                        </span>
+                      </Tooltip>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Status Indicators */}
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Status Indicators</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <Tooltip
+                        content="All systems operational"
+                        variant="success"
+                      >
+                        <Badge variant="success">Active</Badge>
+                      </Tooltip>
+                      <span className="text-sm text-muted-foreground">
+                        Server Status
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <Tooltip content="Pending approval" variant="warning">
+                        <Badge variant="warning">Pending</Badge>
+                      </Tooltip>
+                      <span className="text-sm text-muted-foreground">
+                        Document Review
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <Tooltip content="Connection lost" variant="error">
+                        <Badge variant="error">Offline</Badge>
+                      </Tooltip>
+                      <span className="text-sm text-muted-foreground">
+                        Database Connection
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* No Arrow & Custom Styling */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Customization Options
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>No Arrow</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex justify-center">
+                    <Tooltip
+                      content="Tooltip without arrow"
+                      arrow={false}
+                      variant="primary"
+                    >
+                      <Button variant="outline">No Arrow</Button>
+                    </Tooltip>
+                  </CardContent>
+                </Card>
+
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Custom Delay</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex justify-center">
+                    <Tooltip
+                      content="Appears after 1 second"
+                      delay={1000}
+                      variant="info"
+                    >
+                      <Button variant="outline">Delayed (1s)</Button>
+                    </Tooltip>
+                  </CardContent>
+                </Card>
+
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Disabled</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex justify-center">
+                    <Tooltip
+                      content="This won't show"
+                      disabled={true}
+                      variant="error"
+                    >
+                      <Button variant="outline">Disabled Tooltip</Button>
+                    </Tooltip>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+
           {/* Color Palette */}
           <ColorPalette />
         </section>

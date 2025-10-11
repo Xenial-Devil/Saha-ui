@@ -144,4 +144,8 @@ export type {
   TooltipPosition,
   TooltipVariant,
   TooltipSize,
+  TooltipTrigger,
 } from "./components/Tooltip/Tooltip.types";
+
+// Export Tooltip variants
+export { tooltipVariants, arrowVariants } from "./components/Tooltip";

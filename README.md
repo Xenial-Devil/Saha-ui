@@ -139,25 +139,25 @@ import { cn } from "saha-ui/lib/utils";
 
 ### Overview
 
-| Component       | Description                                                    | Status | CVA |
-| --------------- | -------------------------------------------------------------- | ------ | --- |
-| **Button**      | Action buttons with 9 variants and 4 sizes                     | ✅     | ✅  |
-| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts               | ✅     | ✅  |
-| **Alert**       | Notification messages with 5 variants × 4 statuses             | ✅     | ✅  |
-| **Badge**       | Status indicators and labels with 9 variants                   | ✅     | ✅  |
-| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing | ✅     | ✅  |
-| **Card**        | Container with 5 variants and sub-components                   | ✅     | ✅  |
-| **Chip**        | Interactive tags with 5 variants, deletable, and avatars       | ✅     | ✅  |
-| **Divider**     | Content separator with 5 variants and label support            | ✅     | ✅  |
-| **Accordion**   | Collapsible content with 5 behavior modes                      | ✅     | ✅  |
-| **Avatar**      | User profile images with status indicators                     | ✅     | ✅  |
-| **AvatarGroup** | Grouped avatars with overlap and count                         | ✅     | ✅  |
-| **Tooltip**     | Contextual hints with 5 variants                               | ✅     | ✅  |
-| **Link**        | Smart links with 9 variants and icon support                   | ✅     | ✅  |
-| **List**        | Modern lists with 5 variants and icon support                  | ✅     | ✅  |
-| **Timeline**    | Chronological events with 4 variants, positions, and statuses  | ✅     | ✅  |
-| **Image**       | Advanced image with lazy loading                               | ✅     | ✅  |
-| **Carousel**    | Image slider with 4 transition effects                         | ✅     | ✅  |
+| Component       | Description                                                        | Status | CVA |
+| --------------- | ------------------------------------------------------------------ | ------ | --- |
+| **Button**      | Action buttons with 9 variants and 4 sizes                         | ✅     | ✅  |
+| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts                   | ✅     | ✅  |
+| **Alert**       | Notification messages with 5 variants × 4 statuses                 | ✅     | ✅  |
+| **Badge**       | Status indicators and labels with 9 variants                       | ✅     | ✅  |
+| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing     | ✅     | ✅  |
+| **Card**        | Container with 5 variants and sub-components                       | ✅     | ✅  |
+| **Chip**        | Interactive tags with 5 variants, deletable, and avatars           | ✅     | ✅  |
+| **Divider**     | Content separator with 5 variants and label support                | ✅     | ✅  |
+| **Accordion**   | Collapsible content with 5 behavior modes                          | ✅     | ✅  |
+| **Avatar**      | User profile images with status indicators                         | ✅     | ✅  |
+| **AvatarGroup** | Grouped avatars with overlap and count                             | ✅     | ✅  |
+| **Tooltip**     | Contextual hints with 9 variants, 4 triggers, and interactive mode | ✅     | ✅  |
+| **Link**        | Smart links with 9 variants and icon support                       | ✅     | ✅  |
+| **List**        | Modern lists with 5 variants and icon support                      | ✅     | ✅  |
+| **Timeline**    | Chronological events with 4 variants, positions, and statuses      | ✅     | ✅  |
+| **Image**       | Advanced image with lazy loading                                   | ✅     | ✅  |
+| **Carousel**    | Image slider with 4 transition effects                             | ✅     | ✅  |
 
 ---
 
@@ -307,12 +307,24 @@ import { AvatarGroup, Avatar } from "saha-ui";
 ```tsx
 import { Tooltip } from "saha-ui";
 
+// Basic tooltip
 <Tooltip content="This is a tooltip">
-  <button>Hover me</button>
+  <Button>Hover me</Button>
 </Tooltip>
 
-<Tooltip content="Helpful hint" position="right" variant="info">
-  <span>Info</span>
+// With variant and position
+<Tooltip content="Success message!" variant="success" position="right">
+  <Badge variant="success">Active</Badge>
+</Tooltip>
+
+// Interactive tooltip with click trigger
+<Tooltip
+  content={<div>Click <a href="#">here</a> for more</div>}
+  interactive={true}
+  trigger="click"
+  variant="glass"
+>
+  <Button>Click Me</Button>
 </Tooltip>
 ```
 
@@ -1343,33 +1355,229 @@ import { AvatarGroup } from "saha-ui";
 
 ### Tooltip
 
-Contextual hints with smart positioning and delays.
+Contextual hints and information with smart positioning, multiple trigger types, and interactive capabilities.
 
-**Variants:** `default` `dark` `light` `glass` `primary`  
+**Variants:** `default` `dark` `light` `glass` `primary` `success` `warning` `error` `info`  
 **Positions:** `top` `bottom` `left` `right`  
-**Sizes:** `sm` `md` `lg`
+**Sizes:** `sm` `md` `lg`  
+**Triggers:** `hover` `click` `focus` `manual`
 
 ```tsx
 import { Tooltip } from "saha-ui";
 
+// Basic tooltip
 <Tooltip
   content="This is helpful information"
   position="top"
   variant="glass"
-  size="md"
-  delay={200}
-  arrow
 >
   <Button>Hover me</Button>
-</Tooltip>;
+</Tooltip>
+
+// Status tooltips
+<Tooltip content="All systems operational" variant="success">
+  <Badge variant="success">Active</Badge>
+</Tooltip>
+
+<Tooltip content="Warning: Check this!" variant="warning" position="right">
+  <span className="cursor-help">⚠</span>
+</Tooltip>
+
+// Interactive tooltip with click trigger
+<Tooltip
+  content={
+    <div className="space-y-2">
+      <p className="font-semibold">Interactive Content</p>
+      <Button size="sm">Click Me</Button>
+    </div>
+  }
+  interactive={true}
+  trigger="click"
+  variant="glass"
+  maxWidth="200px"
+>
+  <Button>Click for Options</Button>
+</Tooltip>
+
+// Controlled tooltip
+const [open, setOpen] = useState(false);
+<Tooltip
+  content="Controlled tooltip"
+  open={open}
+  onOpenChange={setOpen}
+  trigger="manual"
+>
+  <Button onClick={() => setOpen(!open)}>Toggle</Button>
+</Tooltip>
+
+// Help icon tooltips
+<div className="flex items-center gap-2">
+  <span>Username</span>
+  <Tooltip
+    content="Enter your unique username (3-20 characters)"
+    variant="info"
+    size="sm"
+  >
+    <span className="cursor-help text-muted-foreground">ⓘ</span>
+  </Tooltip>
+</div>
+
+// Custom delay and no arrow
+<Tooltip
+  content="Appears after 1 second"
+  delay={1000}
+  arrow={false}
+  variant="primary"
+>
+  <Button>Delayed Tooltip</Button>
+</Tooltip>
 ```
+
+**Variants:**
+
+- **default** - Standard tooltip with card background and subtle shadow
+- **dark** - Dark theme tooltip with deep gray background
+- **light** - Light theme tooltip, bright background
+- **glass** - Glass morphism effect with backdrop blur
+- **primary** - Primary color with brand styling
+- **success** - Green success indicator
+- **warning** - Yellow warning indicator
+- **error** - Red error indicator
+- **info** - Blue information indicator
 
 **Features:**
 
-- ⏱️ Configurable delay (default 200ms)
-- ➡️ Optional arrow pointer
-- 🎨 5 beautiful variants
-- 🔮 Glass morphism support
+- 🎨 **9 Modern Variants** - Each optimized for different contexts
+- 📍 **4 Positions** - Top, bottom, left, right with smart alignment
+- 🖱️ **4 Trigger Types** - Hover, click, focus, or manual control
+- ⏱️ **Configurable Delay** - Customizable show delay (default 200ms)
+- ➡️ **Optional Arrow** - Pointing arrow for better UX
+- 💫 **Interactive Mode** - Allow interaction with tooltip content
+- 🎯 **Controlled Mode** - Programmatic control via props
+- 📏 **3 Sizes** - sm, md, lg with responsive text
+- 🔮 **Glass Effects** - Beautiful backdrop blur and transparency
+- 🌙 **Dark Mode** - Optimized for both light and dark themes
+- ♿ **Accessible** - Proper ARIA attributes and keyboard support
+- 📦 **Tree-Shakeable** - Import only what you need
+- 🎭 **Custom Styling** - ClassName props for tooltip and wrapper
+- 📐 **Adjustable Offset** - Control distance from trigger element
+- 🚫 **Disable Option** - Conditionally disable tooltips
+- � **Type-Safe** - Full CVA integration with exported variants
+
+**Props:**
+
+- `content`: ReactNode - Tooltip content (required)
+- `children`: ReactNode - Trigger element (required)
+- `variant`: 'default' | 'dark' | 'light' | 'glass' | 'primary' | 'success' | 'warning' | 'error' | 'info' (default: 'default')
+- `position`: 'top' | 'bottom' | 'left' | 'right' (default: 'top')
+- `size`: 'sm' | 'md' | 'lg' (default: 'md')
+- `trigger`: 'hover' | 'click' | 'focus' | 'manual' (default: 'hover')
+- `delay`: number - Show delay in ms (default: 200)
+- `arrow`: boolean - Show arrow pointer (default: true)
+- `interactive`: boolean - Allow interaction with content (default: false)
+- `open`: boolean - Controlled open state
+- `onOpenChange`: (open: boolean) => void - Open state change callback
+- `tooltipClassName`: string - Custom tooltip content class
+- `wrapperClassName`: string - Custom wrapper class
+- `maxWidth`: string - Maximum width (default: '320px')
+- `offset`: number - Distance from trigger in px (default: 8)
+- `disabled`: boolean - Disable tooltip (default: false)
+- `className`: string - Additional CSS classes
+
+**Advanced Usage:**
+
+```tsx
+// Help system with different variants
+const HelpTooltips = () => (
+  <div className="space-y-4">
+    <div className="flex items-center gap-2">
+      <span>Email</span>
+      <Tooltip
+        content="We'll never share your email"
+        variant="success"
+        size="sm"
+      >
+        <span className="cursor-help">✓</span>
+      </Tooltip>
+    </div>
+
+    <div className="flex items-center gap-2">
+      <span>Password</span>
+      <Tooltip
+        content="Must be at least 8 characters"
+        variant="warning"
+        size="sm"
+      >
+        <span className="cursor-help">⚠</span>
+      </Tooltip>
+    </div>
+  </div>
+);
+
+// Interactive tooltip menu
+<Tooltip
+  content={
+    <div className="space-y-2 w-48">
+      <p className="font-semibold text-sm">Quick Actions</p>
+      <div className="space-y-1">
+        <Button size="sm" variant="ghost" className="w-full justify-start">
+          Edit
+        </Button>
+        <Button size="sm" variant="ghost" className="w-full justify-start">
+          Share
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          className="w-full justify-start text-red-500"
+        >
+          Delete
+        </Button>
+      </div>
+    </div>
+  }
+  interactive={true}
+  trigger="click"
+  variant="glass"
+  maxWidth="220px"
+  arrow={false}
+>
+  <Button size="sm" variant="ghost">
+    ⋯
+  </Button>
+</Tooltip>;
+
+// Status indicator tooltips
+const StatusIndicator = ({ status, message }) => (
+  <Tooltip
+    content={message}
+    variant={status === "online" ? "success" : "error"}
+    size="sm"
+  >
+    <Badge variant={status === "online" ? "success" : "error"}>{status}</Badge>
+  </Tooltip>
+);
+```
+
+**CVA Integration:**
+
+```tsx
+import { tooltipVariants, arrowVariants } from "saha-ui";
+
+// Use exported variants for custom styling
+const customTooltipClass = tooltipVariants({
+  variant: "glass",
+  size: "lg",
+  position: "top",
+  interactive: true,
+  className: "my-custom-class",
+});
+
+const customArrowClass = arrowVariants({
+  variant: "primary",
+  position: "bottom",
+});
+```
 
 ---
 
