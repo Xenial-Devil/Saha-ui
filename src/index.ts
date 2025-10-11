@@ -11,6 +11,7 @@ export { default as Alert } from "./components/Alert";
 export { default as Avatar } from "./components/Avatar";
 export { default as AvatarGroup } from "./components/AvatarGroup";
 export { default as Badge } from "./components/Badge";
+export { default as Breadcrumb } from "./components/Breadcrumb";
 export { default as Button } from "./components/Button";
 export { default as ButtonGroup } from "./components/ButtonGroup";
 export {
@@ -64,6 +65,13 @@ export type {
   BadgeSize,
   BadgeShape,
 } from "./components/Badge/Badge.types";
+export type {
+  BreadcrumbProps,
+  BreadcrumbItem,
+  BreadcrumbVariant,
+  BreadcrumbSize,
+  BreadcrumbSeparator,
+} from "./components/Breadcrumb/Breadcrumb.types";
 export type {
   ButtonProps,
   ButtonVariant,

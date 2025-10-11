@@ -3,6 +3,7 @@ import ThemeProvider from "./components/ThemeProvider";
 
 import ThemeToggle from "./components/ThemeToggle";
 import Badge from "./components/Badge";
+import Breadcrumb from "./components/Breadcrumb";
 import Button from "./components/Button";
 import ButtonGroup from "./components/ButtonGroup";
 import Card, {
@@ -32,6 +33,9 @@ import {
   Bell,
   CheckCircle,
   AlertCircle,
+  ShoppingCart,
+  FileText,
+  Settings,
 } from "lucide-react";
 
 // Color palette component that uses theme colors from CSS variables
@@ -295,6 +299,318 @@ function App() {
                     <Button variant="ghost">Cancel</Button>
                   </ButtonGroup>
                 </CardFooter>
+              </Card>
+            </div>
+          </div>
+
+          {/* Breadcrumb Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6 text-text">
+              Breadcrumb Component
+            </h3>
+
+            {/* Variants */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Variants</h4>
+              <div className="space-y-4">
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Default</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Electronics", href: "/products/electronics" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    variant="default"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Ghost</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Electronics", href: "/products/electronics" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    variant="ghost"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Bordered</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Electronics", href: "/products/electronics" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    variant="bordered"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Pills</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Electronics", href: "/products/electronics" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    variant="pills"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Underline
+                  </p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Electronics", href: "/products/electronics" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    variant="underline"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Separators */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Separator Styles
+              </h4>
+              <div className="space-y-4">
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Chevron (default)
+                  </p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Docs", href: "/docs" },
+                      { label: "Components", isCurrentPage: true },
+                    ]}
+                    separator="chevron"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Slash</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Docs", href: "/docs" },
+                      { label: "Components", isCurrentPage: true },
+                    ]}
+                    separator="slash"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Dot</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Docs", href: "/docs" },
+                      { label: "Components", isCurrentPage: true },
+                    ]}
+                    separator="dot"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Arrow</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Docs", href: "/docs" },
+                      { label: "Components", isCurrentPage: true },
+                    ]}
+                    separator="arrow"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Custom Separator
+                  </p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Docs", href: "/docs" },
+                      { label: "Components", isCurrentPage: true },
+                    ]}
+                    customSeparator={<span className="text-primary">→</span>}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Sizes */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Sizes</h4>
+              <div className="space-y-4">
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Small</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    size="sm"
+                    variant="pills"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Medium (default)
+                  </p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    size="md"
+                    variant="pills"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Large</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    size="lg"
+                    variant="pills"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* With Icons */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                With Icons
+              </h4>
+              <div className="space-y-4">
+                <div className="glass p-4 rounded-lg">
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      {
+                        label: "Shop",
+                        href: "/shop",
+                        icon: <ShoppingCart size={14} />,
+                      },
+                      {
+                        label: "Cart",
+                        isCurrentPage: true,
+                        icon: <ShoppingCart size={14} />,
+                      },
+                    ]}
+                    variant="ghost"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <Breadcrumb
+                    items={[
+                      { label: "Dashboard", href: "/" },
+                      {
+                        label: "Documents",
+                        href: "/docs",
+                        icon: <FileText size={14} />,
+                      },
+                      {
+                        label: "Settings",
+                        isCurrentPage: true,
+                        icon: <Settings size={14} />,
+                      },
+                    ]}
+                    variant="bordered"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Collapsed */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Collapsed (Max Items)
+              </h4>
+              <div className="glass p-4 rounded-lg">
+                <p className="text-sm text-muted-foreground mb-2">
+                  Long breadcrumb collapsed to show only first and last 2 items
+                </p>
+                <Breadcrumb
+                  items={[
+                    { label: "Home", href: "/" },
+                    { label: "Products", href: "/products" },
+                    {
+                      label: "Electronics",
+                      href: "/products/electronics",
+                    },
+                    {
+                      label: "Computers",
+                      href: "/products/electronics/computers",
+                    },
+                    {
+                      label: "Laptops",
+                      href: "/products/electronics/computers/laptops",
+                    },
+                    {
+                      label: "Gaming",
+                      href: "/products/electronics/computers/laptops/gaming",
+                    },
+                    { label: "High-End", isCurrentPage: true },
+                  ]}
+                  maxItems={4}
+                  variant="pills"
+                />
+              </div>
+            </div>
+
+            {/* Contextual Usage */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Contextual Usage
+              </h4>
+              <Card variant="glass" padding="lg">
+                <CardHeader>
+                  <Breadcrumb
+                    items={[
+                      { label: "Dashboard", href: "/" },
+                      { label: "Projects", href: "/projects" },
+                      { label: "Saha UI", isCurrentPage: true },
+                    ]}
+                    variant="ghost"
+                    size="sm"
+                  />
+                </CardHeader>
+                <CardTitle>Project: Saha UI</CardTitle>
+                <CardDescription>
+                  A modern React component library with glassmorphism effects
+                </CardDescription>
+                <CardContent className="mt-4">
+                  <p className="text-sm text-text-secondary">
+                    This breadcrumb navigation helps users understand their
+                    current location within the application hierarchy.
+                  </p>
+                </CardContent>
               </Card>
             </div>
           </div>

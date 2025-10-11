@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **13 Modern Components** - Button, ButtonGroup, Alert, Badge, Card, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Image, Carousel
+- 🎨 **14 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Image, Carousel
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -133,29 +133,28 @@ import { cn } from "saha-ui/lib/utils";
 <div className={cn("base-class", condition && "conditional-class")} />;
 ```
 
-````
-
 ---
 
 ## 🎨 Components
 
 ### Overview
 
-| Component       | Description                                        | Status | CVA |
-| --------------- | -------------------------------------------------- | ------ | --- |
-| **Button**      | Action buttons with 8 variants and 4 sizes         | ✅     | ✅  |
-| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts   | ✅     | ✅  |
-| **Alert**       | Notification messages with 5 variants × 4 statuses | ✅     | ✅  |
-| **Badge**       | Status indicators and labels with 9 variants       | ✅     | ✅  |
-| **Card**        | Container with 5 variants and sub-components       | ✅     | ✅  |
-| **Accordion**   | Collapsible content with 5 behavior modes          | ✅     | ✅  |
-| **Avatar**      | User profile images with status indicators         | ✅     | ✅  |
-| **AvatarGroup** | Grouped avatars with overlap and count             | ✅     | ✅  |
-| **Tooltip**     | Contextual hints with 5 variants                   | ✅     | ✅  |
-| **Link**        | Smart links with 9 variants and icon support       | ✅     | ✅  |
-| **List**        | Modern lists with 5 variants and icon support      | ✅     | ✅  |
-| **Image**       | Advanced image with lazy loading                   | ✅     | ✅  |
-| **Carousel**    | Image slider with 4 transition effects             | ✅     | ✅  |
+| Component       | Description                                                    | Status | CVA |
+| --------------- | -------------------------------------------------------------- | ------ | --- |
+| **Button**      | Action buttons with 8 variants and 4 sizes                     | ✅     | ✅  |
+| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts               | ✅     | ✅  |
+| **Alert**       | Notification messages with 5 variants × 4 statuses             | ✅     | ✅  |
+| **Badge**       | Status indicators and labels with 9 variants                   | ✅     | ✅  |
+| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing | ✅     | ✅  |
+| **Card**        | Container with 5 variants and sub-components                   | ✅     | ✅  |
+| **Accordion**   | Collapsible content with 5 behavior modes                      | ✅     | ✅  |
+| **Avatar**      | User profile images with status indicators                     | ✅     | ✅  |
+| **AvatarGroup** | Grouped avatars with overlap and count                         | ✅     | ✅  |
+| **Tooltip**     | Contextual hints with 5 variants                               | ✅     | ✅  |
+| **Link**        | Smart links with 9 variants and icon support                   | ✅     | ✅  |
+| **List**        | Modern lists with 5 variants and icon support                  | ✅     | ✅  |
+| **Image**       | Advanced image with lazy loading                               | ✅     | ✅  |
+| **Carousel**    | Image slider with 4 transition effects                         | ✅     | ✅  |
 
 ---
 
@@ -181,7 +180,7 @@ import { Sparkles } from "lucide-react";
   <Sparkles size={18} />
   Glass Effect
 </Button>;
-````
+```
 
 **Features:**
 
@@ -286,6 +285,181 @@ import { ButtonGroup, Button } from "saha-ui";
   <Button variant="glass"><Heart size={16} /></Button>
   <Button variant="glass"><Mail size={16} /></Button>
 </ButtonGroup>
+```
+
+---
+
+### Breadcrumb
+
+Navigation component showing the current page's location within a hierarchy with 5 modern variants.
+
+**Variants:** `default` `ghost` `bordered` `pills` `underline`  
+**Sizes:** `sm` `md` `lg`  
+**Separators:** `chevron` `slash` `dot` `arrow` `custom`
+
+```tsx
+import { Breadcrumb } from "saha-ui";
+import type { BreadcrumbItem } from "saha-ui";
+
+// Basic breadcrumb
+<Breadcrumb
+  items={[
+    { label: "Home", href: "/" },
+    { label: "Products", href: "/products" },
+    { label: "Laptops", isCurrentPage: true }
+  ]}
+/>
+
+// Pills variant with chevron separator
+<Breadcrumb
+  items={[
+    { label: "Home", href: "/" },
+    { label: "Docs", href: "/docs" },
+    { label: "Components", isCurrentPage: true }
+  ]}
+  variant="pills"
+  separator="chevron"
+/>
+
+// With icons
+<Breadcrumb
+  items={[
+    { label: "Dashboard", href: "/" },
+    { label: "Settings", href: "/settings", icon: <Settings size={14} /> },
+    { label: "Profile", isCurrentPage: true, icon: <User size={14} /> }
+  ]}
+  variant="bordered"
+/>
+
+// Collapsed long breadcrumb (shows first + last 2 items)
+<Breadcrumb
+  items={longItemArray}
+  maxItems={4}
+  variant="ghost"
+/>
+
+// Custom separator
+<Breadcrumb
+  items={items}
+  customSeparator={<span>→</span>}
+/>
+
+// Without home icon
+<Breadcrumb
+  items={items}
+  showHomeIcon={false}
+/>
+
+// Large size with underline variant
+<Breadcrumb
+  items={items}
+  size="lg"
+  variant="underline"
+/>
+```
+
+**Features:**
+
+- ✨ **5 Modern Variants** - default, ghost, bordered, pills, underline
+- 🔗 **4 Separator Styles** - chevron, slash, dot, arrow + custom
+- 📏 **3 Sizes** - sm, md, lg with responsive text
+- 🏠 **Automatic Home Icon** - for first item
+- 🎯 **Icon Support** - for each breadcrumb item
+- 📦 **Smart Collapsing** - for long breadcrumbs with maxItems
+- ♿ **Full Accessibility** - ARIA labels and semantic HTML
+- 🎨 **Active Page Highlighting** - with compound variants
+- 🌈 **Theme-Aware** - OKLCH colors with dark mode
+- ⚡ **Smooth Animations** - hover effects on all variants
+- 📱 **Responsive** - wraps on mobile devices
+- 🔒 **Type-Safe** - TypeScript with exported CVA variants
+
+**Variant Details:**
+
+- **default** - Clean with subtle hover (best for minimal designs)
+- **ghost** - Ghost hover states with background
+- **bordered** - Bordered pills with shadows and hover effects
+- **pills** - Pill-shaped with backgrounds
+- **underline** - Animated underline on hover
+
+**Props:**
+
+```tsx
+interface BreadcrumbProps {
+  items: BreadcrumbItem[]; // Array of breadcrumb items
+  variant?: "default" | "ghost" | "bordered" | "pills" | "underline";
+  size?: "sm" | "md" | "lg";
+  separator?: "chevron" | "slash" | "dot" | "arrow" | "custom";
+  customSeparator?: React.ReactNode; // Custom separator element
+  showHomeIcon?: boolean; // Show home icon for first item (default: true)
+  maxItems?: number; // Max items before collapsing
+  className?: string;
+}
+
+interface BreadcrumbItem {
+  label: string; // Display text
+  href?: string; // Link URL (optional)
+  icon?: React.ReactNode; // Icon element (optional)
+  isCurrentPage?: boolean; // Mark as current page
+}
+```
+
+**Advanced Usage:**
+
+```tsx
+// Dynamic breadcrumb based on route
+const breadcrumbItems = useMemo(() => {
+  const paths = location.pathname.split("/").filter(Boolean);
+  return paths.map((path, index) => ({
+    label: path.charAt(0).toUpperCase() + path.slice(1),
+    href:
+      index < paths.length - 1
+        ? `/${paths.slice(0, index + 1).join("/")}`
+        : undefined,
+    isCurrentPage: index === paths.length - 1,
+  }));
+}, [location.pathname]);
+
+<Breadcrumb items={breadcrumbItems} variant="pills" />;
+
+// With next/link integration
+const CustomBreadcrumb = ({ items }) => (
+  <Breadcrumb
+    items={items.map((item) => ({
+      ...item,
+      href: undefined, // Remove href
+      onClick: () => router.push(item.path), // Use Next.js router
+    }))}
+  />
+);
+
+// In a page header
+<header className="border-b">
+  <div className="container mx-auto px-4 py-3">
+    <Breadcrumb
+      items={[
+        { label: "Dashboard", href: "/" },
+        { label: "Projects", href: "/projects" },
+        { label: currentProject.name, isCurrentPage: true },
+      ]}
+      variant="ghost"
+      size="sm"
+    />
+  </div>
+</header>;
+```
+
+**CVA Integration:**
+
+```tsx
+import { breadcrumbVariants, breadcrumbItemVariants } from "saha-ui";
+
+// Use exported variants for custom styling
+const customBreadcrumbClass = breadcrumbVariants({ size: "lg" });
+const customItemClass = breadcrumbItemVariants({
+  variant: "pills",
+  size: "lg",
+  isCurrentPage: false,
+});
 ```
 
 ---
@@ -420,6 +594,7 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
+  cardVariants // ← CVA export
 } from "saha-ui";
 
 <Card variant="glass-strong" padding="lg" rounded="2xl" hoverable>
@@ -431,7 +606,18 @@ import {
   <CardFooter>
     <Button>Action</Button>
   </CardFooter>
-</Card>;
+</Card>
+
+// All variants demo
+<Card variant="default" hoverable>Default Card</Card>
+<Card variant="glass" hoverable>Glass Card</Card>
+<Card variant="glass-strong" hoverable>Strong Glass</Card>
+<Card variant="glass-subtle" hoverable>Subtle Glass</Card>
+<Card variant="bordered" hoverable>Bordered Card</Card>
+
+// Custom CVA usage
+const customClass = cardVariants({ variant: 'glass-strong', padding: 'xl', rounded: '2xl', hoverable: true });
+<div className={customClass}>Custom Card</div>
 ```
 
 **Features:**
@@ -440,6 +626,39 @@ import {
 - ✨ Hover scale and shadow effects
 - 🎨 Gradient overlays
 - 📦 Composable sub-components
+- 🛡️ Type-safe CVA variants (exported as `cardVariants`)
+
+---
+
+### Accordion
+
+Collapsible content sections with smooth animations and multiple behavior modes.
+
+**Variants:** `default` `bordered` `flush` `glass`  
+**Sizes:** `sm` `md` `lg`
+
+```tsx
+import { Accordion } from "saha-ui";
+
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Item 1</AccordionTrigger>
+    <AccordionContent>Content for item 1</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Item 2</AccordionTrigger>
+    <AccordionContent>Content for item 2</AccordionContent>
+  </AccordionItem>
+</Accordion>;
+```
+
+**Features:**
+
+- 🎭 Multiple types: single, multiple, toggle
+- 🚀 Fast open/close animations
+- 🔒 Collapsible and non-collapsible modes
+- 🎨 Glass morphism and gradient support
+- ♿ Fully accessible with ARIA attributes
 
 ---
 
