@@ -22,8 +22,10 @@ const buttonVariants = cva(
           "bg-warning text-warning-foreground shadow-[0_4px_14px_0] shadow-warning/40 hover:shadow-[0_6px_20px_0] hover:shadow-warning/60 hover:brightness-110 active:brightness-90 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black/20 after:to-transparent after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300",
         error:
           "bg-destructive text-destructive-foreground shadow-[0_4px_14px_0] shadow-destructive/40 hover:shadow-[0_6px_20px_0] hover:shadow-destructive/60 hover:brightness-110 active:brightness-90 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black/20 after:to-transparent after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300",
+        outline:
+          "border-2 border-primary/60 text-primary bg-transparent hover:text-primary-foreground shadow-sm hover:shadow-[0_4px_14px_0] hover:shadow-primary/30 before:absolute before:inset-0 before:bg-primary before:scale-x-0 hover:before:scale-x-100 before:transition-transform before:duration-300 before:ease-out before:origin-left active:before:scale-x-100",
         ghost:
-          "bg-transparent hover:bg-accent/15 active:bg-accent/25 text-foreground border-2 border-border hover:border-accent/50 active:border-accent shadow-sm hover:shadow-md transition-colors backdrop-blur-sm",
+          "bg-transparent hover:bg-accent/15 active:bg-accent/25 text-foreground shadow-sm hover:shadow-md transition-colors",
         glass:
           "glass backdrop-blur-2xl border-2 border-border/30 hover:border-primary/40 shadow-[0_8px_32px_0] shadow-black/10 hover:shadow-[0_12px_48px_0] hover:shadow-primary/20 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500",
       },
@@ -57,6 +59,7 @@ const shimmerVariants = cva("", {
         "after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/25 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-1000 after:ease-in-out",
       error:
         "after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/25 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-1000 after:ease-in-out",
+      outline: "",
       ghost: "",
       glass: "",
     },
@@ -78,7 +81,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const hasGlow = !["ghost", "glass"].includes(variant);
+    const hasGlow = !["outline", "ghost", "glass"].includes(variant);
 
     return (
       <button

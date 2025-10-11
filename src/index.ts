@@ -23,9 +23,12 @@ export {
   CardFooter,
 } from "./components/Card";
 export { default as Carousel } from "./components/Carousel";
+export { Chip } from "./components/Chip";
+export { default as Divider } from "./components/Divider";
 export { default as Image } from "./components/Image";
 export { default as Link } from "./components/Link";
 export { default as List } from "./components/List";
+export { default as Timeline } from "./components/Timeline";
 export { default as Tooltip } from "./components/Tooltip";
 
 // Types - Theme
@@ -96,6 +99,19 @@ export type {
 } from "./components/Card/Card.types";
 export type { CarouselProps } from "./components/Carousel/Carousel.types";
 export type {
+  ChipProps,
+  ChipVariant,
+  ChipColor,
+  ChipSize,
+} from "./components/Chip/Chip.types";
+export type {
+  DividerProps,
+  DividerVariant,
+  DividerOrientation,
+  DividerThickness,
+  DividerSpacing,
+} from "./components/Divider/Divider.types";
+export type {
   ImageProps,
   ImageVariant,
   ImageFit,
@@ -113,6 +129,16 @@ export type {
   ListVariant,
   ListSize,
 } from "./components/List/List.types";
+export type {
+  TimelineProps,
+  TimelineItem,
+  TimelineVariant,
+  TimelinePosition,
+  TimelineSize,
+  TimelineStatus,
+  TimelineLineStyle,
+  TimelineDotShape,
+} from "./components/Timeline/Timeline.types";
 export type {
   TooltipProps,
   TooltipPosition,

@@ -18,10 +18,13 @@ import Alert from "./components/Alert";
 import Avatar from "./components/Avatar";
 import AvatarGroup from "./components/AvatarGroup";
 import Carousel from "./components/Carousel";
+import { Chip } from "./components/Chip";
+import Divider from "./components/Divider";
 import Image from "./components/Image";
 import Link from "./components/Link";
 import List from "./components/List";
 import ListItem from "./components/List/ListItem";
+import Timeline from "./components/Timeline";
 import Tooltip from "./components/Tooltip";
 import {
   Sparkles,
@@ -36,6 +39,12 @@ import {
   ShoppingCart,
   FileText,
   Settings,
+  Filter,
+  Rocket,
+  Code,
+  Package,
+  GitBranch,
+  CloudUpload,
 } from "lucide-react";
 
 // Color palette component that uses theme colors from CSS variables
@@ -122,6 +131,7 @@ function App() {
               <Button variant="success">Success</Button>
               <Button variant="warning">Warning</Button>
               <Button variant="error">Error</Button>
+              <Button variant="outline">Outline</Button>
               <Button variant="ghost">Ghost</Button>
               <Button variant="glass">
                 <Sparkles size={18} />
@@ -709,6 +719,736 @@ function App() {
                   Premium
                 </Badge>
               </div>
+            </div>
+          </div>
+
+          {/* Divider Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6 text-text">
+              Divider Component
+            </h3>
+
+            {/* Variants */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Variants</h4>
+              <div className="space-y-6">
+                <div className="glass p-6 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-4">Solid</p>
+                  <Divider variant="solid" />
+                </div>
+
+                <div className="glass p-6 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-4">Dashed</p>
+                  <Divider variant="dashed" />
+                </div>
+
+                <div className="glass p-6 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-4">Dotted</p>
+                  <Divider variant="dotted" />
+                </div>
+
+                <div className="glass p-6 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-4">Gradient</p>
+                  <Divider variant="gradient" />
+                </div>
+
+                <div className="glass p-6 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-4">Glass</p>
+                  <Divider variant="glass" />
+                </div>
+              </div>
+            </div>
+
+            {/* With Labels */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                With Labels
+              </h4>
+              <div className="space-y-6">
+                <div className="glass p-6 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Center Label
+                  </p>
+                  <Divider label="OR" variant="gradient" />
+                </div>
+
+                <div className="glass p-6 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Left Label
+                  </p>
+                  <Divider label="Section Start" labelPosition="left" />
+                </div>
+
+                <div className="glass p-6 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Right Label
+                  </p>
+                  <Divider label="Section End" labelPosition="right" />
+                </div>
+
+                <div className="glass p-6 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Decorative
+                  </p>
+                  <Divider
+                    label="Continue Reading"
+                    variant="gradient"
+                    decorative
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Thickness */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Thickness
+              </h4>
+              <div className="space-y-6">
+                <div className="glass p-6 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-4">Thin</p>
+                  <Divider thickness="thin" variant="solid" />
+                </div>
+
+                <div className="glass p-6 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-4">Medium</p>
+                  <Divider thickness="medium" variant="solid" />
+                </div>
+
+                <div className="glass p-6 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-4">Thick</p>
+                  <Divider thickness="thick" variant="gradient" />
+                </div>
+              </div>
+            </div>
+
+            {/* Spacing */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Spacing</h4>
+              <div className="glass p-6 rounded-lg space-y-1">
+                <p className="text-sm">Content above</p>
+                <Divider spacing="xs" />
+                <p className="text-sm">Extra Small Spacing (xs)</p>
+                <Divider spacing="sm" />
+                <p className="text-sm">Small Spacing (sm)</p>
+                <Divider spacing="md" />
+                <p className="text-sm">Medium Spacing (md)</p>
+                <Divider spacing="lg" />
+                <p className="text-sm">Large Spacing (lg)</p>
+                <Divider spacing="xl" />
+                <p className="text-sm">Extra Large Spacing (xl)</p>
+              </div>
+            </div>
+
+            {/* Vertical Dividers */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Vertical Orientation
+              </h4>
+              <div className="glass p-6 rounded-lg">
+                <div className="flex items-center h-24 gap-4">
+                  <div className="text-sm text-center flex-1">Section 1</div>
+                  <Divider orientation="vertical" className="h-full" />
+                  <div className="text-sm text-center flex-1">Section 2</div>
+                  <Divider
+                    orientation="vertical"
+                    variant="gradient"
+                    className="h-full"
+                  />
+                  <div className="text-sm text-center flex-1">Section 3</div>
+                  <Divider
+                    orientation="vertical"
+                    variant="dashed"
+                    thickness="medium"
+                    className="h-full"
+                  />
+                  <div className="text-sm text-center flex-1">Section 4</div>
+                </div>
+              </div>
+
+              <div className="glass p-6 rounded-lg mt-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Vertical with Label
+                </p>
+                <div className="flex items-center h-32">
+                  <div className="flex-1 text-center">
+                    <p className="font-medium">Before</p>
+                    <p className="text-sm text-muted-foreground">Content</p>
+                  </div>
+                  <Divider
+                    orientation="vertical"
+                    label="OR"
+                    variant="glass"
+                    className="h-full"
+                  />
+                  <div className="flex-1 text-center">
+                    <p className="font-medium">After</p>
+                    <p className="text-sm text-muted-foreground">Content</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Contextual Usage */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Contextual Usage
+              </h4>
+
+              {/* In Form */}
+              <Card variant="glass" padding="lg" className="mb-4">
+                <CardHeader>
+                  <CardTitle>Sign In</CardTitle>
+                  <CardDescription>
+                    Enter your credentials to continue
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <Button variant="primary" className="w-full">
+                      Sign in with Email
+                    </Button>
+
+                    <Divider label="OR" variant="gradient" spacing="sm" />
+
+                    <ButtonGroup fullWidth orientation="vertical">
+                      <Button variant="outline">
+                        <User size={16} /> Continue with GitHub
+                      </Button>
+                      <Button variant="outline">
+                        <Mail size={16} /> Continue with Google
+                      </Button>
+                    </ButtonGroup>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Content Sections */}
+              <Card variant="bordered" padding="lg">
+                <CardHeader>
+                  <CardTitle>Article</CardTitle>
+                  <CardDescription>Sample content layout</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <p className="text-sm text-text-secondary">
+                      This is the first paragraph of the article. It introduces
+                      the main topic and sets the context.
+                    </p>
+
+                    <Divider
+                      label="Section 1"
+                      labelPosition="left"
+                      variant="dashed"
+                      spacing="lg"
+                    />
+
+                    <p className="text-sm text-text-secondary">
+                      This section contains the main content. It provides
+                      detailed information about the topic.
+                    </p>
+
+                    <Divider
+                      label="Section 2"
+                      labelPosition="left"
+                      variant="dashed"
+                      spacing="lg"
+                    />
+
+                    <p className="text-sm text-text-secondary">
+                      The final section summarizes the key points and provides
+                      conclusions.
+                    </p>
+
+                    <Divider decorative spacing="lg" variant="gradient" />
+
+                    <p className="text-sm text-muted-foreground text-center">
+                      End of Article
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Chip Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6 text-text">
+              Chip Component
+            </h3>
+
+            {/* Variants */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Variants</h4>
+              <div className="flex flex-wrap gap-3">
+                <Chip variant="filled" color="primary">
+                  Filled
+                </Chip>
+                <Chip variant="outlined" color="primary">
+                  Outlined
+                </Chip>
+                <Chip variant="soft" color="primary">
+                  Soft
+                </Chip>
+                <Chip variant="gradient" color="primary">
+                  Gradient
+                </Chip>
+                <Chip variant="glass" color="primary">
+                  Glass
+                </Chip>
+              </div>
+            </div>
+
+            {/* Colors */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Colors</h4>
+              <div className="space-y-3">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-2">Filled</p>
+                  <div className="flex flex-wrap gap-2">
+                    <Chip variant="filled" color="default">
+                      Default
+                    </Chip>
+                    <Chip variant="filled" color="primary">
+                      Primary
+                    </Chip>
+                    <Chip variant="filled" color="secondary">
+                      Secondary
+                    </Chip>
+                    <Chip variant="filled" color="success">
+                      Success
+                    </Chip>
+                    <Chip variant="filled" color="warning">
+                      Warning
+                    </Chip>
+                    <Chip variant="filled" color="error">
+                      Error
+                    </Chip>
+                    <Chip variant="filled" color="info">
+                      Info
+                    </Chip>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-sm text-muted-foreground mb-2">Outlined</p>
+                  <div className="flex flex-wrap gap-2">
+                    <Chip variant="outlined" color="default">
+                      Default
+                    </Chip>
+                    <Chip variant="outlined" color="primary">
+                      Primary
+                    </Chip>
+                    <Chip variant="outlined" color="secondary">
+                      Secondary
+                    </Chip>
+                    <Chip variant="outlined" color="success">
+                      Success
+                    </Chip>
+                    <Chip variant="outlined" color="warning">
+                      Warning
+                    </Chip>
+                    <Chip variant="outlined" color="error">
+                      Error
+                    </Chip>
+                    <Chip variant="outlined" color="info">
+                      Info
+                    </Chip>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-sm text-muted-foreground mb-2">Soft</p>
+                  <div className="flex flex-wrap gap-2">
+                    <Chip variant="soft" color="default">
+                      Default
+                    </Chip>
+                    <Chip variant="soft" color="primary">
+                      Primary
+                    </Chip>
+                    <Chip variant="soft" color="secondary">
+                      Secondary
+                    </Chip>
+                    <Chip variant="soft" color="success">
+                      Success
+                    </Chip>
+                    <Chip variant="soft" color="warning">
+                      Warning
+                    </Chip>
+                    <Chip variant="soft" color="error">
+                      Error
+                    </Chip>
+                    <Chip variant="soft" color="info">
+                      Info
+                    </Chip>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Sizes */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Sizes</h4>
+              <div className="flex items-center flex-wrap gap-3">
+                <Chip size="sm" color="primary">
+                  Small
+                </Chip>
+                <Chip size="md" color="primary">
+                  Medium
+                </Chip>
+                <Chip size="lg" color="primary">
+                  Large
+                </Chip>
+              </div>
+            </div>
+
+            {/* With Icons */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                With Icons
+              </h4>
+              <div className="flex flex-wrap gap-3">
+                <Chip icon={<Star size={14} />} color="warning" variant="soft">
+                  Featured
+                </Chip>
+                <Chip icon={<Heart size={14} />} color="error" variant="filled">
+                  Favorite
+                </Chip>
+                <Chip icon={<Zap size={14} />} color="info" variant="gradient">
+                  Powered
+                </Chip>
+                <Chip
+                  icon={<Sparkles size={14} />}
+                  color="primary"
+                  variant="glass"
+                >
+                  Premium
+                </Chip>
+              </div>
+            </div>
+
+            {/* With Avatars */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                With Avatars
+              </h4>
+              <div className="flex flex-wrap gap-3">
+                <Chip
+                  avatar={
+                    <Avatar size="xs" name="John Doe" className="w-5 h-5" />
+                  }
+                  variant="soft"
+                  color="primary"
+                >
+                  John Doe
+                </Chip>
+                <Chip
+                  avatar={
+                    <Avatar size="xs" name="Jane Smith" className="w-5 h-5" />
+                  }
+                  variant="outlined"
+                  color="secondary"
+                >
+                  Jane Smith
+                </Chip>
+                <Chip
+                  avatar={
+                    <Avatar size="xs" name="Bob Wilson" className="w-5 h-5" />
+                  }
+                  variant="filled"
+                  color="success"
+                >
+                  Bob Wilson
+                </Chip>
+              </div>
+            </div>
+
+            {/* Deletable Chips */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Deletable Chips
+              </h4>
+              <div className="flex flex-wrap gap-3">
+                <Chip
+                  deletable
+                  onDelete={() => console.log("Deleted React")}
+                  color="primary"
+                  variant="soft"
+                >
+                  React
+                </Chip>
+                <Chip
+                  deletable
+                  onDelete={() => console.log("Deleted TypeScript")}
+                  color="info"
+                  variant="soft"
+                >
+                  TypeScript
+                </Chip>
+                <Chip
+                  deletable
+                  onDelete={() => console.log("Deleted JavaScript")}
+                  color="warning"
+                  variant="soft"
+                >
+                  JavaScript
+                </Chip>
+                <Chip
+                  deletable
+                  onDelete={() => console.log("Deleted CSS")}
+                  color="error"
+                  variant="soft"
+                >
+                  CSS
+                </Chip>
+                <Chip
+                  deletable
+                  onDelete={() => console.log("Deleted HTML")}
+                  color="success"
+                  variant="soft"
+                >
+                  HTML
+                </Chip>
+              </div>
+            </div>
+
+            {/* Clickable Chips */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Clickable & Interactive
+              </h4>
+              <div className="flex flex-wrap gap-3">
+                <Chip
+                  clickable
+                  onClick={() => alert("Clicked!")}
+                  color="primary"
+                  variant="outlined"
+                >
+                  Click Me
+                </Chip>
+                <Chip
+                  clickable
+                  onClick={() => alert("Filter activated")}
+                  color="info"
+                  variant="soft"
+                  icon={<Filter size={14} />}
+                >
+                  Filter
+                </Chip>
+                <Chip
+                  clickable
+                  deletable
+                  onClick={() => alert("Clicked tag")}
+                  onDelete={() => console.log("Deleted tag")}
+                  color="secondary"
+                  variant="filled"
+                >
+                  Interactive Tag
+                </Chip>
+              </div>
+            </div>
+
+            {/* Disabled State */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Disabled State
+              </h4>
+              <div className="flex flex-wrap gap-3">
+                <Chip disabled color="primary" variant="filled">
+                  Disabled
+                </Chip>
+                <Chip disabled deletable color="success" variant="soft">
+                  Can't Delete
+                </Chip>
+                <Chip
+                  disabled
+                  clickable
+                  onClick={() => alert("Won't fire")}
+                  color="error"
+                  variant="outlined"
+                >
+                  Can't Click
+                </Chip>
+              </div>
+            </div>
+
+            {/* Real-World Usage */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Real-World Usage
+              </h4>
+
+              <Card variant="glass" padding="lg" className="mb-4">
+                <CardHeader>
+                  <CardTitle>Skills & Tags</CardTitle>
+                  <CardDescription>
+                    Manage your technology stack
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-sm font-medium mb-2">Frontend</p>
+                      <div className="flex flex-wrap gap-2">
+                        <Chip
+                          deletable
+                          onDelete={() => console.log("Removed")}
+                          color="info"
+                          variant="soft"
+                        >
+                          React
+                        </Chip>
+                        <Chip
+                          deletable
+                          onDelete={() => console.log("Removed")}
+                          color="info"
+                          variant="soft"
+                        >
+                          Vue
+                        </Chip>
+                        <Chip
+                          deletable
+                          onDelete={() => console.log("Removed")}
+                          color="info"
+                          variant="soft"
+                        >
+                          Angular
+                        </Chip>
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="text-sm font-medium mb-2">Backend</p>
+                      <div className="flex flex-wrap gap-2">
+                        <Chip
+                          deletable
+                          onDelete={() => console.log("Removed")}
+                          color="success"
+                          variant="soft"
+                        >
+                          Node.js
+                        </Chip>
+                        <Chip
+                          deletable
+                          onDelete={() => console.log("Removed")}
+                          color="success"
+                          variant="soft"
+                        >
+                          Python
+                        </Chip>
+                        <Chip
+                          deletable
+                          onDelete={() => console.log("Removed")}
+                          color="success"
+                          variant="soft"
+                        >
+                          Go
+                        </Chip>
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="text-sm font-medium mb-2">Team Members</p>
+                      <div className="flex flex-wrap gap-2">
+                        <Chip
+                          avatar={
+                            <Avatar
+                              size="xs"
+                              name="Alice"
+                              className="w-5 h-5"
+                            />
+                          }
+                          deletable
+                          onDelete={() => console.log("Removed member")}
+                          variant="outlined"
+                          color="primary"
+                        >
+                          Alice
+                        </Chip>
+                        <Chip
+                          avatar={
+                            <Avatar size="xs" name="Bob" className="w-5 h-5" />
+                          }
+                          deletable
+                          onDelete={() => console.log("Removed member")}
+                          variant="outlined"
+                          color="primary"
+                        >
+                          Bob
+                        </Chip>
+                        <Chip
+                          avatar={
+                            <Avatar
+                              size="xs"
+                              name="Carol"
+                              className="w-5 h-5"
+                            />
+                          }
+                          deletable
+                          onDelete={() => console.log("Removed member")}
+                          variant="outlined"
+                          color="primary"
+                        >
+                          Carol
+                        </Chip>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card variant="bordered" padding="lg">
+                <CardHeader>
+                  <CardTitle>Filter Options</CardTitle>
+                  <CardDescription>
+                    Click chips to toggle filters
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    <Chip
+                      clickable
+                      onClick={() => console.log("All selected")}
+                      color="default"
+                      variant="filled"
+                    >
+                      All
+                    </Chip>
+                    <Chip
+                      clickable
+                      onClick={() => console.log("Active filter")}
+                      color="success"
+                      variant="outlined"
+                    >
+                      Active
+                    </Chip>
+                    <Chip
+                      clickable
+                      onClick={() => console.log("Pending filter")}
+                      color="warning"
+                      variant="outlined"
+                    >
+                      Pending
+                    </Chip>
+                    <Chip
+                      clickable
+                      onClick={() => console.log("Completed filter")}
+                      color="info"
+                      variant="outlined"
+                    >
+                      Completed
+                    </Chip>
+                    <Chip
+                      clickable
+                      onClick={() => console.log("Archived filter")}
+                      color="default"
+                      variant="outlined"
+                    >
+                      Archived
+                    </Chip>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
 
@@ -1453,6 +2193,801 @@ function App() {
                   </Link>
                 </CardFooter>
               </Card>
+            </div>
+          </div>
+
+          {/* Timeline Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6 text-text">
+              Timeline Component
+            </h3>
+
+            {/* Variants */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Variants</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Default */}
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Default Timeline</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      items={[
+                        {
+                          id: 1,
+                          title: "Project Started",
+                          description: "Initial setup and configuration",
+                          time: "Jan 2024",
+                          status: "success",
+                        },
+                        {
+                          id: 2,
+                          title: "Development Phase",
+                          description: "Building core features",
+                          time: "Feb 2024",
+                          active: true,
+                        },
+                        {
+                          id: 3,
+                          title: "Testing",
+                          description: "QA and bug fixes",
+                          time: "Mar 2024",
+                          status: "default",
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+
+                {/* Gradient */}
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Gradient Timeline</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      variant="gradient"
+                      items={[
+                        {
+                          id: 1,
+                          title: "Design Complete",
+                          description: "UI/UX finalized",
+                          time: "Week 1",
+                          status: "success",
+                        },
+                        {
+                          id: 2,
+                          title: "Development",
+                          description: "Implementation in progress",
+                          time: "Week 2",
+                          status: "primary",
+                          active: true,
+                        },
+                        {
+                          id: 3,
+                          title: "Launch",
+                          description: "Deploy to production",
+                          time: "Week 3",
+                          status: "info",
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+
+                {/* Outlined */}
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Outlined Timeline</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      variant="outlined"
+                      items={[
+                        {
+                          id: 1,
+                          title: "Order Placed",
+                          description: "Your order has been confirmed",
+                          time: "10:00 AM",
+                          status: "success",
+                        },
+                        {
+                          id: 2,
+                          title: "Processing",
+                          description: "Preparing your items",
+                          time: "10:30 AM",
+                          active: true,
+                        },
+                        {
+                          id: 3,
+                          title: "Shipped",
+                          description: "On the way",
+                          time: "Expected 2:00 PM",
+                          status: "default",
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+
+                {/* Minimal */}
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Minimal Timeline</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      variant="minimal"
+                      size="sm"
+                      items={[
+                        {
+                          id: 1,
+                          title: "Task Created",
+                          time: "2 hours ago",
+                          status: "info",
+                        },
+                        {
+                          id: 2,
+                          title: "In Progress",
+                          time: "1 hour ago",
+                          active: true,
+                        },
+                        {
+                          id: 3,
+                          title: "Review",
+                          time: "Pending",
+                          status: "warning",
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* With Icons */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                With Icons
+              </h4>
+              <Card variant="bordered" padding="lg">
+                <CardContent>
+                  <Timeline
+                    variant="gradient"
+                    size="md"
+                    items={[
+                      {
+                        id: 1,
+                        title: "Planning",
+                        description: "Define project scope and requirements",
+                        time: "Day 1",
+                        icon: <FileText size={16} />,
+                        status: "success",
+                      },
+                      {
+                        id: 2,
+                        title: "Development",
+                        description: "Code implementation and testing",
+                        time: "Day 2-5",
+                        icon: <Code size={16} />,
+                        status: "primary",
+                        active: true,
+                      },
+                      {
+                        id: 3,
+                        title: "Build",
+                        description: "Compile and package application",
+                        time: "Day 6",
+                        icon: <Package size={16} />,
+                        status: "info",
+                      },
+                      {
+                        id: 4,
+                        title: "Deploy",
+                        description: "Release to production",
+                        time: "Day 7",
+                        icon: <Rocket size={16} />,
+                        status: "default",
+                      },
+                    ]}
+                  />
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Sizes */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Sizes</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card variant="glass" padding="md">
+                  <CardHeader>
+                    <CardTitle className="text-base">Small</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      size="sm"
+                      items={[
+                        {
+                          id: 1,
+                          title: "Step 1",
+                          time: "10:00",
+                          status: "success",
+                        },
+                        {
+                          id: 2,
+                          title: "Step 2",
+                          time: "11:00",
+                          active: true,
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+
+                <Card variant="glass" padding="md">
+                  <CardHeader>
+                    <CardTitle className="text-base">Medium</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      size="md"
+                      items={[
+                        {
+                          id: 1,
+                          title: "Step 1",
+                          time: "10:00",
+                          status: "success",
+                        },
+                        {
+                          id: 2,
+                          title: "Step 2",
+                          time: "11:00",
+                          active: true,
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+
+                <Card variant="glass" padding="md">
+                  <CardHeader>
+                    <CardTitle className="text-base">Large</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      size="lg"
+                      items={[
+                        {
+                          id: 1,
+                          title: "Step 1",
+                          time: "10:00",
+                          status: "success",
+                        },
+                        {
+                          id: 2,
+                          title: "Step 2",
+                          time: "11:00",
+                          active: true,
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Positions */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Positioning
+              </h4>
+
+              {/* Alternate Position */}
+              <Card variant="glass" padding="lg" className="mb-6">
+                <CardHeader>
+                  <CardTitle>Alternate Position</CardTitle>
+                  <CardDescription>
+                    Content alternates between left and right
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Timeline
+                    variant="gradient"
+                    position="alternate"
+                    items={[
+                      {
+                        id: 1,
+                        title: "Research Phase",
+                        description:
+                          "Market analysis and competitor research completed",
+                        time: "Q1 2024",
+                        icon: <FileText size={16} />,
+                        status: "success",
+                      },
+                      {
+                        id: 2,
+                        title: "Design & Prototype",
+                        description: "UI/UX design and interactive prototypes",
+                        time: "Q2 2024",
+                        icon: <Settings size={16} />,
+                        status: "success",
+                      },
+                      {
+                        id: 3,
+                        title: "Development Sprint",
+                        description:
+                          "Agile development with bi-weekly releases",
+                        time: "Q3 2024",
+                        icon: <Code size={16} />,
+                        status: "primary",
+                        active: true,
+                      },
+                      {
+                        id: 4,
+                        title: "Beta Testing",
+                        description: "User testing and feedback collection",
+                        time: "Q4 2024",
+                        icon: <CheckCircle size={16} />,
+                        status: "info",
+                      },
+                      {
+                        id: 5,
+                        title: "Production Launch",
+                        description: "Full product release to all users",
+                        time: "Q1 2025",
+                        icon: <CloudUpload size={16} />,
+                        status: "default",
+                      },
+                    ]}
+                  />
+                </CardContent>
+              </Card>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Left Position */}
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Left Position</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      position="left"
+                      items={[
+                        {
+                          id: 1,
+                          title: "Started",
+                          description: "Project initiated",
+                          time: "Yesterday",
+                          status: "success",
+                        },
+                        {
+                          id: 2,
+                          title: "Working",
+                          description: "In development",
+                          time: "Today",
+                          active: true,
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+
+                {/* Right Position */}
+                <Card variant="glass" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Right Position</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      position="right"
+                      items={[
+                        {
+                          id: 1,
+                          title: "Started",
+                          description: "Project initiated",
+                          time: "Yesterday",
+                          status: "success",
+                        },
+                        {
+                          id: 2,
+                          title: "Working",
+                          description: "In development",
+                          time: "Today",
+                          active: true,
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Status Colors */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Status Colors
+              </h4>
+              <Card variant="bordered" padding="lg">
+                <CardContent>
+                  <Timeline
+                    variant="outlined"
+                    items={[
+                      {
+                        id: 1,
+                        title: "Completed Task",
+                        description: "Successfully finished",
+                        time: "10:00 AM",
+                        status: "success",
+                      },
+                      {
+                        id: 2,
+                        title: "Important Update",
+                        description: "Requires attention",
+                        time: "11:00 AM",
+                        status: "primary",
+                      },
+                      {
+                        id: 3,
+                        title: "Warning Alert",
+                        description: "Needs review",
+                        time: "12:00 PM",
+                        status: "warning",
+                      },
+                      {
+                        id: 4,
+                        title: "Error Occurred",
+                        description: "Action required",
+                        time: "1:00 PM",
+                        status: "error",
+                      },
+                      {
+                        id: 5,
+                        title: "Information",
+                        description: "FYI notification",
+                        time: "2:00 PM",
+                        status: "info",
+                        active: true,
+                      },
+                    ]}
+                  />
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Real-World Examples */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Real-World Usage
+              </h4>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Order Tracking */}
+                <Card variant="glass-strong" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Order Tracking</CardTitle>
+                    <CardDescription>Order #12345</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      variant="gradient"
+                      items={[
+                        {
+                          id: 1,
+                          title: "Order Confirmed",
+                          description: "Payment received successfully",
+                          time: "May 1, 9:00 AM",
+                          icon: <CheckCircle size={16} />,
+                          status: "success",
+                        },
+                        {
+                          id: 2,
+                          title: "Processing",
+                          description: "Preparing your order",
+                          time: "May 1, 10:30 AM",
+                          icon: <Package size={16} />,
+                          status: "success",
+                        },
+                        {
+                          id: 3,
+                          title: "Shipped",
+                          description: "Package in transit",
+                          time: "May 2, 2:00 PM",
+                          icon: <ShoppingCart size={16} />,
+                          status: "primary",
+                          active: true,
+                        },
+                        {
+                          id: 4,
+                          title: "Out for Delivery",
+                          description: "Will arrive today",
+                          time: "May 3 (Expected)",
+                          icon: <Rocket size={16} />,
+                          status: "info",
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+
+                {/* Project Milestones */}
+                <Card variant="glass-strong" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Project Milestones</CardTitle>
+                    <CardDescription>Web App Development</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      variant="outlined"
+                      items={[
+                        {
+                          id: 1,
+                          title: "Repository Setup",
+                          description:
+                            "Git initialized, dependencies installed",
+                          time: "Sprint 1",
+                          icon: <GitBranch size={16} />,
+                          status: "success",
+                        },
+                        {
+                          id: 2,
+                          title: "Core Features",
+                          description:
+                            "Authentication, routing, state management",
+                          time: "Sprint 2-3",
+                          icon: <Code size={16} />,
+                          status: "success",
+                        },
+                        {
+                          id: 3,
+                          title: "UI Components",
+                          description: "Building reusable component library",
+                          time: "Sprint 4",
+                          icon: <Settings size={16} />,
+                          status: "primary",
+                          active: true,
+                        },
+                        {
+                          id: 4,
+                          title: "Testing & QA",
+                          description: "Unit tests, integration tests, E2E",
+                          time: "Sprint 5",
+                          icon: <CheckCircle size={16} />,
+                          status: "warning",
+                        },
+                        {
+                          id: 5,
+                          title: "Deployment",
+                          description: "CI/CD pipeline, production release",
+                          time: "Sprint 6",
+                          icon: <CloudUpload size={16} />,
+                          status: "default",
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Customization Options */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Customization Options
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Different Dot Shapes */}
+                <Card variant="glass-strong" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Dot Shapes</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Circle (Default)
+                      </p>
+                      <Timeline
+                        dotShape="circle"
+                        size="sm"
+                        items={[
+                          {
+                            id: 1,
+                            title: "Circle Dots",
+                            status: "primary",
+                            time: "Now",
+                          },
+                        ]}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Square
+                      </p>
+                      <Timeline
+                        dotShape="square"
+                        size="sm"
+                        items={[
+                          {
+                            id: 2,
+                            title: "Square Dots",
+                            status: "success",
+                            time: "Now",
+                          },
+                        ]}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Diamond
+                      </p>
+                      <Timeline
+                        dotShape="diamond"
+                        size="sm"
+                        items={[
+                          {
+                            id: 3,
+                            title: "Diamond Dots",
+                            status: "warning",
+                            time: "Now",
+                          },
+                        ]}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">Ring</p>
+                      <Timeline
+                        dotShape="ring"
+                        size="sm"
+                        items={[
+                          {
+                            id: 4,
+                            title: "Ring Dots",
+                            status: "info",
+                            time: "Now",
+                          },
+                        ]}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Line Styles */}
+                <Card variant="glass-strong" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Line Styles</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Solid (Default)
+                      </p>
+                      <Timeline
+                        lineStyle="solid"
+                        size="sm"
+                        items={[
+                          { id: 1, title: "Solid Line", time: "Now" },
+                          { id: 2, title: "Continuous", time: "Later" },
+                        ]}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Dashed
+                      </p>
+                      <Timeline
+                        lineStyle="dashed"
+                        size="sm"
+                        items={[
+                          { id: 3, title: "Dashed Line", time: "Now" },
+                          { id: 4, title: "Segmented", time: "Later" },
+                        ]}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Dotted
+                      </p>
+                      <Timeline
+                        lineStyle="dotted"
+                        size="sm"
+                        items={[
+                          { id: 5, title: "Dotted Line", time: "Now" },
+                          { id: 6, title: "Points", time: "Later" },
+                        ]}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Gradient
+                      </p>
+                      <Timeline
+                        lineStyle="gradient"
+                        size="sm"
+                        items={[
+                          { id: 7, title: "Gradient Line", time: "Now" },
+                          { id: 8, title: "Colorful", time: "Later" },
+                        ]}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Custom Colors */}
+                <Card variant="glass-strong" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Custom Colors</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      lineColor="#ff6b6b"
+                      lineWidth="3px"
+                      items={[
+                        {
+                          id: 1,
+                          title: "Custom Line Color",
+                          description: "Red timeline line",
+                          time: "Step 1",
+                        },
+                        {
+                          id: 2,
+                          title: "Custom Dot Color",
+                          description: "Yellow dot with custom color",
+                          dotColor: "#ffd93d",
+                          time: "Step 2",
+                        },
+                        {
+                          id: 3,
+                          title: "Another Custom",
+                          description: "Purple dot",
+                          dotColor: "#a29bfe",
+                          time: "Step 3",
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+
+                {/* Per-Item Customization */}
+                <Card variant="glass-strong" padding="lg">
+                  <CardHeader>
+                    <CardTitle>Per-Item Control</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Timeline
+                      items={[
+                        {
+                          id: 1,
+                          title: "Normal Item",
+                          description: "Standard timeline item",
+                          time: "Step 1",
+                          status: "success",
+                        },
+                        {
+                          id: 2,
+                          title: "Hidden Dot",
+                          description: "This item has no dot",
+                          hideDot: true,
+                          time: "Step 2",
+                        },
+                        {
+                          id: 3,
+                          title: "No Line After",
+                          description: "Line ends here",
+                          hideLine: true,
+                          time: "Step 3",
+                          status: "primary",
+                        },
+                        {
+                          id: 4,
+                          title: "Isolated Item",
+                          description: "No connection above",
+                          time: "Step 4",
+                        },
+                      ]}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
 
