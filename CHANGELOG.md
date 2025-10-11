@@ -1,3 +1,19 @@
+# [1.2.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.1.0...v1.2.0) (2025-10-11)
+
+
+### Bug Fixes
+
+* **ui:** remove oklch label from palette heading ([408218b](https://github.com/Xenial-Devil/Saha-ui/commit/408218b1359a26476aa9245826ff0143f8782598))
+
+
+### Features
+
+* **breadcrumb:** add Breadcrumb component and showcase ([6df7976](https://github.com/Xenial-Devil/Saha-ui/commit/6df7976eded1c464da44a8e6cfb6d5ce32512d0f))
+* **links:** add variants, sizes, props and showcase in App ([a72a102](https://github.com/Xenial-Devil/Saha-ui/commit/a72a10240e6a17af6c797c3e298b8873c6293c8f))
+* **list:** add CVA-driven variants and polish ListItem and Card ([7bfd339](https://github.com/Xenial-Devil/Saha-ui/commit/7bfd3399546feb50bc3867b7d1385f56b3e0271b))
+* **ui:** add Badge types demo ButtonGroup in App ([f12eb55](https://github.com/Xenial-Devil/Saha-ui/commit/f12eb55603888cd4949ef651122dd51288b9834f))
+* **ui:** simplify ColorPalette and use CSS vars directly ([a974b5b](https://github.com/Xenial-Devil/Saha-ui/commit/a974b5b8e728204b9a04ea59e5310820549be998))
+
 # [1.1.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.0.0...v1.1.0) (2025-10-10)
 
 
