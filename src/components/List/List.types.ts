@@ -63,4 +63,10 @@ export interface ListItemProps extends React.HTMLAttributes<HTMLLIElement> {
    * Optional icon before the content
    */
   icon?: React.ReactNode;
+
+  /**
+   * Visual style variant (should match parent List variant)
+   * @default "default"
+   */
+  variant?: ListVariant;
 }

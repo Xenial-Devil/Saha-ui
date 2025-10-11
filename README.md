@@ -153,7 +153,7 @@ import { cn } from "saha-ui/lib/utils";
 | **AvatarGroup** | Grouped avatars with overlap and count             | ✅     | ✅  |
 | **Tooltip**     | Contextual hints with 5 variants                   | ✅     | ✅  |
 | **Link**        | Smart links with 9 variants and icon support       | ✅     | ✅  |
-| **List**        | Versatile lists with 10 types                      | ✅     | ✅  |
+| **List**        | Modern lists with 5 variants and icon support      | ✅     | ✅  |
 | **Image**       | Advanced image with lazy loading                   | ✅     | ✅  |
 | **Carousel**    | Image slider with 4 transition effects             | ✅     | ✅  |
 
@@ -643,7 +643,7 @@ import { Star } from "lucide-react";
 
 ### List
 
-Versatile lists with icons and multiple visual styles.
+Versatile lists with 5 modern variants, icon support, and enhanced animations powered by CVA (Class Variance Authority).
 
 **Types:** `disc` `circle` `square` `decimal` `decimal-leading-zero` `lower-roman` `upper-roman` `lower-alpha` `upper-alpha` `none`  
 **Variants:** `default` `bordered` `divided` `striped` `cards`  
@@ -651,29 +651,164 @@ Versatile lists with icons and multiple visual styles.
 
 ```tsx
 import { List, ListItem } from 'saha-ui';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Star, Zap, Heart } from 'lucide-react';
 
-<List variant="bordered" size="md" listType="disc">
-  <ListItem icon={<CheckCircle />}>
-    Item with custom icon
-  </ListItem>
-  <ListItem>Regular item</ListItem>
-  <ListItem>Another item</ListItem>
+// Default List
+<List variant="default" listType="disc">
+  <li>Modern React components</li>
+  <li>TypeScript support</li>
+  <li>Tailwind CSS styling</li>
 </List>
 
-// Ordered list
-<List variant="cards" ordered listType="decimal">
-  <ListItem>Step 1</ListItem>
-  <ListItem>Step 2</ListItem>
+// Bordered List with backdrop blur
+<List variant="bordered" listType="disc" size="md">
+  <li>Clean border design</li>
+  <li>Card background</li>
+  <li>Shadow on hover</li>
+</List>
+
+// Divided List (requires ListItem)
+<List variant="divided" listType="none">
+  <ListItem variant="divided">First item</ListItem>
+  <ListItem variant="divided">Second item</ListItem>
+  <ListItem variant="divided">Third item</ListItem>
+</List>
+
+// Striped List (requires ListItem)
+<List variant="striped" listType="none">
+  <ListItem variant="striped">Striped item 1</ListItem>
+  <ListItem variant="striped">Striped item 2</ListItem>
+  <ListItem variant="striped">Striped item 3</ListItem>
+</List>
+
+// Cards Variant with icons and hover effects
+<List variant="cards" listType="none">
+  <ListItem variant="cards" icon={<CheckCircle size={20} />}>
+    <strong>Modern Design</strong> - Beautiful glassmorphism effects
+  </ListItem>
+  <ListItem variant="cards" icon={<Star size={20} />}>
+    <strong>Type Safe</strong> - Full TypeScript support
+  </ListItem>
+  <ListItem variant="cards" icon={<Zap size={20} />}>
+    <strong>Fast Performance</strong> - Optimized for speed
+  </ListItem>
+</List>
+
+// Feature list with custom icons
+<List variant="default" listType="none">
+  <ListItem icon={<CheckCircle size={18} />}>
+    Complete TypeScript support
+  </ListItem>
+  <ListItem icon={<Star size={18} />}>
+    Modern glassmorphism effects
+  </ListItem>
+  <ListItem icon={<Heart size={18} />}>
+    Dark mode compatible
+  </ListItem>
+</List>
+
+// Ordered list with different markers
+<List variant="default" listType="decimal" ordered size="md">
+  <li>Install the package</li>
+  <li>Import components</li>
+  <li>Start building</li>
+</List>
+
+<List variant="bordered" listType="upper-roman" ordered>
+  <li>Chapter I</li>
+  <li>Chapter II</li>
+  <li>Chapter III</li>
 </List>
 ```
 
+**Variant Details:**
+
+- **default** - Clean, minimal design with standard list styling
+- **bordered** - Card background with border, shadow, and backdrop blur (20px)
+- **divided** - Items separated by divider lines, subtle hover effects
+- **striped** - Alternating background colors for better readability
+- **cards** - Individual card-style items with gradient overlay on hover
+
 **Features:**
 
-- 🔢 Ordered and unordered support
-- 🎨 5 visual variants
-- ✨ Icon support per item
-- 💫 Hover effects
+- 🔢 **Ordered & Unordered** - Full support for both list types
+- 🎨 **5 Modern Variants** - Each with unique visual design and animations
+- ✨ **Icon Support** - Custom icons per item with hover animations (scale 110%, color change to primary)
+- 💫 **Enhanced Animations** - Smooth transitions, hover effects, and gradient overlays
+- 🔮 **Glass Morphism** - Backdrop blur effects on bordered variant
+- 📏 **3 Sizes** - sm, md, lg with responsive text and spacing
+- 🎯 **Type-Safe** - Full CVA integration with exported variants
+- � **Dark Mode** - Optimized colors and effects for dark theme
+- ♿ **Accessible** - Semantic HTML with proper ARIA attributes
+- 📦 **Tree-Shakeable** - Import only what you need
+- 🎭 **Compound Variants** - Automatic padding adjustments per variant
+- 🌈 **10 List Types** - disc, circle, square, decimal, roman numerals, alpha
+
+**Props:**
+
+**List Component:**
+
+- `variant`: 'default' | 'bordered' | 'divided' | 'striped' | 'cards' (default: 'default')
+- `size`: 'sm' | 'md' | 'lg' (default: 'md')
+- `listType`: 'disc' | 'circle' | 'square' | 'decimal' | 'decimal-leading-zero' | 'lower-roman' | 'upper-roman' | 'lower-alpha' | 'upper-alpha' | 'none' (default: 'disc')
+- `ordered`: boolean (default: false) - Renders as `<ol>` instead of `<ul>`
+- `className`: string - Additional CSS classes
+
+**ListItem Component:**
+
+- `variant`: 'default' | 'bordered' | 'divided' | 'striped' | 'cards' (default: 'default')
+- `icon`: ReactNode - Optional icon to display before content
+- `children`: ReactNode - Item content
+- `className`: string - Additional CSS classes
+
+**Advanced Usage:**
+
+```tsx
+// Contextual usage in Card
+<Card variant="glass-strong">
+  <CardHeader>
+    <CardTitle>Installation Guide</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <List variant="bordered" listType="decimal" ordered size="md">
+      <li>Install the package via npm</li>
+      <li>Import the components</li>
+      <li>Wrap with ThemeProvider</li>
+      <li>Start using components</li>
+    </List>
+  </CardContent>
+</Card>
+
+// Mixed content with icons
+<List variant="cards" listType="none">
+  <ListItem variant="cards" icon={<CheckCircle size={20} />}>
+    <div>
+      <strong>Premium Feature</strong>
+      <p className="text-sm text-muted-foreground">
+        Access to exclusive components
+      </p>
+    </div>
+  </ListItem>
+</List>
+```
+
+**CVA Integration:**
+
+```tsx
+import { listVariants, listItemVariants } from "saha-ui";
+
+// Use exported variants for custom styling
+const customListClass = listVariants({
+  variant: "cards",
+  size: "lg",
+  className: "my-custom-class",
+});
+
+const customItemClass = listItemVariants({
+  variant: "cards",
+  className: "hover:scale-105",
+});
+```
 
 ---
 

@@ -20,6 +20,7 @@ import Carousel from "./components/Carousel";
 import Image from "./components/Image";
 import Link from "./components/Link";
 import List from "./components/List";
+import ListItem from "./components/List/ListItem";
 import Tooltip from "./components/Tooltip";
 import {
   Sparkles,
@@ -854,28 +855,288 @@ function App() {
 
           {/* List Showcase */}
           <div className="mb-16">
-            <h3 className="text-2xl font-bold mb-6">Lists</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="text-lg font-semibold mb-3">Disc List</h4>
-                <List listType="disc">
-                  <li>Modern React components</li>
-                  <li>TypeScript support</li>
-                  <li>Tailwind CSS styling</li>
-                  <li>Dark mode support</li>
-                  <li>Glassmorphism effects</li>
-                </List>
+            <h3 className="text-2xl font-bold mb-6 text-text">
+              List Component
+            </h3>
+
+            {/* List Variants */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                List Variants
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Default List */}
+                <div>
+                  <h5 className="text-sm font-medium mb-3 text-muted-foreground">
+                    Default
+                  </h5>
+                  <List listType="disc" variant="default">
+                    <li>Modern React components</li>
+                    <li>TypeScript support</li>
+                    <li>Tailwind CSS styling</li>
+                    <li>Dark mode support</li>
+                    <li>Glassmorphism effects</li>
+                  </List>
+                </div>
+
+                {/* Bordered List */}
+                <div>
+                  <h5 className="text-sm font-medium mb-3 text-muted-foreground">
+                    Bordered
+                  </h5>
+                  <List listType="disc" variant="bordered">
+                    <li>Clean border design</li>
+                    <li>Card background</li>
+                    <li>Shadow on hover</li>
+                    <li>Backdrop blur</li>
+                    <li>Premium feel</li>
+                  </List>
+                </div>
+
+                {/* Divided List */}
+                <div>
+                  <h5 className="text-sm font-medium mb-3 text-muted-foreground">
+                    Divided
+                  </h5>
+                  <List listType="none" variant="divided">
+                    <ListItem variant="divided">First item</ListItem>
+                    <ListItem variant="divided">Second item</ListItem>
+                    <ListItem variant="divided">Third item</ListItem>
+                    <ListItem variant="divided">Fourth item</ListItem>
+                  </List>
+                </div>
+
+                {/* Striped List */}
+                <div>
+                  <h5 className="text-sm font-medium mb-3 text-muted-foreground">
+                    Striped
+                  </h5>
+                  <List listType="none" variant="striped">
+                    <ListItem variant="striped">Striped item 1</ListItem>
+                    <ListItem variant="striped">Striped item 2</ListItem>
+                    <ListItem variant="striped">Striped item 3</ListItem>
+                    <ListItem variant="striped">Striped item 4</ListItem>
+                  </List>
+                </div>
               </div>
-              <div>
-                <h4 className="text-lg font-semibold mb-3">Decimal List</h4>
-                <List listType="decimal">
-                  <li>Install the library</li>
-                  <li>Import components</li>
-                  <li>Customize with props</li>
-                  <li>Build amazing UIs</li>
-                  <li>Deploy with confidence</li>
-                </List>
+            </div>
+
+            {/* Cards Variant */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Cards Variant
+              </h4>
+              <List listType="none" variant="cards">
+                <ListItem variant="cards" icon={<CheckCircle size={20} />}>
+                  <strong>Modern Design</strong> - Beautiful glassmorphism
+                  effects
+                </ListItem>
+                <ListItem variant="cards" icon={<Star size={20} />}>
+                  <strong>Type Safe</strong> - Full TypeScript support
+                </ListItem>
+                <ListItem variant="cards" icon={<Zap size={20} />}>
+                  <strong>Fast Performance</strong> - Optimized for speed
+                </ListItem>
+                <ListItem variant="cards" icon={<Heart size={20} />}>
+                  <strong>Developer Experience</strong> - Easy to use API
+                </ListItem>
+              </List>
+            </div>
+
+            {/* List Types */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                List Types (Markers)
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Disc */}
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Disc
+                  </h5>
+                  <List listType="disc" size="sm">
+                    <li>Item one</li>
+                    <li>Item two</li>
+                    <li>Item three</li>
+                  </List>
+                </div>
+
+                {/* Circle */}
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Circle
+                  </h5>
+                  <List listType="circle" size="sm">
+                    <li>Item one</li>
+                    <li>Item two</li>
+                    <li>Item three</li>
+                  </List>
+                </div>
+
+                {/* Square */}
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Square
+                  </h5>
+                  <List listType="square" size="sm">
+                    <li>Item one</li>
+                    <li>Item two</li>
+                    <li>Item three</li>
+                  </List>
+                </div>
+
+                {/* Decimal */}
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Decimal
+                  </h5>
+                  <List listType="decimal" ordered size="sm">
+                    <li>First step</li>
+                    <li>Second step</li>
+                    <li>Third step</li>
+                  </List>
+                </div>
+
+                {/* Lower Alpha */}
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Lower Alpha
+                  </h5>
+                  <List listType="lower-alpha" ordered size="sm">
+                    <li>Option A</li>
+                    <li>Option B</li>
+                    <li>Option C</li>
+                  </List>
+                </div>
+
+                {/* Upper Roman */}
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Upper Roman
+                  </h5>
+                  <List listType="upper-roman" ordered size="sm">
+                    <li>Chapter I</li>
+                    <li>Chapter II</li>
+                    <li>Chapter III</li>
+                  </List>
+                </div>
               </div>
+            </div>
+
+            {/* List Sizes */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Sizes</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Small
+                  </h5>
+                  <List listType="disc" size="sm">
+                    <li>Small text size</li>
+                    <li>Compact spacing</li>
+                    <li>Dense layout</li>
+                  </List>
+                </div>
+
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Medium (Default)
+                  </h5>
+                  <List listType="disc" size="md">
+                    <li>Medium text size</li>
+                    <li>Balanced spacing</li>
+                    <li>Standard layout</li>
+                  </List>
+                </div>
+
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Large
+                  </h5>
+                  <List listType="disc" size="lg">
+                    <li>Large text size</li>
+                    <li>Generous spacing</li>
+                    <li>Comfortable layout</li>
+                  </List>
+                </div>
+              </div>
+            </div>
+
+            {/* Lists with Icons */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Lists with Custom Icons
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h5 className="text-sm font-medium mb-3 text-muted-foreground">
+                    Feature List
+                  </h5>
+                  <List listType="none" variant="default">
+                    <ListItem icon={<CheckCircle size={18} />}>
+                      Complete TypeScript support
+                    </ListItem>
+                    <ListItem icon={<CheckCircle size={18} />}>
+                      Modern glassmorphism effects
+                    </ListItem>
+                    <ListItem icon={<CheckCircle size={18} />}>
+                      Dark mode compatible
+                    </ListItem>
+                    <ListItem icon={<CheckCircle size={18} />}>
+                      Fully accessible components
+                    </ListItem>
+                  </List>
+                </div>
+
+                <div>
+                  <h5 className="text-sm font-medium mb-3 text-muted-foreground">
+                    Action Items
+                  </h5>
+                  <List listType="none" variant="default">
+                    <ListItem icon={<Star size={18} />}>
+                      Star the repository
+                    </ListItem>
+                    <ListItem icon={<Heart size={18} />}>
+                      Share with friends
+                    </ListItem>
+                    <ListItem icon={<Mail size={18} />}>
+                      Subscribe to updates
+                    </ListItem>
+                    <ListItem icon={<User size={18} />}>
+                      Create an account
+                    </ListItem>
+                  </List>
+                </div>
+              </div>
+            </div>
+
+            {/* Contextual Usage */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Contextual Usage
+              </h4>
+              <Card variant="glass-strong" padding="lg" className="max-w-2xl">
+                <CardHeader>
+                  <CardTitle>Installation Guide</CardTitle>
+                  <CardDescription>
+                    Follow these steps to get started
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <List listType="decimal" ordered variant="bordered" size="md">
+                    <li>Install the package via npm or yarn</li>
+                    <li>Import the components you need</li>
+                    <li>Wrap your app with ThemeProvider</li>
+                    <li>Start using the components</li>
+                    <li>Customize with props and styles</li>
+                  </List>
+                </CardContent>
+                <CardFooter>
+                  <Link variant="button" href="#get-started">
+                    Get Started Now
+                  </Link>
+                </CardFooter>
+              </Card>
             </div>
           </div>
 
