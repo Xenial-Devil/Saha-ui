@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **11 Modern Components** - Button, Alert, Card, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Image, Carousel
+- 🎨 **14 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Image, Carousel
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -58,11 +58,9 @@ pnpm add saha-ui
 
 Saha UI requires React 18+ or React 19+:
 
-
 ### Optional Dependencies
 
 For icons (if using Link or ThemeToggle components):
-
 
 ## 🚀 Quick Start
 
@@ -81,16 +79,26 @@ function App() {
 **Option A: Named imports from main entry (recommended)**
 
 ```tsx
-import { Button, Card, Avatar } from "saha-ui";
-import type { ButtonVariant, CardProps } from "saha-ui";
+import { Button, ButtonGroup, Card, Avatar, Badge } from "saha-ui";
+import type { ButtonVariant, CardProps, BadgeProps } from "saha-ui";
 
 function MyComponent() {
   return (
     <Card variant="glass" hoverable>
-      <Avatar src="/user.jpg" alt="User" size="lg" status="online" />
-      <Button variant="primary" size="md">
-        Click me
-      </Button>
+      <div className="flex items-center gap-2">
+        <Avatar src="/user.jpg" alt="User" size="lg" status="online" />
+        <Badge variant="success" dot pulse>
+          Active
+        </Badge>
+      </div>
+      <ButtonGroup>
+        <Button variant="primary" size="md">
+          Save
+        </Button>
+        <Button variant="ghost" size="md">
+          Cancel
+        </Button>
+      </ButtonGroup>
     </Card>
   );
 }
@@ -125,27 +133,28 @@ import { cn } from "saha-ui/lib/utils";
 <div className={cn("base-class", condition && "conditional-class")} />;
 ```
 
-````
-
 ---
 
 ## 🎨 Components
 
 ### Overview
 
-| Component       | Description                                        | Status | CVA |
-| --------------- | -------------------------------------------------- | ------ | --- |
-| **Button**      | Action buttons with 8 variants and 4 sizes         | ✅     | ✅  |
-| **Alert**       | Notification messages with 5 variants × 4 statuses | ✅     | ✅  |
-| **Card**        | Container with 5 variants and sub-components       | ✅     | ✅  |
-| **Accordion**   | Collapsible content with 5 behavior modes          | ✅     | ✅  |
-| **Avatar**      | User profile images with status indicators         | ✅     | ✅  |
-| **AvatarGroup** | Grouped avatars with overlap and count             | ✅     | ✅  |
-| **Tooltip**     | Contextual hints with 5 variants                   | ✅     | ✅  |
-| **Link**        | Smart links with external detection                | ✅     | ✅  |
-| **List**        | Versatile lists with 10 types                      | ✅     | ✅  |
-| **Image**       | Advanced image with lazy loading                   | ✅     | ✅  |
-| **Carousel**    | Image slider with 4 transition effects             | ✅     | ✅  |
+| Component       | Description                                                    | Status | CVA |
+| --------------- | -------------------------------------------------------------- | ------ | --- |
+| **Button**      | Action buttons with 8 variants and 4 sizes                     | ✅     | ✅  |
+| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts               | ✅     | ✅  |
+| **Alert**       | Notification messages with 5 variants × 4 statuses             | ✅     | ✅  |
+| **Badge**       | Status indicators and labels with 9 variants                   | ✅     | ✅  |
+| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing | ✅     | ✅  |
+| **Card**        | Container with 5 variants and sub-components                   | ✅     | ✅  |
+| **Accordion**   | Collapsible content with 5 behavior modes                      | ✅     | ✅  |
+| **Avatar**      | User profile images with status indicators                     | ✅     | ✅  |
+| **AvatarGroup** | Grouped avatars with overlap and count                         | ✅     | ✅  |
+| **Tooltip**     | Contextual hints with 5 variants                               | ✅     | ✅  |
+| **Link**        | Smart links with 9 variants and icon support                   | ✅     | ✅  |
+| **List**        | Modern lists with 5 variants and icon support                  | ✅     | ✅  |
+| **Image**       | Advanced image with lazy loading                               | ✅     | ✅  |
+| **Carousel**    | Image slider with 4 transition effects                         | ✅     | ✅  |
 
 ---
 
@@ -171,7 +180,7 @@ import { Sparkles } from "lucide-react";
   <Sparkles size={18} />
   Glass Effect
 </Button>;
-````
+```
 
 **Features:**
 
@@ -179,6 +188,279 @@ import { Sparkles } from "lucide-react";
 - 🌈 Gradient overlays
 - 💫 Dynamic shadows
 - 🔄 React.forwardRef support
+
+---
+
+### ButtonGroup
+
+Container component that groups multiple buttons together with seamless styling.
+
+**Variants:** `default` `outline` `ghost` `glass`  
+**Sizes:** `sm` `md` `lg` `xl`  
+**Orientation:** `horizontal` `vertical`
+
+```tsx
+import { ButtonGroup, Button } from "saha-ui";
+
+// Basic horizontal group
+<ButtonGroup>
+  <Button variant="primary">Left</Button>
+  <Button variant="primary">Center</Button>
+  <Button variant="primary">Right</Button>
+</ButtonGroup>
+
+// Vertical orientation
+<ButtonGroup orientation="vertical">
+  <Button variant="accent">Top</Button>
+  <Button variant="accent">Middle</Button>
+  <Button variant="accent">Bottom</Button>
+</ButtonGroup>
+
+// Glass variant with full width
+<ButtonGroup variant="glass" fullWidth>
+  <Button variant="glass">Save</Button>
+  <Button variant="glass">Cancel</Button>
+</ButtonGroup>
+
+// Full rounded (pill style)
+<ButtonGroup fullRounded>
+  <Button variant="secondary">Option 1</Button>
+  <Button variant="secondary">Option 2</Button>
+  <Button variant="secondary">Option 3</Button>
+</ButtonGroup>
+
+// Detached buttons (with gaps)
+<ButtonGroup attached={false}>
+  <Button variant="primary">Accept</Button>
+  <Button variant="ghost">Decline</Button>
+</ButtonGroup>
+```
+
+**Features:**
+
+- 🔗 Seamless button integration with smart rounding
+- 🎨 4 visual variants (default, outline, ghost, glass)
+- 📐 Horizontal & vertical orientations
+- 📏 Auto-sizing all buttons in group
+- 🔲 Full width support
+- 🎯 Attached or detached modes
+- 💫 Hover z-index management
+- ♿ ARIA role="group" for accessibility
+
+**Props:**
+
+- `variant` - Visual style (default, outline, ghost, glass)
+- `size` - Size applied to all child buttons (sm, md, lg, xl)
+- `orientation` - Layout direction (horizontal, vertical)
+- `fullRounded` - Pill-style rounding on outer buttons
+- `fullWidth` - Make buttons fill container width equally
+- `attached` - Whether buttons are connected (true) or have gaps (false)
+
+**Contextual Usage:**
+
+```tsx
+// In modal footer
+<Card>
+  <CardHeader>
+    <CardTitle>Confirm Action</CardTitle>
+  </CardHeader>
+  <CardFooter>
+    <ButtonGroup fullWidth>
+      <Button variant="error">Delete</Button>
+      <Button variant="ghost">Cancel</Button>
+    </ButtonGroup>
+  </CardFooter>
+</Card>
+
+// Navigation menu
+<ButtonGroup orientation="vertical" variant="outline" fullWidth>
+  <Button variant="ghost"><User size={16} /> Profile</Button>
+  <Button variant="ghost"><Bell size={16} /> Notifications</Button>
+  <Button variant="ghost"><Mail size={16} /> Messages</Button>
+</ButtonGroup>
+
+// Toolbar
+<ButtonGroup variant="glass">
+  <Button variant="glass"><Star size={16} /></Button>
+  <Button variant="glass"><Heart size={16} /></Button>
+  <Button variant="glass"><Mail size={16} /></Button>
+</ButtonGroup>
+```
+
+---
+
+### Breadcrumb
+
+Navigation component showing the current page's location within a hierarchy with 5 modern variants.
+
+**Variants:** `default` `ghost` `bordered` `pills` `underline`  
+**Sizes:** `sm` `md` `lg`  
+**Separators:** `chevron` `slash` `dot` `arrow` `custom`
+
+```tsx
+import { Breadcrumb } from "saha-ui";
+import type { BreadcrumbItem } from "saha-ui";
+
+// Basic breadcrumb
+<Breadcrumb
+  items={[
+    { label: "Home", href: "/" },
+    { label: "Products", href: "/products" },
+    { label: "Laptops", isCurrentPage: true }
+  ]}
+/>
+
+// Pills variant with chevron separator
+<Breadcrumb
+  items={[
+    { label: "Home", href: "/" },
+    { label: "Docs", href: "/docs" },
+    { label: "Components", isCurrentPage: true }
+  ]}
+  variant="pills"
+  separator="chevron"
+/>
+
+// With icons
+<Breadcrumb
+  items={[
+    { label: "Dashboard", href: "/" },
+    { label: "Settings", href: "/settings", icon: <Settings size={14} /> },
+    { label: "Profile", isCurrentPage: true, icon: <User size={14} /> }
+  ]}
+  variant="bordered"
+/>
+
+// Collapsed long breadcrumb (shows first + last 2 items)
+<Breadcrumb
+  items={longItemArray}
+  maxItems={4}
+  variant="ghost"
+/>
+
+// Custom separator
+<Breadcrumb
+  items={items}
+  customSeparator={<span>→</span>}
+/>
+
+// Without home icon
+<Breadcrumb
+  items={items}
+  showHomeIcon={false}
+/>
+
+// Large size with underline variant
+<Breadcrumb
+  items={items}
+  size="lg"
+  variant="underline"
+/>
+```
+
+**Features:**
+
+- ✨ **5 Modern Variants** - default, ghost, bordered, pills, underline
+- 🔗 **4 Separator Styles** - chevron, slash, dot, arrow + custom
+- 📏 **3 Sizes** - sm, md, lg with responsive text
+- 🏠 **Automatic Home Icon** - for first item
+- 🎯 **Icon Support** - for each breadcrumb item
+- 📦 **Smart Collapsing** - for long breadcrumbs with maxItems
+- ♿ **Full Accessibility** - ARIA labels and semantic HTML
+- 🎨 **Active Page Highlighting** - with compound variants
+- 🌈 **Theme-Aware** - OKLCH colors with dark mode
+- ⚡ **Smooth Animations** - hover effects on all variants
+- 📱 **Responsive** - wraps on mobile devices
+- 🔒 **Type-Safe** - TypeScript with exported CVA variants
+
+**Variant Details:**
+
+- **default** - Clean with subtle hover (best for minimal designs)
+- **ghost** - Ghost hover states with background
+- **bordered** - Bordered pills with shadows and hover effects
+- **pills** - Pill-shaped with backgrounds
+- **underline** - Animated underline on hover
+
+**Props:**
+
+```tsx
+interface BreadcrumbProps {
+  items: BreadcrumbItem[]; // Array of breadcrumb items
+  variant?: "default" | "ghost" | "bordered" | "pills" | "underline";
+  size?: "sm" | "md" | "lg";
+  separator?: "chevron" | "slash" | "dot" | "arrow" | "custom";
+  customSeparator?: React.ReactNode; // Custom separator element
+  showHomeIcon?: boolean; // Show home icon for first item (default: true)
+  maxItems?: number; // Max items before collapsing
+  className?: string;
+}
+
+interface BreadcrumbItem {
+  label: string; // Display text
+  href?: string; // Link URL (optional)
+  icon?: React.ReactNode; // Icon element (optional)
+  isCurrentPage?: boolean; // Mark as current page
+}
+```
+
+**Advanced Usage:**
+
+```tsx
+// Dynamic breadcrumb based on route
+const breadcrumbItems = useMemo(() => {
+  const paths = location.pathname.split("/").filter(Boolean);
+  return paths.map((path, index) => ({
+    label: path.charAt(0).toUpperCase() + path.slice(1),
+    href:
+      index < paths.length - 1
+        ? `/${paths.slice(0, index + 1).join("/")}`
+        : undefined,
+    isCurrentPage: index === paths.length - 1,
+  }));
+}, [location.pathname]);
+
+<Breadcrumb items={breadcrumbItems} variant="pills" />;
+
+// With next/link integration
+const CustomBreadcrumb = ({ items }) => (
+  <Breadcrumb
+    items={items.map((item) => ({
+      ...item,
+      href: undefined, // Remove href
+      onClick: () => router.push(item.path), // Use Next.js router
+    }))}
+  />
+);
+
+// In a page header
+<header className="border-b">
+  <div className="container mx-auto px-4 py-3">
+    <Breadcrumb
+      items={[
+        { label: "Dashboard", href: "/" },
+        { label: "Projects", href: "/projects" },
+        { label: currentProject.name, isCurrentPage: true },
+      ]}
+      variant="ghost"
+      size="sm"
+    />
+  </div>
+</header>;
+```
+
+**CVA Integration:**
+
+```tsx
+import { breadcrumbVariants, breadcrumbItemVariants } from "saha-ui";
+
+// Use exported variants for custom styling
+const customBreadcrumbClass = breadcrumbVariants({ size: "lg" });
+const customItemClass = breadcrumbItemVariants({
+  variant: "pills",
+  size: "lg",
+  isCurrentPage: false,
+});
+```
 
 ---
 
@@ -211,6 +493,91 @@ import { Alert } from "saha-ui";
 
 ---
 
+### Badge
+
+Small status indicators and labels with rich visual variants.
+
+**Variants:** `default` `primary` `secondary` `success` `warning` `error` `info` `outline` `glass`  
+**Sizes:** `sm` `md` `lg`  
+**Shapes:** `rounded` `pill` `square`
+
+```tsx
+import { Badge } from "saha-ui";
+
+// Basic usage
+<Badge variant="primary">New</Badge>
+
+// With status dot
+<Badge variant="success" dot pulse>
+  Online
+</Badge>
+
+// With icon
+<Badge variant="warning" icon={AlertCircle}>
+  Warning
+</Badge>
+
+// Removable tag
+<Badge variant="outline" removable onRemove={() => console.log("Removed")}>
+  Design
+</Badge>
+
+// Custom styling
+<Badge
+  variant="glass"
+  size="lg"
+  shape="pill"
+  className="backdrop-blur-xl"
+>
+  Premium
+</Badge>
+```
+
+**Features:**
+
+- 🎨 9 visual variants with gradients
+- 📏 3 sizes (sm, md, lg)
+- 🔷 3 shapes (rounded, pill, square)
+- 🔴 Status dot indicators with pulse
+- 🎯 Icon integration
+- ✖️ Removable tags
+- ✨ Hover scale animations
+
+**Contextual Usage:**
+
+```tsx
+// In Card header
+<Card>
+  <CardHeader>
+    <div className="flex items-center gap-2">
+      <CardTitle>Premium Feature</CardTitle>
+      <Badge variant="primary" size="sm">New</Badge>
+    </div>
+  </CardHeader>
+</Card>
+
+// Status tags with dots
+<Badge variant="success" dot pulse>Active</Badge>
+<Badge variant="error" dot>Offline</Badge>
+<Badge variant="warning" dot pulse>Away</Badge>
+
+// Tag list
+<div className="flex gap-2 flex-wrap">
+  {tags.map(tag => (
+    <Badge
+      key={tag}
+      variant="outline"
+      removable
+      onRemove={() => removeTag(tag)}
+    >
+      {tag}
+    </Badge>
+  ))}
+</div>
+```
+
+---
+
 ### Card
 
 Versatile container component with sub-components for structured layouts.
@@ -227,6 +594,7 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
+  cardVariants // ← CVA export
 } from "saha-ui";
 
 <Card variant="glass-strong" padding="lg" rounded="2xl" hoverable>
@@ -238,7 +606,18 @@ import {
   <CardFooter>
     <Button>Action</Button>
   </CardFooter>
-</Card>;
+</Card>
+
+// All variants demo
+<Card variant="default" hoverable>Default Card</Card>
+<Card variant="glass" hoverable>Glass Card</Card>
+<Card variant="glass-strong" hoverable>Strong Glass</Card>
+<Card variant="glass-subtle" hoverable>Subtle Glass</Card>
+<Card variant="bordered" hoverable>Bordered Card</Card>
+
+// Custom CVA usage
+const customClass = cardVariants({ variant: 'glass-strong', padding: 'xl', rounded: '2xl', hoverable: true });
+<div className={customClass}>Custom Card</div>
 ```
 
 **Features:**
@@ -247,6 +626,39 @@ import {
 - ✨ Hover scale and shadow effects
 - 🎨 Gradient overlays
 - 📦 Composable sub-components
+- 🛡️ Type-safe CVA variants (exported as `cardVariants`)
+
+---
+
+### Accordion
+
+Collapsible content sections with smooth animations and multiple behavior modes.
+
+**Variants:** `default` `bordered` `flush` `glass`  
+**Sizes:** `sm` `md` `lg`
+
+```tsx
+import { Accordion } from "saha-ui";
+
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Item 1</AccordionTrigger>
+    <AccordionContent>Content for item 1</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Item 2</AccordionTrigger>
+    <AccordionContent>Content for item 2</AccordionContent>
+  </AccordionItem>
+</Accordion>;
+```
+
+**Features:**
+
+- 🎭 Multiple types: single, multiple, toggle
+- 🚀 Fast open/close animations
+- 🔒 Collapsible and non-collapsible modes
+- 🎨 Glass morphism and gradient support
+- ♿ Fully accessible with ARIA attributes
 
 ---
 
@@ -353,40 +765,104 @@ import { Tooltip } from "saha-ui";
 
 ### Link
 
-Smart links with automatic external link detection.
+Smart, versatile links with automatic external detection and multiple visual variants.
 
-**Variants:** `default` `primary` `muted` `underline` `ghost` `button`  
+**Variants:** `default` `primary` `secondary` `accent` `muted` `underline` `ghost` `button` `glass`  
 **Sizes:** `sm` `md` `lg`
 
 ```tsx
-import { Link } from 'saha-ui';
+import { Link } from "saha-ui";
+import { Star } from "lucide-react";
 
-<Link
-  href="https://example.com"
-  variant="primary"
-  size="md"
-  external
->
-  External Link
+// Basic link with animated underline
+<Link variant="primary" href="/docs">
+  Documentation
 </Link>
 
-<Link variant="button" href="/action">
-  Link as Button
+// External link (auto-detects and shows icon)
+<Link external href="https://github.com">
+  GitHub
+</Link>
+
+// Button style link
+<Link variant="button" href="/get-started">
+  Get Started
+</Link>
+
+// Glass variant
+<Link variant="glass" href="/premium">
+  Premium Features
+</Link>
+
+// With custom icon
+<Link variant="accent" icon={<Star size={16} />} href="/featured">
+  Featured
+</Link>
+
+// Custom underline animation
+<Link variant="muted" showUnderline href="/about">
+  About Us
+</Link>
+
+// Disabled state
+<Link variant="primary" disabled href="#">
+  Coming Soon
 </Link>
 ```
 
 **Features:**
 
-- 🔗 Auto-detection of external links
-- 🔒 Auto rel="noopener noreferrer" for security
-- 🎨 Animated underline effects
-- 🔘 Button-like variant option
+- 🎨 **9 Visual Variants** - default, primary, secondary, accent, muted, underline, ghost, button, glass
+- 🔗 **Auto External Detection** - Automatically detects external links
+- 🔒 **Security First** - Auto rel="noopener noreferrer" for external links
+- ✨ **Animated Underlines** - Smooth gradient underline animations
+- 🎯 **Custom Icons** - Support for custom icons with hover effects
+- 💫 **Hover Animations** - Icon translation and glow effects
+- 🔘 **Button Variant** - Links styled as buttons with gradient overlays
+- 🔮 **Glass Morphism** - Backdrop blur variant for modern UIs
+- ♿ **Accessible** - Proper ARIA attributes and focus states
+- � **CVA Integration** - Type-safe variant management
+
+**Props:**
+
+- `variant` - Visual style (default, primary, secondary, accent, muted, underline, ghost, button, glass)
+- `size` - Text size (sm, md, lg)
+- `external` - Show external link icon
+- `disabled` - Disable the link
+- `showUnderline` - Show animated underline on hover
+- `icon` - Custom icon element to display before text
+
+**Contextual Usage:**
+
+```tsx
+// In navigation
+<nav>
+  <Link variant="ghost" href="/home">Home</Link>
+  <Link variant="ghost" href="/about">About</Link>
+  <Link variant="button" href="/contact">Contact</Link>
+</nav>
+
+// Social links
+<Link variant="primary" icon={<Star size={16} />} external href="https://github.com">
+  Star on GitHub
+</Link>
+
+// Call-to-action
+<Link variant="button" href="/signup">
+  Sign Up Free
+</Link>
+
+// Inline text link
+<p>
+  Read our <Link variant="primary" href="/docs">documentation</Link> to learn more.
+</p>
+```
 
 ---
 
 ### List
 
-Versatile lists with icons and multiple visual styles.
+Versatile lists with 5 modern variants, icon support, and enhanced animations powered by CVA (Class Variance Authority).
 
 **Types:** `disc` `circle` `square` `decimal` `decimal-leading-zero` `lower-roman` `upper-roman` `lower-alpha` `upper-alpha` `none`  
 **Variants:** `default` `bordered` `divided` `striped` `cards`  
@@ -394,29 +870,164 @@ Versatile lists with icons and multiple visual styles.
 
 ```tsx
 import { List, ListItem } from 'saha-ui';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Star, Zap, Heart } from 'lucide-react';
 
-<List variant="bordered" size="md" listType="disc">
-  <ListItem icon={<CheckCircle />}>
-    Item with custom icon
-  </ListItem>
-  <ListItem>Regular item</ListItem>
-  <ListItem>Another item</ListItem>
+// Default List
+<List variant="default" listType="disc">
+  <li>Modern React components</li>
+  <li>TypeScript support</li>
+  <li>Tailwind CSS styling</li>
 </List>
 
-// Ordered list
-<List variant="cards" ordered listType="decimal">
-  <ListItem>Step 1</ListItem>
-  <ListItem>Step 2</ListItem>
+// Bordered List with backdrop blur
+<List variant="bordered" listType="disc" size="md">
+  <li>Clean border design</li>
+  <li>Card background</li>
+  <li>Shadow on hover</li>
+</List>
+
+// Divided List (requires ListItem)
+<List variant="divided" listType="none">
+  <ListItem variant="divided">First item</ListItem>
+  <ListItem variant="divided">Second item</ListItem>
+  <ListItem variant="divided">Third item</ListItem>
+</List>
+
+// Striped List (requires ListItem)
+<List variant="striped" listType="none">
+  <ListItem variant="striped">Striped item 1</ListItem>
+  <ListItem variant="striped">Striped item 2</ListItem>
+  <ListItem variant="striped">Striped item 3</ListItem>
+</List>
+
+// Cards Variant with icons and hover effects
+<List variant="cards" listType="none">
+  <ListItem variant="cards" icon={<CheckCircle size={20} />}>
+    <strong>Modern Design</strong> - Beautiful glassmorphism effects
+  </ListItem>
+  <ListItem variant="cards" icon={<Star size={20} />}>
+    <strong>Type Safe</strong> - Full TypeScript support
+  </ListItem>
+  <ListItem variant="cards" icon={<Zap size={20} />}>
+    <strong>Fast Performance</strong> - Optimized for speed
+  </ListItem>
+</List>
+
+// Feature list with custom icons
+<List variant="default" listType="none">
+  <ListItem icon={<CheckCircle size={18} />}>
+    Complete TypeScript support
+  </ListItem>
+  <ListItem icon={<Star size={18} />}>
+    Modern glassmorphism effects
+  </ListItem>
+  <ListItem icon={<Heart size={18} />}>
+    Dark mode compatible
+  </ListItem>
+</List>
+
+// Ordered list with different markers
+<List variant="default" listType="decimal" ordered size="md">
+  <li>Install the package</li>
+  <li>Import components</li>
+  <li>Start building</li>
+</List>
+
+<List variant="bordered" listType="upper-roman" ordered>
+  <li>Chapter I</li>
+  <li>Chapter II</li>
+  <li>Chapter III</li>
 </List>
 ```
 
+**Variant Details:**
+
+- **default** - Clean, minimal design with standard list styling
+- **bordered** - Card background with border, shadow, and backdrop blur (20px)
+- **divided** - Items separated by divider lines, subtle hover effects
+- **striped** - Alternating background colors for better readability
+- **cards** - Individual card-style items with gradient overlay on hover
+
 **Features:**
 
-- 🔢 Ordered and unordered support
-- 🎨 5 visual variants
-- ✨ Icon support per item
-- 💫 Hover effects
+- 🔢 **Ordered & Unordered** - Full support for both list types
+- 🎨 **5 Modern Variants** - Each with unique visual design and animations
+- ✨ **Icon Support** - Custom icons per item with hover animations (scale 110%, color change to primary)
+- 💫 **Enhanced Animations** - Smooth transitions, hover effects, and gradient overlays
+- 🔮 **Glass Morphism** - Backdrop blur effects on bordered variant
+- 📏 **3 Sizes** - sm, md, lg with responsive text and spacing
+- 🎯 **Type-Safe** - Full CVA integration with exported variants
+- � **Dark Mode** - Optimized colors and effects for dark theme
+- ♿ **Accessible** - Semantic HTML with proper ARIA attributes
+- 📦 **Tree-Shakeable** - Import only what you need
+- 🎭 **Compound Variants** - Automatic padding adjustments per variant
+- 🌈 **10 List Types** - disc, circle, square, decimal, roman numerals, alpha
+
+**Props:**
+
+**List Component:**
+
+- `variant`: 'default' | 'bordered' | 'divided' | 'striped' | 'cards' (default: 'default')
+- `size`: 'sm' | 'md' | 'lg' (default: 'md')
+- `listType`: 'disc' | 'circle' | 'square' | 'decimal' | 'decimal-leading-zero' | 'lower-roman' | 'upper-roman' | 'lower-alpha' | 'upper-alpha' | 'none' (default: 'disc')
+- `ordered`: boolean (default: false) - Renders as `<ol>` instead of `<ul>`
+- `className`: string - Additional CSS classes
+
+**ListItem Component:**
+
+- `variant`: 'default' | 'bordered' | 'divided' | 'striped' | 'cards' (default: 'default')
+- `icon`: ReactNode - Optional icon to display before content
+- `children`: ReactNode - Item content
+- `className`: string - Additional CSS classes
+
+**Advanced Usage:**
+
+```tsx
+// Contextual usage in Card
+<Card variant="glass-strong">
+  <CardHeader>
+    <CardTitle>Installation Guide</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <List variant="bordered" listType="decimal" ordered size="md">
+      <li>Install the package via npm</li>
+      <li>Import the components</li>
+      <li>Wrap with ThemeProvider</li>
+      <li>Start using components</li>
+    </List>
+  </CardContent>
+</Card>
+
+// Mixed content with icons
+<List variant="cards" listType="none">
+  <ListItem variant="cards" icon={<CheckCircle size={20} />}>
+    <div>
+      <strong>Premium Feature</strong>
+      <p className="text-sm text-muted-foreground">
+        Access to exclusive components
+      </p>
+    </div>
+  </ListItem>
+</List>
+```
+
+**CVA Integration:**
+
+```tsx
+import { listVariants, listItemVariants } from "saha-ui";
+
+// Use exported variants for custom styling
+const customListClass = listVariants({
+  variant: "cards",
+  size: "lg",
+  className: "my-custom-class",
+});
+
+const customItemClass = listItemVariants({
+  variant: "cards",
+  className: "hover:scale-105",
+});
+```
 
 ---
 
@@ -727,7 +1338,7 @@ Saha UI is optimized for minimal bundle impact:
 
 ## 💡 Usage Examples
 
-### Example 1: Dashboard Card (Main Entry)
+### Example 1: Dashboard Card with Status Badge (Main Entry)
 
 ```tsx
 import {
@@ -737,6 +1348,7 @@ import {
   CardContent,
   Avatar,
   Button,
+  Badge,
 } from "saha-ui";
 import type { CardVariant } from "saha-ui";
 
@@ -746,8 +1358,20 @@ function DashboardCard() {
   return (
     <Card variant={variant} padding="lg" rounded="xl" hoverable>
       <CardHeader>
-        <Avatar src="/user.jpg" size="lg" status="online" />
-        <CardTitle>Welcome Back!</CardTitle>
+        <div className="flex items-center gap-3">
+          <Avatar src="/user.jpg" size="lg" status="online" />
+          <div>
+            <div className="flex items-center gap-2">
+              <CardTitle>Welcome Back!</CardTitle>
+              <Badge variant="success" dot pulse>
+                Active
+              </Badge>
+            </div>
+            <Badge variant="primary" size="sm">
+              Premium
+            </Badge>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <Button variant="primary" size="md">

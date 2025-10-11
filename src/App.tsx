@@ -2,7 +2,10 @@ import "./App.css";
 import ThemeProvider from "./components/ThemeProvider";
 
 import ThemeToggle from "./components/ThemeToggle";
+import Badge from "./components/Badge";
+import Breadcrumb from "./components/Breadcrumb";
 import Button from "./components/Button";
+import ButtonGroup from "./components/ButtonGroup";
 import Card, {
   CardHeader,
   CardTitle,
@@ -18,6 +21,7 @@ import Carousel from "./components/Carousel";
 import Image from "./components/Image";
 import Link from "./components/Link";
 import List from "./components/List";
+import ListItem from "./components/List/ListItem";
 import Tooltip from "./components/Tooltip";
 import {
   Sparkles,
@@ -27,20 +31,15 @@ import {
   Mail,
   User,
   Bell,
+  CheckCircle,
+  AlertCircle,
+  ShoppingCart,
+  FileText,
+  Settings,
 } from "lucide-react";
 
 // Color palette component that uses theme colors from CSS variables
 const ColorPalette = () => {
-  // Read colors directly from CSS custom properties
-  const getColorValue = (varName: string) => {
-    if (typeof window !== "undefined") {
-      return getComputedStyle(document.documentElement)
-        .getPropertyValue(varName)
-        .trim();
-    }
-    return "";
-  };
-
   const colors = [
     { name: "Primary", var: "--primary", fg: "--primary-foreground" },
     { name: "Secondary", var: "--secondary", fg: "--secondary-foreground" },
@@ -58,22 +57,20 @@ const ColorPalette = () => {
 
   return (
     <div className="mb-16">
-      <h3 className="text-2xl font-bold mb-6">Color Palette (oklch)</h3>
+      <h3 className="text-2xl font-bold mb-6">Color Palette</h3>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {colors.map(({ name, var: colorVar, fg }) => (
           <div key={name} className="glass p-4 rounded-lg">
             <div
-              className="w-full h-16 rounded-md mb-2 flex items-center justify-center text-sm font-medium"
+              className="w-full h-16 rounded-md mb-2 flex items-center justify-center text-sm font-medium shadow-sm"
               style={{
-                backgroundColor: `oklch(var(${colorVar}))`,
-                color: `oklch(var(${fg}))`,
+                backgroundColor: `var(${colorVar})`,
+                color: `var(${fg})`,
               }}
             >
               {name}
             </div>
-            <p className="text-xs font-mono opacity-70">
-              {getColorValue(colorVar)}
-            </p>
+            <p className="text-xs font-mono opacity-70">{colorVar}</p>
           </div>
         ))}
       </div>
@@ -152,9 +149,566 @@ function App() {
                 <Heart size={18} />
                 Rounded
               </Button>
-              <Button variant="glass">
-                Full Width Glass Button
-              </Button>
+              <Button variant="glass">Full Width Glass Button</Button>
+            </div>
+          </div>
+
+          {/* ButtonGroup Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6 text-text">
+              Button Group Component
+            </h3>
+
+            {/* Horizontal Button Groups */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Horizontal Groups
+              </h4>
+              <div className="space-y-4">
+                {/* Default attached group */}
+                <ButtonGroup>
+                  <Button variant="primary">Left</Button>
+                  <Button variant="primary">Center</Button>
+                  <Button variant="primary">Right</Button>
+                </ButtonGroup>
+
+                {/* Outline variant */}
+                <ButtonGroup variant="outline">
+                  <Button variant="ghost">Save</Button>
+                  <Button variant="ghost">Cancel</Button>
+                  <Button variant="ghost">Delete</Button>
+                </ButtonGroup>
+
+                {/* Glass variant */}
+                <ButtonGroup variant="glass">
+                  <Button variant="glass">
+                    <Star size={16} />
+                    Featured
+                  </Button>
+                  <Button variant="glass">
+                    <Heart size={16} />
+                    Favorite
+                  </Button>
+                  <Button variant="glass">
+                    <Mail size={16} />
+                    Share
+                  </Button>
+                </ButtonGroup>
+
+                {/* Full rounded */}
+                <ButtonGroup fullRounded>
+                  <Button variant="secondary">First</Button>
+                  <Button variant="secondary">Second</Button>
+                  <Button variant="secondary">Third</Button>
+                </ButtonGroup>
+              </div>
+            </div>
+
+            {/* Vertical Button Groups */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Vertical Groups
+              </h4>
+              <div className="flex flex-wrap gap-4">
+                <ButtonGroup orientation="vertical">
+                  <Button variant="accent">Top</Button>
+                  <Button variant="accent">Middle</Button>
+                  <Button variant="accent">Bottom</Button>
+                </ButtonGroup>
+
+                <ButtonGroup orientation="vertical" variant="outline">
+                  <Button variant="ghost">
+                    <User size={16} />
+                    Profile
+                  </Button>
+                  <Button variant="ghost">
+                    <Bell size={16} />
+                    Notifications
+                  </Button>
+                  <Button variant="ghost">
+                    <Mail size={16} />
+                    Messages
+                  </Button>
+                </ButtonGroup>
+              </div>
+            </div>
+
+            {/* Sizes and Full Width */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Sizes & Full Width
+              </h4>
+              <div className="space-y-4">
+                {/* Small size */}
+                <ButtonGroup size="sm">
+                  <Button variant="primary">Small</Button>
+                  <Button variant="primary">Size</Button>
+                  <Button variant="primary">Group</Button>
+                </ButtonGroup>
+
+                {/* Large size */}
+                <ButtonGroup size="lg">
+                  <Button variant="success">Large</Button>
+                  <Button variant="success">Size</Button>
+                  <Button variant="success">Group</Button>
+                </ButtonGroup>
+
+                {/* Full width */}
+                <ButtonGroup fullWidth>
+                  <Button variant="warning">Equal</Button>
+                  <Button variant="warning">Width</Button>
+                  <Button variant="warning">Buttons</Button>
+                </ButtonGroup>
+              </div>
+            </div>
+
+            {/* Detached Buttons */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Detached Groups (with gaps)
+              </h4>
+              <div className="space-y-4">
+                <ButtonGroup attached={false}>
+                  <Button variant="primary">Accept</Button>
+                  <Button variant="ghost">Decline</Button>
+                </ButtonGroup>
+
+                <ButtonGroup attached={false} variant="glass">
+                  <Button variant="glass">Option 1</Button>
+                  <Button variant="glass">Option 2</Button>
+                  <Button variant="glass">Option 3</Button>
+                </ButtonGroup>
+              </div>
+            </div>
+
+            {/* Mixed Button Variants */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Contextual Usage
+              </h4>
+              <Card variant="glass-strong" padding="lg" className="max-w-md">
+                <CardHeader>
+                  <CardTitle>Confirm Action</CardTitle>
+                  <CardDescription>
+                    Are you sure you want to proceed?
+                  </CardDescription>
+                </CardHeader>
+                <CardFooter>
+                  <ButtonGroup fullWidth>
+                    <Button variant="error">Delete</Button>
+                    <Button variant="ghost">Cancel</Button>
+                  </ButtonGroup>
+                </CardFooter>
+              </Card>
+            </div>
+          </div>
+
+          {/* Breadcrumb Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6 text-text">
+              Breadcrumb Component
+            </h3>
+
+            {/* Variants */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Variants</h4>
+              <div className="space-y-4">
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Default</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Electronics", href: "/products/electronics" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    variant="default"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Ghost</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Electronics", href: "/products/electronics" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    variant="ghost"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Bordered</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Electronics", href: "/products/electronics" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    variant="bordered"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Pills</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Electronics", href: "/products/electronics" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    variant="pills"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Underline
+                  </p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Electronics", href: "/products/electronics" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    variant="underline"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Separators */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Separator Styles
+              </h4>
+              <div className="space-y-4">
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Chevron (default)
+                  </p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Docs", href: "/docs" },
+                      { label: "Components", isCurrentPage: true },
+                    ]}
+                    separator="chevron"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Slash</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Docs", href: "/docs" },
+                      { label: "Components", isCurrentPage: true },
+                    ]}
+                    separator="slash"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Dot</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Docs", href: "/docs" },
+                      { label: "Components", isCurrentPage: true },
+                    ]}
+                    separator="dot"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Arrow</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Docs", href: "/docs" },
+                      { label: "Components", isCurrentPage: true },
+                    ]}
+                    separator="arrow"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Custom Separator
+                  </p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Docs", href: "/docs" },
+                      { label: "Components", isCurrentPage: true },
+                    ]}
+                    customSeparator={<span className="text-primary">→</span>}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Sizes */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Sizes</h4>
+              <div className="space-y-4">
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Small</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    size="sm"
+                    variant="pills"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Medium (default)
+                  </p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    size="md"
+                    variant="pills"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground mb-2">Large</p>
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      { label: "Products", href: "/products" },
+                      { label: "Laptops", isCurrentPage: true },
+                    ]}
+                    size="lg"
+                    variant="pills"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* With Icons */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                With Icons
+              </h4>
+              <div className="space-y-4">
+                <div className="glass p-4 rounded-lg">
+                  <Breadcrumb
+                    items={[
+                      { label: "Home", href: "/" },
+                      {
+                        label: "Shop",
+                        href: "/shop",
+                        icon: <ShoppingCart size={14} />,
+                      },
+                      {
+                        label: "Cart",
+                        isCurrentPage: true,
+                        icon: <ShoppingCart size={14} />,
+                      },
+                    ]}
+                    variant="ghost"
+                  />
+                </div>
+
+                <div className="glass p-4 rounded-lg">
+                  <Breadcrumb
+                    items={[
+                      { label: "Dashboard", href: "/" },
+                      {
+                        label: "Documents",
+                        href: "/docs",
+                        icon: <FileText size={14} />,
+                      },
+                      {
+                        label: "Settings",
+                        isCurrentPage: true,
+                        icon: <Settings size={14} />,
+                      },
+                    ]}
+                    variant="bordered"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Collapsed */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Collapsed (Max Items)
+              </h4>
+              <div className="glass p-4 rounded-lg">
+                <p className="text-sm text-muted-foreground mb-2">
+                  Long breadcrumb collapsed to show only first and last 2 items
+                </p>
+                <Breadcrumb
+                  items={[
+                    { label: "Home", href: "/" },
+                    { label: "Products", href: "/products" },
+                    {
+                      label: "Electronics",
+                      href: "/products/electronics",
+                    },
+                    {
+                      label: "Computers",
+                      href: "/products/electronics/computers",
+                    },
+                    {
+                      label: "Laptops",
+                      href: "/products/electronics/computers/laptops",
+                    },
+                    {
+                      label: "Gaming",
+                      href: "/products/electronics/computers/laptops/gaming",
+                    },
+                    { label: "High-End", isCurrentPage: true },
+                  ]}
+                  maxItems={4}
+                  variant="pills"
+                />
+              </div>
+            </div>
+
+            {/* Contextual Usage */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Contextual Usage
+              </h4>
+              <Card variant="glass" padding="lg">
+                <CardHeader>
+                  <Breadcrumb
+                    items={[
+                      { label: "Dashboard", href: "/" },
+                      { label: "Projects", href: "/projects" },
+                      { label: "Saha UI", isCurrentPage: true },
+                    ]}
+                    variant="ghost"
+                    size="sm"
+                  />
+                </CardHeader>
+                <CardTitle>Project: Saha UI</CardTitle>
+                <CardDescription>
+                  A modern React component library with glassmorphism effects
+                </CardDescription>
+                <CardContent className="mt-4">
+                  <p className="text-sm text-text-secondary">
+                    This breadcrumb navigation helps users understand their
+                    current location within the application hierarchy.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Badge Showcase */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6 text-text">
+              Badge Component
+            </h3>
+
+            {/* Badge Variants */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Variants</h4>
+              <div className="flex flex-wrap gap-3">
+                <Badge variant="default">Default</Badge>
+                <Badge variant="primary">Primary</Badge>
+                <Badge variant="secondary">Secondary</Badge>
+                <Badge variant="success">Success</Badge>
+                <Badge variant="warning">Warning</Badge>
+                <Badge variant="error">Error</Badge>
+                <Badge variant="info">Info</Badge>
+                <Badge variant="outline">Outline</Badge>
+                <Badge variant="glass">Glass</Badge>
+              </div>
+            </div>
+
+            {/* Badge Sizes */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Sizes</h4>
+              <div className="flex flex-wrap items-center gap-3">
+                <Badge variant="primary" size="sm">
+                  Small
+                </Badge>
+                <Badge variant="primary" size="md">
+                  Medium
+                </Badge>
+                <Badge variant="primary" size="lg">
+                  Large
+                </Badge>
+              </div>
+            </div>
+
+            {/* Badge Shapes */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Shapes</h4>
+              <div className="flex flex-wrap gap-3">
+                <Badge variant="primary" shape="rounded">
+                  Rounded
+                </Badge>
+                <Badge variant="primary" shape="pill">
+                  Pill
+                </Badge>
+                <Badge variant="primary" shape="square">
+                  Square
+                </Badge>
+              </div>
+            </div>
+
+            {/* Badge with Dot */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                With Status Dot
+              </h4>
+              <div className="flex flex-wrap gap-3">
+                <Badge variant="success" dot>
+                  Online
+                </Badge>
+                <Badge variant="warning" dot>
+                  Away
+                </Badge>
+                <Badge variant="error" dot>
+                  Offline
+                </Badge>
+                <Badge variant="info" dot pulse>
+                  Live
+                </Badge>
+              </div>
+            </div>
+
+            {/* Badge with Icons */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                With Icons
+              </h4>
+              <div className="flex flex-wrap gap-3">
+                <Badge variant="primary" icon={<Star size={12} />}>
+                  Featured
+                </Badge>
+                <Badge variant="success" icon={<CheckCircle size={12} />}>
+                  Verified
+                </Badge>
+                <Badge variant="warning" icon={<AlertCircle size={12} />}>
+                  Alert
+                </Badge>
+                <Badge variant="glass" icon={<Sparkles size={12} />}>
+                  Premium
+                </Badge>
+              </div>
             </div>
           </div>
 
@@ -422,65 +976,483 @@ function App() {
 
           {/* Link Showcase */}
           <div className="mb-16">
-            <h3 className="text-2xl font-bold mb-6">Links</h3>
-            <div className="space-y-4">
-              <div className="flex gap-4 flex-wrap">
-                <Link href="#" className="text-primary hover:underline">
+            <h3 className="text-2xl font-bold mb-6 text-text">
+              Link Component
+            </h3>
+
+            {/* Link Variants */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Variants</h4>
+              <div className="flex flex-wrap gap-4">
+                <Link variant="default" href="#">
+                  Default Link
+                </Link>
+                <Link variant="primary" href="#">
                   Primary Link
                 </Link>
-                <Link href="#" className="text-secondary hover:underline">
+                <Link variant="secondary" href="#">
                   Secondary Link
                 </Link>
-                <Link href="#" className="text-accent hover:underline">
+                <Link variant="accent" href="#">
                   Accent Link
                 </Link>
-                <Link href="#" className="underline">
+                <Link variant="muted" href="#">
+                  Muted Link
+                </Link>
+                <Link variant="underline" href="#">
                   Underlined Link
                 </Link>
               </div>
-              <div className="flex gap-4 flex-wrap">
-                <Link
-                  href="#"
-                  target="_blank"
-                  rel="noopener"
-                  className="text-primary"
-                >
-                  External Link
+
+              <div className="flex flex-wrap gap-4 mt-4">
+                <Link variant="ghost" href="#">
+                  Ghost Link
                 </Link>
-                <Link
-                  href="#"
-                  className="text-muted-foreground cursor-not-allowed"
-                >
-                  Disabled Link
+                <Link variant="button" href="#">
+                  Button Style Link
+                </Link>
+                <Link variant="glass" href="#">
+                  Glass Link
                 </Link>
               </div>
+            </div>
+
+            {/* Link Sizes */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Sizes</h4>
+              <div className="flex flex-wrap gap-4 items-center">
+                <Link variant="primary" size="sm" href="#">
+                  Small Link
+                </Link>
+                <Link variant="primary" size="md" href="#">
+                  Medium Link
+                </Link>
+                <Link variant="primary" size="lg" href="#">
+                  Large Link
+                </Link>
+              </div>
+            </div>
+
+            {/* External Links */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                External Links (with icon)
+              </h4>
+              <div className="flex flex-wrap gap-4">
+                <Link variant="primary" external href="https://github.com">
+                  GitHub
+                </Link>
+                <Link variant="secondary" external href="https://npmjs.com">
+                  npm
+                </Link>
+                <Link variant="button" external href="https://reactjs.org">
+                  React Docs
+                </Link>
+                <Link variant="glass" external href="https://tailwindcss.com">
+                  Tailwind CSS
+                </Link>
+              </div>
+            </div>
+
+            {/* Links with Icons */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Links with Custom Icons
+              </h4>
+              <div className="flex flex-wrap gap-4">
+                <Link variant="primary" icon={<Star size={16} />} href="#">
+                  Featured
+                </Link>
+                <Link variant="secondary" icon={<Heart size={16} />} href="#">
+                  Favorites
+                </Link>
+                <Link variant="accent" icon={<Mail size={16} />} href="#">
+                  Contact
+                </Link>
+                <Link variant="ghost" icon={<User size={16} />} href="#">
+                  Profile
+                </Link>
+              </div>
+            </div>
+
+            {/* Animated Underline */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Custom Underline Animation
+              </h4>
+              <div className="flex flex-wrap gap-4">
+                <Link variant="default" showUnderline href="#">
+                  Hover to see animation
+                </Link>
+                <Link variant="muted" showUnderline href="#">
+                  Muted with underline
+                </Link>
+                <Link variant="ghost" showUnderline href="#">
+                  Ghost with underline
+                </Link>
+              </div>
+            </div>
+
+            {/* Disabled State */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Disabled State
+              </h4>
+              <div className="flex flex-wrap gap-4">
+                <Link variant="primary" disabled href="#">
+                  Disabled Primary
+                </Link>
+                <Link variant="button" disabled href="#">
+                  Disabled Button
+                </Link>
+                <Link variant="glass" disabled href="#">
+                  Disabled Glass
+                </Link>
+              </div>
+            </div>
+
+            {/* Contextual Usage */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Contextual Usage
+              </h4>
+              <Card variant="glass-strong" padding="lg" className="max-w-2xl">
+                <CardHeader>
+                  <CardTitle>Navigation Example</CardTitle>
+                  <CardDescription>
+                    Links integrated in a card component
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex gap-4 flex-wrap">
+                      <Link variant="primary" href="#docs">
+                        Documentation
+                      </Link>
+                      <Link variant="secondary" href="#api">
+                        API Reference
+                      </Link>
+                      <Link variant="accent" href="#examples">
+                        Examples
+                      </Link>
+                    </div>
+                    <div className="flex gap-4 flex-wrap">
+                      <Link
+                        variant="ghost"
+                        icon={<Star size={16} />}
+                        external
+                        href="https://github.com"
+                      >
+                        Star on GitHub
+                      </Link>
+                      <Link
+                        variant="glass"
+                        icon={<Mail size={16} />}
+                        href="#contact"
+                      >
+                        Get in Touch
+                      </Link>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <ButtonGroup>
+                    <Link variant="button" href="#get-started">
+                      Get Started
+                    </Link>
+                    <Link variant="ghost" href="#learn-more">
+                      Learn More
+                    </Link>
+                  </ButtonGroup>
+                </CardFooter>
+              </Card>
             </div>
           </div>
 
           {/* List Showcase */}
           <div className="mb-16">
-            <h3 className="text-2xl font-bold mb-6">Lists</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="text-lg font-semibold mb-3">Disc List</h4>
-                <List listType="disc">
-                  <li>Modern React components</li>
-                  <li>TypeScript support</li>
-                  <li>Tailwind CSS styling</li>
-                  <li>Dark mode support</li>
-                  <li>Glassmorphism effects</li>
-                </List>
+            <h3 className="text-2xl font-bold mb-6 text-text">
+              List Component
+            </h3>
+
+            {/* List Variants */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                List Variants
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Default List */}
+                <div>
+                  <h5 className="text-sm font-medium mb-3 text-muted-foreground">
+                    Default
+                  </h5>
+                  <List listType="disc" variant="default">
+                    <li>Modern React components</li>
+                    <li>TypeScript support</li>
+                    <li>Tailwind CSS styling</li>
+                    <li>Dark mode support</li>
+                    <li>Glassmorphism effects</li>
+                  </List>
+                </div>
+
+                {/* Bordered List */}
+                <div>
+                  <h5 className="text-sm font-medium mb-3 text-muted-foreground">
+                    Bordered
+                  </h5>
+                  <List listType="disc" variant="bordered">
+                    <li>Clean border design</li>
+                    <li>Card background</li>
+                    <li>Shadow on hover</li>
+                    <li>Backdrop blur</li>
+                    <li>Premium feel</li>
+                  </List>
+                </div>
+
+                {/* Divided List */}
+                <div>
+                  <h5 className="text-sm font-medium mb-3 text-muted-foreground">
+                    Divided
+                  </h5>
+                  <List listType="none" variant="divided">
+                    <ListItem variant="divided">First item</ListItem>
+                    <ListItem variant="divided">Second item</ListItem>
+                    <ListItem variant="divided">Third item</ListItem>
+                    <ListItem variant="divided">Fourth item</ListItem>
+                  </List>
+                </div>
+
+                {/* Striped List */}
+                <div>
+                  <h5 className="text-sm font-medium mb-3 text-muted-foreground">
+                    Striped
+                  </h5>
+                  <List listType="none" variant="striped">
+                    <ListItem variant="striped">Striped item 1</ListItem>
+                    <ListItem variant="striped">Striped item 2</ListItem>
+                    <ListItem variant="striped">Striped item 3</ListItem>
+                    <ListItem variant="striped">Striped item 4</ListItem>
+                  </List>
+                </div>
               </div>
-              <div>
-                <h4 className="text-lg font-semibold mb-3">Decimal List</h4>
-                <List listType="decimal">
-                  <li>Install the library</li>
-                  <li>Import components</li>
-                  <li>Customize with props</li>
-                  <li>Build amazing UIs</li>
-                  <li>Deploy with confidence</li>
-                </List>
+            </div>
+
+            {/* Cards Variant */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Cards Variant
+              </h4>
+              <List listType="none" variant="cards">
+                <ListItem variant="cards" icon={<CheckCircle size={20} />}>
+                  <strong>Modern Design</strong> - Beautiful glassmorphism
+                  effects
+                </ListItem>
+                <ListItem variant="cards" icon={<Star size={20} />}>
+                  <strong>Type Safe</strong> - Full TypeScript support
+                </ListItem>
+                <ListItem variant="cards" icon={<Zap size={20} />}>
+                  <strong>Fast Performance</strong> - Optimized for speed
+                </ListItem>
+                <ListItem variant="cards" icon={<Heart size={20} />}>
+                  <strong>Developer Experience</strong> - Easy to use API
+                </ListItem>
+              </List>
+            </div>
+
+            {/* List Types */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                List Types (Markers)
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Disc */}
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Disc
+                  </h5>
+                  <List listType="disc" size="sm">
+                    <li>Item one</li>
+                    <li>Item two</li>
+                    <li>Item three</li>
+                  </List>
+                </div>
+
+                {/* Circle */}
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Circle
+                  </h5>
+                  <List listType="circle" size="sm">
+                    <li>Item one</li>
+                    <li>Item two</li>
+                    <li>Item three</li>
+                  </List>
+                </div>
+
+                {/* Square */}
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Square
+                  </h5>
+                  <List listType="square" size="sm">
+                    <li>Item one</li>
+                    <li>Item two</li>
+                    <li>Item three</li>
+                  </List>
+                </div>
+
+                {/* Decimal */}
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Decimal
+                  </h5>
+                  <List listType="decimal" ordered size="sm">
+                    <li>First step</li>
+                    <li>Second step</li>
+                    <li>Third step</li>
+                  </List>
+                </div>
+
+                {/* Lower Alpha */}
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Lower Alpha
+                  </h5>
+                  <List listType="lower-alpha" ordered size="sm">
+                    <li>Option A</li>
+                    <li>Option B</li>
+                    <li>Option C</li>
+                  </List>
+                </div>
+
+                {/* Upper Roman */}
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Upper Roman
+                  </h5>
+                  <List listType="upper-roman" ordered size="sm">
+                    <li>Chapter I</li>
+                    <li>Chapter II</li>
+                    <li>Chapter III</li>
+                  </List>
+                </div>
               </div>
+            </div>
+
+            {/* List Sizes */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">Sizes</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Small
+                  </h5>
+                  <List listType="disc" size="sm">
+                    <li>Small text size</li>
+                    <li>Compact spacing</li>
+                    <li>Dense layout</li>
+                  </List>
+                </div>
+
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Medium (Default)
+                  </h5>
+                  <List listType="disc" size="md">
+                    <li>Medium text size</li>
+                    <li>Balanced spacing</li>
+                    <li>Standard layout</li>
+                  </List>
+                </div>
+
+                <div>
+                  <h5 className="text-sm font-medium mb-2 text-muted-foreground">
+                    Large
+                  </h5>
+                  <List listType="disc" size="lg">
+                    <li>Large text size</li>
+                    <li>Generous spacing</li>
+                    <li>Comfortable layout</li>
+                  </List>
+                </div>
+              </div>
+            </div>
+
+            {/* Lists with Icons */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Lists with Custom Icons
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h5 className="text-sm font-medium mb-3 text-muted-foreground">
+                    Feature List
+                  </h5>
+                  <List listType="none" variant="default">
+                    <ListItem icon={<CheckCircle size={18} />}>
+                      Complete TypeScript support
+                    </ListItem>
+                    <ListItem icon={<CheckCircle size={18} />}>
+                      Modern glassmorphism effects
+                    </ListItem>
+                    <ListItem icon={<CheckCircle size={18} />}>
+                      Dark mode compatible
+                    </ListItem>
+                    <ListItem icon={<CheckCircle size={18} />}>
+                      Fully accessible components
+                    </ListItem>
+                  </List>
+                </div>
+
+                <div>
+                  <h5 className="text-sm font-medium mb-3 text-muted-foreground">
+                    Action Items
+                  </h5>
+                  <List listType="none" variant="default">
+                    <ListItem icon={<Star size={18} />}>
+                      Star the repository
+                    </ListItem>
+                    <ListItem icon={<Heart size={18} />}>
+                      Share with friends
+                    </ListItem>
+                    <ListItem icon={<Mail size={18} />}>
+                      Subscribe to updates
+                    </ListItem>
+                    <ListItem icon={<User size={18} />}>
+                      Create an account
+                    </ListItem>
+                  </List>
+                </div>
+              </div>
+            </div>
+
+            {/* Contextual Usage */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4 text-text">
+                Contextual Usage
+              </h4>
+              <Card variant="glass-strong" padding="lg" className="max-w-2xl">
+                <CardHeader>
+                  <CardTitle>Installation Guide</CardTitle>
+                  <CardDescription>
+                    Follow these steps to get started
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <List listType="decimal" ordered variant="bordered" size="md">
+                    <li>Install the package via npm or yarn</li>
+                    <li>Import the components you need</li>
+                    <li>Wrap your app with ThemeProvider</li>
+                    <li>Start using the components</li>
+                    <li>Customize with props and styles</li>
+                  </List>
+                </CardContent>
+                <CardFooter>
+                  <Link variant="button" href="#get-started">
+                    Get Started Now
+                  </Link>
+                </CardFooter>
+              </Card>
             </div>
           </div>
 

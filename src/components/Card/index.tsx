@@ -1,5 +1,5 @@
 import React from "react";
-import { cva } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import {
   CardProps,
@@ -10,8 +10,23 @@ import {
   CardFooterProps,
 } from "./Card.types";
 
-// CVA variants for Card
-const cardVariants = cva(
+/**
+ * Card component variants using CVA (Class Variance Authority)
+ *
+ * Provides 5 modern card variants with advanced glass morphism effects,
+ * flexible padding and rounded corner options, and smooth hover animations.
+ *
+ * @variant default - Standard card with subtle shadow and border
+ * @variant glass - Medium glass effect with backdrop blur
+ * @variant glass-strong - Strong glass effect with enhanced blur and border
+ * @variant glass-subtle - Subtle glass effect for delicate designs
+ * @variant bordered - Clean bordered design with hover effects
+ *
+ * @padding none | sm | md | lg | xl - Configurable padding sizes
+ * @rounded sm | md | lg | xl | 2xl - Configurable border radius
+ * @hoverable boolean - Adds scale and cursor effects on hover
+ */
+export const cardVariants = cva(
   "relative overflow-hidden transition-all duration-300 ease-out",
   {
     variants: {
@@ -46,6 +61,25 @@ const cardVariants = cva(
         false: "",
       },
     },
+    compoundVariants: [
+      // Glass variants with hoverable get enhanced glow
+      {
+        variant: "glass",
+        hoverable: true,
+        className: "hover:shadow-primary/30",
+      },
+      {
+        variant: "glass-strong",
+        hoverable: true,
+        className: "hover:shadow-primary/40 hover:border-primary/30",
+      },
+      // Bordered variant with hoverable gets color transition
+      {
+        variant: "bordered",
+        hoverable: true,
+        className: "hover:border-primary/60 hover:shadow-primary/20",
+      },
+    ],
     defaultVariants: {
       variant: "default",
       padding: "md",
@@ -54,6 +88,8 @@ const cardVariants = cva(
     },
   }
 );
+
+export type CardVariantsProps = VariantProps<typeof cardVariants>;
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   (
@@ -88,6 +124,12 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
 
 Card.displayName = "Card";
 
+/**
+ * CardHeader component - Container for card title and description
+ *
+ * @param children - Header content (typically CardTitle and CardDescription)
+ * @param className - Additional CSS classes
+ */
 export const CardHeader: React.FC<CardHeaderProps> = ({
   children,
   className = "",
@@ -95,6 +137,14 @@ export const CardHeader: React.FC<CardHeaderProps> = ({
   return <div className={cn("mb-4", className)}>{children}</div>;
 };
 
+CardHeader.displayName = "CardHeader";
+
+/**
+ * CardTitle component - Main heading for the card
+ *
+ * @param children - Title text content
+ * @param className - Additional CSS classes
+ */
 export const CardTitle: React.FC<CardTitleProps> = ({
   children,
   className = "",
@@ -111,6 +161,14 @@ export const CardTitle: React.FC<CardTitleProps> = ({
   );
 };
 
+CardTitle.displayName = "CardTitle";
+
+/**
+ * CardDescription component - Subtitle or description text
+ *
+ * @param children - Description text content
+ * @param className - Additional CSS classes
+ */
 export const CardDescription: React.FC<CardDescriptionProps> = ({
   children,
   className = "",
@@ -127,6 +185,14 @@ export const CardDescription: React.FC<CardDescriptionProps> = ({
   );
 };
 
+CardDescription.displayName = "CardDescription";
+
+/**
+ * CardContent component - Main content area of the card
+ *
+ * @param children - Content to display
+ * @param className - Additional CSS classes
+ */
 export const CardContent: React.FC<CardContentProps> = ({
   children,
   className = "",
@@ -134,6 +200,14 @@ export const CardContent: React.FC<CardContentProps> = ({
   return <div className={cn("text-foreground", className)}>{children}</div>;
 };
 
+CardContent.displayName = "CardContent";
+
+/**
+ * CardFooter component - Footer section with divider
+ *
+ * @param children - Footer content (typically buttons or actions)
+ * @param className - Additional CSS classes
+ */
 export const CardFooter: React.FC<CardFooterProps> = ({
   children,
   className = "",
@@ -149,5 +223,7 @@ export const CardFooter: React.FC<CardFooterProps> = ({
     </div>
   );
 };
+
+CardFooter.displayName = "CardFooter";
 
 export default Card;
