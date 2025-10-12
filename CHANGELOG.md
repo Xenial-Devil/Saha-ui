@@ -1,3 +1,20 @@
+# [1.4.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.3.0...v1.4.0) (2025-10-12)
+
+
+### Features
+
+* **accordion:** refactor to context-driven, fully-typed components ([3f361ac](https://github.com/Xenial-Devil/Saha-ui/commit/3f361ac350bd0f864d340e73443a6a073af0ed12))
+* add Input and Skeleton type defs and Skeleton component ([7efb5d2](https://github.com/Xenial-Devil/Saha-ui/commit/7efb5d2931d7d2325962ea2fbc387200b150795c))
+* **button:** add "info" variant to Button component ([e915c98](https://github.com/Xenial-Devil/Saha-ui/commit/e915c988bdf81307ef9b9ebffe5d446477dba6bb))
+* **carousel:** introduce context API and refactor props handling ([d55dcf6](https://github.com/Xenial-Devil/Saha-ui/commit/d55dcf66a89cd52b283d1799d114d449cf1e0a84))
+* **divider:** add comprehensive Divider example page ([4806436](https://github.com/Xenial-Devil/Saha-ui/commit/48064369a44d0e9adf93b40c1b30ea78dff5d203))
+* **examples:** add and wire up 12 new component examples ([4b65787](https://github.com/Xenial-Devil/Saha-ui/commit/4b65787104e89961e18f98594693d9904ed08a65))
+* **pagination+:** add Pagination types and new examples ([3e82b0f](https://github.com/Xenial-Devil/Saha-ui/commit/3e82b0f1e54c87039dde3ce426cfb026360fdee5))
+* **popover:** add Popover component and types ([9d366aa](https://github.com/Xenial-Devil/Saha-ui/commit/9d366aa4a95dac7dc2d11c7f41cbad5d905dc0b4))
+* **progress+examples+index:** add Progress component types and examples ([b1d36cb](https://github.com/Xenial-Devil/Saha-ui/commit/b1d36cb9e042c221dbb60f82e02bb7da69c92414))
+* **steps:** add new Steps component with CVA-based styles ([ec767ea](https://github.com/Xenial-Devil/Saha-ui/commit/ec767eab033e9c0d359ee3b521b4d25ba5c27a45))
+* **tree:** add Tree component with node rendering & variants ([0f81149](https://github.com/Xenial-Devil/Saha-ui/commit/0f81149a6ec99a7fd330467c57898762b489d99a))
+
 # [1.3.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.2.0...v1.3.0) (2025-10-12)
 
 
