@@ -74,6 +74,34 @@ export interface CarouselItemProps {
    * Custom icon component for the link button
    */
   LinkIcon?: React.ElementType | null;
+
+  /**
+   * Show the CTA button
+   * @default true when link or onClick is provided
+   */
+  showButton?: boolean;
+
+  /**
+   * Custom button component to replace the default CTA button
+   * Receives { link, linkText, onClick, linkTarget } as props
+   */
+  CustomButton?: React.ComponentType<{
+    link?: string;
+    linkText?: string;
+    onClick?: () => void;
+    linkTarget?: string;
+  }>;
+
+  /**
+   * Custom CSS classes for the CTA button
+   */
+  buttonClassName?: string;
+
+  /**
+   * Button variant style
+   * @default "gradient"
+   */
+  buttonVariant?: "gradient" | "solid" | "outline" | "ghost" | "custom";
 }
 
 /**

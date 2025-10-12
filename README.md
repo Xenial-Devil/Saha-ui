@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **18 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel
+- 🎨 **20 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -159,12 +159,14 @@ import { cn } from "saha-ui/lib/utils";
 | **Tree**        | Hierarchical data with 4 variants, icons, and expand/collapse      | ✅     | ✅  |
 | **Image**       | Advanced image with lazy loading                                   | ✅     | ✅  |
 | **Carousel**    | Image slider with 4 transition effects                             | ✅     | ✅  |
+| **Steps**       | Progress indicator with 4 variants, horizontal/vertical layouts    | ✅     | ✅  |
+| **Table**       | Data table with sorting, selection, 5 variants, and responsive     | ✅     | ✅  |
 
 ---
 
 ## ⚡ Quick Examples
 
-Here are simple examples for all 16 components to get you started quickly:
+Here are simple examples for all 19 components to get you started quickly:
 
 ### Button
 
@@ -427,6 +429,41 @@ const images = [
 
 <Carousel images={images} />
 <Carousel images={images} effect="fade" autoplay />
+```
+
+### Steps
+
+```tsx
+import { Steps } from "saha-ui";
+
+const steps = [
+  { id: 1, title: 'Account', description: 'Create your account' },
+  { id: 2, title: 'Profile', description: 'Fill in your details' },
+  { id: 3, title: 'Complete', description: 'You're all set!' }
+];
+
+<Steps steps={steps} current={1} />
+<Steps steps={steps} current={1} variant="glass" orientation="vertical" />
+```
+
+### Table
+
+```tsx
+import { Table } from "saha-ui";
+
+const columns = [
+  { id: 'name', header: 'Name', accessor: 'name', sortable: true },
+  { id: 'email', header: 'Email', accessor: 'email' },
+  { id: 'role', header: 'Role', accessor: 'role' }
+];
+
+const data = [
+  { id: 1, name: 'Alice', email: 'alice@example.com', role: 'Admin' },
+  { id: 2, name: 'Bob', email: 'bob@example.com', role: 'User' }
+];
+
+<Table columns={columns} data={data} sortable />
+<Table columns={columns} data={data} variant="glass" selectable />
 ```
 
 ---
@@ -2460,6 +2497,246 @@ import { Carousel } from "saha-ui";
 - 🔄 Infinite loop
 - 🎯 Dot indicators
 - 🎨 Modern navigation buttons
+
+---
+
+### Steps
+
+Progress indicator for multi-step processes and wizards.
+
+**Variants:** `default` `bordered` `glass` `minimal`  
+**Orientation:** `horizontal` `vertical`  
+**Sizes:** `sm` `md` `lg`  
+**Status:** `completed` `current` `pending` `error`
+
+```tsx
+import { Steps } from "saha-ui";
+
+<Steps
+  steps={[
+    {
+      id: 1,
+      title: "Account",
+      description: "Create your account",
+      status: "completed",
+    },
+    {
+      id: 2,
+      title: "Profile",
+      description: "Fill in your details",
+      status: "current",
+    },
+    {
+      id: 3,
+      title: "Verification",
+      description: "Verify your email",
+      status: "pending",
+    },
+  ]}
+  current={1}
+  variant="glass"
+  size="md"
+  orientation="horizontal"
+  showNumbers
+  showConnector
+  clickable
+  onStepClick={(index) => console.log("Step clicked:", index)}
+/>;
+
+// Vertical with custom icons
+import { User, CreditCard, Check } from "lucide-react";
+
+<Steps
+  steps={[
+    {
+      id: 1,
+      title: "Personal Info",
+      description: "Your details",
+      icon: <User className="w-5 h-5" />,
+    },
+    {
+      id: 2,
+      title: "Payment",
+      description: "Billing info",
+      icon: <CreditCard className="w-5 h-5" />,
+    },
+    {
+      id: 3,
+      title: "Complete",
+      description: "All done",
+      icon: <Check className="w-5 h-5" />,
+    },
+  ]}
+  orientation="vertical"
+  variant="bordered"
+/>;
+```
+
+**Features:**
+
+- ✅ Horizontal and vertical layouts
+- 🎨 4 visual variants with glassmorphism
+- 📏 3 size options
+- 🔢 Auto-numbered or custom icons
+- 📍 Status indicators (completed, current, pending, error)
+- 🖱️ Clickable navigation
+- 📝 Optional descriptions
+- 🔗 Connector lines between steps
+- 🎭 Smooth transitions
+
+---
+
+### Table
+
+Data table component with sorting, selection, and responsive design.
+
+**Variants:** `default` `bordered` `striped` `glass` `minimal`  
+**Sizes:** `sm` `md` `lg`  
+**Density:** `compact` `normal` `comfortable`
+
+```tsx
+import { Table } from "saha-ui";
+import { Badge, Avatar } from "saha-ui";
+
+// Define columns
+const columns = [
+  {
+    id: "user",
+    header: "User",
+    cell: (row: any) => (
+      <div className="flex items-center gap-3">
+        <Avatar src={row.avatar} alt={row.name} size="sm" />
+        <div>
+          <div className="font-medium">{row.name}</div>
+          <div className="text-sm text-muted-foreground">{row.email}</div>
+        </div>
+      </div>
+    ),
+    sortable: true,
+    sortFn: (a, b) => a.name.localeCompare(b.name),
+  },
+  {
+    id: "role",
+    header: "Role",
+    accessor: "role",
+    sortable: true,
+  },
+  {
+    id: "status",
+    header: "Status",
+    cell: (row: any) => (
+      <Badge variant={row.status === "active" ? "success" : "warning"}>
+        {row.status}
+      </Badge>
+    ),
+    align: "center",
+  },
+];
+
+// Sample data
+const data = [
+  {
+    id: 1,
+    name: "Alice Johnson",
+    email: "alice@example.com",
+    role: "Admin",
+    status: "active",
+    avatar: "https://i.pravatar.cc/150?img=1",
+  },
+  {
+    id: 2,
+    name: "Bob Smith",
+    email: "bob@example.com",
+    role: "Developer",
+    status: "active",
+    avatar: "https://i.pravatar.cc/150?img=2",
+  },
+];
+
+// Basic sortable table
+<Table columns={columns} data={data} sortable hoverable />;
+
+// Glass variant with selection
+<Table
+  columns={columns}
+  data={data}
+  variant="glass"
+  selectable
+  selectedRows={[1]}
+  onRowSelect={(selected) => console.log("Selected:", selected)}
+/>;
+
+// Compact size with striped rows
+<Table
+  columns={columns}
+  data={data}
+  variant="striped"
+  size="sm"
+  density="compact"
+/>;
+
+// With sticky header and scroll
+<Table
+  columns={columns}
+  data={data}
+  stickyHeader
+  maxHeight="400px"
+  variant="bordered"
+/>;
+
+// With clickable rows
+<Table
+  columns={columns}
+  data={data}
+  onRowClick={(row) => console.log("Clicked:", row)}
+  hoverable
+/>;
+
+// Loading state
+<Table columns={columns} data={[]} loading />;
+
+// Empty state
+<Table
+  columns={columns}
+  data={[]}
+  emptyMessage={
+    <div className="text-center py-8">
+      <p>No data available</p>
+    </div>
+  }
+/>;
+```
+
+**Features:**
+
+- ✅ Sorting (controlled and uncontrolled)
+- ☑️ Row selection with callbacks
+- 🎨 5 visual variants with glassmorphism
+- 📏 3 size options and 3 density levels
+- 🎯 Custom cell renderers
+- 📍 Column alignment (left, center, right)
+- 📌 Sticky header support
+- 📱 Responsive with horizontal scroll
+- 🔄 Loading states (inline and overlay)
+- 📝 Empty state customization
+- 🖱️ Clickable rows
+- 🎭 Hoverable and striped row options
+- 📊 Footer support
+- 🎨 Custom row styling
+
+**Column Options:**
+
+- `id` - Unique column identifier
+- `header` - Column header text/component
+- `accessor` - Property key or accessor function
+- `cell` - Custom cell renderer function
+- `width`, `minWidth`, `maxWidth` - Column sizing
+- `align` - Text alignment (left, center, right)
+- `sortable` - Enable sorting for column
+- `sortFn` - Custom sort function
+- `footer` - Footer content/function
+- `sticky` - Make column sticky
+- `className` - Custom classes for header/cell
 
 ---
 

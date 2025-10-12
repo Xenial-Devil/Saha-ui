@@ -3,6 +3,31 @@ import { cn } from "../../lib/utils";
 import { CarouselItemProps } from "./Carousel.types";
 import Image from "../Image";
 import { ExternalLink } from "lucide-react";
+import { cva } from "class-variance-authority";
+
+/**
+ * CVA variants for CTA button
+ */
+const buttonVariants = cva(
+  "inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-200",
+  {
+    variants: {
+      variant: {
+        gradient:
+          "bg-gradient-to-r from-primary to-accent text-white hover:shadow-lg hover:shadow-primary/50 hover:scale-105",
+        solid:
+          "bg-primary text-white hover:bg-primary/90 hover:shadow-lg hover:scale-105",
+        outline:
+          "border-2 border-white text-white hover:bg-white hover:text-black hover:scale-105",
+        ghost: "text-white hover:bg-white/20 backdrop-blur-sm hover:scale-105",
+        custom: "",
+      },
+    },
+    defaultVariants: {
+      variant: "gradient",
+    },
+  }
+);
 
 /**
  * CarouselItem component
@@ -20,8 +45,15 @@ const CarouselItem: React.FC<CarouselItemProps> = ({
   linkTarget = "_blank",
   className,
   LinkIcon,
+  showButton = true,
+  CustomButton,
+  buttonClassName,
+  buttonVariant = "gradient",
 }) => {
   const Icon = LinkIcon || ExternalLink;
+
+  // Determine if button should be shown
+  const shouldShowButton = showButton && (link || onClick);
 
   return (
     <div className={cn("relative w-full h-full", className)}>
@@ -52,9 +84,16 @@ const CarouselItem: React.FC<CarouselItemProps> = ({
           )}
 
           {/* CTA Button */}
-          {(link || onClick) && (
+          {shouldShowButton && (
             <div className="mt-2 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
-              {!onClick && link ? (
+              {CustomButton ? (
+                <CustomButton
+                  link={link}
+                  linkText={linkText}
+                  onClick={onClick}
+                  linkTarget={linkTarget}
+                />
+              ) : !onClick && link ? (
                 <a
                   href={link}
                   target={linkTarget}
@@ -62,10 +101,8 @@ const CarouselItem: React.FC<CarouselItemProps> = ({
                     linkTarget === "_blank" ? "noopener noreferrer" : undefined
                   }
                   className={cn(
-                    "inline-flex items-center gap-2 px-6 py-3 rounded-lg",
-                    "bg-gradient-to-r from-primary to-accent text-white font-medium",
-                    "hover:shadow-lg hover:shadow-primary/50 hover:scale-105",
-                    "transition-all duration-200"
+                    buttonVariants({ variant: buttonVariant }),
+                    buttonClassName
                   )}
                 >
                   <Icon className="w-5 h-5" />
@@ -75,10 +112,8 @@ const CarouselItem: React.FC<CarouselItemProps> = ({
                 <button
                   onClick={onClick}
                   className={cn(
-                    "inline-flex items-center gap-2 px-6 py-3 rounded-lg",
-                    "bg-gradient-to-r from-primary to-accent text-white font-medium",
-                    "hover:shadow-lg hover:shadow-primary/50 hover:scale-105",
-                    "transition-all duration-200 cursor-pointer"
+                    buttonVariants({ variant: buttonVariant }),
+                    buttonClassName
                   )}
                 >
                   <Icon className="w-5 h-5" />

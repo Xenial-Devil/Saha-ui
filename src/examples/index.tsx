@@ -8,6 +8,19 @@ export { BreadcrumbExample } from "./BreadcrumbExample";
 export { BadgeExample } from "./BadgeExample";
 export { AvatarExample } from "./AvatarExample";
 export { CardExample } from "./CardExample";
+export { DividerExample } from "./DividerExample";
+export { ChipExample } from "./ChipExample";
+export { AlertExample } from "./AlertExample";
+export { AccordionExample } from "./AccordionExample";
+export { TooltipExample } from "./TooltipExample";
+export { LinkExample } from "./LinkExample";
+export { ListExample } from "./ListExample";
+export { TimelineExample } from "./TimelineExample";
+export { ImageExample } from "./ImageExample";
+export { CarouselExample } from "./CarouselExample";
+export { TreeExample } from "./TreeExample";
+export { StepsExample } from "./StepsExample";
+export { TableExample } from "./TableExample";
 
 // Aggregate component that includes all examples
-export { default as AllComponentExamples } from "./AllComponentExamples";
+export { AllComponentExamples } from "./AllComponentExamples";

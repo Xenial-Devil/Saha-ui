@@ -8,27 +8,30 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 /**
  * CVA variants for Carousel container
  */
-const carouselVariants = cva("relative w-full overflow-hidden", {
-  variants: {
-    variant: {
-      default: "rounded-none",
-      contained: "max-w-7xl mx-auto",
-      bordered: "rounded-xl border-2 border-border shadow-lg",
-      glass:
-        "rounded-xl border border-border/30 bg-background/5 backdrop-blur-sm shadow-2xl",
+const carouselVariants = cva(
+  "relative w-full overflow-hidden h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]",
+  {
+    variants: {
+      variant: {
+        default: "rounded-none",
+        contained: "max-w-7xl mx-auto",
+        bordered: "rounded-xl border-2 border-border shadow-lg",
+        glass:
+          "rounded-xl border border-border/30 bg-background/5 backdrop-blur-sm shadow-2xl",
+      },
+      effect: {
+        slide: "",
+        fade: "",
+        cube: "perspective-1000",
+        flip: "perspective-1000",
+      },
     },
-    effect: {
-      slide: "",
-      fade: "",
-      cube: "perspective-1000",
-      flip: "perspective-1000",
+    defaultVariants: {
+      variant: "default",
+      effect: "slide",
     },
-  },
-  defaultVariants: {
-    variant: "default",
-    effect: "slide",
-  },
-});
+  }
+);
 
 /**
  * CVA variants for navigation buttons
