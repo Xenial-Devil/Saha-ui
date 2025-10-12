@@ -19,6 +19,7 @@ export default defineConfig({
         "src/TypeSafetyExamples.tsx",
         "src/DebugTheme.tsx",
         "src/components/ColorTest.tsx",
+        "src/examples/**/*", // Exclude all examples from build
       ],
       rollupTypes: false, // Keep individual .d.ts files
       insertTypesEntry: true,
@@ -51,6 +52,7 @@ export default defineConfig({
               "src/DebugTheme.tsx",
               "src/components/ColorTest.tsx",
               "src/vite-env.d.ts",
+              "src/examples/**/*", // Exclude all examples from build
             ],
           })
           .map((file) => [

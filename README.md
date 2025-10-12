@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **17 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Image, Carousel
+- 🎨 **18 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -156,6 +156,7 @@ import { cn } from "saha-ui/lib/utils";
 | **Link**        | Smart links with 9 variants and icon support                       | ✅     | ✅  |
 | **List**        | Modern lists with 5 variants and icon support                      | ✅     | ✅  |
 | **Timeline**    | Chronological events with 4 variants, positions, and statuses      | ✅     | ✅  |
+| **Tree**        | Hierarchical data with 4 variants, icons, and expand/collapse      | ✅     | ✅  |
 | **Image**       | Advanced image with lazy loading                                   | ✅     | ✅  |
 | **Carousel**    | Image slider with 4 transition effects                             | ✅     | ✅  |
 
@@ -369,6 +370,28 @@ const events = [
 
 <Timeline items={events} />
 <Timeline items={events} variant="gradient" position="alternate" />
+```
+
+### Tree
+
+```tsx
+import { Tree } from "saha-ui";
+import { Folder, File } from "lucide-react";
+
+const nodes = [
+  {
+    id: 1,
+    label: 'src',
+    icon: <Folder size={16} />,
+    children: [
+      { id: 2, label: 'components', icon: <Folder size={16} /> },
+      { id: 3, label: 'App.tsx', icon: <File size={16} /> }
+    ]
+  }
+];
+
+<Tree nodes={nodes} />
+<Tree nodes={nodes} variant="glass" onNodeClick={(id) => console.log(id)} />
 ```
 
 ### Image
@@ -2142,6 +2165,213 @@ const customDotClass = timelineDotVariants({
   status: "success",
   size: "lg",
   active: true,
+});
+```
+
+---
+
+### Tree
+
+Hierarchical data visualization with expand/collapse functionality.
+
+**Variants:** `default` `glass` `bordered` `minimal`  
+**Sizes:** `sm` `md` `lg`
+
+```tsx
+import { Tree } from "saha-ui";
+import { Folder, File } from "lucide-react";
+
+<Tree
+  variant="glass"
+  size="md"
+  showIcons={true}
+  showLines={true}
+  iconPosition="left"
+  onNodeClick={(id) => console.log("Clicked:", id)}
+  onNodeToggle={(id, expanded) => console.log("Toggled:", id, expanded)}
+  nodes={[
+    {
+      id: "src",
+      label: "src",
+      icon: <Folder size={16} />,
+      expanded: true,
+      children: [
+        {
+          id: "components",
+          label: "components",
+          icon: <Folder size={16} />,
+          children: [
+            { id: "button", label: "Button.tsx", icon: <File size={16} /> },
+            { id: "card", label: "Card.tsx", icon: <File size={16} /> },
+          ],
+        },
+        { id: "app", label: "App.tsx", icon: <File size={16} /> },
+      ],
+    },
+  ]}
+/>;
+```
+
+**Props:**
+
+**Tree Component:**
+
+- `nodes`: TreeNode[] - Array of tree nodes (required)
+- `variant`: 'default' | 'glass' | 'bordered' | 'minimal' (default: 'default')
+- `size`: 'sm' | 'md' | 'lg' (default: 'md')
+- `className`: string - Additional CSS classes
+- `nodeClassName`: string - Custom class for all nodes
+- `iconPosition`: 'left' | 'right' (default: 'left')
+- `showLines`: boolean - Show connecting lines (default: true)
+- `showIcons`: boolean - Show node icons (default: true)
+- `onNodeToggle`: (id, expanded) => void - Callback when node is expanded/collapsed
+- `onNodeClick`: (id) => void - Callback when node is clicked
+
+**TreeNode:**
+
+- `id`: string | number - Unique identifier (required)
+- `label`: string - Display text (required)
+- `icon`: ReactNode - Custom icon
+- `children`: TreeNode[] - Child nodes
+- `expanded`: boolean - Initial expanded state (default: false)
+- `disabled`: boolean - Disable interactions
+- `className`: string - Custom class for this node
+
+**Advanced Usage:**
+
+```tsx
+// File System Explorer
+<Tree
+  variant="bordered"
+  showIcons={true}
+  onNodeClick={(id) => console.log('Opened:', id)}
+  nodes={[
+    {
+      id: 1,
+      label: 'Documents',
+      icon: <FolderOpen size={16} />,
+      expanded: true,
+      children: [
+        {
+          id: 2,
+          label: 'Work',
+          icon: <Folder size={16} />,
+          children: [
+            { id: 3, label: 'Resume.pdf', icon: <FileText size={16} /> },
+            { id: 4, label: 'Cover.docx', icon: <FileText size={16} /> }
+          ]
+        },
+        { id: 5, label: 'Personal', icon: <Folder size={16} /> }
+      ]
+    },
+    {
+      id: 6,
+      label: 'Media',
+      icon: <Folder size={16} />,
+      children: [
+        { id: 7, label: 'photo.jpg', icon: <ImageIcon size={16} /> },
+        { id: 8, label: 'video.mp4', icon: <Video size={16} /> }
+      ]
+    }
+  ]}
+/>
+
+// Organization Chart
+<Tree
+  variant="glass"
+  size="lg"
+  nodes={[
+    {
+      id: 'ceo',
+      label: 'CEO',
+      icon: <User size={16} />,
+      expanded: true,
+      children: [
+        {
+          id: 'eng',
+          label: 'Engineering',
+          icon: <Settings size={16} />,
+          children: [
+            { id: 'fe', label: 'Frontend Team', icon: <Code size={16} /> },
+            { id: 'be', label: 'Backend Team', icon: <Package size={16} /> }
+          ]
+        },
+        {
+          id: 'mkt',
+          label: 'Marketing',
+          icon: <Rocket size={16} />,
+          children: [
+            { id: 'content', label: 'Content', icon: <FileText size={16} /> }
+          ]
+        }
+      ]
+    }
+  ]}
+/>
+
+// Without Icons or Lines
+<Tree
+  showIcons={false}
+  showLines={false}
+  variant="minimal"
+  nodes={[
+    {
+      id: 1,
+      label: 'Parent',
+      children: [
+        { id: 2, label: 'Child 1' },
+        { id: 3, label: 'Child 2' }
+      ]
+    }
+  ]}
+/>
+
+// Icon on Right Side
+<Tree
+  iconPosition="right"
+  nodes={[
+    {
+      id: 1,
+      label: 'Folder',
+      icon: <Folder size={16} />,
+      children: [
+        { id: 2, label: 'File', icon: <File size={16} /> }
+      ]
+    }
+  ]}
+/>
+
+// With Disabled Nodes
+<Tree
+  nodes={[
+    {
+      id: 1,
+      label: 'Active',
+      children: [
+        { id: 2, label: 'Enabled' },
+        { id: 3, label: 'Disabled', disabled: true }
+      ]
+    }
+  ]}
+/>
+```
+
+**CVA Integration:**
+
+```tsx
+import { treeVariants, treeNodeVariants } from "saha-ui";
+
+// Use exported variants for custom styling
+const customTreeClass = treeVariants({
+  variant: "glass",
+  size: "lg",
+  className: "my-custom-class",
+});
+
+const customNodeClass = treeNodeVariants({
+  size: "md",
+  expanded: true,
+  className: "hover:bg-accent/20",
 });
 ```
 

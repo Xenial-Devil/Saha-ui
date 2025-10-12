@@ -31,6 +31,8 @@ export { default as List } from "./components/List";
 export { default as Timeline } from "./components/Timeline";
 export { default as Tooltip } from "./components/Tooltip";
 
+export { default as Tree } from "./components/Tree";
+
 // Types - Theme
 export type {
   Theme,
@@ -146,6 +148,13 @@ export type {
   TooltipSize,
   TooltipTrigger,
 } from "./components/Tooltip/Tooltip.types";
+
+export type {
+  TreeProps,
+  TreeNode,
+  TreeVariant,
+  TreeSize,
+} from "./components/Tree/Tree.types";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";
