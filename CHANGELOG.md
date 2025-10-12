@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.2.0...v1.3.0) (2025-10-12)
+
+
+### Features
+
+* **chip:** add Chip component and types with CVA variants ([db7193e](https://github.com/Xenial-Devil/Saha-ui/commit/db7193eb5181d60eae4bf083c18ab265be1f27a6))
+* **tooltip:** add CVA-driven props and extended API ([d6365bb](https://github.com/Xenial-Devil/Saha-ui/commit/d6365bb2722d6fb037bbdc2e25b9190037826214))
+
 # [1.2.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.1.0...v1.2.0) (2025-10-11)
 
 
