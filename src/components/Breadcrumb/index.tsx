@@ -1,50 +1,48 @@
-import React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
+import React, { createContext, useContext } from "react";
+import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
-import {
-  ChevronRight,
-  Slash,
-  Circle,
-  ArrowRight,
-  Home,
-  MoreHorizontal,
-} from "lucide-react";
-import type { BreadcrumbProps, BreadcrumbItem } from "./Breadcrumb.types";
+import { ChevronRight, Slash, Circle, ArrowRight } from "lucide-react";
+import type {
+  BreadcrumbProps,
+  BreadcrumbItemProps,
+  BreadcrumbSeparatorProps,
+  BreadcrumbVariant,
+  BreadcrumbSize,
+  BreadcrumbSeparatorType,
+} from "./Breadcrumb.types";
 
-/**
- * Breadcrumb container variants using CVA
- *
- * Provides 5 modern breadcrumb variants with flexible sizing,
- * multiple separator styles, and advanced features like collapsing.
- *
- * @variant default - Clean design with subtle hover effects
- * @variant ghost - Minimal design with ghost hover states
- * @variant bordered - Bordered pills with shadows
- * @variant pills - Pill-shaped items with backgrounds
- * @variant underline - Underlined items with animated hover
- *
- * @size sm | md | lg - Configurable text and spacing sizes
- */
-export const breadcrumbVariants = cva(
-  "flex items-center flex-wrap gap-1 text-sm",
-  {
-    variants: {
-      size: {
-        sm: "text-xs gap-0.5",
-        md: "text-sm gap-1",
-        lg: "text-base gap-1.5",
-      },
-    },
-    defaultVariants: {
-      size: "md",
-    },
-  }
+interface BreadcrumbContextValue {
+  variant: BreadcrumbVariant;
+  size: BreadcrumbSize;
+  separator: BreadcrumbSeparatorType;
+}
+
+const BreadcrumbContext = createContext<BreadcrumbContextValue | undefined>(
+  undefined
 );
 
-/**
- * Breadcrumb item variants
- */
-export const breadcrumbItemVariants = cva(
+const useBreadcrumb = () => {
+  const context = useContext(BreadcrumbContext);
+  if (!context) {
+    throw new Error("BreadcrumbItem must be used within a Breadcrumb");
+  }
+  return context;
+};
+
+const breadcrumbVariants = cva("flex items-center flex-wrap gap-1 text-sm", {
+  variants: {
+    size: {
+      sm: "text-xs gap-0.5",
+      md: "text-sm gap-1",
+      lg: "text-base gap-1.5",
+    },
+  },
+  defaultVariants: {
+    size: "md",
+  },
+});
+
+const breadcrumbItemVariants = cva(
   "inline-flex items-center gap-1.5 transition-all duration-200 ease-out font-medium",
   {
     variants: {
@@ -58,6 +56,8 @@ export const breadcrumbItemVariants = cva(
           "text-muted-foreground hover:text-foreground bg-muted/30 hover:bg-muted/60 rounded-full px-3 py-1",
         underline:
           "text-muted-foreground hover:text-foreground relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300",
+        glass:
+          "text-muted-foreground hover:text-foreground bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 hover:border-white/20 rounded-lg px-3 py-1 shadow-lg",
       },
       size: {
         sm: "text-xs",
@@ -70,7 +70,6 @@ export const breadcrumbItemVariants = cva(
       },
     },
     compoundVariants: [
-      // Current page styling for different variants
       {
         variant: "default",
         isCurrentPage: true,
@@ -92,6 +91,11 @@ export const breadcrumbItemVariants = cva(
         className: "bg-primary/20 text-primary",
       },
       {
+        variant: "glass",
+        isCurrentPage: true,
+        className: "bg-primary/10 border-primary/30 text-primary",
+      },
+      {
         variant: "underline",
         isCurrentPage: true,
         className: "text-primary after:w-full",
@@ -105,194 +109,122 @@ export const breadcrumbItemVariants = cva(
   }
 );
 
-/**
- * Breadcrumb separator variants
- */
-export const breadcrumbSeparatorVariants = cva(
-  "flex items-center text-muted-foreground/50 select-none",
-  {
-    variants: {
-      size: {
-        sm: "text-xs mx-0.5",
-        md: "text-sm mx-1",
-        lg: "text-base mx-1.5",
-      },
+const breadcrumbSeparatorVariants = cva("text-muted-foreground/50", {
+  variants: {
+    size: {
+      sm: "mx-0.5",
+      md: "mx-1",
+      lg: "mx-1.5",
     },
-    defaultVariants: {
-      size: "md",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    size: "md",
+  },
+});
 
-export type BreadcrumbVariantsProps = VariantProps<typeof breadcrumbVariants>;
-
-/**
- * Get separator icon based on type
- */
-const getSeparatorIcon = (
-  type: BreadcrumbProps["separator"],
-  size: BreadcrumbProps["size"] = "md"
-) => {
-  const iconSize = size === "sm" ? 12 : size === "lg" ? 18 : 14;
-
-  switch (type) {
-    case "slash":
-      return <Slash size={iconSize} />;
-    case "chevron":
-      return <ChevronRight size={iconSize} />;
-    case "dot":
-      return <Circle size={iconSize} fill="currentColor" />;
-    case "arrow":
-      return <ArrowRight size={iconSize} />;
-    default:
-      return <ChevronRight size={iconSize} />;
-  }
-};
-
-/**
- * Breadcrumb Component
- *
- * A navigation component that shows the current page's location within a hierarchy.
- * Supports multiple variants, sizes, separators, and advanced features like collapsing.
- *
- * @example
- * ```tsx
- * <Breadcrumb
- *   items={[
- *     { label: "Home", href: "/" },
- *     { label: "Products", href: "/products" },
- *     { label: "Laptops", isCurrentPage: true }
- *   ]}
- *   variant="pills"
- *   separator="chevron"
- * />
- * ```
- */
-export const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
+const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
   (
     {
-      items,
       variant = "default",
       size = "md",
       separator = "chevron",
-      customSeparator,
-      showHomeIcon = true,
-      maxItems,
       className,
+      children,
       ...props
     },
     ref
   ) => {
-    // Handle collapsing if maxItems is set
-    const displayItems = React.useMemo(() => {
-      if (!maxItems || items.length <= maxItems) {
-        return items;
-      }
-
-      const firstItem = items[0];
-      const lastItems = items.slice(-(maxItems - 1));
-
-      return [
-        firstItem,
-        {
-          label: "...",
-          href: undefined,
-          isCollapsed: true,
-        } as BreadcrumbItem & { isCollapsed?: boolean },
-        ...lastItems,
-      ];
-    }, [items, maxItems]);
-
-    const homeIconSize = size === "sm" ? 12 : size === "lg" ? 18 : 14;
+    const contextValue: BreadcrumbContextValue = {
+      variant,
+      size,
+      separator,
+    };
 
     return (
-      <nav
-        ref={ref}
-        aria-label="Breadcrumb"
-        className={cn(breadcrumbVariants({ size }), className)}
-        {...props}
-      >
-        <ol className="flex items-center flex-wrap gap-1">
-          {displayItems.map((item, index) => {
-            const isLast = index === displayItems.length - 1;
-            const isFirst = index === 0;
-            const isCollapsed = "isCollapsed" in item && item.isCollapsed;
-
-            return (
-              <React.Fragment key={`${item.label}-${index}`}>
-                <li className="inline-flex items-center">
-                  {isCollapsed ? (
-                    <span
-                      className={cn(
-                        breadcrumbItemVariants({
-                          variant,
-                          size,
-                          isCurrentPage: false,
-                        }),
-                        "cursor-default pointer-events-none"
-                      )}
-                    >
-                      <MoreHorizontal size={homeIconSize} />
-                    </span>
-                  ) : item.href && !item.isCurrentPage ? (
-                    <a
-                      href={item.href}
-                      className={cn(
-                        breadcrumbItemVariants({
-                          variant,
-                          size,
-                          isCurrentPage: item.isCurrentPage,
-                        })
-                      )}
-                      aria-current={item.isCurrentPage ? "page" : undefined}
-                    >
-                      {isFirst && showHomeIcon && (
-                        <Home size={homeIconSize} className="flex-shrink-0" />
-                      )}
-                      {item.icon && !isFirst && (
-                        <span className="flex-shrink-0">{item.icon}</span>
-                      )}
-                      <span>{item.label}</span>
-                    </a>
-                  ) : (
-                    <span
-                      className={cn(
-                        breadcrumbItemVariants({
-                          variant,
-                          size,
-                          isCurrentPage: true,
-                        })
-                      )}
-                      aria-current="page"
-                    >
-                      {isFirst && showHomeIcon && (
-                        <Home size={homeIconSize} className="flex-shrink-0" />
-                      )}
-                      {item.icon && !isFirst && (
-                        <span className="flex-shrink-0">{item.icon}</span>
-                      )}
-                      <span>{item.label}</span>
-                    </span>
-                  )}
-                </li>
-
-                {!isLast && (
-                  <li
-                    className={cn(breadcrumbSeparatorVariants({ size }))}
-                    aria-hidden="true"
-                  >
-                    {customSeparator || getSeparatorIcon(separator, size)}
-                  </li>
-                )}
-              </React.Fragment>
-            );
-          })}
-        </ol>
-      </nav>
+      <BreadcrumbContext.Provider value={contextValue}>
+        <nav
+          ref={ref}
+          aria-label="Breadcrumb"
+          className={cn(breadcrumbVariants({ size }), className)}
+          {...props}
+        >
+          <ol className="flex items-center flex-wrap gap-1">{children}</ol>
+        </nav>
+      </BreadcrumbContext.Provider>
     );
   }
 );
 
 Breadcrumb.displayName = "Breadcrumb";
 
-export default Breadcrumb;
+const BreadcrumbItem = React.forwardRef<
+  HTMLAnchorElement | HTMLSpanElement,
+  BreadcrumbItemProps
+>(
+  (
+    { href, icon, isCurrentPage = false, className, children, ...props },
+    ref
+  ) => {
+    const { variant, size } = useBreadcrumb();
+
+    const Component = href && !isCurrentPage ? "a" : "span";
+
+    return (
+      <Component
+        ref={ref as any}
+        href={href}
+        aria-current={isCurrentPage ? "page" : undefined}
+        className={cn(
+          breadcrumbItemVariants({ variant, size, isCurrentPage }),
+          className
+        )}
+        {...props}
+      >
+        {icon && <span className="flex-shrink-0">{icon}</span>}
+        <span>{children}</span>
+      </Component>
+    );
+  }
+);
+
+BreadcrumbItem.displayName = "BreadcrumbItem";
+
+const BreadcrumbSeparator = React.forwardRef<
+  HTMLSpanElement,
+  BreadcrumbSeparatorProps
+>(({ className, children, ...props }, ref) => {
+  const { separator, size } = useBreadcrumb();
+
+  const renderSeparator = () => {
+    if (children) return children;
+
+    switch (separator) {
+      case "slash":
+        return <Slash size={14} />;
+      case "chevron":
+        return <ChevronRight size={14} />;
+      case "dot":
+        return <Circle size={4} fill="currentColor" />;
+      case "arrow":
+        return <ArrowRight size={14} />;
+      default:
+        return <ChevronRight size={14} />;
+    }
+  };
+
+  return (
+    <span
+      ref={ref}
+      role="presentation"
+      aria-hidden="true"
+      className={cn(breadcrumbSeparatorVariants({ size }), className)}
+      {...props}
+    >
+      {renderSeparator()}
+    </span>
+  );
+});
+
+BreadcrumbSeparator.displayName = "BreadcrumbSeparator";
+
+export { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator };

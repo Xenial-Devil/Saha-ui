@@ -6,7 +6,8 @@ export type AlertVariant =
   | "subtle"
   | "left-accent"
   | "top-accent"
-  | "outline";
+  | "outline"
+  | "glass";
 export type AlertStatus = "success" | "danger" | "warning" | "info";
 
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {

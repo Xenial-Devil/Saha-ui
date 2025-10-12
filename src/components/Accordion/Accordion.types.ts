@@ -1,63 +1,109 @@
+import { ReactNode } from "react";
+
 // Explicit types for better type safety
 export type AccordionVariant =
   | "default"
   | "controlled"
   | "allopen"
   | "toggle"
-  | "firstopen";
+  | "firstopen"
+  | "glass";
 
-export interface AccordionItem {
-  /**
-   * The title/heading of the accordion item
-   */
-  title: string;
-
-  /**
-   * The content displayed when the item is expanded
-   */
-  content: string;
-}
+export type AccordionType = "single" | "multiple";
 
 export interface AccordionProps {
   /**
-   * Behavior variant that controls how accordion items expand/collapse
-   * - default: Independent toggle for each item
-   * - controlled: Only one item can be open at a time
-   * - allopen: All items can be toggled independently (all open by default)
-   * - toggle: Only one item open, clicking open item closes it
-   * - firstopen: First item open by default, only one can be open
+   * Behavior type that controls how accordion items expand/collapse
+   * - single: Only one item can be open at a time
+   * - multiple: Multiple items can be toggled independently
    */
-  variant: AccordionVariant;
+  type?: AccordionType;
 
   /**
-   * Array of accordion items to display
+   * Controlled value(s) for which items are open
+   * - For type="single": string value
+   * - For type="multiple": string[] value
    */
-  items: AccordionItem[];
+  value?: string | string[];
+
+  /**
+   * Default value(s) for uncontrolled accordion
+   */
+  defaultValue?: string | string[];
+
+  /**
+   * Callback fired when the open items change
+   */
+  onValueChange?: (value: string | string[]) => void;
+
+  /**
+   * Visual variant for styling
+   */
+  variant?: AccordionVariant;
+
+  /**
+   * Custom className for the accordion container
+   */
+  className?: string;
+
+  /**
+   * Whether collapsible when type="single" (allows closing the open item)
+   */
+  collapsible?: boolean;
+
+  /**
+   * Child AccordionItem components
+   */
+  children: ReactNode;
 }
 
 export interface AccordionItemProps {
   /**
-   * The title/heading of the accordion item
+   * Unique value identifier for this item
    */
-  title: string;
+  value: string;
 
   /**
-   * The content displayed when expanded
+   * Custom className for the item container
    */
-  content: string;
+  className?: string;
 
   /**
-   * Whether this item is currently open
+   * Whether this item is disabled
    */
-  isOpen: boolean;
+  disabled?: boolean;
 
   /**
-   * The variant inherited from parent Accordion
+   * Child components (AccordionTrigger and AccordionContent)
    */
-  variant: AccordionVariant;
+  children: ReactNode;
+}
+
+export interface AccordionTriggerProps {
+  /**
+   * The content to display in the trigger (usually the title)
+   */
+  children: ReactNode;
 
   /**
-   * Callback fired when the item is clicked
+   * Custom className for the trigger
    */
-  onClick: () => void;
+  className?: string;
+
+  /**
+   * Custom icon to display (default: ChevronDown)
+   */
+  icon?: ReactNode;
+}
+
+export interface AccordionContentProps {
+  /**
+   * The content to display when expanded
+   */
+  children: ReactNode;
+
+  /**
+   * Custom className for the content
+   */
+  className?: string;
 }

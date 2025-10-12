@@ -1,38 +1,71 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
-import { CarouselProps } from "./Carousel.types";
-import CarouselItem from "./CarouseImage";
+import {
+  CarouselProps,
+  CarouselContentProps,
+  CarouselItemProps,
+  CarouselPreviousProps,
+  CarouselNextProps,
+  CarouselVariant,
+  CarouselEffect,
+} from "./Carousel.types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-/**
- * CVA variants for Carousel container
- */
-const carouselVariants = cva("relative w-full overflow-hidden", {
-  variants: {
-    variant: {
-      default: "rounded-none",
-      contained: "max-w-7xl mx-auto",
-      bordered: "rounded-xl border-2 border-border shadow-lg",
-      glass:
-        "rounded-xl border border-border/30 bg-background/5 backdrop-blur-sm shadow-2xl",
-    },
-    effect: {
-      slide: "",
-      fade: "",
-      cube: "perspective-1000",
-      flip: "perspective-1000",
-    },
-  },
-  defaultVariants: {
-    variant: "default",
-    effect: "slide",
-  },
-});
+interface CarouselContextValue {
+  variant: CarouselVariant;
+  effect: CarouselEffect;
+  activeIndex: number;
+  totalSlides: number;
+  goToSlide: (index: number) => void;
+  nextSlide: () => void;
+  prevSlide: () => void;
+}
 
-/**
- * CVA variants for navigation buttons
- */
+const CarouselContext = createContext<CarouselContextValue | undefined>(
+  undefined
+);
+
+const useCarousel = () => {
+  const context = useContext(CarouselContext);
+  if (!context) {
+    throw new Error("Carousel components must be used within a Carousel");
+  }
+  return context;
+};
+
+const carouselVariants = cva(
+  "relative w-full overflow-hidden h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]",
+  {
+    variants: {
+      variant: {
+        default: "rounded-none",
+        contained: "max-w-7xl mx-auto",
+        bordered: "rounded-xl border-2 border-border shadow-lg",
+        glass:
+          "rounded-xl border border-border/30 bg-background/5 backdrop-blur-sm shadow-2xl",
+      },
+      effect: {
+        slide: "",
+        fade: "",
+        cube: "perspective-1000",
+        flip: "perspective-1000",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      effect: "slide",
+    },
+  }
+);
+
 const navigationVariants = cva(
   "absolute top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200",
   {
@@ -54,9 +87,6 @@ const navigationVariants = cva(
   }
 );
 
-/**
- * CVA variants for dot indicators
- */
 const indicatorVariants = cva(
   "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer",
   {
@@ -72,44 +102,22 @@ const indicatorVariants = cva(
   }
 );
 
-/**
- * Ultra-modern Carousel component
- *
- * Advanced carousel/slider with multiple transition effects, autoplay,
- * navigation controls, dot indicators, and responsive design.
- * Supports both items array and children elements.
- *
- * @example
- * ```tsx
- * <Carousel
- *   items={[
- *     { image: '/slide1.jpg', alt: 'Slide 1', title: 'Welcome' },
- *     { image: '/slide2.jpg', alt: 'Slide 2', title: 'Features' },
- *   ]}
- *   autoplay
- *   effect="fade"
- *   variant="glass"
- * />
- * ```
- */
 const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
   (
     {
-      items,
-      children,
+      variant = "default",
+      effect = "slide",
       autoplay = false,
       autoplayInterval = 5000,
       direction = "forward",
-      showNavigation = true,
-      showIndicators = true,
-      showThumbnails = false,
-      effect = "slide",
-      variant = "default",
       loop = true,
       pauseOnHover = true,
       swipeable = true,
+      showNavigation = true,
+      showIndicators = true,
       onSlideChange,
       className,
+      children,
       ...props
     },
     ref
@@ -119,16 +127,14 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     const [touchStart, setTouchStart] = useState(0);
     const [touchEnd, setTouchEnd] = useState(0);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
-    const sliderRef = useRef<HTMLDivElement>(null);
 
-    // Use items if provided, otherwise use children
-    const content = items
-      ? items.map((item, index) => <CarouselItem key={index} {...item} />)
-      : React.Children.toArray(children);
+    const content = React.Children.toArray(children);
+    const totalSlides = content.filter(
+      (child) =>
+        React.isValidElement(child) &&
+        (child.type as any).displayName === "CarouselItem"
+    ).length;
 
-    const totalSlides = content.length;
-
-    // Navigate to specific slide
     const goToSlide = useCallback(
       (index: number) => {
         const newIndex = loop
@@ -141,168 +147,233 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       [totalSlides, loop, onSlideChange]
     );
 
-    // Navigate to next slide
     const nextSlide = useCallback(() => {
       goToSlide(activeIndex + 1);
     }, [activeIndex, goToSlide]);
 
-    // Navigate to previous slide
     const prevSlide = useCallback(() => {
       goToSlide(activeIndex - 1);
     }, [activeIndex, goToSlide]);
 
-    // Setup autoplay
+    // Autoplay
     useEffect(() => {
-      if (!autoplay || isPaused || totalSlides <= 1) return;
+      if (autoplay && !isPaused && totalSlides > 1) {
+        intervalRef.current = setInterval(() => {
+          if (direction === "forward") {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+        }, autoplayInterval);
 
-      intervalRef.current = setInterval(() => {
-        if (direction === "forward") {
-          nextSlide();
-        } else {
-          prevSlide();
-        }
-      }, autoplayInterval);
-
-      return () => {
-        if (intervalRef.current) {
-          clearInterval(intervalRef.current);
-        }
-      };
+        return () => {
+          if (intervalRef.current) clearInterval(intervalRef.current);
+        };
+      }
     }, [
       autoplay,
       isPaused,
-      autoplayInterval,
       direction,
+      autoplayInterval,
       nextSlide,
       prevSlide,
       totalSlides,
     ]);
 
-    // Handle touch start
+    // Touch handlers
     const handleTouchStart = (e: React.TouchEvent) => {
-      if (!swipeable) return;
-      setTouchStart(e.targetTouches[0].clientX);
+      if (swipeable) {
+        setTouchStart(e.touches[0].clientX);
+      }
     };
 
-    // Handle touch move
     const handleTouchMove = (e: React.TouchEvent) => {
-      if (!swipeable) return;
-      setTouchEnd(e.targetTouches[0].clientX);
+      if (swipeable) {
+        setTouchEnd(e.touches[0].clientX);
+      }
     };
 
-    // Handle touch end
     const handleTouchEnd = () => {
-      if (!swipeable) return;
-      if (!touchStart || !touchEnd) return;
+      if (swipeable && touchStart && touchEnd) {
+        const distance = touchStart - touchEnd;
+        const threshold = 50;
 
-      const distance = touchStart - touchEnd;
-      const isLeftSwipe = distance > 50;
-      const isRightSwipe = distance < -50;
+        if (distance > threshold) {
+          nextSlide();
+        } else if (distance < -threshold) {
+          prevSlide();
+        }
 
-      if (isLeftSwipe) {
-        nextSlide();
-      } else if (isRightSwipe) {
-        prevSlide();
+        setTouchStart(0);
+        setTouchEnd(0);
       }
-
-      setTouchStart(0);
-      setTouchEnd(0);
     };
 
-    // Get transition classes based on effect
-    const getEffectClass = () => {
-      switch (effect) {
-        case "fade":
-          return "transition-opacity duration-700";
-        case "slide":
-          return "transition-transform duration-700";
-        case "cube":
-          return "transition-all duration-700 transform-gpu";
-        case "flip":
-          return "transition-all duration-700 transform-gpu";
-        default:
-          return "transition-transform duration-700";
-      }
+    const contextValue: CarouselContextValue = {
+      variant,
+      effect,
+      activeIndex,
+      totalSlides,
+      goToSlide,
+      nextSlide,
+      prevSlide,
     };
 
     return (
-      <div
-        ref={ref}
-        className={cn(carouselVariants({ variant, effect }), className)}
-        onMouseEnter={() => pauseOnHover && setIsPaused(true)}
-        onMouseLeave={() => pauseOnHover && setIsPaused(false)}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        {...props}
-      >
-        {/* Slides container */}
+      <CarouselContext.Provider value={contextValue}>
         <div
-          ref={sliderRef}
-          className={cn("relative h-full flex", getEffectClass())}
-          style={{
-            transform:
-              effect === "slide"
-                ? `translateX(-${activeIndex * 100}%)`
-                : undefined,
-          }}
+          ref={ref}
+          className={cn(carouselVariants({ variant, effect }), className)}
+          onMouseEnter={() => pauseOnHover && setIsPaused(true)}
+          onMouseLeave={() => pauseOnHover && setIsPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          {...props}
         >
-          {content.map((slide, index) => (
-            <div
-              key={index}
-              className={cn(
-                "min-w-full h-full flex-shrink-0",
-                effect === "fade" &&
-                  (index === activeIndex
-                    ? "opacity-100"
-                    : "opacity-0 absolute inset-0")
-              )}
-            >
-              {slide}
+          {children}
+
+          {showNavigation && totalSlides > 1 && (
+            <>
+              <CarouselPrevious />
+              <CarouselNext />
+            </>
+          )}
+
+          {showIndicators && totalSlides > 1 && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+              {Array.from({ length: totalSlides }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={cn(
+                    indicatorVariants({ active: index === activeIndex })
+                  )}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
             </div>
-          ))}
+          )}
         </div>
-
-        {/* Navigation buttons */}
-        {showNavigation && totalSlides > 1 && (
-          <>
-            <button
-              onClick={prevSlide}
-              className={cn(navigationVariants({ variant }), "left-4")}
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={nextSlide}
-              className={cn(navigationVariants({ variant }), "right-4")}
-              aria-label="Next slide"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </>
-        )}
-
-        {/* Dot indicators */}
-        {showIndicators && totalSlides > 1 && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-            {content.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={cn(
-                  indicatorVariants({ active: index === activeIndex })
-                )}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+      </CarouselContext.Provider>
     );
   }
 );
 
 Carousel.displayName = "Carousel";
 
-export default Carousel;
+const CarouselContent = React.forwardRef<HTMLDivElement, CarouselContentProps>(
+  ({ className, children, ...props }, ref) => {
+    const { activeIndex, effect } = useCarousel();
+
+    return (
+      <div
+        ref={ref}
+        className={cn("relative w-full h-full", className)}
+        {...props}
+      >
+        <div
+          className={cn(
+            "flex h-full transition-transform duration-500 ease-in-out",
+            effect === "slide" && "transform"
+          )}
+          style={
+            effect === "slide"
+              ? { transform: `translateX(-${activeIndex * 100}%)` }
+              : undefined
+          }
+        >
+          {children}
+        </div>
+      </div>
+    );
+  }
+);
+
+CarouselContent.displayName = "CarouselContent";
+
+const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
+  ({ className, children, ...props }, ref) => {
+    const { effect, activeIndex } = useCarousel();
+    const itemIndex = React.useMemo(() => {
+      const parent =
+        ref && typeof ref !== "function" ? ref.current?.parentElement : null;
+      if (!parent) return 0;
+      const siblings = Array.from(parent.children);
+      return siblings.indexOf(
+        ref && typeof ref !== "function" ? ref.current! : parent
+      );
+    }, [ref]);
+
+    const isActive = itemIndex === activeIndex;
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "flex-shrink-0 w-full h-full relative",
+          effect === "fade" && [
+            "absolute inset-0 transition-opacity duration-500",
+            isActive ? "opacity-100 z-10" : "opacity-0 z-0",
+          ],
+          className
+        )}
+        data-active={isActive}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+
+CarouselItem.displayName = "CarouselItem";
+
+const CarouselPrevious = React.forwardRef<
+  HTMLButtonElement,
+  CarouselPreviousProps
+>(({ className, children, ...props }, ref) => {
+  const { variant, prevSlide } = useCarousel();
+
+  return (
+    <button
+      ref={ref}
+      onClick={prevSlide}
+      className={cn(navigationVariants({ variant }), "left-4", className)}
+      aria-label="Previous slide"
+      {...props}
+    >
+      {children || <ChevronLeft className="w-6 h-6" />}
+    </button>
+  );
+});
+
+CarouselPrevious.displayName = "CarouselPrevious";
+
+const CarouselNext = React.forwardRef<HTMLButtonElement, CarouselNextProps>(
+  ({ className, children, ...props }, ref) => {
+    const { variant, nextSlide } = useCarousel();
+
+    return (
+      <button
+        ref={ref}
+        onClick={nextSlide}
+        className={cn(navigationVariants({ variant }), "right-4", className)}
+        aria-label="Next slide"
+        {...props}
+      >
+        {children || <ChevronRight className="w-6 h-6" />}
+      </button>
+    );
+  }
+);
+
+CarouselNext.displayName = "CarouselNext";
+
+export {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+};

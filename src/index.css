@@ -57,7 +57,7 @@
     --popover-foreground: oklch(0.15 0.01 200);
 
     /* Primary colors - indigo/purple (matching your current #6366f1) */
-    --primary: oklch(0.60 0.18 275);
+    --primary: oklch(48.151% 0.23085 269.463);
     --primary-foreground: oklch(1 0 0);
 
     /* Secondary colors - pink (matching your #ec4899) */
@@ -122,7 +122,7 @@
     --popover-foreground: oklch(0.95 0.005 200);
 
     /* Primary - brighter indigo for dark mode */
-    --primary: oklch(0.68 0.20 275);
+    --primary: oklch(41.145% 0.14945 272.396);
     --primary-foreground: oklch(0.98 0.003 200);
 
     /* Secondary - brighter pink for dark mode */
@@ -306,5 +306,75 @@
         transition-property: background-color, border-color, color, fill, stroke;
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         transition-duration: 150ms;
+    }
+}
+
+/* Ultra-Modern Progress Component Animations */
+@layer utilities {
+
+    /* Smooth diagonal stripe animation */
+    @keyframes progress-stripes {
+        0% {
+            background-position: 0 0;
+        }
+
+        100% {
+            background-position: 1.5rem 0;
+        }
+    }
+
+    /* Sophisticated indeterminate loading with ease */
+    @keyframes progress-indeterminate {
+        0% {
+            left: -40%;
+            transform: scaleX(0.6);
+        }
+
+        50% {
+            transform: scaleX(1);
+        }
+
+        100% {
+            left: 100%;
+            transform: scaleX(0.6);
+        }
+    }
+
+    /* Enhanced shimmer with color wave */
+    @keyframes progress-shimmer {
+        0% {
+            transform: translateX(-100%) scaleX(0);
+            opacity: 0;
+        }
+
+        10% {
+            opacity: 1;
+        }
+
+        50% {
+            transform: translateX(0%) scaleX(1);
+        }
+
+        90% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateX(100%) scaleX(0);
+            opacity: 0;
+        }
+    }
+
+    /* Pulse glow animation for glowing variants */
+    @keyframes progress-glow-pulse {
+
+        0%,
+        100% {
+            filter: brightness(1) saturate(1);
+        }
+
+        50% {
+            filter: brightness(1.15) saturate(1.2);
+        }
     }
 }

@@ -27,7 +27,7 @@ import {
  * @hoverable boolean - Adds scale and cursor effects on hover
  */
 export const cardVariants = cva(
-  "relative overflow-hidden transition-all duration-300 ease-out",
+  "relative transition-all duration-300 ease-out",
   {
     variants: {
       variant: {
@@ -115,8 +115,8 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
         onClick={onClick}
         {...props}
       >
-        {/* Content wrapper with proper z-index */}
-        <div className="relative z-10">{children}</div>
+        {/* Content wrapper */}
+        <div className="relative">{children}</div>
       </div>
     );
   }

@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **17 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Image, Carousel
+- 🎨 **29 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, Skeleton, Pagination, DatePicker, Tab, Input
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -139,31 +139,43 @@ import { cn } from "saha-ui/lib/utils";
 
 ### Overview
 
-| Component       | Description                                                        | Status | CVA |
-| --------------- | ------------------------------------------------------------------ | ------ | --- |
-| **Button**      | Action buttons with 9 variants and 4 sizes                         | ✅     | ✅  |
-| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts                   | ✅     | ✅  |
-| **Alert**       | Notification messages with 5 variants × 4 statuses                 | ✅     | ✅  |
-| **Badge**       | Status indicators and labels with 9 variants                       | ✅     | ✅  |
-| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing     | ✅     | ✅  |
-| **Card**        | Container with 5 variants and sub-components                       | ✅     | ✅  |
-| **Chip**        | Interactive tags with 5 variants, deletable, and avatars           | ✅     | ✅  |
-| **Divider**     | Content separator with 5 variants and label support                | ✅     | ✅  |
-| **Accordion**   | Collapsible content with 5 behavior modes                          | ✅     | ✅  |
-| **Avatar**      | User profile images with status indicators                         | ✅     | ✅  |
-| **AvatarGroup** | Grouped avatars with overlap and count                             | ✅     | ✅  |
-| **Tooltip**     | Contextual hints with 9 variants, 4 triggers, and interactive mode | ✅     | ✅  |
-| **Link**        | Smart links with 9 variants and icon support                       | ✅     | ✅  |
-| **List**        | Modern lists with 5 variants and icon support                      | ✅     | ✅  |
-| **Timeline**    | Chronological events with 4 variants, positions, and statuses      | ✅     | ✅  |
-| **Image**       | Advanced image with lazy loading                                   | ✅     | ✅  |
-| **Carousel**    | Image slider with 4 transition effects                             | ✅     | ✅  |
+| Component       | Description                                                              | Status | CVA |
+| --------------- | ------------------------------------------------------------------------ | ------ | --- |
+| **Button**      | Action buttons with 9 variants and 4 sizes                               | ✅     | ✅  |
+| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts                         | ✅     | ✅  |
+| **Alert**       | Notification messages with 5 variants × 4 statuses                       | ✅     | ✅  |
+| **Badge**       | Status indicators and labels with 9 variants                             | ✅     | ✅  |
+| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing           | ✅     | ✅  |
+| **Card**        | Container with 5 variants and sub-components                             | ✅     | ✅  |
+| **Chip**        | Interactive tags with 5 variants, deletable, and avatars                 | ✅     | ✅  |
+| **Divider**     | Content separator with 5 variants and label support                      | ✅     | ✅  |
+| **Accordion**   | Collapsible content with 5 behavior modes                                | ✅     | ✅  |
+| **Avatar**      | User profile images with status indicators                               | ✅     | ✅  |
+| **AvatarGroup** | Grouped avatars with overlap and count                                   | ✅     | ✅  |
+| **Tooltip**     | Contextual hints with 9 variants, 4 triggers, and interactive mode       | ✅     | ✅  |
+| **Link**        | Smart links with 9 variants and icon support                             | ✅     | ✅  |
+| **List**        | Modern lists with 5 variants and icon support                            | ✅     | ✅  |
+| **Timeline**    | Chronological events with 4 variants, positions, and statuses            | ✅     | ✅  |
+| **Tree**        | Hierarchical data with 4 variants, icons, and expand/collapse            | ✅     | ✅  |
+| **Image**       | Advanced image with lazy loading                                         | ✅     | ✅  |
+| **Carousel**    | Image slider with 4 transition effects                                   | ✅     | ✅  |
+| **Steps**       | Progress indicator with 4 variants, horizontal/vertical layouts          | ✅     | ✅  |
+| **Table**       | Data table with sorting, selection, 5 variants, and responsive           | ✅     | ✅  |
+| **Rating**      | Star rating with 6 variants, 4 sizes, multiple icons, half stars         | ✅     | ✅  |
+| **Progress**    | Progress bar with 9 variants, 5 sizes, animations, striped               | ✅     | ✅  |
+| **Popover**     | Rich content popover with 11 variants, 12 positions, 4 triggers          | ✅     | ✅  |
+| **PlayButton**  | Animated play/pause button with 9 variants, 4 sizes, smooth transitions  | ✅     | ✅  |
+| **Skeleton**    | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
+| **Pagination**  | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels  | ✅     | ✅  |
+| **DatePicker**  | Calendar date picker with 5 variants, 3 sizes, date restrictions         | ✅     | ✅  |
+| **Tab**         | Tab navigation with 14 variants, 3 sizes, icons, badges, disabled states | ✅     | ✅  |
+| **Input**       | Text input with 10 variants, 4 sizes, icons, validation, all input types | ✅     | ✅  |
 
 ---
 
 ## ⚡ Quick Examples
 
-Here are simple examples for all 16 components to get you started quickly:
+Here are simple examples for all 29 components to get you started quickly:
 
 ### Button
 
@@ -371,6 +383,28 @@ const events = [
 <Timeline items={events} variant="gradient" position="alternate" />
 ```
 
+### Tree
+
+```tsx
+import { Tree } from "saha-ui";
+import { Folder, File } from "lucide-react";
+
+const nodes = [
+  {
+    id: 1,
+    label: 'src',
+    icon: <Folder size={16} />,
+    children: [
+      { id: 2, label: 'components', icon: <Folder size={16} /> },
+      { id: 3, label: 'App.tsx', icon: <File size={16} /> }
+    ]
+  }
+];
+
+<Tree nodes={nodes} />
+<Tree nodes={nodes} variant="glass" onNodeClick={(id) => console.log(id)} />
+```
+
 ### Image
 
 ```tsx
@@ -404,6 +438,202 @@ const images = [
 
 <Carousel images={images} />
 <Carousel images={images} effect="fade" autoplay />
+```
+
+### Steps
+
+```tsx
+import { Steps } from "saha-ui";
+
+const steps = [
+  { id: 1, title: 'Account', description: 'Create your account' },
+  { id: 2, title: 'Profile', description: 'Fill in your details' },
+  { id: 3, title: 'Complete', description: 'You're all set!' }
+];
+
+<Steps steps={steps} current={1} />
+<Steps steps={steps} current={1} variant="glass" orientation="vertical" />
+```
+
+### Table
+
+```tsx
+import { Table } from "saha-ui";
+
+const columns = [
+  { id: 'name', header: 'Name', accessor: 'name', sortable: true },
+  { id: 'email', header: 'Email', accessor: 'email' },
+  { id: 'role', header: 'Role', accessor: 'role' }
+];
+
+const data = [
+  { id: 1, name: 'Alice', email: 'alice@example.com', role: 'Admin' },
+  { id: 2, name: 'Bob', email: 'bob@example.com', role: 'User' }
+];
+
+<Table columns={columns} data={data} sortable />
+<Table columns={columns} data={data} variant="glass" selectable />
+```
+
+### Rating
+
+```tsx
+import { Rating } from "saha-ui";
+
+<Rating value={4} />
+<Rating value={4.5} precision="half" showValue count={128} />
+<Rating value={0} onChange={(value) => console.log(value)} size="lg" />
+<Rating value={4} icon="heart" variant="gradient" size="lg" />
+```
+
+### Progress
+
+```tsx
+import { Progress } from "saha-ui";
+
+<Progress value={75} />
+<Progress value={60} variant="primary" size="lg" showValue />
+<Progress value={80} variant="success" striped stripedAnimated />
+<Progress indeterminate variant="gradient" />
+```
+
+### Popover
+
+```tsx
+import { Popover, Button } from "saha-ui";
+
+<Popover content="Simple popover content">
+  <Button>Click me</Button>
+</Popover>
+
+<Popover
+  title="Settings"
+  variant="primary"
+  position="right"
+  content={<div>Your settings here</div>}
+  footer={<Button size="sm">Save</Button>}
+>
+  <Button>Open Settings</Button>
+</Popover>
+```
+
+### PlayButton
+
+```tsx
+import { PlayButton } from "saha-ui";
+
+<PlayButton />
+
+<PlayButton variant="primary" size="lg" />
+
+<PlayButton
+  isPlaying={playing}
+  onToggle={(playing) => setPlaying(playing)}
+  variant="success"
+  pulse
+  glow
+/>
+```
+
+### Skeleton
+
+```tsx
+import { Skeleton } from "saha-ui";
+
+<Skeleton width="100%" height="20px" />
+
+<Skeleton variant="shimmer" count={3} />
+
+<Skeleton shape="circle" width="48px" height="48px" variant="pulse" />
+```
+
+### Pagination
+
+```tsx
+import { Pagination } from "saha-ui";
+
+<Pagination totalPages={10} currentPage={1} onPageChange={(page) => setPage(page)} />
+
+<Pagination variant="primary" size="lg" totalPages={20} currentPage={5} />
+
+<Pagination variant="minimal" shape="pill" totalPages={50} currentPage={25} />
+```
+
+### DatePicker
+
+```tsx
+import { DatePicker } from "saha-ui";
+
+<DatePicker value={date} onChange={(date) => setDate(date)} />
+
+<DatePicker variant="primary" size="lg" placeholder="Pick a date" />
+
+<DatePicker minDate={new Date()} maxDate={futureDate} />
+```
+
+### Tab
+
+```tsx
+import { Tab } from "saha-ui";
+
+const tabs = [
+  { label: "Profile", value: "profile" },
+  { label: "Settings", value: "settings" },
+];
+
+<Tab tabs={tabs} value={activeTab} onChange={setActiveTab} />
+
+<Tab tabs={tabs} variant="primary" size="lg" fullWidth />
+
+<Tab
+  tabs={[
+    { label: "Home", value: "home", icon: <HomeIcon /> },
+    { label: "Messages", value: "messages", badge: "5" },
+  ]}
+/>
+```
+
+### Input
+
+```tsx
+import { Input } from "saha-ui";
+import { Mail, Lock } from "lucide-react";
+
+// Basic input
+<Input placeholder="Enter text..." />
+
+// With label and variant
+<Input
+  label="Email"
+  type="email"
+  variant="primary"
+  placeholder="you@example.com"
+/>
+
+// With icons
+<Input
+  label="Search"
+  variant="outline"
+  startIcon={<Mail size={18} />}
+  placeholder="Search..."
+/>
+
+// With validation
+<Input
+  label="Password"
+  type="password"
+  variant="error"
+  error="Password is required"
+  startIcon={<Lock size={18} />}
+/>
+
+// With character counter
+<Input
+  label="Bio"
+  maxLength={100}
+  showCounter
+  helperText="Maximum 100 characters"
+/>
 ```
 
 ---
@@ -2147,6 +2377,213 @@ const customDotClass = timelineDotVariants({
 
 ---
 
+### Tree
+
+Hierarchical data visualization with expand/collapse functionality.
+
+**Variants:** `default` `glass` `bordered` `minimal`  
+**Sizes:** `sm` `md` `lg`
+
+```tsx
+import { Tree } from "saha-ui";
+import { Folder, File } from "lucide-react";
+
+<Tree
+  variant="glass"
+  size="md"
+  showIcons={true}
+  showLines={true}
+  iconPosition="left"
+  onNodeClick={(id) => console.log("Clicked:", id)}
+  onNodeToggle={(id, expanded) => console.log("Toggled:", id, expanded)}
+  nodes={[
+    {
+      id: "src",
+      label: "src",
+      icon: <Folder size={16} />,
+      expanded: true,
+      children: [
+        {
+          id: "components",
+          label: "components",
+          icon: <Folder size={16} />,
+          children: [
+            { id: "button", label: "Button.tsx", icon: <File size={16} /> },
+            { id: "card", label: "Card.tsx", icon: <File size={16} /> },
+          ],
+        },
+        { id: "app", label: "App.tsx", icon: <File size={16} /> },
+      ],
+    },
+  ]}
+/>;
+```
+
+**Props:**
+
+**Tree Component:**
+
+- `nodes`: TreeNode[] - Array of tree nodes (required)
+- `variant`: 'default' | 'glass' | 'bordered' | 'minimal' (default: 'default')
+- `size`: 'sm' | 'md' | 'lg' (default: 'md')
+- `className`: string - Additional CSS classes
+- `nodeClassName`: string - Custom class for all nodes
+- `iconPosition`: 'left' | 'right' (default: 'left')
+- `showLines`: boolean - Show connecting lines (default: true)
+- `showIcons`: boolean - Show node icons (default: true)
+- `onNodeToggle`: (id, expanded) => void - Callback when node is expanded/collapsed
+- `onNodeClick`: (id) => void - Callback when node is clicked
+
+**TreeNode:**
+
+- `id`: string | number - Unique identifier (required)
+- `label`: string - Display text (required)
+- `icon`: ReactNode - Custom icon
+- `children`: TreeNode[] - Child nodes
+- `expanded`: boolean - Initial expanded state (default: false)
+- `disabled`: boolean - Disable interactions
+- `className`: string - Custom class for this node
+
+**Advanced Usage:**
+
+```tsx
+// File System Explorer
+<Tree
+  variant="bordered"
+  showIcons={true}
+  onNodeClick={(id) => console.log('Opened:', id)}
+  nodes={[
+    {
+      id: 1,
+      label: 'Documents',
+      icon: <FolderOpen size={16} />,
+      expanded: true,
+      children: [
+        {
+          id: 2,
+          label: 'Work',
+          icon: <Folder size={16} />,
+          children: [
+            { id: 3, label: 'Resume.pdf', icon: <FileText size={16} /> },
+            { id: 4, label: 'Cover.docx', icon: <FileText size={16} /> }
+          ]
+        },
+        { id: 5, label: 'Personal', icon: <Folder size={16} /> }
+      ]
+    },
+    {
+      id: 6,
+      label: 'Media',
+      icon: <Folder size={16} />,
+      children: [
+        { id: 7, label: 'photo.jpg', icon: <ImageIcon size={16} /> },
+        { id: 8, label: 'video.mp4', icon: <Video size={16} /> }
+      ]
+    }
+  ]}
+/>
+
+// Organization Chart
+<Tree
+  variant="glass"
+  size="lg"
+  nodes={[
+    {
+      id: 'ceo',
+      label: 'CEO',
+      icon: <User size={16} />,
+      expanded: true,
+      children: [
+        {
+          id: 'eng',
+          label: 'Engineering',
+          icon: <Settings size={16} />,
+          children: [
+            { id: 'fe', label: 'Frontend Team', icon: <Code size={16} /> },
+            { id: 'be', label: 'Backend Team', icon: <Package size={16} /> }
+          ]
+        },
+        {
+          id: 'mkt',
+          label: 'Marketing',
+          icon: <Rocket size={16} />,
+          children: [
+            { id: 'content', label: 'Content', icon: <FileText size={16} /> }
+          ]
+        }
+      ]
+    }
+  ]}
+/>
+
+// Without Icons or Lines
+<Tree
+  showIcons={false}
+  showLines={false}
+  variant="minimal"
+  nodes={[
+    {
+      id: 1,
+      label: 'Parent',
+      children: [
+        { id: 2, label: 'Child 1' },
+        { id: 3, label: 'Child 2' }
+      ]
+    }
+  ]}
+/>
+
+// Icon on Right Side
+<Tree
+  iconPosition="right"
+  nodes={[
+    {
+      id: 1,
+      label: 'Folder',
+      icon: <Folder size={16} />,
+      children: [
+        { id: 2, label: 'File', icon: <File size={16} /> }
+      ]
+    }
+  ]}
+/>
+
+// With Disabled Nodes
+<Tree
+  nodes={[
+    {
+      id: 1,
+      label: 'Active',
+      children: [
+        { id: 2, label: 'Enabled' },
+        { id: 3, label: 'Disabled', disabled: true }
+      ]
+    }
+  ]}
+/>
+```
+
+**CVA Integration:**
+
+```tsx
+import { treeVariants, treeNodeVariants } from "saha-ui";
+
+// Use exported variants for custom styling
+const customTreeClass = treeVariants({
+  variant: "glass",
+  size: "lg",
+  className: "my-custom-class",
+});
+
+const customNodeClass = treeNodeVariants({
+  size: "md",
+  expanded: true,
+  className: "hover:bg-accent/20",
+});
+```
+
+---
+
 ### Image
 
 Advanced image component with loading states and effects.
@@ -2230,6 +2667,1420 @@ import { Carousel } from "saha-ui";
 - 🔄 Infinite loop
 - 🎯 Dot indicators
 - 🎨 Modern navigation buttons
+
+---
+
+### Steps
+
+Progress indicator for multi-step processes and wizards.
+
+**Variants:** `default` `bordered` `glass` `minimal`  
+**Orientation:** `horizontal` `vertical`  
+**Sizes:** `sm` `md` `lg`  
+**Status:** `completed` `current` `pending` `error`
+
+```tsx
+import { Steps } from "saha-ui";
+
+<Steps
+  steps={[
+    {
+      id: 1,
+      title: "Account",
+      description: "Create your account",
+      status: "completed",
+    },
+    {
+      id: 2,
+      title: "Profile",
+      description: "Fill in your details",
+      status: "current",
+    },
+    {
+      id: 3,
+      title: "Verification",
+      description: "Verify your email",
+      status: "pending",
+    },
+  ]}
+  current={1}
+  variant="glass"
+  size="md"
+  orientation="horizontal"
+  showNumbers
+  showConnector
+  clickable
+  onStepClick={(index) => console.log("Step clicked:", index)}
+/>;
+
+// Vertical with custom icons
+import { User, CreditCard, Check } from "lucide-react";
+
+<Steps
+  steps={[
+    {
+      id: 1,
+      title: "Personal Info",
+      description: "Your details",
+      icon: <User className="w-5 h-5" />,
+    },
+    {
+      id: 2,
+      title: "Payment",
+      description: "Billing info",
+      icon: <CreditCard className="w-5 h-5" />,
+    },
+    {
+      id: 3,
+      title: "Complete",
+      description: "All done",
+      icon: <Check className="w-5 h-5" />,
+    },
+  ]}
+  orientation="vertical"
+  variant="bordered"
+/>;
+```
+
+**Features:**
+
+- ✅ Horizontal and vertical layouts
+- 🎨 4 visual variants with glassmorphism
+- 📏 3 size options
+- 🔢 Auto-numbered or custom icons
+- 📍 Status indicators (completed, current, pending, error)
+- 🖱️ Clickable navigation
+- 📝 Optional descriptions
+- 🔗 Connector lines between steps
+- 🎭 Smooth transitions
+
+---
+
+### Table
+
+Data table component with sorting, selection, and responsive design.
+
+**Variants:** `default` `bordered` `striped` `glass` `minimal`  
+**Sizes:** `sm` `md` `lg`  
+**Density:** `compact` `normal` `comfortable`
+
+```tsx
+import { Table } from "saha-ui";
+import { Badge, Avatar } from "saha-ui";
+
+// Define columns
+const columns = [
+  {
+    id: "user",
+    header: "User",
+    cell: (row: any) => (
+      <div className="flex items-center gap-3">
+        <Avatar src={row.avatar} alt={row.name} size="sm" />
+        <div>
+          <div className="font-medium">{row.name}</div>
+          <div className="text-sm text-muted-foreground">{row.email}</div>
+        </div>
+      </div>
+    ),
+    sortable: true,
+    sortFn: (a, b) => a.name.localeCompare(b.name),
+  },
+  {
+    id: "role",
+    header: "Role",
+    accessor: "role",
+    sortable: true,
+  },
+  {
+    id: "status",
+    header: "Status",
+    cell: (row: any) => (
+      <Badge variant={row.status === "active" ? "success" : "warning"}>
+        {row.status}
+      </Badge>
+    ),
+    align: "center",
+  },
+];
+
+// Sample data
+const data = [
+  {
+    id: 1,
+    name: "Alice Johnson",
+    email: "alice@example.com",
+    role: "Admin",
+    status: "active",
+    avatar: "https://i.pravatar.cc/150?img=1",
+  },
+  {
+    id: 2,
+    name: "Bob Smith",
+    email: "bob@example.com",
+    role: "Developer",
+    status: "active",
+    avatar: "https://i.pravatar.cc/150?img=2",
+  },
+];
+
+// Basic sortable table
+<Table columns={columns} data={data} sortable hoverable />;
+
+// Glass variant with selection
+<Table
+  columns={columns}
+  data={data}
+  variant="glass"
+  selectable
+  selectedRows={[1]}
+  onRowSelect={(selected) => console.log("Selected:", selected)}
+/>;
+
+// Compact size with striped rows
+<Table
+  columns={columns}
+  data={data}
+  variant="striped"
+  size="sm"
+  density="compact"
+/>;
+
+// With sticky header and scroll
+<Table
+  columns={columns}
+  data={data}
+  stickyHeader
+  maxHeight="400px"
+  variant="bordered"
+/>;
+
+// With clickable rows
+<Table
+  columns={columns}
+  data={data}
+  onRowClick={(row) => console.log("Clicked:", row)}
+  hoverable
+/>;
+
+// Loading state
+<Table columns={columns} data={[]} loading />;
+
+// Empty state
+<Table
+  columns={columns}
+  data={[]}
+  emptyMessage={
+    <div className="text-center py-8">
+      <p>No data available</p>
+    </div>
+  }
+/>;
+```
+
+**Features:**
+
+- ✅ Sorting (controlled and uncontrolled)
+- ☑️ Row selection with callbacks
+- 🎨 5 visual variants with glassmorphism
+- 📏 3 size options and 3 density levels
+- 🎯 Custom cell renderers
+- 📍 Column alignment (left, center, right)
+- 📌 Sticky header support
+- 📱 Responsive with horizontal scroll
+- 🔄 Loading states (inline and overlay)
+- 📝 Empty state customization
+- 🖱️ Clickable rows
+- 🎭 Hoverable and striped row options
+- 📊 Footer support
+- 🎨 Custom row styling
+
+**Column Options:**
+
+- `id` - Unique column identifier
+- `header` - Column header text/component
+- `accessor` - Property key or accessor function
+- `cell` - Custom cell renderer function
+- `width`, `minWidth`, `maxWidth` - Column sizing
+- `align` - Text alignment (left, center, right)
+- `sortable` - Enable sorting for column
+- `sortFn` - Custom sort function
+- `footer` - Footer content/function
+- `sticky` - Make column sticky
+- `className` - Custom classes for header/cell
+
+---
+
+### Rating
+
+Interactive star rating component with multiple icons and variants.
+
+**Variants:** `default` `primary` `secondary` `gradient` `glass` `outline`  
+**Sizes:** `sm` `md` `lg` `xl`  
+**Icons:** `star` `heart` `circle` `diamond`  
+**Precision:** `full` `half`
+
+```tsx
+import { Rating } from "saha-ui";
+
+// Basic rating
+<Rating value={4} max={5} />;
+
+// With half stars and value display
+<Rating value={4.5} precision="half" showValue />;
+
+// Interactive rating
+<Rating
+  value={0}
+  onChange={(value) => console.log("Rating:", value)}
+  precision="half"
+  size="lg"
+/>;
+
+// Read-only with review count
+<Rating value={4.7} precision="half" readOnly showValue count={2541} />;
+
+// Different variants
+<Rating value={4} variant="gradient" size="lg" />;
+<Rating value={4} variant="glass" size="lg" />;
+
+// Different icons
+<Rating value={4} icon="heart" variant="primary" size="lg" />;
+<Rating value={4} icon="circle" variant="secondary" size="lg" />;
+
+// Custom colors
+<Rating value={4} color="#ef4444" size="lg" />;
+
+// Custom maximum
+<Rating value={7} max={10} showValue />;
+
+// With tooltips
+<Rating
+  value={0}
+  showTooltip
+  tooltipLabels={["Poor", "Fair", "Good", "Very Good", "Excellent"]}
+  onChange={(value) => console.log(value)}
+/>;
+```
+
+**Features:**
+
+- ✅ Interactive and read-only modes
+- ⭐ Full and half-star precision
+- 🎨 6 visual variants with glassmorphism
+- 📏 4 size options (sm, md, lg, xl)
+- 🎯 Multiple icon types (star, heart, circle, diamond)
+- 🎨 Custom colors and icons
+- 📊 Review count display
+- 🖱️ Hover preview
+- ⌨️ Keyboard navigation
+- 🎭 Animated transitions
+- 🔧 Custom formatting
+- 💬 Tooltip support
+- ♿ Fully accessible
+
+**Props:**
+
+- `value` - Current rating value (0 to max)
+- `max` - Maximum rating value (default: 5)
+- `variant` - Visual style variant
+- `size` - Icon size
+- `icon` - Icon type to display
+- `precision` - Full or half stars
+- `readOnly` - Disable interaction
+- `disabled` - Disabled state
+- `showValue` - Display numeric value
+- `count` - Review count
+- `countLabel` - Label for count (default: "reviews")
+- `color` - Custom color for filled icons
+- `hoverable` - Enable hover effect
+- `showTooltip` - Show tooltips on hover
+- `tooltipLabels` - Custom labels for each value
+- `onChange` - Callback when rating changes
+- `onHover` - Callback when hovering
+- `allowClear` - Allow clearing rating
+- `animated` - Enable animations
+
+---
+
+### Progress
+
+A flexible progress bar component with multiple variants, sizes, and animations for displaying progress and loading states.
+
+**Basic Usage:**
+
+```tsx
+import { Progress } from "saha-ui";
+
+// Basic progress
+<Progress value={75} />
+
+// With variant and size
+<Progress value={60} variant="primary" size="lg" />
+
+// With label
+<Progress value={45} showValue labelPosition="outside" />
+
+// Striped with animation
+<Progress value={80} variant="success" striped stripedAnimated />
+
+// Indeterminate loading
+<Progress indeterminate variant="gradient" />
+
+// With glow effect
+<Progress value={90} variant="gradient" glow />
+
+// Custom colors
+<Progress value={60} color="#9333ea" trackColor="#f3e8ff" />
+```
+
+**Variants:**
+
+- `default` - Standard gray progress bar
+- `primary` - Primary color with gradient
+- `secondary` - Secondary color with gradient
+- `success` - Green success indicator
+- `warning` - Yellow/orange warning
+- `error` - Red error indicator
+- `gradient` - Multi-color gradient (blue→purple→pink)
+- `striped` - Striped pattern effect
+- `glass` - Glassmorphism with backdrop blur
+
+**Features:**
+
+- 🎨 **9 Modern Variants** - Each with unique visual design
+- 📏 **5 Size Options** - xs, sm, md, lg, xl
+- 🎭 **3 Shape Styles** - rounded, pill, square
+- 🏷️ **Label Support** - Inside, outside, or top positioned
+- 🎬 **Animations** - Pulse, shimmer, striped, indeterminate
+- 🌈 **Custom Colors** - Both bar and track colors
+- ✨ **Glow Effect** - Enhanced shadow for emphasis
+- 📊 **Value Display** - Show percentage or custom labels
+- ⏳ **Loading States** - Indeterminate/infinite loading
+- 🎯 **Type-Safe** - Full TypeScript support
+- ♿ **Accessible** - ARIA progressbar role
+- 🎭 **CVA Powered** - Type-safe variant composition
+
+**Props:**
+
+```tsx
+interface ProgressProps {
+  variant?:
+    | "default"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "warning"
+    | "error"
+    | "gradient"
+    | "striped"
+    | "glass";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  shape?: "rounded" | "pill" | "square";
+  animation?: "none" | "pulse" | "shimmer" | "indeterminate";
+  value?: number; // 0-100
+  max?: number; // default: 100
+  showValue?: boolean;
+  label?: string;
+  labelPosition?: "inside" | "outside" | "top";
+  color?: string;
+  trackColor?: string;
+  striped?: boolean;
+  stripedAnimated?: boolean;
+  glow?: boolean;
+  indeterminate?: boolean;
+  valueFormat?: (value: number, max: number) => string;
+  barClassName?: string;
+  labelClassName?: string;
+  className?: string;
+}
+```
+
+**Real-World Examples:**
+
+```tsx
+// File upload progress
+<Progress
+  value={uploadProgress}
+  variant="primary"
+  size="lg"
+  striped
+  stripedAnimated
+  showValue
+  labelPosition="top"
+  label={`Uploading ${fileName}`}
+/>
+
+// Skill level indicator
+<div>
+  <div className="flex justify-between mb-1">
+    <span>React</span>
+    <span>90%</span>
+  </div>
+  <Progress value={90} variant="primary" />
+</div>
+
+// System resource usage
+<Progress
+  value={cpuUsage}
+  variant={cpuUsage > 80 ? "error" : "success"}
+  size="sm"
+  glow={cpuUsage > 80}
+/>
+
+// Loading state
+<Progress indeterminate variant="gradient" />
+```
+
+**Detailed Props:**
+
+- `variant` - Visual style of the progress bar
+- `size` - Height of the progress bar
+- `shape` - Border radius style
+- `animation` - Animation type (pulse, shimmer, indeterminate)
+- `value` - Current progress value (0-100)
+- `max` - Maximum value (default 100)
+- `showValue` - Display percentage/label
+- `label` - Custom label text
+- `labelPosition` - Where to display label
+- `color` - Custom bar color
+- `trackColor` - Custom background color
+- `striped` - Show striped pattern
+- `stripedAnimated` - Animate the stripes
+- `glow` - Add glow shadow effect
+- `indeterminate` - Loading/infinite state
+- `valueFormat` - Custom formatter function
+
+---
+
+### Popover
+
+A versatile popover component for displaying rich interactive content with multiple positioning options, variants, and trigger types.
+
+**Basic Usage:**
+
+```tsx
+import { Popover, Button } from "saha-ui";
+
+// Basic popover
+<Popover content="This is a simple popover">
+  <Button>Click me</Button>
+</Popover>
+
+// With title and footer
+<Popover
+  title="Confirm Action"
+  content="Are you sure?"
+  footer={
+    <div className="flex gap-2">
+      <Button size="sm">Cancel</Button>
+      <Button size="sm" variant="primary">Confirm</Button>
+    </div>
+  }
+>
+  <Button>Delete</Button>
+</Popover>
+
+// Glass variant
+<Popover variant="glass" position="right" content="Beautiful glassmorphic popover">
+  <Button>Click me</Button>
+</Popover>
+```
+
+**Variants:** `default` `primary` `secondary` `success` `warning` `danger` `info` `glass` `bordered` `elevated` `flat`  
+**Positions:** 12 options including `top`, `bottom`, `left`, `right` (with -start and -end variations)  
+**Sizes:** `sm` `md` `lg` `xl`
+
+**Features:**
+
+- 🎨 11 visual variants (7 colors + 4 styles)
+- 📐 12 position options
+- 🎯 4 trigger types (click, hover, focus, manual)
+- 🎭 Arrow indicator
+- 📋 Title & footer support
+- ✖️ Optional close button
+- 🔘 Auto-dismiss (click outside, Escape key)
+- 💬 Rich content support
+- 🎛️ Controlled mode
+- ♿ Fully accessible
+
+---
+
+### PlayButton
+
+An animated play/pause button with smooth transitions, multiple variants, and modern effects. Perfect for media players, video controls, and interactive applications.
+
+**Basic Usage:**
+
+```tsx
+import { PlayButton } from "saha-ui";
+
+// Basic play button
+<PlayButton />
+
+// With variant and size
+<PlayButton variant="primary" size="lg" />
+
+// Controlled state
+const [playing, setPlaying] = useState(false);
+<PlayButton
+  isPlaying={playing}
+  onToggle={setPlaying}
+/>
+
+// With effects
+<PlayButton variant="success" pulse glow />
+
+// In a media player
+<div className="flex items-center gap-4">
+  <PlayButton
+    variant="primary"
+    size="md"
+    isPlaying={playing}
+    onToggle={setPlaying}
+  />
+  <span>{playing ? "Playing..." : "Paused"}</span>
+</div>
+```
+
+**Variants:** `default` `primary` `secondary` `accent` `info` `success` `warning` `error` `glass`  
+**Sizes:** `sm` `md` `lg` `xl`
+
+**Features:**
+
+- 🎨 9 visual variants with theme support
+- 📐 4 size options (12px to 24px icons)
+- ▶️ Smooth play/pause icon transitions
+- 💫 Animated pulsing ring when playing
+- ✨ Glow effects on hover
+- 🎛️ Controlled or uncontrolled state
+- 🎯 Click ripple effect
+- 🔘 Rounded, modern design
+- ♿ Fully accessible with ARIA labels
+- 🎭 Hover scale animations
+
+---
+
+### Skeleton
+
+Loading placeholder component with smooth animations and multiple visual styles.
+
+**Basic Usage:**
+
+```tsx
+import { Skeleton } from "saha-ui";
+
+// Basic skeleton
+<Skeleton width="100%" height="20px" />
+
+// Multiple lines
+<Skeleton count={3} />
+
+// Circle skeleton (avatar placeholder)
+<Skeleton
+  shape="circle"
+  width="48px"
+  height="48px"
+  variant="pulse"
+/>
+```
+
+**Variants:**
+
+```tsx
+// Default pulse animation
+<Skeleton variant="default" height="60px" />
+
+// Wave effect
+<Skeleton variant="wave" height="60px" />
+
+// Shimmer effect
+<Skeleton variant="shimmer" height="60px" />
+
+// Gradient animation
+<Skeleton variant="gradient" height="60px" />
+```
+
+**Shapes:**
+
+```tsx
+// Rectangle (default)
+<Skeleton shape="rectangle" width="100%" height="80px" />
+
+// Circle (for avatars)
+<Skeleton shape="circle" width="64px" height="64px" />
+
+// Rounded corners
+<Skeleton shape="rounded" width="100%" height="80px" />
+
+// Text lines
+<Skeleton shape="text" count={4} />
+```
+
+**Animation Speed:**
+
+```tsx
+<Skeleton speed="slow" variant="shimmer" />
+<Skeleton speed="normal" variant="shimmer" />
+<Skeleton speed="fast" variant="shimmer" />
+
+// Disable animation
+<Skeleton noAnimation />
+```
+
+**Real-world Examples:**
+
+```tsx
+// Profile card loading
+<Card>
+  <div className="flex gap-4">
+    <Skeleton shape="circle" width="64px" height="64px" />
+    <div className="flex-1">
+      <Skeleton height="24px" width="60%" className="mb-2" />
+      <Skeleton count={2} height="16px" />
+    </div>
+  </div>
+</Card>
+
+// Blog post loading
+<Card>
+  <Skeleton height="200px" className="mb-4" />
+  <Skeleton height="32px" width="80%" className="mb-3" />
+  <Skeleton count={4} height="16px" />
+</Card>
+
+// List items loading
+{[1, 2, 3].map(i => (
+  <Card key={i} className="flex gap-4">
+    <Skeleton shape="circle" width="48px" height="48px" />
+    <div className="flex-1">
+      <Skeleton height="18px" width="70%" className="mb-2" />
+      <Skeleton height="14px" width="90%" />
+    </div>
+  </Card>
+))}
+```
+
+**Variants:** `default` `pulse` `wave` `shimmer` `gradient`  
+**Shapes:** `rectangle` `circle` `rounded` `text`  
+**Speeds:** `slow` `normal` `fast`
+
+**Features:**
+
+- 🎨 5 animation variants
+- 🔷 4 shape options
+- ⚡ 3 speed settings
+- 📊 Multiple line support with `count` prop
+- 🎯 Fully customizable width/height
+- 🎭 Smooth animations with CVA
+- 🌓 Theme-aware styling
+- 🔧 Custom border radius support
+- 📱 Responsive and flexible
+- 💫 No animation mode available
+
+---
+
+### Pagination
+
+Comprehensive pagination component for navigating through large datasets.
+
+**Basic Usage:**
+
+```tsx
+import { Pagination } from "saha-ui";
+
+// Basic pagination
+<Pagination
+  totalPages={10}
+  currentPage={currentPage}
+  onPageChange={(page) => setCurrentPage(page)}
+/>
+
+// Custom variant and size
+<Pagination
+  variant="primary"
+  size="lg"
+  totalPages={20}
+  currentPage={5}
+  onPageChange={handlePageChange}
+/>
+```
+
+**Variants:**
+
+```tsx
+// Default
+<Pagination variant="default" totalPages={10} currentPage={1} />
+
+// Primary
+<Pagination variant="primary" totalPages={10} currentPage={3} />
+
+// Secondary
+<Pagination variant="secondary" totalPages={10} currentPage={5} />
+
+// Outlined
+<Pagination variant="outlined" totalPages={10} currentPage={7} />
+
+// Minimal
+<Pagination variant="minimal" totalPages={10} currentPage={2} />
+```
+
+**Sizes:**
+
+```tsx
+<Pagination size="sm" totalPages={10} currentPage={3} />
+<Pagination size="md" totalPages={10} currentPage={5} />
+<Pagination size="lg" totalPages={10} currentPage={7} />
+```
+
+**Shapes:**
+
+```tsx
+<Pagination shape="rounded" totalPages={10} currentPage={3} />
+<Pagination shape="square" totalPages={10} currentPage={5} />
+<Pagination shape="pill" totalPages={10} currentPage={7} />
+```
+
+**Large Page Count (Ellipsis):**
+
+```tsx
+// Automatically shows ellipsis for many pages
+<Pagination
+  variant="primary"
+  totalPages={50}
+  currentPage={currentPage}
+  onPageChange={setCurrentPage}
+/>
+
+// Control sibling count
+<Pagination
+  totalPages={100}
+  currentPage={currentPage}
+  onPageChange={setCurrentPage}
+  siblingCount={2} // Show 2 pages on each side
+/>
+```
+
+**Custom Labels:**
+
+```tsx
+// Text labels
+<Pagination
+  totalPages={10}
+  currentPage={5}
+  previousLabel="← Prev"
+  nextLabel="Next →"
+  firstLabel="First"
+  lastLabel="Last"
+/>
+
+// Without first/last buttons
+<Pagination
+  variant="primary"
+  totalPages={10}
+  currentPage={5}
+  showFirstLast={false}
+/>
+
+// Only page numbers
+<Pagination
+  variant="outlined"
+  totalPages={10}
+  currentPage={5}
+  showFirstLast={false}
+  showPrevNext={false}
+/>
+```
+
+**Real-world Example:**
+
+```tsx
+// Data table pagination
+function DataTable() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalItems = 100;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  return (
+    <div>
+      <p>
+        Showing {(currentPage - 1) * itemsPerPage + 1} -
+        {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}
+      </p>
+
+      <Pagination
+        variant="primary"
+        size="sm"
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
+    </div>
+  );
+}
+```
+
+**Variants:** `default` `primary` `secondary` `outlined` `minimal`  
+**Sizes:** `sm` `md` `lg`  
+**Shapes:** `rounded` `square` `pill`
+
+**Features:**
+
+- 🎨 5 visual variants with theme support
+- 📐 3 size options
+- 🔷 3 shape styles
+- 🔢 Automatic ellipsis for large page counts
+- 🎯 Customizable sibling count
+- 🏷️ Custom labels for all buttons
+- ⚡ Fast page navigation
+- ♿ Fully accessible with ARIA labels
+- 🎭 Smooth transitions
+- 🎛️ Show/hide first/last/prev/next buttons
+- 📱 Responsive design
+- 🌓 Theme-aware styling
+- ⌨️ Keyboard navigation support
+- 🚫 Disabled state support
+
+---
+
+### DatePicker
+
+Calendar-based date picker with multiple variants and date restrictions.
+
+**Basic Usage:**
+
+```tsx
+import { DatePicker } from "saha-ui";
+
+// Basic date picker
+<DatePicker
+  value={date}
+  onChange={(date) => setDate(date)}
+  placeholder="Select date"
+/>
+
+// Custom variant and size
+<DatePicker
+  variant="primary"
+  size="lg"
+  value={date}
+  onChange={setDate}
+/>
+```
+
+**Variants:**
+
+```tsx
+// Default
+<DatePicker variant="default" />
+
+// Primary
+<DatePicker variant="primary" />
+
+// Secondary
+<DatePicker variant="secondary" />
+
+// Outlined
+<DatePicker variant="outlined" />
+
+// Minimal
+<DatePicker variant="minimal" />
+```
+
+**Sizes:**
+
+```tsx
+<DatePicker size="sm" />
+<DatePicker size="md" />
+<DatePicker size="lg" />
+```
+
+**Date Restrictions:**
+
+```tsx
+// Min date (future dates only)
+<DatePicker
+  value={date}
+  onChange={setDate}
+  minDate={new Date()}
+  placeholder="Select future date"
+/>
+
+// Max date (past dates only)
+<DatePicker
+  value={date}
+  onChange={setDate}
+  maxDate={new Date()}
+  placeholder="Select past date"
+/>
+
+// Date range
+<DatePicker
+  value={date}
+  onChange={setDate}
+  minDate={startDate}
+  maxDate={endDate}
+  placeholder="Select date in range"
+/>
+```
+
+**Customization:**
+
+```tsx
+// Custom format
+<DatePicker
+  value={date}
+  onChange={setDate}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+/>
+
+// Monday as first day of week
+<DatePicker
+  value={date}
+  onChange={setDate}
+  firstDayOfWeek={1}
+/>
+
+// Without clear/today buttons
+<DatePicker
+  value={date}
+  onChange={setDate}
+  showClear={false}
+  showToday={false}
+/>
+
+// Disabled state
+<DatePicker
+  value={date}
+  disabled
+/>
+```
+
+**Real-world Examples:**
+
+```tsx
+// Booking form
+<div className="grid grid-cols-2 gap-4">
+  <DatePicker
+    variant="primary"
+    minDate={new Date()}
+    placeholder="Check-in"
+  />
+  <DatePicker
+    variant="primary"
+    minDate={new Date()}
+    placeholder="Check-out"
+  />
+</div>
+
+// Date of birth picker
+<DatePicker
+  variant="outlined"
+  maxDate={new Date()}
+  format="MM/DD/YYYY"
+  placeholder="Date of birth"
+/>
+
+// Task due date
+<DatePicker
+  variant="primary"
+  size="sm"
+  minDate={new Date()}
+  placeholder="Due date"
+/>
+```
+
+**Variants:** `default` `primary` `secondary` `outlined` `minimal`  
+**Sizes:** `sm` `md` `lg`  
+**Formats:** Customizable (MM/DD/YYYY, DD/MM/YYYY, etc.)
+
+**Features:**
+
+- 🎨 5 visual variants with theme support
+- 📐 3 size options
+- 📅 Interactive calendar view
+- 🔒 Min/max date restrictions
+- 🎯 Custom date format display
+- 🌍 Configurable first day of week
+- ✨ Today quick select button
+- 🗑️ Clear button for easy reset
+- 📱 Click outside to close
+- ⌨️ Keyboard navigation in calendar
+- 🎭 Smooth animations
+- 🌓 Theme-aware styling
+- ♿ Fully accessible
+- 🚫 Disabled state support
+- 📆 Month/year navigation
+
+---
+
+### Tab
+
+Tab navigation component with comprehensive variant support and flexible content options.
+
+```tsx
+import { Tab } from "saha-ui";
+import type { TabItem } from "saha-ui";
+
+// Basic usage
+const tabs: TabItem[] = [
+  { label: "Profile", value: "profile" },
+  { label: "Settings", value: "settings" },
+  { label: "Notifications", value: "notifications" },
+];
+
+<Tab tabs={tabs} value={activeTab} onChange={setActiveTab} />;
+
+// With icons
+<Tab
+  tabs={[
+    { label: "Home", value: "home", icon: <HomeIcon /> },
+    { label: "Messages", value: "messages", icon: <MessageIcon /> },
+    { label: "Settings", value: "settings", icon: <SettingsIcon /> },
+  ]}
+  variant="primary"
+/>;
+
+// With badges
+<Tab
+  tabs={[
+    { label: "Inbox", value: "inbox", badge: "12" },
+    { label: "Unread", value: "unread", badge: "5" },
+    { label: "Archive", value: "archive" },
+  ]}
+  variant="secondary"
+/>;
+
+// Full width
+<Tab tabs={tabs} variant="outlined" fullWidth />;
+
+// Different sizes
+<Tab tabs={tabs} size="sm" />
+<Tab tabs={tabs} size="md" />
+<Tab tabs={tabs} size="lg" />
+
+// Disabled tabs
+<Tab
+  tabs={[
+    { label: "Active", value: "active" },
+    { label: "Disabled", value: "disabled", disabled: true },
+  ]}
+/>
+
+// All 14 variants
+<Tab tabs={tabs} variant="default" />
+<Tab tabs={tabs} variant="primary" />
+<Tab tabs={tabs} variant="secondary" />
+<Tab tabs={tabs} variant="accent" />
+<Tab tabs={tabs} variant="success" />
+<Tab tabs={tabs} variant="warning" />
+<Tab tabs={tabs} variant="danger" />
+<Tab tabs={tabs} variant="info" />
+<Tab tabs={tabs} variant="glass" />
+<Tab tabs={tabs} variant="bordered" />
+<Tab tabs={tabs} variant="elevated" />
+<Tab tabs={tabs} variant="flat" />
+<Tab tabs={tabs} variant="outlined" />
+<Tab tabs={tabs} variant="minimal" />
+
+// Style examples
+<div className="space-y-4">
+  {/* Boxed style */}
+  <Tab tabs={tabs} variant="primary" />
+
+  {/* Underlined style */}
+  <Tab tabs={tabs} variant="bordered" />
+
+  {/* Pill style */}
+  <Tab tabs={tabs} variant="glass" />
+</div>
+```
+
+**Variants:** `default` `primary` `secondary` `accent` `success` `warning` `danger` `info` `glass` `bordered` `elevated` `flat` `outlined` `minimal`  
+**Sizes:** `sm` `md` `lg`
+
+**Props:**
+
+| Prop                   | Type         | Default          | Description                        |
+| ---------------------- | ------------ | ---------------- | ---------------------------------- |
+| `items`                | `TabItem[]`  | Required         | Array of tab items                 |
+| `value`                | `string`     | `undefined`      | Controlled active tab value        |
+| `defaultValue`         | `string`     | `items[0].value` | Default active tab (uncontrolled)  |
+| `onChange`             | `function`   | `undefined`      | Callback when tab changes          |
+| `variant`              | `TabVariant` | `'default'`      | Visual variant                     |
+| `size`                 | `TabSize`    | `'md'`           | Size variant                       |
+| `fullWidth`            | `boolean`    | `false`          | Make tabs full width               |
+| `className`            | `string`     | `undefined`      | Custom className for container     |
+| `tabClassName`         | `string`     | `undefined`      | Custom className for all tab items |
+| `activeTabClassName`   | `string`     | `undefined`      | Custom className for active tab    |
+| `disabledTabClassName` | `string`     | `undefined`      | Custom className for disabled tabs |
+| `iconClassName`        | `string`     | `undefined`      | Custom className for icon wrapper  |
+| `badgeClassName`       | `string`     | `undefined`      | Custom className for badge         |
+| `activeBadgeClassName` | `string`     | `undefined`      | Custom className for active badge  |
+
+**TabItem Type:**
+
+```typescript
+interface TabItem {
+  label: string; // Tab label text
+  value: string; // Unique tab identifier
+  icon?: ReactNode; // Optional icon element
+  disabled?: boolean; // Disable the tab
+  badge?: string | number; // Optional badge content
+  className?: string; // Custom className for this tab
+  iconClassName?: string; // Custom className for this tab's icon
+  badgeClassName?: string; // Custom className for this tab's badge
+}
+```
+
+**Customization Examples:**
+
+```tsx
+// Custom container with rounded-full
+<Tab items={tabs} className="rounded-full p-2 shadow-xl" />
+
+// Underline style tabs
+<Tab
+  items={tabs}
+  variant="minimal"
+  className="gap-4 p-0 bg-transparent border-b-2 border-base-300"
+  tabClassName="rounded-none border-b-2 border-transparent pb-3"
+  activeTabClassName="!border-primary !text-primary !bg-transparent"
+/>
+
+// Per-item custom styling
+<Tab
+  items={[
+    {
+      label: "Red Tab",
+      value: "red",
+      className: "data-[active=true]:bg-red-500 data-[active=true]:text-white"
+    },
+    // ... more tabs
+  ]}
+/>
+
+// Custom gradient badges
+<Tab
+  items={[{ label: "Inbox", value: "inbox", badge: 12 }]}
+  badgeClassName="bg-gradient-to-r from-pink-500 to-purple-500"
+  activeBadgeClassName="!bg-gradient-to-r !from-yellow-400 !to-orange-500"
+/>
+
+// Vertical tabs (mobile)
+<Tab
+  items={tabs}
+  className="flex-col sm:flex-row"
+  tabClassName="w-full sm:w-auto justify-start"
+/>
+
+// Pill style
+<Tab
+  items={tabs}
+  className="gap-3 p-0 bg-transparent"
+  tabClassName="rounded-full px-6 py-3 shadow-md"
+  activeTabClassName="scale-105 shadow-lg"
+/>
+```
+
+**Features:**
+
+- 🎨 14 visual variants matching design system
+- 📐 3 size options (sm, md, lg)
+- 🎯 Controlled and uncontrolled modes
+- 🖼️ Icon support in tabs
+- 🔔 Badge indicators for notifications
+- 🚫 Disabled tab states
+- 📱 Full width responsive layout
+- ⌨️ Keyboard navigation (arrow keys)
+- 🎭 Smooth transitions
+- 🌓 Theme-aware styling
+- ♿ ARIA-compliant accessibility
+- 🎪 Active state indicators
+- ✨ Hover effects
+- 🔄 Flexible content with icons/badges
+- 🎨 **Fully customizable with Tailwind classes**
+- 💅 **Per-item styling support**
+- 🔧 **No SCSS required - pure Tailwind**
+
+---
+
+### Input
+
+Flexible and customizable input field component with comprehensive variant support and validation states.
+
+```tsx
+import { Input } from "saha-ui";
+import { Mail, Lock, Search, User } from "lucide-react";
+
+// Basic input
+<Input placeholder="Enter text..." />
+
+// With label and helper text
+<Input
+  label="Email"
+  type="email"
+  placeholder="you@example.com"
+  helperText="We'll never share your email"
+/>
+
+// Different variants
+<Input variant="primary" placeholder="Primary input" />
+<Input variant="secondary" placeholder="Secondary input" />
+<Input variant="accent" placeholder="Accent input" />
+<Input variant="success" placeholder="Success input" />
+<Input variant="warning" placeholder="Warning input" />
+<Input variant="error" placeholder="Error input" />
+<Input variant="outline" placeholder="Outline input (default)" />
+<Input variant="ghost" placeholder="Ghost input" />
+<Input variant="glass" placeholder="Glass morphism input" />
+
+// With icons
+<Input
+  label="Search"
+  startIcon={<Search size={18} />}
+  placeholder="Search..."
+/>
+
+<Input
+  label="Email"
+  type="email"
+  startIcon={<Mail size={18} />}
+  placeholder="you@example.com"
+/>
+
+// With validation
+<Input
+  label="Password"
+  type="password"
+  variant="error"
+  error="Password must be at least 8 characters"
+  startIcon={<Lock size={18} />}
+/>
+
+<Input
+  label="Username"
+  variant="success"
+  defaultValue="johndoe"
+  helperText="Username is available!"
+  startIcon={<User size={18} />}
+/>
+
+// Character counter
+<Input
+  label="Bio"
+  placeholder="Tell us about yourself..."
+  maxLength={100}
+  showCounter
+  helperText="Maximum 100 characters"
+/>
+
+// Different sizes
+<Input size="sm" placeholder="Small input" />
+<Input size="md" placeholder="Medium input (default)" />
+<Input size="lg" placeholder="Large input" />
+<Input size="xl" placeholder="Extra large input" />
+
+// Full width
+<Input
+  fullWidth
+  label="Full Name"
+  placeholder="Enter your full name"
+/>
+
+// All input types (except file)
+<Input type="text" placeholder="Text input" />
+<Input type="email" placeholder="Email input" />
+<Input type="password" placeholder="Password input" />
+<Input type="number" placeholder="Number input" />
+<Input type="tel" placeholder="Phone input" />
+<Input type="url" placeholder="URL input" />
+<Input type="search" placeholder="Search input" />
+<Input type="date" />
+<Input type="time" />
+<Input type="color" />
+
+// Required field
+<Input
+  label="Username"
+  placeholder="Enter username"
+  required
+/>
+
+// Disabled
+<Input
+  label="Disabled Input"
+  placeholder="Cannot edit"
+  disabled
+/>
+
+// Login form example
+<div className="space-y-4">
+  <Input
+    fullWidth
+    label="Email"
+    type="email"
+    variant="glass"
+    startIcon={<Mail size={18} />}
+    placeholder="you@example.com"
+    required
+  />
+  <Input
+    fullWidth
+    label="Password"
+    type="password"
+    variant="glass"
+    startIcon={<Lock size={18} />}
+    placeholder="Enter your password"
+    required
+  />
+</div>
+```
+
+**Variants:** `primary` `secondary` `accent` `info` `success` `warning` `error` `outline` `ghost` `glass`  
+**Sizes:** `sm` `md` `lg` `xl`  
+**Input Types:** All HTML input types except `file`
+
+**Props:**
+
+| Prop                  | Type          | Default     | Description                              |
+| --------------------- | ------------- | ----------- | ---------------------------------------- |
+| `variant`             | `InputVariant`| `'outline'` | Visual variant                           |
+| `size`                | `InputSize`   | `'md'`      | Size variant                             |
+| `type`                | `InputType`   | `'text'`    | HTML input type (excludes file)          |
+| `label`               | `string`      | `undefined` | Label text for the input                 |
+| `helperText`          | `string`      | `undefined` | Helper text below input                  |
+| `error`               | `string`      | `undefined` | Error message (overrides helperText)     |
+| `startIcon`           | `ReactNode`   | `undefined` | Icon on the left side                    |
+| `endIcon`             | `ReactNode`   | `undefined` | Icon on the right side                   |
+| `showCounter`         | `boolean`     | `false`     | Show character counter (needs maxLength) |
+| `required`            | `boolean`     | `false`     | Mark field as required                   |
+| `fullWidth`           | `boolean`     | `false`     | Full width styling                       |
+| `containerClassName`  | `string`      | `undefined` | Custom className for container           |
+| `labelClassName`      | `string`      | `undefined` | Custom className for label               |
+| `disabled`            | `boolean`     | `false`     | Disable the input                        |
+| `maxLength`           | `number`      | `undefined` | Maximum character length                 |
+| `...props`            | `InputHTMLAttributes` | - | All standard input attributes            |
+
+**Features:**
+
+- 🎨 10 visual variants matching design system
+- 📐 4 size options (sm, md, lg, xl)
+- 🔤 Supports all HTML input types except file
+- 🖼️ Icon support (start and end positions)
+- ✅ Built-in validation states
+- 📝 Character counter with maxLength
+- 💬 Helper text and error messaging
+- ⚠️ Required field indicators
+- 📱 Full width responsive option
+- ⌨️ Standard input attributes support
+- 🎭 Smooth transitions and focus states
+- 🌓 Theme-aware styling
+- ♿ Accessible with proper labels
+- 🔒 Type-safe with TypeScript
+- 🎪 Hover and focus effects
+- 🔧 **No SCSS required - pure Tailwind**
 
 ---
 
