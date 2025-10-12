@@ -22,6 +22,8 @@ import { TreeExample } from "./TreeExample";
 import { StepsExample } from "./StepsExample";
 import { TableExample } from "./TableExample";
 import { RatingExample } from "./RatingExample";
+import ProgressExample from "./ProgressExample";
+import PopoverExample from "./PopoverExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -88,6 +90,12 @@ export const AllComponentExamples = () => {
 
       {/* Rating Examples */}
       <RatingExample />
+
+      {/* Progress Examples */}
+      <ProgressExample />
+
+      {/* Popover Examples */}
+      <PopoverExample />
     </>
   );
 };

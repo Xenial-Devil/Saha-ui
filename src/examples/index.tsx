@@ -22,6 +22,8 @@ export { TreeExample } from "./TreeExample";
 export { StepsExample } from "./StepsExample";
 export { TableExample } from "./TableExample";
 export { RatingExample } from "./RatingExample";
+export { default as ProgressExample } from "./ProgressExample";
+export { default as PopoverExample } from "./PopoverExample";
 
 // Aggregate component that includes all examples
 export { AllComponentExamples } from "./AllComponentExamples";

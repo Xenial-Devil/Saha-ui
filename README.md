@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **21 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating
+- 🎨 **23 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -162,12 +162,14 @@ import { cn } from "saha-ui/lib/utils";
 | **Steps**       | Progress indicator with 4 variants, horizontal/vertical layouts    | ✅     | ✅  |
 | **Table**       | Data table with sorting, selection, 5 variants, and responsive     | ✅     | ✅  |
 | **Rating**      | Star rating with 6 variants, 4 sizes, multiple icons, half stars   | ✅     | ✅  |
+| **Progress**    | Progress bar with 9 variants, 5 sizes, animations, striped         | ✅     | ✅  |
+| **Popover**     | Rich content popover with 11 variants, 12 positions, 4 triggers    | ✅     | ✅  |
 
 ---
 
 ## ⚡ Quick Examples
 
-Here are simple examples for all 19 components to get you started quickly:
+Here are simple examples for all 23 components to get you started quickly:
 
 ### Button
 
@@ -476,6 +478,37 @@ import { Rating } from "saha-ui";
 <Rating value={4.5} precision="half" showValue count={128} />
 <Rating value={0} onChange={(value) => console.log(value)} size="lg" />
 <Rating value={4} icon="heart" variant="gradient" size="lg" />
+```
+
+### Progress
+
+```tsx
+import { Progress } from "saha-ui";
+
+<Progress value={75} />
+<Progress value={60} variant="primary" size="lg" showValue />
+<Progress value={80} variant="success" striped stripedAnimated />
+<Progress indeterminate variant="gradient" />
+```
+
+### Popover
+
+```tsx
+import { Popover, Button } from "saha-ui";
+
+<Popover content="Simple popover content">
+  <Button>Click me</Button>
+</Popover>
+
+<Popover
+  title="Settings"
+  variant="primary"
+  position="right"
+  content={<div>Your settings here</div>}
+  footer={<Button size="sm">Save</Button>}
+>
+  <Button>Open Settings</Button>
+</Popover>
 ```
 
 ---
@@ -2841,6 +2874,209 @@ import { Rating } from "saha-ui";
 - `onHover` - Callback when hovering
 - `allowClear` - Allow clearing rating
 - `animated` - Enable animations
+
+---
+
+### Progress
+
+A flexible progress bar component with multiple variants, sizes, and animations for displaying progress and loading states.
+
+**Basic Usage:**
+
+```tsx
+import { Progress } from "saha-ui";
+
+// Basic progress
+<Progress value={75} />
+
+// With variant and size
+<Progress value={60} variant="primary" size="lg" />
+
+// With label
+<Progress value={45} showValue labelPosition="outside" />
+
+// Striped with animation
+<Progress value={80} variant="success" striped stripedAnimated />
+
+// Indeterminate loading
+<Progress indeterminate variant="gradient" />
+
+// With glow effect
+<Progress value={90} variant="gradient" glow />
+
+// Custom colors
+<Progress value={60} color="#9333ea" trackColor="#f3e8ff" />
+```
+
+**Variants:**
+
+- `default` - Standard gray progress bar
+- `primary` - Primary color with gradient
+- `secondary` - Secondary color with gradient
+- `success` - Green success indicator
+- `warning` - Yellow/orange warning
+- `error` - Red error indicator
+- `gradient` - Multi-color gradient (blue→purple→pink)
+- `striped` - Striped pattern effect
+- `glass` - Glassmorphism with backdrop blur
+
+**Features:**
+
+- 🎨 **9 Modern Variants** - Each with unique visual design
+- 📏 **5 Size Options** - xs, sm, md, lg, xl
+- 🎭 **3 Shape Styles** - rounded, pill, square
+- 🏷️ **Label Support** - Inside, outside, or top positioned
+- 🎬 **Animations** - Pulse, shimmer, striped, indeterminate
+- 🌈 **Custom Colors** - Both bar and track colors
+- ✨ **Glow Effect** - Enhanced shadow for emphasis
+- 📊 **Value Display** - Show percentage or custom labels
+- ⏳ **Loading States** - Indeterminate/infinite loading
+- 🎯 **Type-Safe** - Full TypeScript support
+- ♿ **Accessible** - ARIA progressbar role
+- 🎭 **CVA Powered** - Type-safe variant composition
+
+**Props:**
+
+```tsx
+interface ProgressProps {
+  variant?:
+    | "default"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "warning"
+    | "error"
+    | "gradient"
+    | "striped"
+    | "glass";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  shape?: "rounded" | "pill" | "square";
+  animation?: "none" | "pulse" | "shimmer" | "indeterminate";
+  value?: number; // 0-100
+  max?: number; // default: 100
+  showValue?: boolean;
+  label?: string;
+  labelPosition?: "inside" | "outside" | "top";
+  color?: string;
+  trackColor?: string;
+  striped?: boolean;
+  stripedAnimated?: boolean;
+  glow?: boolean;
+  indeterminate?: boolean;
+  valueFormat?: (value: number, max: number) => string;
+  barClassName?: string;
+  labelClassName?: string;
+  className?: string;
+}
+```
+
+**Real-World Examples:**
+
+```tsx
+// File upload progress
+<Progress
+  value={uploadProgress}
+  variant="primary"
+  size="lg"
+  striped
+  stripedAnimated
+  showValue
+  labelPosition="top"
+  label={`Uploading ${fileName}`}
+/>
+
+// Skill level indicator
+<div>
+  <div className="flex justify-between mb-1">
+    <span>React</span>
+    <span>90%</span>
+  </div>
+  <Progress value={90} variant="primary" />
+</div>
+
+// System resource usage
+<Progress
+  value={cpuUsage}
+  variant={cpuUsage > 80 ? "error" : "success"}
+  size="sm"
+  glow={cpuUsage > 80}
+/>
+
+// Loading state
+<Progress indeterminate variant="gradient" />
+```
+
+**Detailed Props:**
+
+- `variant` - Visual style of the progress bar
+- `size` - Height of the progress bar
+- `shape` - Border radius style
+- `animation` - Animation type (pulse, shimmer, indeterminate)
+- `value` - Current progress value (0-100)
+- `max` - Maximum value (default 100)
+- `showValue` - Display percentage/label
+- `label` - Custom label text
+- `labelPosition` - Where to display label
+- `color` - Custom bar color
+- `trackColor` - Custom background color
+- `striped` - Show striped pattern
+- `stripedAnimated` - Animate the stripes
+- `glow` - Add glow shadow effect
+- `indeterminate` - Loading/infinite state
+- `valueFormat` - Custom formatter function
+
+---
+
+### Popover
+
+A versatile popover component for displaying rich interactive content with multiple positioning options, variants, and trigger types.
+
+**Basic Usage:**
+
+```tsx
+import { Popover, Button } from "saha-ui";
+
+// Basic popover
+<Popover content="This is a simple popover">
+  <Button>Click me</Button>
+</Popover>
+
+// With title and footer
+<Popover
+  title="Confirm Action"
+  content="Are you sure?"
+  footer={
+    <div className="flex gap-2">
+      <Button size="sm">Cancel</Button>
+      <Button size="sm" variant="primary">Confirm</Button>
+    </div>
+  }
+>
+  <Button>Delete</Button>
+</Popover>
+
+// Glass variant
+<Popover variant="glass" position="right" content="Beautiful glassmorphic popover">
+  <Button>Click me</Button>
+</Popover>
+```
+
+**Variants:** `default` `primary` `secondary` `success` `warning` `danger` `info` `glass` `bordered` `elevated` `flat`  
+**Positions:** 12 options including `top`, `bottom`, `left`, `right` (with -start and -end variations)  
+**Sizes:** `sm` `md` `lg` `xl`
+
+**Features:**
+
+- 🎨 11 visual variants (7 colors + 4 styles)
+- 📐 12 position options
+- 🎯 4 trigger types (click, hover, focus, manual)
+- 🎭 Arrow indicator
+- 📋 Title & footer support
+- ✖️ Optional close button
+- 🔘 Auto-dismiss (click outside, Escape key)
+- 💬 Rich content support
+- 🎛️ Controlled mode
+- ♿ Fully accessible
 
 ---
 

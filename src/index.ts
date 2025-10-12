@@ -35,6 +35,8 @@ export { default as Tree } from "./components/Tree";
 export { default as Steps } from "./components/Steps";
 export { default as Table } from "./components/Table";
 export { default as Rating } from "./components/Rating";
+export { default as Progress } from "./components/Progress";
+export { default as Popover } from "./components/Popover";
 
 // Types - Theme
 export type {
@@ -191,6 +193,22 @@ export type {
   RatingIcon,
   RatingPrecision,
 } from "./components/Rating/Rating.types";
+
+export type {
+  ProgressProps,
+  ProgressVariant,
+  ProgressSize,
+  ProgressShape,
+  ProgressAnimation,
+} from "./components/Progress/Progress.types";
+
+export type {
+  PopoverProps,
+  PopoverVariant,
+  PopoverPosition,
+  PopoverSize,
+  PopoverTrigger,
+} from "./components/Popover/Popover.types";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";
