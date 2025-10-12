@@ -28,6 +28,8 @@ export { PlayButtonExample } from "./PlayButtonExample";
 export { SkeletonExample } from "./SkeletonExample";
 export { PaginationExample } from "./PaginationExample";
 export { DatePickerExample } from "./DatePickerExample";
+export { TabExample } from "./TabExample";
+export { InputExample } from "./InputExample";
 
 // Aggregate component that includes all examples
 export { AllComponentExamples } from "./AllComponentExamples";

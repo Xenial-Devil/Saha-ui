@@ -529,61 +529,6 @@ export const DatePickerExample: React.FC = () => {
           </div>
         </Card>
       </section>
-
-      {/* Code Examples */}
-      <section>
-        <h3 className="text-xl font-semibold mb-4">Code Examples</h3>
-        <Card className="p-6">
-          <h4 className="font-semibold mb-3">Basic Usage</h4>
-          <pre className="bg-base-200 p-4 rounded-lg overflow-x-auto text-sm">
-            <code>{`import DatePicker from "@/components/DatePicker";
-import type { DateRange } from "@/components/DatePicker/DatePicker.types";
-
-function MyComponent() {
-  const [date, setDate] = useState<DateRange>({
-    startDate: null,
-    endDate: null,
-  });
-
-  return (
-    <DatePicker
-      value={date}
-      onChange={setDate}
-      variant="primary"
-      placeholder="Select date"
-      asSingle
-    />
-  );
-}`}</code>
-          </pre>
-        </Card>
-
-        <Card className="p-6 mt-4">
-          <h4 className="font-semibold mb-3">Date Range with Shortcuts</h4>
-          <pre className="bg-base-200 p-4 rounded-lg overflow-x-auto text-sm">
-            <code>{`<DatePicker
-  value={dateRange}
-  onChange={setDateRange}
-  variant="primary"
-  useRange
-  showShortcuts
-  showFooter
-  minDate={new Date()}
-  configs={{
-    shortcuts: {
-      today: "Today",
-      last7Days: "Last 7 Days",
-      last30Days: "Last 30 Days",
-    },
-    footer: {
-      cancel: "Clear",
-      apply: "Apply",
-    },
-  }}
-/>`}</code>
-          </pre>
-        </Card>
-      </section>
     </div>
   );
 };

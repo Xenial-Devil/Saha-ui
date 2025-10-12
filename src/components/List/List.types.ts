@@ -18,7 +18,8 @@ export type ListVariant =
   | "bordered"
   | "divided"
   | "striped"
-  | "cards";
+  | "cards"
+  | "glass";
 export type ListSize = "sm" | "md" | "lg";
 
 export interface ListProps

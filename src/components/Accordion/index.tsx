@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState, useCallback } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import { ChevronDown } from "lucide-react";
-import "./index.scss";
 import type {
   AccordionProps,
   AccordionItemProps,
@@ -67,6 +66,8 @@ const accordionVariants = cva(
         toggle: "border border-border/50 shadow-lg backdrop-blur-sm bg-card/30",
         firstopen:
           "border border-border/50 shadow-lg backdrop-blur-sm bg-card/30",
+        glass:
+          "bg-background/30 backdrop-blur-xl border border-white/10 shadow-2xl",
       },
     },
     defaultVariants: {

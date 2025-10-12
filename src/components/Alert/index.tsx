@@ -19,6 +19,8 @@ const alertVariants = cva(
           "border-t-4 bg-opacity-10 backdrop-blur-sm shadow-md before:absolute before:top-0 before:inset-x-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-current before:to-transparent",
         outline:
           "bg-card/50 backdrop-blur-sm border-2 border-current/30 shadow-md hover:border-current/50 hover:shadow-lg",
+        glass:
+          "bg-background/30 backdrop-blur-xl border border-white/10 shadow-2xl",
       },
       status: {
         info: "",
@@ -137,6 +139,27 @@ const alertVariants = cva(
         status: "danger",
         className:
           "border-destructive/30 text-foreground hover:border-destructive/50",
+      },
+      // Glass variant colors
+      {
+        variant: "glass",
+        status: "info",
+        className: "text-info",
+      },
+      {
+        variant: "glass",
+        status: "success",
+        className: "text-success",
+      },
+      {
+        variant: "glass",
+        status: "warning",
+        className: "text-warning",
+      },
+      {
+        variant: "glass",
+        status: "danger",
+        className: "text-destructive",
       },
     ],
     defaultVariants: {

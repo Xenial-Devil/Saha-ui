@@ -1,5 +1,7 @@
 import {
   Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbSeparator,
   Card,
   CardHeader,
   CardTitle,
@@ -21,40 +23,43 @@ export const BreadcrumbExample = () => {
         <div className="space-y-4">
           <div className="glass p-4 rounded-lg">
             <p className="text-sm text-muted-foreground mb-2">Default</p>
-            <Breadcrumb
-              items={[
-                { label: "Home", href: "/" },
-                { label: "Products", href: "/products" },
-                { label: "Electronics", href: "/products/electronics" },
-                { label: "Laptops", isCurrentPage: true },
-              ]}
-              variant="default"
-            />
+            <Breadcrumb variant="default">
+              <BreadcrumbItem href="/">Home</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem href="/products/electronics">
+                Electronics
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem isCurrentPage>Laptops</BreadcrumbItem>
+            </Breadcrumb>
           </div>
 
           <div className="glass p-4 rounded-lg">
             <p className="text-sm text-muted-foreground mb-2">Pills</p>
-            <Breadcrumb
-              items={[
-                { label: "Home", href: "/" },
-                { label: "Products", href: "/products" },
-                { label: "Electronics", href: "/products/electronics" },
-                { label: "Laptops", isCurrentPage: true },
-              ]}
-              variant="pills"
-            />
+            <Breadcrumb variant="pills">
+              <BreadcrumbItem href="/">Home</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem href="/products/electronics">
+                Electronics
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem isCurrentPage>Laptops</BreadcrumbItem>
+            </Breadcrumb>
           </div>
 
           <div className="glass p-4 rounded-lg">
             <p className="text-sm text-muted-foreground mb-2">Bordered</p>
-            <Breadcrumb
-              items={[
-                { label: "Home", href: "/" },
-                { label: "Products", href: "/products" },
-                { label: "Laptops", isCurrentPage: true },
-              ]}
-              variant="bordered"
-            />
+            <Breadcrumb variant="bordered">
+              <BreadcrumbItem href="/">Home</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem isCurrentPage>Laptops</BreadcrumbItem>
+            </Breadcrumb>
           </div>
         </div>
       </div>
@@ -64,41 +69,98 @@ export const BreadcrumbExample = () => {
         <h4 className="text-lg font-semibold mb-4 text-text">With Icons</h4>
         <div className="space-y-4">
           <div className="glass p-4 rounded-lg">
-            <Breadcrumb
-              items={[
-                { label: "Home", href: "/" },
-                {
-                  label: "Shop",
-                  href: "/shop",
-                  icon: <ShoppingCart size={14} />,
-                },
-                {
-                  label: "Cart",
-                  isCurrentPage: true,
-                  icon: <ShoppingCart size={14} />,
-                },
-              ]}
-              variant="ghost"
-            />
+            <Breadcrumb variant="ghost">
+              <BreadcrumbItem href="/">Home</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem href="/shop" icon={<ShoppingCart size={14} />}>
+                Shop
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem isCurrentPage icon={<ShoppingCart size={14} />}>
+                Cart
+              </BreadcrumbItem>
+            </Breadcrumb>
           </div>
 
           <div className="glass p-4 rounded-lg">
-            <Breadcrumb
-              items={[
-                { label: "Dashboard", href: "/" },
-                {
-                  label: "Documents",
-                  href: "/docs",
-                  icon: <FileText size={14} />,
-                },
-                {
-                  label: "Settings",
-                  isCurrentPage: true,
-                  icon: <Settings size={14} />,
-                },
-              ]}
-              variant="bordered"
-            />
+            <Breadcrumb variant="bordered">
+              <BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem href="/docs" icon={<FileText size={14} />}>
+                Documents
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem isCurrentPage icon={<Settings size={14} />}>
+                Settings
+              </BreadcrumbItem>
+            </Breadcrumb>
+          </div>
+        </div>
+      </div>
+
+      {/* Different Separators */}
+      <div className="mb-8">
+        <h4 className="text-lg font-semibold mb-4 text-text">
+          Separator Types
+        </h4>
+        <div className="space-y-4">
+          <div className="glass p-4 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-2">
+              Chevron (Default)
+            </p>
+            <Breadcrumb separator="chevron">
+              <BreadcrumbItem href="/">Home</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem isCurrentPage>Electronics</BreadcrumbItem>
+            </Breadcrumb>
+          </div>
+
+          <div className="glass p-4 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-2">Slash</p>
+            <Breadcrumb separator="slash">
+              <BreadcrumbItem href="/">Home</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem isCurrentPage>Electronics</BreadcrumbItem>
+            </Breadcrumb>
+          </div>
+
+          <div className="glass p-4 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-2">Dot</p>
+            <Breadcrumb separator="dot">
+              <BreadcrumbItem href="/">Home</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem isCurrentPage>Electronics</BreadcrumbItem>
+            </Breadcrumb>
+          </div>
+
+          <div className="glass p-4 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-2">Arrow</p>
+            <Breadcrumb separator="arrow">
+              <BreadcrumbItem href="/">Home</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem isCurrentPage>Electronics</BreadcrumbItem>
+            </Breadcrumb>
+          </div>
+
+          <div className="glass p-4 rounded-lg">
+            <p className="text-sm text-muted-foreground mb-2">
+              Custom Separator
+            </p>
+            <Breadcrumb>
+              <BreadcrumbItem href="/">Home</BreadcrumbItem>
+              <BreadcrumbSeparator>→</BreadcrumbSeparator>
+              <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+              <BreadcrumbSeparator>→</BreadcrumbSeparator>
+              <BreadcrumbItem isCurrentPage>Electronics</BreadcrumbItem>
+            </Breadcrumb>
           </div>
         </div>
       </div>
@@ -110,15 +172,13 @@ export const BreadcrumbExample = () => {
         </h4>
         <Card variant="glass" padding="lg">
           <CardHeader>
-            <Breadcrumb
-              items={[
-                { label: "Dashboard", href: "/" },
-                { label: "Projects", href: "/projects" },
-                { label: "Saha UI", isCurrentPage: true },
-              ]}
-              variant="ghost"
-              size="sm"
-            />
+            <Breadcrumb variant="ghost" size="sm">
+              <BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem href="/projects">Projects</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem isCurrentPage>Saha UI</BreadcrumbItem>
+            </Breadcrumb>
           </CardHeader>
           <CardTitle>Project: Saha UI</CardTitle>
           <CardDescription>

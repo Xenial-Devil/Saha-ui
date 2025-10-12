@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode } from "react";
 
 /**
  * Variant options for Table styling
@@ -31,28 +31,128 @@ export type ColumnAlign = "left" | "center" | "right";
 export type SortDirection = "asc" | "desc" | null;
 
 /**
- * Column definition
+ * Table root component props
  */
-export interface TableColumn<T = any> {
+export interface TableProps {
   /**
-   * Unique identifier for the column
+   * Visual variant for styling
    */
-  id: string;
+  variant?: TableVariant;
 
   /**
-   * Column header label
+   * Size variant
    */
-  header: React.ReactNode;
+  size?: TableSize;
 
   /**
-   * Accessor function or property name to get cell value
+   * Density (spacing) of table cells
    */
-  accessor?: keyof T | ((row: T) => any);
+  density?: TableDensity;
 
   /**
-   * Custom cell renderer
+   * Enable striped rows
    */
-  cell?: (row: T, index: number) => React.ReactNode;
+  striped?: boolean;
+
+  /**
+   * Enable hover effect on rows
+   */
+  hoverable?: boolean;
+
+  /**
+   * Custom className for the table container
+   */
+  className?: string;
+
+  /**
+   * Child components (TableHeader, TableBody, TableFooter)
+   */
+  children: ReactNode;
+}
+
+/**
+ * TableHeader props
+ */
+export interface TableHeaderProps {
+  /**
+   * Make header sticky
+   */
+  sticky?: boolean;
+
+  /**
+   * Custom className
+   */
+  className?: string;
+
+  /**
+   * Child TableRow component(s)
+   */
+  children: ReactNode;
+}
+
+/**
+ * TableBody props
+ */
+export interface TableBodyProps {
+  /**
+   * Custom className
+   */
+  className?: string;
+
+  /**
+   * Child TableRow component(s)
+   */
+  children: ReactNode;
+}
+
+/**
+ * TableFooter props
+ */
+export interface TableFooterProps {
+  /**
+   * Custom className
+   */
+  className?: string;
+
+  /**
+   * Child TableRow component(s)
+   */
+  children: ReactNode;
+}
+
+/**
+ * TableRow props
+ */
+export interface TableRowProps {
+  /**
+   * Whether row is selected
+   */
+  selected?: boolean;
+
+  /**
+   * Custom className
+   */
+  className?: string;
+
+  /**
+   * Click handler
+   */
+  onClick?: () => void;
+
+  /**
+   * Child TableHead or TableCell component(s)
+   */
+  children: ReactNode;
+}
+
+/**
+ * TableHead props (header cell)
+ */
+export interface TableHeadProps {
+  /**
+   * Text alignment
+   */
+  align?: ColumnAlign;
 
   /**
    * Column width (CSS value)
@@ -70,217 +170,62 @@ export interface TableColumn<T = any> {
   maxWidth?: string;
 
   /**
-   * Text alignment
-   */
-  align?: ColumnAlign;
-
-  /**
    * Enable sorting for this column
    */
   sortable?: boolean;
 
   /**
-   * Custom sort function
+   * Current sort direction
    */
-  sortFn?: (a: T, b: T, direction: "asc" | "desc") => number;
+  sortDirection?: SortDirection;
 
   /**
-   * Enable filtering for this column
+   * Sort handler
    */
-  filterable?: boolean;
+  onSort?: () => void;
 
   /**
-   * Column footer content
-   */
-  footer?: React.ReactNode;
-
-  /**
-   * Whether column is sticky
-   */
-  sticky?: "left" | "right";
-
-  /**
-   * Additional CSS classes for header
-   */
-  headerClassName?: string;
-
-  /**
-   * Additional CSS classes for cells
-   */
-  cellClassName?: string;
-
-  /**
-   * Additional CSS classes for footer
-   */
-  footerClassName?: string;
-}
-
-/**
- * Props for the Table component
- */
-export interface TableProps<T = any>
-  extends React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * Column definitions
-   */
-  columns: TableColumn<T>[];
-
-  /**
-   * Table data
-   */
-  data: T[];
-
-  /**
-   * Visual variant
-   * @default "default"
-   */
-  variant?: TableVariant;
-
-  /**
-   * Size variant
-   * @default "md"
-   */
-  size?: TableSize;
-
-  /**
-   * Density (row spacing)
-   * @default "normal"
-   */
-  density?: TableDensity;
-
-  /**
-   * Show table borders
-   * @default false
-   */
-  bordered?: boolean;
-
-  /**
-   * Enable row hover effect
-   * @default true
-   */
-  hoverable?: boolean;
-
-  /**
-   * Enable striped rows
-   * @default false
-   */
-  striped?: boolean;
-
-  /**
-   * Show table header
-   * @default true
-   */
-  showHeader?: boolean;
-
-  /**
-   * Show table footer
-   * @default false
-   */
-  showFooter?: boolean;
-
-  /**
-   * Enable row selection
-   * @default false
-   */
-  selectable?: boolean;
-
-  /**
-   * Selected row keys
-   */
-  selectedRows?: (string | number)[];
-
-  /**
-   * Callback when row selection changes
-   */
-  onRowSelect?: (selectedRows: (string | number)[]) => void;
-
-  /**
-   * Row key accessor
-   */
-  rowKey?: keyof T | ((row: T) => string | number);
-
-  /**
-   * Enable sorting
-   * @default false
-   */
-  sortable?: boolean;
-
-  /**
-   * Current sort state
-   */
-  sortBy?: { column: string; direction: SortDirection };
-
-  /**
-   * Callback when sort changes
-   */
-  onSort?: (column: string, direction: SortDirection) => void;
-
-  /**
-   * Loading state
-   * @default false
-   */
-  loading?: boolean;
-
-  /**
-   * Empty state message
-   */
-  emptyMessage?: React.ReactNode;
-
-  /**
-   * Caption for the table
-   */
-  caption?: React.ReactNode;
-
-  /**
-   * Make table responsive with horizontal scroll
-   * @default true
-   */
-  responsive?: boolean;
-
-  /**
-   * Sticky header
-   * @default false
-   */
-  stickyHeader?: boolean;
-
-  /**
-   * Max height for scrollable table
-   */
-  maxHeight?: string;
-
-  /**
-   * Custom row className
-   */
-  rowClassName?: string | ((row: T, index: number) => string);
-
-  /**
-   * Callback when row is clicked
-   */
-  onRowClick?: (row: T, index: number) => void;
-
-  /**
-   * Show loading overlay
-   */
-  loadingOverlay?: boolean;
-
-  /**
-   * Additional CSS classes
+   * Custom className
    */
   className?: string;
+
+  /**
+   * Cell content
+   */
+  children: ReactNode;
 }
 
 /**
- * Props for Table subcomponents
+ * TableCell props (body cell)
  */
-export interface TableHeaderProps
-  extends React.HTMLAttributes<HTMLTableSectionElement> {}
-export interface TableBodyProps
-  extends React.HTMLAttributes<HTMLTableSectionElement> {}
-export interface TableFooterProps
-  extends React.HTMLAttributes<HTMLTableSectionElement> {}
-export interface TableRowProps
-  extends React.HTMLAttributes<HTMLTableRowElement> {}
-export interface TableHeadProps
-  extends React.ThHTMLAttributes<HTMLTableCellElement> {}
-export interface TableCellProps
-  extends React.TdHTMLAttributes<HTMLTableCellElement> {}
+export interface TableCellProps {
+  /**
+   * Text alignment
+   */
+  align?: ColumnAlign;
+
+  /**
+   * Column width (CSS value)
+   */
+  width?: string;
+
+  /**
+   * Minimum width
+   */
+  minWidth?: string;
+
+  /**
+   * Maximum width
+   */
+  maxWidth?: string;
+
+  /**
+   * Custom className
+   */
+  className?: string;
+
+  /**
+   * Cell content
+   */
+  children: ReactNode;
+}

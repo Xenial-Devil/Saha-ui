@@ -28,6 +28,8 @@ import { PlayButtonExample } from "./PlayButtonExample";
 import { SkeletonExample } from "./SkeletonExample";
 import { PaginationExample } from "./PaginationExample";
 import { DatePickerExample } from "./DatePickerExample";
+import { TabExample } from "./TabExample";
+import { InputExample } from "./InputExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -112,6 +114,12 @@ export const AllComponentExamples = () => {
 
       {/* DatePicker Examples */}
       <DatePickerExample />
+
+      {/* Tab Examples */}
+      <TabExample />
+
+      {/* Input Examples */}
+      <InputExample />
     </>
   );
 };

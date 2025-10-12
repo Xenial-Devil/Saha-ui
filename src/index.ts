@@ -6,14 +6,23 @@ export { ThemeToggle } from "./components/ThemeToggle";
 export { cn } from "./lib/utils";
 
 // Components
-export { default as Accordion } from "./components/Accordion";
+export {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "./components/Accordion";
 export { default as Alert } from "./components/Alert";
 export { default as Avatar } from "./components/Avatar";
 export { default as AvatarGroup } from "./components/AvatarGroup";
 export { default as Badge } from "./components/Badge";
-export { default as Breadcrumb } from "./components/Breadcrumb";
+export {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbSeparator,
+} from "./components/Breadcrumb";
 export { default as Button } from "./components/Button";
-export { default as ButtonGroup } from "./components/ButtonGroup";
+export { ButtonGroup } from "./components/ButtonGroup";
 export {
   default as Card,
   CardHeader,
@@ -22,18 +31,32 @@ export {
   CardContent,
   CardFooter,
 } from "./components/Card";
-export { default as Carousel } from "./components/Carousel";
+export {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "./components/Carousel";
 export { Chip } from "./components/Chip";
 export { default as Divider } from "./components/Divider";
 export { default as Image } from "./components/Image";
 export { default as Link } from "./components/Link";
-export { default as List } from "./components/List";
-export { default as Timeline } from "./components/Timeline";
+export { List, ListItem } from "./components/List";
+export { Timeline, TimelineItem } from "./components/Timeline";
 export { default as Tooltip } from "./components/Tooltip";
 
-export { default as Tree } from "./components/Tree";
-export { default as Steps } from "./components/Steps";
-export { default as Table } from "./components/Table";
+export { Tree, TreeItem } from "./components/Tree";
+export { Steps, StepsItem } from "./components/Steps";
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "./components/Table";
 export { default as Rating } from "./components/Rating";
 export { default as Progress } from "./components/Progress";
 export { default as Popover } from "./components/Popover";
@@ -41,6 +64,8 @@ export { default as PlayButton } from "./components/PlayButton";
 export { default as Skeleton } from "./components/Skeleton";
 export { default as Pagination } from "./components/Pagination";
 export { default as DatePicker } from "./components/DatePicker";
+export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/Tab";
+export { Input } from "./components/Input";
 
 // Types - Theme
 export type {
@@ -53,9 +78,11 @@ export type { ThemeToggleProps } from "./components/ThemeToggle/ThemeToggle.type
 // Types - Components
 export type {
   AccordionVariant,
+  AccordionType,
   AccordionProps,
   AccordionItemProps,
-  AccordionItem,
+  AccordionTriggerProps,
+  AccordionContentProps,
 } from "./components/Accordion/Accordion.types";
 export type {
   AlertProps,
@@ -81,10 +108,11 @@ export type {
 } from "./components/Badge/Badge.types";
 export type {
   BreadcrumbProps,
-  BreadcrumbItem,
+  BreadcrumbItemProps,
+  BreadcrumbSeparatorProps,
   BreadcrumbVariant,
   BreadcrumbSize,
-  BreadcrumbSeparator,
+  BreadcrumbSeparatorType,
 } from "./components/Breadcrumb/Breadcrumb.types";
 export type {
   ButtonProps,
@@ -108,7 +136,16 @@ export type {
   CardPadding,
   CardRounded,
 } from "./components/Card/Card.types";
-export type { CarouselProps } from "./components/Carousel/Carousel.types";
+export type {
+  CarouselProps,
+  CarouselContentProps,
+  CarouselItemProps,
+  CarouselPreviousProps,
+  CarouselNextProps,
+  CarouselVariant,
+  CarouselEffect,
+  CarouselDirection,
+} from "./components/Carousel/Carousel.types";
 export type {
   ChipProps,
   ChipVariant,
@@ -142,13 +179,11 @@ export type {
 } from "./components/List/List.types";
 export type {
   TimelineProps,
-  TimelineItem,
+  TimelineItemProps,
   TimelineVariant,
   TimelinePosition,
   TimelineSize,
   TimelineStatus,
-  TimelineLineStyle,
-  TimelineDotShape,
 } from "./components/Timeline/Timeline.types";
 export type {
   TooltipProps,
@@ -160,14 +195,15 @@ export type {
 
 export type {
   TreeProps,
-  TreeNode,
+  TreeItemProps,
   TreeVariant,
   TreeSize,
+  TreeNodeIconPosition,
 } from "./components/Tree/Tree.types";
 
 export type {
   StepsProps,
-  StepItem,
+  StepsItemProps,
   StepStatus,
   StepsVariant,
   StepsOrientation,
@@ -176,7 +212,6 @@ export type {
 
 export type {
   TableProps,
-  TableColumn,
   TableVariant,
   TableSize,
   TableDensity,
@@ -247,6 +282,22 @@ export type {
   DatePickerConfigs,
   PopoverDirection,
 } from "./components/DatePicker/DatePicker.types";
+
+export type {
+  TabsProps,
+  TabsListProps,
+  TabsTriggerProps,
+  TabsContentProps,
+  TabVariant,
+  TabSize,
+} from "./components/Tab/Tab.types";
+
+export type {
+  InputProps,
+  InputVariant,
+  InputSize,
+  InputType,
+} from "./components/Input/Input.types";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";

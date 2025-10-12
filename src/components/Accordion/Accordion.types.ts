@@ -6,7 +6,8 @@ export type AccordionVariant =
   | "controlled"
   | "allopen"
   | "toggle"
-  | "firstopen";
+  | "firstopen"
+  | "glass";
 
 export type AccordionType = "single" | "multiple";
 

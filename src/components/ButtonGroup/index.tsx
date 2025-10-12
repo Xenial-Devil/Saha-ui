@@ -1,92 +1,76 @@
-import React from "react";
+import React, { createContext, useContext } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
-import type { ButtonGroupProps } from "./ButtonGroup.types";
+import type {
+  ButtonGroupProps,
+  ButtonGroupVariant,
+  ButtonGroupOrientation,
+  ButtonGroupSize,
+} from "./ButtonGroup.types";
 
-/**
- * ButtonGroup variants using CVA for type-safe styling
- */
-const buttonGroupVariants = cva(
-  // Base styles
-  "inline-flex isolate relative",
-  {
-    variants: {
-      variant: {
-        default: "shadow-sm",
-        outline: "border border-border rounded-xl",
-        ghost: "",
-        glass:
-          "backdrop-blur-xl bg-white/5 dark:bg-black/5 border border-white/10 dark:border-white/5 shadow-lg rounded-xl",
-      },
-      orientation: {
-        horizontal: "flex-row",
-        vertical: "flex-col",
-      },
-      fullWidth: {
-        true: "w-full",
-        false: "w-auto",
-      },
-      attached: {
-        true: "gap-0",
-        false: "",
-      },
-    },
-    compoundVariants: [
-      {
-        orientation: "horizontal",
-        attached: false,
-        className: "gap-2",
-      },
-      {
-        orientation: "vertical",
-        attached: false,
-        className: "gap-2",
-      },
-    ],
-    defaultVariants: {
-      variant: "default",
-      orientation: "horizontal",
-      fullWidth: false,
-      attached: true,
-    },
-  }
+interface ButtonGroupContextValue {
+  variant: ButtonGroupVariant;
+  size: ButtonGroupSize;
+  orientation: ButtonGroupOrientation;
+  fullRounded: boolean;
+  fullWidth: boolean;
+  attached: boolean;
+}
+
+const ButtonGroupContext = createContext<ButtonGroupContextValue | undefined>(
+  undefined
 );
 
-/**
- * ButtonGroup Component
- *
- * A container component that groups multiple buttons together with consistent styling.
- * Supports horizontal and vertical orientations, various visual variants, and flexible sizing.
- *
- * @example
- * ```tsx
- * // Basic horizontal group
- * <ButtonGroup>
- *   <Button>Left</Button>
- *   <Button>Center</Button>
- *   <Button>Right</Button>
- * </ButtonGroup>
- *
- * // Vertical orientation
- * <ButtonGroup orientation="vertical">
- *   <Button>Top</Button>
- *   <Button>Middle</Button>
- *   <Button>Bottom</Button>
- * </ButtonGroup>
- *
- * // Glass variant with full width
- * <ButtonGroup variant="glass" fullWidth>
- *   <Button>Save</Button>
- *   <Button>Cancel</Button>
- * </ButtonGroup>
- *
- * // Detached buttons (with gaps)
- * <ButtonGroup attached={false}>
- *   <Button variant="primary">Accept</Button>
- *   <Button variant="ghost">Decline</Button>
- * </ButtonGroup>
- * ```
- */
+export const useButtonGroup = () => {
+  const context = useContext(ButtonGroupContext);
+  if (!context) {
+    throw new Error("Button must be used within a ButtonGroup");
+  }
+  return context;
+};
+
+const buttonGroupVariants = cva("inline-flex isolate relative", {
+  variants: {
+    variant: {
+      default: "shadow-sm",
+      outline: "border border-border rounded-xl",
+      ghost: "",
+      glass:
+        "backdrop-blur-xl bg-white/5 dark:bg-black/5 border border-white/10 dark:border-white/5 shadow-lg rounded-xl",
+    },
+    orientation: {
+      horizontal: "flex-row",
+      vertical: "flex-col",
+    },
+    fullWidth: {
+      true: "w-full",
+      false: "w-auto",
+    },
+    attached: {
+      true: "gap-0",
+      false: "",
+    },
+  },
+  compoundVariants: [
+    {
+      orientation: "horizontal",
+      attached: false,
+      className: "gap-2",
+    },
+    {
+      orientation: "vertical",
+      attached: false,
+      className: "gap-2",
+    },
+  ],
+  defaultVariants: {
+    variant: "default",
+    orientation: "horizontal",
+    fullWidth: false,
+    attached: true,
+  },
+});
+
 const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
   (
     {
@@ -102,14 +86,12 @@ const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
     },
     ref
   ) => {
-    // Clone children and apply additional props for seamless integration
     const processedChildren = React.Children.map(children, (child, index) => {
       if (!React.isValidElement(child)) return child;
 
       const isFirst = index === 0;
       const isLast = index === React.Children.count(children) - 1;
 
-      // Determine rounding classes based on position and orientation
       let roundingClasses = "";
 
       if (attached) {
@@ -124,7 +106,6 @@ const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
             else roundingClasses = "rounded-none";
           }
         } else {
-          // vertical
           if (fullRounded) {
             if (isFirst) roundingClasses = "rounded-t-full rounded-b-none";
             else if (isLast) roundingClasses = "rounded-b-full rounded-t-none";
@@ -136,7 +117,6 @@ const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
           }
         }
 
-        // Add border handling for attached buttons
         let borderClasses = "";
         if (variant === "outline" || variant === "ghost") {
           if (orientation === "horizontal" && !isLast) {
@@ -146,55 +126,61 @@ const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
           }
         }
 
-        // Add z-index for hover effects
         const zIndexClasses = "hover:z-10 focus:z-10 active:z-10";
-
-        // Width handling for fullWidth
         const widthClasses = fullWidth ? "flex-1" : "";
 
-        const props = child.props as Record<string, any>;
+        const childProps = child.props as Record<string, any>;
         return React.cloneElement(child as React.ReactElement<any>, {
           className: cn(
-            props.className,
+            childProps.className,
             roundingClasses,
             borderClasses,
             zIndexClasses,
             widthClasses
           ),
-          size: props.size || size,
+          size: childProps.size || size,
         });
       }
 
-      // For detached buttons, just pass the size
-      const props = child.props as Record<string, any>;
+      const childProps = child.props as Record<string, any>;
       return React.cloneElement(child as React.ReactElement<any>, {
-        className: cn(props.className, fullWidth && "flex-1"),
-        size: props.size || size,
+        className: cn(childProps.className, fullWidth && "flex-1"),
+        size: childProps.size || size,
       });
     });
 
+    const contextValue: ButtonGroupContextValue = {
+      variant,
+      size,
+      orientation,
+      fullRounded,
+      fullWidth,
+      attached,
+    };
+
     return (
-      <div
-        ref={ref}
-        role="group"
-        className={cn(
-          buttonGroupVariants({
-            variant,
-            orientation,
-            fullWidth,
-            attached,
-          }),
-          className
-        )}
-        {...props}
-      >
-        {processedChildren}
-      </div>
+      <ButtonGroupContext.Provider value={contextValue}>
+        <div
+          ref={ref}
+          role="group"
+          className={cn(
+            buttonGroupVariants({
+              variant,
+              orientation,
+              fullWidth,
+              attached,
+            }),
+            className
+          )}
+          {...props}
+        >
+          {processedChildren}
+        </div>
+      </ButtonGroupContext.Provider>
     );
   }
 );
 
 ButtonGroup.displayName = "ButtonGroup";
 
-export default ButtonGroup;
-export { buttonGroupVariants };
+export { ButtonGroup, buttonGroupVariants };

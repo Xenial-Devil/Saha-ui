@@ -1,12 +1,43 @@
-import React from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  Children,
+  isValidElement,
+} from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
-import { StepsProps, StepStatus } from "./Steps.types";
-import { Check, Circle, AlertCircle } from "lucide-react";
+import { Check } from "lucide-react";
+import type {
+  StepsProps,
+  StepsItemProps,
+  StepStatus,
+  StepsVariant,
+  StepsSize,
+  StepsOrientation,
+} from "./Steps.types";
 
-/**
- * CVA variants for Steps container
- */
+interface StepsContextValue {
+  value: string | number;
+  onValueChange: (value: string | number) => void;
+  variant: StepsVariant;
+  size: StepsSize;
+  orientation: StepsOrientation;
+  clickable: boolean;
+  allSteps: (string | number)[];
+}
+
+const StepsContext = createContext<StepsContextValue | undefined>(undefined);
+
+const useStepsContext = () => {
+  const context = useContext(StepsContext);
+  if (!context) {
+    throw new Error("Steps components must be used within a Steps component");
+  }
+  return context;
+};
+
 const stepsVariants = cva("w-full", {
   variants: {
     variant: {
@@ -27,9 +58,6 @@ const stepsVariants = cva("w-full", {
   },
 });
 
-/**
- * CVA variants for individual step
- */
 const stepVariants = cva(
   "relative flex items-start transition-all duration-200",
   {
@@ -38,38 +66,19 @@ const stepVariants = cva(
         horizontal: "flex-col items-center flex-1",
         vertical: "flex-row pb-8 last:pb-0",
       },
-      clickable: {
-        true: "cursor-pointer hover:opacity-80",
-        false: "",
-      },
-      disabled: {
-        true: "opacity-50 cursor-not-allowed",
-        false: "",
-      },
-    },
-    defaultVariants: {
-      orientation: "horizontal",
-      clickable: false,
-      disabled: false,
     },
   }
 );
 
-/**
- * CVA variants for step icon container
- */
 const stepIconVariants = cva(
   "flex items-center justify-center rounded-full font-semibold transition-all duration-200 border-2",
   {
     variants: {
       status: {
-        completed:
-          "bg-success border-success text-white shadow-lg shadow-success/20",
-        current:
-          "bg-primary border-primary text-white shadow-lg shadow-primary/30 scale-110",
+        completed: "bg-success border-success text-white shadow-lg",
+        current: "bg-primary border-primary text-white shadow-lg scale-110",
         pending: "bg-background border-border text-muted-foreground",
-        error:
-          "bg-destructive border-destructive text-white shadow-lg shadow-destructive/20",
+        error: "bg-destructive border-destructive text-white shadow-lg",
       },
       size: {
         sm: "w-8 h-8 text-xs",
@@ -84,14 +93,11 @@ const stepIconVariants = cva(
   }
 );
 
-/**
- * CVA variants for connector line
- */
 const connectorVariants = cva("transition-all duration-300", {
   variants: {
     orientation: {
       horizontal: "h-0.5 flex-1 mx-2 mt-5",
-      vertical: "w-0.5 ml-5 flex-1",
+      vertical: "w-0.5 ml-5 flex-1 absolute top-12 left-5",
     },
     status: {
       completed: "bg-success",
@@ -106,188 +112,183 @@ const connectorVariants = cva("transition-all duration-300", {
   },
 });
 
-/**
- * Ultra-modern Steps component
- *
- * Display a sequence of steps in a process with various styles and orientations.
- * Perfect for multi-step forms, wizards, progress tracking, and onboarding flows.
- *
- * @example
- * ```tsx
- * <Steps
- *   steps={[
- *     { id: 1, title: 'Account', description: 'Create your account' },
- *     { id: 2, title: 'Profile', description: 'Fill in your details' },
- *     { id: 3, title: 'Complete', description: 'Review and submit' },
- *   ]}
- *   current={1}
- *   variant="glass"
- * />
- * ```
- */
-const Steps = React.forwardRef<HTMLDivElement, StepsProps>(
+export const Steps = React.forwardRef<HTMLDivElement, StepsProps>(
   (
     {
-      steps,
-      current = 0,
+      value: controlledValue,
+      defaultValue,
+      onValueChange,
       variant = "default",
       size = "md",
       orientation = "horizontal",
-      showNumbers = true,
-      showConnector = true,
       clickable = false,
-      showDescription = true,
-      onStepClick,
-      renderIcon,
       className,
-      ...props
+      children,
     },
     ref
   ) => {
-    // Determine status for each step
-    const getStepStatus = (index: number): StepStatus => {
-      const step = steps[index];
-      if (step.status) return step.status;
-      if (index < current) return "completed";
-      if (index === current) return "current";
-      return "pending";
-    };
-
-    // Handle step click
-    const handleStepClick = (index: number) => {
-      const step = steps[index];
-      if (!clickable || step.disabled) return;
-      onStepClick?.(index);
-    };
-
-    // Default icon renderer
-    const defaultRenderIcon = (index: number, status: StepStatus) => {
-      const step = steps[index];
-
-      if (step.icon) return step.icon;
-
-      switch (status) {
-        case "completed":
-          return <Check className="w-5 h-5" />;
-        case "error":
-          return <AlertCircle className="w-5 h-5" />;
-        case "current":
-          return showNumbers ? (
-            index + 1
-          ) : (
-            <Circle className="w-3 h-3 fill-current" />
-          );
-        case "pending":
-          return showNumbers ? index + 1 : <Circle className="w-3 h-3" />;
-        default:
-          return index + 1;
+    const [uncontrolledValue, setUncontrolledValue] = useState<string | number>(
+      () => {
+        return defaultValue ?? "";
       }
-    };
+    );
+
+    const value =
+      controlledValue !== undefined ? controlledValue : uncontrolledValue;
+
+    const allSteps: (string | number)[] = [];
+    Children.forEach(children, (child) => {
+      if (isValidElement<StepsItemProps>(child) && child.props.value) {
+        allSteps.push(child.props.value);
+      }
+    });
+
+    const handleValueChange = useCallback(
+      (newValue: string | number) => {
+        if (onValueChange) {
+          onValueChange(newValue);
+        }
+        if (controlledValue === undefined) {
+          setUncontrolledValue(newValue);
+        }
+      },
+      [onValueChange, controlledValue]
+    );
 
     return (
-      <div
-        ref={ref}
-        className={cn(stepsVariants({ variant, orientation }), className)}
-        {...props}
+      <StepsContext.Provider
+        value={{
+          value,
+          onValueChange: handleValueChange,
+          variant,
+          size,
+          orientation,
+          clickable,
+          allSteps,
+        }}
       >
-        {steps.map((step, index) => {
-          const status = getStepStatus(index);
-          const isLast = index === steps.length - 1;
-
-          return (
-            <React.Fragment key={step.id}>
-              <div
-                className={cn(
-                  stepVariants({
-                    orientation,
-                    clickable: clickable && !step.disabled,
-                    disabled: step.disabled,
-                  }),
-                  step.className
-                )}
-                onClick={() => handleStepClick(index)}
-              >
-                {/* Step Icon/Number */}
-                <div
-                  className={cn(
-                    stepIconVariants({ status, size }),
-                    orientation === "vertical" && "shrink-0"
-                  )}
-                >
-                  {renderIcon
-                    ? renderIcon(step, index, status)
-                    : defaultRenderIcon(index, status)}
-                </div>
-
-                {/* Step Content */}
-                <div
-                  className={cn(
-                    "flex flex-col",
-                    orientation === "horizontal"
-                      ? "mt-3 text-center"
-                      : "ml-4 text-left flex-1"
-                  )}
-                >
-                  {/* Title */}
-                  <h4
-                    className={cn(
-                      "font-semibold transition-colors",
-                      status === "current" && "text-primary",
-                      status === "completed" && "text-success",
-                      status === "error" && "text-destructive",
-                      status === "pending" && "text-muted-foreground",
-                      size === "sm" && "text-sm",
-                      size === "md" && "text-base",
-                      size === "lg" && "text-lg"
-                    )}
-                  >
-                    {step.title}
-                  </h4>
-
-                  {/* Description */}
-                  {showDescription && step.description && (
-                    <p
-                      className={cn(
-                        "mt-1 text-muted-foreground",
-                        size === "sm" && "text-xs",
-                        size === "md" && "text-sm",
-                        size === "lg" && "text-base"
-                      )}
-                    >
-                      {step.description}
-                    </p>
-                  )}
-
-                  {/* Optional Content */}
-                  {step.content && status === "current" && (
-                    <div className="mt-3">{step.content}</div>
-                  )}
-                </div>
-
-                {/* Vertical connector */}
-                {orientation === "vertical" && !isLast && showConnector && (
-                  <div className="absolute left-5 top-12 bottom-0">
-                    <div
-                      className={cn(connectorVariants({ orientation, status }))}
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* Horizontal connector */}
-              {orientation === "horizontal" && !isLast && showConnector && (
-                <div
-                  className={cn(connectorVariants({ orientation, status }))}
-                />
-              )}
-            </React.Fragment>
-          );
-        })}
-      </div>
+        <div
+          ref={ref}
+          className={cn(stepsVariants({ variant, orientation }), className)}
+        >
+          {children}
+        </div>
+      </StepsContext.Provider>
     );
   }
 );
 
 Steps.displayName = "Steps";
 
-export default Steps;
+export const StepsItem = React.forwardRef<HTMLDivElement, StepsItemProps>(
+  (
+    {
+      value,
+      title,
+      description,
+      status: providedStatus,
+      icon,
+      disabled = false,
+      className,
+      children,
+    },
+    ref
+  ) => {
+    const {
+      value: currentValue,
+      onValueChange,
+      size,
+      orientation,
+      clickable,
+      allSteps,
+    } = useStepsContext();
+
+    const stepIndex = allSteps.indexOf(value);
+    const currentIndex = allSteps.indexOf(currentValue);
+
+    const autoStatus: StepStatus = providedStatus
+      ? providedStatus
+      : stepIndex < currentIndex
+      ? "completed"
+      : stepIndex === currentIndex
+      ? "current"
+      : "pending";
+
+    const handleClick = () => {
+      if (clickable && !disabled) {
+        onValueChange(value);
+      }
+    };
+
+    const isLast = stepIndex === allSteps.length - 1;
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          stepVariants({ orientation }),
+          clickable && !disabled && "cursor-pointer hover:opacity-80",
+          disabled && "opacity-50 cursor-not-allowed",
+          className
+        )}
+        onClick={handleClick}
+      >
+        <div
+          className={cn(
+            "flex items-center",
+            orientation === "vertical" && "gap-4"
+          )}
+        >
+          <div className={cn(stepIconVariants({ status: autoStatus, size }))}>
+            {icon ? (
+              icon
+            ) : autoStatus === "completed" ? (
+              <Check className="w-4 h-4" />
+            ) : (
+              <span>{stepIndex + 1}</span>
+            )}
+          </div>
+
+          {!isLast && (
+            <div
+              className={cn(
+                connectorVariants({
+                  orientation,
+                  status: stepIndex < currentIndex ? "completed" : "pending",
+                })
+              )}
+            />
+          )}
+        </div>
+
+        <div
+          className={cn(
+            "mt-2 text-center",
+            orientation === "vertical" && "flex-1 mt-0 text-left"
+          )}
+        >
+          <div
+            className={cn(
+              "font-medium transition-colors",
+              autoStatus === "current" && "text-primary",
+              autoStatus === "completed" && "text-foreground",
+              autoStatus === "pending" && "text-muted-foreground"
+            )}
+          >
+            {title}
+          </div>
+          {description && (
+            <div className="text-sm text-muted-foreground mt-1">
+              {description}
+            </div>
+          )}
+          {children && orientation === "vertical" && (
+            <div className="mt-4 text-sm">{children}</div>
+          )}
+        </div>
+      </div>
+    );
+  }
+);
+
+StepsItem.displayName = "StepsItem";

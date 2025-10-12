@@ -574,11 +574,6 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
       }
     };
 
-    const handleToday = () => {
-      const today = new Date();
-      handleDateSelect(today);
-    };
-
     const handleApply = () => {
       onChange(tempRange);
       setIsOpen(false);
@@ -1167,31 +1162,6 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                       variant === "minimal" && "border-base-300"
                     )}
                   >
-                    {showToday && (
-                      <button
-                        type="button"
-                        onClick={handleToday}
-                        className={cn(
-                          "text-sm hover:underline",
-                          variant === "default" && "text-primary",
-                          variant === "primary" && "text-primary",
-                          variant === "secondary" && "text-secondary",
-                          variant === "accent" && "text-accent",
-                          variant === "success" && "text-success",
-                          variant === "warning" && "text-warning",
-                          variant === "danger" && "text-destructive",
-                          variant === "info" && "text-info",
-                          variant === "glass" && "text-primary",
-                          variant === "bordered" && "text-primary",
-                          variant === "elevated" && "text-primary",
-                          variant === "flat" && "text-primary",
-                          variant === "outlined" && "text-base-content",
-                          variant === "minimal" && "text-primary"
-                        )}
-                      >
-                        Today
-                      </button>
-                    )}
                     <div className="flex items-center gap-2 ml-auto">
                       <button
                         type="button"
@@ -1267,54 +1237,6 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                         {configs?.footer?.apply || "Apply"}
                       </button>
                     </div>
-                  </div>
-                )}
-
-                {/* Today button (when no footer) */}
-                {!showFooter && showToday && (
-                  <div
-                    className={cn(
-                      "border-t px-4 py-2",
-                      variant === "default" && "border-base-300",
-                      variant === "primary" && "border-primary/20",
-                      variant === "secondary" && "border-secondary/20",
-                      variant === "accent" && "border-accent/20",
-                      variant === "success" && "border-success/20",
-                      variant === "warning" && "border-warning/20",
-                      variant === "danger" && "border-destructive/20",
-                      variant === "info" && "border-info/20",
-                      variant === "glass" &&
-                        "border-white/40 dark:border-white/20",
-                      variant === "bordered" && "border-base-300",
-                      variant === "elevated" && "border-base-300",
-                      variant === "flat" && "border-base-300",
-                      variant === "outlined" && "border-base-content/20",
-                      variant === "minimal" && "border-base-300"
-                    )}
-                  >
-                    <button
-                      type="button"
-                      onClick={handleToday}
-                      className={cn(
-                        "text-sm hover:underline",
-                        variant === "default" && "text-primary",
-                        variant === "primary" && "text-primary",
-                        variant === "secondary" && "text-secondary",
-                        variant === "accent" && "text-accent",
-                        variant === "success" && "text-success",
-                        variant === "warning" && "text-warning",
-                        variant === "danger" && "text-destructive",
-                        variant === "info" && "text-info",
-                        variant === "glass" && "text-primary",
-                        variant === "bordered" && "text-primary",
-                        variant === "elevated" && "text-primary",
-                        variant === "flat" && "text-primary",
-                        variant === "outlined" && "text-base-content",
-                        variant === "minimal" && "text-primary"
-                      )}
-                    >
-                      Today
-                    </button>
                   </div>
                 )}
               </div>

@@ -6,7 +6,7 @@ import Card, {
   CardContent,
 } from "../components/Card";
 import Button from "../components/Button";
-import ButtonGroup from "../components/ButtonGroup";
+import { ButtonGroup } from "../components/ButtonGroup";
 import { User, Mail } from "lucide-react";
 
 export const DividerExample = () => {

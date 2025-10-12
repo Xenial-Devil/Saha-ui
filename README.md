@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **27 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, Skeleton, Pagination, DatePicker
+- 🎨 **29 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, Skeleton, Pagination, DatePicker, Tab, Input
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -139,41 +139,43 @@ import { cn } from "saha-ui/lib/utils";
 
 ### Overview
 
-| Component       | Description                                                             | Status | CVA |
-| --------------- | ----------------------------------------------------------------------- | ------ | --- |
-| **Button**      | Action buttons with 9 variants and 4 sizes                              | ✅     | ✅  |
-| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts                        | ✅     | ✅  |
-| **Alert**       | Notification messages with 5 variants × 4 statuses                      | ✅     | ✅  |
-| **Badge**       | Status indicators and labels with 9 variants                            | ✅     | ✅  |
-| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing          | ✅     | ✅  |
-| **Card**        | Container with 5 variants and sub-components                            | ✅     | ✅  |
-| **Chip**        | Interactive tags with 5 variants, deletable, and avatars                | ✅     | ✅  |
-| **Divider**     | Content separator with 5 variants and label support                     | ✅     | ✅  |
-| **Accordion**   | Collapsible content with 5 behavior modes                               | ✅     | ✅  |
-| **Avatar**      | User profile images with status indicators                              | ✅     | ✅  |
-| **AvatarGroup** | Grouped avatars with overlap and count                                  | ✅     | ✅  |
-| **Tooltip**     | Contextual hints with 9 variants, 4 triggers, and interactive mode      | ✅     | ✅  |
-| **Link**        | Smart links with 9 variants and icon support                            | ✅     | ✅  |
-| **List**        | Modern lists with 5 variants and icon support                           | ✅     | ✅  |
-| **Timeline**    | Chronological events with 4 variants, positions, and statuses           | ✅     | ✅  |
-| **Tree**        | Hierarchical data with 4 variants, icons, and expand/collapse           | ✅     | ✅  |
-| **Image**       | Advanced image with lazy loading                                        | ✅     | ✅  |
-| **Carousel**    | Image slider with 4 transition effects                                  | ✅     | ✅  |
-| **Steps**       | Progress indicator with 4 variants, horizontal/vertical layouts         | ✅     | ✅  |
-| **Table**       | Data table with sorting, selection, 5 variants, and responsive          | ✅     | ✅  |
-| **Rating**      | Star rating with 6 variants, 4 sizes, multiple icons, half stars        | ✅     | ✅  |
-| **Progress**    | Progress bar with 9 variants, 5 sizes, animations, striped              | ✅     | ✅  |
-| **Popover**     | Rich content popover with 11 variants, 12 positions, 4 triggers         | ✅     | ✅  |
-| **PlayButton**  | Animated play/pause button with 9 variants, 4 sizes, smooth transitions | ✅     | ✅  |
-| **Skeleton**    | Loading placeholder with 5 variants, 4 shapes, customizable animations  | ✅     | ✅  |
-| **Pagination**  | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels | ✅     | ✅  |
-| **DatePicker**  | Calendar date picker with 5 variants, 3 sizes, date restrictions        | ✅     | ✅  |
+| Component       | Description                                                              | Status | CVA |
+| --------------- | ------------------------------------------------------------------------ | ------ | --- |
+| **Button**      | Action buttons with 9 variants and 4 sizes                               | ✅     | ✅  |
+| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts                         | ✅     | ✅  |
+| **Alert**       | Notification messages with 5 variants × 4 statuses                       | ✅     | ✅  |
+| **Badge**       | Status indicators and labels with 9 variants                             | ✅     | ✅  |
+| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing           | ✅     | ✅  |
+| **Card**        | Container with 5 variants and sub-components                             | ✅     | ✅  |
+| **Chip**        | Interactive tags with 5 variants, deletable, and avatars                 | ✅     | ✅  |
+| **Divider**     | Content separator with 5 variants and label support                      | ✅     | ✅  |
+| **Accordion**   | Collapsible content with 5 behavior modes                                | ✅     | ✅  |
+| **Avatar**      | User profile images with status indicators                               | ✅     | ✅  |
+| **AvatarGroup** | Grouped avatars with overlap and count                                   | ✅     | ✅  |
+| **Tooltip**     | Contextual hints with 9 variants, 4 triggers, and interactive mode       | ✅     | ✅  |
+| **Link**        | Smart links with 9 variants and icon support                             | ✅     | ✅  |
+| **List**        | Modern lists with 5 variants and icon support                            | ✅     | ✅  |
+| **Timeline**    | Chronological events with 4 variants, positions, and statuses            | ✅     | ✅  |
+| **Tree**        | Hierarchical data with 4 variants, icons, and expand/collapse            | ✅     | ✅  |
+| **Image**       | Advanced image with lazy loading                                         | ✅     | ✅  |
+| **Carousel**    | Image slider with 4 transition effects                                   | ✅     | ✅  |
+| **Steps**       | Progress indicator with 4 variants, horizontal/vertical layouts          | ✅     | ✅  |
+| **Table**       | Data table with sorting, selection, 5 variants, and responsive           | ✅     | ✅  |
+| **Rating**      | Star rating with 6 variants, 4 sizes, multiple icons, half stars         | ✅     | ✅  |
+| **Progress**    | Progress bar with 9 variants, 5 sizes, animations, striped               | ✅     | ✅  |
+| **Popover**     | Rich content popover with 11 variants, 12 positions, 4 triggers          | ✅     | ✅  |
+| **PlayButton**  | Animated play/pause button with 9 variants, 4 sizes, smooth transitions  | ✅     | ✅  |
+| **Skeleton**    | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
+| **Pagination**  | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels  | ✅     | ✅  |
+| **DatePicker**  | Calendar date picker with 5 variants, 3 sizes, date restrictions         | ✅     | ✅  |
+| **Tab**         | Tab navigation with 14 variants, 3 sizes, icons, badges, disabled states | ✅     | ✅  |
+| **Input**       | Text input with 10 variants, 4 sizes, icons, validation, all input types | ✅     | ✅  |
 
 ---
 
 ## ⚡ Quick Examples
 
-Here are simple examples for all 27 components to get you started quickly:
+Here are simple examples for all 29 components to get you started quickly:
 
 ### Button
 
@@ -567,6 +569,71 @@ import { DatePicker } from "saha-ui";
 <DatePicker variant="primary" size="lg" placeholder="Pick a date" />
 
 <DatePicker minDate={new Date()} maxDate={futureDate} />
+```
+
+### Tab
+
+```tsx
+import { Tab } from "saha-ui";
+
+const tabs = [
+  { label: "Profile", value: "profile" },
+  { label: "Settings", value: "settings" },
+];
+
+<Tab tabs={tabs} value={activeTab} onChange={setActiveTab} />
+
+<Tab tabs={tabs} variant="primary" size="lg" fullWidth />
+
+<Tab
+  tabs={[
+    { label: "Home", value: "home", icon: <HomeIcon /> },
+    { label: "Messages", value: "messages", badge: "5" },
+  ]}
+/>
+```
+
+### Input
+
+```tsx
+import { Input } from "saha-ui";
+import { Mail, Lock } from "lucide-react";
+
+// Basic input
+<Input placeholder="Enter text..." />
+
+// With label and variant
+<Input
+  label="Email"
+  type="email"
+  variant="primary"
+  placeholder="you@example.com"
+/>
+
+// With icons
+<Input
+  label="Search"
+  variant="outline"
+  startIcon={<Mail size={18} />}
+  placeholder="Search..."
+/>
+
+// With validation
+<Input
+  label="Password"
+  type="password"
+  variant="error"
+  error="Password is required"
+  startIcon={<Lock size={18} />}
+/>
+
+// With character counter
+<Input
+  label="Bio"
+  maxLength={100}
+  showCounter
+  helperText="Maximum 100 characters"
+/>
 ```
 
 ---
@@ -3645,6 +3712,375 @@ import { DatePicker } from "saha-ui";
 - ♿ Fully accessible
 - 🚫 Disabled state support
 - 📆 Month/year navigation
+
+---
+
+### Tab
+
+Tab navigation component with comprehensive variant support and flexible content options.
+
+```tsx
+import { Tab } from "saha-ui";
+import type { TabItem } from "saha-ui";
+
+// Basic usage
+const tabs: TabItem[] = [
+  { label: "Profile", value: "profile" },
+  { label: "Settings", value: "settings" },
+  { label: "Notifications", value: "notifications" },
+];
+
+<Tab tabs={tabs} value={activeTab} onChange={setActiveTab} />;
+
+// With icons
+<Tab
+  tabs={[
+    { label: "Home", value: "home", icon: <HomeIcon /> },
+    { label: "Messages", value: "messages", icon: <MessageIcon /> },
+    { label: "Settings", value: "settings", icon: <SettingsIcon /> },
+  ]}
+  variant="primary"
+/>;
+
+// With badges
+<Tab
+  tabs={[
+    { label: "Inbox", value: "inbox", badge: "12" },
+    { label: "Unread", value: "unread", badge: "5" },
+    { label: "Archive", value: "archive" },
+  ]}
+  variant="secondary"
+/>;
+
+// Full width
+<Tab tabs={tabs} variant="outlined" fullWidth />;
+
+// Different sizes
+<Tab tabs={tabs} size="sm" />
+<Tab tabs={tabs} size="md" />
+<Tab tabs={tabs} size="lg" />
+
+// Disabled tabs
+<Tab
+  tabs={[
+    { label: "Active", value: "active" },
+    { label: "Disabled", value: "disabled", disabled: true },
+  ]}
+/>
+
+// All 14 variants
+<Tab tabs={tabs} variant="default" />
+<Tab tabs={tabs} variant="primary" />
+<Tab tabs={tabs} variant="secondary" />
+<Tab tabs={tabs} variant="accent" />
+<Tab tabs={tabs} variant="success" />
+<Tab tabs={tabs} variant="warning" />
+<Tab tabs={tabs} variant="danger" />
+<Tab tabs={tabs} variant="info" />
+<Tab tabs={tabs} variant="glass" />
+<Tab tabs={tabs} variant="bordered" />
+<Tab tabs={tabs} variant="elevated" />
+<Tab tabs={tabs} variant="flat" />
+<Tab tabs={tabs} variant="outlined" />
+<Tab tabs={tabs} variant="minimal" />
+
+// Style examples
+<div className="space-y-4">
+  {/* Boxed style */}
+  <Tab tabs={tabs} variant="primary" />
+
+  {/* Underlined style */}
+  <Tab tabs={tabs} variant="bordered" />
+
+  {/* Pill style */}
+  <Tab tabs={tabs} variant="glass" />
+</div>
+```
+
+**Variants:** `default` `primary` `secondary` `accent` `success` `warning` `danger` `info` `glass` `bordered` `elevated` `flat` `outlined` `minimal`  
+**Sizes:** `sm` `md` `lg`
+
+**Props:**
+
+| Prop                   | Type         | Default          | Description                        |
+| ---------------------- | ------------ | ---------------- | ---------------------------------- |
+| `items`                | `TabItem[]`  | Required         | Array of tab items                 |
+| `value`                | `string`     | `undefined`      | Controlled active tab value        |
+| `defaultValue`         | `string`     | `items[0].value` | Default active tab (uncontrolled)  |
+| `onChange`             | `function`   | `undefined`      | Callback when tab changes          |
+| `variant`              | `TabVariant` | `'default'`      | Visual variant                     |
+| `size`                 | `TabSize`    | `'md'`           | Size variant                       |
+| `fullWidth`            | `boolean`    | `false`          | Make tabs full width               |
+| `className`            | `string`     | `undefined`      | Custom className for container     |
+| `tabClassName`         | `string`     | `undefined`      | Custom className for all tab items |
+| `activeTabClassName`   | `string`     | `undefined`      | Custom className for active tab    |
+| `disabledTabClassName` | `string`     | `undefined`      | Custom className for disabled tabs |
+| `iconClassName`        | `string`     | `undefined`      | Custom className for icon wrapper  |
+| `badgeClassName`       | `string`     | `undefined`      | Custom className for badge         |
+| `activeBadgeClassName` | `string`     | `undefined`      | Custom className for active badge  |
+
+**TabItem Type:**
+
+```typescript
+interface TabItem {
+  label: string; // Tab label text
+  value: string; // Unique tab identifier
+  icon?: ReactNode; // Optional icon element
+  disabled?: boolean; // Disable the tab
+  badge?: string | number; // Optional badge content
+  className?: string; // Custom className for this tab
+  iconClassName?: string; // Custom className for this tab's icon
+  badgeClassName?: string; // Custom className for this tab's badge
+}
+```
+
+**Customization Examples:**
+
+```tsx
+// Custom container with rounded-full
+<Tab items={tabs} className="rounded-full p-2 shadow-xl" />
+
+// Underline style tabs
+<Tab
+  items={tabs}
+  variant="minimal"
+  className="gap-4 p-0 bg-transparent border-b-2 border-base-300"
+  tabClassName="rounded-none border-b-2 border-transparent pb-3"
+  activeTabClassName="!border-primary !text-primary !bg-transparent"
+/>
+
+// Per-item custom styling
+<Tab
+  items={[
+    {
+      label: "Red Tab",
+      value: "red",
+      className: "data-[active=true]:bg-red-500 data-[active=true]:text-white"
+    },
+    // ... more tabs
+  ]}
+/>
+
+// Custom gradient badges
+<Tab
+  items={[{ label: "Inbox", value: "inbox", badge: 12 }]}
+  badgeClassName="bg-gradient-to-r from-pink-500 to-purple-500"
+  activeBadgeClassName="!bg-gradient-to-r !from-yellow-400 !to-orange-500"
+/>
+
+// Vertical tabs (mobile)
+<Tab
+  items={tabs}
+  className="flex-col sm:flex-row"
+  tabClassName="w-full sm:w-auto justify-start"
+/>
+
+// Pill style
+<Tab
+  items={tabs}
+  className="gap-3 p-0 bg-transparent"
+  tabClassName="rounded-full px-6 py-3 shadow-md"
+  activeTabClassName="scale-105 shadow-lg"
+/>
+```
+
+**Features:**
+
+- 🎨 14 visual variants matching design system
+- 📐 3 size options (sm, md, lg)
+- 🎯 Controlled and uncontrolled modes
+- 🖼️ Icon support in tabs
+- 🔔 Badge indicators for notifications
+- 🚫 Disabled tab states
+- 📱 Full width responsive layout
+- ⌨️ Keyboard navigation (arrow keys)
+- 🎭 Smooth transitions
+- 🌓 Theme-aware styling
+- ♿ ARIA-compliant accessibility
+- 🎪 Active state indicators
+- ✨ Hover effects
+- 🔄 Flexible content with icons/badges
+- 🎨 **Fully customizable with Tailwind classes**
+- 💅 **Per-item styling support**
+- 🔧 **No SCSS required - pure Tailwind**
+
+---
+
+### Input
+
+Flexible and customizable input field component with comprehensive variant support and validation states.
+
+```tsx
+import { Input } from "saha-ui";
+import { Mail, Lock, Search, User } from "lucide-react";
+
+// Basic input
+<Input placeholder="Enter text..." />
+
+// With label and helper text
+<Input
+  label="Email"
+  type="email"
+  placeholder="you@example.com"
+  helperText="We'll never share your email"
+/>
+
+// Different variants
+<Input variant="primary" placeholder="Primary input" />
+<Input variant="secondary" placeholder="Secondary input" />
+<Input variant="accent" placeholder="Accent input" />
+<Input variant="success" placeholder="Success input" />
+<Input variant="warning" placeholder="Warning input" />
+<Input variant="error" placeholder="Error input" />
+<Input variant="outline" placeholder="Outline input (default)" />
+<Input variant="ghost" placeholder="Ghost input" />
+<Input variant="glass" placeholder="Glass morphism input" />
+
+// With icons
+<Input
+  label="Search"
+  startIcon={<Search size={18} />}
+  placeholder="Search..."
+/>
+
+<Input
+  label="Email"
+  type="email"
+  startIcon={<Mail size={18} />}
+  placeholder="you@example.com"
+/>
+
+// With validation
+<Input
+  label="Password"
+  type="password"
+  variant="error"
+  error="Password must be at least 8 characters"
+  startIcon={<Lock size={18} />}
+/>
+
+<Input
+  label="Username"
+  variant="success"
+  defaultValue="johndoe"
+  helperText="Username is available!"
+  startIcon={<User size={18} />}
+/>
+
+// Character counter
+<Input
+  label="Bio"
+  placeholder="Tell us about yourself..."
+  maxLength={100}
+  showCounter
+  helperText="Maximum 100 characters"
+/>
+
+// Different sizes
+<Input size="sm" placeholder="Small input" />
+<Input size="md" placeholder="Medium input (default)" />
+<Input size="lg" placeholder="Large input" />
+<Input size="xl" placeholder="Extra large input" />
+
+// Full width
+<Input
+  fullWidth
+  label="Full Name"
+  placeholder="Enter your full name"
+/>
+
+// All input types (except file)
+<Input type="text" placeholder="Text input" />
+<Input type="email" placeholder="Email input" />
+<Input type="password" placeholder="Password input" />
+<Input type="number" placeholder="Number input" />
+<Input type="tel" placeholder="Phone input" />
+<Input type="url" placeholder="URL input" />
+<Input type="search" placeholder="Search input" />
+<Input type="date" />
+<Input type="time" />
+<Input type="color" />
+
+// Required field
+<Input
+  label="Username"
+  placeholder="Enter username"
+  required
+/>
+
+// Disabled
+<Input
+  label="Disabled Input"
+  placeholder="Cannot edit"
+  disabled
+/>
+
+// Login form example
+<div className="space-y-4">
+  <Input
+    fullWidth
+    label="Email"
+    type="email"
+    variant="glass"
+    startIcon={<Mail size={18} />}
+    placeholder="you@example.com"
+    required
+  />
+  <Input
+    fullWidth
+    label="Password"
+    type="password"
+    variant="glass"
+    startIcon={<Lock size={18} />}
+    placeholder="Enter your password"
+    required
+  />
+</div>
+```
+
+**Variants:** `primary` `secondary` `accent` `info` `success` `warning` `error` `outline` `ghost` `glass`  
+**Sizes:** `sm` `md` `lg` `xl`  
+**Input Types:** All HTML input types except `file`
+
+**Props:**
+
+| Prop                  | Type          | Default     | Description                              |
+| --------------------- | ------------- | ----------- | ---------------------------------------- |
+| `variant`             | `InputVariant`| `'outline'` | Visual variant                           |
+| `size`                | `InputSize`   | `'md'`      | Size variant                             |
+| `type`                | `InputType`   | `'text'`    | HTML input type (excludes file)          |
+| `label`               | `string`      | `undefined` | Label text for the input                 |
+| `helperText`          | `string`      | `undefined` | Helper text below input                  |
+| `error`               | `string`      | `undefined` | Error message (overrides helperText)     |
+| `startIcon`           | `ReactNode`   | `undefined` | Icon on the left side                    |
+| `endIcon`             | `ReactNode`   | `undefined` | Icon on the right side                   |
+| `showCounter`         | `boolean`     | `false`     | Show character counter (needs maxLength) |
+| `required`            | `boolean`     | `false`     | Mark field as required                   |
+| `fullWidth`           | `boolean`     | `false`     | Full width styling                       |
+| `containerClassName`  | `string`      | `undefined` | Custom className for container           |
+| `labelClassName`      | `string`      | `undefined` | Custom className for label               |
+| `disabled`            | `boolean`     | `false`     | Disable the input                        |
+| `maxLength`           | `number`      | `undefined` | Maximum character length                 |
+| `...props`            | `InputHTMLAttributes` | - | All standard input attributes            |
+
+**Features:**
+
+- 🎨 10 visual variants matching design system
+- 📐 4 size options (sm, md, lg, xl)
+- 🔤 Supports all HTML input types except file
+- 🖼️ Icon support (start and end positions)
+- ✅ Built-in validation states
+- 📝 Character counter with maxLength
+- 💬 Helper text and error messaging
+- ⚠️ Required field indicators
+- 📱 Full width responsive option
+- ⌨️ Standard input attributes support
+- 🎭 Smooth transitions and focus states
+- 🌓 Theme-aware styling
+- ♿ Accessible with proper labels
+- 🔒 Type-safe with TypeScript
+- 🎪 Hover and focus effects
+- 🔧 **No SCSS required - pure Tailwind**
 
 ---
 

@@ -8,7 +8,8 @@ export type PaginationVariant =
   | "primary"
   | "secondary"
   | "outlined"
-  | "minimal";
+  | "minimal"
+  | "glass";
 
 /**
  * Pagination size types
