@@ -18,7 +18,7 @@
     <a href="#-installation">Installation</a> •
     <a href="#-features">Features</a> •
     <a href="#-components">Components</a> •
-    <a href="#-usage">Usage</a> •
+    <a href="#-quick-examples">Quick Examples</a> •
     <a href="#-documentation">Documentation</a>
   </p>
 </div>
@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **14 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Image, Carousel
+- 🎨 **17 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Image, Carousel
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -139,22 +139,272 @@ import { cn } from "saha-ui/lib/utils";
 
 ### Overview
 
-| Component       | Description                                                    | Status | CVA |
-| --------------- | -------------------------------------------------------------- | ------ | --- |
-| **Button**      | Action buttons with 8 variants and 4 sizes                     | ✅     | ✅  |
-| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts               | ✅     | ✅  |
-| **Alert**       | Notification messages with 5 variants × 4 statuses             | ✅     | ✅  |
-| **Badge**       | Status indicators and labels with 9 variants                   | ✅     | ✅  |
-| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing | ✅     | ✅  |
-| **Card**        | Container with 5 variants and sub-components                   | ✅     | ✅  |
-| **Accordion**   | Collapsible content with 5 behavior modes                      | ✅     | ✅  |
-| **Avatar**      | User profile images with status indicators                     | ✅     | ✅  |
-| **AvatarGroup** | Grouped avatars with overlap and count                         | ✅     | ✅  |
-| **Tooltip**     | Contextual hints with 5 variants                               | ✅     | ✅  |
-| **Link**        | Smart links with 9 variants and icon support                   | ✅     | ✅  |
-| **List**        | Modern lists with 5 variants and icon support                  | ✅     | ✅  |
-| **Image**       | Advanced image with lazy loading                               | ✅     | ✅  |
-| **Carousel**    | Image slider with 4 transition effects                         | ✅     | ✅  |
+| Component       | Description                                                        | Status | CVA |
+| --------------- | ------------------------------------------------------------------ | ------ | --- |
+| **Button**      | Action buttons with 9 variants and 4 sizes                         | ✅     | ✅  |
+| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts                   | ✅     | ✅  |
+| **Alert**       | Notification messages with 5 variants × 4 statuses                 | ✅     | ✅  |
+| **Badge**       | Status indicators and labels with 9 variants                       | ✅     | ✅  |
+| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing     | ✅     | ✅  |
+| **Card**        | Container with 5 variants and sub-components                       | ✅     | ✅  |
+| **Chip**        | Interactive tags with 5 variants, deletable, and avatars           | ✅     | ✅  |
+| **Divider**     | Content separator with 5 variants and label support                | ✅     | ✅  |
+| **Accordion**   | Collapsible content with 5 behavior modes                          | ✅     | ✅  |
+| **Avatar**      | User profile images with status indicators                         | ✅     | ✅  |
+| **AvatarGroup** | Grouped avatars with overlap and count                             | ✅     | ✅  |
+| **Tooltip**     | Contextual hints with 9 variants, 4 triggers, and interactive mode | ✅     | ✅  |
+| **Link**        | Smart links with 9 variants and icon support                       | ✅     | ✅  |
+| **List**        | Modern lists with 5 variants and icon support                      | ✅     | ✅  |
+| **Timeline**    | Chronological events with 4 variants, positions, and statuses      | ✅     | ✅  |
+| **Image**       | Advanced image with lazy loading                                   | ✅     | ✅  |
+| **Carousel**    | Image slider with 4 transition effects                             | ✅     | ✅  |
+
+---
+
+## ⚡ Quick Examples
+
+Here are simple examples for all 16 components to get you started quickly:
+
+### Button
+
+```tsx
+import { Button } from "saha-ui";
+
+<Button variant="primary">Click Me</Button>
+<Button variant="ghost" size="sm">Small Ghost</Button>
+```
+
+### ButtonGroup
+
+```tsx
+import { ButtonGroup, Button } from "saha-ui";
+
+<ButtonGroup>
+  <Button variant="primary">Save</Button>
+  <Button variant="ghost">Cancel</Button>
+</ButtonGroup>;
+```
+
+### Alert
+
+```tsx
+import { Alert } from "saha-ui";
+
+<Alert status="success">Operation completed successfully!</Alert>
+<Alert status="error" variant="filled" dismissible>
+  Error occurred!
+</Alert>
+```
+
+### Badge
+
+```tsx
+import { Badge } from "saha-ui";
+
+<Badge variant="primary">New</Badge>
+<Badge variant="success" dot pulse>Online</Badge>
+<Badge removable onRemove={() => console.log('removed')}>Tag</Badge>
+```
+
+### Breadcrumb
+
+```tsx
+import { Breadcrumb } from "saha-ui";
+
+const items = [
+  { label: 'Home', href: '/' },
+  { label: 'Products', href: '/products' },
+  { label: 'Details', href: '/products/123' }
+];
+
+<Breadcrumb items={items} />
+<Breadcrumb items={items} variant="pills" separator="arrow" />
+```
+
+### Card
+
+```tsx
+import { Card, CardHeader, CardTitle, CardContent } from "saha-ui";
+
+<Card variant="glass" hoverable>
+  <CardHeader>
+    <CardTitle>Card Title</CardTitle>
+  </CardHeader>
+  <CardContent>Your content here</CardContent>
+</Card>;
+```
+
+### Chip
+
+```tsx
+import { Chip } from "saha-ui";
+
+<Chip color="primary">JavaScript</Chip>
+<Chip deletable onDelete={() => console.log('deleted')}>
+  Remove me
+</Chip>
+<Chip clickable onClick={() => alert('clicked')}>
+  Click me
+</Chip>
+```
+
+### Divider
+
+```tsx
+import { Divider } from "saha-ui";
+
+<Divider />
+<Divider label="OR" />
+<Divider variant="gradient" thickness="medium" />
+<Divider orientation="vertical" className="h-24" />
+```
+
+### Accordion
+
+```tsx
+import { Accordion } from "saha-ui";
+
+const items = [
+  {
+    title: 'Section 1',
+    content: 'Content for section 1'
+  },
+  {
+    title: 'Section 2',
+    content: 'Content for section 2'
+  }
+];
+
+<Accordion items={items} />
+<Accordion items={items} variant="bordered" defaultOpen={[0]} />
+```
+
+### Avatar
+
+```tsx
+import { Avatar } from "saha-ui";
+
+<Avatar src="/user.jpg" alt="John" />
+<Avatar name="Jane Doe" size="lg" />
+<Avatar name="Bob" status="online" />
+```
+
+### AvatarGroup
+
+```tsx
+import { AvatarGroup, Avatar } from "saha-ui";
+
+<AvatarGroup max={3}>
+  <Avatar name="Alice" />
+  <Avatar name="Bob" />
+  <Avatar name="Carol" />
+  <Avatar name="Dave" />
+</AvatarGroup>;
+```
+
+### Tooltip
+
+```tsx
+import { Tooltip } from "saha-ui";
+
+// Basic tooltip
+<Tooltip content="This is a tooltip">
+  <Button>Hover me</Button>
+</Tooltip>
+
+// With variant and position
+<Tooltip content="Success message!" variant="success" position="right">
+  <Badge variant="success">Active</Badge>
+</Tooltip>
+
+// Interactive tooltip with click trigger
+<Tooltip
+  content={<div>Click <a href="#">here</a> for more</div>}
+  interactive={true}
+  trigger="click"
+  variant="glass"
+>
+  <Button>Click Me</Button>
+</Tooltip>
+```
+
+### Link
+
+```tsx
+import { Link } from "saha-ui";
+
+<Link href="/about">About Us</Link>
+<Link href="https://example.com" variant="primary" external>
+  External Link
+</Link>
+<Link href="/contact" showIcon>Contact</Link>
+```
+
+### List
+
+```tsx
+import { List } from "saha-ui";
+
+const items = [
+  { id: 1, content: 'First item' },
+  { id: 2, content: 'Second item' },
+  { id: 3, content: 'Third item' }
+];
+
+<List items={items} />
+<List items={items} variant="bordered" />
+```
+
+### Timeline
+
+```tsx
+import { Timeline } from "saha-ui";
+import { Rocket, Package, Check } from "lucide-react";
+
+const events = [
+  { id: 1, title: 'Project Started', description: 'Initial setup', time: '2 hours ago', icon: Rocket },
+  { id: 2, title: 'Development', description: 'Building features', time: '1 hour ago', icon: Package, status: 'primary' as const },
+  { id: 3, title: 'Completed', description: 'Ready to deploy', time: 'Just now', icon: Check, status: 'success' as const }
+];
+
+<Timeline items={events} />
+<Timeline items={events} variant="gradient" position="alternate" />
+```
+
+### Image
+
+```tsx
+import { Image } from "saha-ui";
+
+<Image
+  src="/photo.jpg"
+  alt="Description"
+  variant="rounded"
+/>
+
+<Image
+  src="/photo.jpg"
+  alt="Description"
+  fit="cover"
+  size="lg"
+  loading="lazy"
+/>
+```
+
+### Carousel
+
+```tsx
+import { Carousel } from "saha-ui";
+
+const images = [
+  { src: '/image1.jpg', alt: 'Image 1' },
+  { src: '/image2.jpg', alt: 'Image 2' },
+  { src: '/image3.jpg', alt: 'Image 3' }
+];
+
+<Carousel images={images} />
+<Carousel images={images} effect="fade" autoplay />
+```
 
 ---
 
@@ -162,9 +412,9 @@ import { cn } from "saha-ui/lib/utils";
 
 ### Button
 
-Action buttons with modern effects and 8 visual variants.
+Action buttons with modern effects and 9 visual variants.
 
-**Variants:** `primary` `secondary` `accent` `success` `warning` `error` `ghost` `glass`
+**Variants:** `primary` `secondary` `accent` `success` `warning` `error` `outline` `ghost` `glass`
 **Sizes:** `sm` `md` `lg` `xl`
 
 ```tsx
@@ -630,6 +880,378 @@ const customClass = cardVariants({ variant: 'glass-strong', padding: 'xl', round
 
 ---
 
+### Chip
+
+Interactive tag component with multiple variants, deletable functionality, and icon/avatar support.
+
+**Variants:** `filled` `outlined` `soft` `gradient` `glass`  
+**Colors:** `default` `primary` `secondary` `success` `warning` `error` `info`  
+**Sizes:** `sm` `md` `lg`
+
+```tsx
+import { Chip } from "saha-ui";
+
+// Basic chip
+<Chip>JavaScript</Chip>
+
+// With color and variant
+<Chip color="primary" variant="filled">Premium</Chip>
+
+// Deletable chip
+<Chip deletable onDelete={() => console.log('deleted')}>
+  Remove me
+</Chip>
+
+// With icon
+import { Tag } from "lucide-react";
+<Chip icon={<Tag size={14} />} color="success">
+  Tagged
+</Chip>
+
+// With avatar
+<Chip avatar={<Avatar size="xs" src="..." />}>
+  John Doe
+</Chip>
+
+// Clickable chip
+<Chip clickable onClick={() => console.log('clicked')}>
+  Click me
+</Chip>
+
+// Different sizes
+<Chip size="sm">Small</Chip>
+<Chip size="lg">Large</Chip>
+
+// Disabled state
+<Chip disabled color="error">Disabled</Chip>
+
+// Combined features
+<Chip
+  avatar={<Avatar size="xs" name="Alice" />}
+  deletable
+  onDelete={() => handleRemove()}
+  color="primary"
+  variant="outlined"
+>
+  Alice
+</Chip>
+```
+
+**Features:**
+
+- ✨ **5 Modern Variants** - filled, outlined, soft, gradient, glass
+- 🎨 **7 Color Options** - comprehensive color palette
+- 📏 **3 Size Options** - sm, md, lg for different contexts
+- 🗑️ **Deletable** - built-in close button with callback
+- 🖼️ **Avatar Support** - integrate user avatars seamlessly
+- 🎯 **Icon Support** - add icons for visual context
+- 👆 **Clickable** - interactive chips with hover effects
+- ♿ **Accessible** - keyboard navigation and ARIA support
+- 🎭 **CVA Powered** - type-safe variant composition
+- 🌓 **Dark Mode** - fully themed for light and dark modes
+- 💫 **Interactive States** - hover, active, and disabled states
+
+**Variant Details:**
+
+- **filled** - Solid background with vibrant colors (default)
+- **outlined** - Border-only design with transparent background
+- **soft** - Subtle background with soft color tones
+- **gradient** - Gradient background with depth
+- **glass** - Glassmorphism effect with backdrop blur
+
+**Props:**
+
+```tsx
+interface ChipProps {
+  variant?: "filled" | "outlined" | "soft" | "gradient" | "glass";
+  color?:
+    | "default"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "warning"
+    | "error"
+    | "info";
+  size?: "sm" | "md" | "lg";
+  icon?: React.ReactNode; // Optional icon at start
+  avatar?: React.ReactNode; // Optional avatar at start
+  deletable?: boolean; // Show delete button
+  onDelete?: () => void; // Delete callback
+  disabled?: boolean; // Disable interactions
+  clickable?: boolean; // Enable click interactions
+  onClick?: () => void; // Click handler
+  className?: string;
+}
+```
+
+**Advanced Usage:**
+
+```tsx
+// Tag management system
+<div className="flex flex-wrap gap-2">
+  {tags.map((tag) => (
+    <Chip
+      key={tag.id}
+      deletable
+      onDelete={() => removeTag(tag.id)}
+      color="primary"
+      variant="soft"
+    >
+      {tag.name}
+    </Chip>
+  ))}
+</div>
+
+// User selection with avatars
+<div className="flex flex-wrap gap-2">
+  {selectedUsers.map((user) => (
+    <Chip
+      key={user.id}
+      avatar={<Avatar size="xs" src={user.avatar} name={user.name} />}
+      deletable
+      onDelete={() => removeUser(user.id)}
+      variant="outlined"
+      color="primary"
+    >
+      {user.name}
+    </Chip>
+  ))}
+</div>
+
+// Filter chips
+<div className="flex flex-wrap gap-2">
+  <Chip
+    clickable
+    onClick={() => setFilter('all')}
+    color={filter === 'all' ? 'primary' : 'default'}
+    variant={filter === 'all' ? 'filled' : 'outlined'}
+  >
+    All
+  </Chip>
+  <Chip
+    clickable
+    onClick={() => setFilter('active')}
+    color={filter === 'active' ? 'success' : 'default'}
+    variant={filter === 'active' ? 'filled' : 'outlined'}
+  >
+    Active
+  </Chip>
+  <Chip
+    clickable
+    onClick={() => setFilter('pending')}
+    color={filter === 'pending' ? 'warning' : 'default'}
+    variant={filter === 'pending' ? 'filled' : 'outlined'}
+  >
+    Pending
+  </Chip>
+</div>
+
+// Technology stack showcase
+<div className="space-y-3">
+  <div>
+    <p className="text-sm font-medium mb-2">Frontend</p>
+    <div className="flex flex-wrap gap-2">
+      <Chip icon={<Code size={14} />} color="info" variant="soft">React</Chip>
+      <Chip icon={<Code size={14} />} color="info" variant="soft">Vue</Chip>
+      <Chip icon={<Code size={14} />} color="info" variant="soft">Angular</Chip>
+    </div>
+  </div>
+  <div>
+    <p className="text-sm font-medium mb-2">Backend</p>
+    <div className="flex flex-wrap gap-2">
+      <Chip icon={<Server size={14} />} color="success" variant="soft">Node.js</Chip>
+      <Chip icon={<Server size={14} />} color="success" variant="soft">Python</Chip>
+      <Chip icon={<Server size={14} />} color="success" variant="soft">Go</Chip>
+    </div>
+  </div>
+</div>
+```
+
+**CVA Integration:**
+
+```tsx
+import { chipVariants } from "saha-ui";
+
+// Use exported variants for custom styling
+const customChipClass = chipVariants({
+  variant: "gradient",
+  color: "primary",
+  size: "lg",
+  clickable: true,
+});
+```
+
+---
+
+### Divider
+
+Content separator component with 5 modern variants, optional labels, and decorative elements.
+
+**Variants:** `solid` `dashed` `dotted` `gradient` `glass`  
+**Orientation:** `horizontal` `vertical`  
+**Thickness:** `thin` `medium` `thick`  
+**Spacing:** `none` `xs` `sm` `md` `lg` `xl`
+
+```tsx
+import { Divider } from "saha-ui";
+
+// Basic divider
+<Divider />
+
+// With label
+<Divider label="OR" />
+
+// Gradient variant
+<Divider variant="gradient" thickness="medium" />
+
+// Vertical divider
+<div className="flex items-center h-24">
+  <div>Section 1</div>
+  <Divider orientation="vertical" className="h-full" />
+  <div>Section 2</div>
+</div>
+
+// Decorative with label
+<Divider label="Continue Reading" decorative />
+
+// Custom positioning
+<Divider label="Section Start" labelPosition="left" variant="dashed" />
+
+// Different thickness
+<Divider thickness="thick" variant="solid" />
+
+// Custom spacing
+<Divider spacing="xl" variant="gradient" />
+```
+
+**Features:**
+
+- ✨ **5 Modern Variants** - solid, dashed, dotted, gradient, glass
+- 🔄 **Dual Orientation** - horizontal and vertical support
+- 📏 **3 Thickness Options** - thin, medium, thick
+- 🏷️ **Label Support** - optional text labels with positioning
+- ⭐ **Decorative Elements** - sparkle icons for emphasis
+- 📐 **Flexible Spacing** - 6 spacing options (none to xl)
+- 🎨 **Theme-Aware** - OKLCH colors with dark mode support
+- ♿ **Accessible** - semantic HTML with ARIA roles
+- 🎭 **CVA Powered** - type-safe variant composition
+- 📱 **Responsive** - works in any layout context
+
+**Variant Details:**
+
+- **solid** - Clean solid line (default)
+- **dashed** - Dashed line pattern
+- **dotted** - Dotted line pattern
+- **gradient** - Smooth gradient transition from transparent to border color
+- **glass** - Glassmorphism effect with backdrop blur
+
+**Props:**
+
+```tsx
+interface DividerProps {
+  variant?: "solid" | "dashed" | "dotted" | "gradient" | "glass";
+  orientation?: "horizontal" | "vertical";
+  thickness?: "thin" | "medium" | "thick";
+  spacing?: "none" | "xs" | "sm" | "md" | "lg" | "xl";
+  label?: React.ReactNode; // Optional label content
+  labelPosition?: "left" | "center" | "right";
+  decorative?: boolean; // Add sparkle icons
+  className?: string;
+}
+```
+
+**Advanced Usage:**
+
+```tsx
+// In forms - separating auth methods
+<Card>
+  <CardContent>
+    <Button variant="primary" className="w-full">
+      Sign in with Email
+    </Button>
+
+    <Divider label="OR" variant="gradient" spacing="sm" />
+
+    <Button variant="outline" className="w-full">
+      Continue with GitHub
+    </Button>
+  </CardContent>
+</Card>
+
+// Content sections with labels
+<article>
+  <p>Introduction paragraph...</p>
+
+  <Divider
+    label="Section 1"
+    labelPosition="left"
+    variant="dashed"
+    spacing="lg"
+  />
+
+  <p>Main content...</p>
+
+  <Divider
+    label="Conclusion"
+    labelPosition="left"
+    variant="dashed"
+    spacing="lg"
+  />
+
+  <p>Summary...</p>
+
+  <Divider decorative spacing="lg" variant="gradient" />
+</article>
+
+// Vertical layout sections
+<div className="flex h-64">
+  <div className="flex-1">Left Panel</div>
+  <Divider
+    orientation="vertical"
+    variant="gradient"
+    className="h-full"
+  />
+  <div className="flex-1">Right Panel</div>
+</div>
+
+// Dashboard sections
+<div className="flex gap-4 h-48">
+  <Card className="flex-1">Stats 1</Card>
+  <Divider orientation="vertical" variant="glass" className="h-full" />
+  <Card className="flex-1">Stats 2</Card>
+  <Divider orientation="vertical" variant="glass" className="h-full" />
+  <Card className="flex-1">Stats 3</Card>
+</div>
+```
+
+**CVA Integration:**
+
+```tsx
+import {
+  dividerVariants,
+  dividerLineVariants,
+  dividerLabelVariants,
+} from "saha-ui";
+
+// Use exported variants for custom styling
+const customContainerClass = dividerVariants({
+  orientation: "horizontal",
+  spacing: "lg",
+});
+
+const customLineClass = dividerLineVariants({
+  variant: "gradient",
+  orientation: "horizontal",
+  thickness: "medium",
+});
+
+const customLabelClass = dividerLabelVariants({
+  orientation: "horizontal",
+});
+```
+
+---
+
 ### Accordion
 
 Collapsible content sections with smooth animations and multiple behavior modes.
@@ -733,33 +1355,229 @@ import { AvatarGroup } from "saha-ui";
 
 ### Tooltip
 
-Contextual hints with smart positioning and delays.
+Contextual hints and information with smart positioning, multiple trigger types, and interactive capabilities.
 
-**Variants:** `default` `dark` `light` `glass` `primary`  
+**Variants:** `default` `dark` `light` `glass` `primary` `success` `warning` `error` `info`  
 **Positions:** `top` `bottom` `left` `right`  
-**Sizes:** `sm` `md` `lg`
+**Sizes:** `sm` `md` `lg`  
+**Triggers:** `hover` `click` `focus` `manual`
 
 ```tsx
 import { Tooltip } from "saha-ui";
 
+// Basic tooltip
 <Tooltip
   content="This is helpful information"
   position="top"
   variant="glass"
-  size="md"
-  delay={200}
-  arrow
 >
   <Button>Hover me</Button>
-</Tooltip>;
+</Tooltip>
+
+// Status tooltips
+<Tooltip content="All systems operational" variant="success">
+  <Badge variant="success">Active</Badge>
+</Tooltip>
+
+<Tooltip content="Warning: Check this!" variant="warning" position="right">
+  <span className="cursor-help">⚠</span>
+</Tooltip>
+
+// Interactive tooltip with click trigger
+<Tooltip
+  content={
+    <div className="space-y-2">
+      <p className="font-semibold">Interactive Content</p>
+      <Button size="sm">Click Me</Button>
+    </div>
+  }
+  interactive={true}
+  trigger="click"
+  variant="glass"
+  maxWidth="200px"
+>
+  <Button>Click for Options</Button>
+</Tooltip>
+
+// Controlled tooltip
+const [open, setOpen] = useState(false);
+<Tooltip
+  content="Controlled tooltip"
+  open={open}
+  onOpenChange={setOpen}
+  trigger="manual"
+>
+  <Button onClick={() => setOpen(!open)}>Toggle</Button>
+</Tooltip>
+
+// Help icon tooltips
+<div className="flex items-center gap-2">
+  <span>Username</span>
+  <Tooltip
+    content="Enter your unique username (3-20 characters)"
+    variant="info"
+    size="sm"
+  >
+    <span className="cursor-help text-muted-foreground">ⓘ</span>
+  </Tooltip>
+</div>
+
+// Custom delay and no arrow
+<Tooltip
+  content="Appears after 1 second"
+  delay={1000}
+  arrow={false}
+  variant="primary"
+>
+  <Button>Delayed Tooltip</Button>
+</Tooltip>
 ```
+
+**Variants:**
+
+- **default** - Standard tooltip with card background and subtle shadow
+- **dark** - Dark theme tooltip with deep gray background
+- **light** - Light theme tooltip, bright background
+- **glass** - Glass morphism effect with backdrop blur
+- **primary** - Primary color with brand styling
+- **success** - Green success indicator
+- **warning** - Yellow warning indicator
+- **error** - Red error indicator
+- **info** - Blue information indicator
 
 **Features:**
 
-- ⏱️ Configurable delay (default 200ms)
-- ➡️ Optional arrow pointer
-- 🎨 5 beautiful variants
-- 🔮 Glass morphism support
+- 🎨 **9 Modern Variants** - Each optimized for different contexts
+- 📍 **4 Positions** - Top, bottom, left, right with smart alignment
+- 🖱️ **4 Trigger Types** - Hover, click, focus, or manual control
+- ⏱️ **Configurable Delay** - Customizable show delay (default 200ms)
+- ➡️ **Optional Arrow** - Pointing arrow for better UX
+- 💫 **Interactive Mode** - Allow interaction with tooltip content
+- 🎯 **Controlled Mode** - Programmatic control via props
+- 📏 **3 Sizes** - sm, md, lg with responsive text
+- 🔮 **Glass Effects** - Beautiful backdrop blur and transparency
+- 🌙 **Dark Mode** - Optimized for both light and dark themes
+- ♿ **Accessible** - Proper ARIA attributes and keyboard support
+- 📦 **Tree-Shakeable** - Import only what you need
+- 🎭 **Custom Styling** - ClassName props for tooltip and wrapper
+- 📐 **Adjustable Offset** - Control distance from trigger element
+- 🚫 **Disable Option** - Conditionally disable tooltips
+- � **Type-Safe** - Full CVA integration with exported variants
+
+**Props:**
+
+- `content`: ReactNode - Tooltip content (required)
+- `children`: ReactNode - Trigger element (required)
+- `variant`: 'default' | 'dark' | 'light' | 'glass' | 'primary' | 'success' | 'warning' | 'error' | 'info' (default: 'default')
+- `position`: 'top' | 'bottom' | 'left' | 'right' (default: 'top')
+- `size`: 'sm' | 'md' | 'lg' (default: 'md')
+- `trigger`: 'hover' | 'click' | 'focus' | 'manual' (default: 'hover')
+- `delay`: number - Show delay in ms (default: 200)
+- `arrow`: boolean - Show arrow pointer (default: true)
+- `interactive`: boolean - Allow interaction with content (default: false)
+- `open`: boolean - Controlled open state
+- `onOpenChange`: (open: boolean) => void - Open state change callback
+- `tooltipClassName`: string - Custom tooltip content class
+- `wrapperClassName`: string - Custom wrapper class
+- `maxWidth`: string - Maximum width (default: '320px')
+- `offset`: number - Distance from trigger in px (default: 8)
+- `disabled`: boolean - Disable tooltip (default: false)
+- `className`: string - Additional CSS classes
+
+**Advanced Usage:**
+
+```tsx
+// Help system with different variants
+const HelpTooltips = () => (
+  <div className="space-y-4">
+    <div className="flex items-center gap-2">
+      <span>Email</span>
+      <Tooltip
+        content="We'll never share your email"
+        variant="success"
+        size="sm"
+      >
+        <span className="cursor-help">✓</span>
+      </Tooltip>
+    </div>
+
+    <div className="flex items-center gap-2">
+      <span>Password</span>
+      <Tooltip
+        content="Must be at least 8 characters"
+        variant="warning"
+        size="sm"
+      >
+        <span className="cursor-help">⚠</span>
+      </Tooltip>
+    </div>
+  </div>
+);
+
+// Interactive tooltip menu
+<Tooltip
+  content={
+    <div className="space-y-2 w-48">
+      <p className="font-semibold text-sm">Quick Actions</p>
+      <div className="space-y-1">
+        <Button size="sm" variant="ghost" className="w-full justify-start">
+          Edit
+        </Button>
+        <Button size="sm" variant="ghost" className="w-full justify-start">
+          Share
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          className="w-full justify-start text-red-500"
+        >
+          Delete
+        </Button>
+      </div>
+    </div>
+  }
+  interactive={true}
+  trigger="click"
+  variant="glass"
+  maxWidth="220px"
+  arrow={false}
+>
+  <Button size="sm" variant="ghost">
+    ⋯
+  </Button>
+</Tooltip>;
+
+// Status indicator tooltips
+const StatusIndicator = ({ status, message }) => (
+  <Tooltip
+    content={message}
+    variant={status === "online" ? "success" : "error"}
+    size="sm"
+  >
+    <Badge variant={status === "online" ? "success" : "error"}>{status}</Badge>
+  </Tooltip>
+);
+```
+
+**CVA Integration:**
+
+```tsx
+import { tooltipVariants, arrowVariants } from "saha-ui";
+
+// Use exported variants for custom styling
+const customTooltipClass = tooltipVariants({
+  variant: "glass",
+  size: "lg",
+  position: "top",
+  interactive: true,
+  className: "my-custom-class",
+});
+
+const customArrowClass = arrowVariants({
+  variant: "primary",
+  position: "bottom",
+});
+```
 
 ---
 
@@ -1026,6 +1844,304 @@ const customListClass = listVariants({
 const customItemClass = listItemVariants({
   variant: "cards",
   className: "hover:scale-105",
+});
+```
+
+---
+
+### Timeline
+
+Chronological event display with 4 modern variants, flexible positioning, status indicators, and icon support powered by CVA.
+
+**Variants:** `default` `outlined` `gradient` `minimal`  
+**Positions:** `left` `right` `alternate`  
+**Sizes:** `sm` `md` `lg`  
+**Status:** `default` `primary` `success` `warning` `error` `info`
+
+```tsx
+import { Timeline } from 'saha-ui';
+import { Rocket, Code, Package, Check } from 'lucide-react';
+
+// Basic Timeline
+<Timeline
+  items={[
+    { id: 1, title: 'Project Started', description: 'Initial setup', time: '2 hours ago' },
+    { id: 2, title: 'Development', description: 'Building features', time: '1 hour ago' },
+    { id: 3, title: 'Completed', description: 'Ready to deploy', time: 'Just now' }
+  ]}
+/>
+
+// Timeline with Icons
+<Timeline
+  items={[
+    { id: 1, title: 'Planning', description: 'Define requirements', time: 'Jan 1', icon: Rocket },
+    { id: 2, title: 'Development', description: 'Build features', time: 'Jan 15', icon: Code, status: 'primary' },
+    { id: 3, title: 'Testing', description: 'QA process', time: 'Feb 1', icon: Package, status: 'warning' },
+    { id: 4, title: 'Launch', description: 'Production ready', time: 'Feb 15', icon: Check, status: 'success' }
+  ]}
+  variant="gradient"
+/>
+
+// Alternate Positioning
+<Timeline
+  items={[
+    { id: 1, title: 'Order Placed', description: 'We received your order', time: '2h ago', status: 'success' },
+    { id: 2, title: 'Processing', description: 'Preparing items', time: '1h ago', status: 'primary', active: true },
+    { id: 3, title: 'Shipped', description: 'On the way', time: 'Pending', status: 'default' },
+    { id: 4, title: 'Delivered', description: 'Enjoy your purchase', time: 'Pending', status: 'default' }
+  ]}
+  position="alternate"
+  variant="outlined"
+/>
+
+// Different Sizes
+<Timeline
+  items={[
+    { id: 1, title: 'Small', description: 'Compact view', time: 'Now' },
+    { id: 2, title: 'Medium', description: 'Default size', time: 'Now' },
+    { id: 3, title: 'Large', description: 'Spacious layout', time: 'Now' }
+  ]}
+  size="lg"
+/>
+
+// Left/Right Positioning
+<Timeline
+  position="right"
+  items={[
+    { id: 1, title: 'Event 1', description: 'Content aligned right', time: '10:00 AM' },
+    { id: 2, title: 'Event 2', description: 'All items on right', time: '11:00 AM' }
+  ]}
+/>
+```
+
+**Variants:**
+
+- **default** - Clean design with colored dot and connecting line
+- **outlined** - Bordered container with subtle background
+- **gradient** - Vibrant gradient background with enhanced visual appeal
+- **minimal** - Ultra-clean design with minimal visual elements
+
+**Features:**
+
+- 🎨 **4 Modern Variants** - Each with unique visual design
+- 📍 **3 Positioning Modes** - Left, right, or alternating layout
+- 🎯 **6 Status Colors** - default, primary, success, warning, error, info
+- ✨ **Icon Support** - Custom icons with automatic fallbacks (Circle for active, Check for success)
+- 💫 **Active State** - Enhanced styling with scale and shadow effects
+- 📏 **3 Sizes** - sm, md, lg with responsive spacing
+- 🔮 **Smart Layout** - Responsive alternate positioning (left on even, right on odd)
+- 🌈 **Status Indicators** - Color-coded dots matching status colors
+- 🎭 **Compound Variants** - Position + size combinations for perfect spacing
+- 🌙 **Dark Mode** - Optimized colors and contrast for dark theme
+- ♿ **Accessible** - Semantic HTML with proper ARIA attributes
+- 📦 **Tree-Shakeable** - Import only what you need
+- 🎯 **Type-Safe** - Full CVA integration with exported variants
+- 🎨 **Custom Styling** - Per-item and global className overrides
+- 🎯 **Dot Shapes** - Circle, square, diamond, ring shapes
+- 📏 **Line Styles** - Solid, dashed, dotted, gradient
+- 🎨 **Custom Colors** - Override line and dot colors
+- 🔄 **Interactive** - Click handlers and custom render functions
+- 👁️ **Conditional Rendering** - Hide dots/lines per item
+- 📍 **Flexible Time Display** - Show time on opposite side in alternate mode
+
+**Props:**
+
+**TimelineItem Interface:**
+
+```tsx
+interface TimelineItem {
+  id: number | string;
+  title: React.ReactNode;
+  description?: React.ReactNode;
+  time?: React.ReactNode;
+  icon?: React.ReactNode;
+  status?: "default" | "primary" | "success" | "warning" | "error" | "info";
+  active?: boolean;
+  // New customization props
+  dotColor?: string; // Custom dot color
+  className?: string; // Custom item className
+  dotClassName?: string; // Custom dot className
+  contentClassName?: string; // Custom content className
+  hideDot?: boolean; // Hide dot for this item
+  hideLine?: boolean; // Hide line after this item
+}
+```
+
+**Timeline Component:**
+
+- `items`: TimelineItem[] - Array of timeline events (required)
+- `variant`: 'default' | 'outlined' | 'gradient' | 'minimal' (default: 'default')
+- `position`: 'left' | 'right' | 'alternate' (default: 'left')
+- `size`: 'sm' | 'md' | 'lg' (default: 'md')
+- `className`: string - Additional CSS classes
+- `itemClassName`: string - Custom class for all items
+- `dotClassName`: string - Custom class for all dots
+- `contentClassName`: string - Custom class for all content
+- `lineClassName`: string - Custom class for the timeline line
+- `lineStyle`: 'solid' | 'dashed' | 'dotted' | 'gradient' (default: 'solid')
+- `dotShape`: 'circle' | 'square' | 'diamond' | 'ring' (default: 'circle')
+- `lineColor`: string - Custom line color
+- `lineWidth`: string - Line width (default: '2px')
+- `showTimeOnOppositeSide`: boolean - Show time on opposite side in alternate mode
+- `hideIcons`: boolean - Hide all icons
+- `animateOnScroll`: boolean - Animate items on scroll
+- `renderItem`: (item, index) => ReactNode - Custom render function
+- `onItemClick`: (item, index) => void - Click handler
+
+**Advanced Usage:**
+
+```tsx
+// Custom Dot Shapes and Line Styles
+<Timeline
+  dotShape="diamond"
+  lineStyle="dashed"
+  items={[
+    { id: 1, title: 'Design Phase', time: 'Week 1' },
+    { id: 2, title: 'Development', time: 'Week 2-4', active: true },
+    { id: 3, title: 'Testing', time: 'Week 5' }
+  ]}
+/>
+
+// Custom Colors and Per-Item Styling
+<Timeline
+  lineColor="#ff6b6b"
+  lineWidth="3px"
+  items={[
+    {
+      id: 1,
+      title: 'Custom Dot Color',
+      dotColor: '#ffd93d',
+      dotClassName: 'shadow-xl',
+      time: 'Now'
+    },
+    {
+      id: 2,
+      title: 'Hidden Dot',
+      hideDot: true,
+      description: 'This item has no dot',
+      time: 'Later'
+    },
+    {
+      id: 3,
+      title: 'No Line After',
+      hideLine: true,
+      time: 'End'
+    }
+  ]}
+/>
+
+// Interactive Timeline with Click Handler
+<Timeline
+  onItemClick={(item, index) => {
+    console.log(`Clicked item ${index}:`, item.title);
+  }}
+  items={[
+    { id: 1, title: 'Clickable Item 1', time: '10:00' },
+    { id: 2, title: 'Clickable Item 2', time: '11:00' }
+  ]}
+/>
+
+// Time on Opposite Side (Alternate Mode)
+<Timeline
+  position="alternate"
+  showTimeOnOppositeSide={true}
+  items={[
+    { id: 1, title: 'Event 1', description: 'Time shows on opposite side', time: 'Jan 1' },
+    { id: 2, title: 'Event 2', description: 'Clean, organized layout', time: 'Jan 15' }
+  ]}
+/>
+
+// Different Dot Shapes
+<Timeline
+  dotShape="ring"
+  size="lg"
+  items={[
+    { id: 1, title: 'Ring Shape', status: 'primary' },
+    { id: 2, title: 'Hollow Center', status: 'success' }
+  ]}
+/>
+
+<Timeline
+  dotShape="square"
+  items={[
+    { id: 1, title: 'Square Dots', status: 'info' },
+    { id: 2, title: 'Modern Look', status: 'warning' }
+  ]}
+/>
+
+// E-commerce Order Tracking
+<Timeline
+  variant="outlined"
+  position="alternate"
+  items={[
+    {
+      id: 1,
+      title: 'Order Confirmed',
+      description: 'Your order has been received',
+      time: '2 hours ago',
+      status: 'success',
+      icon: Check
+    },
+    {
+      id: 2,
+      title: 'Processing',
+      description: 'We are preparing your items',
+      time: '1 hour ago',
+      status: 'primary',
+      active: true,
+      icon: Package
+    },
+    {
+      id: 3,
+      title: 'Shipped',
+      description: 'Your order is on the way',
+      time: 'Pending',
+      status: 'default',
+      icon: Rocket
+    }
+  ]}
+/>
+
+// Project Development Timeline
+<Timeline
+  variant="gradient"
+  size="lg"
+  items={[
+    { id: 1, title: 'Sprint Planning', description: 'Q1 2024', icon: Rocket, status: 'success' },
+    { id: 2, title: 'Development', description: 'Q2 2024', icon: Code, status: 'primary', active: true },
+    { id: 3, title: 'Testing', description: 'Q3 2024', icon: Package, status: 'warning' },
+    { id: 4, title: 'Release', description: 'Q4 2024', icon: Check, status: 'default' }
+  ]}
+/>
+```
+
+**CVA Integration:**
+
+```tsx
+import {
+  timelineVariants,
+  timelineItemVariants,
+  timelineLineVariants,
+  timelineDotVariants,
+  timelineContentVariants,
+} from "saha-ui";
+
+// Use exported variants for custom styling
+const customTimelineClass = timelineVariants({
+  variant: "gradient",
+  className: "my-custom-class",
+});
+
+const customItemClass = timelineItemVariants({
+  position: "alternate",
+  size: "lg",
+  className: "hover:scale-105",
+});
+
+const customDotClass = timelineDotVariants({
+  status: "success",
+  size: "lg",
+  active: true,
 });
 ```
 

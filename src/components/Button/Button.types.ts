@@ -8,6 +8,7 @@ export type ButtonVariant =
   | "success"
   | "warning"
   | "error"
+  | "outline"
   | "ghost"
   | "glass";
 
