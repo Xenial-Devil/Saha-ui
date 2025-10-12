@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **20 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table
+- 🎨 **21 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -161,6 +161,7 @@ import { cn } from "saha-ui/lib/utils";
 | **Carousel**    | Image slider with 4 transition effects                             | ✅     | ✅  |
 | **Steps**       | Progress indicator with 4 variants, horizontal/vertical layouts    | ✅     | ✅  |
 | **Table**       | Data table with sorting, selection, 5 variants, and responsive     | ✅     | ✅  |
+| **Rating**      | Star rating with 6 variants, 4 sizes, multiple icons, half stars   | ✅     | ✅  |
 
 ---
 
@@ -464,6 +465,17 @@ const data = [
 
 <Table columns={columns} data={data} sortable />
 <Table columns={columns} data={data} variant="glass" selectable />
+```
+
+### Rating
+
+```tsx
+import { Rating } from "saha-ui";
+
+<Rating value={4} />
+<Rating value={4.5} precision="half" showValue count={128} />
+<Rating value={0} onChange={(value) => console.log(value)} size="lg" />
+<Rating value={4} icon="heart" variant="gradient" size="lg" />
 ```
 
 ---
@@ -2737,6 +2749,98 @@ const data = [
 - `footer` - Footer content/function
 - `sticky` - Make column sticky
 - `className` - Custom classes for header/cell
+
+---
+
+### Rating
+
+Interactive star rating component with multiple icons and variants.
+
+**Variants:** `default` `primary` `secondary` `gradient` `glass` `outline`  
+**Sizes:** `sm` `md` `lg` `xl`  
+**Icons:** `star` `heart` `circle` `diamond`  
+**Precision:** `full` `half`
+
+```tsx
+import { Rating } from "saha-ui";
+
+// Basic rating
+<Rating value={4} max={5} />;
+
+// With half stars and value display
+<Rating value={4.5} precision="half" showValue />;
+
+// Interactive rating
+<Rating
+  value={0}
+  onChange={(value) => console.log("Rating:", value)}
+  precision="half"
+  size="lg"
+/>;
+
+// Read-only with review count
+<Rating value={4.7} precision="half" readOnly showValue count={2541} />;
+
+// Different variants
+<Rating value={4} variant="gradient" size="lg" />;
+<Rating value={4} variant="glass" size="lg" />;
+
+// Different icons
+<Rating value={4} icon="heart" variant="primary" size="lg" />;
+<Rating value={4} icon="circle" variant="secondary" size="lg" />;
+
+// Custom colors
+<Rating value={4} color="#ef4444" size="lg" />;
+
+// Custom maximum
+<Rating value={7} max={10} showValue />;
+
+// With tooltips
+<Rating
+  value={0}
+  showTooltip
+  tooltipLabels={["Poor", "Fair", "Good", "Very Good", "Excellent"]}
+  onChange={(value) => console.log(value)}
+/>;
+```
+
+**Features:**
+
+- ✅ Interactive and read-only modes
+- ⭐ Full and half-star precision
+- 🎨 6 visual variants with glassmorphism
+- 📏 4 size options (sm, md, lg, xl)
+- 🎯 Multiple icon types (star, heart, circle, diamond)
+- 🎨 Custom colors and icons
+- 📊 Review count display
+- 🖱️ Hover preview
+- ⌨️ Keyboard navigation
+- 🎭 Animated transitions
+- 🔧 Custom formatting
+- 💬 Tooltip support
+- ♿ Fully accessible
+
+**Props:**
+
+- `value` - Current rating value (0 to max)
+- `max` - Maximum rating value (default: 5)
+- `variant` - Visual style variant
+- `size` - Icon size
+- `icon` - Icon type to display
+- `precision` - Full or half stars
+- `readOnly` - Disable interaction
+- `disabled` - Disabled state
+- `showValue` - Display numeric value
+- `count` - Review count
+- `countLabel` - Label for count (default: "reviews")
+- `color` - Custom color for filled icons
+- `hoverable` - Enable hover effect
+- `showTooltip` - Show tooltips on hover
+- `tooltipLabels` - Custom labels for each value
+- `onChange` - Callback when rating changes
+- `onHover` - Callback when hovering
+- `allowClear` - Allow clearing rating
+- `animated` - Enable animations
 
 ---
 

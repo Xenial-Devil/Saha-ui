@@ -21,6 +21,7 @@ import { CarouselExample } from "./CarouselExample";
 import { TreeExample } from "./TreeExample";
 import { StepsExample } from "./StepsExample";
 import { TableExample } from "./TableExample";
+import { RatingExample } from "./RatingExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -84,6 +85,9 @@ export const AllComponentExamples = () => {
 
       {/* Table Examples */}
       <TableExample />
+
+      {/* Rating Examples */}
+      <RatingExample />
     </>
   );
 };

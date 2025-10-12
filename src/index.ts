@@ -32,6 +32,9 @@ export { default as Timeline } from "./components/Timeline";
 export { default as Tooltip } from "./components/Tooltip";
 
 export { default as Tree } from "./components/Tree";
+export { default as Steps } from "./components/Steps";
+export { default as Table } from "./components/Table";
+export { default as Rating } from "./components/Rating";
 
 // Types - Theme
 export type {
@@ -155,6 +158,39 @@ export type {
   TreeVariant,
   TreeSize,
 } from "./components/Tree/Tree.types";
+
+export type {
+  StepsProps,
+  StepItem,
+  StepStatus,
+  StepsVariant,
+  StepsOrientation,
+  StepsSize,
+} from "./components/Steps/Steps.types";
+
+export type {
+  TableProps,
+  TableColumn,
+  TableVariant,
+  TableSize,
+  TableDensity,
+  ColumnAlign,
+  SortDirection,
+  TableHeaderProps,
+  TableBodyProps,
+  TableFooterProps,
+  TableRowProps,
+  TableHeadProps,
+  TableCellProps,
+} from "./components/Table/Table.types";
+
+export type {
+  RatingProps,
+  RatingVariant,
+  RatingSize,
+  RatingIcon,
+  RatingPrecision,
+} from "./components/Rating/Rating.types";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";

@@ -14,11 +14,15 @@ export const RatingExample = () => {
             <Rating value={4} />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">With Value:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              With Value:
+            </span>
             <Rating value={4.5} precision="half" showValue />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">With Count:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              With Count:
+            </span>
             <Rating value={4.3} precision="half" showValue count={128} />
           </div>
         </div>
@@ -41,7 +45,9 @@ export const RatingExample = () => {
             <Rating value={4} size="lg" />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">Extra Large:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              Extra Large:
+            </span>
             <Rating value={4} size="xl" />
           </div>
         </div>
@@ -60,11 +66,15 @@ export const RatingExample = () => {
             <Rating value={4} variant="primary" size="lg" />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">Secondary:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              Secondary:
+            </span>
             <Rating value={4} variant="secondary" size="lg" />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">Gradient:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              Gradient:
+            </span>
             <Rating value={4} variant="gradient" size="lg" />
           </div>
           <div className="flex items-center gap-4">
@@ -80,18 +90,26 @@ export const RatingExample = () => {
 
       {/* Half Precision */}
       <div className="mb-12">
-        <h4 className="text-lg font-semibold mb-4 text-text">Half Star Precision</h4>
+        <h4 className="text-lg font-semibold mb-4 text-text">
+          Half Star Precision
+        </h4>
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">4.5 stars:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              4.5 stars:
+            </span>
             <Rating value={4.5} precision="half" showValue size="lg" />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">3.5 stars:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              3.5 stars:
+            </span>
             <Rating value={3.5} precision="half" showValue size="lg" />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">2.5 stars:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              2.5 stars:
+            </span>
             <Rating value={2.5} precision="half" showValue size="lg" />
           </div>
         </div>
@@ -99,7 +117,9 @@ export const RatingExample = () => {
 
       {/* Different Icons */}
       <div className="mb-12">
-        <h4 className="text-lg font-semibold mb-4 text-text">Different Icons</h4>
+        <h4 className="text-lg font-semibold mb-4 text-text">
+          Different Icons
+        </h4>
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
             <span className="w-32 text-sm text-muted-foreground">Stars:</span>
@@ -114,7 +134,9 @@ export const RatingExample = () => {
             <Rating value={4} icon="circle" size="lg" variant="secondary" />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">Diamonds:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              Diamonds:
+            </span>
             <Rating value={4} icon="diamond" size="lg" variant="gradient" />
           </div>
         </div>
@@ -122,13 +144,17 @@ export const RatingExample = () => {
 
       {/* Interactive */}
       <div className="mb-12">
-        <h4 className="text-lg font-semibold mb-4 text-text">Interactive Rating</h4>
+        <h4 className="text-lg font-semibold mb-4 text-text">
+          Interactive Rating
+        </h4>
         <p className="text-sm text-muted-foreground mb-4">
           Click to rate, hover to preview
         </p>
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">Full Stars:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              Full Stars:
+            </span>
             <Rating
               value={0}
               precision="full"
@@ -137,7 +163,9 @@ export const RatingExample = () => {
             />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">Half Stars:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              Half Stars:
+            </span>
             <Rating
               value={0}
               precision="half"
@@ -154,12 +182,28 @@ export const RatingExample = () => {
         <h4 className="text-lg font-semibold mb-4 text-text">Read Only</h4>
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">Product Rating:</span>
-            <Rating value={4.7} precision="half" readOnly showValue count={2541} />
+            <span className="w-32 text-sm text-muted-foreground">
+              Product Rating:
+            </span>
+            <Rating
+              value={4.7}
+              precision="half"
+              readOnly
+              showValue
+              count={2541}
+            />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">User Review:</span>
-            <Rating value={5} readOnly showValue countLabel="votes" count={89} />
+            <span className="w-32 text-sm text-muted-foreground">
+              User Review:
+            </span>
+            <Rating
+              value={5}
+              readOnly
+              showValue
+              countLabel="votes"
+              count={89}
+            />
           </div>
         </div>
       </div>
@@ -177,12 +221,23 @@ export const RatingExample = () => {
         <h4 className="text-lg font-semibold mb-4 text-text">Custom Maximum</h4>
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">Out of 10:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              Out of 10:
+            </span>
             <Rating value={7} max={10} showValue size="lg" />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">Out of 3:</span>
-            <Rating value={2} max={3} showValue size="lg" icon="heart" variant="primary" />
+            <span className="w-32 text-sm text-muted-foreground">
+              Out of 3:
+            </span>
+            <Rating
+              value={2}
+              max={3}
+              showValue
+              size="lg"
+              icon="heart"
+              variant="primary"
+            />
           </div>
         </div>
       </div>
@@ -192,15 +247,21 @@ export const RatingExample = () => {
         <h4 className="text-lg font-semibold mb-4 text-text">Custom Colors</h4>
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">Red Hearts:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              Red Hearts:
+            </span>
             <Rating value={4} icon="heart" color="#ef4444" size="lg" />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">Green Stars:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              Green Stars:
+            </span>
             <Rating value={4} color="#10b981" size="lg" />
           </div>
           <div className="flex items-center gap-4">
-            <span className="w-32 text-sm text-muted-foreground">Purple Stars:</span>
+            <span className="w-32 text-sm text-muted-foreground">
+              Purple Stars:
+            </span>
             <Rating value={4} color="#a855f7" size="lg" />
           </div>
         </div>
@@ -208,17 +269,27 @@ export const RatingExample = () => {
 
       {/* Real-World Examples */}
       <div className="mb-12">
-        <h4 className="text-lg font-semibold mb-4 text-text">Real-World Examples</h4>
-        
+        <h4 className="text-lg font-semibold mb-4 text-text">
+          Real-World Examples
+        </h4>
+
         {/* Product Card */}
         <div className="bg-background/50 border border-border rounded-lg p-6 mb-4">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h5 className="font-semibold text-lg mb-1">Wireless Headphones</h5>
+              <h5 className="font-semibold text-lg mb-1">
+                Wireless Headphones
+              </h5>
               <p className="text-sm text-muted-foreground mb-2">
                 Premium noise-canceling headphones
               </p>
-              <Rating value={4.6} precision="half" showValue count={1284} readOnly />
+              <Rating
+                value={4.6}
+                precision="half"
+                showValue
+                count={1284}
+                readOnly
+              />
             </div>
             <span className="text-2xl font-bold text-primary">$199</span>
           </div>

@@ -21,6 +21,7 @@ export { CarouselExample } from "./CarouselExample";
 export { TreeExample } from "./TreeExample";
 export { StepsExample } from "./StepsExample";
 export { TableExample } from "./TableExample";
+export { RatingExample } from "./RatingExample";
 
 // Aggregate component that includes all examples
 export { AllComponentExamples } from "./AllComponentExamples";
