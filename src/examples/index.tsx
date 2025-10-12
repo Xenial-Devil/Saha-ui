@@ -24,6 +24,10 @@ export { TableExample } from "./TableExample";
 export { RatingExample } from "./RatingExample";
 export { default as ProgressExample } from "./ProgressExample";
 export { default as PopoverExample } from "./PopoverExample";
+export { PlayButtonExample } from "./PlayButtonExample";
+export { SkeletonExample } from "./SkeletonExample";
+export { PaginationExample } from "./PaginationExample";
+export { DatePickerExample } from "./DatePickerExample";
 
 // Aggregate component that includes all examples
 export { AllComponentExamples } from "./AllComponentExamples";

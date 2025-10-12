@@ -11,6 +11,7 @@ export const ButtonExample = () => (
       </Button>
       <Button variant="secondary">Secondary</Button>
       <Button variant="accent">Accent</Button>
+      <Button variant="info">Info</Button>
       <Button variant="success">Success</Button>
       <Button variant="warning">Warning</Button>
       <Button variant="error">Error</Button>

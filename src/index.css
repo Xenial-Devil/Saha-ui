@@ -57,7 +57,7 @@
     --popover-foreground: oklch(0.15 0.01 200);
 
     /* Primary colors - indigo/purple (matching your current #6366f1) */
-    --primary: oklch(0.60 0.18 275);
+    --primary: oklch(48.151% 0.23085 269.463);
     --primary-foreground: oklch(1 0 0);
 
     /* Secondary colors - pink (matching your #ec4899) */
@@ -122,7 +122,7 @@
     --popover-foreground: oklch(0.95 0.005 200);
 
     /* Primary - brighter indigo for dark mode */
-    --primary: oklch(0.68 0.20 275);
+    --primary: oklch(41.145% 0.14945 272.396);
     --primary-foreground: oklch(0.98 0.003 200);
 
     /* Secondary - brighter pink for dark mode */

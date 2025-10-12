@@ -37,6 +37,10 @@ export { default as Table } from "./components/Table";
 export { default as Rating } from "./components/Rating";
 export { default as Progress } from "./components/Progress";
 export { default as Popover } from "./components/Popover";
+export { default as PlayButton } from "./components/PlayButton";
+export { default as Skeleton } from "./components/Skeleton";
+export { default as Pagination } from "./components/Pagination";
+export { default as DatePicker } from "./components/DatePicker";
 
 // Types - Theme
 export type {
@@ -209,6 +213,40 @@ export type {
   PopoverSize,
   PopoverTrigger,
 } from "./components/Popover/Popover.types";
+
+export type {
+  PlayButtonProps,
+  PlayButtonVariant,
+  PlayButtonSize,
+} from "./components/PlayButton/PlayButton.types";
+
+export type {
+  SkeletonProps,
+  SkeletonVariant,
+  SkeletonShape,
+  SkeletonSpeed,
+} from "./components/Skeleton/Skeleton.types";
+
+export type {
+  PaginationProps,
+  PaginationVariant,
+  PaginationSize,
+  PaginationShape,
+} from "./components/Pagination/Pagination.types";
+
+export type {
+  DatePickerProps,
+  DatePickerVariant,
+  DatePickerSize,
+  DatePickerView,
+  DateRange,
+  DisabledDateRange,
+  ShortcutConfig,
+  ShortcutsConfig,
+  FooterConfig,
+  DatePickerConfigs,
+  PopoverDirection,
+} from "./components/DatePicker/DatePicker.types";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";

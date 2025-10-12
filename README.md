@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **23 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover
+- 🎨 **27 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, Skeleton, Pagination, DatePicker
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -139,37 +139,41 @@ import { cn } from "saha-ui/lib/utils";
 
 ### Overview
 
-| Component       | Description                                                        | Status | CVA |
-| --------------- | ------------------------------------------------------------------ | ------ | --- |
-| **Button**      | Action buttons with 9 variants and 4 sizes                         | ✅     | ✅  |
-| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts                   | ✅     | ✅  |
-| **Alert**       | Notification messages with 5 variants × 4 statuses                 | ✅     | ✅  |
-| **Badge**       | Status indicators and labels with 9 variants                       | ✅     | ✅  |
-| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing     | ✅     | ✅  |
-| **Card**        | Container with 5 variants and sub-components                       | ✅     | ✅  |
-| **Chip**        | Interactive tags with 5 variants, deletable, and avatars           | ✅     | ✅  |
-| **Divider**     | Content separator with 5 variants and label support                | ✅     | ✅  |
-| **Accordion**   | Collapsible content with 5 behavior modes                          | ✅     | ✅  |
-| **Avatar**      | User profile images with status indicators                         | ✅     | ✅  |
-| **AvatarGroup** | Grouped avatars with overlap and count                             | ✅     | ✅  |
-| **Tooltip**     | Contextual hints with 9 variants, 4 triggers, and interactive mode | ✅     | ✅  |
-| **Link**        | Smart links with 9 variants and icon support                       | ✅     | ✅  |
-| **List**        | Modern lists with 5 variants and icon support                      | ✅     | ✅  |
-| **Timeline**    | Chronological events with 4 variants, positions, and statuses      | ✅     | ✅  |
-| **Tree**        | Hierarchical data with 4 variants, icons, and expand/collapse      | ✅     | ✅  |
-| **Image**       | Advanced image with lazy loading                                   | ✅     | ✅  |
-| **Carousel**    | Image slider with 4 transition effects                             | ✅     | ✅  |
-| **Steps**       | Progress indicator with 4 variants, horizontal/vertical layouts    | ✅     | ✅  |
-| **Table**       | Data table with sorting, selection, 5 variants, and responsive     | ✅     | ✅  |
-| **Rating**      | Star rating with 6 variants, 4 sizes, multiple icons, half stars   | ✅     | ✅  |
-| **Progress**    | Progress bar with 9 variants, 5 sizes, animations, striped         | ✅     | ✅  |
-| **Popover**     | Rich content popover with 11 variants, 12 positions, 4 triggers    | ✅     | ✅  |
+| Component       | Description                                                             | Status | CVA |
+| --------------- | ----------------------------------------------------------------------- | ------ | --- |
+| **Button**      | Action buttons with 9 variants and 4 sizes                              | ✅     | ✅  |
+| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts                        | ✅     | ✅  |
+| **Alert**       | Notification messages with 5 variants × 4 statuses                      | ✅     | ✅  |
+| **Badge**       | Status indicators and labels with 9 variants                            | ✅     | ✅  |
+| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing          | ✅     | ✅  |
+| **Card**        | Container with 5 variants and sub-components                            | ✅     | ✅  |
+| **Chip**        | Interactive tags with 5 variants, deletable, and avatars                | ✅     | ✅  |
+| **Divider**     | Content separator with 5 variants and label support                     | ✅     | ✅  |
+| **Accordion**   | Collapsible content with 5 behavior modes                               | ✅     | ✅  |
+| **Avatar**      | User profile images with status indicators                              | ✅     | ✅  |
+| **AvatarGroup** | Grouped avatars with overlap and count                                  | ✅     | ✅  |
+| **Tooltip**     | Contextual hints with 9 variants, 4 triggers, and interactive mode      | ✅     | ✅  |
+| **Link**        | Smart links with 9 variants and icon support                            | ✅     | ✅  |
+| **List**        | Modern lists with 5 variants and icon support                           | ✅     | ✅  |
+| **Timeline**    | Chronological events with 4 variants, positions, and statuses           | ✅     | ✅  |
+| **Tree**        | Hierarchical data with 4 variants, icons, and expand/collapse           | ✅     | ✅  |
+| **Image**       | Advanced image with lazy loading                                        | ✅     | ✅  |
+| **Carousel**    | Image slider with 4 transition effects                                  | ✅     | ✅  |
+| **Steps**       | Progress indicator with 4 variants, horizontal/vertical layouts         | ✅     | ✅  |
+| **Table**       | Data table with sorting, selection, 5 variants, and responsive          | ✅     | ✅  |
+| **Rating**      | Star rating with 6 variants, 4 sizes, multiple icons, half stars        | ✅     | ✅  |
+| **Progress**    | Progress bar with 9 variants, 5 sizes, animations, striped              | ✅     | ✅  |
+| **Popover**     | Rich content popover with 11 variants, 12 positions, 4 triggers         | ✅     | ✅  |
+| **PlayButton**  | Animated play/pause button with 9 variants, 4 sizes, smooth transitions | ✅     | ✅  |
+| **Skeleton**    | Loading placeholder with 5 variants, 4 shapes, customizable animations  | ✅     | ✅  |
+| **Pagination**  | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels | ✅     | ✅  |
+| **DatePicker**  | Calendar date picker with 5 variants, 3 sizes, date restrictions        | ✅     | ✅  |
 
 ---
 
 ## ⚡ Quick Examples
 
-Here are simple examples for all 23 components to get you started quickly:
+Here are simple examples for all 27 components to get you started quickly:
 
 ### Button
 
@@ -509,6 +513,60 @@ import { Popover, Button } from "saha-ui";
 >
   <Button>Open Settings</Button>
 </Popover>
+```
+
+### PlayButton
+
+```tsx
+import { PlayButton } from "saha-ui";
+
+<PlayButton />
+
+<PlayButton variant="primary" size="lg" />
+
+<PlayButton
+  isPlaying={playing}
+  onToggle={(playing) => setPlaying(playing)}
+  variant="success"
+  pulse
+  glow
+/>
+```
+
+### Skeleton
+
+```tsx
+import { Skeleton } from "saha-ui";
+
+<Skeleton width="100%" height="20px" />
+
+<Skeleton variant="shimmer" count={3} />
+
+<Skeleton shape="circle" width="48px" height="48px" variant="pulse" />
+```
+
+### Pagination
+
+```tsx
+import { Pagination } from "saha-ui";
+
+<Pagination totalPages={10} currentPage={1} onPageChange={(page) => setPage(page)} />
+
+<Pagination variant="primary" size="lg" totalPages={20} currentPage={5} />
+
+<Pagination variant="minimal" shape="pill" totalPages={50} currentPage={25} />
+```
+
+### DatePicker
+
+```tsx
+import { DatePicker } from "saha-ui";
+
+<DatePicker value={date} onChange={(date) => setDate(date)} />
+
+<DatePicker variant="primary" size="lg" placeholder="Pick a date" />
+
+<DatePicker minDate={new Date()} maxDate={futureDate} />
 ```
 
 ---
@@ -3077,6 +3135,516 @@ import { Popover, Button } from "saha-ui";
 - 💬 Rich content support
 - 🎛️ Controlled mode
 - ♿ Fully accessible
+
+---
+
+### PlayButton
+
+An animated play/pause button with smooth transitions, multiple variants, and modern effects. Perfect for media players, video controls, and interactive applications.
+
+**Basic Usage:**
+
+```tsx
+import { PlayButton } from "saha-ui";
+
+// Basic play button
+<PlayButton />
+
+// With variant and size
+<PlayButton variant="primary" size="lg" />
+
+// Controlled state
+const [playing, setPlaying] = useState(false);
+<PlayButton
+  isPlaying={playing}
+  onToggle={setPlaying}
+/>
+
+// With effects
+<PlayButton variant="success" pulse glow />
+
+// In a media player
+<div className="flex items-center gap-4">
+  <PlayButton
+    variant="primary"
+    size="md"
+    isPlaying={playing}
+    onToggle={setPlaying}
+  />
+  <span>{playing ? "Playing..." : "Paused"}</span>
+</div>
+```
+
+**Variants:** `default` `primary` `secondary` `accent` `info` `success` `warning` `error` `glass`  
+**Sizes:** `sm` `md` `lg` `xl`
+
+**Features:**
+
+- 🎨 9 visual variants with theme support
+- 📐 4 size options (12px to 24px icons)
+- ▶️ Smooth play/pause icon transitions
+- 💫 Animated pulsing ring when playing
+- ✨ Glow effects on hover
+- 🎛️ Controlled or uncontrolled state
+- 🎯 Click ripple effect
+- 🔘 Rounded, modern design
+- ♿ Fully accessible with ARIA labels
+- 🎭 Hover scale animations
+
+---
+
+### Skeleton
+
+Loading placeholder component with smooth animations and multiple visual styles.
+
+**Basic Usage:**
+
+```tsx
+import { Skeleton } from "saha-ui";
+
+// Basic skeleton
+<Skeleton width="100%" height="20px" />
+
+// Multiple lines
+<Skeleton count={3} />
+
+// Circle skeleton (avatar placeholder)
+<Skeleton
+  shape="circle"
+  width="48px"
+  height="48px"
+  variant="pulse"
+/>
+```
+
+**Variants:**
+
+```tsx
+// Default pulse animation
+<Skeleton variant="default" height="60px" />
+
+// Wave effect
+<Skeleton variant="wave" height="60px" />
+
+// Shimmer effect
+<Skeleton variant="shimmer" height="60px" />
+
+// Gradient animation
+<Skeleton variant="gradient" height="60px" />
+```
+
+**Shapes:**
+
+```tsx
+// Rectangle (default)
+<Skeleton shape="rectangle" width="100%" height="80px" />
+
+// Circle (for avatars)
+<Skeleton shape="circle" width="64px" height="64px" />
+
+// Rounded corners
+<Skeleton shape="rounded" width="100%" height="80px" />
+
+// Text lines
+<Skeleton shape="text" count={4} />
+```
+
+**Animation Speed:**
+
+```tsx
+<Skeleton speed="slow" variant="shimmer" />
+<Skeleton speed="normal" variant="shimmer" />
+<Skeleton speed="fast" variant="shimmer" />
+
+// Disable animation
+<Skeleton noAnimation />
+```
+
+**Real-world Examples:**
+
+```tsx
+// Profile card loading
+<Card>
+  <div className="flex gap-4">
+    <Skeleton shape="circle" width="64px" height="64px" />
+    <div className="flex-1">
+      <Skeleton height="24px" width="60%" className="mb-2" />
+      <Skeleton count={2} height="16px" />
+    </div>
+  </div>
+</Card>
+
+// Blog post loading
+<Card>
+  <Skeleton height="200px" className="mb-4" />
+  <Skeleton height="32px" width="80%" className="mb-3" />
+  <Skeleton count={4} height="16px" />
+</Card>
+
+// List items loading
+{[1, 2, 3].map(i => (
+  <Card key={i} className="flex gap-4">
+    <Skeleton shape="circle" width="48px" height="48px" />
+    <div className="flex-1">
+      <Skeleton height="18px" width="70%" className="mb-2" />
+      <Skeleton height="14px" width="90%" />
+    </div>
+  </Card>
+))}
+```
+
+**Variants:** `default` `pulse` `wave` `shimmer` `gradient`  
+**Shapes:** `rectangle` `circle` `rounded` `text`  
+**Speeds:** `slow` `normal` `fast`
+
+**Features:**
+
+- 🎨 5 animation variants
+- 🔷 4 shape options
+- ⚡ 3 speed settings
+- 📊 Multiple line support with `count` prop
+- 🎯 Fully customizable width/height
+- 🎭 Smooth animations with CVA
+- 🌓 Theme-aware styling
+- 🔧 Custom border radius support
+- 📱 Responsive and flexible
+- 💫 No animation mode available
+
+---
+
+### Pagination
+
+Comprehensive pagination component for navigating through large datasets.
+
+**Basic Usage:**
+
+```tsx
+import { Pagination } from "saha-ui";
+
+// Basic pagination
+<Pagination
+  totalPages={10}
+  currentPage={currentPage}
+  onPageChange={(page) => setCurrentPage(page)}
+/>
+
+// Custom variant and size
+<Pagination
+  variant="primary"
+  size="lg"
+  totalPages={20}
+  currentPage={5}
+  onPageChange={handlePageChange}
+/>
+```
+
+**Variants:**
+
+```tsx
+// Default
+<Pagination variant="default" totalPages={10} currentPage={1} />
+
+// Primary
+<Pagination variant="primary" totalPages={10} currentPage={3} />
+
+// Secondary
+<Pagination variant="secondary" totalPages={10} currentPage={5} />
+
+// Outlined
+<Pagination variant="outlined" totalPages={10} currentPage={7} />
+
+// Minimal
+<Pagination variant="minimal" totalPages={10} currentPage={2} />
+```
+
+**Sizes:**
+
+```tsx
+<Pagination size="sm" totalPages={10} currentPage={3} />
+<Pagination size="md" totalPages={10} currentPage={5} />
+<Pagination size="lg" totalPages={10} currentPage={7} />
+```
+
+**Shapes:**
+
+```tsx
+<Pagination shape="rounded" totalPages={10} currentPage={3} />
+<Pagination shape="square" totalPages={10} currentPage={5} />
+<Pagination shape="pill" totalPages={10} currentPage={7} />
+```
+
+**Large Page Count (Ellipsis):**
+
+```tsx
+// Automatically shows ellipsis for many pages
+<Pagination
+  variant="primary"
+  totalPages={50}
+  currentPage={currentPage}
+  onPageChange={setCurrentPage}
+/>
+
+// Control sibling count
+<Pagination
+  totalPages={100}
+  currentPage={currentPage}
+  onPageChange={setCurrentPage}
+  siblingCount={2} // Show 2 pages on each side
+/>
+```
+
+**Custom Labels:**
+
+```tsx
+// Text labels
+<Pagination
+  totalPages={10}
+  currentPage={5}
+  previousLabel="← Prev"
+  nextLabel="Next →"
+  firstLabel="First"
+  lastLabel="Last"
+/>
+
+// Without first/last buttons
+<Pagination
+  variant="primary"
+  totalPages={10}
+  currentPage={5}
+  showFirstLast={false}
+/>
+
+// Only page numbers
+<Pagination
+  variant="outlined"
+  totalPages={10}
+  currentPage={5}
+  showFirstLast={false}
+  showPrevNext={false}
+/>
+```
+
+**Real-world Example:**
+
+```tsx
+// Data table pagination
+function DataTable() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalItems = 100;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  return (
+    <div>
+      <p>
+        Showing {(currentPage - 1) * itemsPerPage + 1} -
+        {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}
+      </p>
+
+      <Pagination
+        variant="primary"
+        size="sm"
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
+    </div>
+  );
+}
+```
+
+**Variants:** `default` `primary` `secondary` `outlined` `minimal`  
+**Sizes:** `sm` `md` `lg`  
+**Shapes:** `rounded` `square` `pill`
+
+**Features:**
+
+- 🎨 5 visual variants with theme support
+- 📐 3 size options
+- 🔷 3 shape styles
+- 🔢 Automatic ellipsis for large page counts
+- 🎯 Customizable sibling count
+- 🏷️ Custom labels for all buttons
+- ⚡ Fast page navigation
+- ♿ Fully accessible with ARIA labels
+- 🎭 Smooth transitions
+- 🎛️ Show/hide first/last/prev/next buttons
+- 📱 Responsive design
+- 🌓 Theme-aware styling
+- ⌨️ Keyboard navigation support
+- 🚫 Disabled state support
+
+---
+
+### DatePicker
+
+Calendar-based date picker with multiple variants and date restrictions.
+
+**Basic Usage:**
+
+```tsx
+import { DatePicker } from "saha-ui";
+
+// Basic date picker
+<DatePicker
+  value={date}
+  onChange={(date) => setDate(date)}
+  placeholder="Select date"
+/>
+
+// Custom variant and size
+<DatePicker
+  variant="primary"
+  size="lg"
+  value={date}
+  onChange={setDate}
+/>
+```
+
+**Variants:**
+
+```tsx
+// Default
+<DatePicker variant="default" />
+
+// Primary
+<DatePicker variant="primary" />
+
+// Secondary
+<DatePicker variant="secondary" />
+
+// Outlined
+<DatePicker variant="outlined" />
+
+// Minimal
+<DatePicker variant="minimal" />
+```
+
+**Sizes:**
+
+```tsx
+<DatePicker size="sm" />
+<DatePicker size="md" />
+<DatePicker size="lg" />
+```
+
+**Date Restrictions:**
+
+```tsx
+// Min date (future dates only)
+<DatePicker
+  value={date}
+  onChange={setDate}
+  minDate={new Date()}
+  placeholder="Select future date"
+/>
+
+// Max date (past dates only)
+<DatePicker
+  value={date}
+  onChange={setDate}
+  maxDate={new Date()}
+  placeholder="Select past date"
+/>
+
+// Date range
+<DatePicker
+  value={date}
+  onChange={setDate}
+  minDate={startDate}
+  maxDate={endDate}
+  placeholder="Select date in range"
+/>
+```
+
+**Customization:**
+
+```tsx
+// Custom format
+<DatePicker
+  value={date}
+  onChange={setDate}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+/>
+
+// Monday as first day of week
+<DatePicker
+  value={date}
+  onChange={setDate}
+  firstDayOfWeek={1}
+/>
+
+// Without clear/today buttons
+<DatePicker
+  value={date}
+  onChange={setDate}
+  showClear={false}
+  showToday={false}
+/>
+
+// Disabled state
+<DatePicker
+  value={date}
+  disabled
+/>
+```
+
+**Real-world Examples:**
+
+```tsx
+// Booking form
+<div className="grid grid-cols-2 gap-4">
+  <DatePicker
+    variant="primary"
+    minDate={new Date()}
+    placeholder="Check-in"
+  />
+  <DatePicker
+    variant="primary"
+    minDate={new Date()}
+    placeholder="Check-out"
+  />
+</div>
+
+// Date of birth picker
+<DatePicker
+  variant="outlined"
+  maxDate={new Date()}
+  format="MM/DD/YYYY"
+  placeholder="Date of birth"
+/>
+
+// Task due date
+<DatePicker
+  variant="primary"
+  size="sm"
+  minDate={new Date()}
+  placeholder="Due date"
+/>
+```
+
+**Variants:** `default` `primary` `secondary` `outlined` `minimal`  
+**Sizes:** `sm` `md` `lg`  
+**Formats:** Customizable (MM/DD/YYYY, DD/MM/YYYY, etc.)
+
+**Features:**
+
+- 🎨 5 visual variants with theme support
+- 📐 3 size options
+- 📅 Interactive calendar view
+- 🔒 Min/max date restrictions
+- 🎯 Custom date format display
+- 🌍 Configurable first day of week
+- ✨ Today quick select button
+- 🗑️ Clear button for easy reset
+- 📱 Click outside to close
+- ⌨️ Keyboard navigation in calendar
+- 🎭 Smooth animations
+- 🌓 Theme-aware styling
+- ♿ Fully accessible
+- 🚫 Disabled state support
+- 📆 Month/year navigation
 
 ---
 

@@ -24,6 +24,10 @@ import { TableExample } from "./TableExample";
 import { RatingExample } from "./RatingExample";
 import ProgressExample from "./ProgressExample";
 import PopoverExample from "./PopoverExample";
+import { PlayButtonExample } from "./PlayButtonExample";
+import { SkeletonExample } from "./SkeletonExample";
+import { PaginationExample } from "./PaginationExample";
+import { DatePickerExample } from "./DatePickerExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -96,6 +100,18 @@ export const AllComponentExamples = () => {
 
       {/* Popover Examples */}
       <PopoverExample />
+
+      {/* PlayButton Examples */}
+      <PlayButtonExample />
+
+      {/* Skeleton Examples */}
+      <SkeletonExample />
+
+      {/* Pagination Examples */}
+      <PaginationExample />
+
+      {/* DatePicker Examples */}
+      <DatePickerExample />
     </>
   );
 };
