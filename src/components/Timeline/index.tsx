@@ -63,16 +63,21 @@ const timelineItemVariants = cva("relative flex gap-4", {
 });
 
 const timelineDotVariants = cva(
-  "flex items-center justify-center rounded-full transition-all duration-300",
+  "flex items-center justify-center rounded-full transition-all duration-300 relative shadow-lg hover:shadow-xl",
   {
     variants: {
       status: {
-        default: "bg-primary text-primary-foreground",
-        success: "bg-green-500 text-white",
-        error: "bg-red-500 text-white",
-        warning: "bg-yellow-500 text-white",
-        info: "bg-blue-500 text-white",
-        pending: "bg-gray-400 text-white",
+        default:
+          "bg-primary text-primary-foreground shadow-primary/30 hover:shadow-primary/40 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-br before:from-white/20 before:to-transparent",
+        success:
+          "bg-green-500 text-white shadow-green-500/30 hover:shadow-green-500/40 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-br before:from-white/20 before:to-transparent",
+        error:
+          "bg-red-500 text-white shadow-red-500/30 hover:shadow-red-500/40 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-br before:from-white/20 before:to-transparent",
+        warning:
+          "bg-yellow-500 text-white shadow-yellow-500/30 hover:shadow-yellow-500/40 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-br before:from-white/20 before:to-transparent",
+        info: "bg-blue-500 text-white shadow-blue-500/30 hover:shadow-blue-500/40 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-br before:from-white/20 before:to-transparent",
+        pending:
+          "bg-gray-400 text-white shadow-gray-400/30 hover:shadow-gray-400/40",
       },
       size: {
         sm: "w-6 h-6",
@@ -80,8 +85,8 @@ const timelineDotVariants = cva(
         lg: "w-10 h-10",
       },
       active: {
-        true: "scale-110 shadow-lg",
-        false: "",
+        true: "scale-125 shadow-2xl ring-2 ring-primary/20 animate-pulse-glow",
+        false: "hover:scale-110",
       },
     },
     defaultVariants: {
@@ -92,20 +97,25 @@ const timelineDotVariants = cva(
   }
 );
 
-const timelineLineVariants = cva("absolute left-1/2 -translate-x-1/2 w-0.5", {
-  variants: {
-    variant: {
-      default: "bg-border",
-      outlined: "bg-border",
-      gradient: "bg-gradient-to-b from-primary/50 to-transparent",
-      minimal: "bg-border/30",
-      glass: "bg-white/20 backdrop-blur-sm",
+const timelineLineVariants = cva(
+  "absolute left-1/2 -translate-x-1/2 w-0.5 transition-all duration-300",
+  {
+    variants: {
+      variant: {
+        default: "bg-border shadow-[0_0_4px_0] shadow-border/20",
+        outlined: "bg-border shadow-[0_0_4px_0] shadow-border/20",
+        gradient:
+          "bg-gradient-to-b from-primary/50 to-transparent shadow-[0_0_8px_0] shadow-primary/20",
+        minimal: "bg-border/30",
+        glass:
+          "bg-white/20 backdrop-blur-sm shadow-[0_0_8px_0] shadow-white/10",
+      },
     },
-  },
-  defaultVariants: {
-    variant: "default",
-  },
-});
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
 
 const Timeline = React.forwardRef<HTMLDivElement, TimelineProps>(
   (

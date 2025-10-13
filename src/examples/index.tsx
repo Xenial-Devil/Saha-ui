@@ -31,6 +31,11 @@ export { PaginationExample } from "./PaginationExample";
 export { DatePickerExample } from "./DatePickerExample";
 export { TabExample } from "./TabExample";
 export { InputExample } from "./InputExample";
+export { FloatingActionButtonExample } from "./FloatingActionButtonExample";
+export { RadioExample } from "./RadioExample";
+export { RadioAdvancedExample } from "./RadioAdvancedExample";
+export { SwitchExample } from "./SwitchExample";
+export { CheckboxExample } from "./CheckboxExample";
 
 // Aggregate component that includes all examples
 export { AllComponentExamples } from "./AllComponentExamples";
