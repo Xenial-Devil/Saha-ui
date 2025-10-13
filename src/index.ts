@@ -86,6 +86,8 @@ export {
 } from "./components/Dropdown";
 export { Tag, TagGroup } from "./components/Tag";
 export { default as TagInput } from "./components/TagInput";
+export { default as TextArea } from "./components/TextArea";
+export { default as Upload } from "./components/Upload";
 
 // Types - Theme
 export type {
@@ -364,6 +366,10 @@ export type {
 export type { TagProps, TagGroupProps } from "./components/Tag/Tag.types";
 
 export type { TagInputProps } from "./components/TagInput/TagInput.types";
+
+export type { TextAreaProps } from "./components/TextArea/TextArea.types";
+
+export type { UploadProps, UploadFile } from "./components/Upload/Upload.types";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";

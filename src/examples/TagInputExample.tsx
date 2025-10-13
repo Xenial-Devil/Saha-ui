@@ -1,6 +1,5 @@
 import { useState } from "react";
 import TagInput from "../components/TagInput";
-import { Tag, Mail, User, Hash, Star, Code } from "lucide-react";
 
 export const TagInputExample = () => {
   const [basicTags, setBasicTags] = useState<string[]>([]);

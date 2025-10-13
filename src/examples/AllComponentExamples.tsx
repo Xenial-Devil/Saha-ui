@@ -41,6 +41,8 @@ import { SelectExample } from "./SelectExample";
 import { DropdownExample } from "./DropdownExample";
 import { TagExample } from "./TagExample";
 import { TagInputExample } from "./TagInputExample";
+import TextAreaExample from "./TextAreaExample";
+import UploadExample from "./UploadExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -164,6 +166,12 @@ export const AllComponentExamples = () => {
 
       {/* TagInput Examples */}
       <TagInputExample />
+
+      {/* TextArea Examples */}
+      <TextAreaExample />
+
+      {/* Upload Examples */}
+      <UploadExample />
     </>
   );
 };
