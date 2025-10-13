@@ -1,4 +1,4 @@
-import Tooltip from "../components/Tooltip";
+import Tooltip, { TooltipTrigger, TooltipContent } from "../components/Tooltip";
 import Button from "../components/Button";
 import { Info, Settings, Heart, Trash2 } from "lucide-react";
 
@@ -11,20 +11,29 @@ export const TooltipExample = () => {
       <div className="mb-8">
         <h4 className="text-lg font-semibold mb-4 text-text">Basic Tooltips</h4>
         <div className="flex flex-wrap gap-4">
-          <Tooltip content="This is a tooltip">
-            <Button variant="outline">Hover me</Button>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="outline">Hover me</Button>
+            </TooltipTrigger>
+            <TooltipContent>This is a tooltip</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Click to get more information">
-            <Button variant="primary">
-              <Info size={16} /> Info
-            </Button>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="primary">
+                <Info size={16} /> Info
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Click to get more information</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Open settings panel">
-            <Button variant="ghost" size="sm">
-              <Settings size={16} />
-            </Button>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="ghost" size="sm">
+                <Settings size={16} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Open settings panel</TooltipContent>
           </Tooltip>
         </div>
       </div>
@@ -33,20 +42,32 @@ export const TooltipExample = () => {
       <div className="mb-8">
         <h4 className="text-lg font-semibold mb-4 text-text">Positions</h4>
         <div className="flex flex-wrap gap-4">
-          <Tooltip content="Top tooltip" position="top">
-            <Button variant="outline">Top</Button>
+          <Tooltip position="top">
+            <TooltipTrigger>
+              <Button variant="outline">Top</Button>
+            </TooltipTrigger>
+            <TooltipContent>Top tooltip</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Right tooltip" position="right">
-            <Button variant="outline">Right</Button>
+          <Tooltip position="right">
+            <TooltipTrigger>
+              <Button variant="outline">Right</Button>
+            </TooltipTrigger>
+            <TooltipContent>Right tooltip</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Bottom tooltip" position="bottom">
-            <Button variant="outline">Bottom</Button>
+          <Tooltip position="bottom">
+            <TooltipTrigger>
+              <Button variant="outline">Bottom</Button>
+            </TooltipTrigger>
+            <TooltipContent>Bottom tooltip</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Left tooltip" position="left">
-            <Button variant="outline">Left</Button>
+          <Tooltip position="left">
+            <TooltipTrigger>
+              <Button variant="outline">Left</Button>
+            </TooltipTrigger>
+            <TooltipContent>Left tooltip</TooltipContent>
           </Tooltip>
         </div>
       </div>
@@ -55,24 +76,39 @@ export const TooltipExample = () => {
       <div className="mb-8">
         <h4 className="text-lg font-semibold mb-4 text-text">Variants</h4>
         <div className="flex flex-wrap gap-4">
-          <Tooltip content="Dark tooltip" variant="dark">
-            <Button variant="outline">Dark</Button>
+          <Tooltip variant="dark">
+            <TooltipTrigger>
+              <Button variant="outline">Dark</Button>
+            </TooltipTrigger>
+            <TooltipContent>Dark tooltip</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Light tooltip" variant="light">
-            <Button variant="outline">Light</Button>
+          <Tooltip variant="light">
+            <TooltipTrigger>
+              <Button variant="outline">Light</Button>
+            </TooltipTrigger>
+            <TooltipContent>Light tooltip</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Glass tooltip" variant="glass">
-            <Button variant="outline">Glass</Button>
+          <Tooltip variant="glass">
+            <TooltipTrigger>
+              <Button variant="outline">Glass</Button>
+            </TooltipTrigger>
+            <TooltipContent>Glass tooltip</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Primary tooltip" variant="primary">
-            <Button variant="outline">Primary</Button>
+          <Tooltip variant="primary">
+            <TooltipTrigger>
+              <Button variant="outline">Primary</Button>
+            </TooltipTrigger>
+            <TooltipContent>Primary tooltip</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Success tooltip" variant="success">
-            <Button variant="outline">Success</Button>
+          <Tooltip variant="success">
+            <TooltipTrigger>
+              <Button variant="outline">Success</Button>
+            </TooltipTrigger>
+            <TooltipContent>Success tooltip</TooltipContent>
           </Tooltip>
         </div>
       </div>
@@ -81,16 +117,25 @@ export const TooltipExample = () => {
       <div className="mb-8">
         <h4 className="text-lg font-semibold mb-4 text-text">With Delay</h4>
         <div className="flex flex-wrap gap-4">
-          <Tooltip content="Instant tooltip" delay={0}>
-            <Button variant="outline">No delay</Button>
+          <Tooltip delay={0}>
+            <TooltipTrigger>
+              <Button variant="outline">No delay</Button>
+            </TooltipTrigger>
+            <TooltipContent>Instant tooltip</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Quick tooltip" delay={200}>
-            <Button variant="outline">200ms delay</Button>
+          <Tooltip delay={200}>
+            <TooltipTrigger>
+              <Button variant="outline">200ms delay</Button>
+            </TooltipTrigger>
+            <TooltipContent>Quick tooltip</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Slow tooltip" delay={700}>
-            <Button variant="outline">700ms delay</Button>
+          <Tooltip delay={700}>
+            <TooltipTrigger>
+              <Button variant="outline">700ms delay</Button>
+            </TooltipTrigger>
+            <TooltipContent>Slow tooltip</TooltipContent>
           </Tooltip>
         </div>
       </div>
@@ -101,28 +146,40 @@ export const TooltipExample = () => {
           Icon Buttons with Tooltips
         </h4>
         <div className="flex gap-2">
-          <Tooltip content="Add to favorites">
-            <Button variant="ghost" size="sm">
-              <Heart size={16} />
-            </Button>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="ghost" size="sm">
+                <Heart size={16} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Add to favorites</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Delete item">
-            <Button variant="ghost" size="sm">
-              <Trash2 size={16} />
-            </Button>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="ghost" size="sm">
+                <Trash2 size={16} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Delete item</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Settings">
-            <Button variant="ghost" size="sm">
-              <Settings size={16} />
-            </Button>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="ghost" size="sm">
+                <Settings size={16} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Settings</TooltipContent>
           </Tooltip>
 
-          <Tooltip content="Information">
-            <Button variant="ghost" size="sm">
-              <Info size={16} />
-            </Button>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="ghost" size="sm">
+                <Info size={16} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Information</TooltipContent>
           </Tooltip>
         </div>
       </div>

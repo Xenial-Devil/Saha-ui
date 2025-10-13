@@ -23,13 +23,15 @@ import type { ProgressProps } from "./Progress.types";
  */
 
 /**
- * Progress track - flat background
+ * Progress track - enhanced background with glow effects
  */
 const progressVariants = cva(
   [
     "relative w-full overflow-hidden",
     "bg-black/[0.08] dark:bg-white/[0.08]",
     "transition-all duration-300 ease-out",
+    "shadow-inner",
+    "before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:opacity-50",
   ],
   {
     variants: {
@@ -54,12 +56,15 @@ const progressVariants = cva(
 );
 
 /**
- * Progress bar - flat solid colors
+ * Progress bar - enhanced with glow and shimmer effects
  */
 const progressBarVariants = cva(
   [
     "h-full relative overflow-hidden",
     "transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+    "before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/30 before:to-transparent",
+    "before:translate-x-[-100%] before:animate-[shimmer_2s_infinite]",
+    "after:absolute after:inset-0 after:bg-gradient-to-t after:from-black/20 after:to-transparent after:pointer-events-none",
   ],
   {
     variants: {
@@ -67,30 +72,42 @@ const progressBarVariants = cva(
         default: [
           "bg-[oklch(0.60_0.24_250)]",
           "dark:bg-[oklch(0.70_0.20_250)]",
+          "shadow-lg shadow-[oklch(0.60_0.24_250)]/50",
         ],
-        primary: "bg-primary",
-        secondary: "bg-secondary",
-        accent: "bg-accent",
+        primary: "bg-primary shadow-lg shadow-primary/50",
+        secondary: "bg-secondary shadow-lg shadow-secondary/50",
+        accent: "bg-accent shadow-lg shadow-accent/50",
         success: [
           "bg-[oklch(0.70_0.20_145)]",
           "dark:bg-[oklch(0.75_0.18_145)]",
+          "shadow-lg shadow-[oklch(0.70_0.20_145)]/50",
         ],
-        warning: ["bg-[oklch(0.80_0.16_75)]", "dark:bg-[oklch(0.82_0.16_75)]"],
-        error: ["bg-[oklch(0.64_0.26_15)]", "dark:bg-[oklch(0.68_0.24_15)]"],
-        info: "bg-info",
+        warning: [
+          "bg-[oklch(0.80_0.16_75)]",
+          "dark:bg-[oklch(0.82_0.16_75)]",
+          "shadow-lg shadow-[oklch(0.80_0.16_75)]/50",
+        ],
+        error: [
+          "bg-[oklch(0.64_0.26_15)]",
+          "dark:bg-[oklch(0.68_0.24_15)]",
+          "shadow-lg shadow-[oklch(0.64_0.26_15)]/50",
+        ],
+        info: "bg-info shadow-lg shadow-info/50",
         gradient: [
           "bg-gradient-to-r",
           "from-[oklch(0.65_0.25_250)] via-[oklch(0.60_0.28_300)] to-[oklch(0.68_0.26_330)]",
           "dark:from-[oklch(0.70_0.22_250)] dark:via-[oklch(0.65_0.25_300)] dark:to-[oklch(0.72_0.24_330)]",
+          "shadow-xl shadow-[oklch(0.65_0.25_250)]/60",
         ],
-        striped: "bg-primary",
+        striped: "bg-primary shadow-lg shadow-primary/50",
         glass: [
           "backdrop-blur-xl bg-white/40 dark:bg-white/20",
           "border border-white/60 dark:border-white/30",
+          "shadow-xl shadow-white/30",
         ],
       },
       glow: {
-        true: "",
+        true: "drop-shadow-[0_0_12px_currentColor]",
         false: "",
       },
       striped: {

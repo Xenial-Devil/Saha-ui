@@ -20,15 +20,15 @@ import type { ChipProps } from "./Chip.types";
  * @size sm | md | lg - Size variations
  */
 export const chipVariants = cva(
-  "inline-flex items-center justify-center gap-1.5 font-medium transition-all duration-200 select-none whitespace-nowrap",
+  "inline-flex items-center justify-center gap-1.5 font-medium transition-all duration-300 select-none whitespace-nowrap relative overflow-hidden isolate before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700",
   {
     variants: {
       variant: {
-        filled: "",
-        outlined: "border-2 bg-transparent",
-        soft: "",
-        gradient: "shadow-sm",
-        glass: "backdrop-blur-md border shadow-lg",
+        filled: "shadow-lg hover:shadow-xl",
+        outlined: "border-2 bg-transparent hover:shadow-md",
+        soft: "backdrop-blur-sm hover:shadow-lg",
+        gradient: "shadow-lg hover:shadow-xl",
+        glass: "backdrop-blur-md border shadow-xl hover:shadow-2xl",
       },
       color: {
         default: "",
@@ -45,7 +45,7 @@ export const chipVariants = cva(
         lg: "text-base px-4 py-2 h-10 rounded-full",
       },
       clickable: {
-        true: "cursor-pointer hover:scale-105 active:scale-95",
+        true: "cursor-pointer hover:scale-110 active:scale-95 hover:rotate-1 active:rotate-0 transition-transform duration-300",
         false: "",
       },
       disabled: {
@@ -65,19 +65,19 @@ export const chipVariants = cva(
         variant: "filled",
         color: "primary",
         className:
-          "bg-primary text-primary-foreground hover:bg-primary/90 shadow-primary/20 hover:shadow-md hover:shadow-primary/30",
+          "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground hover:from-primary/90 hover:to-primary/70 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40",
       },
       {
         variant: "filled",
         color: "secondary",
         className:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-secondary/20 hover:shadow-md hover:shadow-secondary/30",
+          "bg-gradient-to-br from-secondary to-secondary/80 text-secondary-foreground hover:from-secondary/90 hover:to-secondary/70 shadow-lg shadow-secondary/30 hover:shadow-xl hover:shadow-secondary/40",
       },
       {
         variant: "filled",
         color: "success",
         className:
-          "bg-green-500 text-white hover:bg-green-600 shadow-green-500/20 hover:shadow-md hover:shadow-green-500/30",
+          "bg-gradient-to-br from-green-500 to-green-600 text-white hover:from-green-400 hover:to-green-500 shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40",
       },
       {
         variant: "filled",

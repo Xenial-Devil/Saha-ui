@@ -1,6 +1,4 @@
-import React from "react";
-import type { VariantProps } from "class-variance-authority";
-import { tooltipVariants } from ".";
+import { ReactNode } from "react";
 
 // Explicit types for better type safety
 export type TooltipPosition = "top" | "bottom" | "left" | "right";
@@ -15,20 +13,29 @@ export type TooltipVariant =
   | "error"
   | "info";
 export type TooltipSize = "sm" | "md" | "lg";
-export type TooltipTrigger = "hover" | "click" | "focus" | "manual";
+export type TooltipTriggerType = "hover" | "click" | "focus" | "manual";
 
-export interface TooltipProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "content">,
-    VariantProps<typeof tooltipVariants> {
-  /**
-   * Content to display in the tooltip
-   */
-  content: string | React.ReactNode;
+// Context for Tooltip state sharing
+export interface TooltipContextValue {
+  isOpen: boolean;
+  setOpen: (open: boolean) => void;
+  position: TooltipPosition;
+  variant: TooltipVariant;
+  size: TooltipSize;
+  arrow: boolean;
+  interactive: boolean;
+  maxWidth: string;
+  offset: number;
+  trigger: TooltipTriggerType;
+  delay: number;
+  disabled: boolean;
+}
 
+export interface TooltipProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
-   * Element that triggers the tooltip
+   * Composable children (TooltipTrigger and TooltipContent)
    */
-  children: React.ReactNode;
+  children: ReactNode;
 
   /**
    * Position of the tooltip relative to the trigger
@@ -64,7 +71,7 @@ export interface TooltipProps
    * Trigger type for showing tooltip
    * @default "hover"
    */
-  trigger?: TooltipTrigger;
+  trigger?: TooltipTriggerType;
 
   /**
    * Whether tooltip is open (for controlled mode)
@@ -77,23 +84,13 @@ export interface TooltipProps
   onOpenChange?: (open: boolean) => void;
 
   /**
-   * Custom class name for the tooltip content
-   */
-  tooltipClassName?: string;
-
-  /**
-   * Custom class name for the trigger wrapper
-   */
-  wrapperClassName?: string;
-
-  /**
    * Maximum width of the tooltip
    * @default "320px"
    */
   maxWidth?: string;
 
   /**
-   * Whether the tooltip content can be selected
+   * Whether the tooltip content can be interactive
    * @default false
    */
   interactive?: boolean;
@@ -109,4 +106,36 @@ export interface TooltipProps
    * @default false
    */
   disabled?: boolean;
+}
+
+export interface TooltipContentProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Content to display in the tooltip
+   */
+  children: ReactNode;
+
+  /**
+   * Custom class name for the tooltip content
+   */
+  className?: string;
+}
+
+export interface TooltipTriggerProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Element that triggers the tooltip
+   */
+  children: ReactNode;
+
+  /**
+   * Custom class name for the trigger wrapper
+   */
+  className?: string;
+
+  /**
+   * Make trigger element focusable
+   * @default false
+   */
+  asChild?: boolean;
 }

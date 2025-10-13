@@ -26,6 +26,7 @@ export { default as ProgressExample } from "./ProgressExample";
 export { default as PopoverExample } from "./PopoverExample";
 export { PlayButtonExample } from "./PlayButtonExample";
 export { SkeletonExample } from "./SkeletonExample";
+export { default as SpinnerExample } from "./SpinnerExample";
 export { PaginationExample } from "./PaginationExample";
 export { DatePickerExample } from "./DatePickerExample";
 export { TabExample } from "./TabExample";

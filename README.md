@@ -166,6 +166,7 @@ import { cn } from "saha-ui/lib/utils";
 | **Popover**     | Rich content popover with 11 variants, 12 positions, 4 triggers          | ✅     | ✅  |
 | **PlayButton**  | Animated play/pause button with 9 variants, 4 sizes, smooth transitions  | ✅     | ✅  |
 | **Skeleton**    | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
+| **Spinner**     | Loading spinner with 10 variants, 6 sizes, 4 animations, fullscreen mode | ✅     | ✅  |
 | **Pagination**  | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels  | ✅     | ✅  |
 | **DatePicker**  | Calendar date picker with 5 variants, 3 sizes, date restrictions         | ✅     | ✅  |
 | **Tab**         | Tab navigation with 14 variants, 3 sizes, icons, badges, disabled states | ✅     | ✅  |
@@ -202,10 +203,9 @@ import { ButtonGroup, Button } from "saha-ui";
 ```tsx
 import { Alert } from "saha-ui";
 
-<Alert status="success">Operation completed successfully!</Alert>
-<Alert status="error" variant="filled" dismissible>
-  Error occurred!
-</Alert>
+<Alert status="success" message="Operation completed successfully!" />
+<Alert status="danger" variant="solid" message="Error occurred!" closeable />
+<Alert status="warning" variant="glass" title="Warning" message="Please review before proceeding." />
 ```
 
 ### Badge
@@ -221,16 +221,34 @@ import { Badge } from "saha-ui";
 ### Breadcrumb
 
 ```tsx
-import { Breadcrumb } from "saha-ui";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator } from "saha-ui";
 
-const items = [
-  { label: 'Home', href: '/' },
-  { label: 'Products', href: '/products' },
-  { label: 'Details', href: '/products/123' }
-];
+// Basic breadcrumb
+<Breadcrumb>
+  <BreadcrumbItem href="/">Home</BreadcrumbItem>
+  <BreadcrumbSeparator />
+  <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+  <BreadcrumbSeparator />
+  <BreadcrumbItem isCurrentPage>Details</BreadcrumbItem>
+</Breadcrumb>
 
-<Breadcrumb items={items} />
-<Breadcrumb items={items} variant="pills" separator="arrow" />
+// With variants and separator types
+<Breadcrumb variant="pills" separator="arrow">
+  <BreadcrumbItem href="/">Home</BreadcrumbItem>
+  <BreadcrumbSeparator />
+  <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+  <BreadcrumbSeparator />
+  <BreadcrumbItem isCurrentPage>Electronics</BreadcrumbItem>
+</Breadcrumb>
+
+// Other separator options: "chevron" (default), "slash", "dot", "arrow"
+<Breadcrumb variant="glass" separator="slash">
+  <BreadcrumbItem href="/">Home</BreadcrumbItem>
+  <BreadcrumbSeparator />
+  <BreadcrumbItem href="/docs">Docs</BreadcrumbItem>
+  <BreadcrumbSeparator />
+  <BreadcrumbItem isCurrentPage>API</BreadcrumbItem>
+</Breadcrumb>
 ```
 
 ### Card
@@ -251,12 +269,25 @@ import { Card, CardHeader, CardTitle, CardContent } from "saha-ui";
 ```tsx
 import { Chip } from "saha-ui";
 
-<Chip color="primary">JavaScript</Chip>
-<Chip deletable onDelete={() => console.log('deleted')}>
+// Basic chips with variants
+<Chip variant="filled" color="primary">JavaScript</Chip>
+<Chip variant="outlined" color="secondary">TypeScript</Chip>
+<Chip variant="soft" color="success">React</Chip>
+<Chip variant="glass" color="primary">Saha UI</Chip>
+
+// Deletable chip
+<Chip deletable onDelete={() => console.log('deleted')} color="error">
   Remove me
 </Chip>
-<Chip clickable onClick={() => alert('clicked')}>
+
+// Clickable chip
+<Chip clickable onClick={() => alert('clicked')} color="info">
   Click me
+</Chip>
+
+// With avatars
+<Chip avatar={<Avatar name="JD" size="xs" />} color="primary">
+  John Doe
 </Chip>
 ```
 
@@ -274,21 +305,26 @@ import { Divider } from "saha-ui";
 ### Accordion
 
 ```tsx
-import { Accordion } from "saha-ui";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "saha-ui";
 
-const items = [
-  {
-    title: 'Section 1',
-    content: 'Content for section 1'
-  },
-  {
-    title: 'Section 2',
-    content: 'Content for section 2'
-  }
-];
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Section 1</AccordionTrigger>
+    <AccordionContent>Content for section 1</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Section 2</AccordionTrigger>
+    <AccordionContent>Content for section 2</AccordionContent>
+  </AccordionItem>
+</Accordion>
 
-<Accordion items={items} />
-<Accordion items={items} variant="bordered" defaultOpen={[0]} />
+// Multiple items open at once
+<Accordion type="multiple" variant="glass">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Section 1</AccordionTrigger>
+    <AccordionContent>Content here</AccordionContent>
+  </AccordionItem>
+</Accordion>
 ```
 
 ### Avatar
@@ -317,26 +353,32 @@ import { AvatarGroup, Avatar } from "saha-ui";
 ### Tooltip
 
 ```tsx
-import { Tooltip } from "saha-ui";
+import { Tooltip, TooltipTrigger, TooltipContent } from "saha-ui";
 
 // Basic tooltip
-<Tooltip content="This is a tooltip">
-  <Button>Hover me</Button>
+<Tooltip>
+  <TooltipTrigger>
+    <Button>Hover me</Button>
+  </TooltipTrigger>
+  <TooltipContent>This is a tooltip</TooltipContent>
 </Tooltip>
 
 // With variant and position
-<Tooltip content="Success message!" variant="success" position="right">
-  <Badge variant="success">Active</Badge>
+<Tooltip variant="success" position="right">
+  <TooltipTrigger>
+    <Badge variant="success">Active</Badge>
+  </TooltipTrigger>
+  <TooltipContent>Success message!</TooltipContent>
 </Tooltip>
 
 // Interactive tooltip with click trigger
-<Tooltip
-  content={<div>Click <a href="#">here</a> for more</div>}
-  interactive={true}
-  trigger="click"
-  variant="glass"
->
-  <Button>Click Me</Button>
+<Tooltip interactive trigger="click" variant="glass">
+  <TooltipTrigger>
+    <Button>Click Me</Button>
+  </TooltipTrigger>
+  <TooltipContent>
+    <div>Click <a href="#">here</a> for more</div>
+  </TooltipContent>
 </Tooltip>
 ```
 
@@ -355,54 +397,73 @@ import { Link } from "saha-ui";
 ### List
 
 ```tsx
-import { List } from "saha-ui";
+import { List, ListItem } from "saha-ui";
+import { CheckCircle } from "lucide-react";
 
-const items = [
-  { id: 1, content: 'First item' },
-  { id: 2, content: 'Second item' },
-  { id: 3, content: 'Third item' }
-];
+<List variant="bordered">
+  <ListItem>First item</ListItem>
+  <ListItem>Second item</ListItem>
+  <ListItem>Third item</ListItem>
+</List>
 
-<List items={items} />
-<List items={items} variant="bordered" />
+// With icons
+<List variant="cards">
+  <ListItem icon={<CheckCircle size={18} />}>Completed task</ListItem>
+  <ListItem icon={<CheckCircle size={18} />}>Another task</ListItem>
+</List>
 ```
 
 ### Timeline
 
 ```tsx
-import { Timeline } from "saha-ui";
+import { Timeline, TimelineItem } from "saha-ui";
 import { Rocket, Package, Check } from "lucide-react";
 
-const events = [
-  { id: 1, title: 'Project Started', description: 'Initial setup', time: '2 hours ago', icon: Rocket },
-  { id: 2, title: 'Development', description: 'Building features', time: '1 hour ago', icon: Package, status: 'primary' as const },
-  { id: 3, title: 'Completed', description: 'Ready to deploy', time: 'Just now', icon: Check, status: 'success' as const }
-];
+<Timeline variant="gradient">
+  <TimelineItem
+    icon={<Rocket size={18} />}
+    title="Project Started"
+    description="Initial setup"
+    time="2 hours ago"
+  />
+  <TimelineItem
+    icon={<Package size={18} />}
+    title="Development"
+    description="Building features"
+    time="1 hour ago"
+    status="primary"
+  />
+  <TimelineItem
+    icon={<Check size={18} />}
+    title="Completed"
+    description="Ready to deploy"
+    time="Just now"
+    status="success"
+  />
+</Timeline>
 
-<Timeline items={events} />
-<Timeline items={events} variant="gradient" position="alternate" />
+// Alternate positioning
+<Timeline position="alternate">
+  <TimelineItem title="Event 1" />
+  <TimelineItem title="Event 2" />
+</Timeline>
 ```
 
 ### Tree
 
 ```tsx
-import { Tree } from "saha-ui";
+import { Tree, TreeItem } from "saha-ui";
 import { Folder, File } from "lucide-react";
 
-const nodes = [
-  {
-    id: 1,
-    label: 'src',
-    icon: <Folder size={16} />,
-    children: [
-      { id: 2, label: 'components', icon: <Folder size={16} /> },
-      { id: 3, label: 'App.tsx', icon: <File size={16} /> }
-    ]
-  }
-];
-
-<Tree nodes={nodes} />
-<Tree nodes={nodes} variant="glass" onNodeClick={(id) => console.log(id)} />
+<Tree variant="glass">
+  <TreeItem label="src" icon={<Folder size={16} />}>
+    <TreeItem label="components" icon={<Folder size={16} />}>
+      <TreeItem label="Button.tsx" icon={<File size={16} />} />
+      <TreeItem label="Card.tsx" icon={<File size={16} />} />
+    </TreeItem>
+    <TreeItem label="App.tsx" icon={<File size={16} />} />
+  </TreeItem>
+</Tree>;
 ```
 
 ### Image
@@ -428,51 +489,92 @@ import { Image } from "saha-ui";
 ### Carousel
 
 ```tsx
-import { Carousel } from "saha-ui";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "saha-ui";
 
-const images = [
-  { src: '/image1.jpg', alt: 'Image 1' },
-  { src: '/image2.jpg', alt: 'Image 2' },
-  { src: '/image3.jpg', alt: 'Image 3' }
-];
+<Carousel autoplay autoplayInterval={3000}>
+  <CarouselContent>
+    <CarouselItem>
+      <img src="/image1.jpg" alt="Slide 1" />
+    </CarouselItem>
+    <CarouselItem>
+      <img src="/image2.jpg" alt="Slide 2" />
+    </CarouselItem>
+    <CarouselItem>
+      <img src="/image3.jpg" alt="Slide 3" />
+    </CarouselItem>
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
 
-<Carousel images={images} />
-<Carousel images={images} effect="fade" autoplay />
+// With variants
+<Carousel variant="glass" autoplay>
+  <CarouselContent>
+    {/* Your carousel items */}
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
 ```
 
 ### Steps
 
 ```tsx
-import { Steps } from "saha-ui";
+import { Steps, StepsItem } from "saha-ui";
+import { User, CreditCard, Check } from "lucide-react";
 
-const steps = [
-  { id: 1, title: 'Account', description: 'Create your account' },
-  { id: 2, title: 'Profile', description: 'Fill in your details' },
-  { id: 3, title: 'Complete', description: 'You're all set!' }
-];
+<Steps defaultValue={2}>
+  <StepsItem value={1} title="Account" description="Create your account" />
+  <StepsItem value={2} title="Profile" description="Fill in your details" />
+  <StepsItem value={3} title="Complete" description="You're all set!" />
+</Steps>
 
-<Steps steps={steps} current={1} />
-<Steps steps={steps} current={1} variant="glass" orientation="vertical" />
+// With icons
+<Steps defaultValue={2} variant="glass">
+  <StepsItem value={1} title="Info" icon={<User className="w-5 h-5" />} />
+  <StepsItem value={2} title="Payment" icon={<CreditCard className="w-5 h-5" />} />
+  <StepsItem value={3} title="Done" icon={<Check className="w-5 h-5" />} />
+</Steps>
+
+// Vertical orientation
+<Steps orientation="vertical" defaultValue={1}>
+  <StepsItem value={1} title="Step 1" status="completed" />
+  <StepsItem value={2} title="Step 2" status="current" />
+  <StepsItem value={3} title="Step 3" status="pending" />
+</Steps>
 ```
 
 ### Table
 
 ```tsx
-import { Table } from "saha-ui";
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "saha-ui";
 
-const columns = [
-  { id: 'name', header: 'Name', accessor: 'name', sortable: true },
-  { id: 'email', header: 'Email', accessor: 'email' },
-  { id: 'role', header: 'Role', accessor: 'role' }
-];
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Name</TableHead>
+      <TableHead>Email</TableHead>
+      <TableHead>Role</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Alice Johnson</TableCell>
+      <TableCell>alice@example.com</TableCell>
+      <TableCell>Admin</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>Bob Smith</TableCell>
+      <TableCell>bob@example.com</TableCell>
+      <TableCell>Developer</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
 
-const data = [
-  { id: 1, name: 'Alice', email: 'alice@example.com', role: 'Admin' },
-  { id: 2, name: 'Bob', email: 'bob@example.com', role: 'User' }
-];
-
-<Table columns={columns} data={data} sortable />
-<Table columns={columns} data={data} variant="glass" selectable />
+// With variants
+<Table variant="bordered" hoverable>
+  {/* Table content */}
+</Table>
 ```
 
 ### Rating
@@ -547,6 +649,53 @@ import { Skeleton } from "saha-ui";
 <Skeleton shape="circle" width="48px" height="48px" variant="pulse" />
 ```
 
+### Spinner
+
+```tsx
+import { Spinner } from "saha-ui";
+
+// Basic usage
+<Spinner />
+
+// With variants and sizes
+<Spinner variant="success" size="lg" label="Loading..." />
+
+// Different spinner types (15 types available!)
+<Spinner type="ring" variant="primary" size="lg" />
+<Spinner type="orbit" variant="gradient" size="xl" />
+<Spinner type="flower" variant="success" size="lg" />
+<Spinner type="infinity" variant="primary" size="2xl" />
+<Spinner type="wave" variant="info" size="md" />
+<Spinner type="spiral" variant="accent" size="lg" />
+
+// Fullscreen overlay
+<Spinner variant="gradient" animation="pulse" fullscreen />
+
+// With custom logo/icon
+<Spinner
+  variant="primary"
+  size="xl"
+  logo="/your-logo.png"
+  logoSize="md"
+  label="Loading..."
+/>
+
+// With custom component
+<Spinner
+  type="orbit"
+  variant="success"
+  size="xl"
+  logo={<YourCustomIcon />}
+  logoSize="lg"
+/>
+
+// In buttons
+<Button variant="primary" disabled>
+  <Spinner type="bounce" size="sm" variant="default" />
+  Loading...
+</Button>
+```
+
 ### Pagination
 
 ```tsx
@@ -564,33 +713,51 @@ import { Pagination } from "saha-ui";
 ```tsx
 import { DatePicker } from "saha-ui";
 
-<DatePicker value={date} onChange={(date) => setDate(date)} />
+// Single date picker
+<DatePicker
+  value={{ startDate: date, endDate: date }}
+  onChange={(value) => setDate(value)}
+  asSingle
+  placeholder="Select date"
+/>
 
-<DatePicker variant="primary" size="lg" placeholder="Pick a date" />
+// Date range picker
+<DatePicker
+  value={{ startDate: null, endDate: null }}
+  onChange={(value) => setRange(value)}
+  placeholder="Select date range"
+/>
 
-<DatePicker minDate={new Date()} maxDate={futureDate} />
+// With variants and restrictions
+<DatePicker
+  variant="primary"
+  minDate={new Date()}
+  maxDate={futureDate}
+  asSingle
+/>
 ```
 
 ### Tab
 
 ```tsx
-import { Tab } from "saha-ui";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "saha-ui";
 
-const tabs = [
-  { label: "Profile", value: "profile" },
-  { label: "Settings", value: "settings" },
-];
+<Tabs defaultValue="profile">
+  <TabsList>
+    <TabsTrigger value="profile">Profile</TabsTrigger>
+    <TabsTrigger value="settings">Settings</TabsTrigger>
+  </TabsList>
+  <TabsContent value="profile">Profile content</TabsContent>
+  <TabsContent value="settings">Settings content</TabsContent>
+</Tabs>
 
-<Tab tabs={tabs} value={activeTab} onChange={setActiveTab} />
-
-<Tab tabs={tabs} variant="primary" size="lg" fullWidth />
-
-<Tab
-  tabs={[
-    { label: "Home", value: "home", icon: <HomeIcon /> },
-    { label: "Messages", value: "messages", badge: "5" },
-  ]}
-/>
+// With variants and sizes
+<Tabs defaultValue="home" variant="primary" size="lg">
+  <TabsList>
+    <TabsTrigger value="home">Home</TabsTrigger>
+    <TabsTrigger value="messages">Messages</TabsTrigger>
+  </TabsList>
+</Tabs>
 ```
 
 ### Input
@@ -1555,22 +1722,21 @@ Display multiple avatars with overlap and count indicator.
 **Sizes:** `xs` `sm` `md` `lg` `xl` `2xl`
 
 ```tsx
-import { AvatarGroup } from "saha-ui";
+import { AvatarGroup, Avatar } from "saha-ui";
 
 <AvatarGroup
-  avatars={[
-    { src: "/user1.jpg", alt: "User 1" },
-    { src: "/user2.jpg", alt: "User 2" },
-    { src: "/user3.jpg", alt: "User 3" },
-    { src: "/user4.jpg", alt: "User 4" },
-  ]}
   max={3}
   size="md"
   variant="stack"
   gap={false}
   withRing={false}
   showCount
-/>;
+>
+  <Avatar src="/user1.jpg" alt="User 1" />
+  <Avatar src="/user2.jpg" alt="User 2" />
+  <Avatar src="/user3.jpg" alt="User 3" />
+  <Avatar src="/user4.jpg" alt="User 4" />
+</AvatarGroup>;
 ```
 
 **Features:**
@@ -1593,62 +1759,63 @@ Contextual hints and information with smart positioning, multiple trigger types,
 **Triggers:** `hover` `click` `focus` `manual`
 
 ```tsx
-import { Tooltip } from "saha-ui";
+import { Tooltip, TooltipTrigger, TooltipContent } from "saha-ui";
 
 // Basic tooltip
-<Tooltip
-  content="This is helpful information"
-  position="top"
-  variant="glass"
->
-  <Button>Hover me</Button>
+<Tooltip position="top" variant="glass">
+  <TooltipTrigger>
+    <Button>Hover me</Button>
+  </TooltipTrigger>
+  <TooltipContent>This is helpful information</TooltipContent>
 </Tooltip>
 
 // Status tooltips
-<Tooltip content="All systems operational" variant="success">
-  <Badge variant="success">Active</Badge>
+<Tooltip variant="success">
+  <TooltipTrigger>
+    <Badge variant="success">Active</Badge>
+  </TooltipTrigger>
+  <TooltipContent>All systems operational</TooltipContent>
 </Tooltip>
 
-<Tooltip content="Warning: Check this!" variant="warning" position="right">
-  <span className="cursor-help">⚠</span>
+<Tooltip variant="warning" position="right">
+  <TooltipTrigger>
+    <span className="cursor-help">⚠</span>
+  </TooltipTrigger>
+  <TooltipContent>Warning: Check this!</TooltipContent>
 </Tooltip>
 
 // Interactive tooltip with click trigger
-<Tooltip
-  content={
+<Tooltip interactive trigger="click" variant="glass" maxWidth="200px">
+  <TooltipTrigger>
+    <Button>Click for Options</Button>
+  </TooltipTrigger>
+  <TooltipContent>
     <div className="space-y-2">
       <p className="font-semibold">Interactive Content</p>
       <Button size="sm">Click Me</Button>
     </div>
-  }
-  interactive={true}
-  trigger="click"
-  variant="glass"
-  maxWidth="200px"
->
-  <Button>Click for Options</Button>
+  </TooltipContent>
 </Tooltip>
 
 // Controlled tooltip
 const [open, setOpen] = useState(false);
-<Tooltip
-  content="Controlled tooltip"
-  open={open}
-  onOpenChange={setOpen}
-  trigger="manual"
->
-  <Button onClick={() => setOpen(!open)}>Toggle</Button>
+<Tooltip open={open} onOpenChange={setOpen} trigger="manual">
+  <TooltipTrigger>
+    <Button onClick={() => setOpen(!open)}>Toggle</Button>
+  </TooltipTrigger>
+  <TooltipContent>Controlled tooltip</TooltipContent>
 </Tooltip>
 
 // Help icon tooltips
 <div className="flex items-center gap-2">
   <span>Username</span>
-  <Tooltip
-    content="Enter your unique username (3-20 characters)"
-    variant="info"
-    size="sm"
-  >
-    <span className="cursor-help text-muted-foreground">ⓘ</span>
+  <Tooltip variant="info" size="sm">
+    <TooltipTrigger>
+      <span className="cursor-help text-muted-foreground">ⓘ</span>
+    </TooltipTrigger>
+    <TooltipContent>
+      Enter your unique username (3-20 characters)
+    </TooltipContent>
   </Tooltip>
 </div>
 
@@ -3379,6 +3546,267 @@ import { Skeleton } from "saha-ui";
 
 ---
 
+### Spinner
+
+Modern loading spinner with multiple variants, animations, and fullscreen overlay support.
+
+**Basic Usage:**
+
+```tsx
+import { Spinner } from "saha-ui";
+
+// Basic spinner
+<Spinner />
+
+// With label
+<Spinner variant="primary" label="Loading..." />
+
+// Custom size and variant
+<Spinner variant="success" size="lg" label="Processing..." />
+```
+
+**Variants:**
+
+```tsx
+// 10 beautiful variants
+<Spinner variant="default" />
+<Spinner variant="primary" />
+<Spinner variant="secondary" />
+<Spinner variant="accent" />
+<Spinner variant="info" />
+<Spinner variant="success" />
+<Spinner variant="warning" />
+<Spinner variant="error" />
+<Spinner variant="glass" />
+<Spinner variant="gradient" />
+```
+
+**Sizes:**
+
+```tsx
+<Spinner size="xs" />    // 16px
+<Spinner size="sm" />    // 24px
+<Spinner size="md" />    // 40px (default)
+<Spinner size="lg" />    // 64px
+<Spinner size="xl" />    // 96px
+<Spinner size="2xl" />   // 128px
+```
+
+**Spinner Types (15 unique designs!):**
+
+```tsx
+// Classic Types
+<Spinner type="ring" />      // Classic circular border (default)
+<Spinner type="dots" />      // Rotating dots in circle
+<Spinner type="dashed" />    // Dashed ring border
+<Spinner type="bars" />      // Rotating bars/lines
+<Spinner type="dotRing" />   // Complete circle of dots
+
+// Creative & Unique Types ✨
+<Spinner type="orbit" />     // Multi-orbit planetary system
+<Spinner type="pulse" />     // Expanding concentric circles
+<Spinner type="square" />    // Rotating square corners
+<Spinner type="triangle" />  // Triangular rotating pattern
+<Spinner type="wave" />      // Sequential bouncing bars
+<Spinner type="spiral" />    // Expanding spiral pattern
+<Spinner type="infinity" />  // Infinity symbol (∞) path
+<Spinner type="flower" />    // Flower petal pattern
+<Spinner type="grid" />      // 3×3 pulsing grid
+<Spinner type="bounce" />    // Classic bouncing dots
+```
+
+**Animation Types:**
+
+```tsx
+<Spinner animation="spin" />    // Continuous rotation (default)
+<Spinner animation="pulse" />   // Scale pulsing
+<Spinner animation="bounce" />  // Bouncing effect
+<Spinner animation="ping" />    // Ping ripple effect
+```
+
+**Thickness:**
+
+```tsx
+<Spinner thickness="thin" />     // 2px border
+<Spinner thickness="default" />  // 4px border
+<Spinner thickness="thick" />    // 6px border
+```
+
+**Speed Control:**
+
+```tsx
+<Spinner speed={0.5} />  // Slower
+<Spinner speed={1} />    // Normal (default)
+<Spinner speed={2} />    // Faster
+<Spinner speed={3} />    // Very fast
+```
+
+**Fullscreen Overlay:**
+
+```tsx
+// Full screen loading overlay
+<Spinner
+  fullscreen
+  variant="gradient"
+  size="2xl"
+  label="Loading application..."
+/>
+```
+
+**In Buttons:**
+
+```tsx
+// Disabled button with loading spinner
+<Button variant="primary" disabled>
+  <Spinner size="sm" variant="default" />
+  Loading...
+</Button>
+
+<Button variant="success" disabled>
+  <Spinner size="sm" variant="default" />
+  Saving...
+</Button>
+```
+
+**In Cards:**
+
+```tsx
+<Card>
+  <CardHeader>
+    <CardTitle>Loading Data</CardTitle>
+  </CardHeader>
+  <CardContent className="flex items-center justify-center py-8">
+    <Spinner variant="primary" label="Fetching data..." />
+  </CardContent>
+</Card>
+```
+
+**With Custom Logo/Icon:**
+
+```tsx
+// Image URL
+<Spinner
+  variant="primary"
+  size="xl"
+  logo="/your-logo.png"
+  logoSize="md"
+  label="Loading..."
+/>
+
+// Custom React component
+<Spinner
+  variant="success"
+  size="xl"
+  logo={
+    <div className="w-full h-full flex items-center justify-center bg-success/10 rounded-full">
+      <span className="text-2xl font-bold text-success">S</span>
+    </div>
+  }
+  logoSize="lg"
+/>
+
+// SVG Icon
+<Spinner
+  variant="gradient"
+  size="2xl"
+  logo={<YourSvgIcon />}
+  logoSize="md"
+  label="Building..."
+/>
+```
+
+**Logo Sizes:**
+
+```tsx
+<Spinner logo="/logo.png" logoSize="xs" />   // 25% of spinner size
+<Spinner logo="/logo.png" logoSize="sm" />   // 35% of spinner size
+<Spinner logo="/logo.png" logoSize="md" />   // 50% of spinner size (default)
+<Spinner logo="/logo.png" logoSize="lg" />   // 65% of spinner size
+<Spinner logo="/logo.png" logoSize="xl" />   // 80% of spinner size
+```
+
+**Real-world Examples:**
+
+```tsx
+// Form submission
+<Button type="submit" disabled={isSubmitting}>
+  {isSubmitting && <Spinner size="sm" variant="default" />}
+  {isSubmitting ? "Submitting..." : "Submit"}
+</Button>;
+
+// Brand loading with logo
+<Spinner
+  fullscreen
+  variant="gradient"
+  size="2xl"
+  logo="/brand-logo.png"
+  logoSize="lg"
+  label="Loading your app..."
+/>;
+
+// Page loading
+{
+  isLoading && (
+    <Spinner
+      fullscreen
+      variant="primary"
+      size="xl"
+      label="Loading content..."
+    />
+  );
+}
+
+// Inline loading
+<div className="flex items-center gap-3">
+  <Spinner size="sm" variant="info" />
+  <span>Syncing data...</span>
+</div>;
+
+// Conditional rendering
+{
+  isFetching ? (
+    <Spinner variant="success" label="Loading items..." />
+  ) : (
+    <ItemsList items={items} />
+  );
+}
+```
+
+**Variants:** `default` `primary` `secondary` `accent` `info` `success` `warning` `error` `glass` `gradient`  
+**Sizes:** `xs` `sm` `md` `lg` `xl` `2xl`  
+**Types:** `ring` `dots` `dashed` `bars` `dotRing` `orbit` `pulse` `square` `triangle` `wave` `spiral` `infinity` `flower` `grid` `bounce`  
+**Animations:** `spin` `pulse` `bounce` `ping`  
+**Thickness:** `thin` `default` `thick`  
+**Logo Sizes:** `xs` `sm` `md` `lg` `xl`
+
+**Features:**
+
+- 🎨 10 stunning variants with shadows and effects
+- 🎯 **15 unique spinner types** - from classic to creative designs
+- 📏 6 size options from xs (16px) to 2xl (128px)
+- 🎭 4 different animation types
+- ⚡ Customizable animation speed (0.5x to 3x+)
+- 🎯 Optional loading labels
+- 🖼️ Fullscreen overlay mode with backdrop
+- 🔲 3 thickness options
+- 🌈 Gradient variant with multi-color effects
+- 💎 Glass variant with backdrop blur
+- 🖼️ **Custom logo/icon support** (image URL or React component)
+- 📐 5 logo size options for perfect fit
+- 🎨 Logo positioned in center with spinner animation around it
+- 🌌 **Creative types**: Orbit, Spiral, Infinity, Flower, Wave patterns
+- 🔄 All 15 types work with all 10 variants (150 combinations!)
+- ⚡ Mathematical precision for perfect centering
+- 🎪 **Unique designs**: Grid, Triangle, Pulse, Square, Bounce
+- 🌓 Theme-aware styling
+- ♿ Accessibility with proper ARIA attributes
+- 💫 Smooth CSS animations (GPU-accelerated)
+- 📱 Responsive and flexible
+- 🎛️ Works great in buttons, cards, and overlays
+- 🎨 **900+ possible configurations** (types × variants × sizes)
+
+---
+
 ### Pagination
 
 Comprehensive pagination component for navigating through large datasets.
@@ -4044,24 +4472,24 @@ import { Mail, Lock, Search, User } from "lucide-react";
 
 **Props:**
 
-| Prop                  | Type          | Default     | Description                              |
-| --------------------- | ------------- | ----------- | ---------------------------------------- |
-| `variant`             | `InputVariant`| `'outline'` | Visual variant                           |
-| `size`                | `InputSize`   | `'md'`      | Size variant                             |
-| `type`                | `InputType`   | `'text'`    | HTML input type (excludes file)          |
-| `label`               | `string`      | `undefined` | Label text for the input                 |
-| `helperText`          | `string`      | `undefined` | Helper text below input                  |
-| `error`               | `string`      | `undefined` | Error message (overrides helperText)     |
-| `startIcon`           | `ReactNode`   | `undefined` | Icon on the left side                    |
-| `endIcon`             | `ReactNode`   | `undefined` | Icon on the right side                   |
-| `showCounter`         | `boolean`     | `false`     | Show character counter (needs maxLength) |
-| `required`            | `boolean`     | `false`     | Mark field as required                   |
-| `fullWidth`           | `boolean`     | `false`     | Full width styling                       |
-| `containerClassName`  | `string`      | `undefined` | Custom className for container           |
-| `labelClassName`      | `string`      | `undefined` | Custom className for label               |
-| `disabled`            | `boolean`     | `false`     | Disable the input                        |
-| `maxLength`           | `number`      | `undefined` | Maximum character length                 |
-| `...props`            | `InputHTMLAttributes` | - | All standard input attributes            |
+| Prop                 | Type                  | Default     | Description                              |
+| -------------------- | --------------------- | ----------- | ---------------------------------------- |
+| `variant`            | `InputVariant`        | `'outline'` | Visual variant                           |
+| `size`               | `InputSize`           | `'md'`      | Size variant                             |
+| `type`               | `InputType`           | `'text'`    | HTML input type (excludes file)          |
+| `label`              | `string`              | `undefined` | Label text for the input                 |
+| `helperText`         | `string`              | `undefined` | Helper text below input                  |
+| `error`              | `string`              | `undefined` | Error message (overrides helperText)     |
+| `startIcon`          | `ReactNode`           | `undefined` | Icon on the left side                    |
+| `endIcon`            | `ReactNode`           | `undefined` | Icon on the right side                   |
+| `showCounter`        | `boolean`             | `false`     | Show character counter (needs maxLength) |
+| `required`           | `boolean`             | `false`     | Mark field as required                   |
+| `fullWidth`          | `boolean`             | `false`     | Full width styling                       |
+| `containerClassName` | `string`              | `undefined` | Custom className for container           |
+| `labelClassName`     | `string`              | `undefined` | Custom className for label               |
+| `disabled`           | `boolean`             | `false`     | Disable the input                        |
+| `maxLength`          | `number`              | `undefined` | Maximum character length                 |
+| `...props`           | `InputHTMLAttributes` | -           | All standard input attributes            |
 
 **Features:**
 

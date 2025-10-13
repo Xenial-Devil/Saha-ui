@@ -46,13 +46,14 @@ export default defineConfig({
           .sync("src/**/*.{ts,tsx}", {
             ignore: [
               "src/**/*.test.{ts,tsx}",
+              "src/**/*.types.ts",
               "src/main.tsx",
               "src/App.tsx",
               "src/TypeSafetyExamples.tsx",
               "src/DebugTheme.tsx",
               "src/components/ColorTest.tsx",
               "src/vite-env.d.ts",
-              "src/examples/**/*", // Exclude all examples from build
+              "src/examples/**/*",
             ],
           })
           .map((file) => [

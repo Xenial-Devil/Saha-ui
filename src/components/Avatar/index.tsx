@@ -5,7 +5,7 @@ import { AvatarProps } from "./Avatar.types";
 
 // CVA variants for Avatar
 const avatarVariants = cva(
-  "relative inline-flex items-center justify-center overflow-hidden font-semibold transition-all duration-300 ease-out select-none",
+  "relative inline-flex items-center justify-center overflow-hidden font-semibold transition-all duration-300 ease-out select-none isolate group hover:scale-110 active:scale-95 shadow-md hover:shadow-xl before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-black/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
   {
     variants: {
       size: {
@@ -22,11 +22,11 @@ const avatarVariants = cva(
         rounded: "rounded-xl",
       },
       bordered: {
-        true: "ring-2 ring-border ring-offset-2 ring-offset-background",
+        true: "ring-2 ring-border ring-offset-2 ring-offset-background hover:ring-primary/50 transition-all",
         false: "",
       },
       ring: {
-        true: "ring-4 ring-primary/30 ring-offset-2 ring-offset-background shadow-lg shadow-primary/20",
+        true: "ring-4 ring-primary/30 ring-offset-2 ring-offset-background shadow-lg shadow-primary/20 hover:ring-primary/50 hover:shadow-2xl hover:shadow-primary/40 transition-all",
         false: "",
       },
     },
@@ -41,7 +41,7 @@ const avatarVariants = cva(
 
 // Status indicator variants
 const statusVariants = cva(
-  "absolute bottom-0 right-0 rounded-full border-2 border-background transition-all duration-200",
+  "absolute bottom-0 right-0 rounded-full border-2 border-background transition-all duration-200 animate-pulse",
   {
     variants: {
       size: {
@@ -53,10 +53,11 @@ const statusVariants = cva(
         "2xl": "w-4 h-4",
       },
       status: {
-        online: "bg-success shadow-[0_0_8px_0] shadow-success/50",
-        offline: "bg-muted",
-        away: "bg-warning shadow-[0_0_8px_0] shadow-warning/50",
-        busy: "bg-destructive shadow-[0_0_8px_0] shadow-destructive/50",
+        online:
+          "bg-success shadow-[0_0_12px_0] shadow-success/70 group-hover:shadow-[0_0_16px_0] group-hover:shadow-success/90",
+        offline: "bg-muted animate-none",
+        away: "bg-warning shadow-[0_0_12px_0] shadow-warning/70 group-hover:shadow-[0_0_16px_0] group-hover:shadow-warning/90",
+        busy: "bg-destructive shadow-[0_0_12px_0] shadow-destructive/70 group-hover:shadow-[0_0_16px_0] group-hover:shadow-destructive/90",
         none: "hidden",
       },
     },

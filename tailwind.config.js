@@ -88,6 +88,30 @@ export default {
         'base': '250ms',
         'slow': '350ms',
       },
+      keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        glow: {
+          '0%, 100%': { opacity: '1', filter: 'brightness(1)' },
+          '50%': { opacity: '0.8', filter: 'brightness(1.2)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        "pulse-glow": {
+          '0%, 100%': { boxShadow: '0 0 20px currentColor' },
+          '50%': { boxShadow: '0 0 40px currentColor, 0 0 60px currentColor' },
+        },
+      },
+      animation: {
+        shimmer: 'shimmer 2s infinite',
+        glow: 'glow 2s ease-in-out infinite',
+        float: 'float 3s ease-in-out infinite',
+        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+      },
     },
   },
   plugins: [],

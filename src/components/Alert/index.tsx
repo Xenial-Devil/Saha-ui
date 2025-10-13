@@ -5,22 +5,22 @@ import { AlertProps } from "./Alert.types";
 
 // CVA variants for Alert
 const alertVariants = cva(
-  "relative w-full p-4 transition-all duration-300 ease-out overflow-hidden isolate",
+  "relative w-full p-4 transition-all duration-300 ease-out overflow-hidden isolate group hover:scale-[1.01] hover:shadow-2xl",
   {
     variants: {
       variant: {
         solid:
-          "shadow-lg before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-50",
+          "shadow-lg shadow-current/20 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-50 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black/5 after:to-transparent hover:shadow-current/30",
         subtle:
-          "backdrop-blur-sm bg-opacity-10 border border-current/20 shadow-md",
+          "backdrop-blur-sm bg-opacity-10 border border-current/20 shadow-md shadow-current/10 hover:border-current/40 hover:bg-opacity-15 hover:shadow-current/20",
         "left-accent":
-          "border-l-4 bg-opacity-10 backdrop-blur-sm shadow-md before:absolute before:left-0 before:inset-y-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:via-current before:to-transparent",
+          "border-l-4 bg-opacity-10 backdrop-blur-sm shadow-md shadow-current/10 before:absolute before:left-0 before:inset-y-0 before:w-1 before:bg-gradient-to-b before:from-transparent before:via-current before:to-transparent after:absolute after:left-0 after:top-0 after:bottom-0 after:w-0.5 after:bg-current/50 after:blur-sm hover:shadow-lg hover:shadow-current/20",
         "top-accent":
-          "border-t-4 bg-opacity-10 backdrop-blur-sm shadow-md before:absolute before:top-0 before:inset-x-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-current before:to-transparent",
+          "border-t-4 bg-opacity-10 backdrop-blur-sm shadow-md shadow-current/10 before:absolute before:top-0 before:inset-x-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-current before:to-transparent after:absolute after:top-0 after:left-0 after:right-0 after:h-0.5 after:bg-current/50 after:blur-sm hover:shadow-lg hover:shadow-current/20",
         outline:
-          "bg-card/50 backdrop-blur-sm border-2 border-current/30 shadow-md hover:border-current/50 hover:shadow-lg",
+          "bg-card/50 backdrop-blur-sm border-2 border-current/30 shadow-md shadow-current/10 hover:border-current/50 hover:shadow-lg hover:shadow-current/25 hover:bg-card/70",
         glass:
-          "bg-background/30 backdrop-blur-xl border border-white/10 shadow-2xl",
+          "bg-background/30 backdrop-blur-xl border border-white/10 shadow-2xl shadow-current/20 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/5 before:to-transparent hover:border-white/20 hover:shadow-current/30",
       },
       status: {
         info: "",
