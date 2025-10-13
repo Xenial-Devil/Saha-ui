@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **35 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, FloatingActionButton, Radio, Switch, Checkbox, CheckboxGroup, Select, Skeleton, Pagination, DatePicker, Tab, Input
+- 🎨 **38 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, FloatingActionButton, Radio, Switch, Checkbox, CheckboxGroup, Select, Dropdown, Tag, TagInput, Skeleton, Pagination, DatePicker, Tab, Input
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -171,6 +171,9 @@ import { cn } from "saha-ui/lib/utils";
 | **Checkbox**             | Checkbox with 7 variants, 3 sizes, indeterminate, card mode, icons       | ✅     | ✅  |
 | **CheckboxGroup**        | Grouped checkboxes with layouts, validation, card grid, custom children  | ✅     | ✅  |
 | **Select**               | Advanced dropdown with search, multi-select, icons, avatars, grouping    | ✅     | ✅  |
+| **Dropdown**             | Advanced menu with nested items, keyboard nav, search, shortcuts, badges | ✅     | ✅  |
+| **Tag**                  | Labels with 11 variants, removable, badges, dots, avatars, animations    | ✅     | ✅  |
+| **TagInput**             | Dynamic tag input with validation, Enter/Comma keys, paste support       | ✅     | ✅  |
 | **Skeleton**             | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
 | **Spinner**              | Loading spinner with 10 variants, 6 sizes, 4 animations, fullscreen mode | ✅     | ✅  |
 | **Pagination**           | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels  | ✅     | ✅  |
@@ -847,6 +850,43 @@ import { Select } from "saha-ui";
   options={[
     { value: "alice", label: "Alice", avatar: "/avatar1.jpg" },
     { value: "bob", label: "Bob", avatar: "/avatar2.jpg" },
+  ]}
+/>
+```
+
+### Dropdown
+
+```tsx
+import { Dropdown } from "saha-ui";
+
+// Basic dropdown
+<Dropdown
+  placeholder="Actions"
+  options={[
+    { value: "edit", label: "Edit", icon: <Edit /> },
+    { value: "delete", label: "Delete", icon: <Trash /> },
+  ]}
+/>
+
+// Searchable multi-select
+<Dropdown
+  multiple
+  searchable
+  placeholder="Select features..."
+  options={[
+    { value: "notifications", label: "Notifications", icon: <Bell /> },
+    { value: "email", label: "Email Updates", icon: <Mail /> },
+  ]}
+/>
+
+// With shortcuts and badges
+<Dropdown
+  placeholder="Actions"
+  variant="glass"
+  options={[
+    { value: "save", label: "Save", icon: <Save />, shortcut: "⌘S" },
+    { value: "open", label: "Open", icon: <Folder />, shortcut: "⌘O" },
+    { value: "new", label: "New", icon: <Plus />, badge: "Pro" },
   ]}
 />
 ```

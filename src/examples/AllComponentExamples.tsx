@@ -38,6 +38,9 @@ import { SwitchExample } from "./SwitchExample";
 import { CheckboxExample } from "./CheckboxExample";
 import { CheckboxGroupExample } from "./CheckboxGroupExample";
 import { SelectExample } from "./SelectExample";
+import { DropdownExample } from "./DropdownExample";
+import { TagExample } from "./TagExample";
+import { TagInputExample } from "./TagInputExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -152,6 +155,15 @@ export const AllComponentExamples = () => {
 
       {/* Select Examples */}
       <SelectExample />
+
+      {/* Dropdown Examples */}
+      <DropdownExample />
+
+      {/* Tag Examples */}
+      <TagExample />
+
+      {/* TagInput Examples */}
+      <TagInputExample />
     </>
   );
 };

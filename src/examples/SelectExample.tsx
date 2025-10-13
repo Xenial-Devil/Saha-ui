@@ -26,8 +26,16 @@ export const SelectExample = () => {
 
   // Sample options
   const countryOptions: SelectOption[] = [
-    { value: "us", label: "United States", icon: <Globe className="w-4 h-4" /> },
-    { value: "uk", label: "United Kingdom", icon: <Globe className="w-4 h-4" /> },
+    {
+      value: "us",
+      label: "United States",
+      icon: <Globe className="w-4 h-4" />,
+    },
+    {
+      value: "uk",
+      label: "United Kingdom",
+      icon: <Globe className="w-4 h-4" />,
+    },
     { value: "ca", label: "Canada", icon: <Globe className="w-4 h-4" /> },
     { value: "au", label: "Australia", icon: <Globe className="w-4 h-4" /> },
     { value: "de", label: "Germany", icon: <Globe className="w-4 h-4" /> },
@@ -111,9 +119,17 @@ export const SelectExample = () => {
 
   const hobbyOptions: SelectOption[] = [
     { value: "music", label: "Music", icon: <Music className="w-4 h-4" /> },
-    { value: "photography", label: "Photography", icon: <Camera className="w-4 h-4" /> },
+    {
+      value: "photography",
+      label: "Photography",
+      icon: <Camera className="w-4 h-4" />,
+    },
     { value: "reading", label: "Reading", icon: <Book className="w-4 h-4" /> },
-    { value: "art", label: "Art & Design", icon: <Palette className="w-4 h-4" /> },
+    {
+      value: "art",
+      label: "Art & Design",
+      icon: <Palette className="w-4 h-4" />,
+    },
     { value: "coding", label: "Coding", icon: <Code className="w-4 h-4" /> },
     { value: "gaming", label: "Gaming", icon: <Zap className="w-4 h-4" /> },
   ];
@@ -146,10 +162,26 @@ export const SelectExample = () => {
   ];
 
   const priorityOptions: SelectOption[] = [
-    { value: "low", label: "Low Priority", icon: <Star className="w-4 h-4 text-blue-500" /> },
-    { value: "medium", label: "Medium Priority", icon: <Star className="w-4 h-4 text-yellow-500" /> },
-    { value: "high", label: "High Priority", icon: <Star className="w-4 h-4 text-orange-500" /> },
-    { value: "critical", label: "Critical Priority", icon: <Star className="w-4 h-4 text-red-500" /> },
+    {
+      value: "low",
+      label: "Low Priority",
+      icon: <Star className="w-4 h-4 text-blue-500" />,
+    },
+    {
+      value: "medium",
+      label: "Medium Priority",
+      icon: <Star className="w-4 h-4 text-yellow-500" />,
+    },
+    {
+      value: "high",
+      label: "High Priority",
+      icon: <Star className="w-4 h-4 text-orange-500" />,
+    },
+    {
+      value: "critical",
+      label: "Critical Priority",
+      icon: <Star className="w-4 h-4 text-red-500" />,
+    },
   ];
 
   return (
@@ -159,7 +191,8 @@ export const SelectExample = () => {
           Select Component
         </h2>
         <p className="text-muted-foreground mb-8">
-          Advanced select dropdown with search, multi-select, icons, avatars, and more.
+          Advanced select dropdown with search, multi-select, icons, avatars,
+          and more.
         </p>
       </div>
 
@@ -214,9 +247,24 @@ export const SelectExample = () => {
             label="Contact Method"
             placeholder="How should we contact you?"
             options={[
-              { value: "email", label: "Email", icon: <Mail className="w-4 h-4" />, description: "We'll send you an email" },
-              { value: "phone", label: "Phone", icon: <Phone className="w-4 h-4" />, description: "We'll give you a call" },
-              { value: "address", label: "Mail", icon: <MapPin className="w-4 h-4" />, description: "We'll send physical mail" },
+              {
+                value: "email",
+                label: "Email",
+                icon: <Mail className="w-4 h-4" />,
+                description: "We'll send you an email",
+              },
+              {
+                value: "phone",
+                label: "Phone",
+                icon: <Phone className="w-4 h-4" />,
+                description: "We'll give you a call",
+              },
+              {
+                value: "address",
+                label: "Mail",
+                icon: <MapPin className="w-4 h-4" />,
+                description: "We'll send physical mail",
+              },
             ]}
             clearable
           />

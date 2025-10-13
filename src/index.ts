@@ -76,6 +76,16 @@ export { default as Radio, RadioGroup } from "./components/Radio";
 export { default as Switch } from "./components/Switch";
 export { default as Checkbox, CheckboxGroup } from "./components/Checkbox";
 export { default as Select } from "./components/Select";
+export {
+  default as Dropdown,
+  DropdownItem,
+  DropdownSeparator,
+  DropdownGroup,
+  DropdownTrigger,
+  DropdownContent,
+} from "./components/Dropdown";
+export { Tag, TagGroup } from "./components/Tag";
+export { default as TagInput } from "./components/TagInput";
 
 // Types - Theme
 export type {
@@ -339,6 +349,21 @@ export type {
   SelectProps,
   SelectOption,
 } from "./components/Select/Select.types";
+
+export type {
+  DropdownProps,
+  DropdownOption,
+  DropdownTriggerProps,
+  DropdownContentProps,
+  DropdownItemProps,
+  DropdownGroupProps,
+  DropdownSeparatorProps,
+  DropdownSubProps,
+} from "./components/Dropdown/Dropdown.types";
+
+export type { TagProps, TagGroupProps } from "./components/Tag/Tag.types";
+
+export type { TagInputProps } from "./components/TagInput/TagInput.types";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";
