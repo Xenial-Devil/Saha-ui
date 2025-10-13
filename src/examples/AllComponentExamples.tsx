@@ -31,6 +31,13 @@ import { PaginationExample } from "./PaginationExample";
 import { DatePickerExample } from "./DatePickerExample";
 import { TabExample } from "./TabExample";
 import { InputExample } from "./InputExample";
+import { FloatingActionButtonExample } from "./FloatingActionButtonExample";
+import { RadioExample } from "./RadioExample";
+import { RadioAdvancedExample } from "./RadioAdvancedExample";
+import { SwitchExample } from "./SwitchExample";
+import { CheckboxExample } from "./CheckboxExample";
+import { CheckboxGroupExample } from "./CheckboxGroupExample";
+import { SelectExample } from "./SelectExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -124,6 +131,27 @@ export const AllComponentExamples = () => {
 
       {/* Input Examples */}
       <InputExample />
+
+      {/* FloatingActionButton Examples */}
+      <FloatingActionButtonExample />
+
+      {/* Radio Examples */}
+      <RadioExample />
+
+      {/* Advanced Radio Examples */}
+      <RadioAdvancedExample />
+
+      {/* Switch Examples */}
+      <SwitchExample />
+
+      {/* Checkbox Examples */}
+      <CheckboxExample />
+
+      {/* CheckboxGroup Examples */}
+      <CheckboxGroupExample />
+
+      {/* Select Examples */}
+      <SelectExample />
     </>
   );
 };

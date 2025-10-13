@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **29 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, Skeleton, Pagination, DatePicker, Tab, Input
+- 🎨 **35 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, FloatingActionButton, Radio, Switch, Checkbox, CheckboxGroup, Select, Skeleton, Pagination, DatePicker, Tab, Input
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -139,44 +139,50 @@ import { cn } from "saha-ui/lib/utils";
 
 ### Overview
 
-| Component       | Description                                                              | Status | CVA |
-| --------------- | ------------------------------------------------------------------------ | ------ | --- |
-| **Button**      | Action buttons with 9 variants and 4 sizes                               | ✅     | ✅  |
-| **ButtonGroup** | Grouped buttons with horizontal/vertical layouts                         | ✅     | ✅  |
-| **Alert**       | Notification messages with 5 variants × 4 statuses                       | ✅     | ✅  |
-| **Badge**       | Status indicators and labels with 9 variants                             | ✅     | ✅  |
-| **Breadcrumb**  | Navigation trail with 5 variants, 4 separators, and collapsing           | ✅     | ✅  |
-| **Card**        | Container with 5 variants and sub-components                             | ✅     | ✅  |
-| **Chip**        | Interactive tags with 5 variants, deletable, and avatars                 | ✅     | ✅  |
-| **Divider**     | Content separator with 5 variants and label support                      | ✅     | ✅  |
-| **Accordion**   | Collapsible content with 5 behavior modes                                | ✅     | ✅  |
-| **Avatar**      | User profile images with status indicators                               | ✅     | ✅  |
-| **AvatarGroup** | Grouped avatars with overlap and count                                   | ✅     | ✅  |
-| **Tooltip**     | Contextual hints with 9 variants, 4 triggers, and interactive mode       | ✅     | ✅  |
-| **Link**        | Smart links with 9 variants and icon support                             | ✅     | ✅  |
-| **List**        | Modern lists with 5 variants and icon support                            | ✅     | ✅  |
-| **Timeline**    | Chronological events with 4 variants, positions, and statuses            | ✅     | ✅  |
-| **Tree**        | Hierarchical data with 4 variants, icons, and expand/collapse            | ✅     | ✅  |
-| **Image**       | Advanced image with lazy loading                                         | ✅     | ✅  |
-| **Carousel**    | Image slider with 4 transition effects                                   | ✅     | ✅  |
-| **Steps**       | Progress indicator with 4 variants, horizontal/vertical layouts          | ✅     | ✅  |
-| **Table**       | Data table with sorting, selection, 5 variants, and responsive           | ✅     | ✅  |
-| **Rating**      | Star rating with 6 variants, 4 sizes, multiple icons, half stars         | ✅     | ✅  |
-| **Progress**    | Progress bar with 9 variants, 5 sizes, animations, striped               | ✅     | ✅  |
-| **Popover**     | Rich content popover with 11 variants, 12 positions, 4 triggers          | ✅     | ✅  |
-| **PlayButton**  | Animated play/pause button with 9 variants, 4 sizes, smooth transitions  | ✅     | ✅  |
-| **Skeleton**    | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
-| **Spinner**     | Loading spinner with 10 variants, 6 sizes, 4 animations, fullscreen mode | ✅     | ✅  |
-| **Pagination**  | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels  | ✅     | ✅  |
-| **DatePicker**  | Calendar date picker with 5 variants, 3 sizes, date restrictions         | ✅     | ✅  |
-| **Tab**         | Tab navigation with 14 variants, 3 sizes, icons, badges, disabled states | ✅     | ✅  |
-| **Input**       | Text input with 10 variants, 4 sizes, icons, validation, all input types | ✅     | ✅  |
+| Component                | Description                                                              | Status | CVA |
+| ------------------------ | ------------------------------------------------------------------------ | ------ | --- |
+| **Button**               | Action buttons with 9 variants and 4 sizes                               | ✅     | ✅  |
+| **ButtonGroup**          | Grouped buttons with horizontal/vertical layouts                         | ✅     | ✅  |
+| **Alert**                | Notification messages with 5 variants × 4 statuses                       | ✅     | ✅  |
+| **Badge**                | Status indicators and labels with 9 variants                             | ✅     | ✅  |
+| **Breadcrumb**           | Navigation trail with 5 variants, 4 separators, and collapsing           | ✅     | ✅  |
+| **Card**                 | Container with 5 variants and sub-components                             | ✅     | ✅  |
+| **Chip**                 | Interactive tags with 5 variants, deletable, and avatars                 | ✅     | ✅  |
+| **Divider**              | Content separator with 5 variants and label support                      | ✅     | ✅  |
+| **Accordion**            | Collapsible content with 5 behavior modes                                | ✅     | ✅  |
+| **Avatar**               | User profile images with status indicators                               | ✅     | ✅  |
+| **AvatarGroup**          | Grouped avatars with overlap and count                                   | ✅     | ✅  |
+| **Tooltip**              | Contextual hints with 9 variants, 4 triggers, and interactive mode       | ✅     | ✅  |
+| **Link**                 | Smart links with 9 variants and icon support                             | ✅     | ✅  |
+| **List**                 | Modern lists with 5 variants and icon support                            | ✅     | ✅  |
+| **Timeline**             | Chronological events with 4 variants, positions, and statuses            | ✅     | ✅  |
+| **Tree**                 | Hierarchical data with 4 variants, icons, and expand/collapse            | ✅     | ✅  |
+| **Image**                | Advanced image with lazy loading                                         | ✅     | ✅  |
+| **Carousel**             | Image slider with 4 transition effects                                   | ✅     | ✅  |
+| **Steps**                | Progress indicator with 4 variants, horizontal/vertical layouts          | ✅     | ✅  |
+| **Table**                | Data table with sorting, selection, 5 variants, and responsive           | ✅     | ✅  |
+| **Rating**               | Star rating with 6 variants, 4 sizes, multiple icons, half stars         | ✅     | ✅  |
+| **Progress**             | Progress bar with 9 variants, 5 sizes, animations, striped               | ✅     | ✅  |
+| **Popover**              | Rich content popover with 11 variants, 12 positions, 4 triggers          | ✅     | ✅  |
+| **PlayButton**           | Animated play/pause button with 9 variants, 4 sizes, smooth transitions  | ✅     | ✅  |
+| **FloatingActionButton** | Modern FAB with 9 variants, 4 sizes, positions, extended mode            | ✅     | ✅  |
+| **Radio**                | Radio button with 7 variants, 3 sizes, RadioGroup, descriptions          | ✅     | ✅  |
+| **Switch**               | Toggle switch with 7 variants, 3 sizes, icons, loading state             | ✅     | ✅  |
+| **Checkbox**             | Checkbox with 7 variants, 3 sizes, indeterminate, card mode, icons       | ✅     | ✅  |
+| **CheckboxGroup**        | Grouped checkboxes with layouts, validation, card grid, custom children  | ✅     | ✅  |
+| **Select**               | Advanced dropdown with search, multi-select, icons, avatars, grouping    | ✅     | ✅  |
+| **Skeleton**             | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
+| **Spinner**              | Loading spinner with 10 variants, 6 sizes, 4 animations, fullscreen mode | ✅     | ✅  |
+| **Pagination**           | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels  | ✅     | ✅  |
+| **DatePicker**           | Calendar date picker with 5 variants, 3 sizes, date restrictions         | ✅     | ✅  |
+| **Tab**                  | Tab navigation with 14 variants, 3 sizes, icons, badges, disabled states | ✅     | ✅  |
+| **Input**                | Text input with 10 variants, 4 sizes, icons, validation, all input types | ✅     | ✅  |
 
 ---
 
 ## ⚡ Quick Examples
 
-Here are simple examples for all 29 components to get you started quickly:
+Here are simple examples for all 32 components to get you started quickly:
 
 ### Button
 
@@ -634,6 +640,214 @@ import { PlayButton } from "saha-ui";
   variant="success"
   pulse
   glow
+/>
+```
+
+### FloatingActionButton
+
+```tsx
+import { FloatingActionButton } from "saha-ui";
+import { Plus } from "lucide-react";
+
+<FloatingActionButton
+  variant="primary"
+  position="bottom-right"
+  label="Create New"
+  onClick={() => console.log("FAB clicked!")}
+>
+  <Plus size={24} />
+</FloatingActionButton>;
+
+{
+  /* Extended FAB */
+}
+<FloatingActionButton
+  variant="accent"
+  position="bottom-left"
+  label="Add Item"
+  extended
+>
+  <Plus size={20} />
+</FloatingActionButton>;
+```
+
+### Radio
+
+```tsx
+import { Radio, RadioGroup } from "saha-ui";
+
+{
+  /* Basic Radio */
+}
+<Radio label="Option 1" value="option1" />;
+
+{
+  /* Radio with description */
+}
+<Radio
+  label="Pro Plan"
+  description="Advanced features for teams"
+  value="pro"
+/>;
+
+{
+  /* RadioGroup */
+}
+<RadioGroup
+  name="plan"
+  label="Choose Your Plan"
+  value={selectedPlan}
+  onChange={setSelectedPlan}
+  options={[
+    { label: "Free", value: "free" },
+    { label: "Pro", value: "pro" },
+    { label: "Enterprise", value: "enterprise" },
+  ]}
+/>;
+
+{
+  /* Advanced: Card Style with Icons & Badges */
+}
+<RadioGroup name="pricing" card>
+  <Radio
+    value="pro"
+    label="Professional"
+    description="For growing businesses"
+    icon={<Rocket />}
+    badge="Popular"
+    recommended
+  />
+</RadioGroup>;
+```
+
+### Switch
+
+```tsx
+import { Switch } from "saha-ui";
+
+{
+  /* Basic Switch */
+}
+<Switch label="Enable Notifications" />;
+
+{
+  /* With icons */
+}
+<Switch
+  label="Dark Mode"
+  description="Toggle dark theme"
+  onIcon={<Moon />}
+  offIcon={<Sun />}
+/>;
+
+{
+  /* With loading state */
+}
+<Switch label="Auto-save" loading />;
+```
+
+### Checkbox
+
+```tsx
+import { Checkbox } from "saha-ui";
+
+// Basic checkbox
+<Checkbox label="Accept terms" />
+
+// With description
+<Checkbox
+  label="Marketing emails"
+  description="Receive promotional content"
+/>
+
+// Indeterminate state
+<Checkbox indeterminate label="Select all" />
+
+// With custom icon
+<Checkbox icon={<Star />} label="Favorite" variant="warning" />
+
+// Card mode
+<Checkbox
+  card
+  label="Premium Plan"
+  description="$29/month"
+  icon={<Crown />}
+  badge="Popular"
+/>
+```
+
+### CheckboxGroup
+
+```tsx
+import { CheckboxGroup } from "saha-ui";
+
+// Basic group
+<CheckboxGroup
+  label="Select interests"
+  options={[
+    { value: "coding", label: "Coding" },
+    { value: "design", label: "Design" },
+    { value: "marketing", label: "Marketing" },
+  ]}
+/>
+
+// Horizontal layout
+<CheckboxGroup
+  direction="horizontal"
+  options={[
+    { value: "notifications", label: "Email Notifications" },
+    { value: "newsletter", label: "Newsletter" },
+  ]}
+/>
+
+// Card layout with icons
+<CheckboxGroup
+  card
+  label="Choose features"
+  options={[
+    { value: "basic", label: "Basic Support", icon: <Star />, badge: "Free" },
+    { value: "premium", label: "Premium", icon: <Crown />, badge: "$29/mo", recommended: true },
+  ]}
+/>
+```
+
+### Select
+
+```tsx
+import { Select } from "saha-ui";
+
+// Basic select
+<Select
+  label="Country"
+  placeholder="Select your country"
+  options={[
+    { value: "us", label: "United States" },
+    { value: "uk", label: "United Kingdom" },
+    { value: "ca", label: "Canada" },
+  ]}
+/>
+
+// Multi-select with search
+<Select
+  label="Skills"
+  placeholder="Select your skills"
+  options={[
+    { value: "react", label: "React", icon: <Code /> },
+    { value: "vue", label: "Vue.js", icon: <Code /> },
+  ]}
+  multiple
+  searchable
+  clearable
+/>
+
+// With avatars
+<Select
+  label="Assign to"
+  placeholder="Select team member"
+  options={[
+    { value: "alice", label: "Alice", avatar: "/avatar1.jpg" },
+    { value: "bob", label: "Bob", avatar: "/avatar2.jpg" },
+  ]}
 />
 ```
 
@@ -3424,6 +3638,366 @@ const [playing, setPlaying] = useState(false);
 - 🔘 Rounded, modern design
 - ♿ Fully accessible with ARIA labels
 - 🎭 Hover scale animations
+
+---
+
+### FloatingActionButton
+
+A modern floating action button (FAB) with beautiful visual effects, multiple positioning options, and extended label support.
+
+**Basic Usage:**
+
+```tsx
+import { FloatingActionButton } from "saha-ui";
+import { Plus, MessageCircle, Send } from "lucide-react";
+
+// Basic FAB (using children)
+<FloatingActionButton
+  variant="primary"
+  position="bottom-right"
+  label="Create New"
+>
+  <Plus size={24} />
+</FloatingActionButton>
+
+// Extended FAB
+<FloatingActionButton
+  variant="accent"
+  label="Send Message"
+  extended
+>
+  <Send size={20} />
+</FloatingActionButton>
+
+// Different positions
+<FloatingActionButton position="bottom-left" label="Messages">
+  <MessageCircle />
+</FloatingActionButton>
+
+<FloatingActionButton position="top-right" label="Add">
+  <Plus />
+</FloatingActionButton>
+
+// Sizes
+<FloatingActionButton size="sm">
+  <Plus size={16} />
+</FloatingActionButton>
+
+<FloatingActionButton size="lg">
+  <Plus size={24} />
+</FloatingActionButton>
+
+// Custom offset
+<FloatingActionButton offset={{ x: 20, y: 20 }} icon={<Plus />} />
+```
+
+**Features:**
+
+- 🎨 9 visual variants with gradients
+- 📍 4 screen positions + custom offset
+- 📐 4 size options
+- 🏷️ Label tooltip on hover
+- 📝 Extended mode with inline label
+- 💫 Scale & rotation animations
+- 🌈 Color-matched shadows
+- ♿ Fully accessible
+
+---
+
+### Radio
+
+Modern radio buttons with beautiful animations and a powerful RadioGroup component.
+
+**Basic Usage:**
+
+```tsx
+import { Radio, RadioGroup } from "saha-ui";
+
+// Basic Radio
+<Radio label="Option 1" value="option1" name="choice" />
+
+// Radio with description
+<Radio
+  label="Pro Plan"
+  description="Advanced features for growing businesses"
+  value="pro"
+  name="plan"
+/>
+
+// RadioGroup (Controlled)
+const [selected, setSelected] = useState("pro");
+
+<RadioGroup
+  name="plan"
+  label="Choose Your Plan"
+  value={selected}
+  onChange={setSelected}
+  options={[
+    { label: "Free", value: "free", description: "$0/month" },
+    { label: "Pro", value: "pro", description: "$29/month" },
+    { label: "Enterprise", value: "enterprise", description: "Custom" },
+  ]}
+/>
+```
+
+**Variants:**
+
+```tsx
+// Color variants
+<Radio variant="primary" label="Primary" />
+<Radio variant="secondary" label="Secondary" />
+<Radio variant="accent" label="Accent" />
+<Radio variant="success" label="Success" />
+<Radio variant="warning" label="Warning" />
+<Radio variant="error" label="Error" />
+```
+
+**Sizes:**
+
+```tsx
+<Radio size="sm" label="Small" />
+<Radio size="md" label="Medium" />
+<Radio size="lg" label="Large" />
+```
+
+**RadioGroup with Children:**
+
+```tsx
+<RadioGroup name="custom" value={value} onChange={setValue}>
+  <Radio label="Option 1" value="1" />
+  <Radio label="Option 2" value="2" />
+  <Radio label="Option 3" value="3" />
+</RadioGroup>
+```
+
+**Horizontal Layout:**
+
+```tsx
+<RadioGroup
+  name="color"
+  direction="horizontal"
+  value={color}
+  onChange={setColor}
+  options={[
+    { label: "Blue", value: "blue" },
+    { label: "Green", value: "green" },
+    { label: "Red", value: "red" },
+  ]}
+/>
+```
+
+**With Validation:**
+
+```tsx
+<RadioGroup
+  name="terms"
+  label="Terms and Conditions"
+  error="You must accept the terms to continue"
+  variant="error"
+>
+  <Radio label="I accept" value="accept" />
+  <Radio label="I decline" value="decline" />
+</RadioGroup>
+```
+
+**Advanced Features:**
+
+```tsx
+// Card Style Radio with Icons & Badges
+<RadioGroup name="pricing" card>
+  <Radio
+    value="free"
+    label="Free"
+    description="Perfect for getting started"
+    icon={<Package />}
+    badge="Free"
+  />
+  <Radio
+    value="pro"
+    label="Professional"
+    description="For growing businesses"
+    icon={<Rocket />}
+    badge="Popular"
+    recommended
+  />
+  <Radio
+    value="enterprise"
+    label="Enterprise"
+    description="For large organizations"
+    icon={<Crown />}
+    badge="Custom"
+  />
+</RadioGroup>
+
+// Standard Radio with Icons
+<Radio
+  value="cloud"
+  label="Cloud Storage"
+  description="Store files securely"
+  icon={<Cloud />}
+  badge="Recommended"
+/>
+
+// With Images (Card Mode)
+<Radio
+  card
+  value="plan-a"
+  label="Plan A"
+  image="/path/to/image.jpg"
+/>
+```
+
+**Features:**
+
+- 🎨 7 color variants
+- 📐 3 size options
+- 🎴 Card layout mode
+- 🎯 Icon support
+- 🏷️ Badge system
+- ⭐ Recommended flag
+- �️ Image support
+- �📝 Label descriptions
+- 🔄 Controlled & uncontrolled modes
+- 🗂️ RadioGroup component
+- 📍 Horizontal & vertical layouts
+- 🎭 Hover effects
+- ✅ Built-in validation
+- 💫 Smooth animations
+- 🌈 Color-matched shadows
+- ♿ Fully accessible
+
+See [ADVANCED_RADIO_FEATURES.md](./ADVANCED_RADIO_FEATURES.md) for detailed documentation.
+
+---
+
+### Switch
+
+Modern toggle switch with beautiful animations, icons, and loading states.
+
+**Basic Usage:**
+
+```tsx
+import { Switch } from "saha-ui";
+
+// Basic Switch
+<Switch label="Enable Notifications" />
+
+// With description
+<Switch
+  label="Dark Mode"
+  description="Toggle between light and dark themes"
+/>
+
+// Controlled Switch
+const [enabled, setEnabled] = useState(false);
+
+<Switch
+  label="Auto-save"
+  checked={enabled}
+  onCheckedChange={setEnabled}
+/>
+```
+
+**Variants:**
+
+```tsx
+// Color variants
+<Switch variant="primary" label="Primary" />
+<Switch variant="secondary" label="Secondary" />
+<Switch variant="accent" label="Accent" />
+<Switch variant="success" label="Success" />
+<Switch variant="warning" label="Warning" />
+<Switch variant="error" label="Error" />
+```
+
+**Sizes:**
+
+```tsx
+<Switch size="sm" label="Small" />
+<Switch size="md" label="Medium" />
+<Switch size="lg" label="Large" />
+```
+
+**With Icons:**
+
+```tsx
+<Switch
+  label="Dark Mode"
+  onIcon={<Moon className="w-3 h-3" />}
+  offIcon={<Sun className="w-3 h-3" />}
+/>
+
+<Switch
+  label="Wi-Fi"
+  onIcon={<Wifi className="w-3 h-3" />}
+  offIcon={<X className="w-3 h-3" />}
+/>
+```
+
+**Loading State:**
+
+```tsx
+<Switch label="Processing..." loading />;
+
+// Async toggle
+const handleAsyncToggle = async (checked: boolean) => {
+  setLoading(true);
+  await saveSettings(checked);
+  setLoading(false);
+};
+
+<Switch
+  label="Auto-save"
+  checked={autoSave}
+  onCheckedChange={handleAsyncToggle}
+  loading={loading}
+/>;
+```
+
+**With Badges:**
+
+```tsx
+<Switch label="Beta Features" badge="Beta" />
+<Switch label="Premium Mode" badge="Pro" variant="accent" />
+```
+
+**Label Position:**
+
+```tsx
+<Switch label="Label on Right" labelPosition="right" />
+<Switch label="Label on Left" labelPosition="left" />
+```
+
+**With Validation:**
+
+```tsx
+<Switch
+  label="Accept Terms"
+  error="You must accept the terms to continue"
+  variant="error"
+/>
+
+<Switch
+  label="Newsletter"
+  helperText="You can unsubscribe at any time"
+/>
+```
+
+**Features:**
+
+- 🎨 7 color variants
+- 📐 3 size options
+- 🎯 Icon support (on/off states)
+- ⏳ Loading state
+- 🏷️ Badge system
+- 📝 Label descriptions
+- 🔄 Controlled & uncontrolled modes
+- 📍 Label position (left/right)
+- ✅ Built-in validation
+- 💫 Smooth animations
+- 🌈 Color-matched shadows
+- ♿ Fully accessible
+- ⌨️ Keyboard navigation
 
 ---
 

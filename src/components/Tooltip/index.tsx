@@ -34,26 +34,26 @@ import {
  * @size sm | md | lg - Size variations
  */
 export const tooltipVariants = cva(
-  "absolute whitespace-nowrap z-50 transition-all duration-200 ease-out",
+  "absolute whitespace-nowrap z-50 transition-all duration-300 ease-out",
   {
     variants: {
       variant: {
         default:
-          "bg-card text-foreground border border-border/50 shadow-xl backdrop-blur-sm",
-        dark: "bg-gray-900 text-white border border-gray-700 shadow-xl",
+          "bg-card text-foreground border border-border/50 shadow-xl backdrop-blur-sm hover:shadow-2xl hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/10 before:to-transparent before:pointer-events-none",
+        dark: "bg-gray-900 text-white border border-gray-700 shadow-xl hover:shadow-2xl hover:scale-105",
         light:
-          "bg-white text-gray-900 border border-gray-200 shadow-xl dark:bg-gray-100 dark:text-gray-900",
+          "bg-white text-gray-900 border border-gray-200 shadow-xl dark:bg-gray-100 dark:text-gray-900 hover:shadow-2xl hover:scale-105",
         glass:
-          "glass-strong backdrop-blur-2xl text-foreground shadow-[0_8px_32px_0] shadow-black/20",
+          "glass-strong backdrop-blur-2xl text-foreground shadow-[0_8px_32px_0] shadow-black/20 hover:shadow-[0_12px_48px_0] hover:shadow-black/30 hover:scale-105 relative before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-white/10 before:pointer-events-none",
         primary:
-          "bg-primary text-primary-foreground shadow-[0_8px_24px_0] shadow-primary/40 border border-primary/50",
+          "bg-primary text-primary-foreground shadow-[0_8px_24px_0] shadow-primary/40 border border-primary/50 hover:shadow-[0_12px_32px_0] hover:shadow-primary/50 hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/20 before:to-transparent before:pointer-events-none",
         success:
-          "bg-green-500 text-white shadow-[0_8px_24px_0] shadow-green-500/40 border border-green-600",
+          "bg-green-500 text-white shadow-[0_8px_24px_0] shadow-green-500/40 border border-green-600 hover:shadow-[0_12px_32px_0] hover:shadow-green-500/50 hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/20 before:to-transparent before:pointer-events-none",
         warning:
-          "bg-yellow-500 text-gray-900 shadow-[0_8px_24px_0] shadow-yellow-500/40 border border-yellow-600",
+          "bg-yellow-500 text-gray-900 shadow-[0_8px_24px_0] shadow-yellow-500/40 border border-yellow-600 hover:shadow-[0_12px_32px_0] hover:shadow-yellow-500/50 hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/20 before:to-transparent before:pointer-events-none",
         error:
-          "bg-red-500 text-white shadow-[0_8px_24px_0] shadow-red-500/40 border border-red-600",
-        info: "bg-blue-500 text-white shadow-[0_8px_24px_0] shadow-blue-500/40 border border-blue-600",
+          "bg-red-500 text-white shadow-[0_8px_24px_0] shadow-red-500/40 border border-red-600 hover:shadow-[0_12px_32px_0] hover:shadow-red-500/50 hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/20 before:to-transparent before:pointer-events-none",
+        info: "bg-blue-500 text-white shadow-[0_8px_24px_0] shadow-blue-500/40 border border-blue-600 hover:shadow-[0_12px_32px_0] hover:shadow-blue-500/50 hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/20 before:to-transparent before:pointer-events-none",
       },
       size: {
         sm: "text-xs px-2 py-1 rounded-md",

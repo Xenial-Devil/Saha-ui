@@ -71,6 +71,11 @@ export { default as Pagination } from "./components/Pagination";
 export { default as DatePicker } from "./components/DatePicker";
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/Tab";
 export { Input } from "./components/Input";
+export { default as FloatingActionButton } from "./components/FloatingActionButton";
+export { default as Radio, RadioGroup } from "./components/Radio";
+export { default as Switch } from "./components/Switch";
+export { default as Checkbox, CheckboxGroup } from "./components/Checkbox";
+export { default as Select } from "./components/Select";
 
 // Types - Theme
 export type {
@@ -313,6 +318,27 @@ export type {
   InputSize,
   InputType,
 } from "./components/Input/Input.types";
+
+export type { FloatingActionButtonProps } from "./components/FloatingActionButton/FloatingActionButton.types";
+
+export type {
+  RadioProps,
+  RadioGroupProps,
+  RadioOption,
+} from "./components/Radio/Radio.types";
+
+export type { SwitchProps } from "./components/Switch/Switch.types";
+
+export type {
+  CheckboxProps,
+  CheckboxGroupProps,
+  CheckboxOption,
+} from "./components/Checkbox/Checkbox.types";
+
+export type {
+  SelectProps,
+  SelectOption,
+} from "./components/Select/Select.types";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";
