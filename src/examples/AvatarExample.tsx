@@ -36,18 +36,13 @@ export const AvatarExample = () => {
         </div>
         <div>
           <h4 className="text-lg font-semibold mb-3">Avatar Group</h4>
-          <AvatarGroup
-            avatars={[
-              { src: "https://i.pravatar.cc/150?img=5", alt: "User 5" },
-              { src: "https://i.pravatar.cc/150?img=6", alt: "User 6" },
-              { src: "https://i.pravatar.cc/150?img=7", alt: "User 7" },
-              { src: "https://i.pravatar.cc/150?img=8", alt: "User 8" },
-              { src: "https://i.pravatar.cc/150?img=9", alt: "User 9" },
-            ]}
-            max={3}
-            size="2xl"
-            gap={false}
-          />
+          <AvatarGroup max={3} size="2xl" gap={false}>
+            <Avatar src="https://i.pravatar.cc/150?img=5" alt="User 5" />
+            <Avatar src="https://i.pravatar.cc/150?img=6" alt="User 6" />
+            <Avatar src="https://i.pravatar.cc/150?img=7" alt="User 7" />
+            <Avatar src="https://i.pravatar.cc/150?img=8" alt="User 8" />
+            <Avatar src="https://i.pravatar.cc/150?img=9" alt="User 9" />
+          </AvatarGroup>
         </div>
       </div>
     </div>

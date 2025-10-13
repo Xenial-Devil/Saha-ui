@@ -101,16 +101,16 @@ export const dividerVariants = cva(
 /**
  * Divider line variants
  */
-export const dividerLineVariants = cva("transition-all duration-300", {
+export const dividerLineVariants = cva("transition-all duration-300 relative", {
   variants: {
     variant: {
-      solid: "border-gray-400 dark:border-gray-600",
-      dashed: "border-gray-400 dark:border-gray-600 border-dashed",
-      dotted: "border-gray-400 dark:border-gray-600 border-dotted",
+      solid: "border-gray-400 dark:border-gray-600 shadow-sm",
+      dashed: "border-gray-400 dark:border-gray-600 border-dashed shadow-sm",
+      dotted: "border-gray-400 dark:border-gray-600 border-dotted shadow-sm",
       gradient:
-        "border-0 bg-gradient-to-r from-transparent via-gray-400 to-transparent dark:from-transparent dark:via-gray-600 dark:to-transparent",
+        "border-0 bg-gradient-to-r from-transparent via-primary/60 to-transparent dark:from-transparent dark:via-primary/40 dark:to-transparent shadow-[0_2px_8px_0] shadow-primary/20",
       glass:
-        "border-0 bg-gradient-to-r from-transparent via-gray-300/80 to-transparent dark:from-transparent dark:via-gray-700/80 dark:to-transparent backdrop-blur-sm",
+        "border-0 bg-gradient-to-r from-transparent via-gray-300/80 to-transparent dark:from-transparent dark:via-gray-700/80 dark:to-transparent backdrop-blur-sm shadow-lg after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent after:opacity-50",
     },
     orientation: {
       horizontal: "w-full",

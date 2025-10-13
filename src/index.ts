@@ -44,7 +44,11 @@ export { default as Image } from "./components/Image";
 export { default as Link } from "./components/Link";
 export { List, ListItem } from "./components/List";
 export { Timeline, TimelineItem } from "./components/Timeline";
-export { default as Tooltip } from "./components/Tooltip";
+export {
+  default as Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "./components/Tooltip";
 
 export { Tree, TreeItem } from "./components/Tree";
 export { Steps, StepsItem } from "./components/Steps";
@@ -62,6 +66,7 @@ export { default as Progress } from "./components/Progress";
 export { default as Popover } from "./components/Popover";
 export { default as PlayButton } from "./components/PlayButton";
 export { default as Skeleton } from "./components/Skeleton";
+export { default as Spinner } from "./components/Spinner";
 export { default as Pagination } from "./components/Pagination";
 export { default as DatePicker } from "./components/DatePicker";
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/Tab";
@@ -187,10 +192,12 @@ export type {
 } from "./components/Timeline/Timeline.types";
 export type {
   TooltipProps,
+  TooltipContentProps,
+  TooltipTriggerProps,
   TooltipPosition,
   TooltipVariant,
   TooltipSize,
-  TooltipTrigger,
+  TooltipTriggerType,
 } from "./components/Tooltip/Tooltip.types";
 
 export type {
@@ -261,6 +268,14 @@ export type {
   SkeletonShape,
   SkeletonSpeed,
 } from "./components/Skeleton/Skeleton.types";
+
+export type {
+  SpinnerProps,
+  SpinnerVariant,
+  SpinnerSize,
+  SpinnerAnimation,
+  SpinnerType,
+} from "./components/Spinner/Spinner.types";
 
 export type {
   PaginationProps,

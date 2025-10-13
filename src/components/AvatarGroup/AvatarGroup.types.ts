@@ -1,4 +1,4 @@
-import { AvatarProps } from "../Avatar/Avatar.types";
+import { ReactNode } from "react";
 
 /**
  * Size options for AvatarGroup
@@ -15,13 +15,13 @@ export type AvatarGroupVariant = "stack" | "grid" | "grid-dense" | "row";
  */
 export interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
-   * Array of avatar configurations to display
+   * Avatar components as children
    */
-  avatars: Omit<AvatarProps, "size" | "shape">[];
+  children: ReactNode;
 
   /**
    * Maximum number of avatars to display before showing "+X more"
-   * @default avatars.length
+   * If not specified, all avatars will be shown
    */
   max?: number;
 

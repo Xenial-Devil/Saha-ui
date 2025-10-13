@@ -67,18 +67,18 @@ const carouselVariants = cva(
 );
 
 const navigationVariants = cva(
-  "absolute top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200",
+  "absolute top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 relative overflow-hidden isolate",
   {
     variants: {
       variant: {
         default:
-          "bg-white/80 text-black hover:bg-white hover:scale-110 shadow-lg",
+          "bg-white/80 text-black hover:bg-white hover:scale-125 hover:rotate-12 active:scale-95 active:rotate-0 shadow-lg hover:shadow-2xl before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
         contained:
-          "bg-white/80 text-black hover:bg-white hover:scale-110 shadow-lg",
+          "bg-white/80 text-black hover:bg-white hover:scale-125 hover:rotate-12 active:scale-95 active:rotate-0 shadow-lg hover:shadow-2xl before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
         bordered:
-          "bg-primary/90 text-white hover:bg-primary hover:scale-110 shadow-xl",
+          "bg-gradient-to-br from-primary to-primary/80 text-white hover:from-primary/90 hover:to-primary/70 hover:scale-125 hover:rotate-12 active:scale-95 active:rotate-0 shadow-xl hover:shadow-2xl hover:shadow-primary/40 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/30 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
         glass:
-          "bg-white/20 text-white hover:bg-white/30 backdrop-blur-md hover:scale-110 shadow-xl",
+          "bg-white/20 text-white hover:bg-white/30 backdrop-blur-md hover:scale-125 hover:rotate-12 active:scale-95 active:rotate-0 shadow-xl hover:shadow-2xl before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
       },
     },
     defaultVariants: {
@@ -88,12 +88,13 @@ const navigationVariants = cva(
 );
 
 const indicatorVariants = cva(
-  "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer",
+  "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer hover:scale-150",
   {
     variants: {
       active: {
-        true: "w-8 bg-white shadow-lg shadow-white/50",
-        false: "bg-white/50 hover:bg-white/75",
+        true: "w-8 bg-white shadow-lg shadow-white/50 scale-110",
+        false:
+          "bg-white/50 hover:bg-white/75 hover:shadow-md hover:shadow-white/30",
       },
     },
     defaultVariants: {

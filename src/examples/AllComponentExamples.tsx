@@ -26,6 +26,7 @@ import ProgressExample from "./ProgressExample";
 import PopoverExample from "./PopoverExample";
 import { PlayButtonExample } from "./PlayButtonExample";
 import { SkeletonExample } from "./SkeletonExample";
+import SpinnerExample from "./SpinnerExample";
 import { PaginationExample } from "./PaginationExample";
 import { DatePickerExample } from "./DatePickerExample";
 import { TabExample } from "./TabExample";
@@ -108,6 +109,9 @@ export const AllComponentExamples = () => {
 
       {/* Skeleton Examples */}
       <SkeletonExample />
+
+      {/* Spinner Examples */}
+      <SpinnerExample />
 
       {/* Pagination Examples */}
       <PaginationExample />

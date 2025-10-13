@@ -1,7 +1,6 @@
-import React from "react";
+import React, { Children, isValidElement } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
-import Avatar from "../Avatar";
 import { AvatarGroupProps, AvatarGroupSize } from "./AvatarGroup.types";
 
 /**
@@ -107,29 +106,24 @@ const getStackOverlap = (size: AvatarGroupSize): string => {
 /**
  * Ultra-modern AvatarGroup component
  *
- * Displays a collection of avatars in various layouts with smart overflow handling.
+ * Displays a collection of Avatar components in various layouts with smart overflow handling.
  * Features include stacking, grid layouts, hover effects, and "+X more" indicators.
  *
  * @example
  * ```tsx
- * <AvatarGroup
- *   avatars={[
- *     { src: '/user1.jpg', alt: 'User 1' },
- *     { src: '/user2.jpg', alt: 'User 2' },
- *     { src: '/user3.jpg', alt: 'User 3' },
- *   ]}
- *   max={2}
- *   variant="stack"
- *   size="md"
- *   showCount
- * />
+ * <AvatarGroup max={3} variant="stack" size="md">
+ *   <Avatar src="/user1.jpg" alt="User 1" />
+ *   <Avatar src="/user2.jpg" alt="User 2" />
+ *   <Avatar src="/user3.jpg" alt="User 3" />
+ *   <Avatar src="/user4.jpg" alt="User 4" />
+ * </AvatarGroup>
  * ```
  */
 const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
   (
     {
-      avatars,
-      max = avatars.length,
+      children,
+      max,
       size = "md",
       variant = "stack",
       showCount = false,
@@ -143,36 +137,52 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
     },
     ref
   ) => {
+    // Convert children to array and filter valid Avatar elements
+    const childrenArray = Children.toArray(children).filter((child) =>
+      isValidElement(child)
+    );
+
+    const totalCount = childrenArray.length;
+    const maxToShow = max ?? totalCount;
+
     // Calculate displayed and remaining avatars
-    const displayedAvatars = reverse
-      ? avatars.slice(0, max).reverse()
-      : avatars.slice(0, max);
-    const remainingCount = Math.max(0, avatars.length - max);
+    const displayedChildren = reverse
+      ? childrenArray.slice(0, maxToShow).reverse()
+      : childrenArray.slice(0, maxToShow);
+    const remainingCount = Math.max(0, totalCount - maxToShow);
 
-    // Render individual avatar in stack mode
-    const renderStackAvatar = (avatar: (typeof avatars)[0], index: number) => (
-      <div
-        key={index}
-        className={cn(
-          avatarWrapperVariants({ size }),
-          withRing && "ring-background",
-          index > 0 && !gap && !spacing && getStackOverlap(size)
-        )}
-        style={spacing ? { marginLeft: index > 0 ? `-${spacing}px` : 0 } : {}}
-      >
-        <Avatar {...avatar} size={size} shape="circle" />
-      </div>
-    );
+    // Clone children and inject size prop
+    const renderAvatar = (child: React.ReactNode, index: number) => {
+      if (!isValidElement(child)) return null;
 
-    // Render individual avatar in grid mode
-    const renderGridAvatar = (avatar: (typeof avatars)[0], index: number) => (
-      <div
-        key={index}
-        className="transition-transform duration-200 hover:scale-105"
-      >
-        <Avatar {...avatar} size={size} shape="rounded" />
-      </div>
-    );
+      const isStackMode = variant === "stack" || variant === "row";
+      const isGridMode = variant === "grid" || variant === "grid-dense";
+
+      return (
+        <div
+          key={index}
+          className={cn(
+            isStackMode && avatarWrapperVariants({ size }),
+            isStackMode && withRing && "ring-background",
+            isStackMode &&
+              index > 0 &&
+              !gap &&
+              !spacing &&
+              getStackOverlap(size),
+            isGridMode && "transition-transform duration-200 hover:scale-105"
+          )}
+          style={spacing ? { marginLeft: index > 0 ? `-${spacing}px` : 0 } : {}}
+        >
+          {React.cloneElement(
+            child as React.ReactElement,
+            {
+              size: size,
+              shape: isGridMode ? "rounded" : "circle",
+            } as any
+          )}
+        </div>
+      );
+    };
 
     // Render "+X more" indicator
     const renderMoreIndicator = () => {
@@ -210,8 +220,8 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
 
       return (
         <div className="ml-3 flex items-center gap-1.5 text-sm text-muted-foreground">
-          <span className="font-medium">{avatars.length}</span>
-          <span>member{avatars.length !== 1 ? "s" : ""}</span>
+          <span className="font-medium">{totalCount}</span>
+          <span>member{totalCount !== 1 ? "s" : ""}</span>
         </div>
       );
     };
@@ -222,13 +232,7 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
         className={cn(avatarGroupVariants({ variant }), className)}
         {...props}
       >
-        {variant === "stack" || variant === "row"
-          ? displayedAvatars.map((avatar, index) =>
-              renderStackAvatar(avatar, index)
-            )
-          : displayedAvatars.map((avatar, index) =>
-              renderGridAvatar(avatar, index)
-            )}
+        {displayedChildren.map((child, index) => renderAvatar(child, index))}
         {renderMoreIndicator()}
         {renderCountBadge()}
       </div>

@@ -1,7 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  createContext,
+  useContext,
+} from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
-import { TooltipProps } from "./Tooltip.types";
+import {
+  TooltipProps,
+  TooltipContentProps,
+  TooltipTriggerProps,
+  TooltipContextValue,
+} from "./Tooltip.types";
 
 /**
  * Tooltip component variants using CVA
@@ -101,38 +112,57 @@ const arrowVariants = cva("absolute w-2 h-2 rotate-45", {
 
 export type TooltipVariantsProps = VariantProps<typeof tooltipVariants>;
 
+// Create Tooltip Context
+const TooltipContext = createContext<TooltipContextValue | undefined>(
+  undefined
+);
+
+const useTooltip = () => {
+  const context = useContext(TooltipContext);
+  if (!context) {
+    throw new Error("Tooltip components must be used within a Tooltip");
+  }
+  return context;
+};
+
 /**
  * Tooltip Component
  *
- * A versatile tooltip component for displaying contextual information,
+ * A composable tooltip component for displaying contextual information,
  * hints, and descriptions with multiple visual styles and positioning options.
  *
  * @example
  * ```tsx
  * // Basic tooltip
- * <Tooltip content="This is a tooltip">
- *   <Button>Hover me</Button>
+ * <Tooltip>
+ *   <TooltipTrigger>
+ *     <Button>Hover me</Button>
+ *   </TooltipTrigger>
+ *   <TooltipContent>This is a tooltip</TooltipContent>
  * </Tooltip>
  *
  * // Variant with position
- * <Tooltip content="Success message" variant="success" position="right">
- *   <span>✓</span>
+ * <Tooltip variant="success" position="right">
+ *   <TooltipTrigger>
+ *     <span>✓</span>
+ *   </TooltipTrigger>
+ *   <TooltipContent>Success message</TooltipContent>
  * </Tooltip>
  *
  * // Interactive tooltip
- * <Tooltip
- *   content={<div>Click <a href="#">here</a></div>}
- *   interactive={true}
- *   trigger="click"
- * >
- *   <Button>Click for info</Button>
+ * <Tooltip interactive trigger="click">
+ *   <TooltipTrigger>
+ *     <Button>Click for info</Button>
+ *   </TooltipTrigger>
+ *   <TooltipContent>
+ *     <div>Click <a href="#">here</a></div>
+ *   </TooltipContent>
  * </Tooltip>
  * ```
  */
 const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
   (
     {
-      content,
       children,
       position = "top",
       variant = "default",
@@ -142,8 +172,6 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       trigger = "hover",
       open: controlledOpen,
       onOpenChange,
-      tooltipClassName,
-      wrapperClassName,
       className,
       maxWidth = "320px",
       interactive = false,
@@ -151,7 +179,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       disabled = false,
       ...props
     },
-    ref
+    _ref
   ) => {
     const [internalOpen, setInternalOpen] = useState(false);
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -224,70 +252,127 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       };
     }, [timeoutId]);
 
-    // Calculate offset based on position
-    const getOffsetStyle = () => {
-      switch (position) {
-        case "top":
-          return { marginBottom: `${offset}px` };
-        case "bottom":
-          return { marginTop: `${offset}px` };
-        case "left":
-          return { marginRight: `${offset}px` };
-        case "right":
-          return { marginLeft: `${offset}px` };
-      }
+    const contextValue: TooltipContextValue = {
+      isOpen,
+      setOpen,
+      position,
+      variant,
+      size,
+      arrow,
+      interactive,
+      maxWidth,
+      offset,
+      trigger,
+      delay,
+      disabled,
     };
 
     return (
-      <div
-        ref={wrapperRef}
-        className={cn("relative inline-flex group", wrapperClassName)}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={handleClick}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        {...props}
-      >
-        {children}
-
-        {/* Tooltip */}
-        {!disabled && (
-          <div
-            ref={ref}
-            className={cn(
-              tooltipVariants({ variant, size, position, interactive }),
-              isOpen
-                ? "opacity-100 scale-100 visible"
-                : "opacity-0 scale-95 invisible",
-              className,
-              tooltipClassName
-            )}
-            style={{
-              maxWidth,
-              ...getOffsetStyle(),
-            }}
-            role="tooltip"
-            aria-hidden={!isOpen}
-          >
-            {/* Content */}
-            <div className="relative z-10">{content}</div>
-
-            {/* Arrow */}
-            {arrow && (
-              <div className={cn(arrowVariants({ variant, position }))} />
-            )}
-
-            {/* Subtle glow effect */}
-            <div className="absolute inset-0 rounded-inherit bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-          </div>
-        )}
-      </div>
+      <TooltipContext.Provider value={contextValue}>
+        <div
+          ref={wrapperRef}
+          className={cn("relative inline-flex group", className)}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleClick}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          {...props}
+        >
+          {children}
+        </div>
+      </TooltipContext.Provider>
     );
   }
 );
 
 Tooltip.displayName = "Tooltip";
+
+/**
+ * TooltipTrigger Component
+ *
+ * The element that triggers the tooltip display
+ */
+export const TooltipTrigger = React.forwardRef<
+  HTMLDivElement,
+  TooltipTriggerProps
+>(({ children, className, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? React.Fragment : "div";
+  const childProps = asChild ? {} : { ref, className, ...props };
+
+  return <Comp {...childProps}>{children}</Comp>;
+});
+
+TooltipTrigger.displayName = "TooltipTrigger";
+
+/**
+ * TooltipContent Component
+ *
+ * The content displayed in the tooltip
+ */
+export const TooltipContent = React.forwardRef<
+  HTMLDivElement,
+  TooltipContentProps
+>(({ children, className, ...props }, ref) => {
+  const {
+    isOpen,
+    position,
+    variant,
+    size,
+    arrow,
+    interactive,
+    maxWidth,
+    offset,
+    disabled,
+  } = useTooltip();
+
+  // Calculate offset based on position
+  const getOffsetStyle = () => {
+    switch (position) {
+      case "top":
+        return { marginBottom: `${offset}px` };
+      case "bottom":
+        return { marginTop: `${offset}px` };
+      case "left":
+        return { marginRight: `${offset}px` };
+      case "right":
+        return { marginLeft: `${offset}px` };
+    }
+  };
+
+  if (disabled) return null;
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        tooltipVariants({ variant, size, position, interactive }),
+        isOpen
+          ? "opacity-100 scale-100 visible"
+          : "opacity-0 scale-95 invisible",
+        className
+      )}
+      style={{
+        maxWidth,
+        ...getOffsetStyle(),
+      }}
+      role="tooltip"
+      aria-hidden={!isOpen}
+      {...props}
+    >
+      {/* Content */}
+      <div className="relative z-10">{children}</div>
+
+      {/* Arrow */}
+      {arrow && <div className={cn(arrowVariants({ variant, position }))} />}
+
+      {/* Subtle glow effect */}
+      <div className="absolute inset-0 rounded-inherit bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+    </div>
+  );
+});
+
+TooltipContent.displayName = "TooltipContent";
 
 export default Tooltip;
 
