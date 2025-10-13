@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.4.0...v1.5.0) (2025-10-13)
+
+
+### Features
+
+* **pagination:** add gradient, shadow, and interaction polish ([2845678](https://github.com/Xenial-Devil/Saha-ui/commit/2845678190cd4ecea07a5150c9b03959dbc345d0))
+
 # [1.4.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.3.0...v1.4.0) (2025-10-12)
 
 
