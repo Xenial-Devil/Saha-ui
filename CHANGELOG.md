@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.5.0...v1.6.0) (2025-10-13)
+
+
+### Features
+
+* add CheckboxGroup example with multiple layouts ([3aec32a](https://github.com/Xenial-Devil/Saha-ui/commit/3aec32a3a499f9248421919df31eccd63e245898))
+
 # [1.5.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.4.0...v1.5.0) (2025-10-13)
 
 
