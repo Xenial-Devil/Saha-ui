@@ -38,11 +38,30 @@ export default {
           dark: 'var(--color-error-dark)',
           bg: 'var(--color-error-bg)',
         },
+        danger: {
+          DEFAULT: 'var(--color-error)',
+          foreground: 'var(--color-error-foreground)',
+        },
         info: {
           DEFAULT: 'var(--color-info)',
           light: 'var(--color-info-light)',
           dark: 'var(--color-info-dark)',
           bg: 'var(--color-info-bg)',
+          foreground: 'var(--color-info-foreground)',
+        },
+        success: {
+          DEFAULT: 'var(--color-success)',
+          light: 'var(--color-success-light)',
+          dark: 'var(--color-success-dark)',
+          bg: 'var(--color-success-bg)',
+          foreground: 'var(--color-success-foreground)',
+        },
+        warning: {
+          DEFAULT: 'var(--color-warning)',
+          light: 'var(--color-warning-light)',
+          dark: 'var(--color-warning-dark)',
+          bg: 'var(--color-warning-bg)',
+          foreground: 'var(--color-warning-foreground)',
         },
         background: {
           DEFAULT: 'var(--background)',

@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **42 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Drawer, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, FloatingActionButton, Radio, Switch, Checkbox, CheckboxGroup, Select, Dropdown, Tag, TagInput, TextArea, Upload, Modal, Skeleton, Pagination, DatePicker, Tab, Input
+- 🎨 **45 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Drawer, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, FloatingActionButton, Radio, Switch, Checkbox, CheckboxGroup, Select, Dropdown, Tag, TagInput, TextArea, Upload, Modal, Toast, Empty, Autocomplete, Skeleton, Pagination, DatePicker, Tab, Input
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -178,6 +178,9 @@ import { cn } from "saha-ui/lib/utils";
 | **TextArea**             | Multi-line text input with auto-resize, character count, validation      | ✅     | ✅  |
 | **Upload**               | File upload with drag & drop, preview, progress, validation, 4 types     | ✅     | ✅  |
 | **Modal**                | Dialog with 9 variants, 7 sizes, animations, focus trap, accessibility   | ✅     | ✅  |
+| **Toast**                | Notification toasts with 4 variants, 6 positions, 4 animations, actions  | ✅     | ✅  |
+| **Empty**                | Empty states with 4 variants, 4 sizes, 13 preset icons, animations       | ✅     | ✅  |
+| **Autocomplete**         | Search input with filtering, keyboard nav, grouping, async, composable   | ✅     | ✅  |
 | **Skeleton**             | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
 | **Spinner**              | Loading spinner with 10 variants, 6 sizes, 4 animations, fullscreen mode | ✅     | ✅  |
 | **Pagination**           | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels  | ✅     | ✅  |
@@ -1059,6 +1062,70 @@ import { Mail, Lock } from "lucide-react";
   showCounter
   helperText="Maximum 100 characters"
 />
+```
+
+### Empty
+
+```tsx
+import {
+  Empty,
+  EmptyIcon,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyActions,
+} from "saha-ui";
+
+// Props API
+<Empty
+  variant="subtle"
+  iconType="inbox"
+  iconColor="primary"
+  title="No messages"
+  description="Your inbox is empty"
+  action={<button>New Message</button>}
+/>
+
+// Composable API (Recommended)
+<Empty variant="glass" size="lg">
+  <EmptyIcon iconType="cart" iconColor="warning" />
+  <EmptyTitle>Your cart is empty</EmptyTitle>
+  <EmptyDescription>
+    Add items to your cart to proceed
+  </EmptyDescription>
+  <EmptyActions>
+    <button>Continue Shopping</button>
+  </EmptyActions>
+</Empty>
+```
+
+### Autocomplete
+
+```tsx
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteDropdown,
+  AutocompleteOption,
+} from "saha-ui";
+
+// Props API
+<Autocomplete
+  options={[
+    { value: "1", label: "Option 1", description: "First option" },
+    { value: "2", label: "Option 2", description: "Second option" },
+  ]}
+  placeholder="Search..."
+  label="Select Option"
+  groupBy
+/>
+
+// Composable API (Recommended)
+<Autocomplete options={options} variant="glass">
+  <AutocompleteInput placeholder="Search..." />
+  <AutocompleteDropdown>
+    {/* Custom dropdown content */}
+  </AutocompleteDropdown>
+</Autocomplete>
 ```
 
 ---
