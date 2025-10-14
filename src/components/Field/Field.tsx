@@ -28,38 +28,35 @@ const FieldContext = createContext<FieldContextValue | undefined>(undefined);
 
 // ===== CVA Variants =====
 
-const fieldSetVariants = cva(
-  "border rounded-lg transition-all duration-200",
-  {
-    variants: {
-      variant: {
-        default: "border-border bg-background",
-        filled: "border-transparent bg-muted",
-        outlined: "border-2 border-border bg-transparent",
-        ghost: "border-transparent bg-transparent",
-        glass: "border-border/30 bg-background/50 backdrop-blur-xl",
-        primary: "border-primary bg-primary/5",
-        success: "border-success bg-success/5",
-        warning: "border-warning bg-warning/5",
-        error: "border-danger bg-danger/5",
-      },
-      size: {
-        sm: "p-3",
-        md: "p-4",
-        lg: "p-6",
-      },
-      disabled: {
-        true: "opacity-50 cursor-not-allowed",
-        false: "",
-      },
+const fieldSetVariants = cva("border rounded-lg transition-all duration-200", {
+  variants: {
+    variant: {
+      default: "border-border bg-background",
+      filled: "border-transparent bg-muted",
+      outlined: "border-2 border-border bg-transparent",
+      ghost: "border-transparent bg-transparent",
+      glass: "border-border/30 bg-background/50 backdrop-blur-xl",
+      primary: "border-primary bg-primary/5",
+      success: "border-success bg-success/5",
+      warning: "border-warning bg-warning/5",
+      error: "border-danger bg-danger/5",
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
-      disabled: false,
+    size: {
+      sm: "p-3",
+      md: "p-4",
+      lg: "p-6",
     },
-  }
-);
+    disabled: {
+      true: "opacity-50 cursor-not-allowed",
+      false: "",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "md",
+    disabled: false,
+  },
+});
 
 const legendVariants = cva("font-semibold mb-4", {
   variants: {
@@ -418,10 +415,7 @@ Field.displayName = "Field";
 
 // ===== FieldLabel Component =====
 
-export const FieldLabel = React.forwardRef<
-  HTMLLabelElement,
-  FieldLabelProps
->(
+export const FieldLabel = React.forwardRef<HTMLLabelElement, FieldLabelProps>(
   (
     {
       size,
@@ -530,29 +524,28 @@ FieldError.displayName = "FieldError";
 
 // ===== FieldHint Component =====
 
-export const FieldHint = React.forwardRef<
-  HTMLParagraphElement,
-  FieldHintProps
->(({ size, className, children, ...props }, ref) => {
-  const context = useContext(FieldContext);
-  const finalSize = size || context?.size || "md";
+export const FieldHint = React.forwardRef<HTMLParagraphElement, FieldHintProps>(
+  ({ size, className, children, ...props }, ref) => {
+    const context = useContext(FieldContext);
+    const finalSize = size || context?.size || "md";
 
-  if (!children) return null;
+    if (!children) return null;
 
-  return (
-    <p
-      ref={ref}
-      className={cn(fieldHintVariants({ size: finalSize }), className)}
-      {...props}
-    >
-      <Info
-        size={finalSize === "sm" ? 14 : finalSize === "lg" ? 18 : 16}
-        className="flex-shrink-0 mt-0.5"
-      />
-      <span>{children}</span>
-    </p>
-  );
-});
+    return (
+      <p
+        ref={ref}
+        className={cn(fieldHintVariants({ size: finalSize }), className)}
+        {...props}
+      >
+        <Info
+          size={finalSize === "sm" ? 14 : finalSize === "lg" ? 18 : 16}
+          className="flex-shrink-0 mt-0.5"
+        />
+        <span>{children}</span>
+      </p>
+    );
+  }
+);
 
 FieldHint.displayName = "FieldHint";
 

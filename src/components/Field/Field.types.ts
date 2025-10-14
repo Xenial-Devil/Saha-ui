@@ -13,7 +13,8 @@ export type FieldVariant =
 export type FieldOrientation = "vertical" | "horizontal";
 export type FieldLabelPosition = "top" | "left" | "right";
 
-export interface FieldSetProps extends React.HTMLAttributes<HTMLFieldSetElement> {
+export interface FieldSetProps
+  extends React.HTMLAttributes<HTMLFieldSetElement> {
   variant?: FieldVariant;
   size?: FieldSize;
   disabled?: boolean;
@@ -32,35 +33,35 @@ export interface FieldProps extends React.HTMLAttributes<HTMLDivElement> {
   // Styling
   variant?: FieldVariant;
   size?: FieldSize;
-  
+
   // Layout
   orientation?: FieldOrientation;
   labelPosition?: FieldLabelPosition;
-  
+
   // States
   disabled?: boolean;
   required?: boolean;
   invalid?: boolean;
   readOnly?: boolean;
-  
+
   // Content (Props API)
   label?: React.ReactNode;
   description?: React.ReactNode;
   error?: string;
   hint?: string;
-  
+
   // Accessibility
   htmlFor?: string;
   id?: string;
-  
+
   // Child element (Props API)
   children?: React.ReactNode;
-  
+
   // Advanced features
   showOptional?: boolean;
   showRequired?: boolean;
   asteriskPosition?: "before" | "after";
-  
+
   // Custom rendering
   renderLabel?: (props: FieldLabelProps) => React.ReactNode;
   renderDescription?: (props: FieldDescriptionProps) => React.ReactNode;
@@ -68,7 +69,8 @@ export interface FieldProps extends React.HTMLAttributes<HTMLDivElement> {
   renderHint?: (props: FieldHintProps) => React.ReactNode;
 }
 
-export interface FieldLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+export interface FieldLabelProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
   size?: FieldSize;
   required?: boolean;
   optional?: boolean;
@@ -77,18 +79,21 @@ export interface FieldLabelProps extends React.LabelHTMLAttributes<HTMLLabelElem
   children?: React.ReactNode;
 }
 
-export interface FieldDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {
+export interface FieldDescriptionProps
+  extends React.HTMLAttributes<HTMLParagraphElement> {
   size?: FieldSize;
   variant?: FieldVariant;
   children?: React.ReactNode;
 }
 
-export interface FieldErrorProps extends React.HTMLAttributes<HTMLParagraphElement> {
+export interface FieldErrorProps
+  extends React.HTMLAttributes<HTMLParagraphElement> {
   size?: FieldSize;
   children?: React.ReactNode;
 }
 
-export interface FieldHintProps extends React.HTMLAttributes<HTMLParagraphElement> {
+export interface FieldHintProps
+  extends React.HTMLAttributes<HTMLParagraphElement> {
   size?: FieldSize;
   children?: React.ReactNode;
 }

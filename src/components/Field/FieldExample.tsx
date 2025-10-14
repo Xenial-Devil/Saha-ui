@@ -340,7 +340,9 @@ export const FieldExample = () => {
                 ]}
                 placeholder="Select your country"
               />
-              <FieldDescription>Select your country of residence</FieldDescription>
+              <FieldDescription>
+                Select your country of residence
+              </FieldDescription>
             </Field>
 
             <Field className="md:col-span-2">
@@ -527,7 +529,9 @@ export const FieldExample = () => {
                 Subject
               </FieldLabel>
               <Input id="contact-subject" placeholder="What's this about?" />
-              <FieldHint>Briefly describe the purpose of your message</FieldHint>
+              <FieldHint>
+                Briefly describe the purpose of your message
+              </FieldHint>
             </Field>
 
             <Field className="md:col-span-2">
@@ -547,7 +551,10 @@ export const FieldExample = () => {
             <Field className="md:col-span-2">
               <div className="flex items-center gap-2">
                 <Checkbox id="contact-copy" />
-                <FieldLabel htmlFor="contact-copy" className="mb-0 cursor-pointer">
+                <FieldLabel
+                  htmlFor="contact-copy"
+                  className="mb-0 cursor-pointer"
+                >
                   Send me a copy of this message
                 </FieldLabel>
               </div>
