@@ -40,6 +40,19 @@ export {
 } from "./components/Carousel";
 export { Chip } from "./components/Chip";
 export { default as Divider } from "./components/Divider";
+export {
+  default as Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerClose,
+  DrawerCloseButton,
+  DrawerOverlay,
+} from "./components/Drawer";
 export { default as Image } from "./components/Image";
 export { default as Link } from "./components/Link";
 export { List, ListItem } from "./components/List";
@@ -88,6 +101,18 @@ export { Tag, TagGroup } from "./components/Tag";
 export { default as TagInput } from "./components/TagInput";
 export { default as TextArea } from "./components/TextArea";
 export { default as Upload } from "./components/Upload";
+export {
+  default as Modal,
+  ModalTrigger,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalTitle,
+  ModalDescription,
+  ModalCloseButton,
+  ModalOverlay,
+  ModalContent,
+} from "./components/Modal";
 
 // Types - Theme
 export type {
@@ -370,6 +395,8 @@ export type { TagInputProps } from "./components/TagInput/TagInput.types";
 export type { TextAreaProps } from "./components/TextArea/TextArea.types";
 
 export type { UploadProps, UploadFile } from "./components/Upload/Upload.types";
+
+export type { ModalProps } from "./components/Modal/Modal.types";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";

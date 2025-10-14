@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **40 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, FloatingActionButton, Radio, Switch, Checkbox, CheckboxGroup, Select, Dropdown, Tag, TagInput, TextArea, Upload, Skeleton, Pagination, DatePicker, Tab, Input
+- 🎨 **42 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Drawer, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, FloatingActionButton, Radio, Switch, Checkbox, CheckboxGroup, Select, Dropdown, Tag, TagInput, TextArea, Upload, Modal, Skeleton, Pagination, DatePicker, Tab, Input
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -149,6 +149,7 @@ import { cn } from "saha-ui/lib/utils";
 | **Card**                 | Container with 5 variants and sub-components                             | ✅     | ✅  |
 | **Chip**                 | Interactive tags with 5 variants, deletable, and avatars                 | ✅     | ✅  |
 | **Divider**              | Content separator with 5 variants and label support                      | ✅     | ✅  |
+| **Drawer**               | Side panel with 4 positions, 5 sizes, animations, nested support         | ✅     | ✅  |
 | **Accordion**            | Collapsible content with 5 behavior modes                                | ✅     | ✅  |
 | **Avatar**               | User profile images with status indicators                               | ✅     | ✅  |
 | **AvatarGroup**          | Grouped avatars with overlap and count                                   | ✅     | ✅  |
@@ -176,6 +177,7 @@ import { cn } from "saha-ui/lib/utils";
 | **TagInput**             | Dynamic tag input with validation, Enter/Comma keys, paste support       | ✅     | ✅  |
 | **TextArea**             | Multi-line text input with auto-resize, character count, validation      | ✅     | ✅  |
 | **Upload**               | File upload with drag & drop, preview, progress, validation, 4 types     | ✅     | ✅  |
+| **Modal**                | Dialog with 9 variants, 7 sizes, animations, focus trap, accessibility   | ✅     | ✅  |
 | **Skeleton**             | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
 | **Spinner**              | Loading spinner with 10 variants, 6 sizes, 4 animations, fullscreen mode | ✅     | ✅  |
 | **Pagination**           | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels  | ✅     | ✅  |

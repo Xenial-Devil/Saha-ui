@@ -9,6 +9,7 @@ import { BadgeExample } from "./BadgeExample";
 import { AvatarExample } from "./AvatarExample";
 import { CardExample } from "./CardExample";
 import { DividerExample } from "./DividerExample";
+import { DrawerExample } from "./DrawerExample";
 import { ChipExample } from "./ChipExample";
 import { AlertExample } from "./AlertExample";
 import { AccordionExample } from "./AccordionExample";
@@ -43,6 +44,7 @@ import { TagExample } from "./TagExample";
 import { TagInputExample } from "./TagInputExample";
 import TextAreaExample from "./TextAreaExample";
 import UploadExample from "./UploadExample";
+import ModalExample from "./ModalExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -70,6 +72,9 @@ export const AllComponentExamples = () => {
 
       {/* Divider Examples */}
       <DividerExample />
+
+      {/* Drawer Examples */}
+      <DrawerExample />
 
       {/* Chip Examples */}
       <ChipExample />
@@ -172,6 +177,9 @@ export const AllComponentExamples = () => {
 
       {/* Upload Examples */}
       <UploadExample />
+
+      {/* Modal Examples */}
+      <ModalExample />
     </>
   );
 };

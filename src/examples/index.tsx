@@ -9,6 +9,7 @@ export { BadgeExample } from "./BadgeExample";
 export { AvatarExample } from "./AvatarExample";
 export { CardExample } from "./CardExample";
 export { DividerExample } from "./DividerExample";
+export { DrawerExample } from "./DrawerExample";
 export { ChipExample } from "./ChipExample";
 export { AlertExample } from "./AlertExample";
 export { AccordionExample } from "./AccordionExample";
