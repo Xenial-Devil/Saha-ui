@@ -1,3 +1,16 @@
+# [1.7.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.6.0...v1.7.0) (2025-10-14)
+
+
+### Features
+
+* **drawer,modal:** add Drawer Modal exports, types and docs ([c216cc6](https://github.com/Xenial-Devil/Saha-ui/commit/c216cc642e51e75bb9106776b728f4706141da5a))
+* **drawer:** add Drawer subcomponents and context ([ae6876f](https://github.com/Xenial-Devil/Saha-ui/commit/ae6876fa2e457092cbf7f53064493cc3dbd26c67))
+* **modal:** add advanced modal component with animations ([6a1bc7a](https://github.com/Xenial-Devil/Saha-ui/commit/6a1bc7a3133ee3aabdfc036be16059627bf5f420))
+* **TextArea:** add complete TextArea component implementationIntroduce a full-featured TextArea component with types, implementation ([0abc132](https://github.com/Xenial-Devil/Saha-ui/commit/0abc132624b62ef8de0c3419848a09b013630091))
+* **toast:** add ToastItem component with variant styling ([11f083f](https://github.com/Xenial-Devil/Saha-ui/commit/11f083f4484cdc58ea70225db66f6386bc3a30a7))
+* **ui:** add ToastProvider, exports, and theme fixes ([189fd5a](https://github.com/Xenial-Devil/Saha-ui/commit/189fd5aa87eb686ce5349b5482c3085c5078c21c))
+* **upload:** add interactive canvas image editor with cropping ([b65ac2b](https://github.com/Xenial-Devil/Saha-ui/commit/b65ac2bb9c34a0636133329dfdf6511f309a3980))
+
 # [1.6.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.5.0...v1.6.0) (2025-10-13)
 
 
