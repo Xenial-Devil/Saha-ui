@@ -393,7 +393,6 @@ const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
           // Orbiting dots with different orbit sizes
           const orbits = 3;
           const dotsPerOrbit = 4;
-          
           return (
             <div
               className={cn(sizeClass, "relative", animationClass)}

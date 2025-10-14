@@ -40,6 +40,19 @@ export {
 } from "./components/Carousel";
 export { Chip } from "./components/Chip";
 export { default as Divider } from "./components/Divider";
+export {
+  default as Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerClose,
+  DrawerCloseButton,
+  DrawerOverlay,
+} from "./components/Drawer";
 export { default as Image } from "./components/Image";
 export { default as Link } from "./components/Link";
 export { List, ListItem } from "./components/List";
@@ -76,6 +89,55 @@ export { default as Radio, RadioGroup } from "./components/Radio";
 export { default as Switch } from "./components/Switch";
 export { default as Checkbox, CheckboxGroup } from "./components/Checkbox";
 export { default as Select } from "./components/Select";
+export {
+  default as Dropdown,
+  DropdownItem,
+  DropdownSeparator,
+  DropdownGroup,
+  DropdownTrigger,
+  DropdownContent,
+} from "./components/Dropdown";
+export { Tag, TagGroup } from "./components/Tag";
+export { default as TagInput } from "./components/TagInput";
+export { default as TextArea } from "./components/TextArea";
+export { default as Upload } from "./components/Upload";
+export { ToastProvider, useToast, ToastItem } from "./components/Toast";
+export {
+  default as Modal,
+  ModalTrigger,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalTitle,
+  ModalDescription,
+  ModalCloseButton,
+  ModalOverlay,
+  ModalContent,
+} from "./components/Modal";
+export {
+  Empty,
+  EmptyIcon,
+  EmptyImage,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyActions,
+  EmptyExtra,
+} from "./components/Empty";
+export {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteDropdown,
+  AutocompleteOption,
+} from "./components/Autocomplete";
+export {
+  FieldSet,
+  FieldGroup,
+  Field,
+  FieldLabel,
+  FieldDescription,
+  FieldError,
+  FieldHint,
+} from "./components/Field";
 
 // Types - Theme
 export type {
@@ -339,6 +401,64 @@ export type {
   SelectProps,
   SelectOption,
 } from "./components/Select/Select.types";
+
+export type {
+  DropdownProps,
+  DropdownOption,
+  DropdownTriggerProps,
+  DropdownContentProps,
+  DropdownItemProps,
+  DropdownGroupProps,
+  DropdownSeparatorProps,
+  DropdownSubProps,
+} from "./components/Dropdown/Dropdown.types";
+
+export type { TagProps, TagGroupProps } from "./components/Tag/Tag.types";
+
+export type { TagInputProps } from "./components/TagInput/TagInput.types";
+
+export type { TextAreaProps } from "./components/TextArea/TextArea.types";
+
+export type { UploadProps, UploadFile } from "./components/Upload/Upload.types";
+
+export type {
+  ToastProps,
+  ToastPosition,
+  ToastVariant,
+  ToastStatus,
+  ToastAnimation,
+  ToastContextValue,
+  ToastProviderProps,
+  ToastItemProps,
+} from "./components/Toast/Toast.types";
+
+export type { ModalProps } from "./components/Modal/Modal.types";
+
+export type {
+  EmptyProps,
+  EmptySize,
+  EmptyVariant,
+} from "./components/Empty/Empty.types";
+
+export type {
+  AutocompleteProps,
+  AutocompleteOption as AutocompleteOptionType,
+  AutocompleteSize,
+  AutocompleteVariant,
+} from "./components/Autocomplete/Autocomplete.types";
+
+export type {
+  FieldSetProps,
+  FieldGroupProps,
+  FieldProps,
+  FieldLabelProps,
+  FieldDescriptionProps,
+  FieldErrorProps,
+  FieldHintProps,
+  FieldSize,
+  FieldVariant,
+  FieldOrientation,
+} from "./components/Field/Field.types";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";

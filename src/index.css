@@ -142,7 +142,7 @@
 
     /* Warning - brighter orange */
     --warning: oklch(0.75 0.18 65);
-    --warning-foreground: oklch(0.15 0.01 200);
+    --warning-foreground: oklch(0.98 0.003 200);
 
     /* Error - brighter red */
     --error: oklch(0.65 0.22 25);
