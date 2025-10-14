@@ -67,18 +67,18 @@ const carouselVariants = cva(
 );
 
 const navigationVariants = cva(
-  "absolute top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 relative overflow-hidden isolate",
+  "absolute top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 shadow-2xl border-2",
   {
     variants: {
       variant: {
         default:
-          "bg-white/80 text-black hover:bg-white hover:scale-125 hover:rotate-12 active:scale-95 active:rotate-0 shadow-lg hover:shadow-2xl before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
+          "bg-white/95 text-black hover:bg-white hover:scale-110 active:scale-95 border-white/50 hover:border-white shadow-black/30 dark:bg-white dark:text-black",
         contained:
-          "bg-white/80 text-black hover:bg-white hover:scale-125 hover:rotate-12 active:scale-95 active:rotate-0 shadow-lg hover:shadow-2xl before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
+          "bg-white/95 text-black hover:bg-white hover:scale-110 active:scale-95 border-white/50 hover:border-white shadow-black/30 dark:bg-white dark:text-black",
         bordered:
-          "bg-gradient-to-br from-primary to-primary/80 text-white hover:from-primary/90 hover:to-primary/70 hover:scale-125 hover:rotate-12 active:scale-95 active:rotate-0 shadow-xl hover:shadow-2xl hover:shadow-primary/40 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/30 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
+          "bg-primary text-white hover:bg-primary/90 hover:scale-110 active:scale-95 border-primary/50 hover:border-primary shadow-black/40",
         glass:
-          "bg-white/20 text-white hover:bg-white/30 backdrop-blur-md hover:scale-125 hover:rotate-12 active:scale-95 active:rotate-0 shadow-xl hover:shadow-2xl before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
+          "bg-white/40 text-white hover:bg-white/60 backdrop-blur-md hover:scale-110 active:scale-95 border-white/40 hover:border-white/60 shadow-black/50",
       },
     },
     defaultVariants: {
@@ -88,13 +88,13 @@ const navigationVariants = cva(
 );
 
 const indicatorVariants = cva(
-  "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer hover:scale-150",
+  "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer hover:scale-150 bg-white border-2 border-white/50",
   {
     variants: {
       active: {
-        true: "w-8 bg-white shadow-lg shadow-white/50 scale-110",
+        true: "w-8 scale-110 bg-white border-white shadow-lg shadow-white/70",
         false:
-          "bg-white/50 hover:bg-white/75 hover:shadow-md hover:shadow-white/30",
+          "bg-white/60 border-white/40 hover:bg-white/80 hover:border-white/60",
       },
     },
     defaultVariants: {
@@ -129,12 +129,18 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     const [touchEnd, setTouchEnd] = useState(0);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+    // Find CarouselContent and count its children
     const content = React.Children.toArray(children);
-    const totalSlides = content.filter(
+    const carouselContent = content.find(
       (child) =>
         React.isValidElement(child) &&
-        (child.type as any).displayName === "CarouselItem"
-    ).length;
+        (child.type as any).displayName === "CarouselContent"
+    );
+
+    const totalSlides =
+      carouselContent && React.isValidElement(carouselContent)
+        ? React.Children.count((carouselContent.props as any).children)
+        : 0;
 
     const goToSlide = useCallback(
       (index: number) => {
@@ -156,7 +162,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       goToSlide(activeIndex - 1);
     }, [activeIndex, goToSlide]);
 
-    // Autoplay
+    // Autoplay - fixed dependencies
     useEffect(() => {
       if (autoplay && !isPaused && totalSlides > 1) {
         intervalRef.current = setInterval(() => {
@@ -171,6 +177,9 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
           if (intervalRef.current) clearInterval(intervalRef.current);
         };
       }
+      return () => {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+      };
     }, [
       autoplay,
       isPaused,
@@ -284,7 +293,15 @@ const CarouselContent = React.forwardRef<HTMLDivElement, CarouselContentProps>(
               : undefined
           }
         >
-          {children}
+          {React.Children.map(children, (child, index) => {
+            if (React.isValidElement(child)) {
+              return React.cloneElement(child as React.ReactElement<any>, {
+                "data-index": index,
+                "data-active": index === activeIndex,
+              });
+            }
+            return child;
+          })}
         </div>
       </div>
     );
@@ -295,18 +312,8 @@ CarouselContent.displayName = "CarouselContent";
 
 const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
   ({ className, children, ...props }, ref) => {
-    const { effect, activeIndex } = useCarousel();
-    const itemIndex = React.useMemo(() => {
-      const parent =
-        ref && typeof ref !== "function" ? ref.current?.parentElement : null;
-      if (!parent) return 0;
-      const siblings = Array.from(parent.children);
-      return siblings.indexOf(
-        ref && typeof ref !== "function" ? ref.current! : parent
-      );
-    }, [ref]);
-
-    const isActive = itemIndex === activeIndex;
+    const { effect } = useCarousel();
+    const isActive = (props as any)["data-active"] === true;
 
     return (
       <div
@@ -319,7 +326,6 @@ const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
           ],
           className
         )}
-        data-active={isActive}
         {...props}
       >
         {children}
