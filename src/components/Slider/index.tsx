@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useRef, useCallback } from "react";
+import React, { forwardRef, useState, useRef, useCallback, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type { SliderProps, SliderMark } from "./Slider.types";
@@ -291,7 +291,7 @@ const markVariants = cva(
 const Slider = forwardRef<HTMLDivElement, SliderProps>(
   (
     {
-      variant = "primary",
+      variant = "default",
       size = "md",
       orientation = "horizontal",
       value: controlledValue,
@@ -301,7 +301,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
       max = 100,
       step = 1,
       showValue = false,
-      showTooltip = true,
+      showTooltip = false,
       marks,
       showMarks = false,
       valueFormatter,
@@ -331,9 +331,17 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
     const [activeThumb, setActiveThumb] = useState<number | null>(null);
     const [hoveredThumb, setHoveredThumb] = useState<number | null>(null);
     const trackRef = useRef<HTMLDivElement>(null);
+    const valueRef = useRef<number | number[]>(
+      controlledValue !== undefined ? controlledValue : internalValue
+    );
 
     // Use controlled value if provided
     const value = controlledValue !== undefined ? controlledValue : internalValue;
+
+    // Update value ref whenever value changes
+    useEffect(() => {
+      valueRef.current = value;
+    }, [value]);
 
     // Normalize value to array for consistent handling
     const normalizedValue = Array.isArray(value) ? value : [value];
@@ -420,9 +428,10 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
         const handleMove = (e: MouseEvent | TouchEvent) => {
           const position = getPositionFromEvent(e);
           const newValue = positionToValue(position);
+          const currentValue = valueRef.current;
 
-          if (range && Array.isArray(value)) {
-            const newValues = [...value];
+          if (range && Array.isArray(currentValue)) {
+            const newValues = [...currentValue];
             newValues[thumbIndex] = newValue;
 
             // Ensure values don't cross
@@ -440,7 +449,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
 
         const handleUp = () => {
           setActiveThumb(null);
-          onChangeCommitted?.(value);
+          onChangeCommitted?.(valueRef.current);
           document.removeEventListener("mousemove", handleMove);
           document.removeEventListener("mouseup", handleUp);
           document.removeEventListener("touchmove", handleMove);
@@ -452,7 +461,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
         document.addEventListener("touchmove", handleMove);
         document.addEventListener("touchend", handleUp);
       },
-      [disabled, range, value, getPositionFromEvent, positionToValue, handleValueChange, onChangeCommitted]
+      [disabled, range, getPositionFromEvent, positionToValue, handleValueChange, onChangeCommitted]
     );
 
     // Handle click on track
@@ -462,15 +471,16 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
 
         const position = getPositionFromEvent(event);
         const newValue = positionToValue(position);
+        const currentValue = valueRef.current;
 
-        if (range && Array.isArray(value)) {
+        if (range && Array.isArray(currentValue)) {
           // Find closest thumb
-          const [val1, val2] = value;
+          const [val1, val2] = currentValue;
           const dist1 = Math.abs(newValue - val1);
           const dist2 = Math.abs(newValue - val2);
 
           const thumbIndex = dist1 < dist2 ? 0 : 1;
-          const newValues = [...value];
+          const newValues = [...currentValue];
           newValues[thumbIndex] = newValue;
 
           // Ensure values don't cross
@@ -481,13 +491,13 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
           }
 
           handleValueChange(newValues);
+          onChangeCommitted?.(newValues);
         } else {
           handleValueChange(newValue);
+          onChangeCommitted?.(newValue);
         }
-
-        onChangeCommitted?.(range && Array.isArray(value) ? value : newValue);
       },
-      [disabled, range, value, getPositionFromEvent, positionToValue, handleValueChange, onChangeCommitted]
+      [disabled, range, getPositionFromEvent, positionToValue, handleValueChange, onChangeCommitted]
     );
 
     // Keyboard navigation
@@ -497,6 +507,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
 
         let delta = 0;
         const largeStep = step * 10;
+        const currentValue = valueRef.current;
 
         switch (event.key) {
           case "ArrowRight":
@@ -514,10 +525,10 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
             delta = -largeStep;
             break;
           case "Home":
-            delta = min - (Array.isArray(value) ? value[thumbIndex] : value);
+            delta = min - (Array.isArray(currentValue) ? currentValue[thumbIndex] : currentValue);
             break;
           case "End":
-            delta = max - (Array.isArray(value) ? value[thumbIndex] : value);
+            delta = max - (Array.isArray(currentValue) ? currentValue[thumbIndex] : currentValue);
             break;
           default:
             return;
@@ -525,8 +536,8 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
 
         event.preventDefault();
 
-        if (range && Array.isArray(value)) {
-          const newValues = [...value];
+        if (range && Array.isArray(currentValue)) {
+          const newValues = [...currentValue];
           newValues[thumbIndex] = Math.min(
             Math.max(newValues[thumbIndex] + delta, min),
             max
@@ -541,12 +552,12 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
 
           handleValueChange(newValues);
         } else {
-          const currentValue = Array.isArray(value) ? value[0] : value;
-          const newValue = Math.min(Math.max(currentValue + delta, min), max);
+          const currentVal = Array.isArray(currentValue) ? currentValue[0] : currentValue;
+          const newValue = Math.min(Math.max(currentVal + delta, min), max);
           handleValueChange(newValue);
         }
       },
-      [disabled, step, min, max, range, value, handleValueChange]
+      [disabled, step, min, max, range, handleValueChange]
     );
 
     // Parse marks

@@ -56,7 +56,7 @@ export interface SliderProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   /**
    * The visual style variant of the slider
-   * @default "primary"
+   * @default "default"
    */
   variant?: SliderVariant;
 
@@ -116,7 +116,7 @@ export interface SliderProps
 
   /**
    * Whether to show tooltip on hover
-   * @default true
+   * @default false
    */
   showTooltip?: boolean;
 
