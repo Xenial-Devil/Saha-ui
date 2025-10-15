@@ -76,6 +76,7 @@ export {
 } from "./components/Table";
 export { default as Rating } from "./components/Rating";
 export { default as Progress } from "./components/Progress";
+export { default as Slider } from "./components/Slider";
 export { default as Popover } from "./components/Popover";
 export { default as PlayButton } from "./components/PlayButton";
 export { default as Skeleton } from "./components/Skeleton";
@@ -314,6 +315,14 @@ export type {
   ProgressShape,
   ProgressAnimation,
 } from "./components/Progress/Progress.types";
+
+export type {
+  SliderProps,
+  SliderVariant,
+  SliderSize,
+  SliderOrientation,
+  SliderMark,
+} from "./components/Slider/Slider.types";
 
 export type {
   PopoverProps,

@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **45 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Drawer, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, FloatingActionButton, Radio, Switch, Checkbox, CheckboxGroup, Select, Dropdown, Tag, TagInput, TextArea, Upload, Modal, Toast, Empty, Autocomplete, Skeleton, Pagination, DatePicker, Tab, Input
+- 🎨 **46 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Drawer, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Slider, Popover, PlayButton, FloatingActionButton, Radio, Switch, Checkbox, CheckboxGroup, Select, Dropdown, Tag, TagInput, TextArea, Upload, Modal, Toast, Empty, Autocomplete, Skeleton, Pagination, DatePicker, Tab, Input
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -613,6 +613,40 @@ import { Progress } from "saha-ui";
 <Progress value={60} variant="primary" size="lg" showValue />
 <Progress value={80} variant="success" striped stripedAnimated />
 <Progress indeterminate variant="gradient" />
+```
+
+### Slider
+
+```tsx
+import { Slider } from "saha-ui";
+
+// Basic slider
+<Slider value={50} onChange={(val) => console.log(val)} />
+
+// Range slider
+<Slider range value={[20, 80]} onChange={(val) => console.log(val)} />
+
+// With marks and tooltips
+<Slider
+  value={50}
+  marks={[0, 25, 50, 75, 100]}
+  showMarks
+  showTooltip
+  variant="gradient"
+/>
+
+// Vertical slider
+<Slider value={60} orientation="vertical" className="h-64" />
+
+// With custom formatter
+<Slider
+  value={500}
+  min={0}
+  max={1000}
+  showTooltip
+  valueFormatter={(val) => `$${val}`}
+  variant="success"
+/>
 ```
 
 ### Popover
@@ -3641,6 +3675,212 @@ interface ProgressProps {
 - `glow` - Add glow shadow effect
 - `indeterminate` - Loading/infinite state
 - `valueFormat` - Custom formatter function
+
+---
+
+### Slider
+
+An advanced, accessible slider component with single/range modes, marks, tooltips, and both horizontal/vertical orientations.
+
+**Basic Usage:**
+
+```tsx
+import { Slider } from "saha-ui";
+
+// Basic slider
+<Slider value={50} onChange={(val) => console.log(val)} />
+
+// Range slider
+<Slider
+  range
+  value={[20, 80]}
+  onChange={(val) => console.log(val)}
+  variant="gradient"
+/>
+
+// With marks and labels
+<Slider
+  value={50}
+  marks={[
+    { value: 0, label: "0%" },
+    { value: 50, label: "50%" },
+    { value: 100, label: "100%" },
+  ]}
+  showMarks
+  variant="success"
+/>
+
+// Vertical slider
+<Slider
+  value={60}
+  orientation="vertical"
+  className="h-64"
+  variant="accent"
+/>
+
+// With custom formatter
+<Slider
+  value={500}
+  min={0}
+  max={1000}
+  step={10}
+  showTooltip
+  valueFormatter={(val) => `$${val}`}
+  variant="success"
+/>
+
+// Price range filter
+<Slider
+  range
+  value={[25, 75]}
+  min={0}
+  max={100}
+  step={5}
+  showTooltip
+  valueFormatter={(val) => `$${val}`}
+/>
+```
+
+**Variants:**
+
+- `default` - Standard blue slider
+- `primary` - Primary brand color
+- `secondary` - Secondary accent
+- `accent` - Accent color
+- `success` - Green success indicator
+- `warning` - Yellow/orange warning
+- `error` - Red error indicator
+- `gradient` - Multi-color gradient
+- `glass` - Glassmorphism effect
+
+**Features:**
+
+- 🎯 **Single & Range Mode** - One or two draggable thumbs
+- 🎨 **9 Modern Variants** - Each with unique visual design
+- 📏 **5 Size Options** - xs, sm, md, lg, xl
+- 🔄 **Dual Orientation** - Horizontal and vertical sliders
+- 📍 **Marks & Labels** - Display custom marks with labels
+- 💬 **Tooltips** - Show values on hover
+- 🎭 **Custom Formatters** - Display values in any format (%, $, °C, etc.)
+- ⌨️ **Keyboard Navigation** - Arrow keys, Home, End, PageUp/Down
+- 🎯 **Step Control** - Define increment/decrement steps
+- 🖱️ **Click to Jump** - Click track to jump to value
+- ♿ **Fully Accessible** - ARIA slider role, keyboard support
+- 🎨 **Smooth Animations** - Beautiful hover and drag effects
+- 🎭 **CVA Powered** - Type-safe variant composition
+
+**Props:**
+
+```tsx
+interface SliderProps {
+  variant?: "default" | "primary" | "secondary" | "accent" | "success" | "warning" | "error" | "gradient" | "glass";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  orientation?: "horizontal" | "vertical";
+  value?: number | number[]; // Controlled
+  defaultValue?: number | number[]; // Uncontrolled
+  range?: boolean; // Enable range mode (two thumbs)
+  min?: number; // Default: 0
+  max?: number; // Default: 100
+  step?: number; // Default: 1
+  showValue?: boolean; // Show value label
+  showTooltip?: boolean; // Show tooltip on hover (default: true)
+  marks?: number[] | SliderMark[]; // Display marks
+  showMarks?: boolean; // Show marks on track
+  valueFormatter?: (value: number) => string; // Custom value format
+  onChange?: (value: number | number[]) => void;
+  onChangeCommitted?: (value: number | number[]) => void; // On mouse up
+  disabled?: boolean;
+  animated?: boolean; // Smooth animations (default: true)
+  trackClassName?: string;
+  filledTrackClassName?: string;
+  thumbClassName?: string;
+  marksClassName?: string;
+}
+```
+
+**Real-World Examples:**
+
+```tsx
+// Volume control
+<Slider
+  value={volumeValue}
+  onChange={setVolumeValue}
+  showTooltip
+  valueFormatter={(val) => `${val}%`}
+  variant="primary"
+  size="lg"
+/>
+
+// Price range filter
+<Slider
+  range
+  value={priceRange}
+  onChange={setPriceRange}
+  min={0}
+  max={1000}
+  step={10}
+  showTooltip
+  valueFormatter={(val) => `$${val}`}
+  variant="success"
+/>
+
+// Brightness control
+<Slider
+  value={brightness}
+  onChange={setBrightness}
+  marks={[0, 25, 50, 75, 100]}
+  showMarks
+  showTooltip
+  variant="warning"
+/>
+
+// Age range selector
+<Slider
+  range
+  value={[18, 65]}
+  min={0}
+  max={100}
+  marks={[
+    { value: 0, label: "0" },
+    { value: 18, label: "18" },
+    { value: 65, label: "65" },
+    { value: 100, label: "100" },
+  ]}
+  showMarks
+  valueFormatter={(val) => `${val} years`}
+  variant="accent"
+/>
+
+// Vertical volume
+<Slider
+  value={volume}
+  orientation="vertical"
+  className="h-64"
+  variant="gradient"
+  size="lg"
+/>
+```
+
+**Detailed Props:**
+
+- `variant` - Visual style of the slider
+- `size` - Size of track and thumb
+- `orientation` - Horizontal or vertical layout
+- `value` - Controlled value (number or [number, number])
+- `defaultValue` - Initial uncontrolled value
+- `range` - Enable dual-thumb range mode
+- `min` - Minimum value
+- `max` - Maximum value
+- `step` - Value increment/decrement step
+- `showValue` - Display value label
+- `showTooltip` - Show tooltip on hover/drag
+- `marks` - Array of mark values or objects with labels
+- `showMarks` - Display marks on track
+- `valueFormatter` - Custom format function for display
+- `onChange` - Callback when value changes
+- `onChangeCommitted` - Callback on mouse/touch up
+- `disabled` - Disable interaction
+- `animated` - Enable smooth transitions
 
 ---
 
