@@ -111,13 +111,6 @@ jobs:
           - Build ID: $BUILD_ID
           - Commit: $COMMIT_SHA
 
-          ### Key Features
-          - Point of Sale System
-          - Invoice Management
-          - User Authentication
-          - Dark Mode Support
-          - Real-time Updates
-
           ## 📋 Additional Information
           - [View Workflow Run](https://github.com/$REPO/actions/runs/$BUILD_ID)
           - [View Changes on GitHub](https://github.com/$REPO/compare/$(git describe --tags --abbrev=0 HEAD^)...$LATEST_TAG)
