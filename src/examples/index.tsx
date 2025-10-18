@@ -41,6 +41,7 @@ export { ToastExample } from "./ToastExample";
 export { EmptyExample } from "./EmptyExample";
 export { AutocompleteExample } from "./AutocompleteExample";
 export { FieldExample } from "./FieldExample";
+export { SliderExample } from "./SliderExample";
 
 // Aggregate component that includes all examples
 export { AllComponentExamples } from "./AllComponentExamples";

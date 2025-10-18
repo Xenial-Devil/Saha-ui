@@ -49,6 +49,7 @@ import { ToastExample } from "./ToastExample";
 import { EmptyExample } from "./EmptyExample";
 import { AutocompleteExample } from "./AutocompleteExample";
 import { FieldExample } from "./FieldExample";
+import { SliderExample } from "./SliderExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -196,6 +197,9 @@ export const AllComponentExamples = () => {
 
       {/* Field Examples */}
       <FieldExample />
+
+      {/* Slider Examples */}
+      <SliderExample />
     </>
   );
 };

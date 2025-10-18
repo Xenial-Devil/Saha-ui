@@ -138,6 +138,12 @@ export {
   FieldError,
   FieldHint,
 } from "./components/Field";
+export {
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+} from "./components/Slider";
 
 // Types - Theme
 export type {
@@ -459,6 +465,14 @@ export type {
   FieldVariant,
   FieldOrientation,
 } from "./components/Field/Field.types";
+
+export type {
+  SliderProps,
+  SliderSize,
+  SliderVariant,
+  SliderOrientation,
+  SliderMark,
+} from "./components/Slider/Slider.types";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";
