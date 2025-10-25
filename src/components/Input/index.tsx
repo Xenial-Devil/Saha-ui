@@ -1,6 +1,11 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
+import {
+  createValidator,
+  commonValidators,
+  isValidNumber,
+} from "../../lib/validation";
 import type { InputProps } from "./Input.types";
 
 /**
@@ -297,6 +302,66 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       defaultValue?.toString() || ""
     );
     const currentValue = value !== undefined ? value : internalValue;
+
+    // ===== PROP VALIDATION =====
+    useEffect(() => {
+      if (process.env.NODE_ENV !== "production") {
+        const validator = createValidator("Input");
+
+        // Common validators
+        commonValidators.size(validator, size);
+        const inputVariants = [
+          "primary",
+          "secondary",
+          "accent",
+          "info",
+          "success",
+          "warning",
+          "error",
+          "outline",
+          "ghost",
+          "glass",
+        ] as const;
+        commonValidators.variant(validator, variant, inputVariants);
+        commonValidators.disabled(validator, disabled);
+        commonValidators.className(validator, className);
+
+        // Input-specific validations
+        if (maxLength !== undefined) {
+          if (!isValidNumber(maxLength)) {
+            validator.error("Invalid prop: 'maxLength' must be a number.");
+          } else if (maxLength < 0) {
+            validator.error(
+              "Invalid prop: 'maxLength' must be a positive number."
+            );
+          }
+        }
+
+        if (showCounter && !maxLength) {
+          validator.warn(
+            "Warning: 'showCounter' is enabled but 'maxLength' is not set. Counter will not be displayed."
+          );
+        }
+
+        if (fullWidth !== undefined && typeof fullWidth !== "boolean") {
+          validator.error("Invalid prop: 'fullWidth' must be a boolean.");
+        }
+
+        if (required !== undefined && typeof required !== "boolean") {
+          validator.error("Invalid prop: 'required' must be a boolean.");
+        }
+      }
+    }, [
+      variant,
+      size,
+      disabled,
+      className,
+      maxLength,
+      showCounter,
+      fullWidth,
+      required,
+    ]);
+    // ===== END PROP VALIDATION =====
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (value === undefined) {

@@ -19,7 +19,10 @@ export interface SliderMark {
 }
 
 export interface SliderProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    "onChange" | "defaultValue"
+  > {
   // Value control
   value?: number | number[];
   defaultValue?: number | number[];

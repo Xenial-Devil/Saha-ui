@@ -1,16 +1,16 @@
 import { useState } from "react";
-import Modal, {
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalTitle,
-  ModalDescription,
-} from "../components/Modal/index";
+import Dialog, {
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "../components/Dialog/index";
 import { Check, AlertTriangle, Sparkles } from "lucide-react";
 
-export default function ModalExample() {
+export default function DialogExample() {
   const [basicOpen, setBasicOpen] = useState(false);
-  const [variantModals, setVariantModals] = useState({
+  const [variantDialogs, setVariantDialogs] = useState({
     default: false,
     primary: false,
     secondary: false,
@@ -21,7 +21,7 @@ export default function ModalExample() {
     info: false,
     glass: false,
   });
-  const [sizeModals, setSizeModals] = useState({
+  const [sizeDialogs, setSizeDialogs] = useState({
     xs: false,
     sm: false,
     md: false,
@@ -32,7 +32,7 @@ export default function ModalExample() {
     "4xl": false,
     full: false,
   });
-  const [animationModals, setAnimationModals] = useState({
+  const [animationDialogs, setAnimationDialogs] = useState({
     fade: false,
     scale: false,
     "slide-up": false,
@@ -42,7 +42,7 @@ export default function ModalExample() {
     zoom: false,
     bounce: false,
   });
-  const [featureModals, setFeatureModals] = useState({
+  const [featureDialogs, setFeatureDialogs] = useState({
     withFooter: false,
     noHeader: false,
     noClose: false,
@@ -52,131 +52,131 @@ export default function ModalExample() {
     fullScreen: false,
     notCentered: false,
   });
-  const [backdropModals, setBackdropModals] = useState({
+  const [backdropDialogs, setBackdropDialogs] = useState({
     default: false,
     blur: false,
     transparent: false,
     dark: false,
   });
   const [confirmDialog, setConfirmDialog] = useState(false);
-  const [formModal, setFormModal] = useState(false);
-  const [nestedModal, setNestedModal] = useState(false);
-  const [nestedInnerModal, setNestedInnerModal] = useState(false);
-  const [componentBasedModal, setComponentBasedModal] = useState(false);
-  const [customLayoutModal, setCustomLayoutModal] = useState(false);
+  const [formDialog, setFormDialog] = useState(false);
+  const [nestedDialog, setNestedDialog] = useState(false);
+  const [nestedInnerDialog, setNestedInnerDialog] = useState(false);
+  const [componentBasedDialog, setComponentBasedDialog] = useState(false);
+  const [customLayoutDialog, setCustomLayoutDialog] = useState(false);
 
-  const openVariantModal = (variant: keyof typeof variantModals) => {
-    setVariantModals((prev) => ({ ...prev, [variant]: true }));
+  const openVariantDialog = (variant: keyof typeof variantDialogs) => {
+    setVariantDialogs((prev) => ({ ...prev, [variant]: true }));
   };
 
-  const closeVariantModal = (variant: keyof typeof variantModals) => {
-    setVariantModals((prev) => ({ ...prev, [variant]: false }));
+  const closeVariantDialog = (variant: keyof typeof variantDialogs) => {
+    setVariantDialogs((prev) => ({ ...prev, [variant]: false }));
   };
 
-  const openSizeModal = (size: keyof typeof sizeModals) => {
-    setSizeModals((prev) => ({ ...prev, [size]: true }));
+  const openSizeDialog = (size: keyof typeof sizeDialogs) => {
+    setSizeDialogs((prev) => ({ ...prev, [size]: true }));
   };
 
-  const closeSizeModal = (size: keyof typeof sizeModals) => {
-    setSizeModals((prev) => ({ ...prev, [size]: false }));
+  const closeSizeDialog = (size: keyof typeof sizeDialogs) => {
+    setSizeDialogs((prev) => ({ ...prev, [size]: false }));
   };
 
-  const openAnimationModal = (animation: keyof typeof animationModals) => {
-    setAnimationModals((prev) => ({ ...prev, [animation]: true }));
+  const openAnimationDialog = (animation: keyof typeof animationDialogs) => {
+    setAnimationDialogs((prev) => ({ ...prev, [animation]: true }));
   };
 
-  const closeAnimationModal = (animation: keyof typeof animationModals) => {
-    setAnimationModals((prev) => ({ ...prev, [animation]: false }));
+  const closeAnimationDialog = (animation: keyof typeof animationDialogs) => {
+    setAnimationDialogs((prev) => ({ ...prev, [animation]: false }));
   };
 
-  const openFeatureModal = (feature: keyof typeof featureModals) => {
-    setFeatureModals((prev) => ({ ...prev, [feature]: true }));
+  const openFeatureDialog = (feature: keyof typeof featureDialogs) => {
+    setFeatureDialogs((prev) => ({ ...prev, [feature]: true }));
   };
 
-  const closeFeatureModal = (feature: keyof typeof featureModals) => {
-    setFeatureModals((prev) => ({ ...prev, [feature]: false }));
+  const closeFeatureDialog = (feature: keyof typeof featureDialogs) => {
+    setFeatureDialogs((prev) => ({ ...prev, [feature]: false }));
   };
 
-  const openBackdropModal = (backdrop: keyof typeof backdropModals) => {
-    setBackdropModals((prev) => ({ ...prev, [backdrop]: true }));
+  const openBackdropDialog = (backdrop: keyof typeof backdropDialogs) => {
+    setBackdropDialogs((prev) => ({ ...prev, [backdrop]: true }));
   };
 
-  const closeBackdropModal = (backdrop: keyof typeof backdropModals) => {
-    setBackdropModals((prev) => ({ ...prev, [backdrop]: false }));
+  const closeBackdropDialog = (backdrop: keyof typeof backdropDialogs) => {
+    setBackdropDialogs((prev) => ({ ...prev, [backdrop]: false }));
   };
 
   return (
     <div className="space-y-16 p-8">
       <div>
-        <h1 className="mb-2 text-4xl font-bold">Modal Component</h1>
+        <h1 className="mb-2 text-4xl font-bold">Dialog Component</h1>
         <p className="text-muted-foreground">
-          Advanced modal/dialog component with animations, accessibility, and
+          Advanced Dialog/dialog component with animations, accessibility, and
           extensive customization options.
         </p>
       </div>
 
-      {/* Basic Modal */}
+      {/* Basic Dialog */}
       <section className="space-y-4">
-        <h2 className="text-2xl font-bold">Basic Modal</h2>
+        <h2 className="text-2xl font-bold">Basic Dialog</h2>
         <button
           onClick={() => setBasicOpen(true)}
           className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
         >
-          Open Basic Modal
+          Open Basic Dialog
         </button>
 
-        <Modal
+        <Dialog
           open={basicOpen}
           onOpenChange={setBasicOpen}
-          title="Basic Modal"
-          description="This is a simple modal with title and description"
+          title="Basic Dialog"
+          description="This is a simple Dialog with title and description"
         >
           <p className="text-muted-foreground">
-            This is the modal content. You can put any React components here.
+            This is the Dialog content. You can put any React components here.
             Click outside, press Escape, or click the X button to close.
           </p>
-        </Modal>
+        </Dialog>
       </section>
 
       {/* Component-Based API */}
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">Component-Based API</h2>
         <p className="text-muted-foreground">
-          Use compound components for more control over the modal structure
+          Use compound components for more control over the Dialog structure
         </p>
         <div className="flex gap-4">
           <button
-            onClick={() => setComponentBasedModal(true)}
+            onClick={() => setComponentBasedDialog(true)}
             className="px-4 py-2 rounded-lg bg-accent text-accent-foreground hover:bg-accent/90"
           >
-            Component-Based Modal
+            Component-Based Dialog
           </button>
           <button
-            onClick={() => setCustomLayoutModal(true)}
+            onClick={() => setCustomLayoutDialog(true)}
             className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/90"
           >
             Custom Layout
           </button>
         </div>
 
-        {/* Component-Based Modal */}
-        <Modal
-          open={componentBasedModal}
-          onOpenChange={setComponentBasedModal}
+        {/* Component-Based Dialog */}
+        <Dialog
+          open={componentBasedDialog}
+          onOpenChange={setComponentBasedDialog}
           variant="primary"
           animation="slide-up"
         >
-          <ModalHeader>
-            <ModalTitle>Component-Based Modal</ModalTitle>
-            <ModalDescription>
-              Using ModalHeader, ModalBody, and ModalFooter components
-            </ModalDescription>
-          </ModalHeader>
-          <ModalBody>
+          <DialogHeader>
+            <DialogTitle>Component-Based Dialog</DialogTitle>
+            <DialogDescription>
+              Using DialogHeader, DialogBody, and DialogFooter components
+            </DialogDescription>
+          </DialogHeader>
+          <DialogBody>
             <div className="space-y-4">
               <p className="text-muted-foreground">
-                This modal uses the component-based API with separate
-                ModalHeader, ModalBody, and ModalFooter components.
+                This Dialog uses the component-based API with separate
+                DialogHeader, DialogBody, and DialogFooter components.
               </p>
               <div className="p-4 rounded-lg bg-primary/10 border border-primary/30">
                 <p className="text-sm">
@@ -184,45 +184,45 @@ export default function ModalExample() {
                 </p>
               </div>
             </div>
-          </ModalBody>
-          <ModalFooter>
+          </DialogBody>
+          <DialogFooter>
             <button
-              onClick={() => setComponentBasedModal(false)}
+              onClick={() => setComponentBasedDialog(false)}
               className="px-4 py-2 rounded-lg border border-border hover:bg-muted"
             >
               Cancel
             </button>
             <button
-              onClick={() => setComponentBasedModal(false)}
+              onClick={() => setComponentBasedDialog(false)}
               className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Confirm
             </button>
-          </ModalFooter>
-        </Modal>
+          </DialogFooter>
+        </Dialog>
 
-        {/* Custom Layout Modal */}
-        <Modal
-          open={customLayoutModal}
-          onOpenChange={setCustomLayoutModal}
+        {/* Custom Layout Dialog */}
+        <Dialog
+          open={customLayoutDialog}
+          onOpenChange={setCustomLayoutDialog}
           variant="glass"
           size="lg"
           animation="zoom"
         >
-          <ModalHeader showCloseButton={false}>
+          <DialogHeader showCloseButton={false}>
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
                 <Sparkles className="h-6 w-6 text-white" />
               </div>
               <div>
-                <ModalTitle>Custom Layout</ModalTitle>
-                <ModalDescription>
-                  Complete control over your modal structure
-                </ModalDescription>
+                <DialogTitle>Custom Layout</DialogTitle>
+                <DialogDescription>
+                  Complete control over your Dialog structure
+                </DialogDescription>
               </div>
             </div>
-          </ModalHeader>
-          <ModalBody scrollable={false}>
+          </DialogHeader>
+          <DialogBody scrollable={false}>
             <div className="grid grid-cols-2 gap-4">
               <div className="p-4 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20">
                 <h3 className="font-semibold mb-2">Feature 1</h3>
@@ -237,27 +237,27 @@ export default function ModalExample() {
                 </p>
               </div>
             </div>
-          </ModalBody>
-          <ModalFooter align="center">
+          </DialogBody>
+          <DialogFooter align="center">
             <button
-              onClick={() => setCustomLayoutModal(false)}
+              onClick={() => setCustomLayoutDialog(false)}
               className="px-6 py-2 rounded-lg bg-gradient-to-r from-primary to-accent text-white hover:opacity-90"
             >
               Got it!
             </button>
-          </ModalFooter>
-        </Modal>
+          </DialogFooter>
+        </Dialog>
       </section>
 
       {/* Variants */}
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">Variants</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {Object.keys(variantModals).map((variant) => (
+          {Object.keys(variantDialogs).map((variant) => (
             <button
               key={variant}
               onClick={() =>
-                openVariantModal(variant as keyof typeof variantModals)
+                openVariantDialog(variant as keyof typeof variantDialogs)
               }
               className="px-4 py-2 rounded-lg bg-muted hover:bg-muted/80 capitalize"
             >
@@ -266,24 +266,24 @@ export default function ModalExample() {
           ))}
         </div>
 
-        {Object.entries(variantModals).map(([variant, isOpen]) => (
-          <Modal
+        {Object.entries(variantDialogs).map(([variant, isOpen]) => (
+          <Dialog
             key={variant}
             open={isOpen}
             onOpenChange={(open: boolean) =>
-              !open && closeVariantModal(variant as keyof typeof variantModals)
+              !open && closeVariantDialog(variant as keyof typeof variantDialogs)
             }
             variant={variant as any}
             title={`${
               variant.charAt(0).toUpperCase() + variant.slice(1)
-            } Modal`}
-            description={`This is a ${variant} variant modal`}
+            } Dialog`}
+            description={`This is a ${variant} variant Dialog`}
           >
             <p className="text-muted-foreground">
-              The {variant} variant applies specific styling to the modal
+              The {variant} variant applies specific styling to the Dialog
               container and border.
             </p>
-          </Modal>
+          </Dialog>
         ))}
       </section>
 
@@ -291,10 +291,10 @@ export default function ModalExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">Sizes</h2>
         <div className="flex flex-wrap gap-4">
-          {Object.keys(sizeModals).map((size) => (
+          {Object.keys(sizeDialogs).map((size) => (
             <button
               key={size}
-              onClick={() => openSizeModal(size as keyof typeof sizeModals)}
+              onClick={() => openSizeDialog(size as keyof typeof sizeDialogs)}
               className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 uppercase"
             >
               {size}
@@ -302,22 +302,22 @@ export default function ModalExample() {
           ))}
         </div>
 
-        {Object.entries(sizeModals).map(([size, isOpen]) => (
-          <Modal
+        {Object.entries(sizeDialogs).map(([size, isOpen]) => (
+          <Dialog
             key={size}
             open={isOpen}
             onOpenChange={(open: boolean) =>
-              !open && closeSizeModal(size as keyof typeof sizeModals)
+              !open && closeSizeDialog(size as keyof typeof sizeDialogs)
             }
             size={size as any}
             title={`Size: ${size.toUpperCase()}`}
-            description={`This modal has size="${size}"`}
+            description={`This Dialog has size="${size}"`}
           >
             <p className="text-muted-foreground">
-              Different sizes allow you to control the modal width. The 'full'
-              size makes the modal take up the entire screen.
+              Different sizes allow you to control the Dialog width. The 'full'
+              size makes the Dialog take up the entire screen.
             </p>
-          </Modal>
+          </Dialog>
         ))}
       </section>
 
@@ -325,11 +325,11 @@ export default function ModalExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">Animations</h2>
         <div className="flex flex-wrap gap-4">
-          {Object.keys(animationModals).map((animation) => (
+          {Object.keys(animationDialogs).map((animation) => (
             <button
               key={animation}
               onClick={() =>
-                openAnimationModal(animation as keyof typeof animationModals)
+                openAnimationDialog(animation as keyof typeof animationDialogs)
               }
               className="px-4 py-2 rounded-lg bg-accent text-accent-foreground hover:bg-accent/90 capitalize"
             >
@@ -338,24 +338,24 @@ export default function ModalExample() {
           ))}
         </div>
 
-        {Object.entries(animationModals).map(([animation, isOpen]) => (
-          <Modal
+        {Object.entries(animationDialogs).map(([animation, isOpen]) => (
+          <Dialog
             key={animation}
             open={isOpen}
             onOpenChange={(open: boolean) =>
               !open &&
-              closeAnimationModal(animation as keyof typeof animationModals)
+              closeAnimationDialog(animation as keyof typeof animationDialogs)
             }
             animation={animation as any}
             title={`Animation: ${animation}`}
-            description="Watch how this modal animates"
+            description="Watch how this Dialog animates"
           >
             <p className="text-muted-foreground">
-              This modal uses the{" "}
+              This Dialog uses the{" "}
               <code className="px-1 py-0.5 rounded bg-muted">{animation}</code>{" "}
               animation. Close and reopen to see the animation effect.
             </p>
-          </Modal>
+          </Dialog>
         ))}
       </section>
 
@@ -363,11 +363,11 @@ export default function ModalExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">Backdrop Styles</h2>
         <div className="flex flex-wrap gap-4">
-          {Object.keys(backdropModals).map((backdrop) => (
+          {Object.keys(backdropDialogs).map((backdrop) => (
             <button
               key={backdrop}
               onClick={() =>
-                openBackdropModal(backdrop as keyof typeof backdropModals)
+                openBackdropDialog(backdrop as keyof typeof backdropDialogs)
               }
               className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/90 capitalize"
             >
@@ -376,13 +376,13 @@ export default function ModalExample() {
           ))}
         </div>
 
-        {Object.entries(backdropModals).map(([backdrop, isOpen]) => (
-          <Modal
+        {Object.entries(backdropDialogs).map(([backdrop, isOpen]) => (
+          <Dialog
             key={backdrop}
             open={isOpen}
             onOpenChange={(open: boolean) =>
               !open &&
-              closeBackdropModal(backdrop as keyof typeof backdropModals)
+              closeBackdropDialog(backdrop as keyof typeof backdropDialogs)
             }
             backdrop={backdrop as any}
             title={`Backdrop: ${backdrop}`}
@@ -391,9 +391,9 @@ export default function ModalExample() {
             <p className="text-muted-foreground">
               The{" "}
               <code className="px-1 py-0.5 rounded bg-muted">{backdrop}</code>{" "}
-              backdrop style affects the overlay behind the modal.
+              backdrop style affects the overlay behind the Dialog.
             </p>
-          </Modal>
+          </Dialog>
         ))}
       </section>
 
@@ -402,49 +402,49 @@ export default function ModalExample() {
         <h2 className="text-2xl font-bold">Advanced Features</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <button
-            onClick={() => openFeatureModal("withFooter")}
+            onClick={() => openFeatureDialog("withFooter")}
             className="px-4 py-2 rounded-lg bg-muted hover:bg-muted/80"
           >
             With Footer
           </button>
           <button
-            onClick={() => openFeatureModal("noHeader")}
+            onClick={() => openFeatureDialog("noHeader")}
             className="px-4 py-2 rounded-lg bg-muted hover:bg-muted/80"
           >
             No Header
           </button>
           <button
-            onClick={() => openFeatureModal("noClose")}
+            onClick={() => openFeatureDialog("noClose")}
             className="px-4 py-2 rounded-lg bg-muted hover:bg-muted/80"
           >
             No Close Button
           </button>
           <button
-            onClick={() => openFeatureModal("preventClose")}
+            onClick={() => openFeatureDialog("preventClose")}
             className="px-4 py-2 rounded-lg bg-muted hover:bg-muted/80"
           >
             Prevent Close
           </button>
           <button
-            onClick={() => openFeatureModal("scrollInside")}
+            onClick={() => openFeatureDialog("scrollInside")}
             className="px-4 py-2 rounded-lg bg-muted hover:bg-muted/80"
           >
             Scroll Inside
           </button>
           <button
-            onClick={() => openFeatureModal("scrollOutside")}
+            onClick={() => openFeatureDialog("scrollOutside")}
             className="px-4 py-2 rounded-lg bg-muted hover:bg-muted/80"
           >
             Scroll Outside
           </button>
           <button
-            onClick={() => openFeatureModal("fullScreen")}
+            onClick={() => openFeatureDialog("fullScreen")}
             className="px-4 py-2 rounded-lg bg-muted hover:bg-muted/80"
           >
             Full Screen
           </button>
           <button
-            onClick={() => openFeatureModal("notCentered")}
+            onClick={() => openFeatureDialog("notCentered")}
             className="px-4 py-2 rounded-lg bg-muted hover:bg-muted/80"
           >
             Not Centered
@@ -452,17 +452,17 @@ export default function ModalExample() {
         </div>
 
         {/* With Footer */}
-        <Modal
-          open={featureModals.withFooter}
+        <Dialog
+          open={featureDialogs.withFooter}
           onOpenChange={(open: boolean) =>
-            !open && closeFeatureModal("withFooter")
+            !open && closeFeatureDialog("withFooter")
           }
-          title="Modal with Footer"
-          description="This modal has action buttons in the footer"
+          title="Dialog with Footer"
+          description="This Dialog has action buttons in the footer"
           footer={
             <>
               <button
-                onClick={() => closeFeatureModal("withFooter")}
+                onClick={() => closeFeatureDialog("withFooter")}
                 className="px-4 py-2 rounded-lg border border-border hover:bg-muted"
               >
                 Cancel
@@ -470,7 +470,7 @@ export default function ModalExample() {
               <button
                 onClick={() => {
                   alert("Saved!");
-                  closeFeatureModal("withFooter");
+                  closeFeatureDialog("withFooter");
                 }}
                 className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
               >
@@ -481,15 +481,15 @@ export default function ModalExample() {
         >
           <p className="text-muted-foreground">
             The footer prop allows you to add action buttons or other content at
-            the bottom of the modal.
+            the bottom of the Dialog.
           </p>
-        </Modal>
+        </Dialog>
 
         {/* No Header */}
-        <Modal
-          open={featureModals.noHeader}
+        <Dialog
+          open={featureDialogs.noHeader}
           onOpenChange={(open: boolean) =>
-            !open && closeFeatureModal("noHeader")
+            !open && closeFeatureDialog("noHeader")
           }
           showHeader={false}
         >
@@ -499,30 +499,30 @@ export default function ModalExample() {
             </div>
             <h3 className="text-xl font-semibold">Success!</h3>
             <p className="text-muted-foreground">
-              This modal has no header. Useful for simple confirmations or
+              This Dialog has no header. Useful for simple confirmations or
               notifications.
             </p>
             <button
-              onClick={() => closeFeatureModal("noHeader")}
+              onClick={() => closeFeatureDialog("noHeader")}
               className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Got it
             </button>
           </div>
-        </Modal>
+        </Dialog>
 
         {/* No Close Button */}
-        <Modal
-          open={featureModals.noClose}
+        <Dialog
+          open={featureDialogs.noClose}
           onOpenChange={(open: boolean) =>
-            !open && closeFeatureModal("noClose")
+            !open && closeFeatureDialog("noClose")
           }
           title="No Close Button"
           description="Close button is hidden"
           showCloseButton={false}
           footer={
             <button
-              onClick={() => closeFeatureModal("noClose")}
+              onClick={() => closeFeatureDialog("noClose")}
               className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Close
@@ -530,20 +530,20 @@ export default function ModalExample() {
           }
         />
         {/* Prevent Close */}
-        <Modal
-          open={featureModals.preventClose}
+        <Dialog
+          open={featureDialogs.preventClose}
           onOpenChange={(open: boolean) =>
-            !open && closeFeatureModal("preventClose")
+            !open && closeFeatureDialog("preventClose")
           }
           title="Cannot Close"
-          description="This modal prevents closing by overlay or escape"
+          description="This Dialog prevents closing by overlay or escape"
           preventClose
           closeOnOverlayClick={false}
           closeOnEscape={false}
           showCloseButton={false}
           footer={
             <button
-              onClick={() => closeFeatureModal("preventClose")}
+              onClick={() => closeFeatureDialog("preventClose")}
               className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Complete Action
@@ -552,7 +552,7 @@ export default function ModalExample() {
         >
           <div className="space-y-4">
             <p className="text-muted-foreground">
-              This modal cannot be closed by clicking outside or pressing
+              This Dialog cannot be closed by clicking outside or pressing
               Escape. Useful for critical actions that must be completed.
             </p>
             <div className="p-4 rounded-lg bg-warning/10 border border-warning/30 flex gap-3">
@@ -562,64 +562,64 @@ export default function ModalExample() {
               </p>
             </div>
           </div>
-        </Modal>
+        </Dialog>
 
         {/* Scroll Inside */}
-        <Modal
-          open={featureModals.scrollInside}
+        <Dialog
+          open={featureDialogs.scrollInside}
           onOpenChange={(open: boolean) =>
-            !open && closeFeatureModal("scrollInside")
+            !open && closeFeatureDialog("scrollInside")
           }
           title="Scroll Inside"
-          description="Content scrolls inside the modal"
+          description="Content scrolls inside the Dialog"
           scrollBehavior="inside"
         >
           <div className="space-y-4">
             {Array.from({ length: 20 }).map((_, i) => (
               <p key={i} className="text-muted-foreground">
                 Paragraph {i + 1}: This is a long content that demonstrates
-                scrolling inside the modal. The modal body becomes scrollable
+                scrolling inside the Dialog. The Dialog body becomes scrollable
                 while the header and footer remain fixed.
               </p>
             ))}
           </div>
-        </Modal>
+        </Dialog>
 
         {/* Scroll Outside */}
-        <Modal
-          open={featureModals.scrollOutside}
+        <Dialog
+          open={featureDialogs.scrollOutside}
           onOpenChange={(open: boolean) =>
-            !open && closeFeatureModal("scrollOutside")
+            !open && closeFeatureDialog("scrollOutside")
           }
           title="Scroll Outside"
-          description="Entire modal scrolls"
+          description="Entire Dialog scrolls"
           scrollBehavior="outside"
         >
           <div className="space-y-4">
             {Array.from({ length: 20 }).map((_, i) => (
               <p key={i} className="text-muted-foreground">
                 Paragraph {i + 1}: This is a long content that demonstrates
-                scrolling outside the modal. The entire modal scrolls as one
+                scrolling outside the Dialog. The entire Dialog scrolls as one
                 unit.
               </p>
             ))}
           </div>
-        </Modal>
+        </Dialog>
 
         {/* Full Screen */}
-        <Modal
-          open={featureModals.fullScreen}
+        <Dialog
+          open={featureDialogs.fullScreen}
           onOpenChange={(open: boolean) =>
-            !open && closeFeatureModal("fullScreen")
+            !open && closeFeatureDialog("fullScreen")
           }
-          title="Full Screen Modal"
-          description="This modal takes up the entire screen"
+          title="Full Screen Dialog"
+          description="This Dialog takes up the entire screen"
           fullScreen
           rounded="none"
         >
           <div className="space-y-4">
             <p className="text-muted-foreground">
-              Full screen modals are useful for complex forms or detailed
+              Full screen Dialogs are useful for complex forms or detailed
               content that needs maximum space.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -627,23 +627,23 @@ export default function ModalExample() {
               <div className="p-4 rounded-lg bg-muted">Column 2</div>
             </div>
           </div>
-        </Modal>
+        </Dialog>
 
         {/* Not Centered */}
-        <Modal
-          open={featureModals.notCentered}
+        <Dialog
+          open={featureDialogs.notCentered}
           onOpenChange={(open: boolean) =>
-            !open && closeFeatureModal("notCentered")
+            !open && closeFeatureDialog("notCentered")
           }
-          title="Top Aligned Modal"
-          description="This modal is positioned at the top"
+          title="Top Aligned Dialog"
+          description="This Dialog is positioned at the top"
           centered={false}
         >
           <p className="text-muted-foreground">
-            By default, modals are centered. You can position them at the top by
+            By default, Dialogs are centered. You can position them at the top by
             setting centered=false.
           </p>
-        </Modal>
+        </Dialog>
       </section>
 
       {/* Confirm Dialog */}
@@ -656,7 +656,7 @@ export default function ModalExample() {
           Delete Account
         </button>
 
-        <Modal
+        <Dialog
           open={confirmDialog}
           onOpenChange={setConfirmDialog}
           size="sm"
@@ -693,28 +693,28 @@ export default function ModalExample() {
               </p>
             </div>
           </div>
-        </Modal>
+        </Dialog>
       </section>
 
-      {/* Form Modal */}
+      {/* Form Dialog */}
       <section className="space-y-4">
-        <h2 className="text-2xl font-bold">Form Modal</h2>
+        <h2 className="text-2xl font-bold">Form Dialog</h2>
         <button
-          onClick={() => setFormModal(true)}
+          onClick={() => setFormDialog(true)}
           className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
         >
           Add New Item
         </button>
 
-        <Modal
-          open={formModal}
-          onOpenChange={setFormModal}
+        <Dialog
+          open={formDialog}
+          onOpenChange={setFormDialog}
           title="Add New Item"
           description="Fill in the details below"
           footer={
             <>
               <button
-                onClick={() => setFormModal(false)}
+                onClick={() => setFormDialog(false)}
                 className="px-4 py-2 rounded-lg border border-border hover:bg-muted"
               >
                 Cancel
@@ -722,7 +722,7 @@ export default function ModalExample() {
               <button
                 onClick={() => {
                   alert("Item added!");
-                  setFormModal(false);
+                  setFormDialog(false);
                 }}
                 className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
               >
@@ -760,64 +760,64 @@ export default function ModalExample() {
               </select>
             </div>
           </form>
-        </Modal>
+        </Dialog>
       </section>
 
-      {/* Nested Modals */}
+      {/* Nested Dialogs */}
       <section className="space-y-4">
-        <h2 className="text-2xl font-bold">Nested Modals</h2>
+        <h2 className="text-2xl font-bold">Nested Dialogs</h2>
         <button
-          onClick={() => setNestedModal(true)}
+          onClick={() => setNestedDialog(true)}
           className="px-4 py-2 rounded-lg bg-accent text-accent-foreground hover:bg-accent/90"
         >
-          Open Nested Modals
+          Open Nested Dialogs
         </button>
 
-        <Modal
-          open={nestedModal}
-          onOpenChange={setNestedModal}
-          title="First Modal"
-          description="This modal can open another modal"
+        <Dialog
+          open={nestedDialog}
+          onOpenChange={setNestedDialog}
+          title="First Dialog"
+          description="This Dialog can open another Dialog"
         >
           <div className="space-y-4">
             <p className="text-muted-foreground">
-              You can nest modals by opening a new modal from within an existing
+              You can nest Dialogs by opening a new Dialog from within an existing
               one.
             </p>
             <button
-              onClick={() => setNestedInnerModal(true)}
+              onClick={() => setNestedInnerDialog(true)}
               className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
             >
-              Open Second Modal
+              Open Second Dialog
             </button>
           </div>
-        </Modal>
+        </Dialog>
 
-        <Modal
-          open={nestedInnerModal}
-          onOpenChange={setNestedInnerModal}
+        <Dialog
+          open={nestedInnerDialog}
+          onOpenChange={setNestedInnerDialog}
           size="sm"
           variant="success"
           animation="scale"
           nested
         >
-          <ModalHeader>
+          <DialogHeader>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-success/20 flex items-center justify-center">
                 <Check className="h-5 w-5 text-success" />
               </div>
               <div>
-                <ModalTitle>Nested Modal</ModalTitle>
-                <ModalDescription>
+                <DialogTitle>Nested Dialog</DialogTitle>
+                <DialogDescription>
                   Better styling with nested prop
-                </ModalDescription>
+                </DialogDescription>
               </div>
             </div>
-          </ModalHeader>
-          <ModalBody>
+          </DialogHeader>
+          <DialogBody>
             <div className="space-y-3">
               <p className="text-sm text-muted-foreground">
-                This nested modal uses the{" "}
+                This nested Dialog uses the{" "}
                 <code className="px-1 py-0.5 rounded bg-muted">nested</code>{" "}
                 prop for better overlay and focus management.
               </p>
@@ -830,16 +830,16 @@ export default function ModalExample() {
                 </p>
               </div>
             </div>
-          </ModalBody>
-          <ModalFooter>
+          </DialogBody>
+          <DialogFooter>
             <button
-              onClick={() => setNestedInnerModal(false)}
+              onClick={() => setNestedInnerDialog(false)}
               className="px-4 py-2 rounded-lg bg-success text-success-foreground hover:bg-success/90"
             >
               Close
             </button>
-          </ModalFooter>
-        </Modal>
+          </DialogFooter>
+        </Dialog>
       </section>
     </div>
   );

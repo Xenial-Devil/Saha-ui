@@ -4,11 +4,18 @@ import {
   useRef,
   KeyboardEvent,
   ClipboardEvent,
+  useEffect,
 } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type { TagInputProps } from "./TagInput.types";
 import { X } from "lucide-react";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+  isValidNumber,
+} from "../../lib/validation";
 
 /**
  * TagInput Component
@@ -216,6 +223,113 @@ export const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("TagInput");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "primary",
+        "secondary",
+        "accent",
+        "success",
+        "warning",
+        "error",
+        "info",
+        "outline",
+        "ghost",
+        "glass",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate rounded
+      validator.validateEnum("rounded", rounded, [
+        "none",
+        "sm",
+        "default",
+        "md",
+        "lg",
+        "xl",
+        "full",
+      ] as const);
+
+      // Validate numeric props
+      if (max !== undefined) {
+        validator.validateType("max", max, "number", isValidNumber);
+        if (max <= 0) {
+          validator.error("max must be greater than 0");
+        }
+      }
+
+      if (maxLength !== undefined) {
+        validator.validateType("maxLength", maxLength, "number", isValidNumber);
+        if (maxLength <= 0) {
+          validator.error("maxLength must be greater than 0");
+        }
+      }
+
+      if (minLength !== undefined) {
+        validator.validateType("minLength", minLength, "number", isValidNumber);
+        if (minLength < 0) {
+          validator.error("minLength must be non-negative");
+        }
+      }
+
+      // Validate boolean props
+      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
+      validator.validateType("readOnly", readOnly, "boolean", isValidBoolean);
+      validator.validateType(
+        "duplicates",
+        duplicates,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "allowPaste",
+        allowPaste,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("autoFocus", autoFocus, "boolean", isValidBoolean);
+      validator.validateType(
+        "clearOnBlur",
+        clearOnBlur,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("addOnBlur", addOnBlur, "boolean", isValidBoolean);
+      validator.validateType("trim", trim, "boolean", isValidBoolean);
+      validator.validateType(
+        "caseSensitive",
+        caseSensitive,
+        "boolean",
+        isValidBoolean
+      );
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [
+      variant,
+      size,
+      rounded,
+      max,
+      maxLength,
+      minLength,
+      disabled,
+      readOnly,
+      duplicates,
+      allowPaste,
+      autoFocus,
+      clearOnBlur,
+      addOnBlur,
+      trim,
+      caseSensitive,
+      className,
+    ]);
+
     const [uncontrolledTags, setUncontrolledTags] =
       useState<string[]>(defaultValue);
     const [inputValue, setInputValue] = useState("");

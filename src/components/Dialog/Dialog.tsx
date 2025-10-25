@@ -1,32 +1,40 @@
 import { forwardRef, useEffect, useState, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
-import type { ModalProps } from "./Modal.types";
-import { ModalContext, ModalCloseButton } from "./ModalComponents";
-import { ModalOverlay, ModalContent } from "./ModalOverlay";
+import type { DialogProps } from "./Dialog.types";
+import { DialogContext, DialogCloseButton } from "./DialogComponents";
+import {
+  DialogOverlay,
+  DialogContent as DialogContentWrapper,
+} from "./DialogOverlay";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 
 /**
- * Modal Component
+ * Dialog Component
  *
- * Advanced modal/dialog component with smooth animations, compound components,
+ * Advanced Dialog/dialog component with smooth animations, compound components,
  * accessibility, and extensive customization options.
  *
  * Supports BOTH prop-based and component-based APIs:
  *
  * @example Prop-based API
- * <Modal open={open} onOpenChange={setOpen} title="Title" footer={<button>OK</button>}>
+ * <Dialog open={open} onOpenChange={setOpen} title="Title" footer={<button>OK</button>}>
  *   Content
- * </Modal>
+ * </Dialog>
  *
  * @example Component-based API
- * <Modal open={open} onOpenChange={setOpen}>
- *   <ModalHeader>
- *     <ModalTitle>Custom Header</ModalTitle>
- *   </ModalHeader>
- *   <ModalBody>Content</ModalBody>
- *   <ModalFooter>Actions</ModalFooter>
- * </Modal>
+ * <Dialog open={open} onOpenChange={setOpen}>
+ *   <DialogHeader>
+ *     <DialogTitle>Custom Header</DialogTitle>
+ *   </DialogHeader>
+ *   <DialogBody>Content</DialogBody>
+ *   <DialogFooter>Actions</DialogFooter>
+ * </Dialog>
  */
-export const Modal = forwardRef<HTMLDivElement, ModalProps>(
+export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
   (
     {
       // Visibility
@@ -94,10 +102,148 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       "closed"
     );
     const previousActiveElement = useRef<HTMLElement | null>(null);
-    const modalRef = useRef<HTMLDivElement>(null);
+    const DialogRef = useRef<HTMLDivElement>(null);
 
     const isControlled = controlledOpen !== undefined;
     const open = isControlled ? controlledOpen : uncontrolledOpen;
+
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Dialog");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "glass",
+        "gradient",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, [
+        "sm",
+        "md",
+        "lg",
+        "xl",
+        "full",
+      ] as const);
+
+      // Validate rounded
+      validator.validateEnum("rounded", rounded, [
+        "none",
+        "sm",
+        "default",
+        "lg",
+        "xl",
+        "full",
+      ] as const);
+
+      // Validate animation
+      validator.validateEnum("animation", animation, [
+        "scale",
+        "fade",
+        "slide-up",
+        "slide-down",
+      ] as const);
+
+      // Validate scrollBehavior
+      validator.validateEnum("scrollBehavior", scrollBehavior, [
+        "inside",
+        "outside",
+      ] as const);
+
+      // Validate backdrop
+      validator.validateEnum("backdrop", backdrop, [
+        "default",
+        "blur",
+        "transparent",
+      ] as const);
+
+      // Validate boolean props
+      validator.validateType(
+        "showHeader",
+        showHeader,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "showCloseButton",
+        showCloseButton,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "closeOnOverlayClick",
+        closeOnOverlayClick,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "closeOnEscape",
+        closeOnEscape,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("centered", centered, "boolean", isValidBoolean);
+      validator.validateType(
+        "fullScreen",
+        fullScreen,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "preventClose",
+        preventClose,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "lockScroll",
+        lockScroll,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("focusTrap", focusTrap, "boolean", isValidBoolean);
+      validator.validateType(
+        "returnFocus",
+        returnFocus,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("nested", nested, "boolean", isValidBoolean);
+
+      // Validate content
+      if (!title && !children) {
+        validator.warn(
+          "Dialog should have title or children for accessibility"
+        );
+      }
+
+      // Common validators
+      commonValidators.className(validator, contentClassName);
+      commonValidators.className(validator, overlayClassName);
+    }, [
+      variant,
+      size,
+      rounded,
+      animation,
+      scrollBehavior,
+      backdrop,
+      showHeader,
+      showCloseButton,
+      closeOnOverlayClick,
+      closeOnEscape,
+      centered,
+      fullScreen,
+      preventClose,
+      lockScroll,
+      focusTrap,
+      returnFocus,
+      nested,
+      title,
+      children,
+      contentClassName,
+      overlayClassName,
+    ]);
 
     // Handle open state changes
     const handleOpenChange = useCallback(
@@ -118,7 +264,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       [preventClose, isControlled, onOpenChange, onOpen, onClose]
     );
 
-    // Close modal
+    // Close Dialog
     const handleClose = useCallback(() => {
       if (preventClose) return;
       handleOpenChange(false);
@@ -183,10 +329,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
     // Focus trap
     useEffect(() => {
-      if (!focusTrap || !open || !modalRef.current) return;
+      if (!focusTrap || !open || !DialogRef.current) return;
 
-      const modal = modalRef.current;
-      const focusableElements = modal.querySelectorAll<HTMLElement>(
+      const Dialog = DialogRef.current;
+      const focusableElements = Dialog.querySelectorAll<HTMLElement>(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );
       const firstElement = focusableElements[0];
@@ -218,10 +364,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
         }
       };
 
-      modal.addEventListener("keydown", handleTabKey);
+      Dialog.addEventListener("keydown", handleTabKey);
       return () => {
         clearTimeout(focusTimer);
-        modal.removeEventListener("keydown", handleTabKey);
+        Dialog.removeEventListener("keydown", handleTabKey);
       };
     }, [open, focusTrap, returnFocus, nested]);
 
@@ -241,15 +387,15 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       Array.isArray(children) &&
       children.some(
         (child: any) =>
-          child?.type?.displayName === "ModalHeader" ||
-          child?.type?.displayName === "ModalBody" ||
-          child?.type?.displayName === "ModalFooter"
+          child?.type?.displayName === "DialogHeader" ||
+          child?.type?.displayName === "DialogBody" ||
+          child?.type?.displayName === "DialogFooter"
       );
 
-    const modalContent = (
-      <ModalContext.Provider value={{ open, onClose: handleClose }}>
+    const DialogContent = (
+      <DialogContext.Provider value={{ open, onClose: handleClose }}>
         {/* Overlay */}
-        <ModalOverlay
+        <DialogOverlay
           backdrop={backdrop}
           nested={nested}
           onClick={closeOnOverlayClick ? handleClose : undefined}
@@ -257,8 +403,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           className={overlayClassName}
         />
 
-        {/* Modal Content */}
-        <ModalContent
+        {/* Dialog Content */}
+        <DialogContentWrapper
           variant={variant}
           size={size}
           rounded={rounded}
@@ -268,19 +414,19 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           scrollBehavior={scrollBehavior}
           state={animationState}
           nested={nested}
-          onClick={(e) => e.stopPropagation()}
-          innerRef={(node) => {
+          onClick={(e: React.MouseEvent) => e.stopPropagation()}
+          innerRef={(node: HTMLDivElement | null) => {
             if (typeof ref === "function") {
               ref(node);
             } else if (ref) {
               ref.current = node;
             }
             if (node) {
-              modalRef.current = node;
+              DialogRef.current = node;
             }
           }}
           role="dialog"
-          aria-modal={true}
+          aria-Dialog={true}
           aria-label={
             ariaLabel || (typeof title === "string" ? title : undefined)
           }
@@ -312,7 +458,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                     )}
                   </div>
                   {showCloseButton && !preventClose && (
-                    <ModalCloseButton onClick={handleClose} />
+                    <DialogCloseButton onClick={handleClose} />
                   )}
                 </div>
               )}
@@ -338,16 +484,16 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               )}
             </>
           )}
-        </ModalContent>
-      </ModalContext.Provider>
+        </DialogContentWrapper>
+      </DialogContext.Provider>
     );
 
     // Portal rendering
     const portalContainer = portalTarget || document.body;
-    return createPortal(modalContent, portalContainer);
+    return createPortal(DialogContent, portalContainer);
   }
 );
 
-Modal.displayName = "Modal";
+Dialog.displayName = "Dialog";
 
-export default Modal;
+export default Dialog;

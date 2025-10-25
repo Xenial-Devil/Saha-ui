@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import { AvatarProps } from "./Avatar.types";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 
 // CVA variants for Avatar
 const avatarVariants = cva(
@@ -84,6 +89,44 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Avatar");
+
+      // Validate size
+      validator.validateEnum("size", size, [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+        "2xl",
+      ] as const);
+
+      // Validate shape
+      validator.validateEnum("shape", shape, [
+        "circle",
+        "square",
+        "rounded",
+      ] as const);
+
+      // Validate status
+      validator.validateEnum("status", status, [
+        "online",
+        "offline",
+        "away",
+        "busy",
+        "none",
+      ] as const);
+
+      // Validate boolean props
+      validator.validateType("bordered", bordered, "boolean", isValidBoolean);
+      validator.validateType("ring", ring, "boolean", isValidBoolean);
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [size, shape, status, bordered, ring, className]);
+
     const [imageError, setImageError] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
 

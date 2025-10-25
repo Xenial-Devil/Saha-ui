@@ -19,6 +19,12 @@ import type {
   DropdownSeparatorProps,
 } from "./Dropdown.types";
 import { ChevronDown, Check, Search, X } from "lucide-react";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+  isValidNumber,
+} from "../../lib/validation";
 
 /**
  * Dropdown Component
@@ -269,6 +275,105 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Dropdown");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "primary",
+        "secondary",
+        "accent",
+        "success",
+        "warning",
+        "error",
+        "ghost",
+        "glass",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate align
+      validator.validateEnum("align", align, [
+        "start",
+        "center",
+        "end",
+      ] as const);
+
+      // Validate side
+      validator.validateEnum("side", side, [
+        "top",
+        "right",
+        "bottom",
+        "left",
+      ] as const);
+
+      // Validate numeric props
+      validator.validateType("sideOffset", sideOffset, "number", isValidNumber);
+
+      // Validate boolean props
+      validator.validateType("multiple", multiple, "boolean", isValidBoolean);
+      validator.validateType(
+        "closeOnSelect",
+        closeOnSelect,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("modal", modal, "boolean", isValidBoolean);
+      validator.validateType(
+        "searchable",
+        searchable,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "commandPalette",
+        commandPalette,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("grouped", grouped, "boolean", isValidBoolean);
+      validator.validateType(
+        "checkmarks",
+        checkmarks,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
+      validator.validateType("loading", loading, "boolean", isValidBoolean);
+
+      if (triggerAsChild !== undefined) {
+        validator.validateType(
+          "triggerAsChild",
+          triggerAsChild,
+          "boolean",
+          isValidBoolean
+        );
+      }
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [
+      variant,
+      size,
+      align,
+      side,
+      sideOffset,
+      multiple,
+      closeOnSelect,
+      modal,
+      searchable,
+      commandPalette,
+      grouped,
+      checkmarks,
+      disabled,
+      loading,
+      triggerAsChild,
+      className,
+    ]);
+
     // Detect usage mode: Component-based vs Props-based
     const isComponentBased = !options && children;
 

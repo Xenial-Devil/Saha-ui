@@ -6,9 +6,10 @@ import { ButtonExample } from "./ButtonExample";
 import { ButtonGroupExample } from "./ButtonGroupExample";
 import { BreadcrumbExample } from "./BreadcrumbExample";
 import { BadgeExample } from "./BadgeExample";
+import { AspectRatioExample } from "./AspectRatioExample";
 import { AvatarExample } from "./AvatarExample";
 import { CardExample } from "./CardExample";
-import { DividerExample } from "./DividerExample";
+import { SeparatorExample } from "./SeparatorExample";
 import { DrawerExample } from "./DrawerExample";
 import { ChipExample } from "./ChipExample";
 import { AlertExample } from "./AlertExample";
@@ -44,12 +45,14 @@ import { TagExample } from "./TagExample";
 import { TagInputExample } from "./TagInputExample";
 import TextAreaExample from "./TextAreaExample";
 import UploadExample from "./UploadExample";
-import ModalExample from "./ModalExample";
+import DialogExample from "./DialogExample";
 import { ToastExample } from "./ToastExample";
 import { EmptyExample } from "./EmptyExample";
 import { AutocompleteExample } from "./AutocompleteExample";
 import { FieldExample } from "./FieldExample";
 import { SliderExample } from "./SliderExample";
+import { CalendarExample } from "./CalendarExample";
+import ComboboxExample from "./ComboboxExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -69,14 +72,17 @@ export const AllComponentExamples = () => {
       {/* Badge Examples */}
       <BadgeExample />
 
+      {/* AspectRatio Examples */}
+      <AspectRatioExample />
+
       {/* Avatar Examples */}
       <AvatarExample />
 
       {/* Card Examples */}
       <CardExample />
 
-      {/* Divider Examples */}
-      <DividerExample />
+      {/* Separator Examples */}
+      <SeparatorExample />
 
       {/* Drawer Examples */}
       <DrawerExample />
@@ -183,8 +189,8 @@ export const AllComponentExamples = () => {
       {/* Upload Examples */}
       <UploadExample />
 
-      {/* Modal Examples */}
-      <ModalExample />
+      {/* Dialog Examples */}
+      <DialogExample />
 
       {/* Toast Examples */}
       <ToastExample />
@@ -200,6 +206,12 @@ export const AllComponentExamples = () => {
 
       {/* Slider Examples */}
       <SliderExample />
+
+      {/* Calendar Examples */}
+      <CalendarExample />
+
+      {/* Combobox Examples */}
+      <ComboboxExample />
     </>
   );
 };

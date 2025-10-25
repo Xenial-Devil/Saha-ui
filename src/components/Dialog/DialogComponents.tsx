@@ -2,34 +2,34 @@ import { forwardRef, useContext, createContext } from "react";
 import { cn } from "../../lib/utils";
 import { X } from "lucide-react";
 import type {
-  ModalHeaderProps,
-  ModalBodyProps,
-  ModalFooterProps,
-  ModalTitleProps,
-  ModalDescriptionProps,
-  ModalTriggerProps,
-  ModalCloseButtonProps,
-} from "./Modal.subcomponents.types";
-import type { ModalContextValue } from "./Modal.types";
+  DialogHeaderProps,
+  DialogBodyProps,
+  DialogFooterProps,
+  DialogTitleProps,
+  DialogDescriptionProps,
+  DialogTriggerProps,
+  DialogCloseButtonProps,
+} from "./Dialog.subcomponents.types";
+import type { DialogContextValue } from "./Dialog.types";
 
-// Context for modal state
-export const ModalContext = createContext<ModalContextValue | null>(null);
+// Context for Dialog state
+export const DialogContext = createContext<DialogContextValue | null>(null);
 
 // Hook for compound components
-export const useModalContext = () => {
-  const context = useContext(ModalContext);
+export const useDialogContext = () => {
+  const context = useContext(DialogContext);
   if (!context) {
-    throw new Error("Modal compound components must be used within Modal");
+    throw new Error("Dialog compound components must be used within Dialog");
   }
   return context;
 };
 
 /**
- * ModalHeader - Custom header for component-based API
+ * DialogHeader - Custom header for component-based API
  */
-export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
+export const DialogHeader = forwardRef<HTMLDivElement, DialogHeaderProps>(
   ({ children, showCloseButton = true, className }, ref) => {
-    const { onClose } = useModalContext();
+    const { onClose } = useDialogContext();
 
     return (
       <div
@@ -40,18 +40,18 @@ export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
         )}
       >
         <div className="flex-1">{children}</div>
-        {showCloseButton && <ModalCloseButton onClick={onClose} />}
+        {showCloseButton && <DialogCloseButton onClick={onClose} />}
       </div>
     );
   }
 );
 
-ModalHeader.displayName = "ModalHeader";
+DialogHeader.displayName = "DialogHeader";
 
 /**
- * ModalBody - Custom body for component-based API
+ * DialogBody - Custom body for component-based API
  */
-export const ModalBody = forwardRef<HTMLDivElement, ModalBodyProps>(
+export const DialogBody = forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ children, scrollable = true, className }, ref) => {
     return (
       <div
@@ -68,12 +68,12 @@ export const ModalBody = forwardRef<HTMLDivElement, ModalBodyProps>(
   }
 );
 
-ModalBody.displayName = "ModalBody";
+DialogBody.displayName = "DialogBody";
 
 /**
- * ModalFooter - Custom footer for component-based API
+ * DialogFooter - Custom footer for component-based API
  */
-export const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
+export const DialogFooter = forwardRef<HTMLDivElement, DialogFooterProps>(
   ({ children, align = "right", className }, ref) => {
     const alignClass = {
       left: "justify-start",
@@ -96,12 +96,12 @@ export const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
   }
 );
 
-ModalFooter.displayName = "ModalFooter";
+DialogFooter.displayName = "DialogFooter";
 
 /**
- * ModalTitle - Semantic title component
+ * DialogTitle - Semantic title component
  */
-export const ModalTitle = forwardRef<HTMLHeadingElement, ModalTitleProps>(
+export const DialogTitle = forwardRef<HTMLHeadingElement, DialogTitleProps>(
   ({ children, className }, ref) => {
     return (
       <h2
@@ -114,14 +114,14 @@ export const ModalTitle = forwardRef<HTMLHeadingElement, ModalTitleProps>(
   }
 );
 
-ModalTitle.displayName = "ModalTitle";
+DialogTitle.displayName = "DialogTitle";
 
 /**
- * ModalDescription - Semantic description component
+ * DialogDescription - Semantic description component
  */
-export const ModalDescription = forwardRef<
+export const DialogDescription = forwardRef<
   HTMLParagraphElement,
-  ModalDescriptionProps
+  DialogDescriptionProps
 >(({ children, className }, ref) => {
   return (
     <p ref={ref} className={cn("text-sm text-muted-foreground", className)}>
@@ -130,14 +130,14 @@ export const ModalDescription = forwardRef<
   );
 });
 
-ModalDescription.displayName = "ModalDescription";
+DialogDescription.displayName = "DialogDescription";
 
 /**
- * ModalCloseButton - Close button component
+ * DialogCloseButton - Close button component
  */
-export const ModalCloseButton = forwardRef<
+export const DialogCloseButton = forwardRef<
   HTMLButtonElement,
-  ModalCloseButtonProps
+  DialogCloseButtonProps
 >(({ onClick, className }, ref) => {
   return (
     <button
@@ -147,19 +147,19 @@ export const ModalCloseButton = forwardRef<
         "ml-4 rounded-lg p-2 hover:bg-muted transition-colors shrink-0",
         className
       )}
-      aria-label="Close modal"
+      aria-label="Close Dialog"
     >
       <X className="h-5 w-5" />
     </button>
   );
 });
 
-ModalCloseButton.displayName = "ModalCloseButton";
+DialogCloseButton.displayName = "DialogCloseButton";
 
 /**
- * ModalTrigger - Trigger button for opening modal
+ * DialogTrigger - Trigger button for opening Dialog
  */
-export const ModalTrigger = forwardRef<HTMLButtonElement, ModalTriggerProps>(
+export const DialogTrigger = forwardRef<HTMLButtonElement, DialogTriggerProps>(
   ({ children, onClick, ...props }, ref) => {
     return (
       <button ref={ref} onClick={onClick} {...props}>
@@ -169,4 +169,4 @@ export const ModalTrigger = forwardRef<HTMLButtonElement, ModalTriggerProps>(
   }
 );
 
-ModalTrigger.displayName = "ModalTrigger";
+DialogTrigger.displayName = "DialogTrigger";

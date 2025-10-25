@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type { FloatingActionButtonProps } from "./FloatingActionButton.types";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 
 /**
  * Floating Action Button Component
@@ -181,6 +186,58 @@ const FloatingActionButton = React.forwardRef<
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("FloatingActionButton");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "primary",
+        "secondary",
+        "accent",
+        "info",
+        "success",
+        "warning",
+        "error",
+        "glass",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg", "xl"] as const);
+
+      // Validate position
+      validator.validateEnum("position", position, [
+        "bottom-right",
+        "bottom-left",
+        "top-right",
+        "top-left",
+      ] as const);
+
+      // Validate boolean props
+      validator.validateType("showLabel", showLabel, "boolean", isValidBoolean);
+      validator.validateType("extended", extended, "boolean", isValidBoolean);
+
+      // Validate content
+      if (!icon && !children) {
+        validator.warn(
+          "FloatingActionButton should have icon or children for accessibility"
+        );
+      }
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [
+      variant,
+      size,
+      position,
+      showLabel,
+      extended,
+      icon,
+      children,
+      className,
+    ]);
+
     const [isHovered, setIsHovered] = React.useState(false);
 
     // Calculate position with custom offset

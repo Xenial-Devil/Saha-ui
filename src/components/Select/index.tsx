@@ -1,6 +1,14 @@
 import { forwardRef, useState, useRef, useEffect, useCallback } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
+import {
+  createValidator,
+  commonValidators,
+  isValidNumber,
+  isValidBoolean,
+  isValidArray,
+  isValidString,
+} from "../../lib/validation";
 import type { SelectProps, SelectOption } from "./Select.types";
 import { ChevronDown, X, Check, Search } from "lucide-react";
 
@@ -265,6 +273,150 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(
         searchInputRef.current.focus();
       }
     }, [isOpen, searchable]);
+
+    // ===== PROP VALIDATION =====
+    useEffect(() => {
+      if (process.env.NODE_ENV !== "production") {
+        const validator = createValidator("Select");
+
+        // Common validators
+        commonValidators.size(validator, size);
+        const selectVariants = [
+          "default",
+          "primary",
+          "secondary",
+          "accent",
+          "success",
+          "warning",
+          "error",
+          "ghost",
+          "outline",
+          "glass",
+        ] as const;
+        commonValidators.variant(validator, variant, selectVariants);
+        commonValidators.disabled(validator, disabled);
+        commonValidators.className(validator, className);
+
+        // Options validation
+        validator.validateRequired("options", options);
+        validator.validateArray("options", options);
+
+        if (options && isValidArray(options)) {
+          options.forEach((option, index) => {
+            if (!option || typeof option !== "object") {
+              validator.error(
+                `Invalid prop: 'options[${index}]' must be an object.`
+              );
+            } else {
+              if (!("value" in option) || !isValidString(option.value)) {
+                validator.error(
+                  `Invalid prop: 'options[${index}].value' is required and must be a string.`
+                );
+              }
+              if (!("label" in option) || !isValidString(option.label)) {
+                validator.error(
+                  `Invalid prop: 'options[${index}].label' is required and must be a string.`
+                );
+              }
+            }
+          });
+        }
+
+        // Multiple mode validation
+        if (multiple) {
+          if (value !== undefined && !isValidArray(value)) {
+            validator.error(
+              "Invalid prop: 'value' must be an array when 'multiple' is true."
+            );
+          }
+          if (defaultValue !== undefined && !isValidArray(defaultValue)) {
+            validator.error(
+              "Invalid prop: 'defaultValue' must be an array when 'multiple' is true."
+            );
+          }
+        } else {
+          if (value !== undefined && isValidArray(value)) {
+            validator.error(
+              "Invalid prop: 'value' should be a string, not an array, when 'multiple' is false."
+            );
+          }
+          if (defaultValue !== undefined && isValidArray(defaultValue)) {
+            validator.error(
+              "Invalid prop: 'defaultValue' should be a string, not an array, when 'multiple' is false."
+            );
+          }
+        }
+
+        // Number validations
+        if (maxSelections !== undefined) {
+          if (!multiple) {
+            validator.warn(
+              "Warning: 'maxSelections' is set but 'multiple' is false. This prop will be ignored."
+            );
+          } else if (!isValidNumber(maxSelections) || maxSelections < 1) {
+            validator.error(
+              "Invalid prop: 'maxSelections' must be a positive number."
+            );
+          }
+        }
+
+        // Boolean validations
+        if (multiple !== undefined && !isValidBoolean(multiple)) {
+          validator.error("Invalid prop: 'multiple' must be a boolean.");
+        }
+        if (searchable !== undefined && !isValidBoolean(searchable)) {
+          validator.error("Invalid prop: 'searchable' must be a boolean.");
+        }
+        if (clearable !== undefined && !isValidBoolean(clearable)) {
+          validator.error("Invalid prop: 'clearable' must be a boolean.");
+        }
+        if (required !== undefined && !isValidBoolean(required)) {
+          validator.error("Invalid prop: 'required' must be a boolean.");
+        }
+        if (loading !== undefined && !isValidBoolean(loading)) {
+          validator.error("Invalid prop: 'loading' must be a boolean.");
+        }
+        if (closeOnSelect !== undefined && !isValidBoolean(closeOnSelect)) {
+          validator.error("Invalid prop: 'closeOnSelect' must be a boolean.");
+        }
+        if (showCheckmarks !== undefined && !isValidBoolean(showCheckmarks)) {
+          validator.error("Invalid prop: 'showCheckmarks' must be a boolean.");
+        }
+        if (creatable !== undefined && !isValidBoolean(creatable)) {
+          validator.error("Invalid prop: 'creatable' must be a boolean.");
+        }
+        if (fullWidth !== undefined && !isValidBoolean(fullWidth)) {
+          validator.error("Invalid prop: 'fullWidth' must be a boolean.");
+        }
+
+        // Conditional validations
+        if (creatable && !onCreateOption) {
+          validator.warn(
+            "Warning: 'creatable' is true but 'onCreateOption' callback is not provided."
+          );
+        }
+      }
+    }, [
+      variant,
+      size,
+      disabled,
+      className,
+      options,
+      value,
+      defaultValue,
+      multiple,
+      maxSelections,
+      searchable,
+      clearable,
+      required,
+      loading,
+      closeOnSelect,
+      showCheckmarks,
+      creatable,
+      fullWidth,
+      onCreateOption,
+    ]);
+    // ===== END PROP VALIDATION =====
 
     // Filter options based on search query
     const filteredOptions = searchQuery

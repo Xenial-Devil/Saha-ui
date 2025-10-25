@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import { Check, Circle } from "lucide-react";
@@ -9,6 +9,11 @@ import type {
   TimelinePosition,
   TimelineSize,
 } from "./Timeline.types";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 
 interface TimelineContextValue {
   variant: TimelineVariant;
@@ -129,6 +134,33 @@ const Timeline = React.forwardRef<HTMLDivElement, TimelineProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Timeline");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "outlined",
+        "gradient",
+        "minimal",
+        "glass",
+      ] as const);
+
+      // Validate position
+      validator.validateEnum("position", position, [
+        "left",
+        "right",
+        "alternate",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [variant, position, size, className]);
+
     const contextValue: TimelineContextValue = {
       variant,
       position,
@@ -167,6 +199,27 @@ const TimelineItem = React.forwardRef<HTMLDivElement, TimelineItemProps>(
     ref
   ) => {
     const { variant, position, size } = useTimeline();
+
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("TimelineItem");
+
+      // Validate status
+      validator.validateEnum("status", status, [
+        "default",
+        "success",
+        "error",
+        "warning",
+        "info",
+        "pending",
+      ] as const);
+
+      // Validate boolean props
+      validator.validateType("active", active, "boolean", isValidBoolean);
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [status, active, className]);
 
     return (
       <div

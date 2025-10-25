@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type {
@@ -9,6 +9,11 @@ import type {
   TreeNodeIconPosition,
 } from "./Tree.types";
 import { ChevronDown, ChevronRight, Folder, File } from "lucide-react";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 
 interface TreeContextValue {
   variant: TreeVariant;
@@ -91,6 +96,35 @@ const Tree = React.forwardRef<HTMLDivElement, TreeProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Tree");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "glass",
+        "bordered",
+        "minimal",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate iconPosition
+      validator.validateEnum("iconPosition", iconPosition, [
+        "left",
+        "right",
+      ] as const);
+
+      // Validate boolean props
+      validator.validateType("showLines", showLines, "boolean", isValidBoolean);
+      validator.validateType("showIcons", showIcons, "boolean", isValidBoolean);
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [variant, size, iconPosition, showLines, showIcons, className]);
+
     const contextValue: TreeContextValue = {
       variant,
       size,

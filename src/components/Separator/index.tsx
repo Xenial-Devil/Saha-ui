@@ -2,25 +2,25 @@ import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import { Sparkles } from "lucide-react";
-import type { DividerProps } from "./Divider.types";
+import type { SeparatorProps } from "./Separator.types";
 
 /**
- * Divider component variants using CVA
+ * Separator component variants using CVA
  *
- * Provides 5 modern divider variants with flexible orientation,
+ * Provides 5 modern Separator variants with flexible orientation,
  * thickness options, label support, and decorative elements.
  *
- * @variant solid - Solid line divider (default)
+ * @variant solid - Solid line Separator (default)
  * @variant dashed - Dashed line pattern
  * @variant dotted - Dotted line pattern
  * @variant gradient - Gradient color transition
  * @variant glass - Glassmorphism effect with backdrop blur
  *
- * @orientation horizontal | vertical - Direction of the divider
+ * @orientation horizontal | vertical - Direction of the Separator
  * @thickness thin | medium | thick - Line thickness
- * @spacing none | xs | sm | md | lg | xl - Margin around divider
+ * @spacing none | xs | sm | md | lg | xl - Margin around Separator
  */
-export const dividerVariants = cva(
+export const SeparatorVariants = cva(
   "relative flex items-center justify-center",
   {
     variants: {
@@ -99,9 +99,9 @@ export const dividerVariants = cva(
 );
 
 /**
- * Divider line variants
+ * Separator line variants
  */
-export const dividerLineVariants = cva("transition-all duration-300 relative", {
+export const SeparatorLineVariants = cva("transition-all duration-300 relative", {
   variants: {
     variant: {
       solid: "border-gray-400 dark:border-gray-600 shadow-sm",
@@ -208,9 +208,9 @@ export const dividerLineVariants = cva("transition-all duration-300 relative", {
 });
 
 /**
- * Divider label variants
+ * Separator label variants
  */
-export const dividerLabelVariants = cva(
+export const SeparatorLabelVariants = cva(
   "bg-background px-3 text-sm font-medium text-muted-foreground flex items-center gap-2 shrink-0",
   {
     variants: {
@@ -225,33 +225,33 @@ export const dividerLabelVariants = cva(
   }
 );
 
-export type DividerVariantsProps = VariantProps<typeof dividerVariants>;
+export type SeparatorVariantsProps = VariantProps<typeof SeparatorVariants>;
 
 /**
- * Divider Component
+ * Separator Component
  *
- * A versatile divider component for separating content with multiple visual styles,
+ * A versatile Separator component for separating content with multiple visual styles,
  * optional labels, and decorative elements.
  *
  * @example
  * ```tsx
- * // Basic divider
- * <Divider />
+ * // Basic Separator
+ * <Separator />
  *
  * // With label
- * <Divider label="OR" />
+ * <Separator label="OR" />
  *
  * // Gradient variant
- * <Divider variant="gradient" thickness="medium" />
+ * <Separator variant="gradient" thickness="medium" />
  *
- * // Vertical divider
- * <Divider orientation="vertical" className="h-24" />
+ * // Vertical Separator
+ * <Separator orientation="vertical" className="h-24" />
  *
  * // Decorative with label
- * <Divider label="Continue" decorative />
+ * <Separator label="Continue" decorative />
  * ```
  */
-export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
+export const Separator = React.forwardRef<HTMLDivElement, SeparatorProps>(
   (
     {
       variant = "solid",
@@ -266,7 +266,7 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
     },
     ref
   ) => {
-    // For vertical dividers, override justify-content based on label position
+    // For vertical Separators, override justify-content based on label position
     const justifyClass =
       orientation === "horizontal"
         ? labelPosition === "left"
@@ -285,7 +285,7 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
         <div
           ref={ref}
           className={cn(
-            dividerVariants({ orientation, spacing }),
+            SeparatorVariants({ orientation, spacing }),
             justifyClass,
             className
           )}
@@ -297,14 +297,14 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
           {labelPosition !== "left" && (
             <div
               className={cn(
-                dividerLineVariants({ variant, orientation, thickness }),
+                SeparatorLineVariants({ variant, orientation, thickness }),
                 orientation === "horizontal" ? "flex-1" : "flex-1"
               )}
             />
           )}
 
           {/* Label */}
-          <div className={cn(dividerLabelVariants({ orientation }))}>
+          <div className={cn(SeparatorLabelVariants({ orientation }))}>
             {decorative && <Sparkles size={14} className="text-primary/70" />}
             {label}
             {decorative && <Sparkles size={14} className="text-primary/70" />}
@@ -314,7 +314,7 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
           {labelPosition !== "right" && (
             <div
               className={cn(
-                dividerLineVariants({ variant, orientation, thickness }),
+                SeparatorLineVariants({ variant, orientation, thickness }),
                 orientation === "horizontal" ? "flex-1" : "flex-1"
               )}
             />
@@ -323,18 +323,18 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
       );
     }
 
-    // Simple divider without label
+    // Simple Separator without label
     return (
       <div
         ref={ref}
-        className={cn(dividerVariants({ orientation, spacing }), className)}
+        className={cn(SeparatorVariants({ orientation, spacing }), className)}
         role="separator"
         aria-orientation={orientation}
         {...props}
       >
         <div
           className={cn(
-            dividerLineVariants({ variant, orientation, thickness })
+            SeparatorLineVariants({ variant, orientation, thickness })
           )}
         />
       </div>
@@ -342,6 +342,6 @@ export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
   }
 );
 
-Divider.displayName = "Divider";
+Separator.displayName = "Separator";
 
-export default Divider;
+export default Separator;

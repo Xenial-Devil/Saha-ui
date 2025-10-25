@@ -11,40 +11,40 @@ import {
 import { createPortal } from "react-dom";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
-import type { ModalProps, ModalContextValue } from "./Modal.types";
+import type { DialogProps, DialogContextValue } from "./Dialog.types";
 import { X } from "lucide-react";
 
 /**
- * Modal Component
+ * Dialog Component
  *
- * Advanced modal/dialog component with smooth animations, compound components,
+ * Advanced Dialog/dialog component with smooth animations, compound components,
  * accessibility, and extensive customization options.
  *
  * Supports BOTH prop-based and component-based APIs:
  *
  * @example Prop-based API
- * <Modal open={open} onOpenChange={setOpen} title="Title" footer={<button>OK</button>}>
+ * <Dialog open={open} onOpenChange={setOpen} title="Title" footer={<button>OK</button>}>
  *   Content
- * </Modal>
+ * </Dialog>
  *
  * @example Component-based API
- * <Modal open={open} onOpenChange={setOpen}>
- *   <ModalHeader>
- *     <ModalTitle>Custom Header</ModalTitle>
- *   </ModalHeader>
- *   <ModalBody>Content</ModalBody>
- *   <ModalFooter>Actions</ModalFooter>
- * </Modal>
+ * <Dialog open={open} onOpenChange={setOpen}>
+ *   <DialogHeader>
+ *     <DialogTitle>Custom Header</DialogTitle>
+ *   </DialogHeader>
+ *   <DialogBody>Content</DialogBody>
+ *   <DialogFooter>Actions</DialogFooter>
+ * </Dialog>
  */
 
-// Context for modal state
-const ModalContext = createContext<ModalContextValue | null>(null);
+// Context for Dialog state
+const DialogContext = createContext<DialogContextValue | null>(null);
 
 // Hook for compound components
-const useModalContext = () => {
-  const context = useContext(ModalContext);
+const useDialogContext = () => {
+  const context = useContext(DialogContext);
   if (!context) {
-    throw new Error("Modal compound components must be used within Modal");
+    throw new Error("Dialog compound components must be used within Dialog");
   }
   return context;
 };
@@ -152,7 +152,7 @@ const contentVariants = cva(
   }
 );
 
-export const Modal = forwardRef<HTMLDivElement, ModalProps>(
+export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
   (
     {
       // Visibility
@@ -218,7 +218,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
     const [isAnimating, setIsAnimating] = useState(false);
     const previousActiveElement = useRef<HTMLElement | null>(null);
-    const modalRef = useRef<HTMLDivElement>(null);
+    const DialogRef = useRef<HTMLDivElement>(null);
 
     const isControlled = controlledOpen !== undefined;
     const open = isControlled ? controlledOpen : uncontrolledOpen;
@@ -242,7 +242,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       [preventClose, isControlled, onOpenChange, onOpen, onClose]
     );
 
-    // Close modal
+    // Close Dialog
     const handleClose = useCallback(() => {
       if (preventClose) return;
       handleOpenChange(false);
@@ -283,10 +283,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
     // Focus trap
     useEffect(() => {
-      if (!focusTrap || !open || !modalRef.current) return;
+      if (!focusTrap || !open || !DialogRef.current) return;
 
-      const modal = modalRef.current;
-      const focusableElements = modal.querySelectorAll<HTMLElement>(
+      const Dialog = DialogRef.current;
+      const focusableElements = Dialog.querySelectorAll<HTMLElement>(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );
       const firstElement = focusableElements[0];
@@ -316,8 +316,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
         }
       };
 
-      modal.addEventListener("keydown", handleTabKey);
-      return () => modal.removeEventListener("keydown", handleTabKey);
+      Dialog.addEventListener("keydown", handleTabKey);
+      return () => Dialog.removeEventListener("keydown", handleTabKey);
     }, [open, focusTrap, returnFocus, nested]);
 
     // Return focus on close
@@ -348,13 +348,13 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       Array.isArray(children) &&
       children.some(
         (child: any) =>
-          child?.type?.displayName === "ModalHeader" ||
-          child?.type?.displayName === "ModalBody" ||
-          child?.type?.displayName === "ModalFooter"
+          child?.type?.displayName === "DialogHeader" ||
+          child?.type?.displayName === "DialogBody" ||
+          child?.type?.displayName === "DialogFooter"
       );
 
-    const modalContent = (
-      <ModalContext.Provider value={{ open, onClose: handleClose }}>
+    const DialogContent = (
+      <DialogContext.Provider value={{ open, onClose: handleClose }}>
         {/* Overlay */}
         <div
           className={cn(
@@ -368,7 +368,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           style={nested ? { zIndex: 60 } : undefined}
         />
 
-        {/* Modal Content */}
+        {/* Dialog Content */}
         <div
           ref={(node) => {
             if (typeof ref === "function") {
@@ -377,11 +377,11 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               ref.current = node;
             }
             if (node) {
-              modalRef.current = node;
+              DialogRef.current = node;
             }
           }}
           role="dialog"
-          aria-modal="true"
+          aria-Dialog="true"
           aria-label={
             ariaLabel || (typeof title === "string" ? title : undefined)
           }
@@ -433,7 +433,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                     <button
                       onClick={handleClose}
                       className="ml-4 rounded-lg p-2 hover:bg-muted transition-colors shrink-0"
-                      aria-label="Close modal"
+                      aria-label="Close Dialog"
                     >
                       <X className="h-5 w-5" />
                     </button>
@@ -466,33 +466,33 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             </>
           )}
         </div>
-      </ModalContext.Provider>
+      </DialogContext.Provider>
     );
 
     // Portal rendering
     const portalContainer = portalTarget || document.body;
-    return createPortal(modalContent, portalContainer);
+    return createPortal(DialogContent, portalContainer);
   }
 );
 
-Modal.displayName = "Modal";
+Dialog.displayName = "Dialog";
 
 // ============================================================================
 // COMPOUND COMPONENTS
 // ============================================================================
 
 /**
- * ModalHeader - Custom header for component-based API
+ * DialogHeader - Custom header for component-based API
  */
-interface ModalHeaderProps {
+interface DialogHeaderProps {
   children: ReactNode;
   showCloseButton?: boolean;
   className?: string;
 }
 
-export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
+export const DialogHeader = forwardRef<HTMLDivElement, DialogHeaderProps>(
   ({ children, showCloseButton = true, className }, ref) => {
-    const { onClose } = useModalContext();
+    const { onClose } = useDialogContext();
 
     return (
       <div
@@ -507,7 +507,7 @@ export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
           <button
             onClick={onClose}
             className="ml-4 rounded-lg p-2 hover:bg-muted transition-colors shrink-0"
-            aria-label="Close modal"
+            aria-label="Close Dialog"
           >
             <X className="h-5 w-5" />
           </button>
@@ -517,18 +517,18 @@ export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
   }
 );
 
-ModalHeader.displayName = "ModalHeader";
+DialogHeader.displayName = "DialogHeader";
 
 /**
- * ModalBody - Custom body for component-based API
+ * DialogBody - Custom body for component-based API
  */
-interface ModalBodyProps {
+interface DialogBodyProps {
   children: ReactNode;
   scrollable?: boolean;
   className?: string;
 }
 
-export const ModalBody = forwardRef<HTMLDivElement, ModalBodyProps>(
+export const DialogBody = forwardRef<HTMLDivElement, DialogBodyProps>(
   ({ children, scrollable = true, className }, ref) => {
     return (
       <div
@@ -541,18 +541,18 @@ export const ModalBody = forwardRef<HTMLDivElement, ModalBodyProps>(
   }
 );
 
-ModalBody.displayName = "ModalBody";
+DialogBody.displayName = "DialogBody";
 
 /**
- * ModalFooter - Custom footer for component-based API
+ * DialogFooter - Custom footer for component-based API
  */
-interface ModalFooterProps {
+interface DialogFooterProps {
   children: ReactNode;
   align?: "left" | "center" | "right";
   className?: string;
 }
 
-export const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
+export const DialogFooter = forwardRef<HTMLDivElement, DialogFooterProps>(
   ({ children, align = "right", className }, ref) => {
     const alignClass = {
       left: "justify-start",
@@ -575,17 +575,17 @@ export const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
   }
 );
 
-ModalFooter.displayName = "ModalFooter";
+DialogFooter.displayName = "DialogFooter";
 
 /**
- * ModalTitle - Semantic title component
+ * DialogTitle - Semantic title component
  */
-interface ModalTitleProps {
+interface DialogTitleProps {
   children: ReactNode;
   className?: string;
 }
 
-export const ModalTitle = forwardRef<HTMLHeadingElement, ModalTitleProps>(
+export const DialogTitle = forwardRef<HTMLHeadingElement, DialogTitleProps>(
   ({ children, className }, ref) => {
     return (
       <h2
@@ -598,19 +598,19 @@ export const ModalTitle = forwardRef<HTMLHeadingElement, ModalTitleProps>(
   }
 );
 
-ModalTitle.displayName = "ModalTitle";
+DialogTitle.displayName = "DialogTitle";
 
 /**
- * ModalDescription - Semantic description component
+ * DialogDescription - Semantic description component
  */
-interface ModalDescriptionProps {
+interface DialogDescriptionProps {
   children: ReactNode;
   className?: string;
 }
 
-export const ModalDescription = forwardRef<
+export const DialogDescription = forwardRef<
   HTMLParagraphElement,
-  ModalDescriptionProps
+  DialogDescriptionProps
 >(({ children, className }, ref) => {
   return (
     <p ref={ref} className={cn("text-sm text-muted-foreground", className)}>
@@ -619,12 +619,12 @@ export const ModalDescription = forwardRef<
   );
 });
 
-ModalDescription.displayName = "ModalDescription";
+DialogDescription.displayName = "DialogDescription";
 
 /**
- * ModalTrigger - Trigger button for opening modal
+ * DialogTrigger - Trigger button for opening Dialog
  */
-export const ModalTrigger = forwardRef<
+export const DialogTrigger = forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement>
 >(({ children, onClick, ...props }, ref) => {
@@ -635,6 +635,6 @@ export const ModalTrigger = forwardRef<
   );
 });
 
-ModalTrigger.displayName = "ModalTrigger";
+DialogTrigger.displayName = "DialogTrigger";
 
-export default Modal;
+export default Dialog;

@@ -1,8 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type { RatingProps } from "./Rating.types";
 import { Star, Heart, Circle, Diamond } from "lucide-react";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+  isValidNumber,
+} from "../../lib/validation";
 
 /**
  * Rating variants using CVA for type-safe styling
@@ -140,6 +146,96 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Rating");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "primary",
+        "secondary",
+        "gradient",
+        "glass",
+        "outline",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg", "xl"] as const);
+
+      // Validate icon
+      validator.validateEnum("icon", icon, [
+        "star",
+        "heart",
+        "circle",
+        "diamond",
+      ] as const);
+
+      // Validate precision
+      validator.validateEnum("precision", precision, ["full", "half"] as const);
+
+      // Validate numeric props
+      validator.validateType("value", value, "number", isValidNumber);
+      validator.validateType("max", max, "number", isValidNumber);
+
+      if (max <= 0) {
+        validator.error("max must be greater than 0");
+      }
+
+      if (value < 0) {
+        validator.warn("value should not be negative");
+      }
+
+      if (value > max) {
+        validator.warn("value should not exceed max");
+      }
+
+      if (count !== undefined) {
+        validator.validateType("count", count, "number", isValidNumber);
+        if (count < 0) {
+          validator.warn("count should not be negative");
+        }
+      }
+
+      // Validate boolean props
+      validator.validateType("readOnly", readOnly, "boolean", isValidBoolean);
+      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
+      validator.validateType("showValue", showValue, "boolean", isValidBoolean);
+      validator.validateType("hoverable", hoverable, "boolean", isValidBoolean);
+      validator.validateType(
+        "showTooltip",
+        showTooltip,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "allowClear",
+        allowClear,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("animated", animated, "boolean", isValidBoolean);
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [
+      variant,
+      size,
+      icon,
+      precision,
+      value,
+      max,
+      count,
+      readOnly,
+      disabled,
+      showValue,
+      hoverable,
+      showTooltip,
+      allowClear,
+      animated,
+      className,
+    ]);
+
     const [hoverValue, setHoverValue] = useState<number | null>(null);
     const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);

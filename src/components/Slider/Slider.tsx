@@ -15,6 +15,12 @@ import type {
   SliderOrientation,
   SliderMark,
 } from "./Slider.types";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+  isValidNumber,
+} from "../../lib/validation";
 
 // Context for composable components
 interface SliderContextValue {
@@ -312,6 +318,101 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Slider");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "primary",
+        "secondary",
+        "accent",
+        "success",
+        "warning",
+        "error",
+        "ghost",
+        "glass",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate orientation
+      validator.validateEnum("orientation", orientation, [
+        "horizontal",
+        "vertical",
+      ] as const);
+
+      // Validate valueLabelDisplay
+      validator.validateEnum("valueLabelDisplay", valueLabelDisplay, [
+        "auto",
+        "on",
+        "off",
+      ] as const);
+
+      // Validate numeric props
+      validator.validateType("min", min, "number", isValidNumber);
+      validator.validateType("max", max, "number", isValidNumber);
+      validator.validateType("step", step, "number", isValidNumber);
+
+      if (min >= max) {
+        validator.error("min must be less than max");
+      }
+
+      if (step <= 0) {
+        validator.error("step must be greater than 0");
+      }
+
+      if (step > max - min) {
+        validator.warn("step is larger than the range (max - min)");
+      }
+
+      // Validate value range
+      if (controlledValue !== undefined) {
+        const values = Array.isArray(controlledValue)
+          ? controlledValue
+          : [controlledValue];
+        values.forEach((val, index) => {
+          if (val < min || val > max) {
+            validator.error(
+              `value[${index}] (${val}) is outside the range [${min}, ${max}]`
+            );
+          }
+        });
+      }
+
+      // Validate boolean props
+      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
+      validator.validateType("showValue", showValue, "boolean", isValidBoolean);
+      validator.validateType(
+        "showTooltip",
+        showTooltip,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("range", range, "boolean", isValidBoolean);
+      validator.validateType("required", required, "boolean", isValidBoolean);
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [
+      variant,
+      size,
+      orientation,
+      valueLabelDisplay,
+      min,
+      max,
+      step,
+      controlledValue,
+      disabled,
+      showValue,
+      showTooltip,
+      range,
+      required,
+      className,
+    ]);
+
     const isControlled = controlledValue !== undefined;
     const [internalValue, setInternalValue] = useState<number | number[]>(
       defaultValue
@@ -413,7 +514,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     }, [isDragging, value, onChangeCommitted]);
 
     // Touch events
-    const handleTouchStart = (thumbIndex: number) => (e: React.TouchEvent) => {
+    const handleTouchStart = (thumbIndex: number) => (_e: React.TouchEvent) => {
       if (disabled) return;
       setIsDragging(true);
       setActiveThumb(thumbIndex);
@@ -802,20 +903,12 @@ export interface SliderTrackProps {
 
 export const SliderTrack = React.forwardRef<HTMLDivElement, SliderTrackProps>(
   ({ children, className }, ref) => {
-    const {
-      variant,
-      size,
-      orientation,
-      value,
-      min,
-      max,
-      disabled,
-      handleChange,
-    } = useSlider();
+    const { variant, size, orientation, min, max, disabled, handleChange } =
+      useSlider();
 
     const trackRef = useRef<HTMLDivElement>(null);
 
-    const normalizedValue = Array.isArray(value) ? value : [value];
+    // const normalizedValue = Array.isArray(value) ? value : [value];
 
     const getValueFromPosition = useCallback(
       (clientX: number, clientY: number) => {

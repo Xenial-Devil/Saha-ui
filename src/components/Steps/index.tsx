@@ -5,6 +5,7 @@ import React, {
   useCallback,
   Children,
   isValidElement,
+  useEffect,
 } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
@@ -17,6 +18,11 @@ import type {
   StepsSize,
   StepsOrientation,
 } from "./Steps.types";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 
 interface StepsContextValue {
   value: string | number;
@@ -148,6 +154,39 @@ export const Steps = React.forwardRef<HTMLDivElement, StepsProps>(
         allSteps.push(child.props.value);
       }
     });
+
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Steps");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "bordered",
+        "glass",
+        "minimal",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate orientation
+      validator.validateEnum("orientation", orientation, [
+        "horizontal",
+        "vertical",
+      ] as const);
+
+      // Validate boolean props
+      validator.validateType("clickable", clickable, "boolean", isValidBoolean);
+
+      // Validate children
+      if (!children) {
+        validator.warn("Steps should have StepItem children");
+      }
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [variant, size, orientation, clickable, children, className]);
 
     const handleValueChange = useCallback(
       (newValue: string | number) => {

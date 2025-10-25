@@ -1,6 +1,6 @@
 import React from "react";
 
-export interface ModalProps {
+export interface DialogProps {
   // Visibility
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -66,7 +66,7 @@ export interface ModalProps {
   focusTrap?: boolean;
   returnFocus?: boolean;
   portalTarget?: HTMLElement | null;
-  nested?: boolean; // For nested modals
+  nested?: boolean; // For nested Dialogs
 
   // Custom Classes
   className?: string;
@@ -77,7 +77,7 @@ export interface ModalProps {
   footerClassName?: string;
 }
 
-export interface ModalContextValue {
+export interface DialogContextValue {
   open: boolean;
   onClose: () => void;
 }

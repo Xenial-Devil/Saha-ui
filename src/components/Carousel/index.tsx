@@ -18,6 +18,12 @@ import {
   CarouselEffect,
 } from "./Carousel.types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+  isValidNumber,
+} from "../../lib/validation";
 
 interface CarouselContextValue {
   variant: CarouselVariant;
@@ -123,6 +129,83 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Carousel");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "contained",
+        "bordered",
+        "glass",
+      ] as const);
+
+      // Validate effect
+      validator.validateEnum("effect", effect, [
+        "slide",
+        "fade",
+        "cube",
+        "flip",
+      ] as const);
+
+      // Validate direction
+      validator.validateEnum("direction", direction, [
+        "forward",
+        "backward",
+      ] as const);
+
+      // Validate numeric props
+      validator.validateType(
+        "autoplayInterval",
+        autoplayInterval,
+        "number",
+        isValidNumber
+      );
+
+      if (autoplayInterval <= 0) {
+        validator.error("autoplayInterval must be greater than 0");
+      }
+
+      // Validate boolean props
+      validator.validateType("autoplay", autoplay, "boolean", isValidBoolean);
+      validator.validateType("loop", loop, "boolean", isValidBoolean);
+      validator.validateType(
+        "pauseOnHover",
+        pauseOnHover,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("swipeable", swipeable, "boolean", isValidBoolean);
+      validator.validateType(
+        "showNavigation",
+        showNavigation,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "showIndicators",
+        showIndicators,
+        "boolean",
+        isValidBoolean
+      );
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [
+      variant,
+      effect,
+      direction,
+      autoplayInterval,
+      autoplay,
+      loop,
+      pauseOnHover,
+      swipeable,
+      showNavigation,
+      showIndicators,
+      className,
+    ]);
+
     const [activeIndex, setActiveIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
     const [touchStart, setTouchStart] = useState(0);

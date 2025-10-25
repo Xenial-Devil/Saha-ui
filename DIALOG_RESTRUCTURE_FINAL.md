@@ -1,4 +1,4 @@
-# Modal Component - Final Restructure Summary
+# Dialog Component - Final Restructure Summary
 
 ## 🎯 What Was Fixed & Improved
 
@@ -36,12 +36,12 @@ state: "closed" → opacity-0 scale-95
 #### New File Structure:
 
 ```
-Modal/
-├── Modal.types.ts                    (Main props - 40+ properties)
-├── Modal.subcomponents.types.ts      (All sub-component interfaces)
-├── Modal.tsx                          (Main Modal logic - 312 lines)
-├── ModalComponents.tsx                (Compound components - 165 lines)
-├── ModalOverlay.tsx                   (Overlay & Content with animations - 243 lines)
+Dialog/
+├── Dialog.types.ts                    (Main props - 40+ properties)
+├── Dialog.subcomponents.types.ts      (All sub-component interfaces)
+├── Dialog.tsx                          (Main Dialog logic - 312 lines)
+├── DialogComponents.tsx                (Compound components - 165 lines)
+├── DialogOverlay.tsx                   (Overlay & Content with animations - 243 lines)
 └── index.tsx                          (Exports - 29 lines)
 ```
 
@@ -52,23 +52,23 @@ Modal/
 
 #### New Type Files:
 
-**Modal.subcomponents.types.ts**:
+**Dialog.subcomponents.types.ts**:
 
-- `ModalHeaderProps` - Header configuration
-- `ModalBodyProps` - Body with scrollable option
-- `ModalFooterProps` - Footer with alignment
-- `ModalTitleProps` - Title styling
-- `ModalDescriptionProps` - Description styling
-- `ModalTriggerProps` - Trigger button
-- `ModalCloseButtonProps` - Close button
-- `ModalOverlayProps` - Overlay/backdrop
-- `ModalContentProps` - Content container
+- `DialogHeaderProps` - Header configuration
+- `DialogBodyProps` - Body with scrollable option
+- `DialogFooterProps` - Footer with alignment
+- `DialogTitleProps` - Title styling
+- `DialogDescriptionProps` - Description styling
+- `DialogTriggerProps` - Trigger button
+- `DialogCloseButtonProps` - Close button
+- `DialogOverlayProps` - Overlay/backdrop
+- `DialogContentProps` - Content container
 
 ## 📦 Component Architecture
 
-### Main Components (Modal.tsx)
+### Main Components (Dialog.tsx)
 
-- **Modal** - Main container with all logic
+- **Dialog** - Main container with all logic
   - State management (controlled/uncontrolled)
   - Animation state handling
   - Focus trap
@@ -76,20 +76,20 @@ Modal/
   - Keyboard navigation
   - Portal rendering
 
-### Sub-Components (ModalComponents.tsx)
+### Sub-Components (DialogComponents.tsx)
 
-- **ModalHeader** - Header with optional close button
-- **ModalBody** - Content area with optional scroll
-- **ModalFooter** - Footer with alignment options
-- **ModalTitle** - Semantic title element
-- **ModalDescription** - Semantic description
-- **ModalCloseButton** - Reusable close button
-- **ModalTrigger** - Trigger button
+- **DialogHeader** - Header with optional close button
+- **DialogBody** - Content area with optional scroll
+- **DialogFooter** - Footer with alignment options
+- **DialogTitle** - Semantic title element
+- **DialogDescription** - Semantic description
+- **DialogCloseButton** - Reusable close button
+- **DialogTrigger** - Trigger button
 
-### Layout Components (ModalOverlay.tsx)
+### Layout Components (DialogOverlay.tsx)
 
-- **ModalOverlay** - Backdrop with smooth fade
-- **ModalContent** - Content container with animations
+- **DialogOverlay** - Backdrop with smooth fade
+- **DialogContent** - Content container with animations
 
 ## 🎨 Animation System
 
@@ -133,9 +133,9 @@ requestAnimationFrame(() => {
 
 - **Before**: 12.31 kB (3.38 kB gzipped) - Single file
 - **After**:
-  - Modal.js: 6.00 kB (2.09 kB gzipped)
-  - ModalComponents.js: 2.75 kB (0.95 kB gzipped)
-  - ModalOverlay.js: 6.23 kB (1.55 kB gzipped)
+  - Dialog.js: 6.00 kB (2.09 kB gzipped)
+  - DialogComponents.js: 2.75 kB (0.95 kB gzipped)
+  - DialogOverlay.js: 6.23 kB (1.55 kB gzipped)
   - index.js: 0.53 kB (0.24 kB gzipped)
   - **Total**: ~15.5 kB (4.83 kB gzipped)
 
@@ -153,16 +153,16 @@ requestAnimationFrame(() => {
 
 ```typescript
 export {
-  Modal, // Main modal component
-  ModalTrigger, // Trigger button
-  ModalHeader, // Header component
-  ModalBody, // Body component
-  ModalFooter, // Footer component
-  ModalTitle, // Title component
-  ModalDescription, // Description component
-  ModalCloseButton, // Close button
-  ModalOverlay, // Overlay component
-  ModalContent, // Content container
+  Dialog, // Main Dialog component
+  DialogTrigger, // Trigger button
+  DialogHeader, // Header component
+  DialogBody, // Body component
+  DialogFooter, // Footer component
+  DialogTitle, // Title component
+  DialogDescription, // Description component
+  DialogCloseButton, // Close button
+  DialogOverlay, // Overlay component
+  DialogContent, // Content container
 } from "saha-ui";
 ```
 
@@ -170,17 +170,17 @@ export {
 
 ```typescript
 export type {
-  ModalProps,
-  ModalContextValue,
-  ModalHeaderProps,
-  ModalBodyProps,
-  ModalFooterProps,
-  ModalTitleProps,
-  ModalDescriptionProps,
-  ModalTriggerProps,
-  ModalCloseButtonProps,
-  ModalOverlayProps,
-  ModalContentProps,
+  DialogProps,
+  DialogContextValue,
+  DialogHeaderProps,
+  DialogBodyProps,
+  DialogFooterProps,
+  DialogTitleProps,
+  DialogDescriptionProps,
+  DialogTriggerProps,
+  DialogCloseButtonProps,
+  DialogOverlayProps,
+  DialogContentProps,
 } from "saha-ui";
 ```
 
@@ -189,52 +189,52 @@ export type {
 ### Prop-Based API (Simple):
 
 ```tsx
-<Modal
+<Dialog
   open={open}
   onOpenChange={setOpen}
   title="Welcome"
-  description="This is a modal"
+  description="This is a Dialog"
   animation="scale" // Smooth scale animation
   footer={<button>OK</button>}
 >
   Content here
-</Modal>
+</Dialog>
 ```
 
 ### Component-Based API (Flexible):
 
 ```tsx
-<Modal open={open} onOpenChange={setOpen} animation="slide-up">
-  <ModalHeader>
-    <ModalTitle>Custom Header</ModalTitle>
-    <ModalDescription>Full control</ModalDescription>
-  </ModalHeader>
-  <ModalBody scrollable={false}>
+<Dialog open={open} onOpenChange={setOpen} animation="slide-up">
+  <DialogHeader>
+    <DialogTitle>Custom Header</DialogTitle>
+    <DialogDescription>Full control</DialogDescription>
+  </DialogHeader>
+  <DialogBody scrollable={false}>
     <div>Custom layout</div>
-  </ModalBody>
-  <ModalFooter align="center">
+  </DialogBody>
+  <DialogFooter align="center">
     <button>Action</button>
-  </ModalFooter>
-</Modal>
+  </DialogFooter>
+</Dialog>
 ```
 
 ### Custom Overlay & Content:
 
 ```tsx
-<ModalOverlay
+<DialogOverlay
   backdrop="blur"
   state="open"
   onClick={handleClose}
 />
 
-<ModalContent
+<DialogContent
   variant="glass"
   size="lg"
   animation="zoom"
   state="open"
 >
   {/* Content */}
-</ModalContent>
+</DialogContent>
 ```
 
 ## 🚀 Key Improvements Summary
@@ -248,8 +248,8 @@ export type {
 
 ### ✅ Sub-Components Created
 
-- **7 Component Files**: Modal, ModalComponents, ModalOverlay
-- **2 Type Files**: Modal.types, Modal.subcomponents.types
+- **7 Component Files**: Dialog, DialogComponents, DialogOverlay
+- **2 Type Files**: Dialog.types, Dialog.subcomponents.types
 - **1 Index File**: Clean exports
 - **Total**: 10 components + 10 type interfaces
 
@@ -269,41 +269,41 @@ export type {
 
 ## 📝 File Breakdown
 
-### 1. Modal.types.ts (Existing)
+### 1. Dialog.types.ts (Existing)
 
-- `ModalProps` - 40+ properties
-- `ModalContextValue` - Context type
-- Main modal configuration
+- `DialogProps` - 40+ properties
+- `DialogContextValue` - Context type
+- Main Dialog configuration
 
-### 2. Modal.subcomponents.types.ts (NEW)
+### 2. Dialog.subcomponents.types.ts (NEW)
 
 - All sub-component prop interfaces
 - 9 separate TypeScript interfaces
 - Full JSDoc documentation
 
-### 3. Modal.tsx (NEW - 312 lines)
+### 3. Dialog.tsx (NEW - 312 lines)
 
-- Main Modal component
+- Main Dialog component
 - All hooks and logic
 - State management
 - Focus trap, scroll lock
 - Portal rendering
 
-### 4. ModalComponents.tsx (NEW - 165 lines)
+### 4. DialogComponents.tsx (NEW - 165 lines)
 
-- ModalHeader
-- ModalBody
-- ModalFooter
-- ModalTitle
-- ModalDescription
-- ModalCloseButton
-- ModalTrigger
+- DialogHeader
+- DialogBody
+- DialogFooter
+- DialogTitle
+- DialogDescription
+- DialogCloseButton
+- DialogTrigger
 - Context and hook
 
-### 5. ModalOverlay.tsx (NEW - 243 lines)
+### 5. DialogOverlay.tsx (NEW - 243 lines)
 
-- ModalOverlay with smooth fade
-- ModalContent with animations
+- DialogOverlay with smooth fade
+- DialogContent with animations
 - CVA variants with compound variants
 - Animation state handling
 
@@ -317,7 +317,7 @@ export type {
 ## 🎨 Animation Flow
 
 ```
-User opens modal
+User opens Dialog
        ↓
 open = true
        ↓
@@ -389,7 +389,7 @@ All components are fully documented with:
 
 ### Ready to Use! 🚀
 
-The Modal component now has:
+The Dialog component now has:
 
 - **Perfect animations** - Smooth, visible, 300ms transitions
 - **Modular structure** - 10 components in 6 files

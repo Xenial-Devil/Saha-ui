@@ -1,8 +1,8 @@
-# Modal Component - Complete Summary
+# Dialog Component - Complete Summary
 
 ## Overview
 
-Created a comprehensive Modal (Dialog) component with 9 variants, 7 sizes, 7 animation types, accessibility features, and advanced functionality like focus trapping and scroll locking.
+Created a comprehensive Dialog (Dialog) component with 9 variants, 7 sizes, 7 animation types, accessibility features, and advanced functionality like focus trapping and scroll locking.
 
 ## Features
 
@@ -16,11 +16,11 @@ Created a comprehensive Modal (Dialog) component with 9 variants, 7 sizes, 7 ani
 
 ### 🎯 Advanced Features
 
-- **Focus Trap**: Automatically traps focus within modal, cycles with Tab/Shift+Tab
-- **Body Scroll Lock**: Prevents body scrolling when modal is open, compensates for scrollbar width
+- **Focus Trap**: Automatically traps focus within Dialog, cycles with Tab/Shift+Tab
+- **Body Scroll Lock**: Prevents body scrolling when Dialog is open, compensates for scrollbar width
 - **Keyboard Navigation**: Close with Escape key (configurable)
 - **Portal Rendering**: Renders outside DOM hierarchy using createPortal
-- **Scroll Behavior**: Two modes - inside (body scrolls) or outside (entire modal scrolls)
+- **Scroll Behavior**: Two modes - inside (body scrolls) or outside (entire Dialog scrolls)
 - **Controlled/Uncontrolled**: Supports both controlled (with open prop) and uncontrolled (with defaultOpen) modes
 - **Return Focus**: Automatically returns focus to previously focused element on close
 - **Prevent Close**: Optional mode to prevent accidental closing
@@ -28,7 +28,7 @@ Created a comprehensive Modal (Dialog) component with 9 variants, 7 sizes, 7 ani
 
 ### ♿ Accessibility
 
-- **ARIA Attributes**: role="dialog", aria-modal, aria-label, aria-describedby
+- **ARIA Attributes**: role="dialog", aria-Dialog, aria-label, aria-describedby
 - **Keyboard Support**: Escape to close, Tab for focus cycling
 - **Focus Management**: Automatic focus trap and return focus
 - **Screen Reader Support**: Proper semantic HTML and ARIA labels
@@ -37,9 +37,9 @@ Created a comprehensive Modal (Dialog) component with 9 variants, 7 sizes, 7 ani
 
 ### Files Created
 
-1. **src/components/Modal/Modal.types.ts** - TypeScript interfaces
-2. **src/components/Modal/index.tsx** - Main Modal component (449 lines)
-3. **src/examples/ModalExample.tsx** - Comprehensive examples (600+ lines)
+1. **src/components/Dialog/Dialog.types.ts** - TypeScript interfaces
+2. **src/components/Dialog/index.tsx** - Main Dialog component (449 lines)
+3. **src/examples/DialogExample.tsx** - Comprehensive examples (600+ lines)
 
 ### CVA Variants
 
@@ -82,30 +82,30 @@ contentVariants({
 
 ## Usage Examples
 
-### Basic Modal
+### Basic Dialog
 
 ```tsx
-import { Modal } from "saha-ui";
+import { Dialog } from "saha-ui";
 
 const [open, setOpen] = useState(false);
 
-<Modal
+<Dialog
   open={open}
   onOpenChange={setOpen}
-  title="Basic Modal"
-  description="This is a simple modal"
+  title="Basic Dialog"
+  description="This is a simple Dialog"
 >
-  <p>Modal content goes here</p>
-</Modal>;
+  <p>Dialog content goes here</p>
+</Dialog>;
 ```
 
 ### With Footer
 
 ```tsx
-<Modal
+<Dialog
   open={open}
   onOpenChange={setOpen}
-  title="Modal with Footer"
+  title="Dialog with Footer"
   footer={
     <>
       <button onClick={() => setOpen(false)}>Cancel</button>
@@ -113,44 +113,44 @@ const [open, setOpen] = useState(false);
     </>
   }
 >
-  <p>Modal content</p>
-</Modal>
+  <p>Dialog content</p>
+</Dialog>
 ```
 
 ### Different Animations
 
 ```tsx
-<Modal animation="scale">...</Modal>
-<Modal animation="slide-up">...</Modal>
-<Modal animation="zoom">...</Modal>
+<Dialog animation="scale">...</Dialog>
+<Dialog animation="slide-up">...</Dialog>
+<Dialog animation="zoom">...</Dialog>
 ```
 
 ### Prevent Close
 
 ```tsx
-<Modal
+<Dialog
   open={open}
   onOpenChange={setOpen}
   preventClose
   closeOnOverlayClick={false}
   closeOnEscape={false}
 >
-  <p>This modal cannot be closed by clicking outside or pressing Escape</p>
-</Modal>
+  <p>This Dialog cannot be closed by clicking outside or pressing Escape</p>
+</Dialog>
 ```
 
-### Full Screen Modal
+### Full Screen Dialog
 
 ```tsx
-<Modal open={open} onOpenChange={setOpen} fullScreen rounded="none">
-  <p>This modal takes up the entire screen</p>
-</Modal>
+<Dialog open={open} onOpenChange={setOpen} fullScreen rounded="none">
+  <p>This Dialog takes up the entire screen</p>
+</Dialog>
 ```
 
-### Form Modal
+### Form Dialog
 
 ```tsx
-<Modal
+<Dialog
   open={open}
   onOpenChange={setOpen}
   title="Add New Item"
@@ -165,13 +165,13 @@ const [open, setOpen] = useState(false);
     <input type="text" />
     <textarea />
   </form>
-</Modal>
+</Dialog>
 ```
 
 ## Props Interface
 
 ```typescript
-interface ModalProps {
+interface DialogProps {
   // Visibility
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -266,7 +266,7 @@ interface ModalProps {
 
 ### Focus Trap
 
-The modal implements a complete focus trap:
+The Dialog implements a complete focus trap:
 
 1. Finds all focusable elements: `a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])`
 2. Captures Tab and Shift+Tab key presses
@@ -276,7 +276,7 @@ The modal implements a complete focus trap:
 
 ### Body Scroll Lock
 
-When modal opens:
+When Dialog opens:
 
 1. Calculates scrollbar width
 2. Adds right padding to body to prevent content shift
@@ -285,9 +285,9 @@ When modal opens:
 
 ### Portal Rendering
 
-Uses `createPortal` to render modal at the end of the body, ensuring:
+Uses `createPortal` to render Dialog at the end of the body, ensuring:
 
-- Modal appears above all other content
+- Dialog appears above all other content
 - Proper stacking context
 - No z-index conflicts
 - Optional custom portal target
@@ -296,13 +296,13 @@ Uses `createPortal` to render modal at the end of the body, ensuring:
 
 Uses data attributes for animation control:
 
-- `data-state="open"` when modal is open
-- `data-state="closed"` when modal is closed
+- `data-state="open"` when Dialog is open
+- `data-state="closed"` when Dialog is closed
 - Tailwind animate-in/out utilities for smooth transitions
 
-## Examples in ModalExample.tsx
+## Examples in DialogExample.tsx
 
-1. **Basic Modal** - Simple modal with title and description
+1. **Basic Dialog** - Simple Dialog with title and description
 2. **All 9 Variants** - Showcase of every variant
 3. **All 7 Sizes** - From xs to full screen
 4. **All 7 Animations** - Different entrance/exit effects
@@ -312,12 +312,12 @@ Uses data attributes for animation control:
 8. **No Close Button** - Hidden X button
 9. **Prevent Close** - Cannot close by overlay/escape
 10. **Scroll Inside** - Content scrolls, header/footer fixed
-11. **Scroll Outside** - Entire modal scrolls
+11. **Scroll Outside** - Entire Dialog scrolls
 12. **Full Screen** - Takes entire viewport
-13. **Not Centered** - Top-aligned modal
+13. **Not Centered** - Top-aligned Dialog
 14. **Confirm Dialog** - Real-world deletion confirmation
-15. **Form Modal** - Modal with form inputs
-16. **Nested Modals** - Opening modal from modal
+15. **Form Dialog** - Dialog with form inputs
+16. **Nested Dialogs** - Opening Dialog from Dialog
 
 ## Integration
 
@@ -325,33 +325,33 @@ Uses data attributes for animation control:
 
 ```typescript
 // src/index.ts
-export { default as Modal, ModalTrigger } from "./components/Modal";
-export type { ModalProps } from "./components/Modal/Modal.types";
+export { default as Dialog, DialogTrigger } from "./components/Dialog";
+export type { DialogProps } from "./components/Dialog/Dialog.types";
 ```
 
 ### AllComponentExamples
 
 ```typescript
 // src/examples/AllComponentExamples.tsx
-import ModalExample from "./ModalExample";
+import DialogExample from "./DialogExample";
 
 // Added in JSX
-<ModalExample />;
+<DialogExample />;
 ```
 
 ### README Updated
 
 - Component count: 40 → **41**
-- Added Modal to features list
-- Added Modal row to components table:
+- Added Dialog to features list
+- Added Dialog row to components table:
   ```
-  | **Modal** | Dialog with 9 variants, 7 sizes, animations, focus trap, accessibility | ✅ | ✅ |
+  | **Dialog** | Dialog with 9 variants, 7 sizes, animations, focus trap, accessibility | ✅ | ✅ |
   ```
 
 ## Build Output
 
 ```
-dist/components\Modal\index.js    9.02 kB │ gzip: 2.76 kB
+dist/components\Dialog\index.js    9.02 kB │ gzip: 2.76 kB
 ✓ built in 5.04s
 ```
 
@@ -363,12 +363,12 @@ dist/components\Modal\index.js    9.02 kB │ gzip: 2.76 kB
 - [x] All sizes work correctly
 - [x] All animations work
 - [x] Focus trap works (Tab cycling)
-- [x] Escape key closes modal
-- [x] Overlay click closes modal
+- [x] Escape key closes Dialog
+- [x] Overlay click closes Dialog
 - [x] Body scroll is locked
 - [x] Return focus works
 - [x] Portal rendering works
-- [x] Nested modals work
+- [x] Nested Dialogs work
 - [x] Prevent close works
 - [x] Full screen mode works
 - [x] Scroll behaviors work
@@ -379,7 +379,7 @@ dist/components\Modal\index.js    9.02 kB │ gzip: 2.76 kB
 ### When to Use Each Size
 
 - **xs/sm**: Quick confirmations, alerts
-- **md**: Default for most modals
+- **md**: Default for most Dialogs
 - **lg/xl**: Forms, detailed content
 - **2xl**: Complex forms, multi-column layouts
 - **full**: Maximum content, detailed workflows
@@ -396,7 +396,7 @@ dist/components\Modal\index.js    9.02 kB │ gzip: 2.76 kB
 ### Accessibility Tips
 
 1. Always provide `title` for screen readers
-2. Use `ariaLabel` for modals without visible title
+2. Use `ariaLabel` for Dialogs without visible title
 3. Keep focus trap enabled for keyboard users
 4. Test with keyboard navigation
 5. Provide clear action buttons in footer
@@ -406,7 +406,7 @@ dist/components\Modal\index.js    9.02 kB │ gzip: 2.76 kB
 ### Confirmation Dialog
 
 ```tsx
-<Modal
+<Dialog
   size="sm"
   variant="warning"
   footer={
@@ -417,13 +417,13 @@ dist/components\Modal\index.js    9.02 kB │ gzip: 2.76 kB
   }
 >
   Are you sure you want to proceed?
-</Modal>
+</Dialog>
 ```
 
-### Form Modal
+### Form Dialog
 
 ```tsx
-<Modal
+<Dialog
   title="Edit Profile"
   footer={
     <>
@@ -433,38 +433,38 @@ dist/components\Modal\index.js    9.02 kB │ gzip: 2.76 kB
   }
 >
   <form>...</form>
-</Modal>
+</Dialog>
 ```
 
-### Alert Modal
+### Alert Dialog
 
 ```tsx
-<Modal showHeader={false} size="sm" centered>
+<Dialog showHeader={false} size="sm" centered>
   <div className="text-center">
     <Icon />
     <h3>Success!</h3>
     <p>Your changes have been saved.</p>
     <button onClick={onClose}>Got it</button>
   </div>
-</Modal>
+</Dialog>
 ```
 
 ## Compound Components (Future Enhancement)
 
-The component includes commented out `useModalContext` hook for future compound component pattern:
+The component includes commented out `useDialogContext` hook for future compound component pattern:
 
 ```typescript
-<Modal open={open}>
-  <Modal.Header>Custom Header</Modal.Header>
-  <Modal.Body>Custom Body</Modal.Body>
-  <Modal.Footer>Custom Footer</Modal.Footer>
-</Modal>
+<Dialog open={open}>
+  <Dialog.Header>Custom Header</Dialog.Header>
+  <Dialog.Body>Custom Body</Dialog.Body>
+  <Dialog.Footer>Custom Footer</Dialog.Footer>
+</Dialog>
 ```
 
 ## Status
 
-✅ **Complete** - Modal component is fully implemented, tested, and integrated into Saha UI library.
+✅ **Complete** - Dialog component is fully implemented, tested, and integrated into Saha UI library.
 
 ## Component Count
 
-**Total Components: 41** (was 40, now 41 with Modal)
+**Total Components: 41** (was 40, now 41 with Dialog)

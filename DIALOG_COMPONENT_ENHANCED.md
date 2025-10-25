@@ -1,15 +1,15 @@
-# Modal Component - Complete Summary (Enhanced)
+# Dialog Component - Complete Summary (Enhanced)
 
 ## Overview
 
-Created a comprehensive Modal (Dialog) component with **BOTH prop-based and component-based APIs**, smooth animations, 9 variants, 9 sizes, 8 animation types, nested modal support, and advanced accessibility features.
+Created a comprehensive Dialog (Dialog) component with **BOTH prop-based and component-based APIs**, smooth animations, 9 variants, 9 sizes, 8 animation types, nested Dialog support, and advanced accessibility features.
 
 ## 🎨 Dual API Design
 
 ### Prop-Based API (Simple)
 
 ```tsx
-<Modal
+<Dialog
   open={open}
   onOpenChange={setOpen}
   title="Title"
@@ -17,22 +17,22 @@ Created a comprehensive Modal (Dialog) component with **BOTH prop-based and comp
   footer={<button>OK</button>}
 >
   Content
-</Modal>
+</Dialog>
 ```
 
 ### Component-Based API (Flexible)
 
 ```tsx
-<Modal open={open} onOpenChange={setOpen}>
-  <ModalHeader>
-    <ModalTitle>Title</ModalTitle>
-    <ModalDescription>Description</ModalDescription>
-  </ModalHeader>
-  <ModalBody>Content</ModalBody>
-  <ModalFooter align="center">
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogHeader>
+    <DialogTitle>Title</DialogTitle>
+    <DialogDescription>Description</DialogDescription>
+  </DialogHeader>
+  <DialogBody>Content</DialogBody>
+  <DialogFooter align="center">
     <button>Action</button>
-  </ModalFooter>
-</Modal>
+  </DialogFooter>
+</Dialog>
 ```
 
 ## ✨ Features
@@ -51,39 +51,39 @@ Created a comprehensive Modal (Dialog) component with **BOTH prop-based and comp
 #### Dual API Support
 
 - **Prop-Based**: Simple API with title, description, footer props
-- **Component-Based**: Full control with ModalHeader, ModalBody, ModalFooter
+- **Component-Based**: Full control with DialogHeader, DialogBody, DialogFooter
 - **Mixed**: Can combine both approaches in same component
 
 #### Compound Components
 
-- **ModalHeader**: Custom header with optional close button
-- **ModalBody**: Content area with optional scrolling
-- **ModalFooter**: Actions with configurable alignment (left/center/right)
-- **ModalTitle**: Semantic title component
-- **ModalDescription**: Semantic description component
-- **ModalTrigger**: Trigger button component
+- **DialogHeader**: Custom header with optional close button
+- **DialogBody**: Content area with optional scrolling
+- **DialogFooter**: Actions with configurable alignment (left/center/right)
+- **DialogTitle**: Semantic title component
+- **DialogDescription**: Semantic description component
+- **DialogTrigger**: Trigger button component
 
-#### Nested Modal Support
+#### Nested Dialog Support
 
-- **nested prop**: Properly handles nested modals
-- **Proper Z-Index**: Nested modals layer correctly above parent
-- **Lighter Backdrop**: Nested modals use lighter overlay
-- **No Scroll Lock Conflict**: Only parent modal locks body scroll
-- **Focus Management**: Proper focus handling for nested modals
+- **nested prop**: Properly handles nested Dialogs
+- **Proper Z-Index**: Nested Dialogs layer correctly above parent
+- **Lighter Backdrop**: Nested Dialogs use lighter overlay
+- **No Scroll Lock Conflict**: Only parent Dialog locks body scroll
+- **Focus Management**: Proper focus handling for nested Dialogs
 
 #### Focus Management
 
-- **Focus Trap**: Automatically traps focus within modal
+- **Focus Trap**: Automatically traps focus within Dialog
 - **Tab Cycling**: Tab/Shift+Tab cycles through focusable elements
 - **Return Focus**: Returns focus to trigger element on close
 - **Auto Focus**: Focuses first focusable element on open
 
 #### Scroll Management
 
-- **Body Scroll Lock**: Prevents body scrolling when modal open
+- **Body Scroll Lock**: Prevents body scrolling when Dialog open
 - **Scrollbar Compensation**: Adjusts padding to prevent layout shift
-- **Scroll Behavior**: Inside (body scrolls) or outside (modal scrolls)
-- **Nested Aware**: Doesn't lock scroll for nested modals
+- **Scroll Behavior**: Inside (body scrolls) or outside (Dialog scrolls)
+- **Nested Aware**: Doesn't lock scroll for nested Dialogs
 
 #### Interaction Control
 
@@ -101,7 +101,7 @@ Created a comprehensive Modal (Dialog) component with **BOTH prop-based and comp
 
 ### ♿ Accessibility
 
-- **ARIA Attributes**: role="dialog", aria-modal, aria-label, aria-describedby
+- **ARIA Attributes**: role="dialog", aria-Dialog, aria-label, aria-describedby
 - **Keyboard Support**: Escape to close, Tab for focus cycling
 - **Focus Management**: Automatic focus trap and return focus
 - **Screen Reader Support**: Proper semantic HTML and ARIA labels
@@ -111,20 +111,20 @@ Created a comprehensive Modal (Dialog) component with **BOTH prop-based and comp
 
 ### Files
 
-1. **src/components/Modal/Modal.types.ts** - TypeScript interfaces with 40+ props
-2. **src/components/Modal/index.tsx** - Main Modal component (690 lines)
-   - Modal (main component)
-   - ModalHeader (compound component)
-   - ModalBody (compound component)
-   - ModalFooter (compound component)
-   - ModalTitle (compound component)
-   - ModalDescription (compound component)
-   - ModalTrigger (trigger component)
-3. **src/examples/ModalExample.tsx** - Comprehensive examples (850+ lines)
+1. **src/components/Dialog/Dialog.types.ts** - TypeScript interfaces with 40+ props
+2. **src/components/Dialog/index.tsx** - Main Dialog component (690 lines)
+   - Dialog (main component)
+   - DialogHeader (compound component)
+   - DialogBody (compound component)
+   - DialogFooter (compound component)
+   - DialogTitle (compound component)
+   - DialogDescription (compound component)
+   - DialogTrigger (trigger component)
+3. **src/examples/DialogExample.tsx** - Comprehensive examples (850+ lines)
    - Prop-based examples
    - Component-based examples
    - All variants, sizes, animations
-   - Nested modals with proper styling
+   - Nested Dialogs with proper styling
    - Real-world use cases
 
 ### Size (Build Output)
@@ -183,7 +183,7 @@ contentVariants({
 
 ## 🔧 Props
 
-### ModalProps (40+ props)
+### DialogProps (40+ props)
 
 #### Visibility
 
@@ -194,14 +194,14 @@ contentVariants({
 #### Styling
 
 - `variant?: "default" | "primary" | ... | "glass"` - Visual variant
-- `size?: "xs" | "sm" | ... | "4xl" | "full"` - Modal size
+- `size?: "xs" | "sm" | ... | "4xl" | "full"` - Dialog size
 - `rounded?: "default" | "lg" | ... | "none"` - Border radius
 
 #### Content (Prop-Based API)
 
-- `title?: ReactNode` - Modal title
-- `description?: ReactNode` - Modal description
-- `children?: ReactNode` - Modal content
+- `title?: ReactNode` - Dialog title
+- `description?: ReactNode` - Dialog description
+- `children?: ReactNode` - Dialog content
 - `footer?: ReactNode` - Footer content
 
 #### Header Options
@@ -217,7 +217,7 @@ contentVariants({
 
 #### Layout
 
-- `centered?: boolean` - Center modal vertically (default: true)
+- `centered?: boolean` - Center Dialog vertically (default: true)
 - `scrollBehavior?: "inside" | "outside"` - Scroll mode (default: "inside")
 - `fullScreen?: boolean` - Full screen mode (default: false)
 
@@ -228,8 +228,8 @@ contentVariants({
 
 #### Callbacks
 
-- `onClose?: () => void` - Called when modal closes
-- `onOpen?: () => void` - Called when modal opens
+- `onClose?: () => void` - Called when Dialog closes
+- `onOpen?: () => void` - Called when Dialog opens
 - `onAnimationComplete?: () => void` - Called when animation completes
 
 #### Accessibility
@@ -243,7 +243,7 @@ contentVariants({
 - `focusTrap?: boolean` - Enable focus trap (default: true)
 - `returnFocus?: boolean` - Return focus on close (default: true)
 - `portalTarget?: HTMLElement | null` - Custom portal container
-- `nested?: boolean` - Is this a nested modal (default: false)
+- `nested?: boolean` - Is this a nested Dialog (default: false)
 
 #### Custom Classes
 
@@ -256,57 +256,57 @@ contentVariants({
 
 ### Compound Component Props
 
-#### ModalHeaderProps
+#### DialogHeaderProps
 
 - `children: ReactNode` - Header content
 - `showCloseButton?: boolean` - Show close button (default: true)
 - `className?: string` - Custom class
 
-#### ModalBodyProps
+#### DialogBodyProps
 
 - `children: ReactNode` - Body content
 - `scrollable?: boolean` - Enable scrolling (default: true)
 - `className?: string` - Custom class
 
-#### ModalFooterProps
+#### DialogFooterProps
 
 - `children: ReactNode` - Footer content
 - `align?: "left" | "center" | "right"` - Alignment (default: "right")
 - `className?: string` - Custom class
 
-#### ModalTitleProps
+#### DialogTitleProps
 
 - `children: ReactNode` - Title text
 - `className?: string` - Custom class
 
-#### ModalDescriptionProps
+#### DialogDescriptionProps
 
 - `children: ReactNode` - Description text
 - `className?: string` - Custom class
 
 ## 📝 Usage Examples
 
-### Basic Modal (Prop-Based)
+### Basic Dialog (Prop-Based)
 
 ```tsx
 import { useState } from "react";
-import { Modal } from "saha-ui";
+import { Dialog } from "saha-ui";
 
 function App() {
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <button onClick={() => setOpen(true)}>Open Modal</button>
+      <button onClick={() => setOpen(true)}>Open Dialog</button>
 
-      <Modal
+      <Dialog
         open={open}
         onOpenChange={setOpen}
         title="Welcome"
-        description="This is a basic modal"
+        description="This is a basic Dialog"
       >
-        <p>Modal content goes here</p>
-      </Modal>
+        <p>Dialog content goes here</p>
+      </Dialog>
     </>
   );
 }
@@ -316,24 +316,24 @@ function App() {
 
 ```tsx
 import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalTitle,
-  ModalDescription,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
 } from "saha-ui";
 
 function App() {
   const [open, setOpen] = useState(false);
 
   return (
-    <Modal open={open} onOpenChange={setOpen} variant="primary">
-      <ModalHeader>
-        <ModalTitle>Custom Header</ModalTitle>
-        <ModalDescription>Full control over layout</ModalDescription>
-      </ModalHeader>
-      <ModalBody>
+    <Dialog open={open} onOpenChange={setOpen} variant="primary">
+      <DialogHeader>
+        <DialogTitle>Custom Header</DialogTitle>
+        <DialogDescription>Full control over layout</DialogDescription>
+      </DialogHeader>
+      <DialogBody>
         <div className="space-y-4">
           <p>Custom content with any layout</p>
           <div className="grid grid-cols-2 gap-4">
@@ -341,11 +341,11 @@ function App() {
             <div>Column 2</div>
           </div>
         </div>
-      </ModalBody>
-      <ModalFooter align="center">
+      </DialogBody>
+      <DialogFooter align="center">
         <button onClick={() => setOpen(false)}>Close</button>
-      </ModalFooter>
-    </Modal>
+      </DialogFooter>
+    </Dialog>
   );
 }
 ```
@@ -353,43 +353,43 @@ function App() {
 ### Variants
 
 ```tsx
-<Modal variant="primary" />   // Primary styled
-<Modal variant="success" />   // Success styled
-<Modal variant="error" />     // Error styled
-<Modal variant="glass" />     // Glass morphism
+<Dialog variant="primary" />   // Primary styled
+<Dialog variant="success" />   // Success styled
+<Dialog variant="error" />     // Error styled
+<Dialog variant="glass" />     // Glass morphism
 ```
 
 ### Sizes
 
 ```tsx
-<Modal size="xs" />   // Extra small
-<Modal size="sm" />   // Small
-<Modal size="md" />   // Medium (default)
-<Modal size="lg" />   // Large
-<Modal size="xl" />   // Extra large
-<Modal size="2xl" />  // 2X large
-<Modal size="3xl" />  // 3X large
-<Modal size="4xl" />  // 4X large
-<Modal size="full" /> // Full screen
+<Dialog size="xs" />   // Extra small
+<Dialog size="sm" />   // Small
+<Dialog size="md" />   // Medium (default)
+<Dialog size="lg" />   // Large
+<Dialog size="xl" />   // Extra large
+<Dialog size="2xl" />  // 2X large
+<Dialog size="3xl" />  // 3X large
+<Dialog size="4xl" />  // 4X large
+<Dialog size="full" /> // Full screen
 ```
 
 ### Animations
 
 ```tsx
-<Modal animation="fade" />        // Simple fade
-<Modal animation="scale" />       // Scale in/out (default)
-<Modal animation="slide-up" />    // Slide from bottom
-<Modal animation="slide-down" />  // Slide from top
-<Modal animation="slide-left" />  // Slide from right
-<Modal animation="slide-right" /> // Slide from left
-<Modal animation="zoom" />        // Dramatic zoom
-<Modal animation="bounce" />      // Bouncy entrance
+<Dialog animation="fade" />        // Simple fade
+<Dialog animation="scale" />       // Scale in/out (default)
+<Dialog animation="slide-up" />    // Slide from bottom
+<Dialog animation="slide-down" />  // Slide from top
+<Dialog animation="slide-left" />  // Slide from right
+<Dialog animation="slide-right" /> // Slide from left
+<Dialog animation="zoom" />        // Dramatic zoom
+<Dialog animation="bounce" />      // Bouncy entrance
 ```
 
 ### With Footer (Prop-Based)
 
 ```tsx
-<Modal
+<Dialog
   title="Confirm Action"
   footer={
     <>
@@ -399,10 +399,10 @@ function App() {
   }
 >
   Are you sure?
-</Modal>
+</Dialog>
 ```
 
-### Nested Modals
+### Nested Dialogs
 
 ```tsx
 function App() {
@@ -411,20 +411,20 @@ function App() {
 
   return (
     <>
-      {/* Parent Modal */}
-      <Modal open={parent} onOpenChange={setParent}>
-        <ModalBody>
-          <button onClick={() => setChild(true)}>Open Nested Modal</button>
-        </ModalBody>
-      </Modal>
+      {/* Parent Dialog */}
+      <Dialog open={parent} onOpenChange={setParent}>
+        <DialogBody>
+          <button onClick={() => setChild(true)}>Open Nested Dialog</button>
+        </DialogBody>
+      </Dialog>
 
-      {/* Nested Modal - Uses nested prop */}
-      <Modal open={child} onOpenChange={setChild} variant="success" nested>
-        <ModalHeader>
-          <ModalTitle>Nested Modal</ModalTitle>
-        </ModalHeader>
-        <ModalBody>Better styling with nested prop!</ModalBody>
-      </Modal>
+      {/* Nested Dialog - Uses nested prop */}
+      <Dialog open={child} onOpenChange={setChild} variant="success" nested>
+        <DialogHeader>
+          <DialogTitle>Nested Dialog</DialogTitle>
+        </DialogHeader>
+        <DialogBody>Better styling with nested prop!</DialogBody>
+      </Dialog>
     </>
   );
 }
@@ -433,7 +433,7 @@ function App() {
 ### Prevent Close
 
 ```tsx
-<Modal
+<Dialog
   preventClose
   closeOnOverlayClick={false}
   closeOnEscape={false}
@@ -441,7 +441,7 @@ function App() {
   footer={<button onClick={handleAction}>Complete Action</button>}
 >
   You must complete this action
-</Modal>
+</Dialog>
 ```
 
 ### Scroll Behavior
@@ -450,40 +450,40 @@ function App() {
 {
   /* Scroll inside body only */
 }
-<Modal scrollBehavior="inside">
+<Dialog scrollBehavior="inside">
   <div>{/* Long content */}</div>
-</Modal>;
+</Dialog>;
 
 {
-  /* Scroll entire modal */
+  /* Scroll entire Dialog */
 }
-<Modal scrollBehavior="outside">
+<Dialog scrollBehavior="outside">
   <div>{/* Long content */}</div>
-</Modal>;
+</Dialog>;
 ```
 
 ### Custom Layout with Component API
 
 ```tsx
-<Modal variant="glass" size="lg">
-  <ModalHeader showCloseButton={false}>
+<Dialog variant="glass" size="lg">
+  <DialogHeader showCloseButton={false}>
     <div className="flex items-center gap-3">
       <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent">
         <Icon />
       </div>
       <div>
-        <ModalTitle>Custom Layout</ModalTitle>
-        <ModalDescription>Full creative control</ModalDescription>
+        <DialogTitle>Custom Layout</DialogTitle>
+        <DialogDescription>Full creative control</DialogDescription>
       </div>
     </div>
-  </ModalHeader>
-  <ModalBody scrollable={false}>
+  </DialogHeader>
+  <DialogBody scrollable={false}>
     <div className="grid grid-cols-2 gap-4">{/* Custom grid layout */}</div>
-  </ModalBody>
-  <ModalFooter align="center">
+  </DialogBody>
+  <DialogFooter align="center">
     <button>Action</button>
-  </ModalFooter>
-</Modal>
+  </DialogFooter>
+</Dialog>
 ```
 
 ## 🎯 Key Improvements
@@ -492,9 +492,9 @@ function App() {
 
 ✅ **Prop-Based AND Component-Based APIs** - Both supported simultaneously
 ✅ **Smooth Animations** - 500ms duration, 8 animation types including bounce
-✅ **Nested Modal Styling** - Dedicated `nested` prop for proper layering
+✅ **Nested Dialog Styling** - Dedicated `nested` prop for proper layering
 ✅ **Advanced Features** - Focus trap, scroll lock, keyboard nav, portal rendering
-✅ **Compound Components** - ModalHeader, ModalBody, ModalFooter, ModalTitle, ModalDescription
+✅ **Compound Components** - DialogHeader, DialogBody, DialogFooter, DialogTitle, DialogDescription
 ✅ **Flexible Footer** - Alignment options (left/center/right)
 ✅ **Better Performance** - useCallback for handlers, optimized re-renders
 ✅ **Clean Exports** - All components exported from main index
@@ -513,12 +513,12 @@ function App() {
 
 ### Files Updated
 
-1. ✅ **src/components/Modal/Modal.types.ts** - Added nested, 3xl, 4xl sizes, bounce animation
-2. ✅ **src/components/Modal/index.tsx** - Complete rewrite with compound components (690 lines)
-3. ✅ **src/examples/ModalExample.tsx** - Added component-based examples, updated nested modal
-4. ✅ **src/index.ts** - Exported all Modal components
-5. ✅ **src/examples/AllComponentExamples.tsx** - Integrated ModalExample
-6. ✅ **README.md** - Updated to 41 components, added Modal row
+1. ✅ **src/components/Dialog/Dialog.types.ts** - Added nested, 3xl, 4xl sizes, bounce animation
+2. ✅ **src/components/Dialog/index.tsx** - Complete rewrite with compound components (690 lines)
+3. ✅ **src/examples/DialogExample.tsx** - Added component-based examples, updated nested Dialog
+4. ✅ **src/index.ts** - Exported all Dialog components
+5. ✅ **src/examples/AllComponentExamples.tsx** - Integrated DialogExample
+6. ✅ **README.md** - Updated to 41 components, added Dialog row
 
 ### Build Status
 
@@ -535,7 +535,7 @@ function App() {
 - **Blur**: Backdrop blur with transparency
 - **Transparent**: Invisible overlay
 - **Dark**: Deep black overlay
-- **Nested**: Lighter overlay for nested modals
+- **Nested**: Lighter overlay for nested Dialogs
 
 ### Border Variants
 
@@ -554,11 +554,11 @@ function App() {
 
 ## 🚀 Next Steps
 
-The Modal component is now complete with:
+The Dialog component is now complete with:
 
 - ✅ Dual API (prop-based + component-based)
 - ✅ Smooth animations (500ms, 8 types)
-- ✅ Proper nested modal support
+- ✅ Proper nested Dialog support
 - ✅ All advanced features
 - ✅ Full accessibility
 - ✅ Complete documentation

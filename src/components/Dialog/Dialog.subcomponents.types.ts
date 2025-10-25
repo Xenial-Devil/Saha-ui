@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 
 /**
- * ModalHeader Component Props
+ * DialogHeader Component Props
  */
-export interface ModalHeaderProps {
+export interface DialogHeaderProps {
   /** Header content */
   children: ReactNode;
   /** Show/hide close button */
@@ -13,9 +13,9 @@ export interface ModalHeaderProps {
 }
 
 /**
- * ModalBody Component Props
+ * DialogBody Component Props
  */
-export interface ModalBodyProps {
+export interface DialogBodyProps {
   /** Body content */
   children: ReactNode;
   /** Enable scrolling */
@@ -25,9 +25,9 @@ export interface ModalBodyProps {
 }
 
 /**
- * ModalFooter Component Props
+ * DialogFooter Component Props
  */
-export interface ModalFooterProps {
+export interface DialogFooterProps {
   /** Footer content */
   children: ReactNode;
   /** Alignment of footer content */
@@ -37,9 +37,9 @@ export interface ModalFooterProps {
 }
 
 /**
- * ModalTitle Component Props
+ * DialogTitle Component Props
  */
-export interface ModalTitleProps {
+export interface DialogTitleProps {
   /** Title text */
   children: ReactNode;
   /** Custom class name */
@@ -47,9 +47,9 @@ export interface ModalTitleProps {
 }
 
 /**
- * ModalDescription Component Props
+ * DialogDescription Component Props
  */
-export interface ModalDescriptionProps {
+export interface DialogDescriptionProps {
   /** Description text */
   children: ReactNode;
   /** Custom class name */
@@ -57,21 +57,21 @@ export interface ModalDescriptionProps {
 }
 
 /**
- * ModalTrigger Component Props
+ * DialogTrigger Component Props
  */
-export interface ModalTriggerProps
+export interface DialogTriggerProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Trigger button content */
   children: ReactNode;
 }
 
 /**
- * ModalOverlay Component Props
+ * DialogOverlay Component Props
  */
-export interface ModalOverlayProps {
+export interface DialogOverlayProps {
   /** Backdrop style */
   backdrop?: "default" | "blur" | "transparent" | "dark";
-  /** Is this a nested modal */
+  /** Is this a nested Dialog */
   nested?: boolean;
   /** Click handler */
   onClick?: () => void;
@@ -82,9 +82,9 @@ export interface ModalOverlayProps {
 }
 
 /**
- * ModalContent Component Props
+ * DialogContent Component Props
  */
-export interface ModalContentProps {
+export interface DialogContentProps {
   /** Content */
   children: ReactNode;
   /** Variant */
@@ -120,7 +120,7 @@ export interface ModalContentProps {
   scrollBehavior?: "inside" | "outside";
   /** Animation state */
   state: "open" | "closed";
-  /** Is nested modal */
+  /** Is nested Dialog */
   nested?: boolean;
   /** Click handler */
   onClick?: (e: React.MouseEvent) => void;
@@ -128,8 +128,8 @@ export interface ModalContentProps {
   innerRef?: React.Ref<HTMLDivElement>;
   /** Role */
   role?: string;
-  /** ARIA modal */
-  "aria-modal"?: boolean;
+  /** ARIA Dialog */
+  "aria-Dialog"?: boolean;
   /** ARIA label */
   "aria-label"?: string;
   /** ARIA described by */
@@ -139,9 +139,9 @@ export interface ModalContentProps {
 }
 
 /**
- * ModalCloseButton Component Props
+ * DialogCloseButton Component Props
  */
-export interface ModalCloseButtonProps {
+export interface DialogCloseButtonProps {
   /** Click handler */
   onClick: () => void;
   /** Custom class name */

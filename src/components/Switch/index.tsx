@@ -1,6 +1,11 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 import type { SwitchProps } from "./Switch.types";
 
 /**
@@ -228,6 +233,59 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
     );
     const isControlled = controlledChecked !== undefined;
     const checked = isControlled ? controlledChecked : uncontrolledChecked;
+
+    // ===== PROP VALIDATION =====
+    useEffect(() => {
+      if (process.env.NODE_ENV !== "production") {
+        const validator = createValidator("Switch");
+
+        // Common validators
+        commonValidators.size(validator, size);
+        const switchVariants = [
+          "default",
+          "primary",
+          "secondary",
+          "accent",
+          "success",
+          "warning",
+          "error",
+        ] as const;
+        commonValidators.variant(validator, variant, switchVariants);
+        commonValidators.disabled(validator, disabled);
+        commonValidators.className(validator, className);
+
+        // Boolean validations
+        if (checked !== undefined && !isValidBoolean(checked)) {
+          validator.error("Invalid prop: 'checked' must be a boolean.");
+        }
+        if (defaultChecked !== undefined && !isValidBoolean(defaultChecked)) {
+          validator.error("Invalid prop: 'defaultChecked' must be a boolean.");
+        }
+        if (loading !== undefined && !isValidBoolean(loading)) {
+          validator.error("Invalid prop: 'loading' must be a boolean.");
+        }
+
+        // Label position validation
+        if (
+          labelPosition &&
+          !["left", "right", "top", "bottom"].includes(labelPosition)
+        ) {
+          validator.error(
+            "Invalid prop: 'labelPosition' must be one of: 'left', 'right', 'top', 'bottom'."
+          );
+        }
+      }
+    }, [
+      variant,
+      size,
+      disabled,
+      className,
+      checked,
+      defaultChecked,
+      loading,
+      labelPosition,
+    ]);
+    // ===== END PROP VALIDATION =====
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newChecked = e.target.checked;

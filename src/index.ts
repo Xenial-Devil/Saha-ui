@@ -13,6 +13,7 @@ export {
   AccordionContent,
 } from "./components/Accordion";
 export { default as Alert } from "./components/Alert";
+export { default as AspectRatio } from "./components/AspectRatio";
 export { default as Avatar } from "./components/Avatar";
 export { default as AvatarGroup } from "./components/AvatarGroup";
 export { default as Badge } from "./components/Badge";
@@ -23,6 +24,7 @@ export {
 } from "./components/Breadcrumb";
 export { default as Button } from "./components/Button";
 export { ButtonGroup } from "./components/ButtonGroup";
+export { default as Calendar } from "./components/Calendar";
 export {
   default as Card,
   CardHeader,
@@ -39,7 +41,7 @@ export {
   CarouselNext,
 } from "./components/Carousel";
 export { Chip } from "./components/Chip";
-export { default as Divider } from "./components/Divider";
+export { default as Separator } from "./components/Separator";
 export {
   default as Drawer,
   DrawerTrigger,
@@ -103,17 +105,17 @@ export { default as TextArea } from "./components/TextArea";
 export { default as Upload } from "./components/Upload";
 export { ToastProvider, useToast, ToastItem } from "./components/Toast";
 export {
-  default as Modal,
-  ModalTrigger,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalTitle,
-  ModalDescription,
-  ModalCloseButton,
-  ModalOverlay,
-  ModalContent,
-} from "./components/Modal";
+  default as Dialog,
+  DialogTrigger,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogCloseButton,
+  DialogOverlay,
+  DialogContent,
+} from "./components/Dialog";
 export {
   Empty,
   EmptyIcon,
@@ -144,6 +146,18 @@ export {
   SliderFilledTrack,
   SliderThumb,
 } from "./components/Slider";
+export {
+  Combobox,
+  ComboboxTrigger,
+  ComboboxContent,
+  ComboboxSearch,
+  ComboboxEmpty,
+  ComboboxLoading,
+  ComboboxGroup,
+  ComboboxItem,
+  ComboboxSeparator,
+  ComboboxCreate,
+} from "./components/Combobox";
 
 // Types - Theme
 export type {
@@ -167,6 +181,12 @@ export type {
   AlertVariant,
   AlertStatus,
 } from "./components/Alert/Alert.types";
+export type {
+  AspectRatioProps,
+  AspectRatioPreset,
+  AspectRatioVariant,
+  AspectRatioRounded,
+} from "./components/AspectRatio/AspectRatio.types";
 export type {
   AvatarProps,
   AvatarSize,
@@ -231,12 +251,12 @@ export type {
   ChipSize,
 } from "./components/Chip/Chip.types";
 export type {
-  DividerProps,
-  DividerVariant,
-  DividerOrientation,
-  DividerThickness,
-  DividerSpacing,
-} from "./components/Divider/Divider.types";
+  SeparatorProps,
+  SeparatorVariant,
+  SeparatorOrientation,
+  SeparatorThickness,
+  SeparatorSpacing,
+} from "./components/Separator/Separator.types";
 export type {
   ImageProps,
   ImageVariant,
@@ -438,7 +458,7 @@ export type {
   ToastItemProps,
 } from "./components/Toast/Toast.types";
 
-export type { ModalProps } from "./components/Modal/Modal.types";
+export type { DialogProps } from "./components/Dialog/Dialog.types";
 
 export type {
   EmptyProps,
@@ -465,6 +485,24 @@ export type {
   FieldVariant,
   FieldOrientation,
 } from "./components/Field/Field.types";
+
+export type {
+  ComboboxProps,
+  ComboboxTriggerProps,
+  ComboboxContentProps,
+  ComboboxSearchProps,
+  ComboboxEmptyProps,
+  ComboboxLoadingProps,
+  ComboboxGroupProps,
+  ComboboxItemProps,
+  ComboboxSeparatorProps,
+  ComboboxCreateProps,
+  ComboboxOption,
+  ComboboxGroup as ComboboxGroupType,
+  ComboboxSize,
+  ComboboxVariant,
+  ComboboxPlacement,
+} from "./components/Combobox/Combobox.types";
 
 export type {
   SliderProps,

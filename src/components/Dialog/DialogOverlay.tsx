@@ -2,9 +2,9 @@ import { forwardRef } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type {
-  ModalOverlayProps,
-  ModalContentProps,
-} from "./Modal.subcomponents.types";
+  DialogOverlayProps,
+  DialogContentProps,
+} from "./Dialog.subcomponents.types";
 
 /**
  * Overlay variants with SMOOTH animations
@@ -36,9 +36,9 @@ const overlayVariants = cva(
 );
 
 /**
- * ModalOverlay - Backdrop overlay component
+ * DialogOverlay - Backdrop overlay component
  */
-export const ModalOverlay = forwardRef<HTMLDivElement, ModalOverlayProps>(
+export const DialogOverlay = forwardRef<HTMLDivElement, DialogOverlayProps>(
   (
     { backdrop = "default", nested = false, onClick, state, className },
     ref
@@ -59,7 +59,7 @@ export const ModalOverlay = forwardRef<HTMLDivElement, ModalOverlayProps>(
   }
 );
 
-ModalOverlay.displayName = "ModalOverlay";
+DialogOverlay.displayName = "DialogOverlay";
 
 /**
  * Content variants with SMOOTH animations
@@ -291,9 +291,9 @@ const contentVariants = cva(
 );
 
 /**
- * ModalContent - Main content container with animations
+ * DialogContent - Main content container with animations
  */
-export const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
+export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
   (
     {
       children,
@@ -309,7 +309,7 @@ export const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
       onClick,
       innerRef,
       role,
-      "aria-modal": ariaModal,
+      "aria-Dialog": ariaDialog,
       "aria-label": ariaLabel,
       "aria-describedby": ariaDescribedBy,
       className,
@@ -320,7 +320,7 @@ export const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
       <div
         ref={innerRef || ref}
         role={role}
-        aria-modal={ariaModal}
+        aria-Dialog={ariaDialog}
         aria-label={ariaLabel}
         aria-describedby={ariaDescribedBy}
         className={cn(
@@ -346,4 +346,4 @@ export const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
   }
 );
 
-ModalContent.displayName = "ModalContent";
+DialogContent.displayName = "DialogContent";

@@ -8,6 +8,12 @@ import {
 } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
+import {
+  createValidator,
+  commonValidators,
+  isValidNumber,
+  isValidBoolean,
+} from "../../lib/validation";
 import type { TextAreaProps } from "./TextArea.types";
 import { X, Loader2 } from "lucide-react";
 
@@ -226,6 +232,126 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       textarea.style.height = `${newHeight}px`;
       textarea.style.overflowY = scrollHeight > maxHeight ? "auto" : "hidden";
     }, [value, autoResize, minRows, maxRows]);
+
+    // ===== PROP VALIDATION =====
+    useEffect(() => {
+      if (process.env.NODE_ENV !== "production") {
+        const validator = createValidator("TextArea");
+
+        // Common validators
+        commonValidators.size(validator, size);
+        const textAreaVariants = [
+          "default",
+          "primary",
+          "secondary",
+          "accent",
+          "success",
+          "warning",
+          "error",
+          "info",
+          "outline",
+          "ghost",
+          "glass",
+        ] as const;
+        commonValidators.variant(validator, variant, textAreaVariants);
+        commonValidators.disabled(validator, disabled);
+        commonValidators.className(validator, className);
+
+        // Number validations
+        if (maxLength !== undefined) {
+          if (!isValidNumber(maxLength)) {
+            validator.error("Invalid prop: 'maxLength' must be a number.");
+          } else if (maxLength < 0) {
+            validator.error(
+              "Invalid prop: 'maxLength' must be a positive number."
+            );
+          }
+        }
+
+        if (rows !== undefined) {
+          if (!isValidNumber(rows)) {
+            validator.error("Invalid prop: 'rows' must be a number.");
+          } else if (rows < 1) {
+            validator.error("Invalid prop: 'rows' must be at least 1.");
+          }
+        }
+
+        if (minRows !== undefined) {
+          if (!isValidNumber(minRows)) {
+            validator.error("Invalid prop: 'minRows' must be a number.");
+          } else if (minRows < 1) {
+            validator.error("Invalid prop: 'minRows' must be at least 1.");
+          }
+        }
+
+        if (maxRows !== undefined) {
+          if (!isValidNumber(maxRows)) {
+            validator.error("Invalid prop: 'maxRows' must be a number.");
+          } else if (maxRows < 1) {
+            validator.error("Invalid prop: 'maxRows' must be at least 1.");
+          }
+        }
+
+        if (
+          minRows !== undefined &&
+          maxRows !== undefined &&
+          minRows > maxRows
+        ) {
+          validator.error(
+            "Invalid prop: 'minRows' cannot be greater than 'maxRows'."
+          );
+        }
+
+        // Boolean validations
+        if (required !== undefined && !isValidBoolean(required)) {
+          validator.error("Invalid prop: 'required' must be a boolean.");
+        }
+
+        if (autoResize !== undefined && !isValidBoolean(autoResize)) {
+          validator.error("Invalid prop: 'autoResize' must be a boolean.");
+        }
+
+        if (showCount !== undefined && !isValidBoolean(showCount)) {
+          validator.error("Invalid prop: 'showCount' must be a boolean.");
+        }
+
+        if (clearable !== undefined && !isValidBoolean(clearable)) {
+          validator.error("Invalid prop: 'clearable' must be a boolean.");
+        }
+
+        if (loading !== undefined && !isValidBoolean(loading)) {
+          validator.error("Invalid prop: 'loading' must be a boolean.");
+        }
+
+        // Conditional warnings
+        if (showCount && !maxLength) {
+          validator.warn(
+            "Warning: 'showCount' is enabled but 'maxLength' is not set. Counter will not be displayed."
+          );
+        }
+
+        if (autoResize && rows !== undefined) {
+          validator.warn(
+            "Warning: Both 'autoResize' and 'rows' are set. 'rows' will be ignored."
+          );
+        }
+      }
+    }, [
+      variant,
+      size,
+      disabled,
+      className,
+      maxLength,
+      rows,
+      minRows,
+      maxRows,
+      required,
+      autoResize,
+      showCount,
+      clearable,
+      loading,
+    ]);
+    // ===== END PROP VALIDATION =====
 
     // Validation
     const validateValue = (val: string): boolean => {

@@ -1,4 +1,4 @@
-import Divider from "../components/Divider";
+import Separator from "../components/Separator";
 import Card, {
   CardHeader,
   CardTitle,
@@ -9,10 +9,10 @@ import Button from "../components/Button";
 import { ButtonGroup } from "../components/ButtonGroup";
 import { User, Mail } from "lucide-react";
 
-export const DividerExample = () => {
+export const SeparatorExample = () => {
   return (
     <div className="mb-16">
-      <h3 className="text-2xl font-bold mb-6 text-text">Divider Component</h3>
+      <h3 className="text-2xl font-bold mb-6 text-text">Separator Component</h3>
 
       {/* Variants */}
       <div className="mb-8">
@@ -20,27 +20,27 @@ export const DividerExample = () => {
         <div className="space-y-6">
           <div className="glass p-6 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4">Solid</p>
-            <Divider variant="solid" />
+            <Separator variant="solid" />
           </div>
 
           <div className="glass p-6 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4">Dashed</p>
-            <Divider variant="dashed" />
+            <Separator variant="dashed" />
           </div>
 
           <div className="glass p-6 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4">Dotted</p>
-            <Divider variant="dotted" />
+            <Separator variant="dotted" />
           </div>
 
           <div className="glass p-6 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4">Gradient</p>
-            <Divider variant="gradient" />
+            <Separator variant="gradient" />
           </div>
 
           <div className="glass p-6 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4">Glass</p>
-            <Divider variant="glass" />
+            <Separator variant="glass" />
           </div>
         </div>
       </div>
@@ -51,22 +51,22 @@ export const DividerExample = () => {
         <div className="space-y-6">
           <div className="glass p-6 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4">Center Label</p>
-            <Divider label="OR" variant="gradient" />
+            <Separator label="OR" variant="gradient" />
           </div>
 
           <div className="glass p-6 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4">Left Label</p>
-            <Divider label="Section Start" labelPosition="left" />
+            <Separator label="Section Start" labelPosition="left" />
           </div>
 
           <div className="glass p-6 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4">Right Label</p>
-            <Divider label="Section End" labelPosition="right" />
+            <Separator label="Section End" labelPosition="right" />
           </div>
 
           <div className="glass p-6 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4">Decorative</p>
-            <Divider label="Continue Reading" variant="gradient" decorative />
+            <Separator label="Continue Reading" variant="gradient" decorative />
           </div>
         </div>
       </div>
@@ -77,17 +77,17 @@ export const DividerExample = () => {
         <div className="space-y-6">
           <div className="glass p-6 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4">Thin</p>
-            <Divider thickness="thin" variant="solid" />
+            <Separator thickness="thin" variant="solid" />
           </div>
 
           <div className="glass p-6 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4">Medium</p>
-            <Divider thickness="medium" variant="solid" />
+            <Separator thickness="medium" variant="solid" />
           </div>
 
           <div className="glass p-6 rounded-lg">
             <p className="text-sm text-muted-foreground mb-4">Thick</p>
-            <Divider thickness="thick" variant="gradient" />
+            <Separator thickness="thick" variant="gradient" />
           </div>
         </div>
       </div>
@@ -97,20 +97,20 @@ export const DividerExample = () => {
         <h4 className="text-lg font-semibold mb-4 text-text">Spacing</h4>
         <div className="glass p-6 rounded-lg space-y-1">
           <p className="text-sm">Content above</p>
-          <Divider spacing="xs" />
+          <Separator spacing="xs" />
           <p className="text-sm">Extra Small Spacing (xs)</p>
-          <Divider spacing="sm" />
+          <Separator spacing="sm" />
           <p className="text-sm">Small Spacing (sm)</p>
-          <Divider spacing="md" />
+          <Separator spacing="md" />
           <p className="text-sm">Medium Spacing (md)</p>
-          <Divider spacing="lg" />
+          <Separator spacing="lg" />
           <p className="text-sm">Large Spacing (lg)</p>
-          <Divider spacing="xl" />
+          <Separator spacing="xl" />
           <p className="text-sm">Extra Large Spacing (xl)</p>
         </div>
       </div>
 
-      {/* Vertical Dividers */}
+      {/* Vertical Separators */}
       <div className="mb-8">
         <h4 className="text-lg font-semibold mb-4 text-text">
           Vertical Orientation
@@ -118,15 +118,15 @@ export const DividerExample = () => {
         <div className="glass p-6 rounded-lg">
           <div className="flex items-center h-24 gap-4">
             <div className="text-sm text-center flex-1">Section 1</div>
-            <Divider orientation="vertical" className="h-full" />
+            <Separator orientation="vertical" className="h-full" />
             <div className="text-sm text-center flex-1">Section 2</div>
-            <Divider
+            <Separator
               orientation="vertical"
               variant="gradient"
               className="h-full"
             />
             <div className="text-sm text-center flex-1">Section 3</div>
-            <Divider
+            <Separator
               orientation="vertical"
               variant="dashed"
               thickness="medium"
@@ -145,7 +145,7 @@ export const DividerExample = () => {
               <p className="font-medium">Before</p>
               <p className="text-sm text-muted-foreground">Content</p>
             </div>
-            <Divider
+            <Separator
               orientation="vertical"
               label="OR"
               variant="glass"
@@ -179,7 +179,7 @@ export const DividerExample = () => {
                 Sign in with Email
               </Button>
 
-              <Divider label="OR" variant="gradient" spacing="sm" />
+              <Separator label="OR" variant="gradient" spacing="sm" />
 
               <ButtonGroup fullWidth orientation="vertical">
                 <Button variant="outline">
@@ -206,7 +206,7 @@ export const DividerExample = () => {
                 main topic and sets the context.
               </p>
 
-              <Divider
+              <Separator
                 label="Section 1"
                 labelPosition="left"
                 variant="dashed"
@@ -218,7 +218,7 @@ export const DividerExample = () => {
                 information about the topic.
               </p>
 
-              <Divider
+              <Separator
                 label="Section 2"
                 labelPosition="left"
                 variant="dashed"
@@ -230,7 +230,7 @@ export const DividerExample = () => {
                 conclusions.
               </p>
 
-              <Divider decorative spacing="lg" variant="gradient" />
+              <Separator decorative spacing="lg" variant="gradient" />
 
               <p className="text-sm text-muted-foreground text-center">
                 End of Article

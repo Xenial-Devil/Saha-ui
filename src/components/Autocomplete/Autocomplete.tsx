@@ -16,6 +16,12 @@ import type {
   AutocompleteVariant,
 } from "./Autocomplete.types";
 import { Search, X, ChevronDown, Loader2, Check } from "lucide-react";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+  isValidNumber,
+} from "../../lib/validation";
 
 // Context for composable components
 interface AutocompleteContextValue {
@@ -306,6 +312,124 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Autocomplete");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "primary",
+        "secondary",
+        "accent",
+        "success",
+        "warning",
+        "error",
+        "ghost",
+        "glass",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate iconPosition
+      validator.validateEnum("iconPosition", iconPosition, [
+        "start",
+        "end",
+      ] as const);
+
+      // Validate numeric props
+      validator.validateType("minChars", minChars, "number", isValidNumber);
+      validator.validateType("debounce", debounce, "number", isValidNumber);
+
+      if (minChars < 0) {
+        validator.error("minChars must be non-negative");
+      }
+
+      if (debounce < 0) {
+        validator.error("debounce must be non-negative");
+      }
+
+      if (maxOptions !== undefined) {
+        validator.validateType(
+          "maxOptions",
+          maxOptions,
+          "number",
+          isValidNumber
+        );
+        if (maxOptions <= 0) {
+          validator.error("maxOptions must be greater than 0");
+        }
+      }
+
+      // Validate boolean props
+      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
+      validator.validateType("required", required, "boolean", isValidBoolean);
+      validator.validateType("loading", loading, "boolean", isValidBoolean);
+      validator.validateType("clearable", clearable, "boolean", isValidBoolean);
+      validator.validateType("freeSolo", freeSolo, "boolean", isValidBoolean);
+      validator.validateType(
+        "autoFilter",
+        autoFilter,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "showNoResults",
+        showNoResults,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("groupBy", groupBy, "boolean", isValidBoolean);
+      validator.validateType(
+        "highlightMatch",
+        highlightMatch,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "showDescriptions",
+        showDescriptions,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "autoSelectFirst",
+        autoSelectFirst,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "closeOnSelect",
+        closeOnSelect,
+        "boolean",
+        isValidBoolean
+      );
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [
+      variant,
+      size,
+      iconPosition,
+      minChars,
+      debounce,
+      maxOptions,
+      disabled,
+      required,
+      loading,
+      clearable,
+      freeSolo,
+      autoFilter,
+      showNoResults,
+      groupBy,
+      highlightMatch,
+      showDescriptions,
+      autoSelectFirst,
+      closeOnSelect,
+      className,
+    ]);
+
     const [internalValue, setInternalValue] = useState("");
     const [internalSelectedValue, setInternalSelectedValue] = useState("");
     const [internalOpen, setInternalOpen] = useState(false);
