@@ -56,8 +56,30 @@ export {
   DrawerOverlay,
 } from "./components/Drawer";
 export { default as Image } from "./components/Image";
+export {
+  Item,
+  ItemMedia,
+  ItemContent,
+  ItemTitle,
+  ItemDescription,
+  ItemActions,
+  ItemHeader,
+  ItemFooter,
+  ItemGroup,
+  ItemSeparator,
+  ItemBadge,
+} from "./components/Item";
 export { default as Link } from "./components/Link";
 export { List, ListItem } from "./components/List";
+export {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuSection,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+} from "./components/NavigationMenu";
 export { Timeline, TimelineItem } from "./components/Timeline";
 export {
   default as Tooltip,
@@ -86,6 +108,12 @@ export { default as Pagination } from "./components/Pagination";
 export { default as DatePicker } from "./components/DatePicker";
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/Tab";
 export { Input } from "./components/Input";
+export {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+  InputOTPSeparator,
+} from "./components/InputOTP";
 export { default as FloatingActionButton } from "./components/FloatingActionButton";
 export { default as Radio, RadioGroup } from "./components/Radio";
 export { default as Switch } from "./components/Switch";
