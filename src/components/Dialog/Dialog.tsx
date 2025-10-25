@@ -116,14 +116,25 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         "default",
         "glass",
         "gradient",
+        "primary",
+        "secondary",
+        "accent",
+        "success",
+        "warning",
+        "error",
+        "info",
       ] as const);
 
       // Validate size
       validator.validateEnum("size", size, [
+        "xs",
         "sm",
         "md",
         "lg",
         "xl",
+        "2xl",
+        "3xl",
+        "4xl",
         "full",
       ] as const);
 
@@ -143,6 +154,10 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         "fade",
         "slide-up",
         "slide-down",
+        "slide-left",
+        "slide-right",
+        "zoom",
+        "bounce",
       ] as const);
 
       // Validate scrollBehavior
@@ -156,6 +171,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         "default",
         "blur",
         "transparent",
+        "dark",
       ] as const);
 
       // Validate boolean props

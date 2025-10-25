@@ -158,6 +158,17 @@ export {
   ComboboxSeparator,
   ComboboxCreate,
 } from "./components/Combobox";
+export {
+  Command,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandLoading,
+  CommandGroup,
+  CommandItem,
+  CommandSeparator,
+  CommandShortcut,
+} from "./components/Command";
 
 // Types - Theme
 export type {
@@ -503,6 +514,20 @@ export type {
   ComboboxVariant,
   ComboboxPlacement,
 } from "./components/Combobox/Combobox.types";
+
+export type {
+  CommandProps,
+  CommandInputProps,
+  CommandListProps,
+  CommandEmptyProps,
+  CommandLoadingProps,
+  CommandGroupProps,
+  CommandItemProps,
+  CommandSeparatorProps,
+  CommandShortcutProps,
+  CommandItem as CommandItemType,
+  CommandGroup as CommandGroupType,
+} from "./components/Command/Command.types";
 
 export type {
   SliderProps,

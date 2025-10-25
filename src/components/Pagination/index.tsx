@@ -334,6 +334,8 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         "accent",
         "ghost",
         "glass",
+        "outlined",
+        "minimal",
       ] as const);
 
       // Validate size
@@ -344,6 +346,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         "rounded",
         "circle",
         "square",
+        "pill",
       ] as const);
 
       // Validate numeric props

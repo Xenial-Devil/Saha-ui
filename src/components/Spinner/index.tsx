@@ -262,6 +262,14 @@ const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
         "square",
         "triangle",
         "logo",
+        "dotRing",
+        "pulse",
+        "wave",
+        "spiral",
+        "infinity",
+        "flower",
+        "grid",
+        "bounce",
       ] as const);
 
       // Validate thickness

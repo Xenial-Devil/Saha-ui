@@ -700,6 +700,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     // Handle clear
     const handleClear = useCallback(
       (e: React.MouseEvent) => {
+        e.preventDefault();
         e.stopPropagation();
         if (disabled || readOnly) return;
 
@@ -897,48 +898,67 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             </label>
           )}
 
-          {/* Trigger */}
-          <button
-            ref={triggerRef}
-            type="button"
-            onClick={() => handleOpenChange(!isOpen)}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            disabled={disabled || readOnly}
-            className={cn(
-              triggerVariants({ variant, size, hasError: !!error }),
-              triggerClassName
-            )}
-            aria-label={ariaLabel}
-            aria-describedby={ariaDescribedby}
-            aria-expanded={isOpen}
-            aria-haspopup="listbox"
-            id={id}
-          >
-            <span className="flex-1 truncate">{renderValueDisplay()}</span>
-
-            <div className="flex items-center gap-1.5 flex-shrink-0">
-              {loading && (
-                <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+          {/* Trigger - wrapped in relative container for absolute clear button */}
+          <div className="relative">
+            <button
+              ref={triggerRef}
+              type="button"
+              onClick={() => handleOpenChange(!isOpen)}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              disabled={disabled || readOnly}
+              className={cn(
+                triggerVariants({ variant, size, hasError: !!error }),
+                triggerClassName
               )}
-              {clearable && value && !disabled && !readOnly && (
+              aria-label={ariaLabel}
+              aria-describedby={ariaDescribedby}
+              aria-expanded={isOpen}
+              aria-haspopup="listbox"
+              id={id}
+            >
+              <span className="flex-1 truncate">{renderValueDisplay()}</span>
+
+              <div className="flex items-center gap-1.5 flex-shrink-0">
+                {loading && (
+                  <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+                )}
+                {/* Spacer for clear button when it's visible */}
+                {clearable &&
+                  ((Array.isArray(value) && value.length > 0) ||
+                    (!Array.isArray(value) && value)) &&
+                  !disabled &&
+                  !readOnly && <div className="w-5 h-5" />}
+                <ChevronDown
+                  className={cn(
+                    "w-4 h-4 transition-transform duration-300",
+                    isOpen && "rotate-180"
+                  )}
+                />
+              </div>
+            </button>
+
+            {/* Clear button - positioned absolutely outside trigger button */}
+            {clearable &&
+              ((Array.isArray(value) && value.length > 0) ||
+                (!Array.isArray(value) && value)) &&
+              !disabled &&
+              !readOnly && (
                 <button
                   type="button"
-                  onClick={handleClear}
-                  className="p-0.5 rounded hover:bg-muted/50 transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleClear(e);
+                  }}
+                  className="absolute right-9 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-muted/50 transition-colors z-10"
                   tabIndex={-1}
+                  aria-label="Clear selection"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
               )}
-              <ChevronDown
-                className={cn(
-                  "w-4 h-4 transition-transform duration-300",
-                  isOpen && "rotate-180"
-                )}
-              />
-            </div>
-          </button>
+          </div>
 
           {/* Error message */}
           {error && (
@@ -1174,7 +1194,7 @@ const ComboboxOptionItem: React.FC<{
  * Component API - Trigger
  */
 export const ComboboxTrigger = forwardRef<HTMLDivElement, ComboboxTriggerProps>(
-  ({ children, className, asChild }, _ref) => {
+  ({ children, asChild }, _ref) => {
     const { setIsOpen, isOpen, triggerRef } = useCombobox();
 
     if (asChild && React.isValidElement(children)) {
@@ -1184,16 +1204,7 @@ export const ComboboxTrigger = forwardRef<HTMLDivElement, ComboboxTriggerProps>(
       } as any);
     }
 
-    return (
-      <button
-        ref={triggerRef as any}
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className={cn("w-full", className)}
-      >
-        {children}
-      </button>
-    );
+    return <></>;
   }
 );
 

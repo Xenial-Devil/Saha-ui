@@ -402,6 +402,8 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
         "secondary",
         "ghost",
         "glass",
+        "outlined",
+        "minimal",
       ] as const);
 
       // Validate size
@@ -451,11 +453,6 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
 
       if (startFrom !== undefined) {
         validator.validateType("startFrom", startFrom, "Date", isValidDate);
-      }
-
-      // Validate mode conflicts
-      if (useRange && asSingle) {
-        validator.error("useRange and asSingle cannot both be true");
       }
 
       // Validate boolean props

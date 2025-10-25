@@ -494,6 +494,8 @@ export const TabsList: React.FC<TabsListProps> = ({
       "outline",
       "pills",
       "underline",
+      "bordered",
+      "minimal",
     ] as const);
 
     // Validate size

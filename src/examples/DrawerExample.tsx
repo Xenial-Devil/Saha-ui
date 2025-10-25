@@ -31,7 +31,7 @@ export const DrawerExample = () => {
         <div className="flex flex-wrap gap-4">
           {/* Right Drawer */}
           <Drawer position="right" size="md">
-            <DrawerTrigger>
+            <DrawerTrigger asChild>
               <Button>Open Right Drawer</Button>
             </DrawerTrigger>
             <DrawerContent>
@@ -58,7 +58,7 @@ export const DrawerExample = () => {
 
           {/* Left Drawer */}
           <Drawer position="left" size="md">
-            <DrawerTrigger>
+            <DrawerTrigger asChild>
               <Button variant="secondary">Open Left Drawer</Button>
             </DrawerTrigger>
             <DrawerContent>
@@ -84,7 +84,7 @@ export const DrawerExample = () => {
 
           {/* Top Drawer */}
           <Drawer position="top" size="md">
-            <DrawerTrigger>
+            <DrawerTrigger asChild>
               <Button variant="accent">Open Top Drawer</Button>
             </DrawerTrigger>
             <DrawerContent>
@@ -109,7 +109,7 @@ export const DrawerExample = () => {
 
           {/* Bottom Drawer */}
           <Drawer position="bottom" size="md">
-            <DrawerTrigger>
+            <DrawerTrigger asChild>
               <Button variant="success">Open Bottom Drawer</Button>
             </DrawerTrigger>
             <DrawerContent>
@@ -143,7 +143,7 @@ export const DrawerExample = () => {
         <div className="flex flex-wrap gap-4">
           {(["sm", "md", "lg", "xl", "full"] as const).map((size) => (
             <Drawer key={size} position="right" size={size}>
-              <DrawerTrigger>
+              <DrawerTrigger asChild>
                 <Button variant="outline">Size: {size}</Button>
               </DrawerTrigger>
               <DrawerContent>
@@ -178,7 +178,7 @@ export const DrawerExample = () => {
           {(["default", "blur", "dark", "transparent"] as const).map(
             (backdrop) => (
               <Drawer key={backdrop} backdrop={backdrop}>
-                <DrawerTrigger>
+                <DrawerTrigger asChild>
                   <Button variant="outline">{backdrop}</Button>
                 </DrawerTrigger>
                 <DrawerContent>
@@ -215,7 +215,7 @@ export const DrawerExample = () => {
         <div className="flex flex-wrap gap-4">
           {(["slide", "fade", "scale"] as const).map((animation) => (
             <Drawer key={animation} animation={animation}>
-              <DrawerTrigger>
+              <DrawerTrigger asChild>
                 <Button variant="outline">{animation}</Button>
               </DrawerTrigger>
               <DrawerContent>
@@ -284,7 +284,7 @@ export const DrawerExample = () => {
         <h3 className="text-xl font-semibold">Without Overlay</h3>
 
         <Drawer showOverlay={false}>
-          <DrawerTrigger>
+          <DrawerTrigger asChild>
             <Button variant="outline">Open Without Overlay</Button>
           </DrawerTrigger>
           <DrawerContent>
@@ -316,7 +316,7 @@ export const DrawerExample = () => {
         <div className="flex flex-wrap gap-4">
           {(["left", "center", "right", "between"] as const).map((align) => (
             <Drawer key={align}>
-              <DrawerTrigger>
+              <DrawerTrigger asChild>
                 <Button variant="outline">Footer: {align}</Button>
               </DrawerTrigger>
               <DrawerContent>
@@ -350,7 +350,7 @@ export const DrawerExample = () => {
         <h3 className="text-xl font-semibold">Nested Drawer</h3>
 
         <Drawer>
-          <DrawerTrigger>
+          <DrawerTrigger asChild>
             <Button>Open Parent Drawer</Button>
           </DrawerTrigger>
           <DrawerContent>
@@ -364,7 +364,7 @@ export const DrawerExample = () => {
               </p>
 
               <Drawer nested position="left">
-                <DrawerTrigger>
+                <DrawerTrigger asChild>
                   <Button variant="secondary">Open Nested Drawer</Button>
                 </DrawerTrigger>
                 <DrawerContent>
@@ -401,7 +401,7 @@ export const DrawerExample = () => {
         <h3 className="text-xl font-semibold">Without Close Button</h3>
 
         <Drawer>
-          <DrawerTrigger>
+          <DrawerTrigger asChild>
             <Button variant="outline">No Close Button</Button>
           </DrawerTrigger>
           <DrawerContent>

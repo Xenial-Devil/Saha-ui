@@ -327,6 +327,8 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
         "error",
         "ghost",
         "glass",
+        "filled",
+        "outlined",
       ] as const);
 
       // Validate size

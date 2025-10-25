@@ -53,6 +53,10 @@ import { FieldExample } from "./FieldExample";
 import { SliderExample } from "./SliderExample";
 import { CalendarExample } from "./CalendarExample";
 import ComboboxExample from "./ComboboxExample";
+import CommandExample from "./CommandExample";
+import NavigationMenuExample from "./NavigationMenuExample";
+import InputOTPExample from "./InputOTPExample";
+import ItemExample from "./ItemExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -212,6 +216,18 @@ export const AllComponentExamples = () => {
 
       {/* Combobox Examples */}
       <ComboboxExample />
+
+      {/* Command Examples */}
+      <CommandExample />
+
+      {/* NavigationMenu Examples */}
+      <NavigationMenuExample />
+
+      {/* InputOTP Examples */}
+      <InputOTPExample />
+
+      {/* Item Examples */}
+      <ItemExample />
     </>
   );
 };

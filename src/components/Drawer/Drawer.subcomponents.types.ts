@@ -11,6 +11,8 @@ export interface DrawerTriggerProps
   className?: string;
   /** Whether trigger is disabled */
   disabled?: boolean;
+  /** If true, the trigger will not render its own button but will pass props to its child */
+  asChild?: boolean;
 }
 
 /**

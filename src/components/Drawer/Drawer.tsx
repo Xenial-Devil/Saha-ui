@@ -93,10 +93,16 @@ export const Drawer = ({
       "default",
       "blur",
       "transparent",
+      "dark",
     ] as const);
 
     // Validate animation
-    validator.validateEnum("animation", animation, ["slide", "fade"] as const);
+    validator.validateEnum("animation", animation, [
+      "slide",
+      "fade",
+      "scale",
+      "none",
+    ] as const);
 
     // Validate boolean props
     validator.validateType(
@@ -266,22 +272,8 @@ export const Drawer = ({
       ((child as ReactElement).type as any).displayName === "DrawerContent"
   );
 
-  const drawerElement = (
-    <DrawerContext.Provider
-      value={{
-        open,
-        setOpen,
-        position,
-        size,
-        backdrop,
-        animation,
-        closeOnOverlayClick,
-        showOverlay,
-        nested,
-        zIndex,
-      }}
-    >
-      {trigger}
+  const drawerPortalContent = (
+    <>
       {/* Overlay */}
       {showOverlay && (
         <DrawerOverlay
@@ -306,12 +298,30 @@ export const Drawer = ({
       >
         {content?.props?.children}
       </DrawerContent>
-    </DrawerContext.Provider>
+    </>
   );
 
   // Render in portal
   const target = portalTarget || document.body;
-  return createPortal(drawerElement, target);
+  return (
+    <DrawerContext.Provider
+      value={{
+        open,
+        setOpen,
+        position,
+        size,
+        backdrop,
+        animation,
+        closeOnOverlayClick,
+        showOverlay,
+        nested,
+        zIndex,
+      }}
+    >
+      {trigger}
+      {createPortal(drawerPortalContent, target)}
+    </DrawerContext.Provider>
+  );
 };
 
 Drawer.displayName = "Drawer";

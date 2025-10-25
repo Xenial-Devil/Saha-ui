@@ -404,6 +404,12 @@ export const Empty = React.forwardRef<HTMLDivElement, EmptyProps>(
         "settings",
         "cloud",
         "wifi",
+        "database",
+        "notification",
+        "document",
+        "image",
+        "cart",
+        "bookmark",
       ] as const);
 
       // Validate iconColor

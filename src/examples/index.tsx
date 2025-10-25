@@ -45,6 +45,7 @@ export { AutocompleteExample } from "./AutocompleteExample";
 export { FieldExample } from "./FieldExample";
 export { SliderExample } from "./SliderExample";
 export { default as ComboboxExample } from "./ComboboxExample";
+export { default as CommandExample } from "./CommandExample";
 
 // Aggregate component that includes all examples
 export { AllComponentExamples } from "./AllComponentExamples";

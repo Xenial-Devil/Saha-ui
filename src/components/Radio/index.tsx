@@ -244,6 +244,8 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
       image,
       recommended = false,
       hoverEffect = true,
+      checked: _checked, // Extract to prevent spreading
+      defaultChecked: _defaultChecked, // Extract to prevent spreading
       ...props
     },
     ref
@@ -316,9 +318,9 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
     const finalVariant = context?.variant || variant;
     const finalSize = context?.size || size;
     const name = context?.name || props.name;
-    const checked = isControlled
-      ? context.value === props.value
-      : props.checked;
+
+    // Only control the checked state when inside a RadioGroup
+    const isChecked = isControlled ? context.value === props.value : undefined;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (isControlled && context?.onChange && props.value) {
@@ -337,7 +339,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
           className
         )}
         disabled={disabled}
-        checked={checked}
+        {...(isChecked !== undefined && { checked: isChecked })}
         name={name}
         onChange={handleChange}
         {...props}
