@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import { Sparkles } from "lucide-react";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 import type { SeparatorProps } from "./Separator.types";
 
 /**
@@ -101,111 +106,114 @@ export const SeparatorVariants = cva(
 /**
  * Separator line variants
  */
-export const SeparatorLineVariants = cva("transition-all duration-300 relative", {
-  variants: {
-    variant: {
-      solid: "border-gray-400 dark:border-gray-600 shadow-sm",
-      dashed: "border-gray-400 dark:border-gray-600 border-dashed shadow-sm",
-      dotted: "border-gray-400 dark:border-gray-600 border-dotted shadow-sm",
-      gradient:
-        "border-0 bg-gradient-to-r from-transparent via-primary/60 to-transparent dark:from-transparent dark:via-primary/40 dark:to-transparent shadow-[0_2px_8px_0] shadow-primary/20",
-      glass:
-        "border-0 bg-gradient-to-r from-transparent via-gray-300/80 to-transparent dark:from-transparent dark:via-gray-700/80 dark:to-transparent backdrop-blur-sm shadow-lg after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent after:opacity-50",
+export const SeparatorLineVariants = cva(
+  "transition-all duration-300 relative",
+  {
+    variants: {
+      variant: {
+        solid: "border-gray-400 dark:border-gray-600 shadow-sm",
+        dashed: "border-gray-400 dark:border-gray-600 border-dashed shadow-sm",
+        dotted: "border-gray-400 dark:border-gray-600 border-dotted shadow-sm",
+        gradient:
+          "border-0 bg-gradient-to-r from-transparent via-primary/60 to-transparent dark:from-transparent dark:via-primary/40 dark:to-transparent shadow-[0_2px_8px_0] shadow-primary/20",
+        glass:
+          "border-0 bg-gradient-to-r from-transparent via-gray-300/80 to-transparent dark:from-transparent dark:via-gray-700/80 dark:to-transparent backdrop-blur-sm shadow-lg after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent after:opacity-50",
+      },
+      orientation: {
+        horizontal: "w-full",
+        vertical: "h-full",
+      },
+      thickness: {
+        thin: "",
+        medium: "",
+        thick: "",
+      },
     },
-    orientation: {
-      horizontal: "w-full",
-      vertical: "h-full",
-    },
-    thickness: {
-      thin: "",
-      medium: "",
-      thick: "",
-    },
-  },
-  compoundVariants: [
-    // Horizontal thickness
-    {
+    compoundVariants: [
+      // Horizontal thickness
+      {
+        orientation: "horizontal",
+        thickness: "thin",
+        variant: ["solid", "dashed", "dotted"],
+        className: "border-t",
+      },
+      {
+        orientation: "horizontal",
+        thickness: "medium",
+        variant: ["solid", "dashed", "dotted"],
+        className: "border-t-2",
+      },
+      {
+        orientation: "horizontal",
+        thickness: "thick",
+        variant: ["solid", "dashed", "dotted"],
+        className: "border-t-4",
+      },
+      // Vertical thickness
+      {
+        orientation: "vertical",
+        thickness: "thin",
+        variant: ["solid", "dashed", "dotted"],
+        className: "border-l",
+      },
+      {
+        orientation: "vertical",
+        thickness: "medium",
+        variant: ["solid", "dashed", "dotted"],
+        className: "border-l-2",
+      },
+      {
+        orientation: "vertical",
+        thickness: "thick",
+        variant: ["solid", "dashed", "dotted"],
+        className: "border-l-4",
+      },
+      // Gradient & Glass horizontal thickness
+      {
+        orientation: "horizontal",
+        thickness: "thin",
+        variant: ["gradient", "glass"],
+        className: "h-px",
+      },
+      {
+        orientation: "horizontal",
+        thickness: "medium",
+        variant: ["gradient", "glass"],
+        className: "h-0.5",
+      },
+      {
+        orientation: "horizontal",
+        thickness: "thick",
+        variant: ["gradient", "glass"],
+        className: "h-1",
+      },
+      // Gradient & Glass vertical thickness
+      {
+        orientation: "vertical",
+        thickness: "thin",
+        variant: ["gradient", "glass"],
+        className: "w-px",
+      },
+      {
+        orientation: "vertical",
+        thickness: "medium",
+        variant: ["gradient", "glass"],
+        className: "w-0.5",
+      },
+      {
+        orientation: "vertical",
+        thickness: "thick",
+        variant: ["gradient", "glass"],
+        className: "w-1",
+      },
+    ],
+    defaultVariants: {
+      variant: "solid",
       orientation: "horizontal",
       thickness: "thin",
-      variant: ["solid", "dashed", "dotted"],
-      className: "border-t",
     },
-    {
-      orientation: "horizontal",
-      thickness: "medium",
-      variant: ["solid", "dashed", "dotted"],
-      className: "border-t-2",
-    },
-    {
-      orientation: "horizontal",
-      thickness: "thick",
-      variant: ["solid", "dashed", "dotted"],
-      className: "border-t-4",
-    },
-    // Vertical thickness
-    {
-      orientation: "vertical",
-      thickness: "thin",
-      variant: ["solid", "dashed", "dotted"],
-      className: "border-l",
-    },
-    {
-      orientation: "vertical",
-      thickness: "medium",
-      variant: ["solid", "dashed", "dotted"],
-      className: "border-l-2",
-    },
-    {
-      orientation: "vertical",
-      thickness: "thick",
-      variant: ["solid", "dashed", "dotted"],
-      className: "border-l-4",
-    },
-    // Gradient & Glass horizontal thickness
-    {
-      orientation: "horizontal",
-      thickness: "thin",
-      variant: ["gradient", "glass"],
-      className: "h-px",
-    },
-    {
-      orientation: "horizontal",
-      thickness: "medium",
-      variant: ["gradient", "glass"],
-      className: "h-0.5",
-    },
-    {
-      orientation: "horizontal",
-      thickness: "thick",
-      variant: ["gradient", "glass"],
-      className: "h-1",
-    },
-    // Gradient & Glass vertical thickness
-    {
-      orientation: "vertical",
-      thickness: "thin",
-      variant: ["gradient", "glass"],
-      className: "w-px",
-    },
-    {
-      orientation: "vertical",
-      thickness: "medium",
-      variant: ["gradient", "glass"],
-      className: "w-0.5",
-    },
-    {
-      orientation: "vertical",
-      thickness: "thick",
-      variant: ["gradient", "glass"],
-      className: "w-1",
-    },
-  ],
-  defaultVariants: {
-    variant: "solid",
-    orientation: "horizontal",
-    thickness: "thin",
-  },
-});
+  }
+);
 
 /**
  * Separator label variants
@@ -266,6 +274,71 @@ export const Separator = React.forwardRef<HTMLDivElement, SeparatorProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Separator");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "solid",
+        "dashed",
+        "dotted",
+        "gradient",
+        "glass",
+      ] as const);
+
+      // Validate orientation
+      validator.validateEnum("orientation", orientation, [
+        "horizontal",
+        "vertical",
+      ] as const);
+
+      // Validate thickness
+      validator.validateEnum("thickness", thickness, [
+        "thin",
+        "medium",
+        "thick",
+      ] as const);
+
+      // Validate spacing
+      validator.validateEnum("spacing", spacing, [
+        "none",
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ] as const);
+
+      // Validate labelPosition
+      if (labelPosition) {
+        validator.validateEnum("labelPosition", labelPosition, [
+          "left",
+          "center",
+          "right",
+        ] as const);
+      }
+
+      // Validate boolean props
+      validator.validateType(
+        "decorative",
+        decorative,
+        "boolean",
+        isValidBoolean
+      );
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [
+      variant,
+      orientation,
+      thickness,
+      spacing,
+      labelPosition,
+      decorative,
+      className,
+    ]);
+
     // For vertical Separators, override justify-content based on label position
     const justifyClass =
       orientation === "horizontal"

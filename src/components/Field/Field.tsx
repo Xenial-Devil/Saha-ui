@@ -1,6 +1,11 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 import type {
   FieldSetProps,
   FieldGroupProps,
@@ -305,6 +310,89 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Field");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "filled",
+        "outlined",
+        "ghost",
+        "glass",
+        "primary",
+        "success",
+        "warning",
+        "error",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate orientation
+      validator.validateEnum("orientation", orientation, [
+        "vertical",
+        "horizontal",
+      ] as const);
+
+      // Validate labelPosition
+      validator.validateEnum("labelPosition", labelPosition, [
+        "top",
+        "left",
+        "inline",
+      ] as const);
+
+      // Validate asteriskPosition
+      if (asteriskPosition) {
+        validator.validateEnum("asteriskPosition", asteriskPosition, [
+          "before",
+          "after",
+        ] as const);
+      }
+
+      // Validate boolean props
+      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
+      validator.validateType("required", required, "boolean", isValidBoolean);
+      validator.validateType("invalid", invalid, "boolean", isValidBoolean);
+      validator.validateType("readOnly", readOnly, "boolean", isValidBoolean);
+      validator.validateType(
+        "showOptional",
+        showOptional,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "showRequired",
+        showRequired,
+        "boolean",
+        isValidBoolean
+      );
+
+      // Validate children
+      if (!children) {
+        validator.warn("Field should have children content (form control)");
+      }
+
+      // Common validators
+      commonValidators.className(validator, className);
+      commonValidators.disabled(validator, disabled);
+    }, [
+      variant,
+      size,
+      orientation,
+      labelPosition,
+      asteriskPosition,
+      disabled,
+      required,
+      invalid,
+      readOnly,
+      showOptional,
+      showRequired,
+      children,
+      className,
+    ]);
+
     const contextValue: FieldContextValue = {
       size,
       variant,

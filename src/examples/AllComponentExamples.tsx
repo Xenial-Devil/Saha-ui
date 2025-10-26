@@ -57,114 +57,91 @@ import CommandExample from "./CommandExample";
 import NavigationMenuExample from "./NavigationMenuExample";
 import InputOTPExample from "./InputOTPExample";
 import ItemExample from "./ItemExample";
+import KbdExample from "./KbdExample";
+import LabelExample from "./LabelExample";
+import MenubarExample from "./MenubarExample";
+import NativeSelectExample from "./NativeSelectExample";
+import ContextMenuExample from "./ContextMenuExample";
+import CollapsibleExample from "./CollapsibleExample";
+import DataTableExample from "./DataTableExample";
+import FormExample from "./FormExample";
+import HoverCardExample from "./HoverCardExample";
+import ResizableExample from "./ResizableExample";
 
 export const AllComponentExamples = () => {
   return (
     <>
-      {/* Color Palette */}
+      {/* Color Palette
       <ColorPalette />
 
-      {/* Button Examples */}
       <ButtonExample />
 
-      {/* ButtonGroup Examples */}
       <ButtonGroupExample />
 
-      {/* Breadcrumb Examples */}
       <BreadcrumbExample />
 
-      {/* Badge Examples */}
       <BadgeExample />
 
-      {/* AspectRatio Examples */}
       <AspectRatioExample />
 
-      {/* Avatar Examples */}
       <AvatarExample />
 
-      {/* Card Examples */}
       <CardExample />
 
-      {/* Separator Examples */}
       <SeparatorExample />
 
-      {/* Drawer Examples */}
       <DrawerExample />
 
-      {/* Chip Examples */}
       <ChipExample />
 
-      {/* Alert Examples */}
       <AlertExample />
 
-      {/* Accordion Examples */}
       <AccordionExample />
 
-      {/* Tooltip Examples */}
       <TooltipExample />
 
-      {/* Link Examples */}
       <LinkExample />
 
-      {/* List Examples */}
+  
       <ListExample />
 
-      {/* Timeline Examples */}
       <TimelineExample />
 
-      {/* Image Examples */}
-      <ImageExample />
+      <ImageExample /> 
 
-      {/* Carousel Examples */}
       <CarouselExample />
 
-      {/* Tree Examples */}
       <TreeExample />
 
-      {/* Steps Examples */}
       <StepsExample />
 
-      {/* Table Examples */}
       <TableExample />
 
-      {/* Rating Examples */}
       <RatingExample />
 
-      {/* Progress Examples */}
       <ProgressExample />
 
-      {/* Popover Examples */}
       <PopoverExample />
 
-      {/* PlayButton Examples */}
       <PlayButtonExample />
 
-      {/* Skeleton Examples */}
       <SkeletonExample />
 
-      {/* Spinner Examples */}
       <SpinnerExample />
 
-      {/* Pagination Examples */}
       <PaginationExample />
 
-      {/* DatePicker Examples */}
       <DatePickerExample />
 
-      {/* Tab Examples */}
       <TabExample />
 
-      {/* Input Examples */}
       <InputExample />
 
-      {/* FloatingActionButton Examples */}
       <FloatingActionButtonExample />
 
-      {/* Radio Examples */}
       <RadioExample />
 
-      {/* Advanced Radio Examples */}
-      <RadioAdvancedExample />
+      <RadioAdvancedExample /> */}
 
       {/* Switch Examples */}
       <SwitchExample />
@@ -228,6 +205,36 @@ export const AllComponentExamples = () => {
 
       {/* Item Examples */}
       <ItemExample />
+
+      {/* Kbd Examples */}
+      <KbdExample />
+
+      {/* Label Examples */}
+      <LabelExample />
+
+      {/* Menubar Examples */}
+      <MenubarExample />
+
+      {/* NativeSelect Examples */}
+      <NativeSelectExample />
+
+      {/* ContextMenu Examples */}
+      <ContextMenuExample />
+
+      {/* Collapsible Examples */}
+      <CollapsibleExample />
+
+      {/* DataTable Examples */}
+      <DataTableExample />
+
+      {/* Form Examples */}
+      <FormExample />
+
+      {/* HoverCard Examples */}
+      <HoverCardExample />
+
+      {/* Resizable Examples */}
+      <ResizableExample />
     </>
   );
 };

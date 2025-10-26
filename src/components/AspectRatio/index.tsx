@@ -1,6 +1,13 @@
-import { forwardRef } from "react";
+import { forwardRef, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+  isValidNumber,
+  isValidFunction,
+} from "../../lib/validation";
 import type { AspectRatioProps } from "./AspectRatio.types";
 
 /**
@@ -197,19 +204,140 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
     },
     ref
   ) => {
-    // Validation: customRatio is required when ratio is "custom"
-    if (ratio === "custom" && !customRatio) {
-      console.error(
-        'AspectRatio: "customRatio" prop is required when ratio is set to "custom". Falling back to 16/9.'
-      );
-    }
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("AspectRatio");
 
-    // Validation: customRatio should not be provided when ratio is not "custom"
-    if (ratio !== "custom" && customRatio !== undefined) {
-      console.warn(
-        `AspectRatio: "customRatio" prop is ignored when ratio is "${ratio}". Only use customRatio when ratio="custom".`
+      // Validate ratio
+      validator.validateEnum("ratio", ratio, [
+        "1/1",
+        "4/3",
+        "16/9",
+        "21/9",
+        "3/2",
+        "2/3",
+        "9/16",
+        "3/4",
+        "custom",
+      ] as const);
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "bordered",
+        "glass",
+        "glass-strong",
+        "gradient",
+      ] as const);
+
+      // Validate rounded
+      validator.validateEnum("rounded", rounded, [
+        "none",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+        "2xl",
+        "full",
+      ] as const);
+
+      // Validate overlayPosition
+      if (overlayPosition) {
+        validator.validateEnum("overlayPosition", overlayPosition, [
+          "top",
+          "bottom",
+          "left",
+          "right",
+          "center",
+        ] as const);
+      }
+
+      // Validate boolean props
+      validator.validateType("overlay", overlay, "boolean", isValidBoolean);
+      validator.validateType(
+        "zoomOnHover",
+        zoomOnHover,
+        "boolean",
+        isValidBoolean
       );
-    }
+      validator.validateType("lazy", lazy, "boolean", isValidBoolean);
+
+      // Validate customRatio
+      if (ratio === "custom") {
+        if (!customRatio) {
+          validator.error(
+            '"customRatio" prop is required when ratio is set to "custom"'
+          );
+        } else {
+          validator.validateType(
+            "customRatio",
+            customRatio,
+            "number",
+            isValidNumber
+          );
+        }
+      } else if (customRatio !== undefined) {
+        validator.warn(
+          `"customRatio" prop is ignored when ratio is "${ratio}". Only use customRatio when ratio="custom".`
+        );
+      }
+
+      // Validate zoomScale
+      if (zoomScale !== undefined) {
+        validator.validateType("zoomScale", zoomScale, "number", isValidNumber);
+        if (isValidNumber(zoomScale)) {
+          if (zoomScale < 1.0 || zoomScale > 2.0) {
+            validator.warn(
+              `"zoomScale" should be between 1.0 and 2.0. Received: ${zoomScale}. Value will be clamped.`
+            );
+          }
+        }
+      }
+
+      // Validate callbacks
+      if (onClick) {
+        validator.validateType("onClick", onClick, "function", isValidFunction);
+      }
+      if (onMouseEnter) {
+        validator.validateType(
+          "onMouseEnter",
+          onMouseEnter,
+          "function",
+          isValidFunction
+        );
+      }
+      if (onMouseLeave) {
+        validator.validateType(
+          "onMouseLeave",
+          onMouseLeave,
+          "function",
+          isValidFunction
+        );
+      }
+
+      // Validate children
+      if (!children) {
+        validator.warn("AspectRatio should have children content");
+      }
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [
+      ratio,
+      customRatio,
+      variant,
+      rounded,
+      overlay,
+      overlayPosition,
+      zoomOnHover,
+      zoomScale,
+      lazy,
+      onClick,
+      onMouseEnter,
+      onMouseLeave,
+      children,
+      className,
+    ]);
 
     // Calculate the aspect ratio value
     const ratioValue =

@@ -23,6 +23,8 @@ const badgeVariants = cva(
           "bg-gradient-to-r from-primary/90 to-primary text-primary-foreground shadow-md shadow-primary/25 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 active:scale-95 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
         secondary:
           "bg-gradient-to-r from-secondary/90 to-secondary text-secondary-foreground shadow-md shadow-secondary/25 hover:shadow-lg hover:shadow-secondary/40 hover:scale-105 active:scale-95 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
+        accent:
+          "bg-gradient-to-r from-accent/90 to-accent text-accent-foreground shadow-md shadow-accent/25 hover:shadow-lg hover:shadow-accent/40 hover:scale-105 active:scale-95 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
         success:
           "bg-gradient-to-r from-green-500/90 to-green-600 text-white shadow-md shadow-green-500/25 hover:shadow-lg hover:shadow-green-500/40 hover:scale-105 active:scale-95 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
         warning:
@@ -112,6 +114,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
           "default",
           "primary",
           "secondary",
+          "accent",
           "success",
           "warning",
           "error",

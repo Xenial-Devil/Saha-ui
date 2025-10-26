@@ -124,6 +124,15 @@ export const checkboxVariants = cva(
           "hover:border-destructive/60",
           "checked:shadow-destructive/40",
         ],
+        glass: [
+          "border-white/20 bg-white/10 backdrop-blur-xl",
+          "dark:bg-black/10",
+          "checked:border-white/30 checked:bg-white/20",
+          "indeterminate:border-white/30 indeterminate:bg-white/20",
+          "focus-visible:ring-white/50",
+          "hover:border-white/30",
+          "checked:shadow-black/10",
+        ],
       },
       size: {
         sm: "h-4 w-4",

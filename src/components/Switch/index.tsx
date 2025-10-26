@@ -82,6 +82,14 @@ export const switchVariants = cva(
           "focus-visible:ring-destructive/50",
           "data-[state=checked]:shadow-lg data-[state=checked]:shadow-destructive/40",
         ],
+        glass: [
+          "border-white/20 bg-white/10 backdrop-blur-xl",
+          "dark:bg-black/10",
+          "data-[state=checked]:bg-white/20 data-[state=checked]:border-white/30",
+          "dark:data-[state=checked]:bg-black/20",
+          "focus-visible:ring-white/50",
+          "data-[state=checked]:shadow-lg data-[state=checked]:shadow-black/10",
+        ],
       },
       size: {
         sm: "h-5 w-9",
