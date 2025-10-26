@@ -533,7 +533,7 @@ export default function HoverCardExample() {
             <div>
               <h3 className="text-xl font-semibold mb-4">Link Previews</h3>
               <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">
+                <div className="text-sm text-muted-foreground">
                   Check out our{" "}
                   <HoverCard variant="primary" size="md" openDelay={300}>
                     <HoverCardTrigger asChild>
@@ -560,7 +560,7 @@ export default function HoverCardExample() {
                     </HoverCardContent>
                   </HoverCard>{" "}
                   for detailed examples and API references.
-                </p>
+                </div>
               </div>
             </div>
           </div>

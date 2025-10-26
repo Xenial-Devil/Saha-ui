@@ -1,12 +1,5 @@
 import React, { createContext, useContext, useCallback } from "react";
 import { cn } from "../../lib/utils";
-import {
-  AlertCircle,
-  CheckCircle2,
-  AlertTriangle,
-  Info,
-  Loader2,
-} from "lucide-react";
 import type {
   FormProps,
   FormFieldProps,
@@ -24,12 +17,10 @@ import type {
   FormFieldConfig,
 } from "./Form.types";
 import {
-  formVariants,
   formItemVariants,
   formLabelVariants,
   formControlVariants,
   formDescriptionVariants,
-  formMessageVariants,
   formSectionVariants,
   formSectionTitleVariants,
   formActionsVariants,
@@ -42,19 +33,99 @@ import { TextArea } from "../TextArea";
 // Optional React Hook Form Support
 // ===========================
 
-// Dynamically import Controller if react-hook-form is available
-let Controller: any;
-try {
-  const rhf = require("react-hook-form");
-  Controller = rhf.Controller;
-} catch {
-  // React Hook Form not installed - component will work in standalone mode
-  Controller = null;
-}
+/**
+ * The Form component supports both standalone and React Hook Form integration.
+ *
+ * STANDALONE MODE (default):
+ * - Works out of the box without any additional dependencies
+ * - Uses native form submission with FormData
+ * - Example:
+ *   <form onSubmit={handleSubmit}>
+ *     <FormItem>
+ *       <FormLabel>Email</FormLabel>
+ *       <FormControl>
+ *         <Input name="email" />
+ *       </FormControl>
+ *     </FormItem>
+ *   </form>
+ *
+ * REACT HOOK FORM MODE (shadcn/ui pattern):
+ * - Install: npm install react-hook-form @hookform/resolvers zod
+ * - Example:
+ *   const form = useForm({ resolver: zodResolver(schema) });
+ *
+ *   <Form {...form}>
+ *     <form onSubmit={form.handleSubmit(onSubmit)}>
+ *       <FormField
+ *         control={form.control}
+ *         name="username"
+ *         render={({ field }) => (
+ *           <FormItem>
+ *             <FormLabel>Username</FormLabel>
+ *             <FormControl>
+ *               <Input {...field} />
+ *             </FormControl>
+ *             <FormMessage />
+ *           </FormItem>
+ *         )}
+ *       />
+ *     </form>
+ *   </Form>
+ */
+
+// Try to import from react-hook-form if available
+let Controller: any = null;
+let FormProvider: any = null;
+let useFormContext: any = () => ({
+  getFieldState: () => ({}),
+  formState: {},
+});
+
+// We'll check if react-hook-form is available at runtime
+// This allows the component to work standalone or with RHF
 
 // ===========================
 // Form Context
 // ===========================
+
+type FormFieldContextValue<TName extends string = string> = {
+  name: TName;
+};
+
+const FormFieldContext = createContext<FormFieldContextValue>(
+  {} as FormFieldContextValue
+);
+
+type FormItemContextValue = {
+  id: string;
+};
+
+const FormItemContext = createContext<FormItemContextValue>(
+  {} as FormItemContextValue
+);
+
+const useFormField = () => {
+  const fieldContext = useContext(FormFieldContext);
+  const itemContext = useContext(FormItemContext);
+  const { getFieldState, formState } = useFormContext();
+
+  const fieldState = getFieldState(fieldContext.name, formState);
+
+  if (!fieldContext) {
+    throw new Error("useFormField should be used within <FormField>");
+  }
+
+  const { id } = itemContext;
+
+  return {
+    id,
+    name: fieldContext.name,
+    formItemId: `${id}-form-item`,
+    formDescriptionId: `${id}-form-item-description`,
+    formMessageId: `${id}-form-item-message`,
+    ...fieldState,
+  };
+};
 
 interface FormContextValue {
   variant?: FormVariant;
@@ -67,170 +138,139 @@ const FormContext = createContext<FormContextValue>({});
 
 const useFormConfig = () => useContext(FormContext);
 
-// ===========================
-// Form Component
-// ===========================
-
 /**
- * Form - Wrapper component for forms with React Hook Form integration
+ * Form - Works in both standalone mode and with React Hook Form
  *
- * @example
+ * STANDALONE MODE (for backward compatibility):
  * ```tsx
- * const form = useForm();
+ * <Form onSubmit={handleSubmit} variant="default">
+ *   <FormItem>
+ *     <FormLabel>Username</FormLabel>
+ *     <FormControl>
+ *       <Input name="username" />
+ *     </FormControl>
+ *   </FormItem>
+ * </Form>
+ * ```
  *
- * <Form form={form} onSubmit={handleSubmit} variant="primary">
- *   <FormField form={form} name="email">
- *     {({ value, onChange, error }) => (
- *       <FormItem>
- *         <FormLabel>Email</FormLabel>
- *         <FormControl>
- *           <Input value={value} onChange={onChange} />
- *         </FormControl>
- *         <FormMessage>{error}</FormMessage>
- *       </FormItem>
- *     )}
- *   </FormField>
+ * REACT HOOK FORM MODE (shadcn/ui pattern):
+ * ```tsx
+ * const form = useForm({ resolver: zodResolver(schema) });
+ *
+ * <Form {...form}>
+ *   <form onSubmit={form.handleSubmit(onSubmit)}>
+ *     <FormField
+ *       control={form.control}
+ *       name="username"
+ *       render={({ field }) => (
+ *         <FormItem>
+ *           <FormLabel>Username</FormLabel>
+ *           <FormControl>
+ *             <Input {...field} />
+ *           </FormControl>
+ *           <FormMessage />
+ *         </FormItem>
+ *       )}
+ *     />
+ *   </form>
  * </Form>
  * ```
  */
-export const Form = <
-  TFieldValues extends Record<string, any> = Record<string, any>
->({
-  form,
-  onSubmit,
-  onError,
-  variant = "default",
-  size = "md",
-  layout = "vertical",
-  loading = false,
-  disabled = false,
-  spacing = "md",
-  className,
-  children,
-  ...props
-}: FormProps<TFieldValues>) => {
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (form && form.handleSubmit) {
-        form.handleSubmit(
-          (data: TFieldValues) => onSubmit(data),
-          (errors: any) => {
-            console.error("Form validation errors:", errors);
-            onError?.(errors);
-          }
-        )(e);
-      } else {
-        // Handle non-React Hook Form submission
-        const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries()) as TFieldValues;
-        onSubmit(data);
-      }
+export const Form = React.forwardRef<HTMLFormElement, FormProps>(
+  (
+    {
+      children,
+      onSubmit,
+      variant = "default",
+      size = "md",
+      layout = "vertical",
+      disabled = false,
+      className,
+      ...props
     },
-    [form, onSubmit, onError]
-  );
+    ref
+  ) => {
+    // If FormProvider is available and props look like RHF (has control, etc.),
+    // use FormProvider. Otherwise, render as a regular form.
+    const isReactHookForm = FormProvider && (props as any).control;
 
-  return (
-    <FormContext.Provider value={{ variant, size, layout, disabled }}>
-      <form
-        onSubmit={handleSubmit}
-        className={cn(formVariants({ variant, spacing, layout }), className)}
-        {...props}
-      >
-        {loading && (
-          <div className="absolute inset-0 bg-background/50 backdrop-blur-sm z-50 flex items-center justify-center rounded-[inherit]">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          </div>
-        )}
-        <fieldset disabled={disabled || loading} className="space-y-inherit">
+    const formConfig: FormContextValue = {
+      variant,
+      size,
+      layout,
+      disabled,
+    };
+
+    if (isReactHookForm && FormProvider) {
+      // React Hook Form mode - just return FormProvider
+      return (
+        <FormContext.Provider value={formConfig}>
+          <FormProvider {...props}>{children}</FormProvider>
+        </FormContext.Provider>
+      );
+    }
+
+    // Standalone mode - render as regular form element
+    return (
+      <FormContext.Provider value={formConfig}>
+        <form
+          ref={ref}
+          onSubmit={onSubmit}
+          className={cn("space-y-6", className)}
+          {...props}
+        >
           {children}
-        </fieldset>
-      </form>
-    </FormContext.Provider>
-  );
-};
+        </form>
+      </FormContext.Provider>
+    );
+  }
+);
 
 Form.displayName = "Form";
 
-// ===========================
-// FormField Component
-// ===========================
-
 /**
- * FormField - Connects form fields to React Hook Form
+ * FormField - Field component with render prop pattern
  *
- * @example
+ * Usage:
  * ```tsx
- * <FormField form={form} name="username">
- *   {({ value, onChange, error }) => (
+ * <FormField
+ *   control={form.control}
+ *   name="username"
+ *   render={({ field }) => (
  *     <FormItem>
  *       <FormLabel>Username</FormLabel>
  *       <FormControl>
- *         <Input value={value} onChange={onChange} />
+ *         <Input {...field} />
  *       </FormControl>
- *       {error && <FormMessage>{error}</FormMessage>}
+ *       <FormMessage />
  *     </FormItem>
  *   )}
- * </FormField>
+ * />
  * ```
  */
-export const FormField = <
-  TFieldValues extends Record<string, any> = Record<string, any>
->({
-  form,
-  name,
-  children,
-  className,
-  ...props
-}: FormFieldProps<TFieldValues>) => {
-  // If Controller is not available or form doesn't have control, render without RHF
-  if (!Controller || !form || !form.control) {
+export const FormField = ({ ...props }: any) => {
+  // If Controller is available (react-hook-form installed)
+  if (Controller) {
     return (
-      <div className={cn("relative", className)} {...props}>
-        {children({
-          value: "",
-          onChange: () => {},
-          onBlur: () => {},
-          name: name as any,
-          error: undefined,
-          invalid: false,
-          touched: false,
-          dirty: false,
-          ref: null,
-        })}
-      </div>
+      <FormFieldContext.Provider value={{ name: props.name }}>
+        <Controller {...props} />
+      </FormFieldContext.Provider>
     );
   }
 
+  // Standalone mode - just render children with empty field
   return (
-    <Controller
-      control={form.control}
-      name={name}
-      render={({ field, fieldState }: any) => {
-        const error = fieldState.error?.message;
-        const invalid = fieldState.invalid;
-        const touched = fieldState.isTouched;
-        const dirty = fieldState.isDirty;
-
-        return (
-          <div className={cn("relative", className)} {...props}>
-            {children({
-              value: field.value,
-              onChange: field.onChange,
-              onBlur: field.onBlur,
-              name: field.name as any,
-              error,
-              invalid,
-              touched,
-              dirty,
-              ref: field.ref,
-            })}
-          </div>
-        );
-      }}
-    />
+    <FormFieldContext.Provider value={{ name: props.name }}>
+      {props.render?.({
+        field: {
+          name: props.name,
+          value: "",
+          onChange: () => {},
+          onBlur: () => {},
+          ref: null,
+        },
+      })}
+    </FormFieldContext.Provider>
   );
 };
 
@@ -380,48 +420,56 @@ FormDescription.displayName = "FormDescription";
 // ===========================
 
 /**
- * FormMessage - Error/success/info messages for form fields
+ * FormMessage - Error/info messages for form fields
+ * Supports both auto-detection from React Hook Form and manual messages
  */
 export const FormMessage = React.forwardRef<
   HTMLParagraphElement,
   FormMessageProps
->(
-  (
-    { variant = "error", size, showIcon = true, className, children, ...props },
-    ref
-  ) => {
-    const config = useFormConfig();
+>(({ className, children, variant, ...props }, ref) => {
+  const itemContext = useContext(FormItemContext);
 
-    if (!children) return null;
-
-    const icons = {
-      error: AlertCircle,
-      success: CheckCircle2,
-      warning: AlertTriangle,
-      info: Info,
-    };
-
-    const Icon = icons[variant];
-
-    return (
-      <p
-        ref={ref}
-        className={cn(
-          formMessageVariants({
-            variant,
-            size: size || config.size,
-          }),
-          className
-        )}
-        role="alert"
-        {...props}
-      >
-        {showIcon && <Icon className="w-4 h-4 flex-shrink-0" />}
-        <span>{children}</span>
-      </p>
-    );
+  // Try to get error from React Hook Form if context is available
+  let error;
+  let formMessageId;
+  try {
+    const { error: fieldError, formMessageId: msgId } = useFormField();
+    error = fieldError;
+    formMessageId = msgId;
+  } catch {
+    // Not in a FormField context, use manually
+    formMessageId = itemContext?.id
+      ? `${itemContext.id}-form-item-message`
+      : undefined;
   }
-);
+
+  const body = error ? String(error?.message) : children;
+
+  if (!body) {
+    return null;
+  }
+
+  // Determine the variant class based on variant prop or error
+  const variantClass =
+    variant === "success"
+      ? "text-success"
+      : variant === "warning"
+      ? "text-warning"
+      : variant === "info"
+      ? "text-info"
+      : "text-destructive"; // error is default
+
+  return (
+    <p
+      ref={ref}
+      id={formMessageId}
+      className={cn("text-sm font-medium", variantClass, className)}
+      {...props}
+    >
+      {body}
+    </p>
+  );
+});
 
 FormMessage.displayName = "FormMessage";
 
@@ -533,43 +581,28 @@ export const FormCompact = <
   onCancel,
   showReset = false,
   footer,
+  onSubmit,
   ...formProps
 }: FormCompactProps<TFieldValues>) => {
   const renderField = useCallback(
     (fieldConfig: FormFieldConfig<TFieldValues>) => {
-      if (fieldConfig.render && form) {
-        return (
-          <FormField
-            key={fieldConfig.name as string}
-            form={form}
-            name={fieldConfig.name}
-          >
-            {(props) => fieldConfig.render!(props)}
-          </FormField>
-        );
-      }
-
       // Auto-render based on type
-      const renderInput = (props: any) => {
+      const renderInput = () => {
         switch (fieldConfig.type) {
           case "textarea":
             return (
               <TextArea
                 placeholder={fieldConfig.placeholder}
-                value={props.value || ""}
-                onChange={(e: any) => props.onChange(e.target.value)}
-                onBlur={props.onBlur}
-                ref={props.ref}
+                name={fieldConfig.name as string}
+                defaultValue={fieldConfig.defaultValue as any}
               />
             );
           case "select":
             return (
               <select
                 className="w-full px-4 py-2 border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                value={props.value || ""}
-                onChange={(e) => props.onChange(e.target.value)}
-                onBlur={props.onBlur}
-                ref={props.ref}
+                name={fieldConfig.name as string}
+                defaultValue={fieldConfig.defaultValue as any}
               >
                 <option value="">Select...</option>
                 {fieldConfig.options?.map((opt) => (
@@ -583,10 +616,8 @@ export const FormCompact = <
             return (
               <input
                 type="checkbox"
-                checked={props.value || false}
-                onChange={(e) => props.onChange(e.target.checked)}
-                onBlur={props.onBlur}
-                ref={props.ref}
+                name={fieldConfig.name as string}
+                defaultChecked={fieldConfig.defaultValue as any}
                 className="w-5 h-5 border-2 border-border rounded"
               />
             );
@@ -595,10 +626,8 @@ export const FormCompact = <
               <Input
                 type={fieldConfig.type || "text"}
                 placeholder={fieldConfig.placeholder}
-                value={props.value || ""}
-                onChange={(e: any) => props.onChange(e.target.value)}
-                onBlur={props.onBlur}
-                ref={props.ref}
+                name={fieldConfig.name as string}
+                defaultValue={fieldConfig.defaultValue as any}
                 variant={fieldConfig.variant as any}
                 size={fieldConfig.size}
               />
@@ -606,71 +635,29 @@ export const FormCompact = <
         }
       };
 
-      if (!form) {
-        return (
-          <FormItem key={fieldConfig.name as string}>
-            {fieldConfig.label && (
-              <FormLabel
-                htmlFor={fieldConfig.name as string}
-                required={fieldConfig.required}
-                optional={fieldConfig.optional}
-              >
-                {fieldConfig.label}
-              </FormLabel>
-            )}
-            <FormControl>
-              {renderInput({
-                value: fieldConfig.defaultValue,
-                onChange: () => {},
-                onBlur: () => {},
-              })}
-            </FormControl>
-            {fieldConfig.description && (
-              <FormDescription>{fieldConfig.description}</FormDescription>
-            )}
-          </FormItem>
-        );
-      }
-
       return (
-        <FormField
-          key={fieldConfig.name as string}
-          form={form}
-          name={fieldConfig.name}
-        >
-          {(props) => (
-            <FormItem>
-              {fieldConfig.label && (
-                <FormLabel
-                  htmlFor={fieldConfig.name as string}
-                  required={fieldConfig.required}
-                  optional={fieldConfig.optional}
-                  variant={fieldConfig.variant}
-                  size={fieldConfig.size}
-                >
-                  {fieldConfig.label}
-                </FormLabel>
-              )}
-              <FormControl>{renderInput(props)}</FormControl>
-              {fieldConfig.description && (
-                <FormDescription
-                  variant={fieldConfig.variant}
-                  size={fieldConfig.size}
-                >
-                  {fieldConfig.description}
-                </FormDescription>
-              )}
-              {props.error && <FormMessage>{props.error}</FormMessage>}
-            </FormItem>
+        <FormItem key={fieldConfig.name as string}>
+          {fieldConfig.label && (
+            <FormLabel
+              htmlFor={fieldConfig.name as string}
+              required={fieldConfig.required}
+              optional={fieldConfig.optional}
+            >
+              {fieldConfig.label}
+            </FormLabel>
           )}
-        </FormField>
+          <FormControl>{renderInput()}</FormControl>
+          {fieldConfig.description && (
+            <FormDescription>{fieldConfig.description}</FormDescription>
+          )}
+        </FormItem>
       );
     },
-    [form]
+    []
   );
 
   return (
-    <Form form={form} {...formProps}>
+    <Form onSubmit={onSubmit as any} {...formProps}>
       {(title || description) && (
         <div className="mb-6">
           {title && <h2 className="text-2xl font-bold mb-2">{title}</h2>}

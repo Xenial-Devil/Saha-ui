@@ -44,12 +44,32 @@ export const FormExample = () => {
   // Submit Handlers
   // ===========================
 
-  const handleBasicSubmit = (data: BasicFormData) => {
+  const handleBasicSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data: BasicFormData = {
+      username: formData.get("username") as string,
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+      bio: formData.get("bio") as string,
+      agreeToTerms: formData.get("agreeToTerms") === "on",
+    };
     console.log("Basic form submitted:", data);
     alert(`Welcome, ${data.username}!`);
   };
 
-  const handleProfileSubmit = (data: ProfileFormData) => {
+  const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data: ProfileFormData = {
+      firstName: formData.get("firstName") as string,
+      lastName: formData.get("lastName") as string,
+      email: formData.get("email") as string,
+      phone: formData.get("phone") as string,
+      address: formData.get("address") as string,
+      city: formData.get("city") as string,
+      country: formData.get("country") as string,
+    };
     console.log("Profile form submitted:", data);
     alert(`Profile updated for ${data.firstName} ${data.lastName}`);
   };
@@ -258,7 +278,7 @@ export const FormExample = () => {
                 title="Get in Touch"
                 description="Fill out this form and we'll get back to you soon"
                 variant="accent"
-                onSubmit={(data) => console.log("Contact form:", data)}
+                onSubmit={(data: any) => console.log("Contact form:", data)}
                 fields={[
                   {
                     name: "name",
@@ -307,7 +327,7 @@ export const FormExample = () => {
               <FormCompact
                 variant="success"
                 layout="inline"
-                onSubmit={(data) => console.log("Newsletter:", data)}
+                onSubmit={(data: any) => console.log("Newsletter:", data)}
                 fields={[
                   {
                     name: "email",
@@ -461,7 +481,7 @@ export const FormExample = () => {
 
           <div className="bg-card/30 border border-border/50 rounded-2xl p-8">
             <Form
-              onSubmit={(data) => console.log(data)}
+              onSubmit={(data: any) => console.log(data)}
               variant="default"
               className="max-w-md mx-auto space-y-6 p-6"
             >
@@ -543,7 +563,7 @@ export const FormExample = () => {
                   {variant}
                 </h4>
                 <Form
-                  onSubmit={(data) => console.log(data)}
+                  onSubmit={(data: any) => console.log(data)}
                   variant={variant}
                   spacing="sm"
                 >
@@ -592,7 +612,7 @@ export const FormExample = () => {
 
           <div className="bg-card/30 border border-border/50 rounded-2xl p-8">
             <Form
-              onSubmit={(data) => console.log(data)}
+              onSubmit={(data: any) => console.log(data)}
               variant="primary"
               loading={true}
               className="max-w-md mx-auto"
@@ -619,7 +639,6 @@ export const FormExample = () => {
             </Form>
           </div>
         </section>
-
       </div>
     </div>
   );

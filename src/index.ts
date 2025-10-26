@@ -228,7 +228,6 @@ export {
   ResizablePanelGroup,
   ResizablePanel,
   ResizableHandle,
-  ResizableCompact,
 } from "./components/Resizable";
 export {
   default as Dialog,

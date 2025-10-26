@@ -1,4 +1,9 @@
 import type { CSSProperties, ReactNode } from "react";
+import type {
+  PanelGroupProps,
+  PanelProps,
+  PanelResizeHandleProps,
+} from "react-resizable-panels";
 
 /**
  * Resizable variant types
@@ -26,34 +31,11 @@ export type ResizableDirection = "horizontal" | "vertical";
 export type ResizableHandlePosition = "start" | "center" | "end";
 
 /**
- * Resizable storage types
- */
-export type ResizableStorage = "localStorage" | "sessionStorage" | "none";
-
-/**
- * Panel size units
- */
-export interface PanelSize {
-  value: number;
-  unit: "percentage" | "pixels";
-}
-
-/**
- * Resize event data
- */
-export interface ResizeEvent {
-  panelId: string;
-  size: number;
-  direction: ResizableDirection;
-}
-
-/**
  * ResizablePanelGroup Props
+ * Extends react-resizable-panels PanelGroupProps with variant styling
  */
-export interface ResizablePanelGroupProps {
-  /** Panel group children (ResizablePanel and ResizableHandle) */
-  children: ReactNode;
-
+export interface ResizablePanelGroupProps
+  extends Omit<PanelGroupProps, "direction"> {
   /**
    * Direction of the panel group
    * @default "horizontal"
@@ -72,28 +54,6 @@ export interface ResizablePanelGroupProps {
   className?: string;
 
   /**
-   * Storage key for persisting panel sizes
-   */
-  storageKey?: string;
-
-  /**
-   * Storage type
-   * @default "localStorage"
-   */
-  storage?: ResizableStorage;
-
-  /**
-   * Callback when panels are resized
-   */
-  onResize?: (sizes: number[]) => void;
-
-  /**
-   * Auto save delay in milliseconds
-   * @default 500
-   */
-  autoSaveDelay?: number;
-
-  /**
    * Custom styles
    */
   style?: CSSProperties;
@@ -106,70 +66,20 @@ export interface ResizablePanelGroupProps {
 
 /**
  * ResizablePanel Props
+ * Extends react-resizable-panels PanelProps with variant styling
  */
-export interface ResizablePanelProps {
-  /** Panel content */
-  children: ReactNode;
-
+export interface ResizablePanelProps
+  extends Omit<PanelProps, "className" | "style"> {
   /**
-   * Default size (percentage 0-100)
-   * @default 50
+   * Visual variant
+   * @default "default"
    */
-  defaultSize?: number;
-
-  /**
-   * Minimum size (percentage 0-100)
-   * @default 10
-   */
-  minSize?: number;
-
-  /**
-   * Maximum size (percentage 0-100)
-   * @default 90
-   */
-  maxSize?: number;
-
-  /**
-   * Panel order
-   */
-  order?: number;
-
-  /**
-   * Whether panel is collapsible
-   * @default false
-   */
-  collapsible?: boolean;
-
-  /**
-   * Collapsed size when collapsible
-   * @default 0
-   */
-  collapsedSize?: number;
+  variant?: ResizableVariant;
 
   /**
    * Additional CSS classes
    */
   className?: string;
-
-  /**
-   * Panel ID for storage
-   */
-  id?: string;
-
-  /**
-   * Callback when panel is resized
-   */
-  onResize?: (size: number) => void;
-
-  /**
-   * Callback when panel is collapsed
-   */
-  onCollapse?: () => void;
-
-  /**
-   * Callback when panel is expanded
-   */
-  onExpand?: () => void;
 
   /**
    * Custom styles
@@ -179,30 +89,27 @@ export interface ResizablePanelProps {
 
 /**
  * ResizableHandle Props
+ * Extends react-resizable-panels PanelResizeHandleProps with variant styling
  */
-export interface ResizableHandleProps {
-  /**
-   * Whether handle is disabled
-   * @default false
-   */
-  disabled?: boolean;
-
+export interface ResizableHandleProps
+  extends Omit<PanelResizeHandleProps, "className" | "style"> {
   /**
    * Visual variant (inherits from group if not set)
    */
   variant?: ResizableVariant;
 
   /**
-   * Show handle indicator
+   * Show handle indicator (shadcn/ui pattern)
    * @default true
    */
-  showIndicator?: boolean;
+  withHandle?: boolean;
 
   /**
-   * Handle position within the handle area
-   * @default "center"
+   * Show handle indicator (legacy, use withHandle instead)
+   * @default true
+   * @deprecated Use withHandle instead
    */
-  position?: ResizableHandlePosition;
+  showIndicator?: boolean;
 
   /**
    * Additional CSS classes
@@ -210,29 +117,9 @@ export interface ResizableHandleProps {
   className?: string;
 
   /**
-   * Callback when dragging starts
-   */
-  onDragStart?: () => void;
-
-  /**
-   * Callback when dragging
-   */
-  onDrag?: (delta: number) => void;
-
-  /**
-   * Callback when dragging ends
-   */
-  onDragEnd?: () => void;
-
-  /**
    * Custom styles
    */
   style?: CSSProperties;
-
-  /**
-   * Handle ID
-   */
-  id?: string;
 }
 
 /**
@@ -276,9 +163,9 @@ export interface ResizableCompactProps {
   showHandles?: boolean;
 
   /**
-   * Storage key
+   * Auto-save ID for persistence
    */
-  storageKey?: string;
+  autoSaveId?: string;
 
   /**
    * Additional CSS classes
@@ -286,28 +173,7 @@ export interface ResizableCompactProps {
   className?: string;
 
   /**
-   * Callback when resized
+   * Callback when layout changes
    */
-  onResize?: (sizes: number[]) => void;
-}
-
-/**
- * Resizable context value
- */
-export interface ResizableContextValue {
-  direction: ResizableDirection;
-  variant: ResizableVariant;
-  panelSizes: number[];
-  setPanelSize: (index: number, size: number) => void;
-  registerPanel: (
-    id: string,
-    defaultSize: number,
-    minSize: number,
-    maxSize: number
-  ) => number;
-  unregisterPanel: (id: string) => void;
-  startResize: (handleIndex: number, initialPos: number) => void;
-  resize: (currentPos: number) => void;
-  endResize: () => void;
-  isResizing: boolean;
+  onLayout?: (sizes: number[]) => void;
 }

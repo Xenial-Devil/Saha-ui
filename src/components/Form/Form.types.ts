@@ -46,8 +46,10 @@ export interface FormProps<TFieldValues extends FieldValues = FieldValues>
   extends Omit<React.FormHTMLAttributes<HTMLFormElement>, "onSubmit"> {
   /** React Hook Form instance */
   form?: UseFormReturn<TFieldValues>;
-  /** Form submission handler */
-  onSubmit: (data: TFieldValues) => void | Promise<void>;
+  /** Form submission handler - accepts either FormData (standalone) or typed data (React Hook Form) */
+  onSubmit?:
+    | ((data: TFieldValues) => void | Promise<void>)
+    | ((e: React.FormEvent<HTMLFormElement>) => void);
   /** Form error handler */
   onError?: (errors: any) => void;
   /** Visual variant */
