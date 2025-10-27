@@ -40,6 +40,7 @@ export default defineConfig({
         "tailwind-merge",
         "lucide-react",
         /^lucide-react\/.*/,
+        "react-resizable-panels",
       ],
       input: Object.fromEntries(
         glob

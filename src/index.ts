@@ -204,6 +204,39 @@ export {
 export { Tag, TagGroup } from "./components/Tag";
 export { default as TagInput } from "./components/TagInput";
 export { default as TextArea } from "./components/TextArea";
+export {
+  TextEditor,
+  textEditorVariants,
+  toolbarVariants,
+  editorContentVariants,
+  toolbarButtonVariants,
+} from "./components/TextEditor";
+export { Toggle, ToggleGroup, toggleVariants } from "./components/Toggle";
+export {
+  ToggleGroup as ToggleGroupStandalone,
+  ToggleGroupItem,
+  toggleGroupVariants,
+  toggleGroupItemVariants,
+} from "./components/ToggleGroup";
+export {
+  Typography,
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  P,
+  Lead,
+  Large,
+  Small,
+  Muted,
+  Blockquote,
+  Code,
+  InlineCode,
+  List as TypographyList,
+  typographyVariants,
+} from "./components/Typography";
 export { default as Upload } from "./components/Upload";
 export { ToastProvider, useToast, ToastItem } from "./components/Toast";
 export {
@@ -229,6 +262,19 @@ export {
   ResizablePanel,
   ResizableHandle,
 } from "./components/Resizable";
+export {
+  ScrollArea,
+  ScrollAreaRoot,
+  ScrollAreaViewport,
+  ScrollBar,
+  ScrollAreaCorner,
+} from "./components/ScrollArea";
+export {
+  Sonner,
+  SonnerProvider,
+  SonnerContainer,
+  useSonner,
+} from "./components/Sonner";
 export {
   default as Dialog,
   DialogTrigger,
@@ -627,6 +673,42 @@ export type { TagInputProps } from "./components/TagInput/TagInput.types";
 
 export type { TextAreaProps } from "./components/TextArea/TextArea.types";
 
+export type {
+  TextEditorProps,
+  TextEditorVariant,
+  TextEditorSize,
+  ToolbarButtonVariant,
+  EditorCommand,
+} from "./components/TextEditor";
+
+export type {
+  ToggleProps,
+  ToggleGroupProps,
+  ToggleVariant,
+  ToggleSize,
+} from "./components/Toggle";
+
+export type {
+  ToggleGroupProps as ToggleGroupStandaloneProps,
+  ToggleGroupItemProps,
+  ToggleGroupVariant,
+  ToggleGroupSize,
+  ToggleGroupSpacing,
+  ToggleGroupOrientation,
+} from "./components/ToggleGroup";
+
+export type {
+  TypographyProps,
+  TypographyElement,
+  TypographyVariant,
+  TypographyColor,
+  TypographyAlign,
+  TypographyWeight,
+  TypographyTransform,
+  TypographyDecoration,
+  TypographyTruncate,
+} from "./components/Typography";
+
 export type { UploadProps, UploadFile } from "./components/Upload/Upload.types";
 
 export type {
@@ -707,6 +789,20 @@ export type {
   SliderOrientation,
   SliderMark,
 } from "./components/Slider/Slider.types";
+
+export type {
+  ScrollAreaProps,
+  ScrollAreaVariant,
+  ScrollOrientation,
+} from "./components/ScrollArea";
+
+export type {
+  SonnerVariant,
+  SonnerPosition,
+  SonnerType,
+  Toast,
+  SonnerContextValue,
+} from "./components/Sonner";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";

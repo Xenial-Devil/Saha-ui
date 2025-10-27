@@ -67,6 +67,10 @@ import DataTableExample from "./DataTableExample";
 import FormExample from "./FormExample";
 import HoverCardExample from "./HoverCardExample";
 import ResizableExample from "./ResizableExample";
+import ScrollAreaExample from "./ScrollAreaExample";
+import ToggleGroupExample from "./ToggleGroupExample";
+import { TypographyExample } from "./TypographyExample";
+import TextEditorExample from "./TextEditorExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -141,91 +145,63 @@ export const AllComponentExamples = () => {
 
       <RadioExample />
 
-      <RadioAdvancedExample /> */}
+      <RadioAdvancedExample /> 
 
-      {/* Switch Examples */}
       <SwitchExample />
 
-      {/* Checkbox Examples */}
       <CheckboxExample />
 
-      {/* CheckboxGroup Examples */}
       <CheckboxGroupExample />
 
-      {/* Select Examples */}
       <SelectExample />
 
-      {/* Dropdown Examples */}
       <DropdownExample />
 
-      {/* Tag Examples */}
       <TagExample />
 
-      {/* TagInput Examples */}
       <TagInputExample />
 
-      {/* TextArea Examples */}
       <TextAreaExample />
 
-      {/* Upload Examples */}
       <UploadExample />
 
-      {/* Dialog Examples */}
       <DialogExample />
 
-      {/* Toast Examples */}
       <ToastExample />
 
-      {/* Empty Examples */}
       <EmptyExample />
 
-      {/* Autocomplete Examples */}
       <AutocompleteExample />
 
-      {/* Field Examples */}
       <FieldExample />
 
-      {/* Slider Examples */}
       <SliderExample />
 
-      {/* Calendar Examples */}
       <CalendarExample />
 
-      {/* Combobox Examples */}
       <ComboboxExample />
 
-      {/* Command Examples */}
       <CommandExample />
 
-      {/* NavigationMenu Examples */}
       <NavigationMenuExample />
 
-      {/* InputOTP Examples */}
       <InputOTPExample />
 
-      {/* Item Examples */}
       <ItemExample />
 
-      {/* Kbd Examples */}
       <KbdExample />
 
-      {/* Label Examples */}
       <LabelExample />
 
-      {/* Menubar Examples */}
       <MenubarExample />
 
-      {/* NativeSelect Examples */}
       <NativeSelectExample />
 
-      {/* ContextMenu Examples */}
       <ContextMenuExample />
 
-      {/* Collapsible Examples */}
       <CollapsibleExample />
 
-      {/* DataTable Examples */}
-      <DataTableExample />
+      <DataTableExample /> */}
 
       {/* Form Examples */}
       <FormExample />
@@ -235,6 +211,18 @@ export const AllComponentExamples = () => {
 
       {/* Resizable Examples */}
       <ResizableExample />
+
+      {/* ScrollArea Examples */}
+      <ScrollAreaExample />
+
+      {/* ToggleGroup Examples */}
+      <ToggleGroupExample />
+
+      {/* Typography Examples */}
+      <TypographyExample />
+
+      {/* TextEditor Examples */}
+      <TextEditorExample />
     </>
   );
 };
