@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 import { AlertProps } from "./Alert.types";
 
 // CVA variants for Alert
@@ -263,6 +268,43 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     ref
   ) => {
     const [isOpen, setIsOpen] = useState(true);
+
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Alert");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "solid",
+        "subtle",
+        "left-accent",
+        "top-accent",
+        "outline",
+        "glass",
+      ] as const);
+
+      // Validate status
+      validator.validateEnum("status", status, [
+        "info",
+        "success",
+        "warning",
+        "danger",
+      ] as const);
+
+      // Validate boolean props
+      validator.validateType("rounded", rounded, "boolean", isValidBoolean);
+      validator.validateType("closeable", closeable, "boolean", isValidBoolean);
+
+      // Validate message or title provided
+      if (!message && !title) {
+        validator.warn(
+          "Alert should have either a message or title for accessibility"
+        );
+      }
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [variant, status, rounded, closeable, message, title, className]);
 
     if (!isOpen) return null;
 

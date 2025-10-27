@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+  isValidFunction,
+} from "../../lib/validation";
 import type { PlayButtonProps } from "./PlayButton.types";
 
 /**
@@ -199,6 +205,63 @@ const PlayButton = React.forwardRef<HTMLButtonElement, PlayButtonProps>(
     ref
   ) => {
     const [internalIsPlaying, setInternalIsPlaying] = useState(false);
+
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("PlayButton");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "primary",
+        "secondary",
+        "accent",
+        "info",
+        "success",
+        "warning",
+        "error",
+        "glass",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg", "xl"] as const);
+
+      // Validate boolean props
+      validator.validateType("pulse", pulse, "boolean", isValidBoolean);
+      validator.validateType("glow", glow, "boolean", isValidBoolean);
+
+      if (controlledIsPlaying !== undefined) {
+        validator.validateType(
+          "isPlaying",
+          controlledIsPlaying,
+          "boolean",
+          isValidBoolean
+        );
+      }
+
+      // Validate callbacks
+      if (onToggle) {
+        validator.validateType(
+          "onToggle",
+          onToggle,
+          "function",
+          isValidFunction
+        );
+      }
+
+      // Common validators
+      commonValidators.className(validator, className);
+      commonValidators.disabled(validator, disabled);
+    }, [
+      variant,
+      size,
+      pulse,
+      glow,
+      controlledIsPlaying,
+      onToggle,
+      disabled,
+      className,
+    ]);
 
     // Use controlled state if provided, otherwise use internal state
     const isPlaying = controlledIsPlaying ?? internalIsPlaying;

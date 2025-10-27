@@ -8,6 +8,13 @@ import React, {
 } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+  isValidArray,
+  isValidString,
+} from "../../lib/validation";
 import type { CheckboxProps, CheckboxGroupProps } from "./Checkbox.types";
 import { Check, Minus } from "lucide-react";
 
@@ -116,6 +123,15 @@ export const checkboxVariants = cva(
           "focus-visible:ring-destructive/50",
           "hover:border-destructive/60",
           "checked:shadow-destructive/40",
+        ],
+        glass: [
+          "border-white/20 bg-white/10 backdrop-blur-xl",
+          "dark:bg-black/10",
+          "checked:border-white/30 checked:bg-white/20",
+          "indeterminate:border-white/30 indeterminate:bg-white/20",
+          "focus-visible:ring-white/50",
+          "hover:border-white/30",
+          "checked:shadow-black/10",
         ],
       },
       size: {
@@ -294,6 +310,72 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         inputRef.current.indeterminate = indeterminate;
       }
     }, [indeterminate]);
+
+    // ===== PROP VALIDATION =====
+    useEffect(() => {
+      if (process.env.NODE_ENV !== "production") {
+        const validator = createValidator("Checkbox");
+
+        // Common validators
+        commonValidators.size(validator, size);
+        const checkboxVariants = [
+          "default",
+          "primary",
+          "secondary",
+          "accent",
+          "success",
+          "warning",
+          "error",
+        ] as const;
+        commonValidators.variant(validator, variant, checkboxVariants);
+        commonValidators.disabled(validator, disabled);
+        commonValidators.className(validator, className);
+
+        // Boolean validations
+        if (indeterminate !== undefined && !isValidBoolean(indeterminate)) {
+          validator.error("Invalid prop: 'indeterminate' must be a boolean.");
+        }
+        if (card !== undefined && !isValidBoolean(card)) {
+          validator.error("Invalid prop: 'card' must be a boolean.");
+        }
+        if (hoverEffect !== undefined && !isValidBoolean(hoverEffect)) {
+          validator.error("Invalid prop: 'hoverEffect' must be a boolean.");
+        }
+        if (recommended !== undefined && !isValidBoolean(recommended)) {
+          validator.error("Invalid prop: 'recommended' must be a boolean.");
+        }
+
+        // Label position validation
+        if (
+          labelPosition &&
+          !["left", "right", "top", "bottom"].includes(labelPosition)
+        ) {
+          validator.error(
+            "Invalid prop: 'labelPosition' must be one of: 'left', 'right', 'top', 'bottom'."
+          );
+        }
+
+        // Context validation - when used inside CheckboxGroup
+        if (context && !props.value) {
+          validator.warn(
+            "Warning: Checkbox inside CheckboxGroup should have a 'value' prop."
+          );
+        }
+      }
+    }, [
+      variant,
+      size,
+      disabled,
+      className,
+      indeterminate,
+      card,
+      hoverEffect,
+      recommended,
+      labelPosition,
+      context,
+      props.value,
+    ]);
+    // ===== END PROP VALIDATION =====
 
     const finalVariant = context?.variant || variant;
     const finalSize = context?.size || size;
@@ -529,6 +611,88 @@ export const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
     );
     const isControlled = controlledValue !== undefined;
     const value = isControlled ? controlledValue : uncontrolledValue;
+
+    // ===== PROP VALIDATION =====
+    useEffect(() => {
+      if (process.env.NODE_ENV !== "production") {
+        const validator = createValidator("CheckboxGroup");
+
+        // Common validators
+        commonValidators.size(validator, size);
+        const checkboxVariants = [
+          "default",
+          "primary",
+          "secondary",
+          "accent",
+          "success",
+          "warning",
+          "error",
+        ] as const;
+        commonValidators.variant(validator, variant, checkboxVariants);
+        commonValidators.className(validator, className);
+
+        // Value validation
+        validator.validateArray("value", value, isValidString);
+        if (defaultValue !== undefined) {
+          validator.validateArray("defaultValue", defaultValue, isValidString);
+        }
+
+        // Direction validation
+        if (direction && !["vertical", "horizontal"].includes(direction)) {
+          validator.error(
+            "Invalid prop: 'direction' must be 'vertical' or 'horizontal'."
+          );
+        }
+
+        // Boolean validation
+        if (card !== undefined && !isValidBoolean(card)) {
+          validator.error("Invalid prop: 'card' must be a boolean.");
+        }
+
+        // Options validation
+        if (options) {
+          validator.validateArray("options", options);
+          if (isValidArray(options)) {
+            options.forEach((option, index) => {
+              if (typeof option !== "object" || !option) {
+                validator.error(
+                  `Invalid prop: 'options[${index}]' must be an object.`
+                );
+              } else {
+                if (!("value" in option) || !isValidString(option.value)) {
+                  validator.error(
+                    `Invalid prop: 'options[${index}].value' is required and must be a string.`
+                  );
+                }
+                if (!("label" in option) || !isValidString(option.label)) {
+                  validator.error(
+                    `Invalid prop: 'options[${index}].label' is required and must be a string.`
+                  );
+                }
+              }
+            });
+          }
+        }
+
+        // Either options or children should be provided
+        if (!options && !children) {
+          validator.warn(
+            "Warning: CheckboxGroup should have either 'options' prop or children."
+          );
+        }
+      }
+    }, [
+      variant,
+      size,
+      className,
+      value,
+      defaultValue,
+      direction,
+      card,
+      options,
+      children,
+    ]);
+    // ===== END PROP VALIDATION =====
 
     const handleChange = (itemValue: string, checked: boolean) => {
       const newValue = checked

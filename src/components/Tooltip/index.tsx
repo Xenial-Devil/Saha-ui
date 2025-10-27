@@ -13,6 +13,12 @@ import {
   TooltipTriggerProps,
   TooltipContextValue,
 } from "./Tooltip.types";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+  isValidNumber,
+} from "../../lib/validation";
 
 /**
  * Tooltip component variants using CVA
@@ -187,6 +193,77 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
 
     // Use controlled or uncontrolled state
     const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
+
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Tooltip");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "dark",
+        "light",
+        "glass",
+        "primary",
+        "success",
+        "warning",
+        "error",
+        "info",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate position
+      validator.validateEnum("position", position, [
+        "top",
+        "bottom",
+        "left",
+        "right",
+      ] as const);
+
+      // Validate trigger
+      validator.validateEnum("trigger", trigger, [
+        "hover",
+        "click",
+        "focus",
+      ] as const);
+
+      // Validate boolean props
+      validator.validateType("arrow", arrow, "boolean", isValidBoolean);
+      validator.validateType(
+        "interactive",
+        interactive,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
+
+      // Validate numeric props
+      validator.validateType("delay", delay, "number", isValidNumber);
+      validator.validateType("offset", offset, "number", isValidNumber);
+
+      // Validate children
+      if (!children) {
+        validator.warn("Tooltip should have children (trigger element)");
+      }
+
+      // Common validators
+      commonValidators.className(validator, className);
+      commonValidators.disabled(validator, disabled);
+    }, [
+      variant,
+      size,
+      position,
+      trigger,
+      arrow,
+      interactive,
+      disabled,
+      delay,
+      offset,
+      children,
+      className,
+    ]);
 
     const setOpen = (open: boolean) => {
       if (disabled) return;

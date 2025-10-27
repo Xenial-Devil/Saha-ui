@@ -1,7 +1,12 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import { ListProps, ListItemProps, ListVariant, ListSize } from "./List.types";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 
 interface ListContextValue {
   variant: ListVariant;
@@ -87,6 +92,44 @@ const List = React.forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("List");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "bordered",
+        "divided",
+        "striped",
+        "cards",
+        "glass",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate listType
+      validator.validateEnum("listType", listType, [
+        "disc",
+        "circle",
+        "square",
+        "decimal",
+        "decimal-leading-zero",
+        "lower-roman",
+        "upper-roman",
+        "lower-alpha",
+        "upper-alpha",
+        "none",
+      ] as const);
+
+      // Validate boolean props
+      validator.validateType("ordered", ordered, "boolean", isValidBoolean);
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [variant, size, listType, ordered, className]);
+
     const listStyle = listType !== "none" ? listType : undefined;
     const Component = ordered ? "ol" : "ul";
 

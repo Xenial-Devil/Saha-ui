@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import { X } from "lucide-react";
 import type { ChipProps } from "./Chip.types";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 
 /**
  * Chip component variants using CVA
@@ -340,6 +345,65 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Chip");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "filled",
+        "outlined",
+        "soft",
+        "gradient",
+        "glass",
+      ] as const);
+
+      // Validate color
+      validator.validateEnum("color", color, [
+        "default",
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "error",
+        "info",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate boolean props
+      validator.validateType("deletable", deletable, "boolean", isValidBoolean);
+      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
+      validator.validateType("clickable", clickable, "boolean", isValidBoolean);
+
+      // Validate deletable logic
+      if (deletable && !onDelete) {
+        validator.warn(
+          "deletable is true but onDelete callback is not provided"
+        );
+      }
+
+      // Validate children
+      if (!children) {
+        validator.warn("Chip should have children content for accessibility");
+      }
+
+      // Common validators
+      commonValidators.className(validator, className);
+      commonValidators.disabled(validator, disabled);
+    }, [
+      variant,
+      color,
+      size,
+      deletable,
+      disabled,
+      clickable,
+      onDelete,
+      children,
+      className,
+    ]);
+
     const handleDelete = (e: React.MouseEvent) => {
       e.stopPropagation();
       onDelete?.();

@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import { ChevronDown } from "lucide-react";
@@ -9,6 +15,11 @@ import type {
   AccordionContentProps,
   AccordionVariant,
 } from "./Accordion.types";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 
 interface AccordionContextValue {
   value: string | string[];
@@ -153,6 +164,40 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
 
     const value =
       controlledValue !== undefined ? controlledValue : uncontrolledValue;
+
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Accordion");
+
+      // Validate type
+      validator.validateEnum("type", type, ["single", "multiple"] as const);
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "controlled",
+        "allopen",
+        "toggle",
+        "firstopen",
+        "glass",
+      ] as const);
+
+      // Validate boolean props
+      validator.validateType(
+        "collapsible",
+        collapsible,
+        "boolean",
+        isValidBoolean
+      );
+
+      // Validate children
+      if (!children) {
+        validator.warn("Accordion should have AccordionItem children");
+      }
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [type, variant, collapsible, children, className]);
 
     const handleValueChange = useCallback(
       (itemValue: string) => {

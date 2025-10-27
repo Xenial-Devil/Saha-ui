@@ -130,6 +130,18 @@ export default {
         glow: 'glow 2s ease-in-out infinite',
         float: 'float 3s ease-in-out infinite',
         'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+        'collapsible-down': 'collapsible-down 0.3s ease-out',
+        'collapsible-up': 'collapsible-up 0.3s ease-out',
+      },
+      keyframes: {
+        'collapsible-down': {
+          from: { height: '0', opacity: '0' },
+          to: { height: 'var(--radix-collapsible-content-height)', opacity: '1' },
+        },
+        'collapsible-up': {
+          from: { height: 'var(--radix-collapsible-content-height)', opacity: '1' },
+          to: { height: '0', opacity: '0' },
+        },
       },
     },
   },

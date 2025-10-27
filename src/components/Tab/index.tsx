@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import type {
   TabsProps,
@@ -8,6 +8,7 @@ import type {
   TabVariant,
   TabSize,
 } from "./Tab.types";
+import { createValidator, commonValidators } from "../../lib/validation";
 
 /**
  * Utility function to merge class names
@@ -428,6 +429,19 @@ export const Tabs: React.FC<TabsProps> = ({
 
   const value = controlledValue ?? uncontrolledValue;
 
+  // Development-only validation
+  useEffect(() => {
+    const validator = createValidator("Tabs");
+
+    // Validate children
+    if (!children) {
+      validator.warn("Tabs should have TabsList and TabsContent children");
+    }
+
+    // Common validators
+    commonValidators.className(validator, className);
+  }, [children, className]);
+
   const handleValueChange = (newValue: string) => {
     if (controlledValue === undefined) {
       setUncontrolledValue(newValue);
@@ -465,6 +479,36 @@ export const TabsList: React.FC<TabsListProps> = ({
   children,
 }) => {
   const context = useTabsContext();
+
+  // Development-only validation
+  useEffect(() => {
+    const validator = createValidator("TabsList");
+
+    // Validate variant
+    validator.validateEnum("variant", variant, [
+      "default",
+      "primary",
+      "secondary",
+      "accent",
+      "glass",
+      "outline",
+      "pills",
+      "underline",
+      "bordered",
+      "minimal",
+    ] as const);
+
+    // Validate size
+    validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+    // Validate children
+    if (!children) {
+      validator.warn("TabsList should have TabsTrigger children");
+    }
+
+    // Common validators
+    commonValidators.className(validator, className);
+  }, [variant, size, children, className]);
 
   // Update context with variant and size
   const updatedContext = {

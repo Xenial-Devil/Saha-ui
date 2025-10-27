@@ -13,6 +13,7 @@ export {
   AccordionContent,
 } from "./components/Accordion";
 export { default as Alert } from "./components/Alert";
+export { default as AspectRatio } from "./components/AspectRatio";
 export { default as Avatar } from "./components/Avatar";
 export { default as AvatarGroup } from "./components/AvatarGroup";
 export { default as Badge } from "./components/Badge";
@@ -23,6 +24,7 @@ export {
 } from "./components/Breadcrumb";
 export { default as Button } from "./components/Button";
 export { ButtonGroup } from "./components/ButtonGroup";
+export { default as Calendar } from "./components/Calendar";
 export {
   default as Card,
   CardHeader,
@@ -39,7 +41,23 @@ export {
   CarouselNext,
 } from "./components/Carousel";
 export { Chip } from "./components/Chip";
-export { default as Divider } from "./components/Divider";
+export { default as Separator } from "./components/Separator";
+export {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuCheckboxItem,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubTrigger,
+  ContextMenuSubContent,
+  ContextMenuGroup,
+} from "./components/ContextMenu";
 export {
   default as Drawer,
   DrawerTrigger,
@@ -54,8 +72,70 @@ export {
   DrawerOverlay,
 } from "./components/Drawer";
 export { default as Image } from "./components/Image";
+export {
+  Item,
+  ItemMedia,
+  ItemContent,
+  ItemTitle,
+  ItemDescription,
+  ItemActions,
+  ItemHeader,
+  ItemFooter,
+  ItemGroup,
+  ItemSeparator,
+  ItemBadge,
+} from "./components/Item";
+export {
+  default as Kbd,
+  KbdGroup,
+  KbdKey,
+  KbdDescription,
+  KEYBOARD_SYMBOLS,
+} from "./components/Kbd";
+export {
+  default as Label,
+  LabelGroup,
+  LabelDescription,
+  LabelError,
+  LabelRequired,
+  LabelOptional,
+} from "./components/Label";
 export { default as Link } from "./components/Link";
+export {
+  default as Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+  MenubarContent,
+  MenubarItem,
+  MenubarCheckboxItem,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarSub,
+  MenubarSubTrigger,
+  MenubarSubContent,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarLabel,
+} from "./components/Menubar";
 export { List, ListItem } from "./components/List";
+export {
+  default as NativeSelect,
+  NativeSelectOption,
+  NativeSelectGroup,
+  NativeSelectWrapper,
+  NativeSelectLabel,
+  NativeSelectDescription,
+  NativeSelectError,
+} from "./components/NativeSelect";
+export {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuSection,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+} from "./components/NavigationMenu";
 export { Timeline, TimelineItem } from "./components/Timeline";
 export {
   default as Tooltip,
@@ -84,10 +164,34 @@ export { default as Pagination } from "./components/Pagination";
 export { default as DatePicker } from "./components/DatePicker";
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/Tab";
 export { Input } from "./components/Input";
+export {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+  InputOTPSeparator,
+} from "./components/InputOTP";
 export { default as FloatingActionButton } from "./components/FloatingActionButton";
 export { default as Radio, RadioGroup } from "./components/Radio";
 export { default as Switch } from "./components/Switch";
 export { default as Checkbox, CheckboxGroup } from "./components/Checkbox";
+export {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+  CollapsibleCompact,
+} from "./components/Collapsible";
+export {
+  DataTable,
+  DataTableCompact,
+  Table as DataTableRoot,
+  TableHeader as DataTableHeader,
+  TableBody as DataTableBody,
+  TableRow as DataTableRow,
+  TableHead as DataTableHead,
+  TableCell as DataTableCell,
+  flexRender,
+} from "./components/DataTable";
+export { useDataTable } from "./components/DataTable/useDataTable";
 export { default as Select } from "./components/Select";
 export {
   default as Dropdown,
@@ -100,20 +204,89 @@ export {
 export { Tag, TagGroup } from "./components/Tag";
 export { default as TagInput } from "./components/TagInput";
 export { default as TextArea } from "./components/TextArea";
+export {
+  TextEditor,
+  textEditorVariants,
+  toolbarVariants,
+  editorContentVariants,
+  toolbarButtonVariants,
+} from "./components/TextEditor";
+export { Toggle, ToggleGroup, toggleVariants } from "./components/Toggle";
+export {
+  ToggleGroup as ToggleGroupStandalone,
+  ToggleGroupItem,
+  toggleGroupVariants,
+  toggleGroupItemVariants,
+} from "./components/ToggleGroup";
+export {
+  Typography,
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  P,
+  Lead,
+  Large,
+  Small,
+  Muted,
+  Blockquote,
+  Code,
+  InlineCode,
+  List as TypographyList,
+  typographyVariants,
+} from "./components/Typography";
 export { default as Upload } from "./components/Upload";
 export { ToastProvider, useToast, ToastItem } from "./components/Toast";
 export {
-  default as Modal,
-  ModalTrigger,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalTitle,
-  ModalDescription,
-  ModalCloseButton,
-  ModalOverlay,
-  ModalContent,
-} from "./components/Modal";
+  Form,
+  FormCompact,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+  FormSection,
+  FormActions,
+} from "./components/Form";
+export {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent,
+  HoverCardCompact,
+} from "./components/HoverCard";
+export {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from "./components/Resizable";
+export {
+  ScrollArea,
+  ScrollAreaRoot,
+  ScrollAreaViewport,
+  ScrollBar,
+  ScrollAreaCorner,
+} from "./components/ScrollArea";
+export {
+  Sonner,
+  SonnerProvider,
+  SonnerContainer,
+  useSonner,
+} from "./components/Sonner";
+export {
+  default as Dialog,
+  DialogTrigger,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogCloseButton,
+  DialogOverlay,
+  DialogContent,
+} from "./components/Dialog";
 export {
   Empty,
   EmptyIcon,
@@ -138,6 +311,35 @@ export {
   FieldError,
   FieldHint,
 } from "./components/Field";
+export {
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+} from "./components/Slider";
+export {
+  Combobox,
+  ComboboxTrigger,
+  ComboboxContent,
+  ComboboxSearch,
+  ComboboxEmpty,
+  ComboboxLoading,
+  ComboboxGroup,
+  ComboboxItem,
+  ComboboxSeparator,
+  ComboboxCreate,
+} from "./components/Combobox";
+export {
+  Command,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandLoading,
+  CommandGroup,
+  CommandItem,
+  CommandSeparator,
+  CommandShortcut,
+} from "./components/Command";
 
 // Types - Theme
 export type {
@@ -161,6 +363,12 @@ export type {
   AlertVariant,
   AlertStatus,
 } from "./components/Alert/Alert.types";
+export type {
+  AspectRatioProps,
+  AspectRatioPreset,
+  AspectRatioVariant,
+  AspectRatioRounded,
+} from "./components/AspectRatio/AspectRatio.types";
 export type {
   AvatarProps,
   AvatarSize,
@@ -225,12 +433,12 @@ export type {
   ChipSize,
 } from "./components/Chip/Chip.types";
 export type {
-  DividerProps,
-  DividerVariant,
-  DividerOrientation,
-  DividerThickness,
-  DividerSpacing,
-} from "./components/Divider/Divider.types";
+  SeparatorProps,
+  SeparatorVariant,
+  SeparatorOrientation,
+  SeparatorThickness,
+  SeparatorSpacing,
+} from "./components/Separator/Separator.types";
 export type {
   ImageProps,
   ImageVariant,
@@ -398,6 +606,52 @@ export type {
 } from "./components/Checkbox/Checkbox.types";
 
 export type {
+  CollapsibleProps,
+  CollapsibleTriggerProps,
+  CollapsibleContentProps,
+  CollapsibleCompactProps,
+  CollapsibleVariant,
+  CollapsibleAnimation,
+} from "./components/Collapsible/Collapsible.types";
+
+export type {
+  DataTableProps,
+  DataTableCompactProps,
+  DataTableVariant,
+  DataTableSize,
+  DataTableStriped,
+  ColumnDef,
+  SortingState,
+  ColumnFilter,
+  ColumnFiltersState,
+  VisibilityState,
+  RowSelectionState,
+  PaginationState,
+  TableInstance,
+  Row,
+  Column,
+  Cell,
+  SortDirection as DataTableSortDirection,
+} from "./components/DataTable/DataTable.types";
+
+export type {
+  FormProps,
+  FormCompactProps,
+  FormFieldProps,
+  FormItemProps,
+  FormLabelProps,
+  FormControlProps,
+  FormDescriptionProps,
+  FormMessageProps,
+  FormSectionProps,
+  FormActionsProps,
+  FormVariant,
+  FormSize,
+  FormLayout,
+  FormFieldConfig,
+} from "./components/Form/Form.types";
+
+export type {
   SelectProps,
   SelectOption,
 } from "./components/Select/Select.types";
@@ -419,6 +673,42 @@ export type { TagInputProps } from "./components/TagInput/TagInput.types";
 
 export type { TextAreaProps } from "./components/TextArea/TextArea.types";
 
+export type {
+  TextEditorProps,
+  TextEditorVariant,
+  TextEditorSize,
+  ToolbarButtonVariant,
+  EditorCommand,
+} from "./components/TextEditor";
+
+export type {
+  ToggleProps,
+  ToggleGroupProps,
+  ToggleVariant,
+  ToggleSize,
+} from "./components/Toggle";
+
+export type {
+  ToggleGroupProps as ToggleGroupStandaloneProps,
+  ToggleGroupItemProps,
+  ToggleGroupVariant,
+  ToggleGroupSize,
+  ToggleGroupSpacing,
+  ToggleGroupOrientation,
+} from "./components/ToggleGroup";
+
+export type {
+  TypographyProps,
+  TypographyElement,
+  TypographyVariant,
+  TypographyColor,
+  TypographyAlign,
+  TypographyWeight,
+  TypographyTransform,
+  TypographyDecoration,
+  TypographyTruncate,
+} from "./components/Typography";
+
 export type { UploadProps, UploadFile } from "./components/Upload/Upload.types";
 
 export type {
@@ -432,7 +722,7 @@ export type {
   ToastItemProps,
 } from "./components/Toast/Toast.types";
 
-export type { ModalProps } from "./components/Modal/Modal.types";
+export type { DialogProps } from "./components/Dialog/Dialog.types";
 
 export type {
   EmptyProps,
@@ -459,6 +749,60 @@ export type {
   FieldVariant,
   FieldOrientation,
 } from "./components/Field/Field.types";
+
+export type {
+  ComboboxProps,
+  ComboboxTriggerProps,
+  ComboboxContentProps,
+  ComboboxSearchProps,
+  ComboboxEmptyProps,
+  ComboboxLoadingProps,
+  ComboboxGroupProps,
+  ComboboxItemProps,
+  ComboboxSeparatorProps,
+  ComboboxCreateProps,
+  ComboboxOption,
+  ComboboxGroup as ComboboxGroupType,
+  ComboboxSize,
+  ComboboxVariant,
+  ComboboxPlacement,
+} from "./components/Combobox/Combobox.types";
+
+export type {
+  CommandProps,
+  CommandInputProps,
+  CommandListProps,
+  CommandEmptyProps,
+  CommandLoadingProps,
+  CommandGroupProps,
+  CommandItemProps,
+  CommandSeparatorProps,
+  CommandShortcutProps,
+  CommandItem as CommandItemType,
+  CommandGroup as CommandGroupType,
+} from "./components/Command/Command.types";
+
+export type {
+  SliderProps,
+  SliderSize,
+  SliderVariant,
+  SliderOrientation,
+  SliderMark,
+} from "./components/Slider/Slider.types";
+
+export type {
+  ScrollAreaProps,
+  ScrollAreaVariant,
+  ScrollOrientation,
+} from "./components/ScrollArea";
+
+export type {
+  SonnerVariant,
+  SonnerPosition,
+  SonnerType,
+  Toast,
+  SonnerContextValue,
+} from "./components/Sonner";
 
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip";

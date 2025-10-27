@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 import type { BadgeProps } from "./Badge.types";
 
 /**
@@ -18,6 +23,8 @@ const badgeVariants = cva(
           "bg-gradient-to-r from-primary/90 to-primary text-primary-foreground shadow-md shadow-primary/25 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 active:scale-95 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
         secondary:
           "bg-gradient-to-r from-secondary/90 to-secondary text-secondary-foreground shadow-md shadow-secondary/25 hover:shadow-lg hover:shadow-secondary/40 hover:scale-105 active:scale-95 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
+        accent:
+          "bg-gradient-to-r from-accent/90 to-accent text-accent-foreground shadow-md shadow-accent/25 hover:shadow-lg hover:shadow-accent/40 hover:scale-105 active:scale-95 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
         success:
           "bg-gradient-to-r from-green-500/90 to-green-600 text-white shadow-md shadow-green-500/25 hover:shadow-lg hover:shadow-green-500/40 hover:scale-105 active:scale-95 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
         warning:
@@ -96,6 +103,56 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     },
     ref
   ) => {
+    // ===== PROP VALIDATION =====
+    useEffect(() => {
+      if (process.env.NODE_ENV !== "production") {
+        const validator = createValidator("Badge");
+
+        // Common validators
+        commonValidators.size(validator, size);
+        const badgeVariants = [
+          "default",
+          "primary",
+          "secondary",
+          "accent",
+          "success",
+          "warning",
+          "error",
+          "info",
+          "outline",
+          "glass",
+        ] as const;
+        commonValidators.variant(validator, variant, badgeVariants);
+        commonValidators.className(validator, className);
+
+        // Shape validation
+        if (shape && !["rounded", "pill", "square"].includes(shape)) {
+          validator.error(
+            "Invalid prop: 'shape' must be one of: 'rounded', 'pill', 'square'."
+          );
+        }
+
+        // Boolean validations
+        if (dot !== undefined && !isValidBoolean(dot)) {
+          validator.error("Invalid prop: 'dot' must be a boolean.");
+        }
+        if (removable !== undefined && !isValidBoolean(removable)) {
+          validator.error("Invalid prop: 'removable' must be a boolean.");
+        }
+        if (pulse !== undefined && !isValidBoolean(pulse)) {
+          validator.error("Invalid prop: 'pulse' must be a boolean.");
+        }
+
+        // Conditional validation
+        if (removable && !onRemove) {
+          validator.warn(
+            "Warning: 'removable' is true but 'onRemove' callback is not provided."
+          );
+        }
+      }
+    }, [variant, size, shape, className, dot, removable, pulse, onRemove]);
+    // ===== END PROP VALIDATION =====
+
     return (
       <span
         ref={ref}

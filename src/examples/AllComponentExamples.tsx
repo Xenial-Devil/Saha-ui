@@ -6,9 +6,10 @@ import { ButtonExample } from "./ButtonExample";
 import { ButtonGroupExample } from "./ButtonGroupExample";
 import { BreadcrumbExample } from "./BreadcrumbExample";
 import { BadgeExample } from "./BadgeExample";
+import { AspectRatioExample } from "./AspectRatioExample";
 import { AvatarExample } from "./AvatarExample";
 import { CardExample } from "./CardExample";
-import { DividerExample } from "./DividerExample";
+import { SeparatorExample } from "./SeparatorExample";
 import { DrawerExample } from "./DrawerExample";
 import { ChipExample } from "./ChipExample";
 import { AlertExample } from "./AlertExample";
@@ -44,158 +45,184 @@ import { TagExample } from "./TagExample";
 import { TagInputExample } from "./TagInputExample";
 import TextAreaExample from "./TextAreaExample";
 import UploadExample from "./UploadExample";
-import ModalExample from "./ModalExample";
+import DialogExample from "./DialogExample";
 import { ToastExample } from "./ToastExample";
 import { EmptyExample } from "./EmptyExample";
 import { AutocompleteExample } from "./AutocompleteExample";
 import { FieldExample } from "./FieldExample";
+import { SliderExample } from "./SliderExample";
+import { CalendarExample } from "./CalendarExample";
+import ComboboxExample from "./ComboboxExample";
+import CommandExample from "./CommandExample";
+import NavigationMenuExample from "./NavigationMenuExample";
+import InputOTPExample from "./InputOTPExample";
+import ItemExample from "./ItemExample";
+import KbdExample from "./KbdExample";
+import LabelExample from "./LabelExample";
+import MenubarExample from "./MenubarExample";
+import NativeSelectExample from "./NativeSelectExample";
+import ContextMenuExample from "./ContextMenuExample";
+import CollapsibleExample from "./CollapsibleExample";
+import DataTableExample from "./DataTableExample";
+import FormExample from "./FormExample";
+import HoverCardExample from "./HoverCardExample";
+import ResizableExample from "./ResizableExample";
+import ScrollAreaExample from "./ScrollAreaExample";
+import ToggleGroupExample from "./ToggleGroupExample";
+import { TypographyExample } from "./TypographyExample";
+import TextEditorExample from "./TextEditorExample";
 
 export const AllComponentExamples = () => {
   return (
     <>
-      {/* Color Palette */}
+      {/* Color Palette
       <ColorPalette />
 
-      {/* Button Examples */}
       <ButtonExample />
 
-      {/* ButtonGroup Examples */}
       <ButtonGroupExample />
 
-      {/* Breadcrumb Examples */}
       <BreadcrumbExample />
 
-      {/* Badge Examples */}
       <BadgeExample />
 
-      {/* Avatar Examples */}
+      <AspectRatioExample />
+
       <AvatarExample />
 
-      {/* Card Examples */}
       <CardExample />
 
-      {/* Divider Examples */}
-      <DividerExample />
+      <SeparatorExample />
 
-      {/* Drawer Examples */}
       <DrawerExample />
 
-      {/* Chip Examples */}
       <ChipExample />
 
-      {/* Alert Examples */}
       <AlertExample />
 
-      {/* Accordion Examples */}
       <AccordionExample />
 
-      {/* Tooltip Examples */}
       <TooltipExample />
 
-      {/* Link Examples */}
       <LinkExample />
 
-      {/* List Examples */}
+  
       <ListExample />
 
-      {/* Timeline Examples */}
       <TimelineExample />
 
-      {/* Image Examples */}
-      <ImageExample />
+      <ImageExample /> 
 
-      {/* Carousel Examples */}
       <CarouselExample />
 
-      {/* Tree Examples */}
       <TreeExample />
 
-      {/* Steps Examples */}
       <StepsExample />
 
-      {/* Table Examples */}
       <TableExample />
 
-      {/* Rating Examples */}
       <RatingExample />
 
-      {/* Progress Examples */}
       <ProgressExample />
 
-      {/* Popover Examples */}
       <PopoverExample />
 
-      {/* PlayButton Examples */}
       <PlayButtonExample />
 
-      {/* Skeleton Examples */}
       <SkeletonExample />
 
-      {/* Spinner Examples */}
       <SpinnerExample />
 
-      {/* Pagination Examples */}
       <PaginationExample />
 
-      {/* DatePicker Examples */}
       <DatePickerExample />
 
-      {/* Tab Examples */}
       <TabExample />
 
-      {/* Input Examples */}
       <InputExample />
 
-      {/* FloatingActionButton Examples */}
       <FloatingActionButtonExample />
 
-      {/* Radio Examples */}
       <RadioExample />
 
-      {/* Advanced Radio Examples */}
-      <RadioAdvancedExample />
+      <RadioAdvancedExample /> 
 
-      {/* Switch Examples */}
       <SwitchExample />
 
-      {/* Checkbox Examples */}
       <CheckboxExample />
 
-      {/* CheckboxGroup Examples */}
       <CheckboxGroupExample />
 
-      {/* Select Examples */}
       <SelectExample />
 
-      {/* Dropdown Examples */}
       <DropdownExample />
 
-      {/* Tag Examples */}
       <TagExample />
 
-      {/* TagInput Examples */}
       <TagInputExample />
 
-      {/* TextArea Examples */}
       <TextAreaExample />
 
-      {/* Upload Examples */}
       <UploadExample />
 
-      {/* Modal Examples */}
-      <ModalExample />
+      <DialogExample />
 
-      {/* Toast Examples */}
       <ToastExample />
 
-      {/* Empty Examples */}
       <EmptyExample />
 
-      {/* Autocomplete Examples */}
       <AutocompleteExample />
 
-      {/* Field Examples */}
       <FieldExample />
+
+      <SliderExample />
+
+      <CalendarExample />
+
+      <ComboboxExample />
+
+      <CommandExample />
+
+      <NavigationMenuExample />
+
+      <InputOTPExample />
+
+      <ItemExample />
+
+      <KbdExample />
+
+      <LabelExample />
+
+      <MenubarExample />
+
+      <NativeSelectExample />
+
+      <ContextMenuExample />
+
+      <CollapsibleExample />
+
+      <DataTableExample /> */}
+
+      {/* Form Examples */}
+      <FormExample />
+
+      {/* HoverCard Examples */}
+      <HoverCardExample />
+
+      {/* Resizable Examples */}
+      <ResizableExample />
+
+      {/* ScrollArea Examples */}
+      <ScrollAreaExample />
+
+      {/* ToggleGroup Examples */}
+      <ToggleGroupExample />
+
+      {/* Typography Examples */}
+      <TypographyExample />
+
+      {/* TextEditor Examples */}
+      <TextEditorExample />
     </>
   );
 };

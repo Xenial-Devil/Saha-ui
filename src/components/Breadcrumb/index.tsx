@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import { ChevronRight, Slash, Circle, ArrowRight } from "lucide-react";
@@ -10,6 +10,7 @@ import type {
   BreadcrumbSize,
   BreadcrumbSeparatorType,
 } from "./Breadcrumb.types";
+import { createValidator, commonValidators } from "../../lib/validation";
 
 interface BreadcrumbContextValue {
   variant: BreadcrumbVariant;
@@ -134,6 +135,40 @@ const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Breadcrumb");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "ghost",
+        "bordered",
+        "pills",
+        "underline",
+        "glass",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate separator
+      validator.validateEnum("separator", separator, [
+        "chevron",
+        "slash",
+        "dot",
+        "arrow",
+      ] as const);
+
+      // Validate children
+      if (!children) {
+        validator.warn("Breadcrumb should have BreadcrumbItem children");
+      }
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [variant, size, separator, children, className]);
+
     const contextValue: BreadcrumbContextValue = {
       variant,
       size,

@@ -4,11 +4,13 @@
 export { default as ColorPalette } from "./ColorPalette";
 export { ButtonExample } from "./ButtonExample";
 export { ButtonGroupExample } from "./ButtonGroupExample";
+export { CalendarExample } from "./CalendarExample";
 export { BreadcrumbExample } from "./BreadcrumbExample";
 export { BadgeExample } from "./BadgeExample";
+export { AspectRatioExample } from "./AspectRatioExample";
 export { AvatarExample } from "./AvatarExample";
 export { CardExample } from "./CardExample";
-export { DividerExample } from "./DividerExample";
+export { SeparatorExample } from "./SeparatorExample";
 export { DrawerExample } from "./DrawerExample";
 export { ChipExample } from "./ChipExample";
 export { AlertExample } from "./AlertExample";
@@ -41,6 +43,12 @@ export { ToastExample } from "./ToastExample";
 export { EmptyExample } from "./EmptyExample";
 export { AutocompleteExample } from "./AutocompleteExample";
 export { FieldExample } from "./FieldExample";
+export { SliderExample } from "./SliderExample";
+export { default as ComboboxExample } from "./ComboboxExample";
+export { default as CommandExample } from "./CommandExample";
+export { default as ContextMenuExample } from "./ContextMenuExample";
+export { default as HoverCardExample } from "./HoverCardExample";
+export { default as ResizableExample } from "./ResizableExample";
 
 // Aggregate component that includes all examples
 export { AllComponentExamples } from "./AllComponentExamples";

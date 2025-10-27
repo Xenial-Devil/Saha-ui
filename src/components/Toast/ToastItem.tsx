@@ -2,6 +2,12 @@ import React, { useEffect, useState, useRef } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type { ToastItemProps } from "./Toast.types";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+  isValidNumber,
+} from "../../lib/validation";
 
 // CVA variants for Toast - Clean, Thin, and Beautiful Design
 const toastVariants = cva(
@@ -209,6 +215,91 @@ export const ToastItem: React.FC<ToastItemProps> = ({
   pauseOnHover = true,
   position = "top-right",
 }) => {
+  // Development-only validation
+  useEffect(() => {
+    const validator = createValidator("ToastItem");
+
+    // Validate status
+    validator.validateEnum("status", status, [
+      "info",
+      "success",
+      "warning",
+      "danger",
+    ] as const);
+
+    // Validate variant
+    validator.validateEnum("variant", variant, [
+      "solid",
+      "subtle",
+      "outline",
+      "glass",
+    ] as const);
+
+    // Validate animation
+    validator.validateEnum("animation", animation, [
+      "slide",
+      "fade",
+      "scale",
+      "bounce",
+    ] as const);
+
+    // Validate position
+    validator.validateEnum("position", position, [
+      "top-left",
+      "top-center",
+      "top-right",
+      "bottom-left",
+      "bottom-center",
+      "bottom-right",
+    ] as const);
+
+    // Validate duration
+    validator.validateType("duration", duration, "number", isValidNumber);
+    if (duration !== undefined && duration < 0) {
+      validator.error("duration must be a positive number");
+    }
+
+    // Validate boolean props
+    validator.validateType("closable", closable, "boolean", isValidBoolean);
+    validator.validateType("showIcon", showIcon, "boolean", isValidBoolean);
+    validator.validateType(
+      "showProgress",
+      showProgress,
+      "boolean",
+      isValidBoolean
+    );
+    validator.validateType(
+      "pauseOnHover",
+      pauseOnHover,
+      "boolean",
+      isValidBoolean
+    );
+
+    // Validate content
+    if (!title && !description && !children) {
+      validator.warn(
+        "ToastItem should have title, description, or children for accessibility"
+      );
+    }
+
+    // Common validators
+    commonValidators.className(validator, className);
+  }, [
+    status,
+    variant,
+    animation,
+    position,
+    duration,
+    closable,
+    showIcon,
+    showProgress,
+    pauseOnHover,
+    title,
+    description,
+    children,
+    className,
+  ]);
+
   const [isVisible, setIsVisible] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [isPaused, setIsPaused] = useState(false);

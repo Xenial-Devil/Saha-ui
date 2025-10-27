@@ -1,7 +1,13 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type { PaginationProps } from "./Pagination.types";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+  isValidNumber,
+} from "../../lib/validation";
 
 /**
  * Pagination button variant styles using CVA
@@ -316,6 +322,100 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Pagination");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "primary",
+        "secondary",
+        "accent",
+        "ghost",
+        "glass",
+        "outlined",
+        "minimal",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate shape
+      validator.validateEnum("shape", shape, [
+        "rounded",
+        "circle",
+        "square",
+        "pill",
+      ] as const);
+
+      // Validate numeric props
+      validator.validateType("totalPages", totalPages, "number", isValidNumber);
+      validator.validateType(
+        "currentPage",
+        currentPage,
+        "number",
+        isValidNumber
+      );
+      validator.validateType(
+        "siblingCount",
+        siblingCount,
+        "number",
+        isValidNumber
+      );
+
+      if (totalPages < 1) {
+        validator.error("totalPages must be at least 1");
+      }
+
+      if (currentPage < 1 || currentPage > totalPages) {
+        validator.warn(
+          `currentPage (${currentPage}) should be between 1 and ${totalPages}`
+        );
+      }
+
+      if (siblingCount < 0) {
+        validator.error("siblingCount must be non-negative");
+      }
+
+      // Validate boolean props
+      validator.validateType(
+        "showFirstLast",
+        showFirstLast,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "showPrevNext",
+        showPrevNext,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "showPageNumbers",
+        showPageNumbers,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
+
+      // Common validators
+      commonValidators.className(validator, className);
+      commonValidators.disabled(validator, disabled);
+    }, [
+      variant,
+      size,
+      shape,
+      totalPages,
+      currentPage,
+      siblingCount,
+      showFirstLast,
+      showPrevNext,
+      showPageNumbers,
+      disabled,
+      className,
+    ]);
+
     // Ensure currentPage is within valid range
     const validCurrentPage = Math.max(1, Math.min(currentPage, totalPages));
 

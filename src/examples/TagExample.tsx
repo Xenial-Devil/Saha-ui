@@ -276,7 +276,7 @@ export function TagExample() {
           <Tag disabled variant="primary">
             Disabled
           </Tag>
-          <Tag disabled removable variant="success">
+          <Tag disabled removable onRemove={() => {}} variant="success">
             Can't Remove
           </Tag>
           <Tag disabled clickable variant="accent">

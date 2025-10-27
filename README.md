@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **45 Modern Components** - Button, ButtonGroup, Alert, Badge, Breadcrumb, Card, Chip, Divider, Drawer, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, FloatingActionButton, Radio, Switch, Checkbox, CheckboxGroup, Select, Dropdown, Tag, TagInput, TextArea, Upload, Modal, Toast, Empty, Autocomplete, Skeleton, Pagination, DatePicker, Tab, Input
+- 🎨 **46 Modern Components** - Button, ButtonGroup, Alert, AspectRatio, Badge, Breadcrumb, Card, Chip, Separator, Drawer, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, FloatingActionButton, Radio, Switch, Checkbox, CheckboxGroup, Select, Dropdown, Tag, TagInput, TextArea, Upload, Dialog, Toast, Empty, Autocomplete, Skeleton, Pagination, DatePicker, Tab, Input
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -148,7 +148,7 @@ import { cn } from "saha-ui/lib/utils";
 | **Breadcrumb**           | Navigation trail with 5 variants, 4 separators, and collapsing           | ✅     | ✅  |
 | **Card**                 | Container with 5 variants and sub-components                             | ✅     | ✅  |
 | **Chip**                 | Interactive tags with 5 variants, deletable, and avatars                 | ✅     | ✅  |
-| **Divider**              | Content separator with 5 variants and label support                      | ✅     | ✅  |
+| **Separator**            | Content separator with 5 variants and label support                      | ✅     | ✅  |
 | **Drawer**               | Side panel with 4 positions, 5 sizes, animations, nested support         | ✅     | ✅  |
 | **Accordion**            | Collapsible content with 5 behavior modes                                | ✅     | ✅  |
 | **Avatar**               | User profile images with status indicators                               | ✅     | ✅  |
@@ -177,7 +177,7 @@ import { cn } from "saha-ui/lib/utils";
 | **TagInput**             | Dynamic tag input with validation, Enter/Comma keys, paste support       | ✅     | ✅  |
 | **TextArea**             | Multi-line text input with auto-resize, character count, validation      | ✅     | ✅  |
 | **Upload**               | File upload with drag & drop, preview, progress, validation, 4 types     | ✅     | ✅  |
-| **Modal**                | Dialog with 9 variants, 7 sizes, animations, focus trap, accessibility   | ✅     | ✅  |
+| **Dialog**               | Dialog with 9 variants, 7 sizes, animations, focus trap, accessibility   | ✅     | ✅  |
 | **Toast**                | Notification toasts with 4 variants, 6 positions, 4 animations, actions  | ✅     | ✅  |
 | **Empty**                | Empty states with 4 variants, 4 sizes, 13 preset icons, animations       | ✅     | ✅  |
 | **Autocomplete**         | Search input with filtering, keyboard nav, grouping, async, composable   | ✅     | ✅  |
@@ -307,15 +307,15 @@ import { Chip } from "saha-ui";
 </Chip>
 ```
 
-### Divider
+### Separator
 
 ```tsx
-import { Divider } from "saha-ui";
+import { Separator } from "saha-ui";
 
-<Divider />
-<Divider label="OR" />
-<Divider variant="gradient" thickness="medium" />
-<Divider orientation="vertical" className="h-24" />
+<Separator />
+<Separator label="OR" />
+<Separator variant="gradient" thickness="medium" />
+<Separator orientation="vertical" className="h-24" />
 ```
 
 ### Accordion
@@ -1231,7 +1231,7 @@ import { ButtonGroup, Button } from "saha-ui";
 **Contextual Usage:**
 
 ```tsx
-// In modal footer
+// In dialog footer
 <Card>
   <CardHeader>
     <CardTitle>Confirm Action</CardTitle>
@@ -1805,7 +1805,7 @@ const customChipClass = chipVariants({
 
 ---
 
-### Divider
+### Separator
 
 Content separator component with 5 modern variants, optional labels, and decorative elements.
 
@@ -1815,35 +1815,35 @@ Content separator component with 5 modern variants, optional labels, and decorat
 **Spacing:** `none` `xs` `sm` `md` `lg` `xl`
 
 ```tsx
-import { Divider } from "saha-ui";
+import { Separator } from "saha-ui";
 
-// Basic divider
-<Divider />
+// Basic Separator
+<Separator />
 
 // With label
-<Divider label="OR" />
+<Separator label="OR" />
 
 // Gradient variant
-<Divider variant="gradient" thickness="medium" />
+<Separator variant="gradient" thickness="medium" />
 
-// Vertical divider
+// Vertical Separator
 <div className="flex items-center h-24">
   <div>Section 1</div>
-  <Divider orientation="vertical" className="h-full" />
+  <Separator orientation="vertical" className="h-full" />
   <div>Section 2</div>
 </div>
 
 // Decorative with label
-<Divider label="Continue Reading" decorative />
+<Separator label="Continue Reading" decorative />
 
 // Custom positioning
-<Divider label="Section Start" labelPosition="left" variant="dashed" />
+<Separator label="Section Start" labelPosition="left" variant="dashed" />
 
 // Different thickness
-<Divider thickness="thick" variant="solid" />
+<Separator thickness="thick" variant="solid" />
 
 // Custom spacing
-<Divider spacing="xl" variant="gradient" />
+<Separator spacing="xl" variant="gradient" />
 ```
 
 **Features:**
@@ -1870,7 +1870,7 @@ import { Divider } from "saha-ui";
 **Props:**
 
 ```tsx
-interface DividerProps {
+interface SeparatorProps {
   variant?: "solid" | "dashed" | "dotted" | "gradient" | "glass";
   orientation?: "horizontal" | "vertical";
   thickness?: "thin" | "medium" | "thick";
@@ -1892,7 +1892,7 @@ interface DividerProps {
       Sign in with Email
     </Button>
 
-    <Divider label="OR" variant="gradient" spacing="sm" />
+    <Separator label="OR" variant="gradient" spacing="sm" />
 
     <Button variant="outline" className="w-full">
       Continue with GitHub
@@ -1904,7 +1904,7 @@ interface DividerProps {
 <article>
   <p>Introduction paragraph...</p>
 
-  <Divider
+  <Separator
     label="Section 1"
     labelPosition="left"
     variant="dashed"
@@ -1913,7 +1913,7 @@ interface DividerProps {
 
   <p>Main content...</p>
 
-  <Divider
+  <Separator
     label="Conclusion"
     labelPosition="left"
     variant="dashed"
@@ -1922,13 +1922,13 @@ interface DividerProps {
 
   <p>Summary...</p>
 
-  <Divider decorative spacing="lg" variant="gradient" />
+  <Separator decorative spacing="lg" variant="gradient" />
 </article>
 
 // Vertical layout sections
 <div className="flex h-64">
   <div className="flex-1">Left Panel</div>
-  <Divider
+  <Separator
     orientation="vertical"
     variant="gradient"
     className="h-full"
@@ -1939,9 +1939,9 @@ interface DividerProps {
 // Dashboard sections
 <div className="flex gap-4 h-48">
   <Card className="flex-1">Stats 1</Card>
-  <Divider orientation="vertical" variant="glass" className="h-full" />
+  <Separator orientation="vertical" variant="glass" className="h-full" />
   <Card className="flex-1">Stats 2</Card>
-  <Divider orientation="vertical" variant="glass" className="h-full" />
+  <Separator orientation="vertical" variant="glass" className="h-full" />
   <Card className="flex-1">Stats 3</Card>
 </div>
 ```
@@ -1950,24 +1950,24 @@ interface DividerProps {
 
 ```tsx
 import {
-  dividerVariants,
-  dividerLineVariants,
-  dividerLabelVariants,
+  SeparatorVariants,
+  SeparatorLineVariants,
+  SeparatorLabelVariants,
 } from "saha-ui";
 
 // Use exported variants for custom styling
-const customContainerClass = dividerVariants({
+const customContainerClass = SeparatorVariants({
   orientation: "horizontal",
   spacing: "lg",
 });
 
-const customLineClass = dividerLineVariants({
+const customLineClass = SeparatorLineVariants({
   variant: "gradient",
   orientation: "horizontal",
   thickness: "medium",
 });
 
-const customLabelClass = dividerLabelVariants({
+const customLabelClass = SeparatorLabelVariants({
   orientation: "horizontal",
 });
 ```
@@ -2484,7 +2484,7 @@ import { CheckCircle, Star, Zap, Heart } from 'lucide-react';
 
 - **default** - Clean, minimal design with standard list styling
 - **bordered** - Card background with border, shadow, and backdrop blur (20px)
-- **divided** - Items separated by divider lines, subtle hover effects
+- **divided** - Items separated by Separator lines, subtle hover effects
 - **striped** - Alternating background colors for better readability
 - **cards** - Individual card-style items with gradient overlay on hover
 

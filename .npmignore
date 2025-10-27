@@ -1,6 +1,7 @@
 # Source files
 src/
 public/
+dist/node_modules/
 
 # Development files
 .vscode/

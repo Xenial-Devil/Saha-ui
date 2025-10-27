@@ -1,4 +1,10 @@
-import { createContext, useContext, forwardRef } from "react";
+import {
+  createContext,
+  useContext,
+  forwardRef,
+  isValidElement,
+  cloneElement,
+} from "react";
 import { X } from "lucide-react";
 import { cn } from "../../lib/utils";
 import type { DrawerContextValue } from "./Drawer.types";
@@ -33,13 +39,29 @@ export const useDrawerContext = () => {
  * DrawerTrigger - Button to open the drawer
  */
 export const DrawerTrigger = forwardRef<HTMLButtonElement, DrawerTriggerProps>(
-  ({ children, className, onClick, ...props }, ref) => {
+  ({ children, className, onClick, asChild = false, ...props }, ref) => {
     const { setOpen } = useDrawerContext();
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       setOpen(true);
       onClick?.(e);
     };
+
+    // If asChild is true, clone the child element and pass onClick to it
+    if (asChild && isValidElement(children)) {
+      const childProps = children.props as any;
+      return cloneElement(children, {
+        ...childProps,
+        ref,
+        onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
+          handleClick(e);
+          // Call the child's original onClick if it exists
+          if (childProps.onClick) {
+            childProps.onClick(e);
+          }
+        },
+      } as any);
+    }
 
     return (
       <button

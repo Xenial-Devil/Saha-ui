@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import { ImageProps } from "./Image.types";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 
 /**
  * CVA variants for Image container
@@ -129,6 +134,78 @@ const Image = React.forwardRef<HTMLImageElement, ImageProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Image");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "rounded",
+        "circular",
+        "bordered",
+        "glass",
+      ] as const);
+
+      // Validate fit
+      validator.validateEnum("fit", fit, [
+        "cover",
+        "contain",
+        "fill",
+        "none",
+        "scale-down",
+      ] as const);
+
+      // Validate size if provided
+      if (size !== undefined) {
+        validator.validateEnum("size", size, [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+          "2xl",
+          "full",
+        ] as const);
+      }
+
+      // Validate priority if provided
+      if (priority !== undefined) {
+        validator.validateEnum("priority", priority, [
+          "auto",
+          "high",
+          "low",
+        ] as const);
+      }
+
+      // Validate boolean props
+      validator.validateType(
+        "zoomOnHover",
+        zoomOnHover,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType(
+        "showSkeleton",
+        showSkeleton,
+        "boolean",
+        isValidBoolean
+      );
+      validator.validateType("lazy", lazy, "boolean", isValidBoolean);
+
+      // Common validators
+      commonValidators.className(validator, className);
+    }, [
+      variant,
+      fit,
+      size,
+      priority,
+      zoomOnHover,
+      showSkeleton,
+      lazy,
+      className,
+    ]);
+
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
     const [currentSrc, setCurrentSrc] = useState(src);

@@ -1,8 +1,13 @@
-import { forwardRef, useState } from "react";
+import { forwardRef, useState, useEffect } from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type { TagProps, TagGroupProps } from "./Tag.types";
 import { X, Loader2 } from "lucide-react";
+import {
+  createValidator,
+  commonValidators,
+  isValidBoolean,
+} from "../../lib/validation";
 
 /**
  * Tag Component
@@ -177,6 +182,100 @@ export const Tag = forwardRef<HTMLElement, TagProps>(
     },
     ref
   ) => {
+    // Development-only validation
+    useEffect(() => {
+      const validator = createValidator("Tag");
+
+      // Validate variant
+      validator.validateEnum("variant", variant, [
+        "default",
+        "primary",
+        "secondary",
+        "accent",
+        "success",
+        "warning",
+        "error",
+        "info",
+        "outline",
+        "ghost",
+        "glass",
+      ] as const);
+
+      // Validate size
+      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
+
+      // Validate rounded
+      validator.validateEnum("rounded", rounded, [
+        "none",
+        "sm",
+        "default",
+        "lg",
+        "full",
+      ] as const);
+
+      // Validate dotPosition
+      validator.validateEnum("dotPosition", dotPosition, [
+        "left",
+        "right",
+      ] as const);
+
+      // Validate badgeVariant
+      validator.validateEnum("badgeVariant", badgeVariant, [
+        "default",
+        "primary",
+        "secondary",
+        "accent",
+        "success",
+        "warning",
+        "error",
+        "info",
+      ] as const);
+
+      // Validate boolean props
+      validator.validateType("removable", removable, "boolean", isValidBoolean);
+      validator.validateType("clickable", clickable, "boolean", isValidBoolean);
+      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
+      validator.validateType("selected", selected, "boolean", isValidBoolean);
+      validator.validateType("dot", dot, "boolean", isValidBoolean);
+      validator.validateType("animated", animated, "boolean", isValidBoolean);
+      validator.validateType("loading", loading, "boolean", isValidBoolean);
+
+      // Validate removable logic
+      if (removable && !onRemove) {
+        validator.warn(
+          "removable is true but onRemove callback is not provided"
+        );
+      }
+
+      // Validate content
+      if (!children && !label) {
+        validator.warn(
+          "Tag should have either children or label for accessibility"
+        );
+      }
+
+      // Common validators
+      commonValidators.className(validator, className);
+      commonValidators.disabled(validator, disabled);
+    }, [
+      variant,
+      size,
+      rounded,
+      dotPosition,
+      badgeVariant,
+      removable,
+      clickable,
+      disabled,
+      selected,
+      dot,
+      animated,
+      loading,
+      onRemove,
+      children,
+      label,
+      className,
+    ]);
+
     const [isRemoving, setIsRemoving] = useState(false);
 
     const handleRemove = (e: React.MouseEvent) => {

@@ -298,7 +298,13 @@ export const ChipExample = () => {
           <Chip disabled color="primary" variant="filled">
             Disabled
           </Chip>
-          <Chip disabled deletable color="success" variant="soft">
+          <Chip
+            disabled
+            deletable
+            onDelete={() => {}}
+            color="success"
+            variant="soft"
+          >
             Can't Delete
           </Chip>
           <Chip

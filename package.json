@@ -73,6 +73,7 @@
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "react-resizable-panels": "^3.0.6",
     "tailwind-merge": "^3.3.1"
   },
   "optionalDependencies": {
