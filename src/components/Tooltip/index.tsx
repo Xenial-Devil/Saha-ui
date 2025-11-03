@@ -5,7 +5,7 @@ import React, {
   createContext,
   useContext,
 } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
+import { type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import {
   TooltipProps,
@@ -19,102 +19,7 @@ import {
   isValidBoolean,
   isValidNumber,
 } from "../../lib/validation";
-
-/**
- * Tooltip component variants using CVA
- *
- * Provides 9 modern tooltip variants with flexible positioning,
- * multiple trigger types, and interactive options.
- *
- * @variant default - Standard tooltip with card background
- * @variant dark - Dark themed tooltip
- * @variant light - Light themed tooltip
- * @variant glass - Glass morphism effect
- * @variant primary - Primary color tooltip
- * @variant success - Success/green tooltip
- * @variant warning - Warning/yellow tooltip
- * @variant error - Error/red tooltip
- * @variant info - Info/blue tooltip
- *
- * @position top | bottom | left | right - Tooltip position
- * @size sm | md | lg - Size variations
- */
-export const tooltipVariants = cva(
-  "absolute whitespace-nowrap z-50 transition-all duration-300 ease-out",
-  {
-    variants: {
-      variant: {
-        default:
-          "bg-card text-foreground border border-border/50 shadow-xl backdrop-blur-sm hover:shadow-2xl hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/10 before:to-transparent before:pointer-events-none",
-        dark: "bg-gray-900 text-white border border-gray-700 shadow-xl hover:shadow-2xl hover:scale-105",
-        light:
-          "bg-white text-gray-900 border border-gray-200 shadow-xl dark:bg-gray-100 dark:text-gray-900 hover:shadow-2xl hover:scale-105",
-        glass:
-          "glass-strong backdrop-blur-2xl text-foreground shadow-[0_8px_32px_0] shadow-black/20 hover:shadow-[0_12px_48px_0] hover:shadow-black/30 hover:scale-105 relative before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-white/10 before:pointer-events-none",
-        primary:
-          "bg-primary text-primary-foreground shadow-[0_8px_24px_0] shadow-primary/40 border border-primary/50 hover:shadow-[0_12px_32px_0] hover:shadow-primary/50 hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/20 before:to-transparent before:pointer-events-none",
-        success:
-          "bg-green-500 text-white shadow-[0_8px_24px_0] shadow-green-500/40 border border-green-600 hover:shadow-[0_12px_32px_0] hover:shadow-green-500/50 hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/20 before:to-transparent before:pointer-events-none",
-        warning:
-          "bg-yellow-500 text-gray-900 shadow-[0_8px_24px_0] shadow-yellow-500/40 border border-yellow-600 hover:shadow-[0_12px_32px_0] hover:shadow-yellow-500/50 hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/20 before:to-transparent before:pointer-events-none",
-        error:
-          "bg-red-500 text-white shadow-[0_8px_24px_0] shadow-red-500/40 border border-red-600 hover:shadow-[0_12px_32px_0] hover:shadow-red-500/50 hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/20 before:to-transparent before:pointer-events-none",
-        info: "bg-blue-500 text-white shadow-[0_8px_24px_0] shadow-blue-500/40 border border-blue-600 hover:shadow-[0_12px_32px_0] hover:shadow-blue-500/50 hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/20 before:to-transparent before:pointer-events-none",
-      },
-      size: {
-        sm: "text-xs px-2 py-1 rounded-md",
-        md: "text-sm px-3 py-1.5 rounded-lg",
-        lg: "text-base px-4 py-2 rounded-xl",
-      },
-      position: {
-        top: "bottom-full left-1/2 -translate-x-1/2",
-        bottom: "top-full left-1/2 -translate-x-1/2",
-        left: "right-full top-1/2 -translate-y-1/2",
-        right: "left-full top-1/2 -translate-y-1/2",
-      },
-      interactive: {
-        true: "pointer-events-auto cursor-auto",
-        false: "pointer-events-none",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
-      position: "top",
-      interactive: false,
-    },
-  }
-);
-
-/**
- * Arrow variants for tooltip
- */
-const arrowVariants = cva("absolute w-2 h-2 rotate-45", {
-  variants: {
-    variant: {
-      default: "bg-card border-l border-t border-border/50",
-      dark: "bg-gray-900 border-l border-t border-gray-700",
-      light: "bg-white border-l border-t border-gray-200 dark:bg-gray-100",
-      glass:
-        "glass-strong backdrop-blur-2xl border-l border-t border-border/30",
-      primary: "bg-primary border-l border-t border-primary/50",
-      success: "bg-green-500 border-l border-t border-green-600",
-      warning: "bg-yellow-500 border-l border-t border-yellow-600",
-      error: "bg-red-500 border-l border-t border-red-600",
-      info: "bg-blue-500 border-l border-t border-blue-600",
-    },
-    position: {
-      top: "top-full left-1/2 -translate-x-1/2 -translate-y-1/2",
-      bottom: "bottom-full left-1/2 -translate-x-1/2 translate-y-1/2",
-      left: "left-full top-1/2 -translate-x-1/2 -translate-y-1/2",
-      right: "right-full top-1/2 translate-x-1/2 -translate-y-1/2",
-    },
-  },
-  defaultVariants: {
-    variant: "default",
-    position: "top",
-  },
-});
+import { tooltipVariants, arrowVariants } from "./Tooltip.styles";
 
 export type TooltipVariantsProps = VariantProps<typeof tooltipVariants>;
 
@@ -453,5 +358,3 @@ TooltipContent.displayName = "TooltipContent";
 
 export default Tooltip;
 
-// Export variants for external use
-export { arrowVariants };

@@ -1,5 +1,5 @@
 import { VariantProps } from "class-variance-authority";
-import { radioVariants, radioGroupVariants } from ".";
+import { radioVariants, radioGroupVariants } from "./Radio.styles";
 
 export interface RadioProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,

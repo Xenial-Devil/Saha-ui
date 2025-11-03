@@ -1,5 +1,5 @@
 import { VariantProps } from "class-variance-authority";
-import { checkboxVariants } from ".";
+import { checkboxVariants } from "./Checkbox.styles";
 
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,

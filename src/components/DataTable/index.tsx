@@ -26,7 +26,7 @@ import {
   ArrowDown,
 } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { useDataTable } from "./useDataTable";
+import { useDataTable } from "../../hooks/useDataTable";
 
 // Valid variant values
 const VALID_VARIANTS: DataTableVariant[] = [

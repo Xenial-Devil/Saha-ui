@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext } from "react";
 import {
   Theme,
   ThemeContextType,
   ThemeProviderProps,
 } from "./ThemeProvider.types";
+import { useColorMode } from "../../hooks/useColorMode";
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
@@ -20,38 +21,27 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   defaultTheme = "light",
   storageKey = "saha-ui-theme",
 }) => {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    // Check localStorage first
-    const stored = localStorage.getItem(storageKey) as Theme | null;
-    if (stored === "light" || stored === "dark") {
-      return stored;
-    }
-
-    // Check system preference
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      return "dark";
-    }
-
-    return defaultTheme;
+  // Use our custom useColorMode hook instead of manual state management
+  const { colorMode, setColorMode, toggleColorMode, isDark } = useColorMode({
+    defaultMode: defaultTheme,
+    storageKey,
+    classNameDark: "dark",
+    classNameLight: "light",
   });
 
-  useEffect(() => {
-    const root = window.document.documentElement;
-    root.classList.remove("light", "dark");
-    root.classList.add(theme);
-    localStorage.setItem(storageKey, theme);
-  }, [theme, storageKey]);
-
-  const toggleTheme = () => {
-    setThemeState((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-  };
+  // Map our colorMode to Theme type (they're compatible)
+  const theme = (
+    colorMode === "system" ? (isDark ? "dark" : "light") : colorMode
+  ) as Theme;
 
   const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
+    setColorMode(newTheme);
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
+    <ThemeContext.Provider
+      value={{ theme, toggleTheme: toggleColorMode, setTheme }}
+    >
       {children}
     </ThemeContext.Provider>
   );

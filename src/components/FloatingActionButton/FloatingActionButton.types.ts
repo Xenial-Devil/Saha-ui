@@ -1,5 +1,5 @@
 import { VariantProps } from "class-variance-authority";
-import { fabVariants } from ".";
+import { fabVariants } from "./FloatingActionButton.styles";
 
 export interface FloatingActionButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,

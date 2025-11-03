@@ -1,5 +1,5 @@
 import { VariantProps } from "class-variance-authority";
-import { switchVariants } from ".";
+import { switchVariants } from "./Switch.styles";
 
 export interface SwitchProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,

@@ -11,7 +11,7 @@ import {
   flexRender,
 } from "../components/DataTable/index";
 import type { ColumnDef } from "../components/DataTable/DataTable.types";
-import { useDataTable } from "../components/DataTable/useDataTable";
+import { useDataTable } from "../hooks/useDataTable";
 import Badge from "../components/Badge";
 import Button from "../components/Button";
 import {

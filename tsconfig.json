@@ -18,7 +18,6 @@
     "emitDeclarationOnly": false,
     "declarationDir": "./dist",
     "outDir": "./dist",
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

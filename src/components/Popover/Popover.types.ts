@@ -1,6 +1,6 @@
 import React from "react";
 import type { VariantProps } from "class-variance-authority";
-import { popoverVariants } from ".";
+import { popoverVariants } from "./Popover.styles";
 
 /**
  * Position of the popover relative to the trigger
