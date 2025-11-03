@@ -14,7 +14,7 @@
     "url": "https://github.com/Xenial-Devil/Saha-ui/issues"
   },
   "bin": {
-    "saha-ui": "./bin/cli.cjs"
+    "saha-ui": "./bin/cli.js"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
