@@ -13,6 +13,9 @@
   "bugs": {
     "url": "https://github.com/Xenial-Devil/Saha-ui/issues"
   },
+  "bin": {
+    "saha-ui": "./bin/cli.cjs"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -34,6 +37,7 @@
   },
   "files": [
     "dist",
+    "bin",
     "README.md",
     "LICENSE"
   ],
@@ -71,8 +75,10 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "monaco-editor": "^0.54.0",
     "react-resizable-panels": "^3.0.6",
     "tailwind-merge": "^3.3.1"
   },

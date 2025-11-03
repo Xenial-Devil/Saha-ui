@@ -13,7 +13,7 @@ import type {
   HeaderGroup,
   Header,
   SortDirection,
-} from "./DataTable.types";
+} from "../components/DataTable/DataTable.types";
 
 interface UseDataTableOptions<TData> {
   data: TData[];

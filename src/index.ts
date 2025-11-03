@@ -191,7 +191,7 @@ export {
   TableCell as DataTableCell,
   flexRender,
 } from "./components/DataTable";
-export { useDataTable } from "./components/DataTable/useDataTable";
+export { useDataTable } from "./hooks/useDataTable";
 export { default as Select } from "./components/Select";
 export {
   default as Dropdown,
@@ -805,4 +805,9 @@ export type {
 } from "./components/Sonner";
 
 // Export Tooltip variants
-export { tooltipVariants, arrowVariants } from "./components/Tooltip";
+export { tooltipVariants, arrowVariants } from "./components/Tooltip/Tooltip.styles";
+
+// Export CodeEditor and CodeViewer components
+export { CodeEditor, CodeViewer } from "./components/CodeEditor";
+// Export CodeEditor types
+export type { CodeEditorProps } from "./components/CodeEditor";

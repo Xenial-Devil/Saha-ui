@@ -5,7 +5,6 @@ import React, {
   useState,
   useEffect,
 } from "react";
-import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import {
   createValidator,
@@ -19,6 +18,13 @@ import type {
   RadioGroupProps,
   RadioCardProps,
 } from "./Radio.types";
+import {
+  radioVariants,
+  radioLabelVariants,
+  radioTextVariants,
+  radioDescriptionVariants,
+  radioGroupVariants,
+} from "./Radio.styles";
 
 /**
  * Radio Button Component
@@ -52,184 +58,7 @@ const useRadioContext = () => {
   return useContext(RadioContext);
 };
 
-/**
- * Radio button variants using CVA
- */
-export const radioVariants = cva(
-  [
-    "peer relative appearance-none shrink-0 rounded-full border-2",
-    "transition-all duration-300 ease-out cursor-pointer",
-    "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-offset-2",
-    "disabled:cursor-not-allowed disabled:opacity-50",
-    "checked:border-4",
-    // Hover effects
-    "hover:scale-110 active:scale-95",
-    // Shadow effects
-    "shadow-sm hover:shadow-md checked:shadow-lg",
-  ],
-  {
-    variants: {
-      variant: {
-        default: [
-          "border-border bg-background",
-          "checked:border-foreground checked:bg-foreground/10",
-          "focus-visible:ring-ring/50",
-          "hover:border-foreground/60",
-        ],
-        primary: [
-          "border-primary/40 bg-primary/5",
-          "checked:border-primary checked:bg-primary/10",
-          "focus-visible:ring-primary/50",
-          "hover:border-primary/60",
-          "checked:shadow-primary/40",
-        ],
-        secondary: [
-          "border-secondary/40 bg-secondary/5",
-          "checked:border-secondary checked:bg-secondary/10",
-          "focus-visible:ring-secondary/50",
-          "hover:border-secondary/60",
-          "checked:shadow-secondary/40",
-        ],
-        accent: [
-          "border-accent/40 bg-accent/5",
-          "checked:border-accent checked:bg-accent/10",
-          "focus-visible:ring-accent/50",
-          "hover:border-accent/60",
-          "checked:shadow-accent/40",
-        ],
-        success: [
-          "border-success/40 bg-success/5",
-          "checked:border-success checked:bg-success/10",
-          "focus-visible:ring-success/50",
-          "hover:border-success/60",
-          "checked:shadow-success/40",
-        ],
-        warning: [
-          "border-warning/40 bg-warning/5",
-          "checked:border-warning checked:bg-warning/10",
-          "focus-visible:ring-warning/50",
-          "hover:border-warning/60",
-          "checked:shadow-warning/40",
-        ],
-        error: [
-          "border-destructive/40 bg-destructive/5",
-          "checked:border-destructive checked:bg-destructive/10",
-          "focus-visible:ring-destructive/50",
-          "hover:border-destructive/60",
-          "checked:shadow-destructive/40",
-        ],
-        glass: [
-          "border-white/20 bg-white/10 backdrop-blur-xl",
-          "dark:bg-black/10",
-          "checked:border-white/30 checked:bg-white/20",
-          "focus-visible:ring-white/50",
-          "hover:border-white/30",
-          "checked:shadow-black/10",
-        ],
-      },
-      size: {
-        sm: "h-4 w-4",
-        md: "h-5 w-5",
-        lg: "h-6 w-6",
-      },
-    },
-    defaultVariants: {
-      variant: "primary",
-      size: "md",
-    },
-  }
-);
 
-/**
- * Radio label wrapper variants
- */
-const radioLabelVariants = cva(
-  [
-    "inline-flex items-center gap-3 cursor-pointer select-none",
-    "transition-all duration-300",
-    "group",
-  ],
-  {
-    variants: {
-      disabled: {
-        true: "cursor-not-allowed opacity-50",
-        false: "",
-      },
-      card: {
-        true: [
-          "flex-col p-4 rounded-xl border-2 border-border bg-card",
-          "hover:border-primary hover:shadow-lg hover:scale-[1.02]",
-          "transition-all duration-300",
-          "relative overflow-hidden",
-          "peer-checked:border-primary peer-checked:bg-primary/5",
-          "peer-checked:shadow-lg peer-checked:shadow-primary/20",
-        ],
-        false: "",
-      },
-    },
-    defaultVariants: {
-      disabled: false,
-      card: false,
-    },
-  }
-);
-
-/**
- * Radio text variants
- */
-const radioTextVariants = cva(
-  ["font-medium transition-colors duration-300", "group-hover:text-foreground"],
-  {
-    variants: {
-      size: {
-        sm: "text-sm",
-        md: "text-base",
-        lg: "text-lg",
-      },
-      disabled: {
-        true: "text-muted-foreground",
-        false: "text-foreground",
-      },
-    },
-    defaultVariants: {
-      size: "md",
-      disabled: false,
-    },
-  }
-);
-
-/**
- * Radio description variants
- */
-const radioDescriptionVariants = cva(
-  ["text-sm text-muted-foreground transition-colors duration-300"],
-  {
-    variants: {
-      disabled: {
-        true: "opacity-70",
-        false: "",
-      },
-    },
-    defaultVariants: {
-      disabled: false,
-    },
-  }
-);
-
-/**
- * Radio Group variants
- */
-export const radioGroupVariants = cva(["flex gap-4"], {
-  variants: {
-    direction: {
-      horizontal: "flex-row flex-wrap",
-      vertical: "flex-col",
-    },
-  },
-  defaultVariants: {
-    direction: "vertical",
-  },
-});
 
 /**
  * Radio component

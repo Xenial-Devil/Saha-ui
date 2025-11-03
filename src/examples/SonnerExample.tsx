@@ -1,6 +1,6 @@
 import React from "react";
-import { SonnerProvider, useSonner, type SonnerVariant } from "./index";
-import Button from "../Button";
+import { SonnerProvider, useSonner, type SonnerVariant } from "../components/Sonner/index";
+import Button from "../components/Button";
 
 // ============================================================================
 // EXAMPLE WRAPPER

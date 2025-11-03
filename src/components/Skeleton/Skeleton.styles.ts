@@ -1,0 +1,97 @@
+import { cva } from "class-variance-authority";/**
+ * Skeleton variant styles using CVA
+ */
+export const skeletonVariants = cva(
+  [
+    // Base styles
+    "relative",
+    "overflow-hidden",
+    "bg-base-200/50",
+    "dark:bg-base-content/10",
+    "shadow-sm",
+  ],
+  {
+    variants: {
+      variant: {
+        default: ["animate-pulse", "shadow-inner"],
+        pulse: ["animate-pulse", "shadow-inner"],
+        wave: [
+          "shadow-md",
+          "before:absolute",
+          "before:inset-0",
+          "before:-translate-x-full",
+          "before:animate-[shimmer_2s_infinite]",
+          "before:bg-gradient-to-r",
+          "before:from-transparent",
+          "before:via-primary/10",
+          "before:to-transparent",
+          "after:absolute",
+          "after:inset-0",
+          "after:bg-gradient-to-b",
+          "after:from-transparent",
+          "after:to-black/5",
+        ],
+        shimmer: [
+          "shadow-md",
+          "before:absolute",
+          "before:inset-0",
+          "before:-translate-x-full",
+          "before:animate-[shimmer_1.5s_infinite]",
+          "before:bg-gradient-to-r",
+          "before:from-transparent",
+          "before:via-white/30",
+          "dark:before:via-white/15",
+          "before:to-transparent",
+          "before:shadow-[0_0_20px_10px_rgba(255,255,255,0.1)]",
+        ],
+        gradient: [
+          "bg-gradient-to-r",
+          "from-base-200/50",
+          "via-primary/10",
+          "to-base-200/50",
+          "dark:from-base-content/10",
+          "dark:via-primary/5",
+          "dark:to-base-content/10",
+          "animate-pulse",
+          "shadow-lg",
+        ],
+        glass: [
+          "bg-white/5",
+          "backdrop-blur-md",
+          "border",
+          "border-white/10",
+          "shadow-xl",
+          "before:absolute",
+          "before:inset-0",
+          "before:-translate-x-full",
+          "before:animate-[shimmer_2s_infinite]",
+          "before:bg-gradient-to-r",
+          "before:from-transparent",
+          "before:via-white/20",
+          "before:to-transparent",
+          "after:absolute",
+          "after:inset-0",
+          "after:bg-gradient-to-br",
+          "after:from-white/5",
+          "after:to-transparent",
+        ],
+      },
+      shape: {
+        rectangle: ["rounded-md"],
+        circle: ["rounded-full"],
+        rounded: ["rounded-lg"],
+        text: ["rounded-sm"],
+      },
+      speed: {
+        slow: ["[animation-duration:2s]"],
+        normal: [],
+        fast: ["[animation-duration:0.8s]"],
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      shape: "rectangle",
+      speed: "normal",
+    },
+  }
+);

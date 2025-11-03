@@ -41,6 +41,8 @@ export default defineConfig({
         "lucide-react",
         /^lucide-react\/.*/,
         "react-resizable-panels",
+        "monaco-editor",
+        "@monaco-editor/react",
       ],
       input: Object.fromEntries(
         glob

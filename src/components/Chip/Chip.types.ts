@@ -1,5 +1,5 @@
 import type { VariantProps } from "class-variance-authority";
-import { chipVariants } from ".";
+import { chipVariants } from "./Chip.styles";
 
 /**
  * Chip variant types
