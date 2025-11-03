@@ -43,6 +43,9 @@ export { useDisclosure } from "./useDisclosure";
 export { usePagination } from "./usePagination";
 export { useSearchFilter } from "./useSearchFilter";
 export { useColorMode } from "./useColorMode";
+export { useAccordion } from "./useAccordion";
+export { useAspectRatio } from "./useAspectRatio";
+export { useAvatar } from "./useAvatar";
 
 // Re-export types
 export type { UseThrottleOptions } from "./useThrottle";
@@ -64,3 +67,9 @@ export type {
   UseColorModeReturn,
 } from "./useColorMode";
 export type { UseDisclosureReturn } from "./useDisclosure";
+export type { UseAccordionProps, UseAccordionReturn } from "./useAccordion";
+export type {
+  AspectRatioType,
+  UseAspectRatioProps,
+  UseAspectRatioReturn,
+} from "./useAspectRatio";

@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  useEffect,
-} from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { cn } from "../../lib/utils";
 import { ChevronDown } from "lucide-react";
 import type {
@@ -19,7 +13,13 @@ import {
   commonValidators,
   isValidBoolean,
 } from "../../lib/validation";
-import { accordionContentVariants, accordionHeaderVariants, accordionItemVariants, accordionVariants } from "./Accordion.styles";
+import {
+  accordionContentVariants,
+  accordionHeaderVariants,
+  accordionItemVariants,
+  accordionVariants,
+} from "./Accordion.styles";
+import { useAccordion } from "../../hooks/useAccordion";
 
 interface AccordionContextValue {
   value: string | string[];
@@ -63,7 +63,6 @@ const useAccordionItemContext = () => {
   return context;
 };
 
-
 export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
   (
     {
@@ -78,17 +77,19 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
     },
     ref
   ) => {
-    const [uncontrolledValue, setUncontrolledValue] = useState<
-      string | string[]
-    >(() => {
-      if (defaultValue !== undefined) {
-        return defaultValue;
-      }
-      return type === "multiple" ? [] : "";
+    // Use the custom hook for accordion state management
+    const {
+      value,
+      handleValueChange,
+      type: accordionType,
+      collapsible: isCollapsible,
+    } = useAccordion({
+      type,
+      value: controlledValue,
+      defaultValue,
+      onValueChange,
+      collapsible,
     });
-
-    const value =
-      controlledValue !== undefined ? controlledValue : uncontrolledValue;
 
     // Development-only validation
     useEffect(() => {
@@ -124,44 +125,14 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
       commonValidators.className(validator, className);
     }, [type, variant, collapsible, children, className]);
 
-    const handleValueChange = useCallback(
-      (itemValue: string) => {
-        let newValue: string | string[];
-
-        if (type === "multiple") {
-          const currentValue = Array.isArray(value) ? value : [];
-          if (currentValue.includes(itemValue)) {
-            newValue = currentValue.filter((v) => v !== itemValue);
-          } else {
-            newValue = [...currentValue, itemValue];
-          }
-        } else {
-          if (collapsible && value === itemValue) {
-            newValue = "";
-          } else {
-            newValue = itemValue;
-          }
-        }
-
-        if (onValueChange) {
-          onValueChange(newValue);
-        }
-
-        if (controlledValue === undefined) {
-          setUncontrolledValue(newValue);
-        }
-      },
-      [type, value, collapsible, onValueChange, controlledValue]
-    );
-
     return (
       <AccordionContext.Provider
         value={{
           value,
           onValueChange: handleValueChange,
           variant,
-          type,
-          collapsible,
+          type: accordionType,
+          collapsible: isCollapsible,
         }}
       >
         <div

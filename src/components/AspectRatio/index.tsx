@@ -9,45 +9,7 @@ import {
 } from "../../lib/validation";
 import type { AspectRatioProps } from "./AspectRatio.types";
 import { aspectRatioVariants, overlayVariants } from "./AspectRatio.styles";
-
-
-
-/**
- * Parse custom ratio string to number
- * Supports formats: "16:9", "1.3:2.3", or number
- */
-const parseRatio = (ratio: number | string | undefined): number => {
-  if (!ratio) return 16 / 9;
-
-  if (typeof ratio === "number") return ratio;
-
-  // Parse string format like "16:9" or "1.3:2.3"
-  if (typeof ratio === "string" && ratio.includes(":")) {
-    const [width, height] = ratio.split(":").map(Number);
-    if (!isNaN(width) && !isNaN(height) && height !== 0) {
-      return width / height;
-    }
-  }
-
-  // Try to parse as number
-  const parsed = parseFloat(ratio);
-  return isNaN(parsed) ? 16 / 9 : parsed;
-};
-
-/**
- * Aspect ratio value mapping
- */
-const aspectRatioMap = {
-  "1/1": 1,
-  "4/3": 4 / 3,
-  "16/9": 16 / 9,
-  "21/9": 21 / 9,
-  "3/2": 3 / 2,
-  "2/3": 2 / 3,
-  "9/16": 9 / 16,
-  "3/4": 3 / 4,
-  custom: 0, // Will be overridden by customRatio prop
-};
+import { useAspectRatio } from "../../hooks/useAspectRatio";
 
 /**
  * AspectRatio Component
@@ -103,6 +65,20 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
     },
     ref
   ) => {
+    // Use the custom hook for aspect ratio logic
+    const {
+      paddingBottom,
+      safeZoomScale,
+      contentRef,
+      handleMouseEnter: handleZoomMouseEnter,
+      handleMouseLeave: handleZoomMouseLeave,
+    } = useAspectRatio({
+      ratio,
+      customRatio,
+      zoomOnHover,
+      zoomScale,
+    });
+
     // Development-only validation
     useEffect(() => {
       const validator = createValidator("AspectRatio");
@@ -238,18 +214,6 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
       className,
     ]);
 
-    // Calculate the aspect ratio value
-    const ratioValue =
-      ratio === "custom"
-        ? parseRatio(customRatio)
-        : aspectRatioMap[ratio] || aspectRatioMap["16/9"];
-
-    // Calculate padding-bottom percentage for aspect ratio
-    const paddingBottom = `${(1 / ratioValue) * 100}%`;
-
-    // Clamp zoom scale between 1.0 and 2.0
-    const safeZoomScale = Math.max(1.0, Math.min(2.0, zoomScale));
-
     return (
       <div
         ref={ref}
@@ -262,6 +226,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
       >
         {/* Content wrapper */}
         <div
+          ref={contentRef}
           className={cn(
             "absolute inset-0 w-full h-full",
             "transition-transform duration-300",
@@ -280,16 +245,8 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
                 }
               : undefined
           }
-          onMouseEnter={(e) => {
-            if (zoomOnHover && e.currentTarget instanceof HTMLElement) {
-              e.currentTarget.style.transform = `scale(${safeZoomScale})`;
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (zoomOnHover && e.currentTarget instanceof HTMLElement) {
-              e.currentTarget.style.transform = "scale(1)";
-            }
-          }}
+          onMouseEnter={handleZoomMouseEnter}
+          onMouseLeave={handleZoomMouseLeave}
         >
           {children}
         </div>

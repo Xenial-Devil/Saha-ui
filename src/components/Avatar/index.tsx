@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { cn } from "../../lib/utils";
 import { AvatarProps } from "./Avatar.types";
 import {
@@ -7,8 +7,7 @@ import {
   isValidBoolean,
 } from "../../lib/validation";
 import { avatarVariants, statusVariants } from "./Avatar.styles";
-
-
+import { useAvatar } from "../../hooks/useAvatar";
 
 const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
   (
@@ -64,37 +63,19 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
       commonValidators.className(validator, className);
     }, [size, shape, status, bordered, ring, className]);
 
-    const [imageError, setImageError] = useState(false);
-    const [imageLoaded, setImageLoaded] = useState(false);
-
-    // Generate background color from initials or alt text
-    const getBackgroundColor = (text: string) => {
-      const colors = [
-        "bg-blue-500",
-        "bg-purple-500",
-        "bg-pink-500",
-        "bg-green-500",
-        "bg-yellow-500",
-        "bg-red-500",
-        "bg-indigo-500",
-        "bg-teal-500",
-      ];
-      const index = text.charCodeAt(0) % colors.length;
-      return colors[index];
-    };
-
-    // Extract initials from alt text
-    const getInitials = () => {
-      if (initials) return initials.slice(0, 2).toUpperCase();
-      const words = alt.split(" ");
-      if (words.length >= 2) {
-        return (words[0][0] + words[1][0]).toUpperCase();
-      }
-      return alt.slice(0, 2).toUpperCase();
-    };
-
-    const showInitials = imageError || !src;
-    const bgColor = getBackgroundColor(initials || alt);
+    // Use the custom hook for avatar logic
+    const {
+      showInitials,
+      bgColor,
+      initialsText,
+      imageLoaded,
+      handleImageLoad,
+      handleImageError,
+    } = useAvatar({
+      src,
+      alt,
+      initials,
+    });
 
     return (
       <div
@@ -117,8 +98,8 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
                 "w-full h-full object-cover transition-opacity duration-300",
                 imageLoaded ? "opacity-100" : "opacity-0"
               )}
-              onLoad={() => setImageLoaded(true)}
-              onError={() => setImageError(true)}
+              onLoad={handleImageLoad}
+              onError={handleImageError}
             />
             {/* Loading skeleton */}
             {!imageLoaded && (
@@ -130,7 +111,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
         {/* Initials fallback */}
         {showInitials && (
           <span className="relative z-10 font-bold tracking-tight">
-            {getInitials()}
+            {initialsText}
           </span>
         )}
 
