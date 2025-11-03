@@ -1,3 +1,12 @@
+# [1.9.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.8.0...v1.9.0) (2025-11-03)
+
+
+### Features
+
+* add hooks for Avatar, AspectRatio and Accordion ([4bd5c8a](https://github.com/Xenial-Devil/Saha-ui/commit/4bd5c8a48cc112794c4f765ad499a2c735bd1f20))
+* **code-editor:** add Monaco theme hook and CodeViewer component ([dfbc402](https://github.com/Xenial-Devil/Saha-ui/commit/dfbc402c4da8613be42b21bb554c9daebd509ff6))
+* **styles+hookseditor:** add CVA variants, validation & editor/highlight ([92ffc47](https://github.com/Xenial-Devil/Saha-ui/commit/92ffc47cc4e0a054d73395a4b60493316c083824))
+
 # [1.8.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.7.0...v1.8.0) (2025-10-27)
 
 
