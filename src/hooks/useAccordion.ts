@@ -1,9 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-} from "../lib/validation";
+import { useState, useCallback } from "react";
 
 /**
  * Props for the useAccordion hook
@@ -35,21 +30,6 @@ export interface UseAccordionProps {
    * @default false
    */
   collapsible?: boolean;
-
-  /**
-   * Accordion variant for styling
-   */
-  variant?: "default" | "controlled" | "allopen" | "toggle" | "firstopen" | "glass";
-
-  /**
-   * Additional CSS class name
-   */
-  className?: string;
-
-  /**
-   * Children elements (for validation)
-   */
-  children?: React.ReactNode;
 }
 
 /**
