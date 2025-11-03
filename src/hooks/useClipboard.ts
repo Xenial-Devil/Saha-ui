@@ -1,40 +1,24 @@
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 
-/**
- * useClipboard - Copy text to clipboard with state tracking
- * @param timeout - Reset copied state after timeout (ms)
- * @returns [copiedText, copy, copied]
- */
-
-export function useClipboard(
-  timeout = 2000
-): [string | null, (text: string) => Promise<void>, boolean] {
-  const [copiedText, setCopiedText] = useState<string | null>(null);
+export function useClipboard() {
   const [copied, setCopied] = useState(false);
 
-  const copy = useCallback(
-    async (text: string) => {
-      if (!navigator?.clipboard) {
-        console.warn("Clipboard not supported");
-        return;
-      }
+  const copy = useCallback(async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1200);
+    } catch {
+      const el = document.createElement("textarea");
+      el.value = text;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1200);
+    }
+  }, []);
 
-      try {
-        await navigator.clipboard.writeText(text);
-        setCopiedText(text);
-        setCopied(true);
-
-        setTimeout(() => {
-          setCopied(false);
-        }, timeout);
-      } catch (error) {
-        console.warn("Copy failed", error);
-        setCopiedText(null);
-        setCopied(false);
-      }
-    },
-    [timeout]
-  );
-
-  return [copiedText, copy, copied];
+  return { copy, copied };
 }

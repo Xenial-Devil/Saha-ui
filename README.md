@@ -27,7 +27,7 @@
 
 ## ✨ Features
 
-- 🎨 **46 Modern Components** - Button, ButtonGroup, Alert, AspectRatio, Badge, Breadcrumb, Card, Chip, Separator, Drawer, Accordion, Avatar, AvatarGroup, Tooltip, Link, List, Timeline, Tree, Image, Carousel, Steps, Table, Rating, Progress, Popover, PlayButton, FloatingActionButton, Radio, Switch, Checkbox, CheckboxGroup, Select, Dropdown, Tag, TagInput, TextArea, Upload, Dialog, Toast, Empty, Autocomplete, Skeleton, Pagination, DatePicker, Tab, Input
+- 🎨 **73 Modern Components** - Accordion, Alert, AspectRatio, Autocomplete, Avatar, AvatarGroup, Badge, Breadcrumb, Button, ButtonGroup, Calendar, Card, Carousel, Checkbox, Chip, CodeEditor, Collapsible, Combobox, Command, ContextMenu, DataTable, DatePicker, Dialog, Drawer, Dropdown, Empty, Field, FloatingActionButton, Form, HoverCard, Image, Input, InputOTP, Item, Kbd, Label, Link, List, Menubar, NativeSelect, NavigationMenu, Pagination, PlayButton, Popover, Progress, Radio, Rating, Resizable, ScrollArea, Select, Separator, Skeleton, Slider, Sonner, Spinner, Steps, Switch, Tab, Table, Tag, TagInput, TextArea, TextEditor, ThemeProvider, ThemeToggle, Timeline, Toast, Toggle, ToggleGroup, Tooltip, Tree, Typography, Upload
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -38,6 +38,7 @@
 - 📦 **Modular** - Individual component imports for maximum flexibility
 - 📱 **Responsive** - Mobile-first design with touch gesture support
 - 🔧 **Customizable** - Easy to extend and customize with Tailwind CSS
+- 🪝 **Custom Hooks** - Reusable hooks for complex component logic (useAccordion, useAspectRatio, useAvatar, and more)
 
 ---
 
@@ -141,58 +142,85 @@ import { cn } from "saha-ui/lib/utils";
 
 | Component                | Description                                                              | Status | CVA |
 | ------------------------ | ------------------------------------------------------------------------ | ------ | --- |
-| **Button**               | Action buttons with 9 variants and 4 sizes                               | ✅     | ✅  |
-| **ButtonGroup**          | Grouped buttons with horizontal/vertical layouts                         | ✅     | ✅  |
+| **Accordion**            | Collapsible content with 5 behavior modes (useAccordion hook)            | ✅     | ✅  |
 | **Alert**                | Notification messages with 5 variants × 4 statuses                       | ✅     | ✅  |
+| **AspectRatio**          | Aspect ratio container with zoom effects (useAspectRatio hook)           | ✅     | ✅  |
+| **Autocomplete**         | Search input with filtering, keyboard nav, grouping, async, composable   | ✅     | ✅  |
+| **Avatar**               | User profile images with status indicators (useAvatar hook)              | ✅     | ✅  |
+| **AvatarGroup**          | Grouped avatars with overlap and count                                   | ✅     | ✅  |
 | **Badge**                | Status indicators and labels with 9 variants                             | ✅     | ✅  |
 | **Breadcrumb**           | Navigation trail with 5 variants, 4 separators, and collapsing           | ✅     | ✅  |
+| **Button**               | Action buttons with 9 variants and 4 sizes                               | ✅     | ✅  |
+| **ButtonGroup**          | Grouped buttons with horizontal/vertical layouts                         | ✅     | ✅  |
+| **Calendar**             | Date calendar with month/year navigation and date selection              | ✅     | ✅  |
 | **Card**                 | Container with 5 variants and sub-components                             | ✅     | ✅  |
+| **Carousel**             | Image slider with 4 transition effects and autoplay                      | ✅     | ✅  |
+| **Checkbox**             | Checkbox with 7 variants, 3 sizes, indeterminate, card mode, icons       | ✅     | ✅  |
 | **Chip**                 | Interactive tags with 5 variants, deletable, and avatars                 | ✅     | ✅  |
-| **Separator**            | Content separator with 5 variants and label support                      | ✅     | ✅  |
+| **CodeEditor**           | Code editor with syntax highlighting and themes                          | ✅     | ✅  |
+| **Collapsible**          | Expandable content with smooth animations                                | ✅     | ✅  |
+| **Combobox**             | Combined input and dropdown with search and selection                    | ✅     | ✅  |
+| **Command**              | Command palette with search and keyboard navigation                      | ✅     | ✅  |
+| **ContextMenu**          | Right-click context menu with nested items and shortcuts                 | ✅     | ✅  |
+| **DataTable**            | Advanced data table with sorting, filtering, pagination                  | ✅     | ✅  |
+| **DatePicker**           | Calendar date picker with 5 variants, 3 sizes, date restrictions         | ✅     | ✅  |
+| **Dialog**               | Dialog with 9 variants, 7 sizes, animations, focus trap, accessibility   | ✅     | ✅  |
 | **Drawer**               | Side panel with 4 positions, 5 sizes, animations, nested support         | ✅     | ✅  |
-| **Accordion**            | Collapsible content with 5 behavior modes                                | ✅     | ✅  |
-| **Avatar**               | User profile images with status indicators                               | ✅     | ✅  |
-| **AvatarGroup**          | Grouped avatars with overlap and count                                   | ✅     | ✅  |
-| **Tooltip**              | Contextual hints with 9 variants, 4 triggers, and interactive mode       | ✅     | ✅  |
+| **Dropdown**             | Advanced menu with nested items, keyboard nav, search, shortcuts, badges | ✅     | ✅  |
+| **Empty**                | Empty states with 4 variants, 4 sizes, 13 preset icons, animations       | ✅     | ✅  |
+| **Field**                | Form field wrapper with label, description, and error states             | ✅     | ✅  |
+| **FloatingActionButton** | Modern FAB with 9 variants, 4 sizes, positions, extended mode            | ✅     | ✅  |
+| **Form**                 | Form container with validation and layout management                     | ✅     | ✅  |
+| **HoverCard**            | Rich hover card with content preview and positioning                     | ✅     | ✅  |
+| **Image**                | Advanced image with lazy loading and aspect ratio                        | ✅     | ✅  |
+| **Input**                | Text input with 10 variants, 4 sizes, icons, validation, all input types | ✅     | ✅  |
+| **InputOTP**             | One-time password input with auto-focus and paste support                | ✅     | ✅  |
+| **Item**                 | Flexible item component for lists and menus                              | ✅     | ✅  |
+| **Kbd**                  | Keyboard key display with multiple styles and combinations               | ✅     | ✅  |
+| **Label**                | Form label with required indicator and description                       | ✅     | ✅  |
 | **Link**                 | Smart links with 9 variants and icon support                             | ✅     | ✅  |
 | **List**                 | Modern lists with 5 variants and icon support                            | ✅     | ✅  |
-| **Timeline**             | Chronological events with 4 variants, positions, and statuses            | ✅     | ✅  |
-| **Tree**                 | Hierarchical data with 4 variants, icons, and expand/collapse            | ✅     | ✅  |
-| **Image**                | Advanced image with lazy loading                                         | ✅     | ✅  |
-| **Carousel**             | Image slider with 4 transition effects                                   | ✅     | ✅  |
-| **Steps**                | Progress indicator with 4 variants, horizontal/vertical layouts          | ✅     | ✅  |
-| **Table**                | Data table with sorting, selection, 5 variants, and responsive           | ✅     | ✅  |
-| **Rating**               | Star rating with 6 variants, 4 sizes, multiple icons, half stars         | ✅     | ✅  |
-| **Progress**             | Progress bar with 9 variants, 5 sizes, animations, striped               | ✅     | ✅  |
-| **Popover**              | Rich content popover with 11 variants, 12 positions, 4 triggers          | ✅     | ✅  |
+| **Menubar**              | Menu bar with dropdown menus and keyboard navigation                     | ✅     | ✅  |
+| **NativeSelect**         | Native select dropdown with custom styling                               | ✅     | ✅  |
+| **NavigationMenu**       | Navigation menu with nested items and mega menu support                  | ✅     | ✅  |
+| **Pagination**           | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels  | ✅     | ✅  |
 | **PlayButton**           | Animated play/pause button with 9 variants, 4 sizes, smooth transitions  | ✅     | ✅  |
-| **FloatingActionButton** | Modern FAB with 9 variants, 4 sizes, positions, extended mode            | ✅     | ✅  |
+| **Popover**              | Rich content popover with 11 variants, 12 positions, 4 triggers          | ✅     | ✅  |
+| **Progress**             | Progress bar with 9 variants, 5 sizes, animations, striped               | ✅     | ✅  |
 | **Radio**                | Radio button with 7 variants, 3 sizes, RadioGroup, descriptions          | ✅     | ✅  |
-| **Switch**               | Toggle switch with 7 variants, 3 sizes, icons, loading state             | ✅     | ✅  |
-| **Checkbox**             | Checkbox with 7 variants, 3 sizes, indeterminate, card mode, icons       | ✅     | ✅  |
-| **CheckboxGroup**        | Grouped checkboxes with layouts, validation, card grid, custom children  | ✅     | ✅  |
+| **Rating**               | Star rating with 6 variants, 4 sizes, multiple icons, half stars         | ✅     | ✅  |
+| **Resizable**            | Resizable panels with drag handles and constraints                       | ✅     | ✅  |
+| **ScrollArea**           | Custom scrollbar with smooth scrolling and styling                       | ✅     | ✅  |
 | **Select**               | Advanced dropdown with search, multi-select, icons, avatars, grouping    | ✅     | ✅  |
-| **Dropdown**             | Advanced menu with nested items, keyboard nav, search, shortcuts, badges | ✅     | ✅  |
+| **Separator**            | Content separator with 5 variants and label support                      | ✅     | ✅  |
+| **Skeleton**             | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
+| **Slider**               | Range slider with single/dual handles and custom marks                   | ✅     | ✅  |
+| **Sonner**               | Toast notifications with rich content and animations                     | ✅     | ✅  |
+| **Spinner**              | Loading spinner with 10 variants, 6 sizes, 4 animations, fullscreen mode | ✅     | ✅  |
+| **Steps**                | Progress indicator with 4 variants, horizontal/vertical layouts          | ✅     | ✅  |
+| **Switch**               | Toggle switch with 7 variants, 3 sizes, icons, loading state             | ✅     | ✅  |
+| **Tab**                  | Tab navigation with 14 variants, 3 sizes, icons, badges, disabled states | ✅     | ✅  |
+| **Table**                | Data table with sorting, selection, 5 variants, and responsive           | ✅     | ✅  |
 | **Tag**                  | Labels with 11 variants, removable, badges, dots, avatars, animations    | ✅     | ✅  |
 | **TagInput**             | Dynamic tag input with validation, Enter/Comma keys, paste support       | ✅     | ✅  |
 | **TextArea**             | Multi-line text input with auto-resize, character count, validation      | ✅     | ✅  |
-| **Upload**               | File upload with drag & drop, preview, progress, validation, 4 types     | ✅     | ✅  |
-| **Dialog**               | Dialog with 9 variants, 7 sizes, animations, focus trap, accessibility   | ✅     | ✅  |
+| **TextEditor**           | Rich text editor with WYSIWYG formatting and toolbar                     | ✅     | ✅  |
+| **ThemeProvider**        | Theme context provider with dark mode and color management               | ✅     | ✅  |
+| **ThemeToggle**          | Theme switcher button with smooth transitions                            | ✅     | ✅  |
+| **Timeline**             | Chronological events with 4 variants, positions, and statuses            | ✅     | ✅  |
 | **Toast**                | Notification toasts with 4 variants, 6 positions, 4 animations, actions  | ✅     | ✅  |
-| **Empty**                | Empty states with 4 variants, 4 sizes, 13 preset icons, animations       | ✅     | ✅  |
-| **Autocomplete**         | Search input with filtering, keyboard nav, grouping, async, composable   | ✅     | ✅  |
-| **Skeleton**             | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
-| **Spinner**              | Loading spinner with 10 variants, 6 sizes, 4 animations, fullscreen mode | ✅     | ✅  |
-| **Pagination**           | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels  | ✅     | ✅  |
-| **DatePicker**           | Calendar date picker with 5 variants, 3 sizes, date restrictions         | ✅     | ✅  |
-| **Tab**                  | Tab navigation with 14 variants, 3 sizes, icons, badges, disabled states | ✅     | ✅  |
-| **Input**                | Text input with 10 variants, 4 sizes, icons, validation, all input types | ✅     | ✅  |
+| **Toggle**               | Toggle button with pressed state and variants                            | ✅     | ✅  |
+| **ToggleGroup**          | Grouped toggle buttons with single/multiple selection                    | ✅     | ✅  |
+| **Tooltip**              | Contextual hints with 9 variants, 4 triggers, and interactive mode       | ✅     | ✅  |
+| **Tree**                 | Hierarchical data with 4 variants, icons, and expand/collapse            | ✅     | ✅  |
+| **Typography**           | Text components with semantic variants and styling                       | ✅     | ✅  |
+| **Upload**               | File upload with drag & drop, preview, progress, validation, 4 types     | ✅     | ✅  |
 
 ---
 
 ## ⚡ Quick Examples
 
-Here are simple examples for all 32 components to get you started quickly:
+Here are simple examples for all components to get you started quickly:
 
 ### Button
 

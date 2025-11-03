@@ -25,6 +25,8 @@ const badgeVariants = cva(
         info: "bg-gradient-to-r from-blue-500/90 to-blue-600 text-white shadow-md shadow-blue-500/25 hover:shadow-lg hover:shadow-blue-500/40 hover:scale-105 active:scale-95 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
         outline:
           "border-2 border-current text-foreground bg-transparent hover:bg-foreground/5 dark:hover:bg-foreground/10 hover:scale-105 active:scale-95 hover:shadow-md",
+        ghost:
+          "bg-transparent text-foreground hover:bg-foreground/5 dark:hover:bg-foreground/10 hover:scale-105 active:scale-95",
         glass:
           "backdrop-blur-md bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10 shadow-lg hover:bg-white/20 dark:hover:bg-black/20 hover:scale-105 active:scale-95 hover:shadow-xl before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
       },

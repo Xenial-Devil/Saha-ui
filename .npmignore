@@ -2,7 +2,7 @@
 src/
 public/
 dist/node_modules/
-
+markdown/
 # Development files
 .vscode/
 .github/

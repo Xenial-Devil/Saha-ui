@@ -71,6 +71,7 @@ import ScrollAreaExample from "./ScrollAreaExample";
 import ToggleGroupExample from "./ToggleGroupExample";
 import { TypographyExample } from "./TypographyExample";
 import TextEditorExample from "./TextEditorExample";
+import CodeEditorFrameworkExamples from "./CodeEditorFrameworkExamples";
 
 export const AllComponentExamples = () => {
   return (
@@ -223,6 +224,9 @@ export const AllComponentExamples = () => {
 
       {/* TextEditor Examples */}
       <TextEditorExample />
+
+      {/* Code Editor Framework Examples */}
+      <CodeEditorFrameworkExamples />
     </>
   );
 };

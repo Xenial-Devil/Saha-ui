@@ -1,277 +1,171 @@
 import { useState } from "react";
 import { CodeEditor } from "../components/CodeEditor";
+import { CodeViewer } from "../components/CodeEditor/CodeViewer";
+import Badge from "../components/Badge";
 
-// Example React JSX code with custom components
-const reactExample = `import React, { useState, useEffect } from 'react';
+const SAMPLE_TSX: string = `import React from 'react';
 
-function UserDashboard() {
-  const [users, setUsers] = useState([]);
-  
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-  
+export function HelloCard({ name }: { name: string }) {
+  const [count, setCount] = React.useState(0);
+  const inc = () => setCount((c) => c + 1);
+
   return (
-    <>
-      <MyHeader title="Dashboard" />
-      <UserList users={users} />
-      <CustomButton onClick={handleRefresh}>
-        Refresh
-      </CustomButton>
-    </>
+    <section className="card">
+      <MyHeader title="Hello" />
+      <p>Hello, {name}! Clicks: {count}</p>
+      <CustomButton onClick={inc}>Increment</CustomButton>
+    </section>
   );
-}`;
+}
+`;
 
-// Example Vue code with custom components
-const vueExample = `<template>
-  <div>
-    <MyHeader :title="pageTitle" />
-    <user-profile v-if="isLoggedIn" />
-    <custom-button @click="handleClick">
-      {{ buttonText }}
-    </custom-button>
-  </div>
-</template>
+const VARIANTS = [
+  "default",
+  "primary",
+  "secondary",
+  "accent",
+  "success",
+  "warning",
+  "error",
+  "info",
+  "outline",
+  "ghost",
+] as const;
 
-<script setup>
-import { ref, computed } from 'vue';
+const SIZES = ["sm", "default", "lg", "xl"] as const;
 
-const pageTitle = ref('Dashboard');
-const isLoggedIn = computed(() => user.value !== null);
-</script>`;
+const THEMES = [
+  "vscode",
+  "dark",
+  "light",
+  "github",
+  "monokai",
+  "dracula",
+  "nord",
+  "solarized",
+] as const;
 
-// Example Django template with custom components
-const djangoExample = `{% extends "base.html" %}
-
-{% block content %}
-  <div>
-    {% if user.is_authenticated %}
-      <UserProfile user="{{ user }}" />
-      <custom-widget data="{{ user.data|safe }}" />
-      {{ user.name|title }}
-    {% endif %}
-  </div>
-{% endblock %}`;
-
-// Example Laravel Blade with custom components
-const bladeExample = `@extends('layouts.app')
-
-@section('content')
-  <div>
-    @if($user->isAdmin())
-      <x-admin-panel />
-      <UserDashboard :user="$user" />
-    @endif
-    
-    @foreach($posts as $post)
-      <x-post-card :post="$post">
-        <x-slot name="title">
-          {{ $post->title }}
-        </x-slot>
-      </x-post-card>
-    @endforeach
-  </div>
-@endsection`;
-
-export function CodeEditorFrameworkExamples() {
-  const [activeTab, setActiveTab] = useState<
-    "react" | "vue" | "django" | "blade"
-  >("react");
-
-  const examples = {
-    react: { code: reactExample, language: "jsx" as const, label: "React JSX" },
-    vue: { code: vueExample, language: "vue" as const, label: "Vue" },
-    django: {
-      code: djangoExample,
-      language: "django" as const,
-      label: "Django",
-    },
-    blade: {
-      code: bladeExample,
-      language: "blade" as const,
-      label: "Laravel Blade",
-    },
-  };
-
-  const current = examples[activeTab];
+export default function CodeEditorAllVariantsDemo() {
+  const [theme, setTheme] = useState<(typeof THEMES)[number]>("vscode");
 
   return (
-    <div className="space-y-4 p-8">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-bold">CodeEditor Framework Support</h2>
-        <p className="text-slate-600">
-          Custom components are automatically highlighted with distinct colors
-        </p>
-      </div>
-
-      {/* Tab Navigation */}
-      <div className="flex gap-2 border-b border-slate-200">
-        {Object.entries(examples).map(([key, { label }]) => (
-          <button
-            key={key}
-            onClick={() => setActiveTab(key as any)}
-            className={`px-4 py-2 font-medium transition-colors ${
-              activeTab === key
-                ? "border-b-2 border-blue-500 text-blue-600"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
+    <div className="space-y-10 p-6">
+      {/* Global controls */}
+      <div className="flex flex-wrap items-center gap-3">
+        <h2 className="text-xl font-semibold">
+          CodeEditor / CodeViewer Variants
+        </h2>
+        <div className="ml-auto flex items-center gap-2">
+          <label className="text-sm text-slate-600 dark:text-gray-200">
+            Theme
+          </label>
+          <select
+            value={theme}
+            onChange={(e) => setTheme(e.target.value as any)}
+            className="h-9 rounded-md border border-slate-300 bg-white dark:bg-gray-700 px-2 text-sm"
           >
-            {label}
-          </button>
-        ))}
-      </div>
-
-      {/* CodeEditor Display */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">{current.label} Example</h3>
-          <span className="text-sm text-slate-500">
-            Language:{" "}
-            <code className="bg-slate-100 px-2 py-1 rounded">
-              {current.language}
-            </code>
-          </span>
-        </div>
-
-        <CodeEditor
-          language={current.language}
-          theme="dark"
-          defaultValue={current.code}
-          minHeight="400px"
-          maxHeight="600px"
-          readOnly
-        />
-
-        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <h4 className="font-semibold text-blue-900 mb-2">
-            Highlighted Elements:
-          </h4>
-          <ul className="space-y-1 text-sm text-blue-800">
-            {activeTab === "react" && (
-              <>
-                <li>
-                  •{" "}
-                  <span className="text-fuchsia-600 font-semibold">
-                    useState, useEffect
-                  </span>{" "}
-                  - React Hooks (Fuchsia)
-                </li>
-                <li>
-                  •{" "}
-                  <span className="text-cyan-600 font-semibold">
-                    MyHeader, UserList, CustomButton
-                  </span>{" "}
-                  - Custom Components (Cyan)
-                </li>
-                <li>
-                  •{" "}
-                  <span className="text-amber-600">title, onClick, users</span>{" "}
-                  - Props (Amber)
-                </li>
-                <li>
-                  • <span className="text-blue-600">Fragment &lt;&gt;</span> -
-                  React Fragment (Cyan)
-                </li>
-              </>
-            )}
-            {activeTab === "vue" && (
-              <>
-                <li>
-                  •{" "}
-                  <span className="text-emerald-600 font-semibold">
-                    v-if, @click
-                  </span>{" "}
-                  - Vue Directives (Emerald)
-                </li>
-                <li>
-                  •{" "}
-                  <span className="text-fuchsia-600 font-semibold">
-                    ref, computed
-                  </span>{" "}
-                  - Composition API (Fuchsia)
-                </li>
-                <li>
-                  •{" "}
-                  <span className="text-cyan-600 font-semibold">MyHeader</span>{" "}
-                  - Custom Component PascalCase (Cyan)
-                </li>
-                <li>
-                  •{" "}
-                  <span className="text-teal-600 font-semibold">
-                    user-profile, custom-button
-                  </span>{" "}
-                  - Custom Component kebab-case (Teal)
-                </li>
-                <li>
-                  •{" "}
-                  <span className="text-yellow-600">{"{{ buttonText }}"}</span>{" "}
-                  - Mustache Syntax (Yellow)
-                </li>
-              </>
-            )}
-            {activeTab === "django" && (
-              <>
-                <li>
-                  •{" "}
-                  <span className="text-fuchsia-600 font-semibold">
-                    {"{% extends %}, {% if %}"}
-                  </span>{" "}
-                  - Template Tags (Fuchsia)
-                </li>
-                <li>
-                  • <span className="text-yellow-600">{"{{ user }}"}</span> -
-                  Template Variables (Yellow)
-                </li>
-                <li>
-                  • <span className="text-cyan-600">|safe, |title</span> -
-                  Template Filters (Cyan)
-                </li>
-                <li>
-                  •{" "}
-                  <span className="text-teal-600 font-semibold">
-                    UserProfile, custom-widget
-                  </span>{" "}
-                  - Custom Components (Teal)
-                </li>
-              </>
-            )}
-            {activeTab === "blade" && (
-              <>
-                <li>
-                  •{" "}
-                  <span className="text-fuchsia-600 font-semibold">
-                    @extends, @if, @foreach
-                  </span>{" "}
-                  - Blade Directives (Fuchsia)
-                </li>
-                <li>
-                  •{" "}
-                  <span className="text-cyan-600 font-semibold">
-                    x-admin-panel, x-post-card
-                  </span>{" "}
-                  - Blade Components (Cyan)
-                </li>
-                <li>
-                  •{" "}
-                  <span className="text-teal-600 font-semibold">
-                    UserDashboard
-                  </span>{" "}
-                  - Custom Component (Teal)
-                </li>
-                <li>
-                  •{" "}
-                  <span className="text-yellow-600">
-                    {"{{ $post->title }}"}
-                  </span>{" "}
-                  - Blade Echo (Yellow)
-                </li>
-              </>
-            )}
-          </ul>
+            {THEMES.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
+
+      {/* 1) All CVA variants (Editor + Viewer) */}
+      <section className="space-y-4">
+        <h3 className="text-lg font-semibold">
+          All variants (theme: <code>{theme}</code>, size: default)
+        </h3>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {VARIANTS.map((variant) => (
+            <div key={variant} className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="font-medium">{variant}</span>
+                <Badge variant={variant as any}>Editor</Badge>
+              </div>
+              <CodeEditor
+                className="h-[220px]"
+                theme={theme}
+                variant={variant as any}
+                language="tsx"
+                defaultValue={SAMPLE_TSX}
+                showToolbar
+                showStatusBar={false}
+              />
+              <div className="flex items-center gap-2">
+                <span className="font-medium opacity-70">{variant}</span>
+                <Badge variant={variant as any}>Viewer</Badge>
+              </div>
+              <CodeViewer
+                className="h-[180px]"
+                theme={theme}
+                language="tsx"
+                defaultValue={SAMPLE_TSX}
+                status={false}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 2) Sizes matrix for Editor */}
+      <section className="space-y-4">
+        <h3 className="text-lg font-semibold">
+          Sizes (variant: default, theme: <code>{theme}</code>)
+        </h3>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+          {SIZES.map((size) => (
+            <div key={size} className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="font-medium">{size}</span>
+                <Badge variant="default">Editor</Badge>
+              </div>
+              <CodeEditor
+                className={
+                  size === "sm"
+                    ? "h-[180px]"
+                    : size === "default"
+                    ? "h-[220px]"
+                    : "h-[260px]"
+                }
+                theme={theme}
+                size={size as any}
+                variant="default"
+                language="tsx"
+                defaultValue={SAMPLE_TSX}
+                showToolbar
+                showCopy
+                showStatusBar
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3) Themes gallery (Viewer only for quick scan) */}
+      <section className="space-y-4">
+        <h3 className="text-lg font-semibold">Themes (viewer)</h3>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {THEMES.map((t) => (
+            <div key={t} className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="font-medium">{t}</span>
+                <Badge variant="default">Viewer</Badge>
+              </div>
+              <CodeViewer
+                className="h-[180px]"
+                theme={t as any}
+                language="tsx"
+                defaultValue={SAMPLE_TSX}
+                copy
+                status={false}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
-
-export default CodeEditorFrameworkExamples;

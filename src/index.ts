@@ -174,7 +174,6 @@ export { default as FloatingActionButton } from "./components/FloatingActionButt
 export { default as Radio, RadioGroup } from "./components/Radio";
 export { default as Switch } from "./components/Switch";
 export { default as Checkbox, CheckboxGroup } from "./components/Checkbox";
-export { default as CodeEditor } from "./components/CodeEditor";
 export {
   Collapsible,
   CollapsibleTrigger,
@@ -808,11 +807,7 @@ export type {
 // Export Tooltip variants
 export { tooltipVariants, arrowVariants } from "./components/Tooltip/Tooltip.styles";
 
+// Export CodeEditor and CodeViewer components
+export { CodeEditor, CodeViewer } from "./components/CodeEditor";
 // Export CodeEditor types
-export type {
-  CodeEditorProps,
-  CodeEditorVariant,
-  CodeEditorSize,
-  CodeEditorTheme,
-  CodeLanguage,
-} from "./components/CodeEditor/CodeEditor.types";
+export type { CodeEditorProps } from "./components/CodeEditor";
