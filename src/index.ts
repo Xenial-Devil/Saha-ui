@@ -33,6 +33,7 @@ export {
   CardContent,
   CardFooter,
 } from "./components/Card";
+export { default as Chart } from "../markdown";
 export {
   Carousel,
   CarouselContent,
@@ -416,6 +417,17 @@ export type {
   CardPadding,
   CardRounded,
 } from "./components/Card/Card.types";
+export type {
+  ChartProps,
+  ChartDataPoint,
+  ChartDataset,
+  ChartVariant,
+  ChartSize,
+  ChartAxis,
+  ChartLegend,
+  ChartTooltip,
+  ChartAnimation,
+} from "./components/Chart/Chart.types";
 export type {
   CarouselProps,
   CarouselContentProps,
@@ -805,7 +817,10 @@ export type {
 } from "./components/Sonner";
 
 // Export Tooltip variants
-export { tooltipVariants, arrowVariants } from "./components/Tooltip/Tooltip.styles";
+export {
+  tooltipVariants,
+  arrowVariants,
+} from "./components/Tooltip/Tooltip.styles";
 
 // Export CodeEditor and CodeViewer components
 export { CodeEditor, CodeViewer } from "./components/CodeEditor";
