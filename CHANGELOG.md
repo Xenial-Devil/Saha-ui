@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.9.0...v1.10.0) (2025-11-04)
+
+
+### Features
+
+* **chart:** add Canvas-based Chart component with styles ([f306eba](https://github.com/Xenial-Devil/Saha-ui/commit/f306ebafe961da85a5532f710715396cb0ca9eb6))
+
 # [1.9.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.8.0...v1.9.0) (2025-11-03)
 
 
