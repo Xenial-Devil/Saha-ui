@@ -1,11 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { cn } from "../../lib/utils";
 import type { FloatingActionButtonProps } from "./FloatingActionButton.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-} from "../../lib/validation";
 import { fabVariants, labelVariants } from "./FloatingActionButton.styles";
 
 /**
@@ -36,7 +31,6 @@ import { fabVariants, labelVariants } from "./FloatingActionButton.styles";
  * @position bottom-right | bottom-left | top-right | top-left - Screen position
  */
 
-
 /**
  * Position variants for FAB
  */
@@ -49,7 +43,6 @@ const positionVariants: Record<
   "top-right": "top-6 right-6",
   "top-left": "top-6 left-6",
 };
-
 
 const FloatingActionButton = React.forwardRef<
   HTMLButtonElement,
@@ -71,58 +64,6 @@ const FloatingActionButton = React.forwardRef<
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("FloatingActionButton");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "primary",
-        "secondary",
-        "accent",
-        "info",
-        "success",
-        "warning",
-        "error",
-        "glass",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg", "xl"] as const);
-
-      // Validate position
-      validator.validateEnum("position", position, [
-        "bottom-right",
-        "bottom-left",
-        "top-right",
-        "top-left",
-      ] as const);
-
-      // Validate boolean props
-      validator.validateType("showLabel", showLabel, "boolean", isValidBoolean);
-      validator.validateType("extended", extended, "boolean", isValidBoolean);
-
-      // Validate content
-      if (!icon && !children) {
-        validator.warn(
-          "FloatingActionButton should have icon or children for accessibility"
-        );
-      }
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      variant,
-      size,
-      position,
-      showLabel,
-      extended,
-      icon,
-      children,
-      className,
-    ]);
-
     const [isHovered, setIsHovered] = React.useState(false);
 
     // Calculate position with custom offset

@@ -1,14 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { cn } from "../../lib/utils";
 import type { SkeletonProps } from "./Skeleton.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
 import { skeletonVariants } from "./Skeleton.styles";
-
 
 /**
  * Skeleton Component
@@ -48,60 +41,6 @@ export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Skeleton");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "pulse",
-        "wave",
-        "shimmer",
-        "gradient",
-        "glass",
-      ] as const);
-
-      // Validate shape
-      validator.validateEnum("shape", shape, [
-        "rectangle",
-        "circle",
-        "rounded",
-        "text",
-      ] as const);
-
-      // Validate speed
-      validator.validateEnum("speed", speed, [
-        "slow",
-        "normal",
-        "fast",
-      ] as const);
-
-      // Validate numeric props
-      validator.validateType("count", count, "number", isValidNumber);
-
-      if (count <= 0) {
-        validator.error("count must be greater than 0");
-      }
-
-      if (count > 100) {
-        validator.warn(
-          "count is very high, consider pagination or virtualization"
-        );
-      }
-
-      // Validate boolean props
-      validator.validateType(
-        "noAnimation",
-        noAnimation,
-        "boolean",
-        isValidBoolean
-      );
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [variant, shape, speed, count, noAnimation, className]);
-
     // Convert width/height to CSS values
     const widthValue = typeof width === "number" ? `${width}px` : width;
     const heightValue = typeof height === "number" ? `${height}px` : height;

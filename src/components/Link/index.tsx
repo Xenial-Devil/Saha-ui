@@ -1,14 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { cn } from "../../lib/utils";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidString,
-} from "../../lib/validation";
 import { LinkProps } from "./Link.types";
 import { linkVariants } from "./Link.styles";
-
 
 /**
  * Link Component
@@ -61,59 +54,6 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
     ref
   ) => {
     // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Link");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "primary",
-        "secondary",
-        "accent",
-        "muted",
-        "underline",
-        "ghost",
-        "button",
-        "glass",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
-
-      // Validate boolean props
-      validator.validateType("external", external, "boolean", isValidBoolean);
-      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
-      validator.validateType(
-        "showUnderline",
-        showUnderline,
-        "boolean",
-        isValidBoolean
-      );
-
-      // Validate href
-      if (href) {
-        validator.validateType("href", href, "string", isValidString);
-      }
-
-      // Validate children
-      if (!children) {
-        validator.warn("Link should have children content for accessibility");
-      }
-
-      // Common validators
-      commonValidators.className(validator, className);
-      commonValidators.disabled(validator, disabled);
-    }, [
-      variant,
-      size,
-      external,
-      disabled,
-      showUnderline,
-      href,
-      children,
-      className,
-    ]);
-
     // Auto-set target and rel for external links
     const isExternal = external || target === "_blank";
     const finalTarget = isExternal ? "_blank" : target;

@@ -1,6 +1,5 @@
 import React from "react";
 import { cn } from "../../lib/utils";
-import { ComponentValidator, isValidBoolean } from "../../lib/validation";
 import type {
   KbdProps,
   KbdGroupProps,
@@ -95,40 +94,6 @@ export const Kbd = React.forwardRef<HTMLElement, KbdProps>(
     },
     ref
   ) => {
-    // Runtime validation (development only)
-    const validator = new ComponentValidator("Kbd");
-
-    React.useEffect(() => {
-      // Validate variant
-      validator.validateEnum("variant", variant, VALID_VARIANTS);
-
-      // Validate size
-      validator.validateEnum("size", size, VALID_SIZES);
-
-      // Validate color if provided
-      if (color !== undefined) {
-        validator.validateEnum("color", color, VALID_COLORS);
-      }
-
-      // Validate boolean props
-      validator.validateType("pressed", pressed, "boolean", isValidBoolean);
-      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
-
-      // Warn about conflicting states
-      if (pressed && disabled) {
-        validator.warn(
-          "Kbd has both 'pressed' and 'disabled' props. The disabled state will take precedence."
-        );
-      }
-
-      // Validate children
-      if (!children) {
-        validator.warn(
-          "Kbd has no children. Consider providing key text or symbol."
-        );
-      }
-    }, [variant, size, color, pressed, disabled, children]);
-
     // Use color variant if color is specified
     const effectiveVariant = color || variant;
 
@@ -190,36 +155,6 @@ export const KbdGroup = React.forwardRef<HTMLDivElement, KbdGroupProps>(
     },
     ref
   ) => {
-    // Runtime validation (development only)
-    const validator = new ComponentValidator("KbdGroup");
-
-    React.useEffect(() => {
-      // Validate size if provided
-      if (size !== undefined) {
-        validator.validateEnum("size", size, VALID_SIZES);
-      }
-
-      // Validate variant if provided
-      if (variant !== undefined) {
-        validator.validateEnum("variant", variant, VALID_VARIANTS);
-      }
-
-      // Validate boolean props
-      validator.validateType(
-        "showSeparator",
-        showSeparator,
-        "boolean",
-        isValidBoolean
-      );
-
-      // Validate children
-      if (!children) {
-        validator.warn(
-          "KbdGroup has no children. Consider providing Kbd components."
-        );
-      }
-    }, [size, variant, showSeparator, children]);
-
     // Convert children to array and filter out falsy values
     const childArray = React.Children.toArray(children).filter(Boolean);
 

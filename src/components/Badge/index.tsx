@@ -1,11 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { cn } from "../../lib/utils";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-} from "../../lib/validation";
 import type { BadgeProps } from "./Badge.types";
 import { badgeVariants } from "./Badge.styles";
 
@@ -27,7 +22,7 @@ import { badgeVariants } from "./Badge.styles";
  * <Badge size="sm">Small</Badge>
  * <Badge size="lg">Large</Badge>
  *
- * // Removable badge
+ * // Removable badge (requires "use client" in your component)
  * <Badge removable onRemove={() => handleRemove()}>
  *   Tag
  * </Badge>
@@ -56,56 +51,6 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     },
     ref
   ) => {
-    // ===== PROP VALIDATION =====
-    useEffect(() => {
-      if (process.env.NODE_ENV !== "production") {
-        const validator = createValidator("Badge");
-
-        // Common validators
-        commonValidators.size(validator, size);
-        const badgeVariants = [
-          "default",
-          "primary",
-          "secondary",
-          "accent",
-          "success",
-          "warning",
-          "error",
-          "info",
-          "outline",
-          "glass",
-        ] as const;
-        commonValidators.variant(validator, variant, badgeVariants);
-        commonValidators.className(validator, className);
-
-        // Shape validation
-        if (shape && !["rounded", "pill", "square"].includes(shape)) {
-          validator.error(
-            "Invalid prop: 'shape' must be one of: 'rounded', 'pill', 'square'."
-          );
-        }
-
-        // Boolean validations
-        if (dot !== undefined && !isValidBoolean(dot)) {
-          validator.error("Invalid prop: 'dot' must be a boolean.");
-        }
-        if (removable !== undefined && !isValidBoolean(removable)) {
-          validator.error("Invalid prop: 'removable' must be a boolean.");
-        }
-        if (pulse !== undefined && !isValidBoolean(pulse)) {
-          validator.error("Invalid prop: 'pulse' must be a boolean.");
-        }
-
-        // Conditional validation
-        if (removable && !onRemove) {
-          validator.warn(
-            "Warning: 'removable' is true but 'onRemove' callback is not provided."
-          );
-        }
-      }
-    }, [variant, size, shape, className, dot, removable, pulse, onRemove]);
-    // ===== END PROP VALIDATION =====
-
     return (
       <span
         ref={ref}

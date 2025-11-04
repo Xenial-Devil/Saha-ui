@@ -1,14 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { cn } from "../../lib/utils";
 import { SpinnerProps, SpinnerSize } from "./Spinner.types";
 import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
-import { containerVariants, labelVariants, logoSizeVariants, spinnerVariants } from "./Spinner.styles";
-
+  containerVariants,
+  labelVariants,
+  logoSizeVariants,
+  spinnerVariants,
+} from "./Spinner.styles";
 
 /**
  * Animation variants for different animation types
@@ -19,7 +17,6 @@ const animationVariants = {
   bounce: "animate-bounce",
   ping: "animate-ping",
 };
-
 
 /**
  * Get color classes based on variant
@@ -105,107 +102,6 @@ const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Spinner");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "primary",
-        "secondary",
-        "accent",
-        "info",
-        "success",
-        "warning",
-        "error",
-        "glass",
-        "gradient",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-        "2xl",
-      ] as const);
-
-      // Validate animation
-      validator.validateEnum("animation", animation, [
-        "spin",
-        "pulse",
-        "bounce",
-        "ping",
-      ] as const);
-
-      // Validate type
-      validator.validateEnum("type", type, [
-        "ring",
-        "dots",
-        "dashed",
-        "bars",
-        "orbit",
-        "square",
-        "triangle",
-        "logo",
-        "dotRing",
-        "pulse",
-        "wave",
-        "spiral",
-        "infinity",
-        "flower",
-        "grid",
-        "bounce",
-      ] as const);
-
-      // Validate thickness
-      validator.validateEnum("thickness", thickness, [
-        "thin",
-        "default",
-        "thick",
-      ] as const);
-
-      // Validate logoSize
-      validator.validateEnum("logoSize", logoSize, [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-      ] as const);
-
-      // Validate numeric props
-      validator.validateType("speed", speed, "number", isValidNumber);
-
-      if (speed <= 0) {
-        validator.error("speed must be greater than 0");
-      }
-
-      // Validate boolean props
-      validator.validateType(
-        "fullscreen",
-        fullscreen,
-        "boolean",
-        isValidBoolean
-      );
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      variant,
-      size,
-      animation,
-      type,
-      thickness,
-      logoSize,
-      speed,
-      fullscreen,
-      className,
-    ]);
-
     const animationClass = animationVariants[animation];
     const animationStyle =
       speed !== 1 ? { animationDuration: `${1 / speed}s` } : {};
