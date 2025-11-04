@@ -12,19 +12,19 @@ const c = a[ 0 ] || "init";
 // Helpers
 const rd = (f) => fs.readFileSync(f, "utf8");
 const wr = (f, s) => {
-    fs.mkdirSync(path.dirname(f), { recursive: true });
-    fs.writeFileSync(f, s, "utf8");
+  fs.mkdirSync(path.dirname(f), { recursive: true });
+  fs.writeFileSync(f, s, "utf8");
 };
 const fE = (f) => fs.existsSync(f) && fs.statSync(f).isFile();
 const dE = (d) => fs.existsSync(d) && fs.statSync(d).isDirectory();
 
 // package.json
 const P = (() => {
-    try {
-        return JSON.parse(rd(path.join(R, "package.json")));
-    } catch {
-        return {};
-    }
+  try {
+    return JSON.parse(rd(path.join(R, "package.json")));
+  } catch {
+    return {};
+  }
 })();
 const D = { ...(P.dependencies || {}), ...(P.devDependencies || {}) };
 const F = D.next ? "next" : "react";
@@ -33,161 +33,171 @@ const F = D.next ? "next" : "react";
 // Tailwind detection from package.json only
 // ----------------------------------------------
 const TAILWIND_CONFIG_FILES = [
-    "tailwind.config.js",
-    "tailwind.config.ts",
-    "tailwind.config.mjs",
-    "tailwind.config.cjs",
-    "tailwind.config.mts",
-    "tailwind.config.cts",
+  "tailwind.config.js",
+  "tailwind.config.ts",
+  "tailwind.config.mjs",
+  "tailwind.config.cjs",
+  "tailwind.config.mts",
+  "tailwind.config.cts",
 ];
 
 const parseMajor = (v) => {
-    const m = String(v || "").match(/(\d+)/);
-    return m ? parseInt(m[ 1 ], 10) : 0;
+  const m = String(v || "").match(/(\d+)/);
+  return m ? parseInt(m[ 1 ], 10) : 0;
 };
 
 function assertTailwindFromPkgJson() {
-    const versionRange =
-        (P.dependencies && P.dependencies.tailwindcss) ||
-        (P.devDependencies && P.devDependencies.tailwindcss);
+  const versionRange =
+    (P.dependencies && P.dependencies.tailwindcss) ||
+    (P.devDependencies && P.devDependencies.tailwindcss);
 
-    if (!versionRange) {
-        console.error("❌ Tailwind CSS is not listed in package.json.");
-        console.error("Please add Tailwind first, then re-run this command.");
-        console.error("Examples:");
-        console.error("  - v4: npm i -D tailwindcss");
-        console.error("        Optional: npm i -D @tailwindcss/postcss  // PostCSS flow");
-        console.error("        Optional: npm i -D @tailwindcss/cli      // CLI flow");
-        console.error("  - v3: npm i -D tailwindcss postcss autoprefixer && npx tailwindcss init -p");
-        process.exit(1);
-    }
+  if (!versionRange) {
+    console.error("❌ Tailwind CSS is not listed in package.json.");
+    console.error("Please add Tailwind first, then re-run this command.");
+    console.error("Examples:");
+    console.error("  - v4: npm i -D tailwindcss");
+    console.error("        Optional: npm i -D @tailwindcss/postcss  // PostCSS flow");
+    console.error("        Optional: npm i -D @tailwindcss/cli      // CLI flow");
+    console.error("  - v3: npm i -D tailwindcss postcss autoprefixer && npx tailwindcss init -p");
+    process.exit(1);
+  }
 
-    const major = parseMajor(versionRange);
-    console.log(`🔎 Tailwind in package.json: "${versionRange}" (detected major v${major})`);
-    return { versionRange, major };
+  const major = parseMajor(versionRange);
+  console.log(`🔎 Tailwind in package.json: "${versionRange}" (detected major v${major})`);
+  return { versionRange, major };
 }
 
 // v3 requires a tailwind.config.* file to exist
 function assertTailwindV3ConfigPresent() {
-    const configPath = TAILWIND_CONFIG_FILES
-        .map((f) => path.join(R, f))
-        .find((p) => fE(p));
-    if (!configPath) {
-        console.error("❌ Tailwind v3 detected, but no tailwind.config.* found.");
-        console.error("Please run: npx tailwindcss init -p");
-        process.exit(1);
-    }
-    console.log("✅ Tailwind v3 config file detected.");
+  const configPath = TAILWIND_CONFIG_FILES
+    .map((f) => path.join(R, f))
+    .find((p) => fE(p));
+  if (!configPath) {
+    console.error("❌ Tailwind v3 detected, but no tailwind.config.* found.");
+    console.error("Please run: npx tailwindcss init -p");
+    process.exit(1);
+  }
+  console.log("✅ Tailwind v3 config file detected.");
 }
 
 // ----------------------------------------------
 // React presence
 // ----------------------------------------------
 function assertReactPresent() {
-    if (!D.react) {
-        console.error("❌ This setup currently supports React/Next projects only.");
-        console.error("React dependency was not found in package.json.");
-        process.exit(1);
-    }
-    console.log("✅ React detected.");
+  if (!D.react) {
+    console.error("❌ This setup currently supports React/Next projects only.");
+    console.error("React dependency was not found in package.json.");
+    process.exit(1);
+  }
+  console.log("✅ React detected.");
 }
 
 // ----------------------------------------------
 // saha-ui presence + deps sync
 // ----------------------------------------------
 function ensureSahaUIInstalled() {
-    try {
-        const pkgPath = path.join(R, "package.json");
-        if (!fE(pkgPath)) {
-            console.error("❌ No package.json found in this directory.");
-            console.error("Please run this command inside your project folder.");
-            process.exit(1);
-        }
-
-        const pkg = JSON.parse(rd(pkgPath));
-        const deps = { ...(pkg.dependencies || {}), ...(pkg.devDependencies || {}) };
-        if (!deps[ "saha-ui" ]) {
-            console.log("\n📦 saha-ui not found in your project.");
-            console.log("Installing saha-ui@latest for you...\n");
-            execSync("npm install saha-ui@latest --save-dev", {
-                stdio: "inherit",
-                cwd: R,
-            });
-            console.log("\n✅ saha-ui installed successfully!\n");
-        } else {
-            console.log("✅ saha-ui is already installed.\n");
-        }
-    } catch (err) {
-        console.error("❌ Failed to verify or install saha-ui:");
-        console.error(err.message);
-        process.exit(1);
+  try {
+    const pkgPath = path.join(R, "package.json");
+    if (!fE(pkgPath)) {
+      console.error("❌ No package.json found in this directory.");
+      console.error("Please run this command inside your project folder.");
+      process.exit(1);
     }
+
+    const pkg = JSON.parse(rd(pkgPath));
+    const deps = { ...(pkg.dependencies || {}), ...(pkg.devDependencies || {}) };
+    if (!deps[ "saha-ui" ]) {
+      console.log("\n📦 saha-ui not found in your project.");
+      console.log("Installing saha-ui@latest for you...\n");
+      execSync("npm install saha-ui@latest --save-dev", {
+        stdio: "inherit",
+        cwd: R,
+      });
+      console.log("\n✅ saha-ui installed successfully!\n");
+    } else {
+      console.log("✅ saha-ui is already installed.\n");
+    }
+  } catch (err) {
+    console.error("❌ Failed to verify or install saha-ui:");
+    console.error(err.message);
+    process.exit(1);
+  }
 }
 
+// ONLY install dependencies and optionalDependencies (not peers/dev)
+// Skips packages already listed in the host project's deps/devDeps.
 function installSahaUIDeps() {
-    try {
-        const sahaPath = path.dirname(fileURLToPath(import.meta.url));
-        const pkgPath = path.resolve(sahaPath, "../package.json");
+  try {
+    const sahaPath = path.dirname(fileURLToPath(import.meta.url));
+    const pkgPath = path.resolve(sahaPath, "../package.json");
 
-        if (!fE(pkgPath)) {
-            console.warn("⚠️ Could not find saha-ui package.json to sync dependencies.");
-            return;
-        }
-
-        const sahaPkg = JSON.parse(rd(pkgPath));
-        const deps = { ...(sahaPkg.dependencies || {}), ...(sahaPkg.peerDependencies || {}) };
-
-        const depNames = Object.entries(deps)
-            .map(([ name, version ]) => `${name}@${version}`)
-            .join(" ");
-
-        if (!depNames) {
-            console.log("ℹ️ No dependencies to install from saha-ui package.json");
-            return;
-        }
-
-        console.log("📦 Installing saha-ui dependencies into your project...");
-        execSync(`npm install ${depNames} --save-dev`, {
-            stdio: "inherit",
-            cwd: R,
-        });
-        console.log("\n✅ saha-ui dependencies installed successfully!\n");
-    } catch (err) {
-        console.error("❌ Failed to install saha-ui dependencies:", err.message);
+    if (!fE(pkgPath)) {
+      console.warn("⚠️ Could not find saha-ui package.json to sync dependencies.");
+      return;
     }
+
+    const sahaPkg = JSON.parse(rd(pkgPath));
+    const toSync = {
+      ...(sahaPkg.dependencies || {}),
+      ...(sahaPkg.optionalDependencies || {}),
+    };
+
+    // Re-read host package.json to reflect any updates after saha-ui install
+    const hostPkg = JSON.parse(rd(path.join(R, "package.json")));
+    const hostAll = {
+      ...(hostPkg.dependencies || {}),
+      ...(hostPkg.devDependencies || {}),
+    };
+
+    const toInstall = Object.entries(toSync).filter(([ name ]) => !hostAll[ name ]);
+    if (toInstall.length === 0) {
+      console.log("ℹ️ No missing dependencies from saha-ui to install in your project.");
+      return;
+    }
+
+    const depNames = toInstall.map(([ name, version ]) => `${name}@${version}`).join(" ");
+    console.log("📦 Installing saha-ui dependencies into your project (deps + optionalDeps)...");
+    execSync(`npm install ${depNames} --save-dev`, {
+      stdio: "inherit",
+      cwd: R,
+    });
+    console.log("\n✅ saha-ui dependencies installed successfully!\n");
+  } catch (err) {
+    console.error("❌ Failed to install saha-ui dependencies:", err.message);
+  }
 }
 
 // ----------------------------------------------
 // CSS file selection (Next vs React)
 // ----------------------------------------------
 const N = [
-    "app/globals.css",
-    "app/global.css",
-    "styles/globals.css",
-    "styles/global.css",
-    "src/app/globals.css",
-    "src/app/global.css",
-    "src/styles/globals.css",
-    "src/styles/global.css",
+  "app/globals.css",
+  "app/global.css",
+  "styles/globals.css",
+  "styles/global.css",
+  "src/app/globals.css",
+  "src/app/global.css",
+  "src/styles/globals.css",
+  "src/styles/global.css",
 ];
 const V = [ "src/index.css", "src/main.css", "src/global.css", "index.css" ];
 const C = F === "next" ? N : V;
 
 const pick = () => {
-    for (const x of C) {
-        const f = path.join(R, x);
-        if (fE(f)) return f;
-    }
+  for (const x of C) {
+    const f = path.join(R, x);
+    if (fE(f)) return f;
+  }
 
-    if (F === "next") {
-        const A = dE(path.join(R, "app")) && path.join(R, "app/globals.css");
-        const B = dE(path.join(R, "src/app")) && path.join(R, "src/app/globals.css");
-        const S = dE(path.join(R, "styles")) && path.join(R, "styles/globals.css");
-        const T = dE(path.join(R, "src/styles")) && path.join(R, "src/styles/globals.css");
-        return A || B || S || T || path.join(R, "app/globals.css");
-    }
+  if (F === "next") {
+    const A = dE(path.join(R, "app")) && path.join(R, "app/globals.css");
+    const B = dE(path.join(R, "src/app")) && path.join(R, "src/app/globals.css");
+    const S = dE(path.join(R, "styles")) && path.join(R, "styles/globals.css");
+    const T = dE(path.join(R, "src/styles")) && path.join(R, "src/styles/globals.css");
+    return A || B || S || T || path.join(R, "app/globals.css");
+  }
 
-    return dE(path.join(R, "src")) ? path.join(R, "src/index.css") : path.join(R, "index.css");
+  return dE(path.join(R, "src")) ? path.join(R, "src/index.css") : path.join(R, "index.css");
 };
 
 // ----------------------------------------------
@@ -637,33 +647,33 @@ const CSS_V3 = `@tailwind base;
 // Update Tailwind config for v3 (manual hints)
 // ----------------------------------------------
 const updateTailwindConfig = () => {
-    const configFiles = [
-        "tailwind.config.js",
-        "tailwind.config.ts",
-        "tailwind.config.mjs",
-        "tailwind.config.cjs",
-    ];
+  const configFiles = [
+    "tailwind.config.js",
+    "tailwind.config.ts",
+    "tailwind.config.mjs",
+    "tailwind.config.cjs",
+  ];
 
-    let configPath = null;
-    for (const cf of configFiles) {
-        const p = path.join(R, cf);
-        if (fE(p)) {
-            configPath = p;
-            break;
-        }
+  let configPath = null;
+  for (const cf of configFiles) {
+    const p = path.join(R, cf);
+    if (fE(p)) {
+      configPath = p;
+      break;
     }
+  }
 
-    if (!configPath) {
-        console.warn("⚠️  Warning: Could not find Tailwind config file");
-        return;
-    }
+  if (!configPath) {
+    console.warn("⚠️  Warning: Could not find Tailwind config file");
+    return;
+  }
 
-    const config = rd(configPath);
+  const config = rd(configPath);
 
-    if (config.includes("theme:") && config.includes("extend:")) {
-        console.log("ℹ️  Tailwind config already has theme.extend");
-        console.log("\n📝 Please manually add these to your tailwind.config:");
-        console.log(`
+  if (config.includes("theme:") && config.includes("extend:")) {
+    console.log("ℹ️  Tailwind config already has theme.extend");
+    console.log("\n📝 Please manually add these to your tailwind.config:");
+    console.log(`
 theme: {
   extend: {
     colors: {
@@ -709,107 +719,107 @@ theme: {
   },
 }
     `);
-    }
+  }
 };
 
 // ----------------------------------------------
 // Inject
 // ----------------------------------------------
 const inject = (f, tailwindInfo) => {
-    const ex = fE(f);
-    const cur = ex ? rd(f) : "";
+  const ex = fE(f);
+  const cur = ex ? rd(f) : "";
 
-    if (cur.includes(M)) {
-        console.log(`✅ saha-ui: CSS already injected in ${path.relative(R, f)}`);
-        return;
-    }
+  if (cur.includes(M)) {
+    console.log(`✅ saha-ui: CSS already injected in ${path.relative(R, f)}`);
+    return;
+  }
 
-    const hasTailwindV4Import = TW.test(cur);
-    const hasTailwindV3Import = cur.includes("@tailwind");
-    const hasTailwindImport = hasTailwindV4Import || hasTailwindV3Import;
+  const hasTailwindV4Import = /@import\s+["']tailwindcss["'];?/.test(cur);
+  const hasTailwindV3Import = cur.includes("@tailwind");
+  const hasTailwindImport = hasTailwindV4Import || hasTailwindV3Import;
 
-    const CSS = tailwindInfo.major >= 4 ? CSS_V4 : CSS_V3;
+  const CSS = tailwindInfo.major >= 4 ? CSS_V4 : CSS_V3;
 
-    let cssToInject = CSS;
-    if (hasTailwindImport) {
-        if (hasTailwindV4Import) {
-            cssToInject = CSS.replace(/^@import\s+["']tailwindcss["'];?\n*/, "").trim();
-        } else if (hasTailwindV3Import) {
-            cssToInject = CSS.replace(/@tailwind\s+(base|components|utilities);?\n*/g, "").trim();
-        }
-    }
-
-    let out;
+  let cssToInject = CSS;
+  if (hasTailwindImport) {
     if (hasTailwindV4Import) {
-        out = cur.replace(TW, (m) => `${m}\n${M}\n${cssToInject}`);
+      cssToInject = CSS.replace(/^@import\s+["']tailwindcss["'];?\n*/, "").trim();
     } else if (hasTailwindV3Import) {
-        const tailwindDirectives = cur.match(/@tailwind\s+(base|components|utilities);?\n*/g);
-        if (tailwindDirectives) {
-            const lastDirective = tailwindDirectives[ tailwindDirectives.length - 1 ];
-            const lastIndex = cur.lastIndexOf(lastDirective);
-            const beforeDirective = cur.substring(0, lastIndex + lastDirective.length);
-            const afterDirective = cur.substring(lastIndex + lastDirective.length);
-            out = `${beforeDirective}\n${M}\n${cssToInject}\n${afterDirective}`;
-        } else {
-            out = `${M}\n${cssToInject}\n\n${cur}`;
-        }
+      cssToInject = CSS.replace(/@tailwind\s+(base|components|utilities);?\n*/g, "").trim();
+    }
+  }
+
+  let out;
+  if (hasTailwindV4Import) {
+    out = cur.replace(/@import\s+["']tailwindcss["'];?/, (m) => `${m}\n${M}\n${cssToInject}`);
+  } else if (hasTailwindV3Import) {
+    const tailwindDirectives = cur.match(/@tailwind\s+(base|components|utilities);?\n*/g);
+    if (tailwindDirectives) {
+      const lastDirective = tailwindDirectives[ tailwindDirectives.length - 1 ];
+      const lastIndex = cur.lastIndexOf(lastDirective);
+      const beforeDirective = cur.substring(0, lastIndex + lastDirective.length);
+      const afterDirective = cur.substring(lastIndex + lastDirective.length);
+      out = `${beforeDirective}\n${M}\n${cssToInject}\n${afterDirective}`;
     } else {
-        out = `${M}\n${CSS}\n\n${cur}`;
+      out = `${M}\n${cssToInject}\n\n${cur}`;
     }
+  } else {
+    out = `${M}\n${CSS}\n\n${cur}`;
+  }
 
-    wr(f, out);
-    console.log(`\n✅ saha-ui: Injected CSS into ${path.relative(R, f)} (${F})`);
-    console.log(`📦 Using Tailwind v${tailwindInfo.major} configuration`);
+  wr(f, out);
+  console.log(`\n✅ saha-ui: Injected CSS into ${path.relative(R, f)} (${F})`);
+  console.log(`📦 Using Tailwind v${tailwindInfo.major} configuration`);
 
-    if (tailwindInfo.major < 4) {
-        console.log("\n⚠️  Tailwind v3 detected - you may need to update your tailwind.config");
-        updateTailwindConfig();
+  if (tailwindInfo.major < 4) {
+    console.log("\n⚠️  Tailwind v3 detected - you may need to update your tailwind.config");
+    updateTailwindConfig();
+  }
+
+  if (!ex) {
+    if (F === "next") {
+      console.log("\n📝 Next steps:");
+      console.log("  - Ensure root layout imports this CSS:");
+      console.log("    app/layout.tsx -> import './globals.css'");
+    } else {
+      console.log("\n📝 Next steps:");
+      console.log("  - Ensure src/main.tsx imports './index.css'");
     }
-
-    if (!ex) {
-        if (F === "next") {
-            console.log("\n📝 Next steps:");
-            console.log("  - Ensure root layout imports this CSS:");
-            console.log("    app/layout.tsx -> import './globals.css'");
-        } else {
-            console.log("\n📝 Next steps:");
-            console.log("  - Ensure src/main.tsx imports './index.css'");
-        }
-    }
+  }
 };
 
 // ----------------------------------------------
 // Main
 // ----------------------------------------------
 const run = () => {
-    if (c !== "init") {
-        console.log("Usage: npx saha-ui init");
-        return;
-    }
+  if (c !== "init") {
+    console.log("Usage: npx saha-ui init");
+    return;
+  }
 
-    console.log("\n🚀 Initializing saha-ui...\n");
+  console.log("\n🚀 Initializing saha-ui...\n");
 
-    // 1) Determine Tailwind version from package.json only
-    const tailwindInfo = assertTailwindFromPkgJson();
+  // 1) Determine Tailwind version from package.json only
+  const tailwindInfo = assertTailwindFromPkgJson();
 
-    // 2) For v3, ensure config exists. For v4, no mandatory CLI/PostCSS check.
-    if (tailwindInfo.major < 4) {
-        assertTailwindV3ConfigPresent();
-    } else {
-        console.log("ℹ️ Tailwind v4 detected. PostCSS/CLI are optional; proceeding to inject CSS.");
-    }
+  // 2) For v3, ensure config exists. For v4, CLI/PostCSS are optional.
+  if (tailwindInfo.major < 4) {
+    assertTailwindV3ConfigPresent();
+  } else {
+    console.log("ℹ️ Tailwind v4 detected. PostCSS/CLI are optional; proceeding to inject CSS.");
+  }
 
-    // 3) Proceed only if React is present
-    assertReactPresent();
+  // 3) Proceed only if React is present
+  assertReactPresent();
 
-    // 4) Ensure saha-ui is installed, then install its deps to the main project
-    ensureSahaUIInstalled();
-    installSahaUIDeps();
+  // 4) Ensure saha-ui is installed, then install its deps (deps + optionalDeps only)
+  ensureSahaUIInstalled();
+  installSahaUIDeps();
 
-    // 5) Inject CSS (v4: just CSS; v3: CSS + config hints)
-    inject(pick(), tailwindInfo);
+  // 5) Inject CSS (v4: just CSS; v3: CSS + config hints)
+  inject(pick(), tailwindInfo);
 
-    console.log("\n✨ Done!\n");
+  console.log("\n✨ Done!\n");
 };
 
 run();
