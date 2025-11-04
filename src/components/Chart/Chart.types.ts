@@ -1,8 +1,6 @@
-import { HTMLAttributes } from "react";
+import type { ReactNode } from "react";
+import type { CurveType } from "recharts/types/shape/Curve";
 
-/**
- * Chart variant types
- */
 export type ChartVariant =
   | "default"
   | "primary"
@@ -16,197 +14,139 @@ export type ChartVariant =
   | "ghost"
   | "glass";
 
-/**
- * Chart size types
- */
 export type ChartSize = "sm" | "md" | "lg" | "xl";
 
-/**
- * Chart data point structure
- */
+export type ChartType =
+  | "line"
+  | "bar"
+  | "area"
+  | "pie"
+  | "donut"
+  | "radar"
+  | "radialBar"
+  | "scatter"
+  | "composed"
+  | "funnel"
+  | "treemap";
+
+export type LegendPosition = "top" | "bottom" | "left" | "right";
+
+export type AxisOrientation = "left" | "right" | "top" | "bottom";
+
 export interface ChartDataPoint {
-  /** Label for the data point */
-  label: string;
-  /** Value for the data point */
-  value: number;
-  /** Optional color override for this specific point */
-  color?: string;
-  /** Optional series name for multi-series charts */
-  series?: string;
+  [key: string]: string | number | null | undefined;
 }
 
-/**
- * Chart dataset for multi-series charts
- */
-export interface ChartDataset {
-  /** Dataset label */
-  label: string;
-  /** Array of data values */
-  data: number[];
-  /** Optional color for the entire dataset */
+export interface BaseSeriesConfig {
+  dataKey: string;
+  name?: string;
   color?: string;
-  /** Fill area under line (for line/area charts) */
-  fill?: boolean;
+  hide?: boolean;
 }
 
-/**
- * Chart axis configuration
- */
-export interface ChartAxis {
-  /** Show axis */
-  show?: boolean;
-  /** Axis label */
+export interface LineSeriesConfig extends BaseSeriesConfig {
+  type?: CurveType;
+  strokeWidth?: number;
+  strokeDasharray?: string;
+  dot?: boolean | object;
+  activeDot?: boolean | object;
+}
+
+export interface BarSeriesConfig extends BaseSeriesConfig {
+  stackId?: string;
+  radius?: number | [number, number, number, number];
+  barSize?: number;
+}
+
+export interface AreaSeriesConfig extends BaseSeriesConfig {
+  type?: CurveType;
+  strokeWidth?: number;
+  fillOpacity?: number;
+  stackId?: string;
+}
+
+export interface PieSeriesConfig extends BaseSeriesConfig {
+  innerRadius?: number;
+  outerRadius?: number;
+  paddingAngle?: number;
+  startAngle?: number;
+  endAngle?: number;
+  labelLine?: boolean;
+}
+
+export interface RadarSeriesConfig extends BaseSeriesConfig {
+  fillOpacity?: number;
+  strokeWidth?: number;
+  dot?: boolean;
+}
+
+export interface ScatterSeriesConfig extends BaseSeriesConfig {
+  shape?: "circle" | "cross" | "diamond" | "square" | "star" | "triangle";
+  size?: number;
+}
+
+export type SeriesConfig =
+  | LineSeriesConfig
+  | BarSeriesConfig
+  | AreaSeriesConfig
+  | PieSeriesConfig
+  | RadarSeriesConfig
+  | ScatterSeriesConfig;
+
+export interface AxisConfig {
+  dataKey?: string;
   label?: string;
-  /** Show grid lines */
-  grid?: boolean;
-  /** Minimum value */
-  min?: number;
-  /** Maximum value */
-  max?: number;
+  hide?: boolean;
+  tickFormatter?: (value: any) => string;
+  domain?: [number | string, number | string];
+  scale?: "auto" | "linear" | "log" | "sqrt" | "time";
 }
 
-/**
- * Chart legend configuration
- */
-export interface ChartLegend {
-  /** Show legend */
+export interface GridConfig {
   show?: boolean;
-  /** Legend position */
-  position?: "top" | "bottom" | "left" | "right";
-  /** Legend alignment */
-  align?: "start" | "center" | "end";
+  strokeDasharray?: string;
+  horizontal?: boolean;
+  vertical?: boolean;
 }
 
-/**
- * Chart tooltip configuration
- */
-export interface ChartTooltip {
-  /** Enable tooltips */
-  enabled?: boolean;
-  /** Custom tooltip formatter */
-  formatter?: (value: number, label: string) => string;
+export interface TooltipConfig {
+  show?: boolean;
+  formatter?: (value: any, name: string) => [string, string];
+  labelFormatter?: (label: string) => string;
+  cursor?: boolean | object;
 }
 
-/**
- * Chart animation configuration
- */
-export interface ChartAnimation {
-  /** Enable animations */
-  enabled?: boolean;
-  /** Animation duration in ms */
-  duration?: number;
-  /** Animation easing function */
-  easing?: "linear" | "ease" | "ease-in" | "ease-out" | "ease-in-out";
+export interface LegendConfig {
+  show?: boolean;
+  position?: LegendPosition;
+  onClick?: (dataKey: string) => void;
 }
 
-/**
- * Props for the Chart component
- */
-export interface ChartProps extends HTMLAttributes<HTMLDivElement> {
-  /** Chart type */
-  type?: "line" | "bar" | "area" | "pie" | "donut" | "radar";
+export interface ChartConfig {
+  data: ChartDataPoint[];
+  series: SeriesConfig[];
+  xAxis?: AxisConfig;
+  yAxis?: AxisConfig;
+  grid?: GridConfig;
+  tooltip?: TooltipConfig;
+  legend?: LegendConfig;
+}
 
-  /** Chart data (simple format) */
-  data?: ChartDataPoint[];
-
-  /** Chart datasets (multi-series format) */
-  datasets?: ChartDataset[];
-
-  /** Labels for multi-series charts */
-  labels?: string[];
-
-  /** Chart variant/color scheme */
-  variant?:
-    | "default"
-    | "primary"
-    | "secondary"
-    | "accent"
-    | "success"
-    | "warning"
-    | "error"
-    | "info"
-    | "outline"
-    | "ghost"
-    | "glass";
-
-  /** Chart size */
-  size?: "sm" | "md" | "lg" | "xl";
-
-  /** Chart height (CSS value) */
-  height?: string | number;
-
-  /** Chart width (CSS value) */
-  width?: string | number;
-
-  /** Show chart title */
+export interface ChartProps {
+  type: ChartType;
+  config: ChartConfig;
+  variant?: ChartVariant;
+  size?: ChartSize;
   title?: string;
-
-  /** Chart description */
   description?: string;
-
-  /** Show legend */
-  showLegend?: boolean;
-
-  /** Legend position */
-  legendPosition?: "top" | "bottom" | "left" | "right";
-
-  /** Show grid */
-  showGrid?: boolean;
-
-  /** Show tooltip */
-  showTooltip?: boolean;
-
-  /** Show animation */
-  showAnimation?: boolean;
-
-  /** X-axis configuration */
-  xAxis?: ChartAxis;
-
-  /** Y-axis configuration */
-  yAxis?: ChartAxis;
-
-  /** Legend configuration */
-  legend?: ChartLegend;
-
-  /** Tooltip configuration */
-  tooltip?: ChartTooltip;
-
-  /** Animation configuration */
-  animation?: ChartAnimation;
-
-  /** Enable glass morphism effect */
-  glass?: boolean;
-
-  /** Enable glow effect on hover */
-  glow?: boolean;
-
-  /** Enable smooth curves (for line/area charts) */
-  smooth?: boolean;
-
-  /** Enable stacked mode (for bar/area charts) */
-  stacked?: boolean;
-
-  /** Enable zoom functionality */
-  zoom?: boolean;
-
-  /** Show data labels on chart */
-  showLabels?: boolean;
-
-  /** Custom color palette (array of colors) */
-  colors?: string[];
-
-  /** Loading state */
   loading?: boolean;
-
-  /** Empty state message */
-  emptyMessage?: string;
-
-  /** Custom className for the chart container */
   className?: string;
+  children?: ReactNode;
+}
 
-  /** Custom className for the chart canvas */
-  canvasClassName?: string;
-
-  /** Callback when a data point is clicked */
-  onDataPointClick?: (dataPoint: ChartDataPoint, index: number) => void;
+export interface BaseChartComponentProps {
+  config: ChartConfig;
+  variant: ChartVariant;
+  size: ChartSize;
+  hiddenSeries: Set<string>;
 }

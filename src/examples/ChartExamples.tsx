@@ -1,186 +1,111 @@
-import Chart from "../../markdown";
+import { Chart } from "../components/Chart";
 
 /**
  * Chart Component Examples
  *
- * This file demonstrates both API formats:
- * 1. Compact props-based API (simple and direct)
- * 2. Component API (flexible and composable)
+ * Demonstrates the Recharts-based Chart component with Saha UI styling.
+ * Uses a config-based API for maximum flexibility and customization.
  */
 
 export default function ChartExamples() {
-  // Sample data
+  // Sample data for single-series charts
   const salesData = [
-    { label: "Jan", value: 120 },
-    { label: "Feb", value: 190 },
-    { label: "Mar", value: 150 },
-    { label: "Apr", value: 220 },
-    { label: "May", value: 280 },
-    { label: "Jun", value: 250 },
+    { month: "Jan", sales: 120 },
+    { month: "Feb", sales: 190 },
+    { month: "Mar", sales: 150 },
+    { month: "Apr", sales: 220 },
+    { month: "May", sales: 280 },
+    { month: "Jun", sales: 250 },
   ];
 
   const revenueData = [
-    { label: "Q1", value: 45000 },
-    { label: "Q2", value: 62000 },
-    { label: "Q3", value: 58000 },
-    { label: "Q4", value: 75000 },
+    { quarter: "Q1", revenue: 45000 },
+    { quarter: "Q2", revenue: 62000 },
+    { quarter: "Q3", revenue: 58000 },
+    { quarter: "Q4", revenue: 75000 },
   ];
 
   const categoryData = [
-    { label: "Electronics", value: 35, color: "#3b82f6" },
-    { label: "Clothing", value: 25, color: "#10b981" },
-    { label: "Food", value: 20, color: "#f59e0b" },
-    { label: "Books", value: 15, color: "#8b5cf6" },
-    { label: "Others", value: 5, color: "#6b7280" },
+    { name: "Electronics", value: 35 },
+    { name: "Clothing", value: 25 },
+    { name: "Food", value: 20 },
+    { name: "Books", value: 15 },
+    { name: "Others", value: 5 },
   ];
 
-  const multiSeriesData = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    datasets: [
-      {
-        label: "Revenue",
-        data: [12000, 19000, 15000, 22000, 28000, 25000, 30000],
-        color: "#3b82f6",
-      },
-      {
-        label: "Expenses",
-        data: [8000, 12000, 10000, 15000, 18000, 16000, 19000],
-        color: "#ef4444",
-      },
-    ],
-  };
+  // Multi-series data
+  const weeklyData = [
+    { day: "Mon", revenue: 12000, expenses: 8000 },
+    { day: "Tue", revenue: 19000, expenses: 12000 },
+    { day: "Wed", revenue: 15000, expenses: 10000 },
+    { day: "Thu", revenue: 22000, expenses: 15000 },
+    { day: "Fri", revenue: 28000, expenses: 18000 },
+    { day: "Sat", revenue: 25000, expenses: 16000 },
+    { day: "Sun", revenue: 30000, expenses: 19000 },
+  ];
+
+  const performanceData = [
+    { metric: "Speed", value: 85 },
+    { metric: "Quality", value: 92 },
+    { metric: "Cost", value: 78 },
+    { metric: "Reliability", value: 88 },
+    { metric: "Innovation", value: 95 },
+  ];
+
+  // Sample data with multiple metrics
+  const monthlyMetrics = [
+    { month: "Jan", sales: 4000, revenue: 2400, profit: 2400 },
+    { month: "Feb", sales: 3000, revenue: 1398, profit: 2210 },
+    { month: "Mar", sales: 2000, revenue: 9800, profit: 2290 },
+    { month: "Apr", sales: 2780, revenue: 3908, profit: 2000 },
+    { month: "May", sales: 1890, revenue: 4800, profit: 2181 },
+    { month: "Jun", sales: 2390, revenue: 3800, profit: 2500 },
+  ];
 
   return (
     <div className="space-y-12 p-8">
       <div className="space-y-4">
         <h1 className="text-3xl font-bold">Chart Component Examples</h1>
         <p className="text-muted-foreground">
-          Comprehensive examples showcasing all chart types, features, and API
-          formats
+          Comprehensive examples showcasing all chart types using the
+          config-based API
         </p>
       </div>
 
-      {/* ========== COMPACT PROPS-BASED API ========== */}
+      {/* ========== LINE CHARTS ========== */}
       <section className="space-y-8">
         <div className="space-y-2">
-          <h2 className="text-2xl font-semibold">Compact Props-Based API</h2>
+          <h2 className="text-2xl font-semibold">Line Charts</h2>
           <p className="text-muted-foreground">
-            Simple and direct approach - perfect for quick implementations
+            Single and multi-series line charts with various customizations
           </p>
         </div>
 
-        {/* Line Chart - Basic */}
+        {/* Basic Line Chart */}
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Line Chart - Basic</h3>
+          <h3 className="text-xl font-semibold">Basic Line Chart</h3>
           <Chart
             type="line"
-            data={salesData}
+            config={{
+              data: salesData,
+              xAxis: { dataKey: "month" },
+              yAxis: {},
+              series: [
+                {
+                  dataKey: "sales",
+                  name: "Sales",
+                  type: "monotone",
+                  strokeWidth: 2,
+                },
+              ],
+              legend: { show: false },
+              tooltip: { show: true },
+              grid: { show: true },
+            }}
             title="Monthly Sales"
             description="Sales performance over the last 6 months"
             variant="default"
             size="md"
-            showLegend={false}
-            showGrid={true}
-            showTooltip={true}
-            showAnimation={true}
-          />
-        </div>
-
-        {/* Line Chart - Primary Variant with Glow */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">
-            Line Chart - Primary with Glow
-          </h3>
-          <Chart
-            type="line"
-            data={salesData}
-            title="Sales Trend"
-            variant="primary"
-            size="lg"
-            glow={true}
-            smooth={true}
-            colors={["#3b82f6", "#2563eb", "#1d4ed8"]}
-          />
-        </div>
-
-        {/* Bar Chart - Success Variant */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Bar Chart - Success Variant</h3>
-          <Chart
-            type="bar"
-            data={revenueData}
-            title="Quarterly Revenue"
-            description="Revenue breakdown by quarter"
-            variant="success"
-            size="md"
-            colors={["#10b981", "#059669", "#047857"]}
-            showLabels={true}
-          />
-        </div>
-
-        {/* Area Chart - Accent Variant */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Area Chart - Accent Variant</h3>
-          <Chart
-            type="area"
-            data={salesData}
-            title="Sales Area"
-            variant="accent"
-            size="lg"
-            smooth={true}
-            glow={true}
-          />
-        </div>
-
-        {/* Pie Chart - Default */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">
-            Pie Chart - Category Distribution
-          </h3>
-          <Chart
-            type="pie"
-            data={categoryData}
-            title="Sales by Category"
-            description="Product category distribution"
-            variant="default"
-            size="md"
-            showLegend={true}
-            legendPosition="right"
-          />
-        </div>
-
-        {/* Donut Chart - Glass Effect */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Donut Chart - Glass Effect</h3>
-          <Chart
-            type="donut"
-            data={categoryData}
-            title="Category Breakdown"
-            variant="glass"
-            size="lg"
-            showLegend={true}
-            legendPosition="bottom"
-          />
-        </div>
-
-        {/* Radar Chart - Warning Variant */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">
-            Radar Chart - Performance Metrics
-          </h3>
-          <Chart
-            type="radar"
-            data={[
-              { label: "Speed", value: 85 },
-              { label: "Quality", value: 92 },
-              { label: "Cost", value: 78 },
-              { label: "Reliability", value: 88 },
-              { label: "Innovation", value: 95 },
-            ]}
-            title="Performance Metrics"
-            variant="warning"
-            size="md"
-            showGrid={true}
           />
         </div>
 
@@ -189,15 +114,101 @@ export default function ChartExamples() {
           <h3 className="text-xl font-semibold">Multi-Series Line Chart</h3>
           <Chart
             type="line"
-            labels={multiSeriesData.labels}
-            datasets={multiSeriesData.datasets}
-            title="Revenue vs Expenses"
-            description="Weekly comparison"
-            variant="default"
+            config={{
+              data: weeklyData,
+              xAxis: { dataKey: "day" },
+              yAxis: {},
+              series: [
+                {
+                  dataKey: "revenue",
+                  name: "Revenue",
+                  type: "monotone",
+                  strokeWidth: 2,
+                  color: "#10b981",
+                },
+                {
+                  dataKey: "expenses",
+                  name: "Expenses",
+                  type: "monotone",
+                  strokeWidth: 2,
+                  color: "#ef4444",
+                },
+              ],
+              legend: { show: true, position: "top" },
+              tooltip: { show: true },
+              grid: { show: true },
+            }}
+            title="Weekly Revenue vs Expenses"
+            description="Financial comparison for the week"
+            variant="primary"
             size="lg"
-            showLegend={true}
-            legendPosition="top"
-            smooth={true}
+          />
+        </div>
+
+        {/* Line Chart with Dots */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold">Line Chart with Data Points</h3>
+          <Chart
+            type="line"
+            config={{
+              data: revenueData,
+              xAxis: { dataKey: "quarter" },
+              yAxis: {},
+              series: [
+                {
+                  dataKey: "revenue",
+                  name: "Revenue",
+                  type: "monotone",
+                  strokeWidth: 3,
+                  dot: true,
+                  activeDot: { r: 6 },
+                  color: "#6366f1",
+                },
+              ],
+              legend: { show: false },
+              tooltip: { show: true },
+              grid: { show: true },
+            }}
+            title="Quarterly Revenue"
+            variant="accent"
+            size="md"
+          />
+        </div>
+      </section>
+
+      {/* ========== BAR CHARTS ========== */}
+      <section className="space-y-8">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-semibold">Bar Charts</h2>
+          <p className="text-muted-foreground">
+            Vertical and horizontal bars with stacking support
+          </p>
+        </div>
+
+        {/* Basic Bar Chart */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold">Basic Bar Chart</h3>
+          <Chart
+            type="bar"
+            config={{
+              data: salesData,
+              xAxis: { dataKey: "month" },
+              yAxis: {},
+              series: [
+                {
+                  dataKey: "sales",
+                  name: "Sales",
+                  radius: [8, 8, 0, 0],
+                  color: "#10b981",
+                },
+              ],
+              legend: { show: false },
+              tooltip: { show: true },
+              grid: { show: true },
+            }}
+            title="Monthly Sales"
+            variant="success"
+            size="md"
           />
         </div>
 
@@ -206,13 +217,240 @@ export default function ChartExamples() {
           <h3 className="text-xl font-semibold">Stacked Bar Chart</h3>
           <Chart
             type="bar"
-            labels={multiSeriesData.labels}
-            datasets={multiSeriesData.datasets}
-            title="Weekly Financial Summary"
+            config={{
+              data: weeklyData,
+              xAxis: { dataKey: "day" },
+              yAxis: {},
+              series: [
+                {
+                  dataKey: "revenue",
+                  name: "Revenue",
+                  stackId: "a",
+                  color: "#10b981",
+                },
+                {
+                  dataKey: "expenses",
+                  name: "Expenses",
+                  stackId: "a",
+                  color: "#ef4444",
+                },
+              ],
+              legend: { show: true, position: "bottom" },
+              tooltip: { show: true },
+              grid: { show: true },
+            }}
+            title="Weekly Financial Summary (Stacked)"
             variant="secondary"
+            size="lg"
+          />
+        </div>
+
+        {/* Grouped Bar Chart */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold">Grouped Bar Chart</h3>
+          <Chart
+            type="bar"
+            config={{
+              data: monthlyMetrics,
+              xAxis: { dataKey: "month" },
+              yAxis: {},
+              series: [
+                {
+                  dataKey: "sales",
+                  name: "Sales",
+                  color: "#3b82f6",
+                },
+                {
+                  dataKey: "revenue",
+                  name: "Revenue",
+                  color: "#10b981",
+                },
+                {
+                  dataKey: "profit",
+                  name: "Profit",
+                  color: "#f59e0b",
+                },
+              ],
+              legend: { show: true, position: "top" },
+              tooltip: { show: true },
+              grid: { show: true },
+            }}
+            title="Monthly Metrics Comparison"
+            variant="default"
+            size="lg"
+          />
+        </div>
+      </section>
+
+      {/* ========== AREA CHARTS ========== */}
+      <section className="space-y-8">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-semibold">Area Charts</h2>
+          <p className="text-muted-foreground">
+            Filled area charts for trend visualization
+          </p>
+        </div>
+
+        {/* Basic Area Chart */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold">Basic Area Chart</h3>
+          <Chart
+            type="area"
+            config={{
+              data: salesData,
+              xAxis: { dataKey: "month" },
+              yAxis: {},
+              series: [
+                {
+                  dataKey: "sales",
+                  name: "Sales",
+                  type: "monotone",
+                  fillOpacity: 0.6,
+                  strokeWidth: 2,
+                  color: "#a78bfa",
+                },
+              ],
+              legend: { show: false },
+              tooltip: { show: true },
+              grid: { show: true },
+            }}
+            title="Sales Trend"
+            variant="accent"
             size="md"
-            stacked={true}
-            showLegend={true}
+          />
+        </div>
+
+        {/* Stacked Area Chart */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold">Stacked Area Chart</h3>
+          <Chart
+            type="area"
+            config={{
+              data: weeklyData,
+              xAxis: { dataKey: "day" },
+              yAxis: {},
+              series: [
+                {
+                  dataKey: "revenue",
+                  name: "Revenue",
+                  type: "monotone",
+                  fillOpacity: 0.5,
+                  stackId: "1",
+                  color: "#10b981",
+                },
+                {
+                  dataKey: "expenses",
+                  name: "Expenses",
+                  type: "monotone",
+                  fillOpacity: 0.5,
+                  stackId: "1",
+                  color: "#ef4444",
+                },
+              ],
+              legend: { show: true, position: "bottom" },
+              tooltip: { show: true },
+              grid: { show: true },
+            }}
+            title="Cumulative Financial Data"
+            variant="primary"
+            size="lg"
+          />
+        </div>
+      </section>
+
+      {/* ========== PIE & DONUT CHARTS ========== */}
+      <section className="space-y-8">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-semibold">Pie & Donut Charts</h2>
+          <p className="text-muted-foreground">
+            Circular charts for part-to-whole relationships
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Pie Chart */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold">Pie Chart</h3>
+            <Chart
+              type="pie"
+              config={{
+                data: categoryData,
+                series: [
+                  {
+                    dataKey: "value",
+                    name: "Category",
+                    outerRadius: 80,
+                    labelLine: false,
+                  },
+                ],
+                legend: { show: true, position: "right" },
+                tooltip: { show: true },
+              }}
+              title="Sales by Category"
+              variant="default"
+              size="md"
+            />
+          </div>
+
+          {/* Donut Chart */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold">Donut Chart</h3>
+            <Chart
+              type="donut"
+              config={{
+                data: categoryData,
+                series: [
+                  {
+                    dataKey: "value",
+                    name: "Category",
+                    innerRadius: 60,
+                    outerRadius: 80,
+                    paddingAngle: 2,
+                  },
+                ],
+                legend: { show: true, position: "bottom" },
+                tooltip: { show: true },
+              }}
+              title="Category Distribution"
+              variant="glass"
+              size="md"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ========== RADAR CHARTS ========== */}
+      <section className="space-y-8">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-semibold">Radar Charts</h2>
+          <p className="text-muted-foreground">
+            Multi-dimensional data visualization
+          </p>
+        </div>
+
+        {/* Basic Radar Chart */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold">Performance Radar</h3>
+          <Chart
+            type="radar"
+            config={{
+              data: performanceData,
+              series: [
+                {
+                  dataKey: "value",
+                  name: "Performance",
+                  fillOpacity: 0.6,
+                  strokeWidth: 2,
+                  color: "#f59e0b",
+                },
+              ],
+              legend: { show: false },
+              tooltip: { show: true },
+              grid: { show: true },
+            }}
+            title="Performance Metrics"
+            variant="warning"
+            size="lg"
           />
         </div>
       </section>
@@ -229,14 +467,26 @@ export default function ChartExamples() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Chart
             type="bar"
-            data={salesData.slice(0, 4)}
+            config={{
+              data: salesData.slice(0, 4),
+              xAxis: { dataKey: "month" },
+              yAxis: {},
+              series: [{ dataKey: "sales", name: "Sales" }],
+              legend: { show: false },
+            }}
             title="Small Chart"
             variant="primary"
             size="sm"
           />
           <Chart
             type="bar"
-            data={salesData.slice(0, 4)}
+            config={{
+              data: salesData.slice(0, 4),
+              xAxis: { dataKey: "month" },
+              yAxis: {},
+              series: [{ dataKey: "sales", name: "Sales" }],
+              legend: { show: false },
+            }}
             title="Medium Chart"
             variant="success"
             size="md"
@@ -245,21 +495,39 @@ export default function ChartExamples() {
 
         <Chart
           type="line"
-          data={salesData}
+          config={{
+            data: salesData,
+            xAxis: { dataKey: "month" },
+            yAxis: {},
+            series: [{ dataKey: "sales", name: "Sales", type: "monotone" }],
+            legend: { show: false },
+            grid: { show: true },
+          }}
           title="Large Chart"
           variant="accent"
           size="lg"
-          smooth={true}
         />
 
         <Chart
           type="area"
-          data={salesData}
+          config={{
+            data: salesData,
+            xAxis: { dataKey: "month" },
+            yAxis: {},
+            series: [
+              {
+                dataKey: "sales",
+                name: "Sales",
+                type: "monotone",
+                fillOpacity: 0.6,
+              },
+            ],
+            legend: { show: false },
+            grid: { show: true },
+          }}
           title="Extra Large Chart"
           variant="warning"
           size="xl"
-          smooth={true}
-          glow={true}
         />
       </section>
 
@@ -273,230 +541,34 @@ export default function ChartExamples() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Chart
-            type="bar"
-            data={salesData.slice(0, 4)}
-            title="Default"
-            variant="default"
-            size="sm"
-          />
-          <Chart
-            type="bar"
-            data={salesData.slice(0, 4)}
-            title="Primary"
-            variant="primary"
-            size="sm"
-          />
-          <Chart
-            type="bar"
-            data={salesData.slice(0, 4)}
-            title="Secondary"
-            variant="secondary"
-            size="sm"
-          />
-          <Chart
-            type="bar"
-            data={salesData.slice(0, 4)}
-            title="Accent"
-            variant="accent"
-            size="sm"
-          />
-          <Chart
-            type="bar"
-            data={salesData.slice(0, 4)}
-            title="Success"
-            variant="success"
-            size="sm"
-          />
-          <Chart
-            type="bar"
-            data={salesData.slice(0, 4)}
-            title="Warning"
-            variant="warning"
-            size="sm"
-          />
-          <Chart
-            type="bar"
-            data={salesData.slice(0, 4)}
-            title="Error"
-            variant="error"
-            size="sm"
-          />
-          <Chart
-            type="bar"
-            data={salesData.slice(0, 4)}
-            title="Info"
-            variant="info"
-            size="sm"
-          />
-          <Chart
-            type="bar"
-            data={salesData.slice(0, 4)}
-            title="Outline"
-            variant="outline"
-            size="sm"
-          />
-          <Chart
-            type="bar"
-            data={salesData.slice(0, 4)}
-            title="Ghost"
-            variant="ghost"
-            size="sm"
-          />
-          <Chart
-            type="bar"
-            data={salesData.slice(0, 4)}
-            title="Glass"
-            variant="glass"
-            size="sm"
-          />
-        </div>
-      </section>
-
-      {/* ========== COMPONENT API FORMAT ========== */}
-      <section className="space-y-8">
-        <div className="space-y-2">
-          <h2 className="text-2xl font-semibold">Component API Format</h2>
-          <p className="text-muted-foreground">
-            Flexible composable approach with sub-components
-          </p>
-        </div>
-
-        {/* Custom Title and Legend */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Custom Title and Legend</h3>
-          <div className="relative bg-card border border-border rounded-lg p-6 space-y-4">
-            <Chart.Title size="lg" align="center">
-              Custom Sales Dashboard
-            </Chart.Title>
+          {[
+            "default",
+            "primary",
+            "secondary",
+            "accent",
+            "success",
+            "warning",
+            "error",
+            "info",
+            "outline",
+            "ghost",
+            "glass",
+          ].map((variant) => (
             <Chart
-              type="line"
-              data={salesData}
-              variant="primary"
-              size="md"
-              showLegend={false}
-              smooth={true}
+              key={variant}
+              type="bar"
+              config={{
+                data: salesData.slice(0, 4),
+                xAxis: { dataKey: "month" },
+                yAxis: {},
+                series: [{ dataKey: "sales", name: "Sales" }],
+                legend: { show: false },
+              }}
+              title={variant.charAt(0).toUpperCase() + variant.slice(1)}
+              variant={variant as any}
+              size="sm"
             />
-            <Chart.Legend
-              items={[
-                { label: "Sales", color: "#3b82f6" },
-                { label: "Target", color: "#10b981" },
-              ]}
-              position="bottom"
-              size="md"
-            />
-          </div>
-        </div>
-
-        {/* Custom Grid Overlay */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Custom Grid Overlay</h3>
-          <div className="relative bg-card border border-border rounded-lg p-6">
-            <Chart.Title size="md" align="left">
-              Revenue with Custom Grid
-            </Chart.Title>
-            <div className="relative mt-4">
-              <Chart.Grid
-                width={800}
-                height={300}
-                xLines={6}
-                yLines={5}
-                color="hsl(var(--primary))"
-                strokeWidth={1}
-              />
-              <Chart
-                type="area"
-                data={revenueData}
-                variant="ghost"
-                size="md"
-                showGrid={false}
-                smooth={true}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========== ADVANCED FEATURES ========== */}
-      <section className="space-y-8">
-        <div className="space-y-2">
-          <h2 className="text-2xl font-semibold">Advanced Features</h2>
-          <p className="text-muted-foreground">
-            Smooth curves, glow effects, custom colors, and more
-          </p>
-        </div>
-
-        {/* Smooth Curves */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Smooth Curves</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <p className="text-sm text-muted-foreground mb-2">
-                Without Smooth
-              </p>
-              <Chart
-                type="line"
-                data={salesData}
-                title="Regular Lines"
-                variant="primary"
-                size="sm"
-                smooth={false}
-              />
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground mb-2">With Smooth</p>
-              <Chart
-                type="line"
-                data={salesData}
-                title="Smooth Curves"
-                variant="primary"
-                size="sm"
-                smooth={true}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Glow Effect */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Glow Effect</h3>
-          <Chart
-            type="area"
-            data={salesData}
-            title="Sales with Glow Effect"
-            variant="accent"
-            size="lg"
-            smooth={true}
-            glow={true}
-          />
-        </div>
-
-        {/* Custom Colors */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Custom Color Palette</h3>
-          <Chart
-            type="pie"
-            data={categoryData}
-            title="Custom Colors"
-            variant="default"
-            size="md"
-            colors={["#ff6b6b", "#4ecdc4", "#45b7d1", "#f9ca24", "#6c5ce7"]}
-            showLegend={true}
-            legendPosition="right"
-          />
-        </div>
-
-        {/* Data Labels */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">With Data Labels</h3>
-          <Chart
-            type="bar"
-            data={revenueData}
-            title="Revenue with Labels"
-            variant="success"
-            size="md"
-            showLabels={true}
-          />
+          ))}
         </div>
       </section>
 
@@ -504,61 +576,34 @@ export default function ChartExamples() {
       <section className="space-y-8">
         <div className="space-y-2">
           <h2 className="text-2xl font-semibold">States</h2>
-          <p className="text-muted-foreground">
-            Loading and empty state handling
-          </p>
+          <p className="text-muted-foreground">Loading state handling</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Chart
             type="line"
-            data={[]}
-            title="Empty State"
+            config={{
+              data: salesData,
+              xAxis: { dataKey: "month" },
+              yAxis: {},
+              series: [{ dataKey: "sales", name: "Sales" }],
+            }}
+            title="Normal State"
             variant="default"
             size="md"
-            emptyMessage="No data available"
           />
           <Chart
             type="bar"
-            data={salesData}
+            config={{
+              data: salesData,
+              xAxis: { dataKey: "month" },
+              yAxis: {},
+              series: [{ dataKey: "sales", name: "Sales" }],
+            }}
             title="Loading State"
             variant="default"
             size="md"
             loading={true}
-          />
-        </div>
-      </section>
-
-      {/* ========== RESPONSIVE EXAMPLES ========== */}
-      <section className="space-y-8">
-        <div className="space-y-2">
-          <h2 className="text-2xl font-semibold">Responsive Design</h2>
-          <p className="text-muted-foreground">
-            Charts automatically adapt to container width
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Chart
-            type="pie"
-            data={categoryData.slice(0, 3)}
-            title="Small"
-            variant="primary"
-            size="sm"
-          />
-          <Chart
-            type="pie"
-            data={categoryData.slice(0, 3)}
-            title="Small"
-            variant="success"
-            size="sm"
-          />
-          <Chart
-            type="pie"
-            data={categoryData.slice(0, 3)}
-            title="Small"
-            variant="accent"
-            size="sm"
           />
         </div>
       </section>
@@ -569,46 +614,66 @@ export default function ChartExamples() {
 
         <div className="space-y-4">
           <div>
-            <h3 className="font-semibold mb-2">Compact Props-Based API</h3>
-            <pre className="bg-background border border-border rounded p-4 overflow-x-auto">
-              <code>{`import Chart from '@/components/Chart';
+            <h3 className="font-semibold mb-2">Config-Based API</h3>
+            <pre className="bg-background border border-border rounded p-4 overflow-x-auto text-sm">
+              <code>{`import { Chart } from '@/components/Chart';
 
 <Chart
   type="line"
-  data={[
-    { label: 'Jan', value: 120 },
-    { label: 'Feb', value: 190 },
-    // ...
-  ]}
+  config={{
+    data: [
+      { month: 'Jan', sales: 120 },
+      { month: 'Feb', sales: 190 },
+    ],
+    xAxis: { dataKey: 'month' },
+    yAxis: {},
+    series: [
+      {
+        dataKey: 'sales',
+        name: 'Sales',
+        type: 'monotone',
+        strokeWidth: 2,
+      },
+    ],
+    legend: { show: true, position: 'top' },
+    tooltip: { show: true },
+    grid: { show: true },
+  }}
   title="Monthly Sales"
   variant="primary"
   size="md"
-  smooth={true}
-  glow={true}
 />`}</code>
             </pre>
           </div>
 
           <div>
-            <h3 className="font-semibold mb-2">Component API Format</h3>
-            <pre className="bg-background border border-border rounded p-4 overflow-x-auto">
-              <code>{`import Chart from '@/components/Chart';
-
-<div className="space-y-4">
-  <Chart.Title size="lg" align="center">
-    Custom Dashboard
-  </Chart.Title>
-  
-  <Chart type="line" data={data} variant="primary" />
-  
-  <Chart.Legend
-    items={[
-      { label: 'Revenue', color: '#3b82f6' },
-      { label: 'Expenses', color: '#ef4444' }
-    ]}
-    position="bottom"
-  />
-</div>`}</code>
+            <h3 className="font-semibold mb-2">Multi-Series Example</h3>
+            <pre className="bg-background border border-border rounded p-4 overflow-x-auto text-sm">
+              <code>{`<Chart
+  type="line"
+  config={{
+    data: weeklyData,
+    xAxis: { dataKey: 'day' },
+    yAxis: {},
+    series: [
+      {
+        dataKey: 'revenue',
+        name: 'Revenue',
+        type: 'monotone',
+        color: '#10b981',
+      },
+      {
+        dataKey: 'expenses',
+        name: 'Expenses',
+        type: 'monotone',
+        color: '#ef4444',
+      },
+    ],
+    legend: { show: true, position: 'bottom' },
+  }}
+  title="Revenue vs Expenses"
+  variant="default"
+/>`}</code>
             </pre>
           </div>
         </div>
