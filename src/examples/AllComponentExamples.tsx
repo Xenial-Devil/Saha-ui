@@ -72,6 +72,7 @@ import ToggleGroupExample from "./ToggleGroupExample";
 import { TypographyExample } from "./TypographyExample";
 import TextEditorExample from "./TextEditorExample";
 import CodeEditorFrameworkExamples from "./CodeEditorFrameworkExamples";
+import ChartExamples from "./ChartExamples";
 
 export const AllComponentExamples = () => {
   return (
@@ -227,6 +228,9 @@ export const AllComponentExamples = () => {
 
       {/* Code Editor Framework Examples */}
       <CodeEditorFrameworkExamples />
+
+      {/* Chart Examples */}
+      <ChartExamples />
     </>
   );
 };

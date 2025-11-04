@@ -33,7 +33,6 @@ export {
   CardContent,
   CardFooter,
 } from "./components/Card";
-export { default as Chart } from "../markdown";
 export {
   Carousel,
   CarouselContent,
@@ -417,17 +416,6 @@ export type {
   CardPadding,
   CardRounded,
 } from "./components/Card/Card.types";
-export type {
-  ChartProps,
-  ChartDataPoint,
-  ChartDataset,
-  ChartVariant,
-  ChartSize,
-  ChartAxis,
-  ChartLegend,
-  ChartTooltip,
-  ChartAnimation,
-} from "./components/Chart/Chart.types";
 export type {
   CarouselProps,
   CarouselContentProps,
@@ -826,3 +814,34 @@ export {
 export { CodeEditor, CodeViewer } from "./components/CodeEditor";
 // Export CodeEditor types
 export type { CodeEditorProps } from "./components/CodeEditor";
+
+// Main component
+export { Chart } from "./components/Chart";
+
+// Components
+export { ChartContainer } from "./components/Chart/components/ChartContainer";
+export { ChartHeader } from "./components/Chart/components/ChartHeader";
+export { ChartTooltip } from "./components/Chart/components/ChartTooltip";
+export { ChartLegend } from "./components/Chart/components/ChartLegend";
+export { ChartLoading } from "./components/Chart/components/ChartLoading";
+
+// Chart types
+export { LineChartComponent } from "./components/Chart/charts/LineChartComponent";
+export { BarChartComponent } from "./components/Chart/charts/BarChartComponent";
+export { AreaChartComponent } from "./components/Chart/charts/AreaChartComponent";
+export { PieChartComponent } from "./components/Chart/charts/PieChartComponent";
+export { RadarChartComponent } from "./components/Chart/charts/RadarChartComponent";
+export { RadialBarChartComponent } from "./components/Chart/charts/RadialBarChartComponent";
+export { ScatterChartComponent } from "./components/Chart/charts/ScatterChartComponent";
+export { ComposedChartComponent } from "./components/Chart/charts/ComposedChartComponent";
+export { FunnelChartComponent } from "./components/Chart/charts/FunnelChartComponent";
+export { TreemapChartComponent } from "./components/Chart/charts/TreemapChartComponent";
+
+// Hooks
+export { useChartColors } from "./hooks/useChartColors";
+export { useChartData } from "./hooks/useChartData";
+
+// Utils
+export { formatters } from "./lib/formatters";
+export { createChartConfig } from "./lib/chartConfig";
+
