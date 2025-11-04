@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.10.0...v1.11.0) (2025-11-04)
+
+
+### Features
+
+* **chart:** chart examples to config API and add ([b33ecb5](https://github.com/Xenial-Devil/Saha-ui/commit/b33ecb5bfbc3d91f77db9b0413fd1ea1db9a85f2))
+
 # [1.10.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.9.0...v1.10.0) (2025-11-04)
 
 
