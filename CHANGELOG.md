@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/Xenial-Devil/Saha-ui/compare/v1.11.0...v1.11.1) (2025-11-04)
+
+
+### Bug Fixes
+
+* **cli:** robust TailwindReact detection and inject CSS ([12e8547](https://github.com/Xenial-Devil/Saha-ui/commit/12e8547f249edb8e2c9a6f16e4077c95f1219bb3))
+
 # [1.11.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.10.0...v1.11.0) (2025-11-04)
 
 
