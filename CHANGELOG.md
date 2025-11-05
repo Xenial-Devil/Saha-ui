@@ -1,3 +1,10 @@
+## [1.13.3](https://github.com/Xenial-Devil/Saha-ui/compare/v1.13.2...v1.13.3) (2025-11-05)
+
+
+### Bug Fixes
+
+* **cli:** correctly format Tailwind [@source](https://github.com/source) insertion CLI ([8dfd4b7](https://github.com/Xenial-Devil/Saha-ui/commit/8dfd4b78becee3b56f622e516d5f68d0d66df741))
+
 ## [1.13.2](https://github.com/Xenial-Devil/Saha-ui/compare/v1.13.1...v1.13.2) (2025-11-05)
 
 
