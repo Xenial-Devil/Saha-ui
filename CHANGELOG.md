@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/Xenial-Devil/Saha-ui/compare/v1.13.0...v1.13.1) (2025-11-05)
+
+
+### Bug Fixes
+
+* **cli:** add Tailwind v4 [@source](https://github.com/source) syntax without parens ([d86935f](https://github.com/Xenial-Devil/Saha-ui/commit/d86935fe50d5fb74e8769a971459f8081b07b69c))
+
 # [1.13.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.12.0...v1.13.0) (2025-11-05)
 
 
