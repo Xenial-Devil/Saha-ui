@@ -1,3 +1,10 @@
+## [1.13.2](https://github.com/Xenial-Devil/Saha-ui/compare/v1.13.1...v1.13.2) (2025-11-05)
+
+
+### Bug Fixes
+
+* ensure Tailwind v4 [@source](https://github.com/source) and robust CSS injection ([fa42444](https://github.com/Xenial-Devil/Saha-ui/commit/fa4244461c6966787a51706d0a21914decfde774))
+
 ## [1.13.1](https://github.com/Xenial-Devil/Saha-ui/compare/v1.13.0...v1.13.1) (2025-11-05)
 
 
