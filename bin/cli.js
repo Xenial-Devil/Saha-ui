@@ -788,21 +788,41 @@ const inject = (f, tailwindInfo) => {
   const ex = fE(f);
   const cur = ex ? rd(f) : "";
 
+  const hasTailwindV4Import = /@import\s+["']tailwindcss["'];?/.test(cur);
+  const hasTailwindV3Import = cur.includes("@tailwind");
+  const hasTailwindImport = hasTailwindV4Import || hasTailwindV3Import;
+
+  // For Tailwind v4, always check and add @source if missing
+  if (hasTailwindV4Import) {
+    const relativePathToNodeModules = getRelativePathToNodeModules(f);
+    const sahaUISourcePath = `${relativePathToNodeModules}/saha-ui/dist/**/*.js`;
+    const sourcePattern = /source\s+["'][^"']*saha-ui[^"']*["']/;
+
+    if (!sourcePattern.test(cur)) {
+      // Add @source to the @import line
+      const updatedContent = cur.replace(
+        /@import\s+["']tailwindcss["'];?/,
+        `@import "tailwindcss" source "${sahaUISourcePath}";`
+      );
+      wr(f, updatedContent);
+      console.log(`\n✅ Added @source "${sahaUISourcePath}" to Tailwind v4 import`);
+    } else {
+      console.log("✅ Tailwind v4 @source already includes saha-ui");
+    }
+  }
+
+  // Now check if CSS content is already injected
   if (cur.includes(M)) {
     console.log(`✅ saha-ui: CSS already injected in ${path.relative(R, f)}`);
     return;
   }
-
-  const hasTailwindV4Import = /@import\s+["']tailwindcss["'];?/.test(cur);
-  const hasTailwindV3Import = cur.includes("@tailwind");
-  const hasTailwindImport = hasTailwindV4Import || hasTailwindV3Import;
 
   const CSS = tailwindInfo.major >= 4 ? CSS_V4 : CSS_V3;
 
   let cssToInject = CSS;
   if (hasTailwindImport) {
     if (hasTailwindV4Import) {
-      cssToInject = CSS.replace(/^@import\s+["']tailwindcss["'];?\n*/, "").trim();
+      cssToInject = CSS.replace(/^@import\s+["']tailwindcss["'][^;]*;?\n*/, "").trim();
     } else if (hasTailwindV3Import) {
       cssToInject = CSS.replace(/@tailwind\s+(base|components|utilities);?\n*/g, "").trim();
     }
@@ -810,23 +830,9 @@ const inject = (f, tailwindInfo) => {
 
   let out;
   if (hasTailwindV4Import) {
-    // For Tailwind v4, check if @source is already present
-    const relativePathToNodeModules = getRelativePathToNodeModules(f);
-    const sahaUISourcePath = `${relativePathToNodeModules}/saha-ui/dist/**/*.js`;
-    const sourcePattern = /source\s+["'][^"']*saha-ui[^"']*["']/;
-
-    if (sourcePattern.test(cur)) {
-      console.log("✅ Tailwind v4 @source already includes saha-ui");
-      out = cur.replace(/@import\s+["']tailwindcss["'];?/, (m) => `${m}\n${M}\n${cssToInject}`);
-    } else {
-      // Add @source to the @import line (without parentheses)
-      out = cur.replace(
-        /@import\s+["']tailwindcss["'];?/,
-        `@import "tailwindcss" source "${sahaUISourcePath}";`
-      );
-      out = out.replace(/@import\s+["']tailwindcss["'][^;]*;/, (m) => `${m}\n${M}\n${cssToInject}`);
-      console.log(`\n📝 Added @source "${sahaUISourcePath}" to Tailwind v4 import`);
-    }
+    // Re-read file in case @source was just added
+    const currentContent = rd(f);
+    out = currentContent.replace(/@import\s+["']tailwindcss["'][^;]*;/, (m) => `${m}\n${M}\n${cssToInject}`);
   } else if (hasTailwindV3Import) {
     const tailwindDirectives = cur.match(/@tailwind\s+(base|components|utilities);?\n*/g);
     if (tailwindDirectives) {
