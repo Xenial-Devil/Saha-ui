@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.11.1...v1.12.0) (2025-11-05)
+
+
+### Features
+
+* **theme:** add flexible theme provider and enhanced toggle ([b585e45](https://github.com/Xenial-Devil/Saha-ui/commit/b585e457ed8e7602044b6e521a0267155499330c))
+
 ## [1.11.1](https://github.com/Xenial-Devil/Saha-ui/compare/v1.11.0...v1.11.1) (2025-11-04)
 
 
