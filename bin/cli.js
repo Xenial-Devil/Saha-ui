@@ -644,9 +644,30 @@ const CSS_V3 = `@tailwind base;
 }`;
 
 // ----------------------------------------------
-// Update Tailwind config for v3 (manual hints)
+// Calculate relative path from a file to node_modules
 // ----------------------------------------------
-const updateTailwindConfig = () => {
+const getRelativePathToNodeModules = (fromFile) => {
+  const fromDir = path.dirname(fromFile);
+  const nodeModulesPath = path.join(R, "node_modules");
+  let relativePath = path.relative(fromDir, nodeModulesPath);
+
+  // Convert Windows backslashes to forward slashes for consistency
+  relativePath = relativePath.replace(/\\/g, '/');
+
+  // If in same directory, use ./
+  if (!relativePath) {
+    relativePath = '.';
+  } else if (!relativePath.startsWith('.')) {
+    relativePath = './' + relativePath;
+  }
+
+  return relativePath;
+};
+
+// ----------------------------------------------
+// Update Tailwind config for v3 (auto-update content + manual hints for theme)
+// ----------------------------------------------
+const updateTailwindConfig = (cssFilePath) => {
   const configFiles = [
     "tailwind.config.js",
     "tailwind.config.ts",
@@ -665,59 +686,97 @@ const updateTailwindConfig = () => {
 
   if (!configPath) {
     console.warn("⚠️  Warning: Could not find Tailwind config file");
+    console.log("\n📝 Please manually create tailwind.config.js and add:");
+    console.log(`
+export default {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/saha-ui/dist/**/*.js", // ← Required for saha-ui
+  ],
+  // ... rest of your config
+};
+    `);
     return;
   }
 
-  const config = rd(configPath);
+  // Calculate relative path from config file to node_modules
+  const relativePathToNodeModules = getRelativePathToNodeModules(configPath);
+  const sahaUIContentPath = `${relativePathToNodeModules}/saha-ui/dist/**/*.js`;
 
+  let config = rd(configPath);
+  const contentPattern = /node_modules\/saha-ui\/dist\/\*\*\/\*\.js/;
+
+  // Check if saha-ui content path already exists
+  if (contentPattern.test(config)) {
+    console.log("✅ Tailwind config already includes saha-ui content path");
+  } else {
+    // Try to automatically add the content path
+    const contentArrayRegex = /content\s*:\s*\[([\s\S]*?)\]/;
+    const match = config.match(contentArrayRegex);
+
+    if (match) {
+      const currentContent = match[ 1 ];
+      const newContentPath = `\n    "${sahaUIContentPath}",`;
+
+      // Add before the closing bracket
+      const updatedContent = currentContent.trimEnd() + newContentPath;
+      config = config.replace(contentArrayRegex, `content: [${updatedContent}\n  ]`);
+
+      wr(configPath, config);
+      console.log(`✅ Added saha-ui content path to ${path.relative(R, configPath)}`);
+      console.log(`   Path: "${sahaUIContentPath}"`);
+    } else {
+      console.warn("⚠️  Could not automatically update content array");
+      console.log("\n📝 Please manually add this to your tailwind.config content array:");
+      console.log(`  "${sahaUIContentPath}"`);
+    }
+  }
+
+  // Theme extension hints (manual for now to avoid breaking existing configs)
   if (config.includes("theme:") && config.includes("extend:")) {
-    console.log("ℹ️  Tailwind config already has theme.extend");
-    console.log("\n📝 Please manually add these to your tailwind.config:");
+    console.log("\nℹ️  Tailwind config already has theme.extend");
+    console.log("📝 If you haven't already, add these to your tailwind.config theme.extend:");
     console.log(`
-theme: {
-  extend: {
-    colors: {
-      border: "hsl(var(--border))",
-      input: "hsl(var(--input))",
-      ring: "hsl(var(--ring))",
-      background: "hsl(var(--background))",
-      foreground: "hsl(var(--foreground))",
-      primary: { DEFAULT: "hsl(var(--primary))", foreground: "hsl(var(--primary-foreground))" },
-      secondary: { DEFAULT: "hsl(var(--secondary))", foreground: "hsl(var(--secondary-foreground))" },
-      muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
-      accent: { DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
-      destructive: { DEFAULT: "hsl(var(--destructive))", foreground: "hsl(var(--destructive-foreground))" },
-      success: { DEFAULT: "hsl(var(--success))", foreground: "hsl(var(--success-foreground))" },
-      warning: { DEFAULT: "hsl(var(--warning))", foreground: "hsl(var(--warning-foreground))" },
-      error: { DEFAULT: "hsl(var(--error))", foreground: "hsl(var(--error-foreground))" },
-      info: { DEFAULT: "hsl(var(--info))", foreground: "hsl(var(--info-foreground))" },
-      card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
-      popover: { DEFAULT: "hsl(var(--popover))", foreground: "hsl(var(--popover-foreground))" },
-      chart: { 1: "hsl(var(--chart-1))", 2: "hsl(var(--chart-2))", 3: "hsl(var(--chart-3))", 4: "hsl(var(--chart-4))", 5: "hsl(var(--chart-5))" },
-    },
-    borderRadius: {
-      lg: "var(--radius)",
-      md: "calc(var(--radius) - 2px)",
-      sm: "calc(var(--radius) - 4px)",
-    },
-    keyframes: {
-      "progress-stripes": { "0%": { backgroundPosition: "0 0" }, "100%": { backgroundPosition: "1.5rem 0" } },
-      "progress-indeterminate": { "0%": { left: "-40%", transform: "scaleX(0.6)" }, "50%": { transform: "scaleX(1)" }, "100%": { left: "100%", transform: "scaleX(0.6)" } },
-      "progress-shimmer": { "0%": { transform: "translateX(-100%) scaleX(0)", opacity: "0" }, "10%": { opacity: "1" }, "50%": { transform: "translateX(0%) scaleX(1)" }, "90%": { opacity: "1" }, "100%": { transform: "translateX(100%) scaleX(0)", opacity: "0" } },
-      "progress-glow-pulse": { "0%, 100%": { filter: "brightness(1) saturate(1)" }, "50%": { filter: "brightness(1.15) saturate(1.2)" } },
-      "collapsible-down": { from: { height: "0", opacity: "0" }, to: { height: "var(--radix-collapsible-content-height)", opacity: "1" } },
-      "collapsible-up": { from: { height: "var(--radix-collapsible-content-height)", opacity: "1" }, to: { height: "0", opacity: "0" } },
-    },
-    animation: {
-      "progress-stripes": "progress-stripes 1s linear infinite",
-      "progress-indeterminate": "progress-indeterminate 1.5s ease-in-out infinite",
-      "progress-shimmer": "progress-shimmer 2s ease-in-out infinite",
-      "progress-glow-pulse": "progress-glow-pulse 2s ease-in-out infinite",
-      "collapsible-down": "collapsible-down 0.2s ease-out",
-      "collapsible-up": "collapsible-up 0.2s ease-out",
-    },
-  },
-}
+colors: {
+  border: "hsl(var(--border))",
+  input: "hsl(var(--input))",
+  ring: "hsl(var(--ring))",
+  background: "hsl(var(--background))",
+  foreground: "hsl(var(--foreground))",
+  primary: { DEFAULT: "hsl(var(--primary))", foreground: "hsl(var(--primary-foreground))" },
+  secondary: { DEFAULT: "hsl(var(--secondary))", foreground: "hsl(var(--secondary-foreground))" },
+  muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
+  accent: { DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
+  destructive: { DEFAULT: "hsl(var(--destructive))", foreground: "hsl(var(--destructive-foreground))" },
+  success: { DEFAULT: "hsl(var(--success))", foreground: "hsl(var(--success-foreground))" },
+  warning: { DEFAULT: "hsl(var(--warning))", foreground: "hsl(var(--warning-foreground))" },
+  error: { DEFAULT: "hsl(var(--error))", foreground: "hsl(var(--error-foreground))" },
+  info: { DEFAULT: "hsl(var(--info))", foreground: "hsl(var(--info-foreground))" },
+  card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
+  popover: { DEFAULT: "hsl(var(--popover))", foreground: "hsl(var(--popover-foreground))" },
+  chart: { 1: "hsl(var(--chart-1))", 2: "hsl(var(--chart-2))", 3: "hsl(var(--chart-3))", 4: "hsl(var(--chart-4))", 5: "hsl(var(--chart-5))" },
+},
+borderRadius: {
+  lg: "var(--radius)",
+  md: "calc(var(--radius) - 2px)",
+  sm: "calc(var(--radius) - 4px)",
+},
+keyframes: {
+  "progress-stripes": { "0%": { backgroundPosition: "0 0" }, "100%": { backgroundPosition: "1.5rem 0" } },
+  "progress-indeterminate": { "0%": { left: "-40%", transform: "scaleX(0.6)" }, "50%": { transform: "scaleX(1)" }, "100%": { left: "100%", transform: "scaleX(0.6)" } },
+  "progress-shimmer": { "0%": { transform: "translateX(-100%) scaleX(0)", opacity: "0" }, "10%": { opacity: "1" }, "50%": { transform: "translateX(0%) scaleX(1)" }, "90%": { opacity: "1" }, "100%": { transform: "translateX(100%) scaleX(0)", opacity: "0" } },
+  "progress-glow-pulse": { "0%, 100%": { filter: "brightness(1) saturate(1)" }, "50%": { filter: "brightness(1.15) saturate(1.2)" } },
+  "collapsible-down": { from: { height: "0", opacity: "0" }, to: { height: "var(--radix-collapsible-content-height)", opacity: "1" } },
+  "collapsible-up": { from: { height: "var(--radix-collapsible-content-height)", opacity: "1" }, to: { height: "0", opacity: "0" } },
+},
+animation: {
+  "progress-stripes": "progress-stripes 1s linear infinite",
+  "progress-indeterminate": "progress-indeterminate 1.5s ease-in-out infinite",
+  "progress-shimmer": "progress-shimmer 2s ease-in-out infinite",
+  "progress-glow-pulse": "progress-glow-pulse 2s ease-in-out infinite",
+  "collapsible-down": "collapsible-down 0.2s ease-out",
+  "collapsible-up": "collapsible-up 0.2s ease-out",
+},
     `);
   }
 };
@@ -751,7 +810,23 @@ const inject = (f, tailwindInfo) => {
 
   let out;
   if (hasTailwindV4Import) {
-    out = cur.replace(/@import\s+["']tailwindcss["'];?/, (m) => `${m}\n${M}\n${cssToInject}`);
+    // For Tailwind v4, check if @source is already present
+    const relativePathToNodeModules = getRelativePathToNodeModules(f);
+    const sahaUISourcePath = `${relativePathToNodeModules}/saha-ui/dist/**/*.js`;
+    const sourcePattern = /source\s*\(\s*["'][^"']*saha-ui[^"']*["']\s*\)/;
+
+    if (sourcePattern.test(cur)) {
+      console.log("✅ Tailwind v4 @source already includes saha-ui");
+      out = cur.replace(/@import\s+["']tailwindcss["'];?/, (m) => `${m}\n${M}\n${cssToInject}`);
+    } else {
+      // Add @source to the @import line
+      out = cur.replace(
+        /@import\s+["']tailwindcss["'];?/,
+        `@import "tailwindcss" source("${sahaUISourcePath}");`
+      );
+      out = out.replace(/@import\s+["']tailwindcss["'][^;]*;/, (m) => `${m}\n${M}\n${cssToInject}`);
+      console.log(`\n📝 Added @source("${sahaUISourcePath}") to Tailwind v4 import`);
+    }
   } else if (hasTailwindV3Import) {
     const tailwindDirectives = cur.match(/@tailwind\s+(base|components|utilities);?\n*/g);
     if (tailwindDirectives) {
@@ -772,8 +847,8 @@ const inject = (f, tailwindInfo) => {
   console.log(`📦 Using Tailwind v${tailwindInfo.major} configuration`);
 
   if (tailwindInfo.major < 4) {
-    console.log("\n⚠️  Tailwind v3 detected - you may need to update your tailwind.config");
-    updateTailwindConfig();
+    console.log("\n⚠️  Tailwind v3 detected - updating your tailwind.config");
+    updateTailwindConfig(f);
   }
 
   if (!ex) {

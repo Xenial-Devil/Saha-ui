@@ -5,18 +5,15 @@
  * Uncomment the error examples to see TypeScript errors in your IDE.
 import React from "react"; */
 
-
 import {
   Button,
   Alert,
   Card,
-  Accordion,
   // Import types for strict typing
   ButtonVariant,
   ButtonSize,
   AlertVariant,
   AlertStatus,
-  AccordionItem,
 } from "./index";
 
 // ============================================
@@ -46,15 +43,6 @@ export const ValidExamples = () => {
       <Card variant="glass-strong" padding="lg" rounded="2xl" hoverable>
         <p>Glass morphism card</p>
       </Card>
-
-      {/* Accordion - Items array is fully typed */}
-      <Accordion
-        variant="toggle"
-        items={[
-          { title: "Question 1", content: "Answer 1" },
-          { title: "Question 2", content: "Answer 2" },
-        ]}
-      />
     </div>
   );
 };
@@ -103,18 +91,6 @@ export const TypedNotification = ({
   const config = alertTypeMapping[type];
   return <Alert {...config} message={message} />;
 };
-
-// ============================================
-// ✅ TYPE-SAFE ACCORDION ITEMS
-// ============================================
-
-const faqData: AccordionItem[] = [
-  { title: "What is Saha UI?", content: "A modern React component library" },
-  { title: "How do I install it?", content: "npm install saha-ui" },
-  { title: "Is it free?", content: "Yes, it's open source" },
-];
-
-export const FAQ = () => <Accordion variant="firstopen" items={faqData} />;
 
 // ============================================
 // ❌ ERROR EXAMPLES - These will show TypeScript errors
@@ -205,7 +181,6 @@ function isValidAlertStatus(value: string): value is AlertStatus {
   return ["success", "danger", "warning", "info"].includes(value);
 }
 
-
 // Use with runtime data (e.g., from API)
 export const SafeRuntimeAlert = ({
   statusFromAPI,
@@ -246,7 +221,6 @@ export const StatusAlert = <T extends keyof typeof statusConfigs>({
   const config = statusConfigs[type];
   return <Alert {...config} message={message} />;
 };
-
 
 // ============================================
 // ✅ CONCLUSION

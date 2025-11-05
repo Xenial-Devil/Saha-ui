@@ -1,3 +1,4 @@
+"use client";
 import React, {
   createContext,
   useContext,
@@ -406,6 +407,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           document.removeEventListener("touchend", handleMouseUp);
         };
       }
+      return undefined;
     }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove]);
 
     // Generate marks

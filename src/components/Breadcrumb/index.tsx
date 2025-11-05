@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useContext, useEffect } from "react";
 import { cn } from "../../lib/utils";
 import { ChevronRight, Slash, Circle, ArrowRight } from "lucide-react";
@@ -10,7 +12,11 @@ import type {
   BreadcrumbSeparatorType,
 } from "./Breadcrumb.types";
 import { createValidator, commonValidators } from "../../lib/validation";
-import { breadcrumbVariants, breadcrumbItemVariants, breadcrumbSeparatorVariants } from "./Breadcrumb.styles";
+import {
+  breadcrumbVariants,
+  breadcrumbItemVariants,
+  breadcrumbSeparatorVariants,
+} from "./Breadcrumb.styles";
 
 interface BreadcrumbContextValue {
   variant: BreadcrumbVariant;
@@ -29,8 +35,6 @@ const useBreadcrumb = () => {
   }
   return context;
 };
-
-
 
 const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
   (

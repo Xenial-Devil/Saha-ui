@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
@@ -50,70 +51,7 @@ export const Separator = React.forwardRef<HTMLDivElement, SeparatorProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Separator");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "solid",
-        "dashed",
-        "dotted",
-        "gradient",
-        "glass",
-      ] as const);
-
-      // Validate orientation
-      validator.validateEnum("orientation", orientation, [
-        "horizontal",
-        "vertical",
-      ] as const);
-
-      // Validate thickness
-      validator.validateEnum("thickness", thickness, [
-        "thin",
-        "medium",
-        "thick",
-      ] as const);
-
-      // Validate spacing
-      validator.validateEnum("spacing", spacing, [
-        "none",
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-      ] as const);
-
-      // Validate labelPosition
-      if (labelPosition) {
-        validator.validateEnum("labelPosition", labelPosition, [
-          "left",
-          "center",
-          "right",
-        ] as const);
-      }
-
-      // Validate boolean props
-      validator.validateType(
-        "decorative",
-        decorative,
-        "boolean",
-        isValidBoolean
-      );
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      variant,
-      orientation,
-      thickness,
-      spacing,
-      labelPosition,
-      decorative,
-      className,
-    ]);
+    // Development-only validation removed for server/component readiness
 
     // For vertical Separators, override justify-content based on label position
     const justifyClass =

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { cn } from "../../lib/utils";
 import type {
@@ -5,9 +7,6 @@ import type {
   KbdGroupProps,
   KbdKeyProps,
   KbdDescriptionProps,
-  KbdVariant,
-  KbdSize,
-  KbdColor,
 } from "./Kbd.types";
 import {
   kbdVariants,
@@ -16,39 +15,6 @@ import {
   kbdKeyVariants,
   kbdDescriptionVariants,
 } from "./Kbd.styles";
-
-// ===========================
-// Validation Constants
-// ===========================
-
-const VALID_VARIANTS: KbdVariant[] = [
-  "default",
-  "bordered",
-  "solid",
-  "flat",
-  "ghost",
-  "primary",
-  "secondary",
-  "accent",
-  "success",
-  "warning",
-  "error",
-  "info",
-  "glass",
-];
-
-const VALID_SIZES: KbdSize[] = ["sm", "md", "lg"];
-
-const VALID_COLORS: KbdColor[] = [
-  "default",
-  "primary",
-  "secondary",
-  "accent",
-  "success",
-  "warning",
-  "error",
-  "info",
-];
 
 // ===========================
 // Kbd Component

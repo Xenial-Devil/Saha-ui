@@ -1,3 +1,4 @@
+"use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { cn } from "../../lib/utils";
 import type {
@@ -32,7 +33,6 @@ const useTree = () => {
   }
   return context;
 };
-
 
 const Tree = React.forwardRef<HTMLDivElement, TreeProps>(
   (

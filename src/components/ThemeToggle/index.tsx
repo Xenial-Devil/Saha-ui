@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useState, useRef, useEffect } from "react";
-import { Moon, Sun, Monitor } from "lucide-react";
+import { Moon, Sun, Monitor, ChevronDown } from "lucide-react";
 import { useTheme } from "../ThemeProvider/ThemeProvider";
 import { ThemeToggleProps } from "./ThemeToggle.types";
 import { Theme } from "../ThemeProvider/ThemeProvider.types";
@@ -7,6 +9,8 @@ import { cn } from "../../lib/utils";
 import {
   themeToggleButtonVariants,
   themeToggleIconVariants,
+  themeToggleIconWrap,
+  themeLabelVariants,
   themeDropdownVariants,
   themeOptionVariants,
 } from "./ThemeToggle.styles";
@@ -62,21 +66,29 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         onClick={() => setIsOpen(!isOpen)}
         className={cn(themeToggleButtonVariants({ variant }), className)}
         aria-label="Toggle theme"
+        aria-expanded={isOpen}
         title={`Current theme: ${currentThemeOption.label}`}
       >
-        <CurrentIcon
-          size={size}
-          className={themeToggleIconVariants({ theme })}
-        />
+        <span className={cn(themeToggleIconWrap({ size: "md" }))}>
+          <CurrentIcon
+            size={size}
+            className={themeToggleIconVariants({ theme })}
+          />
+        </span>
+
         {variant === "icon-label" && (
-          <span className="text-sm font-medium capitalize">
+          <span className={themeLabelVariants()}>
             {currentThemeOption.label}
           </span>
+        )}
+
+        {variant === "icon-label" && (
+          <ChevronDown size={14} className="ml-1 text-muted-foreground" />
         )}
       </button>
 
       {isOpen && (
-        <div className={themeDropdownVariants({ variant })}>
+        <div className={themeDropdownVariants({ variant })} role="menu">
           {themeOptions.map((option) => {
             const OptionIcon = option.icon;
             const isSelected = theme === option.value;
@@ -85,9 +97,12 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
               <button
                 key={option.value}
                 onClick={() => handleThemeSelect(option.value)}
-                className={themeOptionVariants({ selected: isSelected })}
+                role="menuitem"
+                className={cn(themeOptionVariants({ selected: isSelected }))}
               >
-                <OptionIcon size={18} />
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/5">
+                  <OptionIcon size={16} />
+                </span>
                 <span className="text-sm font-medium">{option.label}</span>
                 {isSelected && <span className="ml-auto text-primary">✓</span>}
               </button>

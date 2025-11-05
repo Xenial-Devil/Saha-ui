@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef, useState, useRef, useEffect, useCallback } from "react";
 import { cn } from "../../lib/utils";
 import { useClickOutside } from "../../hooks/useClickOutside";

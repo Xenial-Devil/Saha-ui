@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useRef, useEffect } from "react";
 import { cn } from "../../lib/utils";
 import type { RatingProps } from "./Rating.types";

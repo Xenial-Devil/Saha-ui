@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useContext, useCallback } from "react";
 import { cn } from "../../lib/utils";
 import type {

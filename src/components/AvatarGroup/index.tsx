@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Children, isValidElement, useEffect } from "react";
 import { cn } from "../../lib/utils";
 import { AvatarGroupProps, AvatarGroupSize } from "./AvatarGroup.types";
@@ -7,8 +9,11 @@ import {
   isValidBoolean,
   isValidNumber,
 } from "../../lib/validation";
-import { avatarGroupVariants, avatarWrapperVariants, moreIndicatorVariants } from "./AvatarGroup.styles";
-
+import {
+  avatarGroupVariants,
+  avatarWrapperVariants,
+  moreIndicatorVariants,
+} from "./AvatarGroup.styles";
 
 /**
  * Get size dimensions for more indicator

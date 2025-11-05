@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef, useState, useMemo, useCallback, useEffect } from "react";
 import { cn } from "../../lib/utils";
 import { createValidator, isValidDate } from "../../lib/validation";
