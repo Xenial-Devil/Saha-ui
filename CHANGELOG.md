@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.12.0...v1.13.0) (2025-11-05)
+
+
+### Features
+
+* **cli,componentsdocs:** make components-ready and improve CLI CSS setup ([6bbf325](https://github.com/Xenial-Devil/Saha-ui/commit/6bbf325f92bd57b5d3737d0a3920a893fc817800))
+
 # [1.12.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.11.1...v1.12.0) (2025-11-05)
 
 
