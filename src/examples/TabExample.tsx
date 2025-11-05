@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/Tab";
 import Card from "../components/Card";
 
@@ -21,10 +20,12 @@ export const TabExample = () => {
                 <Card className="p-6 shadow-lg">
                   <div className="space-y-4">
                     <div>
-                      <h3 className="text-lg font-semibold">Account Settings</h3>
+                      <h3 className="text-lg font-semibold">
+                        Account Settings
+                      </h3>
                       <p className="text-sm text-base-content/60 mt-1">
-                        Make changes to your account here. Click save when you're
-                        done.
+                        Make changes to your account here. Click save when
+                        you're done.
                       </p>
                     </div>
                     <div className="space-y-3">
@@ -57,8 +58,8 @@ export const TabExample = () => {
                     <div>
                       <h3 className="text-lg font-semibold">Password</h3>
                       <p className="text-sm text-base-content/60 mt-1">
-                        Change your password here. After saving, you'll be logged
-                        out.
+                        Change your password here. After saving, you'll be
+                        logged out.
                       </p>
                     </div>
                     <div className="space-y-3">

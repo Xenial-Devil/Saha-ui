@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useMemo } from "react";
 import { ComponentValidator } from "../../lib/validation";
 import type {

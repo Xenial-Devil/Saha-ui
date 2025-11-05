@@ -47,6 +47,8 @@
 
 ## 📦 Installation
 
+### Step 1: Install the package
+
 ```bash
 # npm
 npm install saha-ui
@@ -58,13 +60,42 @@ yarn add saha-ui
 pnpm add saha-ui
 ```
 
+### Step 2: Initialize Saha UI (REQUIRED)
+
+Run this command in your project root to setup CSS and Tailwind configuration:
+
+```bash
+npx saha-ui init
+```
+
+This will automatically:
+
+- ✅ Inject CSS variables and design tokens
+- ✅ Configure Tailwind to scan Saha UI components in `node_modules`
+- ✅ Install required dependencies
+- ✅ Detect your Tailwind version (v3 or v4) and configure accordingly
+
+**Without this step, the components will not be styled properly!**
+
+See [CSS_DISTRIBUTION_SOLUTION.md](./CSS_DISTRIBUTION_SOLUTION.md) for detailed explanation.
+
 ### Peer Dependencies
 
 Saha UI requires React 18+ or React 19+:
 
+```bash
+npm install react@^18.0.0 react-dom@^18.0.0
+# or
+npm install react@^19.0.0 react-dom@^19.0.0
+```
+
 ### Optional Dependencies
 
 For icons (if using Link or ThemeToggle components):
+
+```bash
+npm install lucide-react
+```
 
 ## 🚀 Quick Start
 

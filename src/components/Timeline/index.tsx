@@ -1,3 +1,4 @@
+"use client";
 import React, { createContext, useContext, useEffect } from "react";
 import { cn } from "../../lib/utils";
 import { Check, Circle } from "lucide-react";
@@ -37,7 +38,6 @@ const useTimeline = () => {
   }
   return context;
 };
-
 
 const Timeline = React.forwardRef<HTMLDivElement, TimelineProps>(
   (

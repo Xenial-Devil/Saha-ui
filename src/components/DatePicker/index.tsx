@@ -1,3 +1,4 @@
+"use client";
 import {
   useState,
   useRef,
@@ -16,15 +17,7 @@ import type {
   DateRange,
   ShortcutConfig,
 } from "./DatePicker.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-  isValidDate,
-} from "../../lib/validation";
 import { calendarVariants, datePickerVariants } from "./DatePicker.styles";
-
 
 // Helper functions
 const formatDate = (date: Date | null | undefined, format: string): string => {
@@ -164,114 +157,6 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("DatePicker");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "primary",
-        "secondary",
-        "ghost",
-        "glass",
-        "outlined",
-        "minimal",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
-
-      // Validate popoverDirection
-      validator.validateEnum("popoverDirection", popoverDirection, [
-        "down",
-        "up",
-      ] as const);
-
-      // Validate i18n
-      validator.validateEnum("i18n", i18n, [
-        "en",
-        "es",
-        "fr",
-        "de",
-        "it",
-        "pt",
-        "ru",
-        "zh",
-        "ja",
-        "ko",
-      ] as const);
-
-      // Validate startWeekOn
-      validator.validateType(
-        "startWeekOn",
-        startWeekOn,
-        "number",
-        isValidNumber
-      );
-      if (startWeekOn < 0 || startWeekOn > 6) {
-        validator.error(
-          "startWeekOn must be between 0 (Sunday) and 6 (Saturday)"
-        );
-      }
-
-      // Validate date props
-      if (minDate !== undefined) {
-        validator.validateType("minDate", minDate, "Date", isValidDate);
-      }
-
-      if (maxDate !== undefined) {
-        validator.validateType("maxDate", maxDate, "Date", isValidDate);
-      }
-
-      if (startFrom !== undefined) {
-        validator.validateType("startFrom", startFrom, "Date", isValidDate);
-      }
-
-      // Validate boolean props
-      validator.validateType("useRange", useRange, "boolean", isValidBoolean);
-      validator.validateType("asSingle", asSingle, "boolean", isValidBoolean);
-      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
-      validator.validateType("readOnly", readOnly, "boolean", isValidBoolean);
-      validator.validateType("required", required, "boolean", isValidBoolean);
-      validator.validateType(
-        "showShortcuts",
-        showShortcuts,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "showFooter",
-        showFooter,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType("showClear", showClear, "boolean", isValidBoolean);
-      validator.validateType("showToday", showToday, "boolean", isValidBoolean);
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      variant,
-      size,
-      popoverDirection,
-      i18n,
-      startWeekOn,
-      minDate,
-      maxDate,
-      startFrom,
-      useRange,
-      asSingle,
-      disabled,
-      readOnly,
-      required,
-      showShortcuts,
-      showFooter,
-      showClear,
-      showToday,
-      className,
-    ]);
-
     const [isOpen, setIsOpen] = useState(false);
     const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
     const [tempRange, setTempRange] = useState<DateRange>(value);
@@ -345,6 +230,9 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
         // Reset positioned state when closed
         setIsPositioned(false);
       }
+
+      // Ensure the effect consistently returns either a cleanup function or undefined
+      return undefined;
     }, [isOpen, popoverDirection]);
 
     // Close on click outside

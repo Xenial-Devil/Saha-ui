@@ -20,7 +20,7 @@ export function useMediaQuery(query: string): boolean {
 
   useEffect(() => {
     if (typeof window === "undefined") {
-      return;
+      return undefined;
     }
 
     const mediaQuery = window.matchMedia(query);
@@ -43,6 +43,7 @@ export function useMediaQuery(query: string): boolean {
       mediaQuery.addListener(handleChange);
       return () => mediaQuery.removeListener(handleChange);
     }
+    return undefined;
   }, [query]);
 
   return matches;

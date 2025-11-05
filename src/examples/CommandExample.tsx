@@ -31,8 +31,6 @@ import {
   Star,
   LogOut,
   Bell,
-  Moon,
-  Sun,
   Users,
   Database,
   Code,

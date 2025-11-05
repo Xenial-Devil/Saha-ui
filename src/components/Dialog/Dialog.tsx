@@ -1,3 +1,4 @@
+"use client";
 import { forwardRef, useEffect, useState, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import type { DialogProps } from "./Dialog.types";
@@ -6,12 +7,6 @@ import {
   DialogOverlay,
   DialogContent as DialogContentWrapper,
 } from "./DialogOverlay";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-} from "../../lib/validation";
-
 /**
  * Dialog Component
  *
@@ -107,160 +102,6 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
     const isControlled = controlledOpen !== undefined;
     const open = isControlled ? controlledOpen : uncontrolledOpen;
 
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Dialog");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "glass",
-        "gradient",
-        "primary",
-        "secondary",
-        "accent",
-        "success",
-        "warning",
-        "error",
-        "info",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-        "2xl",
-        "3xl",
-        "4xl",
-        "full",
-      ] as const);
-
-      // Validate rounded
-      validator.validateEnum("rounded", rounded, [
-        "none",
-        "sm",
-        "default",
-        "lg",
-        "xl",
-        "full",
-      ] as const);
-
-      // Validate animation
-      validator.validateEnum("animation", animation, [
-        "scale",
-        "fade",
-        "slide-up",
-        "slide-down",
-        "slide-left",
-        "slide-right",
-        "zoom",
-        "bounce",
-      ] as const);
-
-      // Validate scrollBehavior
-      validator.validateEnum("scrollBehavior", scrollBehavior, [
-        "inside",
-        "outside",
-      ] as const);
-
-      // Validate backdrop
-      validator.validateEnum("backdrop", backdrop, [
-        "default",
-        "blur",
-        "transparent",
-        "dark",
-      ] as const);
-
-      // Validate boolean props
-      validator.validateType(
-        "showHeader",
-        showHeader,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "showCloseButton",
-        showCloseButton,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "closeOnOverlayClick",
-        closeOnOverlayClick,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "closeOnEscape",
-        closeOnEscape,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType("centered", centered, "boolean", isValidBoolean);
-      validator.validateType(
-        "fullScreen",
-        fullScreen,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "preventClose",
-        preventClose,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "lockScroll",
-        lockScroll,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType("focusTrap", focusTrap, "boolean", isValidBoolean);
-      validator.validateType(
-        "returnFocus",
-        returnFocus,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType("nested", nested, "boolean", isValidBoolean);
-
-      // Validate content
-      if (!title && !children) {
-        validator.warn(
-          "Dialog should have title or children for accessibility"
-        );
-      }
-
-      // Common validators
-      commonValidators.className(validator, contentClassName);
-      commonValidators.className(validator, overlayClassName);
-    }, [
-      variant,
-      size,
-      rounded,
-      animation,
-      scrollBehavior,
-      backdrop,
-      showHeader,
-      showCloseButton,
-      closeOnOverlayClick,
-      closeOnEscape,
-      centered,
-      fullScreen,
-      preventClose,
-      lockScroll,
-      focusTrap,
-      returnFocus,
-      nested,
-      title,
-      children,
-      contentClassName,
-      overlayClassName,
-    ]);
-
     // Handle open state changes
     const handleOpenChange = useCallback(
       (newOpen: boolean) => {
@@ -288,11 +129,15 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
 
     // Update animation state when open changes
     useEffect(() => {
+      let raf1: number | null = null;
+      let raf2: number | null = null;
+      let timer: ReturnType<typeof setTimeout> | null = null;
+
       if (open) {
         setIsAnimating(true);
         // Small delay to trigger animation
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
+        raf1 = requestAnimationFrame(() => {
+          raf2 = requestAnimationFrame(() => {
             setAnimationState("open");
           });
         });
@@ -301,13 +146,17 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         // Wait for animation to complete before removing from DOM
         // Slide animations use 500ms, others use 300ms
         const duration = animation?.startsWith("slide-") ? 500 : 300;
-        const timer = setTimeout(() => {
+        timer = setTimeout(() => {
           setIsAnimating(false);
           onAnimationComplete?.();
         }, duration);
-
-        return () => clearTimeout(timer);
       }
+
+      return () => {
+        if (raf1 !== null) cancelAnimationFrame(raf1);
+        if (raf2 !== null) cancelAnimationFrame(raf2);
+        if (timer !== null) clearTimeout(timer);
+      };
     }, [open, onAnimationComplete, animation]);
 
     // Lock body scroll
@@ -345,7 +194,10 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
 
     // Focus trap
     useEffect(() => {
-      if (!focusTrap || !open || !DialogRef.current) return;
+      if (!focusTrap || !open || !DialogRef.current) {
+        // Always return a cleanup function to ensure consistent return paths
+        return () => {};
+      }
 
       const Dialog = DialogRef.current;
       const focusableElements = Dialog.querySelectorAll<HTMLElement>(

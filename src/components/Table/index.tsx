@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useContext, useEffect } from "react";
 import { cn } from "../../lib/utils";
 import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";

@@ -1,3 +1,4 @@
+"use client";
 import {
   forwardRef,
   useState,
@@ -28,8 +29,6 @@ import {
   isValidNumber,
 } from "../../lib/validation";
 import { uploadVariants, fileItemVariants } from "./Upload.styles";
-
-
 
 // Helper function to format file size
 const formatFileSize = (bytes: number): string => {

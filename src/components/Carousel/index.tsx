@@ -1,3 +1,5 @@
+"use client";
+
 import React, {
   createContext,
   useContext,
@@ -50,7 +52,6 @@ const useCarousel = () => {
   }
   return context;
 };
-
 
 const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
   (

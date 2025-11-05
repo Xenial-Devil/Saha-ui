@@ -1,5 +1,6 @@
+"use client";
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import {  type VariantProps } from "class-variance-authority";
+import { type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type { PopoverProps } from "./Popover.types";
 import {
@@ -32,7 +33,6 @@ import { arrowVariants, popoverVariants } from "./Popover.styles";
  * @position top | bottom | left | right (with -start and -end variations)
  * @size sm | md | lg | xl - Size variations
  */
-
 
 export type PopoverVariantsProps = VariantProps<typeof popoverVariants>;
 
@@ -300,6 +300,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
     useEffect(() => {
       if (open) {
         setMounted(true);
+        return undefined;
       } else {
         const timer = setTimeout(() => setMounted(false), 200);
         return () => clearTimeout(timer);

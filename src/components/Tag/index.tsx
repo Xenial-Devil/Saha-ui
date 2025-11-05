@@ -1,3 +1,5 @@
+"use client";
+
 import { forwardRef, useState, useEffect } from "react";
 import { cn } from "../../lib/utils";
 import type { TagProps, TagGroupProps } from "./Tag.types";

@@ -1,3 +1,5 @@
+"use client";
+
 import React, {
   forwardRef,
   createContext,
@@ -56,8 +58,6 @@ const CheckboxContext = createContext<CheckboxContextValue | undefined>(
 const useCheckboxContext = () => {
   return useContext(CheckboxContext);
 };
-
-
 
 /**
  * Checkbox icon wrapper

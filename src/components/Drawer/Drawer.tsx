@@ -1,3 +1,4 @@
+"use client";
 import {
   useState,
   useEffect,
@@ -160,6 +161,8 @@ export const Drawer = ({
 
   // Animation state management
   useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+
     if (open) {
       setIsAnimating(true);
       // Double RAF for smooth animation start
@@ -171,16 +174,24 @@ export const Drawer = ({
     } else {
       setAnimationState("closed");
       // Wait for animation to complete before removing from DOM
-      const timeout = setTimeout(() => {
+      timeout = setTimeout(() => {
         setIsAnimating(false);
       }, 500); // Match animation duration
-      return () => clearTimeout(timeout);
     }
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
   }, [open]);
 
   // Body scroll lock
   useEffect(() => {
-    if (!lockScroll || nested) return;
+    if (!lockScroll || nested) {
+      // Return a no-op cleanup to satisfy noImplicitReturns
+      return () => {};
+    }
 
     if (open) {
       const scrollbarWidth =

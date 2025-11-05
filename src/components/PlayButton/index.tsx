@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";

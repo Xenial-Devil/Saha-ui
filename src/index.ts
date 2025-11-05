@@ -2,7 +2,7 @@
 export {
   ThemeProvider,
   useTheme,
-  NextThemeProvider
+  NextThemeProvider,
 } from "./components/ThemeProvider";
 export { ThemeToggle } from "./components/ThemeToggle";
 
@@ -16,19 +16,54 @@ export {
   AccordionTrigger,
   AccordionContent,
 } from "./components/Accordion";
+export {
+  accordionVariants,
+  accordionItemVariants,
+  accordionHeaderVariants,
+  accordionContentVariants,
+} from "./components/Accordion/Accordion.styles";
 export { default as Alert } from "./components/Alert";
+export { alertVariants } from "./components/Alert/Alert.styles";
 export { default as AspectRatio } from "./components/AspectRatio";
+export {
+  aspectRatioVariants,
+  overlayVariants as aspectRatioOverlayVariants,
+} from "./components/AspectRatio/AspectRatio.styles";
 export { default as Avatar } from "./components/Avatar";
+export {
+  avatarVariants,
+  statusVariants,
+} from "./components/Avatar/Avatar.styles";
 export { default as AvatarGroup } from "./components/AvatarGroup";
+export {
+  avatarGroupVariants,
+  avatarWrapperVariants,
+  moreIndicatorVariants,
+} from "./components/AvatarGroup/AvatarGroup.styles";
 export { default as Badge } from "./components/Badge";
+export { badgeVariants } from "./components/Badge/Badge.styles";
 export {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbSeparator,
 } from "./components/Breadcrumb";
+export {
+  breadcrumbVariants,
+  breadcrumbItemVariants,
+  breadcrumbSeparatorVariants,
+} from "./components/Breadcrumb/Breadcrumb.styles";
 export { default as Button } from "./components/Button";
+export {
+  buttonVariants,
+  shimmerVariants,
+} from "./components/Button/Button.styles";
 export { ButtonGroup } from "./components/ButtonGroup";
+export { buttonGroupVariants } from "./components/ButtonGroup/ButtonGroup.styles";
 export { default as Calendar } from "./components/Calendar";
+export {
+  calendarVariants,
+  dayVariants,
+} from "./components/Calendar/Calendar.styles";
 export {
   default as Card,
   CardHeader,
@@ -37,6 +72,7 @@ export {
   CardContent,
   CardFooter,
 } from "./components/Card";
+export { cardVariants } from "./components/Card/Card.styles";
 export {
   Carousel,
   CarouselContent,
@@ -44,8 +80,19 @@ export {
   CarouselPrevious,
   CarouselNext,
 } from "./components/Carousel";
+export {
+  carouselVariants,
+  navigationVariants,
+  indicatorVariants,
+} from "./components/Carousel/Carousel.styles";
 export { Chip } from "./components/Chip";
+export { chipVariants } from "./components/Chip/Chip.styles";
 export { default as Separator } from "./components/Separator";
+export {
+  SeparatorVariants,
+  SeparatorLineVariants,
+  SeparatorLabelVariants,
+} from "./components/Separator/Separator.styles";
 export {
   ContextMenu,
   ContextMenuTrigger,
@@ -63,6 +110,16 @@ export {
   ContextMenuGroup,
 } from "./components/ContextMenu";
 export {
+  contextMenuContentVariants,
+  contextMenuItemVariants,
+  contextMenuCheckItemVariants,
+  contextMenuLabelVariants,
+  contextMenuSeparatorVariants,
+  contextMenuShortcutVariants,
+  contextMenuSubTriggerVariants,
+  contextMenuIndicatorVariants,
+} from "./components/ContextMenu/ContextMenu.styles";
+export {
   default as Drawer,
   DrawerTrigger,
   DrawerContent,
@@ -75,7 +132,16 @@ export {
   DrawerCloseButton,
   DrawerOverlay,
 } from "./components/Drawer";
+export {
+  overlayVariants as drawerOverlayVariants,
+  contentVariants as drawerContentVariants,
+} from "./components/Drawer/Drawer.styles";
 export { default as Image } from "./components/Image";
+export {
+  imageContainerVariants,
+  imageVariants,
+  skeletonVariants as imageSkeletonVariants,
+} from "./components/Image/Image.styles";
 export {
   Item,
   ItemMedia,
@@ -90,12 +156,32 @@ export {
   ItemBadge,
 } from "./components/Item";
 export {
+  itemVariants,
+  itemMediaVariants,
+  itemContentVariants,
+  itemTitleVariants,
+  itemDescriptionVariants,
+  itemActionsVariants,
+  itemHeaderVariants,
+  itemFooterVariants,
+  itemGroupVariants,
+  itemSeparatorVariants,
+  itemBadgeVariants,
+} from "./components/Item/Item.styles";
+export {
   default as Kbd,
   KbdGroup,
   KbdKey,
   KbdDescription,
   KEYBOARD_SYMBOLS,
 } from "./components/Kbd";
+export {
+  kbdVariants,
+  kbdGroupVariants,
+  kbdSeparatorVariants,
+  kbdKeyVariants,
+  kbdDescriptionVariants,
+} from "./components/Kbd/Kbd.styles";
 export {
   default as Label,
   LabelGroup,
@@ -104,7 +190,17 @@ export {
   LabelRequired,
   LabelOptional,
 } from "./components/Label";
+export {
+  labelVariants,
+  labelGroupVariants,
+  labelDescriptionVariants,
+  labelErrorVariants,
+  labelRequiredVariants,
+  labelOptionalVariants,
+  labelHelpVariants,
+} from "./components/Label/Label.styles";
 export { default as Link } from "./components/Link";
+export { linkVariants } from "./components/Link/Link.styles";
 export {
   default as Menubar,
   MenubarMenu,
@@ -121,7 +217,25 @@ export {
   MenubarShortcut,
   MenubarLabel,
 } from "./components/Menubar";
+export {
+  menubarVariants,
+  menubarMenuVariants,
+  menubarTriggerVariants,
+  menubarContentVariants,
+  menubarItemVariants,
+  menubarSeparatorVariants,
+  menubarShortcutVariants,
+  menubarLabelVariants,
+  menubarCheckboxIndicatorVariants,
+  menubarRadioIndicatorVariants,
+  menubarSubTriggerIconVariants,
+} from "./components/Menubar/Menubar.styles";
 export { List, ListItem } from "./components/List";
+export {
+  listVariants,
+  mainListItemVariants,
+  listItemVariants,
+} from "./components/List/List.styles";
 export {
   default as NativeSelect,
   NativeSelectOption,
@@ -131,6 +245,16 @@ export {
   NativeSelectDescription,
   NativeSelectError,
 } from "./components/NativeSelect";
+export {
+  nativeSelectVariants,
+  nativeSelectOptionVariants,
+  nativeSelectGroupVariants,
+  nativeSelectWrapperVariants,
+  nativeSelectLabelVariants,
+  nativeSelectDescriptionVariants,
+  nativeSelectErrorVariants,
+  nativeSelectIconVariants,
+} from "./components/NativeSelect/NativeSelect.styles";
 export {
   NavigationMenu,
   NavigationMenuItem,
@@ -142,13 +266,28 @@ export {
 } from "./components/NavigationMenu";
 export { Timeline, TimelineItem } from "./components/Timeline";
 export {
+  timelineVariants,
+  timelineItemVariants,
+  timelineDotVariants,
+  timelineLineVariants,
+} from "./components/Timeline/Timeline.styles";
+export {
   default as Tooltip,
   TooltipTrigger,
   TooltipContent,
 } from "./components/Tooltip";
-
+export {
+  tooltipVariants,
+  arrowVariants as tooltipArrowVariants,
+} from "./components/Tooltip/Tooltip.styles";
 export { Tree, TreeItem } from "./components/Tree";
+export { treeVariants, treeNodeVariants } from "./components/Tree/Tree.styles";
 export { Steps, StepsItem } from "./components/Steps";
+export {
+  stepVariants,
+  stepIconVariants,
+  connectorVariants,
+} from "./components/Steps/Steps.styles";
 export {
   Table,
   TableHeader,
@@ -158,32 +297,115 @@ export {
   TableHead,
   TableCell,
 } from "./components/Table";
+export {
+  tableContainerVariants,
+  tableVariants,
+  tableHeaderVariants,
+  tableCellVariants,
+  tableRowVariants,
+} from "./components/Table/Table.styles";
 export { default as Rating } from "./components/Rating";
+export {
+  ratingVariants,
+  iconVariants as ratingIconVariants,
+} from "./components/Rating/Rating.styles";
 export { default as Progress } from "./components/Progress";
+export {
+  progressVariants,
+  progressBarVariants,
+  progressLabelVariants,
+} from "./components/Progress/Progress.styles";
 export { default as Popover } from "./components/Popover";
+export {
+  popoverVariants,
+  arrowVariants as popoverArrowVariants,
+} from "./components/Popover/Popover.styles";
 export { default as PlayButton } from "./components/PlayButton";
+export { playButtonVariants } from "./components/PlayButton/PlayButton.styles";
 export { default as Skeleton } from "./components/Skeleton";
+export { skeletonVariants } from "./components/Skeleton/Skeleton.styles";
 export { default as Spinner } from "./components/Spinner";
+export {
+  spinnerVariants,
+  containerVariants as spinnerContainerVariants,
+  labelVariants as spinnerLabelVariants,
+  logoSizeVariants,
+} from "./components/Spinner/Spinner.styles";
 export { default as Pagination } from "./components/Pagination";
+export { paginationVariants } from "./components/Pagination/Pagination.styles";
 export { default as DatePicker } from "./components/DatePicker";
+export {
+  datePickerVariants,
+  calendarVariants as datePickerCalendarVariants,
+} from "./components/DatePicker/DatePicker.styles";
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/Tab";
+export {
+  tabsListVariants,
+  tabsTriggerVariants,
+} from "./components/Tab/Tab.styles";
 export { Input } from "./components/Input";
+export {
+  inputContainerVariants,
+  inputLabelVariants,
+  inputWrapperVariants,
+  inputVariants,
+  inputIconVariants,
+  helperTextVariants,
+} from "./components/Input/Input.styles";
 export {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
   InputOTPSeparator,
 } from "./components/InputOTP";
+export {
+  otpContainerVariants,
+  otpLabelVariants,
+  otpGroupVariants,
+  otpSlotVariants,
+  otpSeparatorVariants,
+  otpHelperTextVariants,
+} from "./components/InputOTP/InputOTP.styles";
 export { default as FloatingActionButton } from "./components/FloatingActionButton";
+export {
+  fabVariants,
+  labelVariants as fabLabelVariants,
+} from "./components/FloatingActionButton/FloatingActionButton.styles";
 export { default as Radio, RadioGroup } from "./components/Radio";
+export {
+  radioVariants,
+  radioLabelVariants,
+  radioTextVariants,
+  radioDescriptionVariants,
+  radioGroupVariants,
+} from "./components/Radio/Radio.styles";
 export { default as Switch } from "./components/Switch";
+export {
+  switchVariants,
+  switchThumbVariants,
+  switchLabelVariants,
+  switchTextVariants,
+  switchDescriptionVariants,
+} from "./components/Switch/Switch.styles";
 export { default as Checkbox, CheckboxGroup } from "./components/Checkbox";
+export {
+  checkboxVariants,
+  checkboxLabelVariants,
+  checkboxTextVariants,
+  checkboxDescriptionVariants,
+} from "./components/Checkbox/Checkbox.styles";
 export {
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent,
   CollapsibleCompact,
 } from "./components/Collapsible";
+export {
+  collapsibleVariants,
+  collapsibleTriggerVariants,
+  collapsibleContentVariants,
+  collapsibleIconVariants,
+} from "./components/Collapsible/Collapsible.styles";
 export {
   DataTable,
   DataTableCompact,
@@ -195,8 +417,23 @@ export {
   TableCell as DataTableCell,
   flexRender,
 } from "./components/DataTable";
+export {
+  dataTableVariants,
+  tableWrapperVariants,
+  tableHeaderVariants as dataTableHeaderVariants,
+  tableRowVariants as dataTableRowVariants,
+  tableCellVariants as dataTableCellVariants,
+  paginationContainerVariants,
+  filterInputVariants,
+  loadingOverlayVariants,
+} from "./components/DataTable/DataTable.styles";
 export { useDataTable } from "./hooks/useDataTable";
 export { default as Select } from "./components/Select";
+export {
+  selectTriggerVariants,
+  selectMenuVariants,
+  selectOptionVariants,
+} from "./components/Select/Select.styles";
 export {
   default as Dropdown,
   DropdownItem,
@@ -205,9 +442,27 @@ export {
   DropdownTrigger,
   DropdownContent,
 } from "./components/Dropdown";
+export {
+  dropdownTriggerVariants,
+  dropdownContentVariants,
+  dropdownItemVariants,
+} from "./components/Dropdown/Dropdown.styles";
 export { Tag, TagGroup } from "./components/Tag";
+export {
+  tagVariants,
+  badgeVariants as tagBadgeVariants,
+} from "./components/Tag/Tag.styles";
 export { default as TagInput } from "./components/TagInput";
+export {
+  tagInputContainerVariants,
+  tagVariants as tagInputTagVariants,
+  inputVariants as tagInputInputVariants,
+} from "./components/TagInput/TagInput.styles";
 export { default as TextArea } from "./components/TextArea";
+export {
+  textAreaVariants,
+  countVariants,
+} from "./components/TextArea/TextArea.styles";
 export {
   TextEditor,
   textEditorVariants,
@@ -242,7 +497,12 @@ export {
   typographyVariants,
 } from "./components/Typography";
 export { default as Upload } from "./components/Upload";
+export {
+  uploadVariants,
+  fileItemVariants,
+} from "./components/Upload/Upload.styles";
 export { ToastProvider, useToast, ToastItem } from "./components/Toast";
+export { toastVariants } from "./components/Toast/Toast.styles";
 export {
   Form,
   FormCompact,
@@ -256,16 +516,39 @@ export {
   FormActions,
 } from "./components/Form";
 export {
+  formVariants,
+  formItemVariants,
+  formLabelVariants,
+  formControlVariants,
+  formDescriptionVariants,
+  formMessageVariants,
+  formSectionVariants,
+  formSectionTitleVariants,
+  formActionsVariants,
+} from "./components/Form/Form.styles";
+export {
   HoverCard,
   HoverCardTrigger,
   HoverCardContent,
   HoverCardCompact,
 } from "./components/HoverCard";
 export {
+  hoverCardContentVariants,
+  hoverCardArrowVariants,
+  hoverCardTriggerVariants,
+} from "./components/HoverCard/HoverCard.styles";
+export {
   ResizablePanelGroup,
   ResizablePanel,
   ResizableHandle,
 } from "./components/Resizable";
+export {
+  resizablePanelGroupVariants,
+  resizablePanelVariants,
+  resizableHandleVariants,
+  resizableHandleIndicatorVariants,
+  resizableHandleDotsVariants,
+} from "./components/Resizable/Resizable.styles";
 export {
   ScrollArea,
   ScrollAreaRoot,
@@ -274,11 +557,21 @@ export {
   ScrollAreaCorner,
 } from "./components/ScrollArea";
 export {
+  scrollAreaRootVariants,
+  scrollBarVariants,
+  scrollThumbVariants,
+} from "./components/ScrollArea/ScrollArea.styles";
+export {
   Sonner,
   SonnerProvider,
   SonnerContainer,
   useSonner,
 } from "./components/Sonner";
+export {
+  sonnerContainerVariants,
+  sonnerToastVariants,
+  sonnerIconVariants,
+} from "./components/Sonner/Sonner.styles";
 export {
   default as Dialog,
   DialogTrigger,
@@ -292,6 +585,10 @@ export {
   DialogContent,
 } from "./components/Dialog";
 export {
+  overlayVariants as dialogOverlayVariants,
+  contentVariants as dialogContentVariants,
+} from "./components/Dialog/Dialog.styles";
+export {
   Empty,
   EmptyIcon,
   EmptyImage,
@@ -301,11 +598,25 @@ export {
   EmptyExtra,
 } from "./components/Empty";
 export {
+  emptyVariants,
+  iconContainerVariants as emptyIconContainerVariants,
+  titleVariants as emptyTitleVariants,
+  descriptionVariants as emptyDescriptionVariants,
+} from "./components/Empty/Empty.styles";
+export {
   Autocomplete,
   AutocompleteInput,
   AutocompleteDropdown,
   AutocompleteOption,
 } from "./components/Autocomplete";
+export {
+  containerVariants as autocompleteContainerVariants,
+  inputWrapperVariants as autocompleteInputWrapperVariants,
+  inputVariants as autocompleteInputVariants,
+  dropdownVariants as autocompleteDropdownVariants,
+  optionVariants as autocompleteOptionVariants,
+  labelVariants as autocompleteLabelVariants,
+} from "./components/Autocomplete/Autocomplete.styles";
 export {
   FieldSet,
   FieldGroup,
@@ -316,11 +627,31 @@ export {
   FieldHint,
 } from "./components/Field";
 export {
+  fieldSetVariants,
+  legendVariants,
+  fieldGroupVariants,
+  fieldContainerVariants,
+  fieldLabelVariants,
+  fieldDescriptionVariants,
+  fieldErrorVariants,
+  fieldHintVariants,
+} from "./components/Field/Field.styles";
+export {
   Slider,
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
 } from "./components/Slider";
+export {
+  containerVariants as sliderContainerVariants,
+  trackVariants as sliderTrackVariants,
+  filledTrackVariants,
+  thumbVariants,
+  tooltipVariants as sliderTooltipVariants,
+  markVariants,
+  markLabelVariants,
+  labelVariants as sliderLabelVariants,
+} from "./components/Slider/Slider.styles";
 export {
   Combobox,
   ComboboxTrigger,
@@ -334,6 +665,12 @@ export {
   ComboboxCreate,
 } from "./components/Combobox";
 export {
+  triggerVariants as comboboxTriggerVariants,
+  contentVariants as comboboxContentVariants,
+  optionVariants as comboboxOptionVariants,
+  searchVariants as comboboxSearchVariants,
+} from "./components/Combobox/Combobox.styles";
+export {
   Command,
   CommandInput,
   CommandList,
@@ -344,6 +681,11 @@ export {
   CommandSeparator,
   CommandShortcut,
 } from "./components/Command";
+export {
+  containerVariants as commandContainerVariants,
+  inputVariants as commandInputVariants,
+  itemVariants as commandItemVariants,
+} from "./components/Command/Command.styles";
 
 // Types - Theme
 export type {
@@ -808,11 +1150,14 @@ export type {
   SonnerContextValue,
 } from "./components/Sonner";
 
-// Export Tooltip variants
+// Export ThemeToggle variants
 export {
-  tooltipVariants,
-  arrowVariants,
-} from "./components/Tooltip/Tooltip.styles";
+  themeToggleButtonVariants,
+  themeToggleIconVariants,
+  themeDropdownVariants,
+  themeOptionVariants,
+  themeLabelVariants,
+} from "./components/ThemeToggle/ThemeToggle.styles";
 
 // Export CodeEditor and CodeViewer components
 export { CodeEditor, CodeViewer } from "./components/CodeEditor";
@@ -821,6 +1166,10 @@ export type { CodeEditorProps } from "./components/CodeEditor";
 
 // Main component
 export { Chart } from "./components/Chart";
+export {
+  chartContainerVariants,
+  chartCanvasVariants,
+} from "./components/Chart/Chart.styles";
 
 // Components
 export { ChartContainer } from "./components/Chart/components/ChartContainer";

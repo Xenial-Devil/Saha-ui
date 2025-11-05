@@ -1,3 +1,5 @@
+"use client";
+
 import React, {
   createContext,
   useContext,
@@ -21,7 +23,14 @@ import {
   isValidBoolean,
   isValidNumber,
 } from "../../lib/validation";
-import { containerVariants, dropdownVariants, inputVariants, inputWrapperVariants, labelVariants, optionVariants } from "./Autocomplete.styles";
+import {
+  containerVariants,
+  dropdownVariants,
+  inputVariants,
+  inputWrapperVariants,
+  labelVariants,
+  optionVariants,
+} from "./Autocomplete.styles";
 
 // Context for composable components
 interface AutocompleteContextValue {
