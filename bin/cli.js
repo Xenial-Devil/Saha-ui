@@ -802,7 +802,8 @@ const inject = (f, tailwindInfo) => {
       // Add @source to the @import line
       const updatedContent = cur.replace(
         /@import\s+["']tailwindcss["'];?/,
-        `@import "tailwindcss" source "${sahaUISourcePath}";`
+        `@import "tailwindcss" 
+         @source "${sahaUISourcePath}";`
       );
       wr(f, updatedContent);
       console.log(`\n✅ Added @source "${sahaUISourcePath}" to Tailwind v4 import`);
