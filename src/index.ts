@@ -1,5 +1,9 @@
 // Theme
-export { ThemeProvider, useTheme } from "./components/ThemeProvider";
+export {
+  ThemeProvider,
+  useTheme,
+  NextThemeProvider
+} from "./components/ThemeProvider";
 export { ThemeToggle } from "./components/ThemeToggle";
 
 // Utilities
@@ -844,4 +848,3 @@ export { useChartData } from "./hooks/useChartData";
 // Utils
 export { formatters } from "./lib/formatters";
 export { createChartConfig } from "./lib/chartConfig";
-
