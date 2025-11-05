@@ -1,4 +1,4 @@
-import ThemeProvider from "./components/ThemeProvider";
+import ThemeProvider from "./components/ThemeProvider/ThemeProvider";
 import ThemeToggle from "./components/ThemeToggle";
 import { ToastProvider } from "./components/Toast";
 import { Sparkles } from "lucide-react";

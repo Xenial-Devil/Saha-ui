@@ -1,15 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type { ProgressProps } from "./Progress.types";
 import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
-import { progressBarVariants, progressLabelVariants, progressVariants } from "./Progress.styles";
-
+  progressBarVariants,
+  progressLabelVariants,
+  progressVariants,
+} from "./Progress.styles";
 
 /**
  * Flat Progress Component
@@ -82,102 +79,6 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Progress");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "primary",
-        "secondary",
-        "accent",
-        "success",
-        "warning",
-        "error",
-        "info",
-        "gradient",
-        "striped",
-        "glass",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-      ] as const);
-
-      // Validate shape
-      validator.validateEnum("shape", shape, [
-        "rounded",
-        "pill",
-        "square",
-      ] as const);
-
-      // Validate animation
-      validator.validateEnum("animation", animation, [
-        "none",
-        "pulse",
-        "shimmer",
-      ] as const);
-
-      // Validate labelPosition
-      validator.validateEnum("labelPosition", labelPosition, [
-        "inside",
-        "outside",
-        "top",
-      ] as const);
-
-      // Validate numeric props
-      validator.validateType("value", value, "number", isValidNumber);
-      validator.validateType("max", max, "number", isValidNumber);
-
-      if (max <= 0) {
-        validator.error("max must be greater than 0");
-      }
-
-      if (value < 0) {
-        validator.warn("value should not be negative");
-      }
-
-      // Validate boolean props
-      validator.validateType("showValue", showValue, "boolean", isValidBoolean);
-      validator.validateType("striped", striped, "boolean", isValidBoolean);
-      validator.validateType(
-        "stripedAnimated",
-        stripedAnimated,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType("glow", glow, "boolean", isValidBoolean);
-      validator.validateType(
-        "indeterminate",
-        indeterminate,
-        "boolean",
-        isValidBoolean
-      );
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      variant,
-      size,
-      shape,
-      animation,
-      labelPosition,
-      value,
-      max,
-      showValue,
-      striped,
-      stripedAnimated,
-      glow,
-      indeterminate,
-      className,
-    ]);
-
     // Normalize value within bounds
     const normalizedValue = Math.min(Math.max(value, 0), max);
     const percentage = (normalizedValue / max) * 100;

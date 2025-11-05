@@ -1,33 +1,101 @@
-import React from "react";
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "../ThemeProvider";
+import React, { useState, useRef, useEffect } from "react";
+import { Moon, Sun, Monitor } from "lucide-react";
+import { useTheme } from "../ThemeProvider/ThemeProvider";
 import { ThemeToggleProps } from "./ThemeToggle.types";
+import { Theme } from "../ThemeProvider/ThemeProvider.types";
+import { cn } from "../../lib/utils";
+import {
+  themeToggleButtonVariants,
+  themeToggleIconVariants,
+  themeDropdownVariants,
+  themeOptionVariants,
+} from "./ThemeToggle.styles";
 
 export const ThemeToggle: React.FC<ThemeToggleProps> = ({
   className = "",
   size = 20,
+  variant = "icon",
 }) => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  const themeOptions: Array<{ value: Theme; label: string; icon: typeof Sun }> =
+    [
+      { value: "light", label: "Light", icon: Sun },
+      { value: "dark", label: "Dark", icon: Moon },
+      { value: "system", label: "System", icon: Monitor },
+    ];
+
+  const currentThemeOption =
+    themeOptions.find((opt) => opt.value === theme) || themeOptions[0];
+  const CurrentIcon = currentThemeOption.icon;
+
+  const handleThemeSelect = (newTheme: Theme) => {
+    setTheme(newTheme);
+    setIsOpen(false);
+  };
 
   return (
-    <button
-      onClick={toggleTheme}
-      className={`glass glass-hover p-3 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 shadow-lg hover:shadow-2xl relative before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-white/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:pointer-events-none group ${className}`}
-      aria-label="Toggle theme"
-      title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-    >
-      {theme === "light" ? (
-        <Moon
+    <div ref={dropdownRef} className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={cn(themeToggleButtonVariants({ variant }), className)}
+        aria-label="Toggle theme"
+        title={`Current theme: ${currentThemeOption.label}`}
+      >
+        <CurrentIcon
           size={size}
-          className="text-primary transition-transform group-hover:rotate-12"
+          className={themeToggleIconVariants({ theme })}
         />
-      ) : (
-        <Sun
-          size={size}
-          className="text-warning transition-transform group-hover:rotate-180"
-        />
+        {variant === "icon-label" && (
+          <span className="text-sm font-medium capitalize">
+            {currentThemeOption.label}
+          </span>
+        )}
+      </button>
+
+      {isOpen && (
+        <div className={themeDropdownVariants({ variant })}>
+          {themeOptions.map((option) => {
+            const OptionIcon = option.icon;
+            const isSelected = theme === option.value;
+
+            return (
+              <button
+                key={option.value}
+                onClick={() => handleThemeSelect(option.value)}
+                className={themeOptionVariants({ selected: isSelected })}
+              >
+                <OptionIcon size={18} />
+                <span className="text-sm font-medium">{option.label}</span>
+                {isSelected && <span className="ml-auto text-primary">✓</span>}
+              </button>
+            );
+          })}
+        </div>
       )}
-    </button>
+    </div>
   );
 };
 

@@ -11,13 +11,15 @@
 
   <p>
     A beautiful, accessible, and type-safe React component library built with<br/>
-    <strong>TypeScript</strong> • <strong>Tailwind CSS v4</strong> • <strong>OKLCH Colors</strong> • <strong>Glass Morphism</strong>
+    <strong>TypeScript</strong> • <strong>Tailwind CSS v4</strong> • <strong>OKLCH Colors</strong> • <strong>Glass Morphism</strong><br/>
+    ✅ <strong>Next.js 15/16 Ready</strong> • <strong>App Router</strong> • <strong>Server Components</strong>
   </p>
 
   <p>
     <a href="#-installation">Installation</a> •
     <a href="#-features">Features</a> •
     <a href="#-components">Components</a> •
+    <a href="#-nextjs-1516-compatibility">Next.js Guide</a> •
     <a href="#-quick-examples">Quick Examples</a> •
     <a href="#-documentation">Documentation</a>
   </p>
@@ -27,7 +29,8 @@
 
 ## ✨ Features
 
-- 🎨 **73 Modern Components** - Accordion, Alert, AspectRatio, Autocomplete, Avatar, AvatarGroup, Badge, Breadcrumb, Button, ButtonGroup, Calendar, Card, Carousel, Checkbox, Chip, CodeEditor, Collapsible, Combobox, Command, ContextMenu, DataTable, DatePicker, Dialog, Drawer, Dropdown, Empty, Field, FloatingActionButton, Form, HoverCard, Image, Input, InputOTP, Item, Kbd, Label, Link, List, Menubar, NativeSelect, NavigationMenu, Pagination, PlayButton, Popover, Progress, Radio, Rating, Resizable, ScrollArea, Select, Separator, Skeleton, Slider, Sonner, Spinner, Steps, Switch, Tab, Table, Tag, TagInput, TextArea, TextEditor, ThemeProvider, ThemeToggle, Timeline, Toast, Toggle, ToggleGroup, Tooltip, Tree, Typography, Upload
+- 🎨 **73 Modern Components** - Accordion, Alert, AspectRatio, Autocomplete, Avatar, AvatarGroup, Badge, Breadcrumb, Button, ButtonGroup, Calendar, Card, Carousel, Chart, Checkbox, Chip, CodeEditor, Collapsible, Combobox, Command, ContextMenu, DataTable, DatePicker, Dialog, Drawer, Dropdown, Empty, Field, FloatingActionButton, Form, HoverCard, Image, Input, InputOTP, Item, Kbd, Label, Link, List, Menubar, NativeSelect, NavigationMenu, Pagination, PlayButton, Popover, Progress, Radio, Rating, Resizable, ScrollArea, Select, Separator, Skeleton, Slider, Sonner, Spinner, Steps, Switch, Tab, Table, Tag, TagInput, TextArea, TextEditor, ThemeProvider, ThemeToggle, Timeline, Toast, Toggle, ToggleGroup, Tooltip, Tree, Typography, Upload
+- ⚡ **Next.js 15/16 Ready** - Full App Router support with Server & Client Components
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive prop types
@@ -133,6 +136,93 @@ import { cn } from "saha-ui/lib/utils";
 // Use cn() for className merging
 <div className={cn("base-class", condition && "conditional-class")} />;
 ```
+
+---
+
+## 🚀 Next.js 15/16 Compatibility
+
+Saha UI is **fully compatible** with Next.js 15 and 16 App Router!
+
+### Quick Setup
+
+```bash
+npm install saha-ui
+```
+
+```tsx
+// app/providers.tsx
+"use client";
+
+import { ThemeProvider } from "saha-ui";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider defaultTheme="system" storageKey="my-app-theme">
+      {children}
+    </ThemeProvider>
+  );
+}
+```
+
+```tsx
+// app/layout.tsx
+import { Providers } from "./providers";
+import "./globals.css";
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+### Component Classification
+
+- **58 Client Components** (require `"use client"`) - All interactive components (forms, modals, charts, etc.)
+- **15 Flexible Components** (work as Server or Client) - Pure display components (cards, badges, avatars, etc.)
+
+### Usage Examples
+
+**Server Component with Client Interaction:**
+
+```tsx
+// app/page.tsx (Server Component)
+import { Card, Badge } from "saha-ui";
+import { InteractiveButton } from "./interactive-button";
+
+export default async function Page() {
+  const data = await fetch("https://api.example.com/data");
+
+  return (
+    <Card>
+      <Badge variant="success">New</Badge>
+      <InteractiveButton /> {/* Client Component */}
+    </Card>
+  );
+}
+```
+
+```tsx
+// app/interactive-button.tsx (Client Component)
+"use client";
+
+import { Button } from "saha-ui";
+
+export function InteractiveButton() {
+  return <Button onClick={() => alert("Clicked!")}>Click Me</Button>;
+}
+```
+
+**Full Documentation:**
+
+- 📘 [NEXTJS_15_16_COMPATIBILITY.md](./NEXTJS_15_16_COMPATIBILITY.md) - Complete integration guide
+- 📗 [NEXTJS_CLIENT_DIRECTIVE_GUIDE.md](./NEXTJS_CLIENT_DIRECTIVE_GUIDE.md) - "use client" reference
+- 📙 [NEXTJS_READINESS_SUMMARY.md](./NEXTJS_READINESS_SUMMARY.md) - Component analysis
+- 📕 [QUICK_REFERENCE_NEXTJS.md](./QUICK_REFERENCE_NEXTJS.md) - Quick reference card
 
 ---
 

@@ -1,11 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { cn } from "../../lib/utils";
 import { ButtonProps } from "./Button.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-} from "../../lib/validation";
 import { buttonVariants, shimmerVariants } from "./Button.styles";
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -20,40 +15,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Button");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "primary",
-        "secondary",
-        "accent",
-        "info",
-        "success",
-        "warning",
-        "error",
-        "outline",
-        "ghost",
-        "glass",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg", "xl"] as const);
-
-      // Validate boolean props
-      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
-
-      // Validate content
-      if (!children) {
-        validator.warn("Button should have children content for accessibility");
-      }
-
-      // Common validators
-      commonValidators.className(validator, className);
-      commonValidators.disabled(validator, disabled);
-    }, [variant, size, disabled, children, className]);
-
     const hasGlow = !["outline", "ghost", "glass"].includes(variant);
 
     return (

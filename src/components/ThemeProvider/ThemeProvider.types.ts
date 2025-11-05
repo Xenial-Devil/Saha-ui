@@ -1,9 +1,10 @@
 import React from "react";
 
-export type Theme = "light" | "dark";
+export type Theme = "light" | "dark" | "system";
 
 export interface ThemeContextType {
-  theme: Theme;
+  theme: Theme; // The actual selected theme (can be "system")
+  resolvedTheme: "light" | "dark"; // The resolved theme (never "system")
   toggleTheme: () => void;
   setTheme: (theme: Theme) => void;
 }

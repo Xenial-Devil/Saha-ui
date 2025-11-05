@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import {
@@ -9,11 +9,6 @@ import {
   CardContentProps,
   CardFooterProps,
 } from "./Card.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-} from "../../lib/validation";
 import { cardVariants } from "./Card.styles";
 
 /**
@@ -49,57 +44,6 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Card");
-
-      // Validate variant if provided
-      if (variant !== undefined) {
-        validator.validateEnum("variant", variant, [
-          "default",
-          "glass",
-          "glass-strong",
-          "glass-subtle",
-          "bordered",
-        ] as const);
-      }
-
-      // Validate padding if provided
-      if (padding !== undefined) {
-        validator.validateEnum("padding", padding, [
-          "none",
-          "sm",
-          "md",
-          "lg",
-          "xl",
-        ] as const);
-      }
-
-      // Validate rounded if provided
-      if (rounded !== undefined) {
-        validator.validateEnum("rounded", rounded, [
-          "sm",
-          "md",
-          "lg",
-          "xl",
-          "2xl",
-        ] as const);
-      }
-
-      // Validate boolean props
-      if (hoverable !== undefined) {
-        validator.validateType(
-          "hoverable",
-          hoverable,
-          "boolean",
-          isValidBoolean
-        );
-      }
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [variant, padding, rounded, hoverable, className]);
-
     return (
       <div
         ref={ref}

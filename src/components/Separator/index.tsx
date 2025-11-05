@@ -1,19 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import { Sparkles } from "lucide-react";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-} from "../../lib/validation";
 import type { SeparatorProps } from "./Separator.types";
 import {
   SeparatorVariants,
   SeparatorLineVariants,
   SeparatorLabelVariants,
 } from "./Separator.styles";
-
 
 export type SeparatorVariantsProps = VariantProps<typeof SeparatorVariants>;
 
