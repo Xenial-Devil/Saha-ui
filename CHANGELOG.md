@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.13.3...v1.14.0) (2025-11-06)
+
+
+### Features
+
+* **ui-layout autocomplete:** add layout components, docs, asChild support ([c169270](https://github.com/Xenial-Devil/Saha-ui/commit/c1692705e7f1a9e5d17359f274d92afa4ebcbd14))
+
 ## [1.13.3](https://github.com/Xenial-Devil/Saha-ui/compare/v1.13.2...v1.13.3) (2025-11-05)
 
 
