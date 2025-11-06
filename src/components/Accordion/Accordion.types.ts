@@ -94,6 +94,13 @@ export interface AccordionTriggerProps {
    * Custom icon to display (default: ChevronDown)
    */
   icon?: ReactNode;
+
+  /**
+   * When true, the AccordionTrigger will render its child element and merge props
+   * Useful for composition with other components
+   * @default false
+   */
+  asChild?: boolean;
 }
 
 export interface AccordionContentProps {

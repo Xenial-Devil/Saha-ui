@@ -1,21 +1,29 @@
-import { chartCanvasVariants } from "../Chart.styles";
 import { cn } from "../../../lib/utils";
 import type { ChartSize } from "../Chart.types";
 
 interface ChartLoadingProps {
-  size: ChartSize;
+  size?: ChartSize;
+  className?: string;
 }
 
-export function ChartLoading({ size }: ChartLoadingProps) {
+const sizeMap = {
+  sm: "min-h-[200px]",
+  md: "min-h-[300px]",
+  lg: "min-h-[400px]",
+  xl: "min-h-[500px]",
+};
+
+export function ChartLoading({ size = "md", className }: ChartLoadingProps) {
   return (
     <div
       className={cn(
-        chartCanvasVariants({ size }),
-        "flex items-center justify-center"
+        "flex items-center justify-center w-full",
+        sizeMap[size],
+        className,
       )}
     >
       <div className="flex flex-col items-center gap-3">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
         <p className="text-sm text-muted-foreground">Loading chart...</p>
       </div>
     </div>

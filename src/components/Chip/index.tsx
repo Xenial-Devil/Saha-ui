@@ -6,6 +6,7 @@ import { cn } from "../../lib/utils";
 import { X } from "lucide-react";
 import type { ChipProps } from "./Chip.types";
 import { chipVariants } from "./Chip.styles";
+import { Slot } from "../../lib/Slot";
 
 export type ChipVariantsProps = VariantProps<typeof chipVariants>;
 
@@ -63,9 +64,10 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
       disabled = false,
       clickable = false,
       onClick,
+      asChild = false,
       ...props
     },
-    ref
+    ref,
   ) => {
     const handleDelete = (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -73,9 +75,10 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
     };
 
     const isClickable = clickable || !!onClick;
+    const Comp = asChild ? Slot : "div";
 
     return (
-      <div
+      <Comp
         ref={ref}
         className={cn(
           chipVariants({
@@ -85,41 +88,47 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
             clickable: isClickable,
             disabled,
           }),
-          className
+          className,
         )}
         onClick={disabled ? undefined : onClick}
         role={isClickable ? "button" : undefined}
         tabIndex={isClickable && !disabled ? 0 : undefined}
         {...props}
       >
-        {/* Avatar */}
-        {avatar && <span className="flex-shrink-0 -ml-1">{avatar}</span>}
+        {asChild ? (
+          children
+        ) : (
+          <>
+            {/* Avatar */}
+            {avatar && <span className="flex-shrink-0 -ml-1">{avatar}</span>}
 
-        {/* Icon */}
-        {icon && !avatar && <span className="flex-shrink-0">{icon}</span>}
+            {/* Icon */}
+            {icon && !avatar && <span className="flex-shrink-0">{icon}</span>}
 
-        {/* Label */}
-        <span className="truncate">{children}</span>
+            {/* Label */}
+            <span className="truncate">{children}</span>
 
-        {/* Delete button */}
-        {deletable && onDelete && (
-          <button
-            type="button"
-            className={cn(
-              "flex-shrink-0 rounded-full p-0.5 transition-all duration-200",
-              "hover:bg-black/10 dark:hover:bg-white/10 active:scale-90",
-              "-mr-1"
+            {/* Delete button */}
+            {deletable && onDelete && (
+              <button
+                type="button"
+                className={cn(
+                  "flex-shrink-0 rounded-full p-0.5 transition-all duration-200",
+                  "hover:bg-black/10 dark:hover:bg-white/10 active:scale-90",
+                  "-mr-1",
+                )}
+                onClick={handleDelete}
+                disabled={disabled}
+                aria-label="Delete"
+              >
+                <X size={size === "sm" ? 12 : size === "lg" ? 18 : 14} />
+              </button>
             )}
-            onClick={handleDelete}
-            disabled={disabled}
-            aria-label="Delete"
-          >
-            <X size={size === "sm" ? 12 : size === "lg" ? 18 : 14} />
-          </button>
+          </>
         )}
-      </div>
+      </Comp>
     );
-  }
+  },
 );
 
 Chip.displayName = "Chip";

@@ -58,7 +58,7 @@ export const Drawer = ({
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
   const [isAnimating, setIsAnimating] = useState(false);
   const [animationState, setAnimationState] = useState<"open" | "closed">(
-    "closed"
+    "closed",
   );
 
   const isControlled = controlledOpen !== undefined;
@@ -110,19 +110,19 @@ export const Drawer = ({
       "showOverlay",
       showOverlay,
       "boolean",
-      isValidBoolean
+      isValidBoolean,
     );
     validator.validateType(
       "closeOnOverlayClick",
       closeOnOverlayClick,
       "boolean",
-      isValidBoolean
+      isValidBoolean,
     );
     validator.validateType(
       "closeOnEscape",
       closeOnEscape,
       "boolean",
-      isValidBoolean
+      isValidBoolean,
     );
     validator.validateType("lockScroll", lockScroll, "boolean", isValidBoolean);
     validator.validateType("nested", nested, "boolean", isValidBoolean);
@@ -156,18 +156,23 @@ export const Drawer = ({
       }
       onOpenChange?.(newOpen);
     },
-    [isControlled, onOpenChange]
+    [isControlled, onOpenChange],
   );
 
   // Animation state management
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout> | undefined;
+    let raf1: number | undefined;
+    let raf2: number | undefined;
+    let isCancelled = false;
 
     if (open) {
       setIsAnimating(true);
       // Double RAF for smooth animation start
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
+      raf1 = requestAnimationFrame(() => {
+        if (isCancelled) return;
+        raf2 = requestAnimationFrame(() => {
+          if (isCancelled) return;
           setAnimationState("open");
         });
       });
@@ -175,13 +180,33 @@ export const Drawer = ({
       setAnimationState("closed");
       // Wait for animation to complete before removing from DOM
       timeout = setTimeout(() => {
+        if (isCancelled) return;
         setIsAnimating(false);
       }, 500); // Match animation duration
     }
 
     return () => {
+      isCancelled = true;
       if (timeout) {
-        clearTimeout(timeout);
+        try {
+          clearTimeout(timeout);
+        } catch (err) {
+          console.debug("Drawer timeout cancelation suppressed:", err);
+        }
+      }
+      if (raf1) {
+        try {
+          cancelAnimationFrame(raf1);
+        } catch (err) {
+          console.debug("Drawer RAF cancelation suppressed:", err);
+        }
+      }
+      if (raf2) {
+        try {
+          cancelAnimationFrame(raf2);
+        } catch (err) {
+          console.debug("Drawer RAF cancelation suppressed:", err);
+        }
       }
     };
   }, [open]);
@@ -204,24 +229,49 @@ export const Drawer = ({
     }
 
     return () => {
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
+      try {
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+      } catch (err) {
+        console.debug("Drawer scroll lock cleanup error suppressed:", err);
+      }
     };
   }, [open, lockScroll, nested]);
 
   // Focus management
   useEffect(() => {
+    let focusTimeout: ReturnType<typeof setTimeout> | undefined;
+    let isCancelled = false;
+
     if (open) {
       previousActiveElement.current = document.activeElement as HTMLElement;
       // Focus drawer content
-      setTimeout(() => {
-        drawerRef.current?.focus();
+      focusTimeout = setTimeout(() => {
+        if (!isCancelled) {
+          drawerRef.current?.focus();
+        }
       }, 100);
     } else if (previousActiveElement.current) {
       // Restore focus
-      previousActiveElement.current.focus();
-      previousActiveElement.current = null;
+      try {
+        previousActiveElement.current.focus();
+        previousActiveElement.current = null;
+      } catch (err) {
+        console.debug("Drawer focus restore error suppressed:", err);
+        previousActiveElement.current = null;
+      }
     }
+
+    return () => {
+      isCancelled = true;
+      if (focusTimeout) {
+        try {
+          clearTimeout(focusTimeout);
+        } catch (err) {
+          console.debug("Drawer focus timeout cancelation suppressed:", err);
+        }
+      }
+    };
   }, [open]);
 
   // Keyboard navigation
@@ -274,13 +324,13 @@ export const Drawer = ({
     (child) =>
       (child as ReactElement)?.type &&
       typeof (child as ReactElement).type !== "string" &&
-      ((child as ReactElement).type as any).displayName === "DrawerTrigger"
+      ((child as ReactElement).type as any).displayName === "DrawerTrigger",
   );
   const content = childArray.find(
     (child) =>
       (child as ReactElement)?.type &&
       typeof (child as ReactElement).type !== "string" &&
-      ((child as ReactElement).type as any).displayName === "DrawerContent"
+      ((child as ReactElement).type as any).displayName === "DrawerContent",
   );
 
   const drawerPortalContent = (

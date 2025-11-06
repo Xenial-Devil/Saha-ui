@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ResponsiveContainer,
   RadarChart,
@@ -7,8 +9,7 @@ import {
   PolarRadiusAxis,
   Tooltip,
 } from "recharts";
-import { chartCanvasVariants } from "../Chart.styles";
-import { ChartTooltip } from "../components/ChartTooltip";
+import { ChartTooltipContent } from "../components/ChartTooltip";
 import { useChartColors } from "../../../hooks/useChartColors";
 import type {
   BaseChartComponentProps,
@@ -24,41 +25,55 @@ export function RadarChartComponent({
   const { getColor } = useChartColors(variant);
 
   const visibleSeries = config.series.filter(
-    (s) => !hiddenSeries.has(s.dataKey) && !s.hide
+    (s) => !hiddenSeries.has(s.dataKey) && !s.hide,
   ) as RadarSeriesConfig[];
 
+  const heightMap = {
+    sm: 200,
+    md: 300,
+    lg: 400,
+    xl: 500,
+  };
+
+  // Safety check: return null if data is empty or invalid
+  if (!config.data || config.data.length === 0) {
+    return null;
+  }
+
   return (
-    <div className={chartCanvasVariants({ size })}>
-      <ResponsiveContainer width="100%" height="100%">
-        <RadarChart data={config.data}>
-          <PolarGrid className="stroke-border/40" />
-          <PolarAngleAxis
-            dataKey={config.xAxis?.dataKey || "subject"}
-            tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-          />
-          <PolarRadiusAxis
-            tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-            tickFormatter={config.yAxis?.tickFormatter}
-          />
+    <ResponsiveContainer width="100%" height={heightMap[size]}>
+      <RadarChart data={config.data} cx="50%" cy="50%">
+        <PolarGrid />
+        <PolarAngleAxis
+          dataKey={config.xAxis?.dataKey || "subject"}
+          tickLine={false}
+        />
+        <PolarRadiusAxis
+          angle={90}
+          domain={config.yAxis?.domain as [number, number] | undefined}
+          tickLine={false}
+        />
 
-          {config.tooltip?.show !== false && (
-            <Tooltip content={<ChartTooltip config={config.tooltip} />} />
-          )}
+        {config.tooltip?.show !== false && (
+          <Tooltip content={<ChartTooltipContent indicator="dot" />} />
+        )}
 
-          {visibleSeries.map((series, index) => (
+        {visibleSeries.map((series, index) => {
+          const color = series.color || getColor(index);
+          return (
             <Radar
               key={series.dataKey}
-              name={series.name || series.dataKey}
               dataKey={series.dataKey}
-              stroke={series.color || getColor(index)}
-              fill={series.color || getColor(index)}
-              fillOpacity={series.fillOpacity || 0.35}
-              strokeWidth={series.strokeWidth || 2.5}
+              name={series.name || series.dataKey}
+              stroke={color}
+              fill={color}
+              fillOpacity={series.fillOpacity ?? 0.6}
+              strokeWidth={series.strokeWidth || 2}
               dot={series.dot !== false}
             />
-          ))}
-        </RadarChart>
-      </ResponsiveContainer>
-    </div>
+          );
+        })}
+      </RadarChart>
+    </ResponsiveContainer>
   );
 }

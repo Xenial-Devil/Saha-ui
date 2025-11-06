@@ -12,6 +12,7 @@ import {
   CardFooterProps,
 } from "./Card.types";
 import { cardVariants } from "./Card.styles";
+import { Slot } from "../../lib/Slot";
 
 /**
  * Card component variants using CVA (Class Variance Authority)
@@ -44,14 +45,14 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       onClick,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <div
         ref={ref}
         className={cn(
           cardVariants({ variant, padding, rounded, hoverable }),
-          className
+          className,
         )}
         onClick={onClick}
         {...props}
@@ -60,7 +61,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
         <div className="relative">{children}</div>
       </div>
     );
-  }
+  },
 );
 
 Card.displayName = "Card";
@@ -71,12 +72,16 @@ Card.displayName = "Card";
  * @param children - Header content (typically CardTitle and CardDescription)
  * @param className - Additional CSS classes
  */
-export const CardHeader: React.FC<CardHeaderProps> = ({
-  children,
-  className = "",
-}) => {
-  return <div className={cn("mb-4", className)}>{children}</div>;
-};
+export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
+  ({ children, className = "", asChild = false }, ref) => {
+    const Comp = asChild ? Slot : "div";
+    return (
+      <Comp ref={ref} className={cn("mb-4", className)}>
+        {children}
+      </Comp>
+    );
+  },
+);
 
 CardHeader.displayName = "CardHeader";
 
@@ -86,21 +91,22 @@ CardHeader.displayName = "CardHeader";
  * @param children - Title text content
  * @param className - Additional CSS classes
  */
-export const CardTitle: React.FC<CardTitleProps> = ({
-  children,
-  className = "",
-}) => {
-  return (
-    <h3
-      className={cn(
-        "text-xl font-semibold text-foreground tracking-tight",
-        className
-      )}
-    >
-      {children}
-    </h3>
-  );
-};
+export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
+  ({ children, className = "", asChild = false }, ref) => {
+    const Comp = asChild ? Slot : "h3";
+    return (
+      <Comp
+        ref={ref}
+        className={cn(
+          "text-xl font-semibold text-foreground tracking-tight",
+          className,
+        )}
+      >
+        {children}
+      </Comp>
+    );
+  },
+);
 
 CardTitle.displayName = "CardTitle";
 
@@ -110,21 +116,23 @@ CardTitle.displayName = "CardTitle";
  * @param children - Description text content
  * @param className - Additional CSS classes
  */
-export const CardDescription: React.FC<CardDescriptionProps> = ({
-  children,
-  className = "",
-}) => {
+export const CardDescription = React.forwardRef<
+  HTMLParagraphElement,
+  CardDescriptionProps
+>(({ children, className = "", asChild = false }, ref) => {
+  const Comp = asChild ? Slot : "p";
   return (
-    <p
+    <Comp
+      ref={ref}
       className={cn(
         "text-sm text-muted-foreground mt-1.5 leading-relaxed",
-        className
+        className,
       )}
     >
       {children}
-    </p>
+    </Comp>
   );
-};
+});
 
 CardDescription.displayName = "CardDescription";
 
@@ -134,12 +142,16 @@ CardDescription.displayName = "CardDescription";
  * @param children - Content to display
  * @param className - Additional CSS classes
  */
-export const CardContent: React.FC<CardContentProps> = ({
-  children,
-  className = "",
-}) => {
-  return <div className={cn("text-foreground", className)}>{children}</div>;
-};
+export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
+  ({ children, className = "", asChild = false }, ref) => {
+    const Comp = asChild ? Slot : "div";
+    return (
+      <Comp ref={ref} className={cn("text-foreground", className)}>
+        {children}
+      </Comp>
+    );
+  },
+);
 
 CardContent.displayName = "CardContent";
 
@@ -149,21 +161,22 @@ CardContent.displayName = "CardContent";
  * @param children - Footer content (typically buttons or actions)
  * @param className - Additional CSS classes
  */
-export const CardFooter: React.FC<CardFooterProps> = ({
-  children,
-  className = "",
-}) => {
-  return (
-    <div
-      className={cn(
-        "mt-4 pt-4 border-t border-border/50 flex items-center gap-2",
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
-};
+export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
+  ({ children, className = "", asChild = false }, ref) => {
+    const Comp = asChild ? Slot : "div";
+    return (
+      <Comp
+        ref={ref}
+        className={cn(
+          "mt-4 pt-4 border-t border-border/50 flex items-center gap-2",
+          className,
+        )}
+      >
+        {children}
+      </Comp>
+    );
+  },
+);
 
 CardFooter.displayName = "CardFooter";
 

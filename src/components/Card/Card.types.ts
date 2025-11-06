@@ -44,24 +44,49 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 export interface CardHeaderProps {
   children: React.ReactNode;
   className?: string;
+  /**
+   * When true, will render its child element and merge props
+   * @default false
+   */
+  asChild?: boolean;
 }
 
 export interface CardTitleProps {
   children: React.ReactNode;
   className?: string;
+  /**
+   * When true, will render its child element and merge props
+   * @default false
+   */
+  asChild?: boolean;
 }
 
 export interface CardDescriptionProps {
   children: React.ReactNode;
   className?: string;
+  /**
+   * When true, will render its child element and merge props
+   * @default false
+   */
+  asChild?: boolean;
 }
 
 export interface CardContentProps {
   children: React.ReactNode;
   className?: string;
+  /**
+   * When true, will render its child element and merge props
+   * @default false
+   */
+  asChild?: boolean;
 }
 
 export interface CardFooterProps {
   children: React.ReactNode;
   className?: string;
+  /**
+   * When true, will render its child element and merge props
+   * @default false
+   */
+  asChild?: boolean;
 }

@@ -15,6 +15,7 @@ import {
   kbdKeyVariants,
   kbdDescriptionVariants,
 } from "./Kbd.styles";
+import { Slot } from "../../lib/Slot";
 
 // ===========================
 // Kbd Component
@@ -56,19 +57,22 @@ export const Kbd = React.forwardRef<HTMLElement, KbdProps>(
       className,
       abbr,
       title,
+      asChild = false,
       ...props
     },
-    ref
+    ref,
   ) => {
     // Use color variant if color is specified
     const effectiveVariant = color || variant;
 
+    const Comp = asChild ? Slot : "kbd";
+
     return (
-      <kbd
+      <Comp
         ref={ref}
         className={cn(
           kbdVariants({ variant: effectiveVariant, size, pressed, disabled }),
-          className
+          className,
         )}
         title={title}
         aria-label={
@@ -79,9 +83,9 @@ export const Kbd = React.forwardRef<HTMLElement, KbdProps>(
         {...props}
       >
         {children}
-      </kbd>
+      </Comp>
     );
-  }
+  },
 );
 
 Kbd.displayName = "Kbd";
@@ -119,7 +123,7 @@ export const KbdGroup = React.forwardRef<HTMLDivElement, KbdGroupProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     // Convert children to array and filter out falsy values
     const childArray = React.Children.toArray(children).filter(Boolean);
@@ -164,7 +168,7 @@ export const KbdGroup = React.forwardRef<HTMLDivElement, KbdGroupProps>(
         {clonedChildren}
       </div>
     );
-  }
+  },
 );
 
 KbdGroup.displayName = "KbdGroup";
@@ -190,7 +194,7 @@ export const KbdKey = React.forwardRef<HTMLSpanElement, KbdKeyProps>(
         {children}
       </span>
     );
-  }
+  },
 );
 
 KbdKey.displayName = "KbdKey";

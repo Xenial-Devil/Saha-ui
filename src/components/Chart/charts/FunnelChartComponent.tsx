@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ResponsiveContainer,
   FunnelChart,
@@ -5,8 +7,7 @@ import {
   Tooltip,
   LabelList,
 } from "recharts";
-import { chartCanvasVariants } from "../Chart.styles";
-import { ChartTooltip } from "../components/ChartTooltip";
+import { ChartTooltipContent } from "../components/ChartTooltip";
 import { useChartColors } from "../../../hooks/useChartColors";
 import type { BaseChartComponentProps } from "../Chart.types";
 
@@ -16,44 +17,41 @@ export function FunnelChartComponent({
   size,
   hiddenSeries,
 }: BaseChartComponentProps) {
-  const { colors } = useChartColors(variant);
+  const { getColor } = useChartColors(variant);
 
   const series = config.series[0];
   if (!series) return null;
 
-  const visibleData = config.data.filter(
-    (item) => !hiddenSeries.has(String(item[series.dataKey]))
-  );
+  const visibleData = config.data
+    .filter((item) => !hiddenSeries.has(item[series.dataKey] as string))
+    .map((item, index) => ({
+      ...item,
+      fill: series.color || getColor(index),
+    }));
 
-  const dataWithColors = visibleData.map((item, index) => ({
-    ...item,
-    fill: colors[index % colors.length],
-  }));
+  const heightMap = {
+    sm: 200,
+    md: 300,
+    lg: 400,
+    xl: 500,
+  };
 
   return (
-    <div className={chartCanvasVariants({ size })}>
-      <ResponsiveContainer width="100%" height="100%">
-        <FunnelChart>
-          {config.tooltip?.show !== false && (
-            <Tooltip content={<ChartTooltip config={config.tooltip} />} />
-          )}
+    <ResponsiveContainer width="100%" height={heightMap[size]}>
+      <FunnelChart>
+        {config.tooltip?.show !== false && (
+          <Tooltip content={<ChartTooltipContent hideLabel />} />
+        )}
 
-          <Funnel
+        <Funnel dataKey={series.dataKey} data={visibleData} isAnimationActive>
+          <LabelList
+            position="right"
+            fill="#000"
+            stroke="none"
             dataKey={series.dataKey}
-            data={dataWithColors}
-            isAnimationActive
-          >
-            <LabelList
-              position="right"
-              fill="hsl(var(--foreground))"
-              stroke="none"
-              dataKey={config.xAxis?.dataKey || "name"}
-              fontSize={13}
-              offset={8}
-            />
-          </Funnel>
-        </FunnelChart>
-      </ResponsiveContainer>
-    </div>
+          />
+        </Funnel>
+      </FunnelChart>
+    </ResponsiveContainer>
   );
 }

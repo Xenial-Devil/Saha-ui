@@ -15,70 +15,32 @@ import {
   X,
   Loader2,
 } from "lucide-react";
+import type {
+  SonnerVariant,
+  SonnerPosition,
+  SonnerType,
+  Toast,
+  SonnerProviderProps,
+  SonnerContextValue,
+  ToastItemProps,
+} from "./Sonner.types";
 
-export type SonnerVariant =
-  | "default"
-  | "primary"
-  | "secondary"
-  | "accent"
-  | "success"
-  | "warning"
-  | "error"
-  | "info"
-  | "outline"
-  | "glass";
-export type SonnerPosition =
-  | "top-left"
-  | "top-center"
-  | "top-right"
-  | "bottom-left"
-  | "bottom-center"
-  | "bottom-right";
-export type SonnerType =
-  | "default"
-  | "success"
-  | "error"
-  | "warning"
-  | "info"
-  | "loading";
+export type {
+  SonnerVariant,
+  SonnerPosition,
+  SonnerType,
+  Toast,
+  SonnerProviderProps,
+  SonnerContextValue,
+  ToastItemProps,
+};
 
 // ============================================================================
 // CONTEXT
 // ============================================================================
 
-interface Toast {
-  id: string;
-  type: SonnerType;
-  title: string;
-  description?: string;
-  duration?: number;
-  variant?: SonnerVariant;
-  action?: {
-    label: string;
-    onClick: () => void;
-  };
-  cancel?: {
-    label: string;
-    onClick?: () => void;
-  };
-  onDismiss?: () => void;
-  dismissible?: boolean;
-}
-
-interface SonnerContextValue {
-  toasts: Toast[];
-  toast: (toast: Omit<Toast, "id">) => string;
-  success: (title: string, description?: string) => string;
-  error: (title: string, description?: string) => string;
-  warning: (title: string, description?: string) => string;
-  info: (title: string, description?: string) => string;
-  loading: (title: string, description?: string) => string;
-  dismiss: (id: string) => void;
-  dismissAll: () => void;
-}
-
 const SonnerContext = React.createContext<SonnerContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 export function useSonner() {
@@ -92,16 +54,6 @@ export function useSonner() {
 // ============================================================================
 // SONNER PROVIDER
 // ============================================================================
-
-export interface SonnerProviderProps {
-  children: React.ReactNode;
-  position?: SonnerPosition;
-  duration?: number;
-  maxToasts?: number;
-  variant?: SonnerVariant;
-  expand?: boolean;
-  richColors?: boolean;
-}
 
 export function SonnerProvider({
   children,
@@ -141,42 +93,42 @@ export function SonnerProvider({
 
       return id;
     },
-    [variant, duration, maxToasts]
+    [variant, duration, maxToasts],
   );
 
   const success = React.useCallback(
     (title: string, description?: string) => {
       return toast({ type: "success", title, description });
     },
-    [toast]
+    [toast],
   );
 
   const error = React.useCallback(
     (title: string, description?: string) => {
       return toast({ type: "error", title, description });
     },
-    [toast]
+    [toast],
   );
 
   const warning = React.useCallback(
     (title: string, description?: string) => {
       return toast({ type: "warning", title, description });
     },
-    [toast]
+    [toast],
   );
 
   const info = React.useCallback(
     (title: string, description?: string) => {
       return toast({ type: "info", title, description });
     },
-    [toast]
+    [toast],
   );
 
   const loading = React.useCallback(
     (title: string, description?: string) => {
       return toast({ type: "loading", title, description, duration: 0 });
     },
-    [toast]
+    [toast],
   );
 
   const dismiss = React.useCallback((id: string) => {
@@ -185,6 +137,12 @@ export function SonnerProvider({
 
   const dismissAll = React.useCallback(() => {
     setToasts([]);
+  }, []);
+
+  const update = React.useCallback((id: string, toast: Partial<Toast>) => {
+    setToasts((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, ...toast } : t)),
+    );
   }, []);
 
   const contextValue: SonnerContextValue = {
@@ -197,6 +155,7 @@ export function SonnerProvider({
     loading,
     dismiss,
     dismissAll,
+    update,
   };
 
   return (
@@ -326,7 +285,7 @@ function SonnerToast({
         isExiting && "opacity-0 scale-95 translate-x-full",
         !expand && index > 0 && "mt-2 scale-95 opacity-80",
         expand && "mt-2",
-        isHovered && "scale-100 opacity-100"
+        isHovered && "scale-100 opacity-100",
       )}
       style={{
         zIndex: 1000 - index,
@@ -414,4 +373,3 @@ export function Sonner(props: SonnerProps) {
 // ============================================================================
 
 export { SonnerContainer };
-export type { Toast, SonnerContextValue };

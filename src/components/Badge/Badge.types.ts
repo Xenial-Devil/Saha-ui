@@ -103,4 +103,11 @@ export interface BadgeProps
    * Additional CSS classes to apply
    */
   className?: string;
+
+  /**
+   * When true, the Badge will render its child element and merge props
+   * Useful for composition with other components
+   * @default false
+   */
+  asChild?: boolean;
 }

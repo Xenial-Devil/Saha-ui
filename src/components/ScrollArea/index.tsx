@@ -2,30 +2,22 @@
 
 import * as React from "react";
 import { cn } from "../../lib/utils";
-import { type VariantProps } from "class-variance-authority";
 import {
   scrollAreaRootVariants,
   scrollBarVariants,
   scrollThumbVariants,
 } from "./ScrollArea.styles";
+import type {
+  ScrollAreaVariant,
+  ScrollOrientation,
+  ScrollAreaRootProps,
+} from "./ScrollArea.types";
 
-export type ScrollAreaVariant = VariantProps<
-  typeof scrollAreaRootVariants
->["variant"];
-export type ScrollOrientation = "vertical" | "horizontal" | "both";
+export type { ScrollAreaVariant, ScrollOrientation, ScrollAreaRootProps };
 
 // ============================================================================
 // COMPONENT API - Full Composition
 // ============================================================================
-
-interface ScrollAreaRootProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: ScrollAreaVariant;
-  orientation?: ScrollOrientation;
-  hideScrollbar?: boolean;
-  smoothScroll?: boolean;
-  autoHide?: boolean;
-  autoHideDelay?: number;
-}
 
 const ScrollAreaRoot = React.forwardRef<HTMLDivElement, ScrollAreaRootProps>(
   (
@@ -40,7 +32,7 @@ const ScrollAreaRoot = React.forwardRef<HTMLDivElement, ScrollAreaRootProps>(
       autoHideDelay = 1000,
       ...props
     },
-    ref
+    ref,
   ) => {
     const viewportRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
@@ -97,7 +89,7 @@ const ScrollAreaRoot = React.forwardRef<HTMLDivElement, ScrollAreaRootProps>(
         smoothScroll,
         isScrolling,
         showScrollbar,
-      ]
+      ],
     );
 
     return (
@@ -107,7 +99,7 @@ const ScrollAreaRoot = React.forwardRef<HTMLDivElement, ScrollAreaRootProps>(
           className={cn(
             scrollAreaRootVariants({ variant }),
             "group",
-            className
+            className,
           )}
           {...props}
         >
@@ -115,16 +107,16 @@ const ScrollAreaRoot = React.forwardRef<HTMLDivElement, ScrollAreaRootProps>(
         </div>
       </ScrollAreaContext.Provider>
     );
-  }
+  },
 );
 ScrollAreaRoot.displayName = "ScrollAreaRoot";
 
-interface ScrollAreaViewportProps
+interface ScrollAreaViewportPropsInternal
   extends React.HTMLAttributes<HTMLDivElement> {}
 
 const ScrollAreaViewport = React.forwardRef<
   HTMLDivElement,
-  ScrollAreaViewportProps
+  ScrollAreaViewportPropsInternal
 >(({ className, children, ...props }, ref) => {
   const context = useScrollAreaContext();
   const localRef = React.useRef<HTMLDivElement>(null);
@@ -141,7 +133,7 @@ const ScrollAreaViewport = React.forwardRef<
         context.smoothScroll && "scroll-smooth",
         // Always hide native scrollbar, we use custom scrollbar
         "[&::-webkit-scrollbar]:hidden",
-        className
+        className,
       )}
       style={{
         scrollbarWidth: "none",
@@ -286,7 +278,7 @@ const ScrollBar = React.forwardRef<HTMLDivElement, ScrollBarProps>(
           "transition-opacity duration-300",
           // Show on hover or when scrolling or when dragging
           shouldShow ? "opacity-100" : "opacity-0 group-hover:opacity-100",
-          className
+          className,
         )}
         {...props}
       >
@@ -295,7 +287,7 @@ const ScrollBar = React.forwardRef<HTMLDivElement, ScrollBarProps>(
           data-slot="scroll-area-thumb"
           className={cn(
             scrollThumbVariants({ variant: context.variant, orientation }),
-            isDragging && "opacity-100"
+            isDragging && "opacity-100",
           )}
           style={{
             height: orientation === "vertical" ? `${thumbHeight}px` : "100%",
@@ -309,7 +301,7 @@ const ScrollBar = React.forwardRef<HTMLDivElement, ScrollBarProps>(
         />
       </div>
     );
-  }
+  },
 );
 ScrollBar.displayName = "ScrollBar";
 
@@ -329,7 +321,7 @@ const ScrollAreaCorner = React.forwardRef<
       data-slot="scroll-area-corner"
       className={cn(
         "absolute bottom-0 right-0 w-2.5 h-2.5 bg-border/50",
-        className
+        className,
       )}
       {...props}
     />
@@ -363,7 +355,7 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
       onScroll,
       ...props
     },
-    ref
+    ref,
   ) => {
     const actualOrientation = scrollbarOrientation || orientation;
 
@@ -392,7 +384,7 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
         ) : null}
       </ScrollAreaRoot>
     );
-  }
+  },
 );
 ScrollArea.displayName = "ScrollArea";
 
@@ -419,7 +411,7 @@ function useScrollAreaContext() {
   const context = React.useContext(ScrollAreaContext);
   if (!context) {
     throw new Error(
-      "ScrollArea compound components must be used within ScrollAreaRoot"
+      "ScrollArea compound components must be used within ScrollAreaRoot",
     );
   }
   return context;

@@ -1,3 +1,5 @@
+"use client";
+
 // Main Drawer component
 export { Drawer, default } from "./Drawer";
 

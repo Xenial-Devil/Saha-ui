@@ -47,6 +47,65 @@ import {
 // ============================================================================
 
 /**
+ * Sanitize HTML to prevent XSS attacks
+ * Removes script tags, iframes, and dangerous event handlers
+ */
+const sanitizeHTML = (html: string): string => {
+  // Create a temporary div to parse HTML
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = html;
+
+  // List of dangerous tags to remove completely
+  const dangerousTags = [
+    "script",
+    "iframe",
+    "object",
+    "embed",
+    "applet",
+    "meta",
+    "link",
+    "style",
+    "base",
+    "form",
+  ];
+
+  // Remove dangerous tags
+  dangerousTags.forEach((tag) => {
+    const elements = tempDiv.querySelectorAll(tag);
+    elements.forEach((el) => el.remove());
+  });
+
+  // Remove all event handler attributes (onclick, onerror, onload, etc.)
+  const allElements = tempDiv.querySelectorAll("*");
+  allElements.forEach((el) => {
+    // Get all attributes
+    const attributes = Array.from(el.attributes);
+    attributes.forEach((attr) => {
+      // Remove if attribute starts with "on" (event handlers)
+      if (attr.name.toLowerCase().startsWith("on")) {
+        el.removeAttribute(attr.name);
+      }
+      // Remove javascript: protocol in href and src
+      if (
+        (attr.name === "href" || attr.name === "src") &&
+        attr.value.toLowerCase().includes("javascript:")
+      ) {
+        el.removeAttribute(attr.name);
+      }
+      // Remove data attributes that might contain scripts
+      if (
+        attr.name.toLowerCase().startsWith("data-") &&
+        attr.value.toLowerCase().includes("javascript:")
+      ) {
+        el.removeAttribute(attr.name);
+      }
+    });
+  });
+
+  return tempDiv.innerHTML;
+};
+
+/**
  * Save the current cursor position
  */
 const saveCursorPosition = (element: HTMLElement) => {
@@ -389,7 +448,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
       autoFocus = false,
       ...props
     },
-    ref
+    ref,
   ) => {
     const editorRef = React.useRef<HTMLDivElement>(null);
     const [internalValue, setInternalValue] = React.useState(defaultValue);
@@ -438,144 +497,166 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
 
         editorRef.current?.focus();
 
-        switch (command) {
-          case "bold":
-            document.execCommand("bold", false);
-            break;
-          case "italic":
-            document.execCommand("italic", false);
-            break;
-          case "underline":
-            document.execCommand("underline", false);
-            break;
-          case "strikethrough":
-            document.execCommand("strikeThrough", false);
-            break;
-          case "h1":
-            document.execCommand("formatBlock", false, "<h1>");
-            break;
-          case "h2":
-            document.execCommand("formatBlock", false, "<h2>");
-            break;
-          case "h3":
-            document.execCommand("formatBlock", false, "<h3>");
-            break;
-          case "h4":
-            document.execCommand("formatBlock", false, "<h4>");
-            break;
-          case "h5":
-            document.execCommand("formatBlock", false, "<h5>");
-            break;
-          case "h6":
-            document.execCommand("formatBlock", false, "<h6>");
-            break;
-          case "p":
-            document.execCommand("formatBlock", false, "<p>");
-            break;
-          case "blockquote":
-            document.execCommand("formatBlock", false, "<blockquote>");
-            break;
-          case "code":
-            document.execCommand("formatBlock", false, "<pre>");
-            break;
-          case "ul":
-            document.execCommand("insertUnorderedList", false);
-            break;
-          case "ol":
-            document.execCommand("insertOrderedList", false);
-            break;
-          case "link": {
-            const url = prompt("Enter URL:");
-            if (url) {
-              document.execCommand("createLink", false, url);
-            }
-            break;
-          }
-          case "image": {
-            const imageUrl = prompt("Enter image URL:");
-            if (imageUrl) {
-              document.execCommand("insertImage", false, imageUrl);
-            }
-            break;
-          }
-          case "alignLeft":
-            document.execCommand("justifyLeft", false);
-            break;
-          case "alignCenter":
-            document.execCommand("justifyCenter", false);
-            break;
-          case "alignRight":
-            document.execCommand("justifyRight", false);
-            break;
-          case "alignJustify":
-            document.execCommand("justifyFull", false);
-            break;
-          case "indent":
-            document.execCommand("indent", false);
-            break;
-          case "outdent":
-            document.execCommand("outdent", false);
-            break;
-          case "undo":
-            document.execCommand("undo", false);
-            break;
-          case "redo":
-            document.execCommand("redo", false);
-            break;
-          case "clear":
-            document.execCommand("removeFormat", false);
-            break;
-          case "hr":
-            document.execCommand("insertHorizontalRule", false);
-            break;
-          case "subscript":
-            document.execCommand("subscript", false);
-            break;
-          case "superscript":
-            document.execCommand("superscript", false);
-            break;
-          case "highlight":
-            document.execCommand("hiliteColor", false, "#ffff00");
-            break;
-          case "table": {
-            const rows = prompt("Number of rows:", "3");
-            const cols = prompt("Number of columns:", "3");
-            if (rows && cols) {
-              let tableHTML =
-                '<table border="1" style="border-collapse: collapse; width: 100%;">';
-              for (let i = 0; i < parseInt(rows); i++) {
-                tableHTML += "<tr>";
-                for (let j = 0; j < parseInt(cols); j++) {
-                  tableHTML +=
-                    '<td style="border: 1px solid #ccc; padding: 8px;">&nbsp;</td>';
-                }
-                tableHTML += "</tr>";
+        try {
+          switch (command) {
+            case "bold":
+              document.execCommand("bold", false);
+              break;
+            case "italic":
+              document.execCommand("italic", false);
+              break;
+            case "underline":
+              document.execCommand("underline", false);
+              break;
+            case "strikethrough":
+              document.execCommand("strikeThrough", false);
+              break;
+            case "h1":
+              document.execCommand("formatBlock", false, "<h1>");
+              break;
+            case "h2":
+              document.execCommand("formatBlock", false, "<h2>");
+              break;
+            case "h3":
+              document.execCommand("formatBlock", false, "<h3>");
+              break;
+            case "h4":
+              document.execCommand("formatBlock", false, "<h4>");
+              break;
+            case "h5":
+              document.execCommand("formatBlock", false, "<h5>");
+              break;
+            case "h6":
+              document.execCommand("formatBlock", false, "<h6>");
+              break;
+            case "p":
+              document.execCommand("formatBlock", false, "<p>");
+              break;
+            case "blockquote":
+              document.execCommand("formatBlock", false, "<blockquote>");
+              break;
+            case "code":
+              document.execCommand("formatBlock", false, "<pre>");
+              break;
+            case "ul":
+              document.execCommand("insertUnorderedList", false);
+              break;
+            case "ol":
+              document.execCommand("insertOrderedList", false);
+              break;
+            case "link": {
+              const url = prompt("Enter URL:");
+              if (url) {
+                document.execCommand("createLink", false, url);
               }
-              tableHTML += "</table>";
-              document.execCommand("insertHTML", false, tableHTML);
+              break;
             }
-            break;
+            case "image": {
+              const imageUrl = prompt("Enter image URL:");
+              if (imageUrl) {
+                document.execCommand("insertImage", false, imageUrl);
+              }
+              break;
+            }
+            case "alignLeft":
+              document.execCommand("justifyLeft", false);
+              break;
+            case "alignCenter":
+              document.execCommand("justifyCenter", false);
+              break;
+            case "alignRight":
+              document.execCommand("justifyRight", false);
+              break;
+            case "alignJustify":
+              document.execCommand("justifyFull", false);
+              break;
+            case "indent":
+              document.execCommand("indent", false);
+              break;
+            case "outdent":
+              document.execCommand("outdent", false);
+              break;
+            case "undo":
+              document.execCommand("undo", false);
+              break;
+            case "redo":
+              document.execCommand("redo", false);
+              break;
+            case "clear":
+              document.execCommand("removeFormat", false);
+              break;
+            case "hr":
+              document.execCommand("insertHorizontalRule", false);
+              break;
+            case "subscript":
+              document.execCommand("subscript", false);
+              break;
+            case "superscript":
+              document.execCommand("superscript", false);
+              break;
+            case "highlight":
+              document.execCommand("hiliteColor", false, "#ffff00");
+              break;
+            case "table": {
+              const rows = prompt("Number of rows:", "3");
+              const cols = prompt("Number of columns:", "3");
+              if (rows && cols) {
+                let tableHTML =
+                  '<table border="1" style="border-collapse: collapse; width: 100%;">';
+                for (let i = 0; i < parseInt(rows); i++) {
+                  tableHTML += "<tr>";
+                  for (let j = 0; j < parseInt(cols); j++) {
+                    tableHTML +=
+                      '<td style="border: 1px solid #ccc; padding: 8px;">&nbsp;</td>';
+                  }
+                  tableHTML += "</tr>";
+                }
+                tableHTML += "</table>";
+                document.execCommand("insertHTML", false, tableHTML);
+              }
+              break;
+            }
+            case "codeblock":
+              document.execCommand("formatBlock", false, "<pre>");
+              break;
           }
-          case "codeblock":
-            document.execCommand("formatBlock", false, "<pre>");
-            break;
+        } catch (error) {
+          // Suppress errors from execCommand (deprecated API)
+          // This includes "cancelation" errors from browser extensions
+          console.debug("TextEditor execCommand error (non-critical):", error);
         }
 
         updateActiveCommands();
         handleInput();
       },
-      [disabled, readOnly, updateActiveCommands]
+      [disabled, readOnly, updateActiveCommands],
     );
 
     // Handle content changes
     const handleInput = React.useCallback(() => {
       if (editorRef.current) {
-        const html = editorRef.current.innerHTML;
-        if (!isControlled) {
-          setInternalValue(html);
+        try {
+          const html = editorRef.current.innerHTML;
+          const sanitizedHTML = sanitizeHTML(html);
+
+          // If sanitization changed the content, update the editor
+          if (sanitizedHTML !== html) {
+            const cursorPosition = saveCursorPosition(editorRef.current);
+            editorRef.current.innerHTML = sanitizedHTML;
+            if (cursorPosition !== null) {
+              restoreCursorPosition(editorRef.current, cursorPosition);
+            }
+          }
+
+          if (!isControlled) {
+            setInternalValue(sanitizedHTML);
+          }
+          // Call onChange without triggering re-render
+          onChange?.(sanitizedHTML);
+        } catch (error) {
+          // Suppress any errors during input handling
+          console.debug("TextEditor input error (non-critical):", error);
         }
-        // Call onChange without triggering re-render
-        onChange?.(html);
       }
     }, [isControlled, onChange]);
 
@@ -591,20 +672,23 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
       };
     }, [updateActiveCommands]);
 
-    // Set initial value
+    // Set initial value with sanitization
     React.useEffect(() => {
       if (editorRef.current && editorRef.current.innerHTML === "") {
-        editorRef.current.innerHTML = defaultValue;
+        editorRef.current.innerHTML = sanitizeHTML(defaultValue);
       }
-    }, []);
+    }, [defaultValue]);
 
-    // Sync controlled value (only when external value changes)
+    // Sync controlled value (only when external value changes) with sanitization
     React.useEffect(() => {
       if (
         isControlled &&
         editorRef.current &&
         controlledValue !== editorRef.current.innerHTML
       ) {
+        // Sanitize the controlled value
+        const sanitizedValue = sanitizeHTML(controlledValue);
+
         // Check if the editor is focused
         const isFocused = document.activeElement === editorRef.current;
 
@@ -613,7 +697,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
           const cursorPosition = saveCursorPosition(editorRef.current);
 
           // Update content
-          editorRef.current.innerHTML = controlledValue;
+          editorRef.current.innerHTML = sanitizedValue;
 
           // Restore cursor position after update
           if (cursorPosition !== null) {
@@ -626,7 +710,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
           }
         } else {
           // If not focused, just update the content
-          editorRef.current.innerHTML = controlledValue;
+          editorRef.current.innerHTML = sanitizedValue;
         }
       }
     }, [isControlled, controlledValue]);
@@ -636,7 +720,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
         ref={ref}
         className={cn(
           textEditorVariants({ variant, size, fullWidth }),
-          className
+          className,
         )}
         {...props}
       >
@@ -648,7 +732,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
                 variant: toolbarVariant,
                 size,
                 sticky: stickyToolbar,
-              })
+              }),
             )}
           >
             {toolbarButtons.map((button, index) => {
@@ -671,7 +755,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
                   type="button"
                   onClick={() => executeCommand(button.command!)}
                   className={cn(
-                    toolbarButtonVariants({ variant: toolbarVariant, size })
+                    toolbarButtonVariants({ variant: toolbarVariant, size }),
                   )}
                   data-active={isActive}
                   title={button.tooltip || button.label}
@@ -698,8 +782,13 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
           onPaste={(e) => {
             if (!readOnly && !disabled) {
               e.preventDefault();
+              // Get plain text and sanitize it
               const text = e.clipboardData.getData("text/plain");
-              document.execCommand("insertText", false, text);
+              const sanitizedText = text.replace(
+                /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+                "",
+              );
+              document.execCommand("insertText", false, sanitizedText);
             }
           }}
           className={cn(editorContentVariants({ size }))}
@@ -712,7 +801,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
         />
       </div>
     );
-  }
+  },
 );
 
 TextEditor.displayName = "TextEditor";

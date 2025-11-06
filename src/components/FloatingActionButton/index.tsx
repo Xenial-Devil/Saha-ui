@@ -4,6 +4,7 @@ import React from "react";
 import { cn } from "../../lib/utils";
 import type { FloatingActionButtonProps } from "./FloatingActionButton.types";
 import { fabVariants, labelVariants } from "./FloatingActionButton.styles";
+import { Slot } from "../../lib/Slot";
 
 /**
  * Floating Action Button Component
@@ -62,9 +63,10 @@ const FloatingActionButton = React.forwardRef<
       offset,
       className,
       children,
+      asChild = false,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [isHovered, setIsHovered] = React.useState(false);
 
@@ -96,44 +98,52 @@ const FloatingActionButton = React.forwardRef<
       | "top-right"
       | "top-left" = position || "bottom-right";
 
+    const Comp = asChild ? Slot : "button";
+
     return (
-      <button
+      <Comp
         ref={ref}
         className={cn(
           fabVariants({ variant, size }),
           positionVariants[fabPosition],
           isExtended && "w-auto px-6",
-          className
+          className,
         )}
         style={getPositionStyle()}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         {...props}
       >
-        {/* Label tooltip (non-extended mode) */}
-        {showLabelTooltip && (
-          <span
-            className={cn(
-              labelVariants({ position }),
-              isHovered ? "opacity-100 scale-100" : "opacity-0 scale-95"
+        {asChild ? (
+          children
+        ) : (
+          <>
+            {/* Label tooltip (non-extended mode) */}
+            {showLabelTooltip && (
+              <span
+                className={cn(
+                  labelVariants({ position }),
+                  isHovered ? "opacity-100 scale-100" : "opacity-0 scale-95",
+                )}
+              >
+                {label}
+              </span>
             )}
-          >
-            {label}
-          </span>
-        )}
 
-        {/* Icon */}
-        <span className="relative z-10 inline-flex items-center justify-center transition-transform duration-300 group-hover:rotate-12">
-          {children || icon}
-        </span>
+            {/* Icon */}
+            <span className="relative z-10 inline-flex items-center justify-center transition-transform duration-300 group-hover:rotate-12">
+              {children || icon}
+            </span>
 
-        {/* Extended label */}
-        {isExtended && (
-          <span className="relative z-10 font-semibold">{label}</span>
+            {/* Extended label */}
+            {isExtended && (
+              <span className="relative z-10 font-semibold">{label}</span>
+            )}
+          </>
         )}
-      </button>
+      </Comp>
     );
-  }
+  },
 );
 
 FloatingActionButton.displayName = "FloatingActionButton";

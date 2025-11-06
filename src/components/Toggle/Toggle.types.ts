@@ -55,6 +55,13 @@ export interface ToggleProps
    * Additional CSS classes
    */
   className?: string;
+
+  /**
+   * When true, the Toggle will render its child element and merge props
+   * Useful for composition with other components
+   * @default false
+   */
+  asChild?: boolean;
 }
 
 // ============================================================================

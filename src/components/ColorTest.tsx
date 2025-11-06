@@ -1,3 +1,5 @@
+"use client";
+
 // Simple color test component to debug CSS variables
 export const ColorTest = () => {
   return (

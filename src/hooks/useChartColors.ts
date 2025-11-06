@@ -2,82 +2,158 @@ import { useMemo } from "react";
 import type { ChartVariant } from "../components/Chart/Chart.types";
 
 const CHART_COLOR_PALETTES: Record<ChartVariant, string[]> = {
+  // Default: Vibrant diverse palette (starts darker for better gradients)
   default: [
-    "hsl(var(--chart-1))",
-    "hsl(var(--chart-2))",
-    "hsl(var(--chart-3))",
-    "hsl(var(--chart-4))",
-    "hsl(var(--chart-5))",
+    "oklch(0.50 0.18 275)", // Purple - darker start
+    "oklch(0.50 0.15 145)", // Green - darker start
+    "oklch(0.50 0.15 250)", // Blue - darker start
+    "oklch(0.55 0.25 340)", // Pink - darker start
+    "oklch(0.55 0.12 185)", // Teal - darker start
+    "oklch(0.60 0.15 65)", // Orange - darker start
+    "oklch(0.50 0.20 25)", // Red - darker start
+    "oklch(0.58 0.18 300)", // Violet - darker start
+    "oklch(0.55 0.15 110)", // Lime - darker start
+    "oklch(0.50 0.18 220)", // Sky Blue - darker start
   ],
+
+  // Primary: Blue-based palette (starts darker)
   primary: [
-    "hsl(var(--primary))",
-    "hsl(var(--primary) / 0.8)",
-    "hsl(var(--primary) / 0.6)",
-    "hsl(var(--primary) / 0.4)",
-    "hsl(var(--primary) / 0.2)",
+    "oklch(0.50 0.23 270)", // Primary Blue - darker start
+    "oklch(0.55 0.25 340)", // Pink - darker start
+    "oklch(0.50 0.15 250)", // Lighter Blue - darker start
+    "oklch(0.55 0.12 185)", // Teal - darker start
+    "oklch(0.58 0.18 300)", // Purple - darker start
+    "oklch(0.60 0.15 65)", // Orange - darker start
+    "oklch(0.50 0.18 220)", // Sky Blue - darker start
+    "oklch(0.55 0.20 290)", // Deep Purple - darker start
+    "oklch(0.52 0.15 240)", // Azure - darker start
+    "oklch(0.58 0.10 260)", // Soft Blue - darker start
   ],
+
+  // Secondary: Pink-based palette (starts darker)
   secondary: [
-    "hsl(var(--secondary))",
-    "hsl(var(--secondary) / 0.8)",
-    "hsl(var(--secondary) / 0.6)",
-    "hsl(var(--secondary) / 0.4)",
-    "hsl(var(--secondary) / 0.2)",
+    "oklch(0.55 0.25 340)", // Pink - darker start
+    "oklch(0.58 0.18 300)", // Purple - darker start
+    "oklch(0.50 0.20 25)", // Red - darker start
+    "oklch(0.55 0.12 185)", // Teal - darker start
+    "oklch(0.60 0.15 65)", // Orange - darker start
+    "oklch(0.50 0.23 270)", // Blue - darker start
+    "oklch(0.60 0.22 350)", // Hot Pink - darker start
+    "oklch(0.52 0.18 320)", // Magenta - darker start
+    "oklch(0.58 0.15 10)", // Coral - darker start
+    "oklch(0.55 0.20 330)", // Rose - darker start
   ],
+
+  // Accent: Teal-based palette (starts darker)
   accent: [
-    "hsl(var(--accent))",
-    "hsl(var(--accent-foreground) / 0.8)",
-    "hsl(var(--accent) / 0.6)",
-    "hsl(var(--accent) / 0.4)",
-    "hsl(var(--accent) / 0.2)",
+    "oklch(0.55 0.12 185)", // Teal - darker start
+    "oklch(0.50 0.15 250)", // Blue - darker start
+    "oklch(0.50 0.15 145)", // Green - darker start
+    "oklch(0.60 0.15 65)", // Orange - darker start
+    "oklch(0.58 0.18 300)", // Purple - darker start
+    "oklch(0.55 0.25 340)", // Pink - darker start
+    "oklch(0.52 0.15 170)", // Cyan - darker start
+    "oklch(0.58 0.12 200)", // Turquoise - darker start
+    "oklch(0.50 0.18 220)", // Sky - darker start
+    "oklch(0.60 0.10 190)", // Mint - darker start
   ],
+
+  // Success: Green-based palette (starts darker)
   success: [
-    "hsl(var(--success))",
-    "hsl(142 76% 46%)",
-    "hsl(142 76% 56%)",
-    "hsl(142 76% 66%)",
-    "hsl(142 76% 76%)",
+    "oklch(0.50 0.15 145)", // Green - darker start
+    "oklch(0.55 0.12 185)", // Teal - darker start
+    "oklch(0.50 0.18 275)", // Purple - darker start
+    "oklch(0.60 0.15 65)", // Yellow-Orange - darker start
+    "oklch(0.50 0.15 250)", // Blue - darker start
+    "oklch(0.55 0.18 130)", // Bright Green - darker start
+    "oklch(0.58 0.10 160)", // Sage - darker start
+    "oklch(0.52 0.12 110)", // Lime - darker start
+    "oklch(0.55 0.20 155)", // Forest - darker start
+    "oklch(0.60 0.08 170)", // Mint - darker start
   ],
+
+  // Warning: Orange-based palette (starts darker)
   warning: [
-    "hsl(var(--warning))",
-    "hsl(38 92% 60%)",
-    "hsl(38 92% 70%)",
-    "hsl(38 92% 80%)",
-    "hsl(38 92% 90%)",
+    "oklch(0.60 0.15 65)", // Orange - darker start
+    "oklch(0.65 0.18 85)", // Yellow - darker start
+    "oklch(0.50 0.20 25)", // Red - darker start
+    "oklch(0.50 0.15 250)", // Blue - darker start
+    "oklch(0.55 0.25 340)", // Pink - darker start
+    "oklch(0.62 0.18 55)", // Amber - darker start
+    "oklch(0.58 0.20 45)", // Burnt Orange - darker start
+    "oklch(0.68 0.15 95)", // Gold - darker start
+    "oklch(0.55 0.18 35)", // Terracotta - darker start
+    "oklch(0.60 0.12 75)", // Peach - darker start
   ],
+
+  // Error: Red-based palette (starts darker)
   error: [
-    "hsl(var(--destructive))",
-    "hsl(0 84% 70%)",
-    "hsl(0 84% 75%)",
-    "hsl(0 84% 80%)",
-    "hsl(0 84% 85%)",
+    "oklch(0.50 0.20 25)", // Red - darker start
+    "oklch(0.55 0.25 340)", // Pink - darker start
+    "oklch(0.60 0.15 65)", // Orange - darker start
+    "oklch(0.50 0.15 145)", // Green - darker start
+    "oklch(0.58 0.18 300)", // Purple - darker start
+    "oklch(0.52 0.22 15)", // Crimson - darker start
+    "oklch(0.48 0.25 35)", // Deep Red - darker start
+    "oklch(0.58 0.18 350)", // Rose - darker start
+    "oklch(0.55 0.20 10)", // Scarlet - darker start
+    "oklch(0.60 0.15 40)", // Coral - darker start
   ],
+
+  // Info: Blue-based palette (starts darker)
   info: [
-    "hsl(var(--info))",
-    "hsl(199 89% 58%)",
-    "hsl(199 89% 68%)",
-    "hsl(199 89% 78%)",
-    "hsl(199 89% 88%)",
+    "oklch(0.50 0.15 250)", // Blue - darker start
+    "oklch(0.55 0.12 185)", // Teal - darker start
+    "oklch(0.58 0.18 300)", // Purple - darker start
+    "oklch(0.60 0.15 65)", // Orange - darker start
+    "oklch(0.50 0.15 145)", // Green - darker start
+    "oklch(0.52 0.18 220)", // Sky Blue - darker start
+    "oklch(0.48 0.18 260)", // Royal Blue - darker start
+    "oklch(0.58 0.10 240)", // Soft Blue - darker start
+    "oklch(0.55 0.15 210)", // Azure - darker start
+    "oklch(0.60 0.08 230)", // Powder Blue - darker start
   ],
+
+  // Outline: Diverse grayscale with subtle color hints (starts darker)
   outline: [
-    "hsl(var(--foreground))",
-    "hsl(var(--foreground) / 0.7)",
-    "hsl(var(--foreground) / 0.5)",
-    "hsl(var(--foreground) / 0.3)",
-    "hsl(var(--foreground) / 0.1)",
+    "oklch(0.35 0.02 270)", // Dark Blue-Gray - darker start
+    "oklch(0.45 0.02 340)", // Medium Pink-Gray - darker start
+    "oklch(0.55 0.02 145)", // Light Green-Gray - darker start
+    "oklch(0.65 0.02 65)", // Very Light Warm Gray - darker start
+    "oklch(0.25 0.02 185)", // Very Dark Teal-Gray - darker start
+    "oklch(0.40 0.02 250)", // Dark Cool Gray - darker start
+    "oklch(0.50 0.02 25)", // Medium Warm Gray - darker start
+    "oklch(0.60 0.02 300)", // Light Purple-Gray - darker start
+    "oklch(0.30 0.02 110)", // Dark Olive-Gray - darker start
+    "oklch(0.70 0.02 220)", // Very Light Cool Gray - darker start
   ],
+
+  // Ghost: Subtle muted colors with low saturation (starts darker)
   ghost: [
-    "hsl(var(--muted-foreground))",
-    "hsl(var(--muted-foreground) / 0.7)",
-    "hsl(var(--muted-foreground) / 0.5)",
-    "hsl(var(--muted-foreground) / 0.3)",
-    "hsl(var(--muted-foreground) / 0.1)",
+    "oklch(0.50 0.04 270)", // Muted Blue - darker start
+    "oklch(0.55 0.04 145)", // Muted Green - darker start
+    "oklch(0.45 0.04 340)", // Muted Pink - darker start
+    "oklch(0.60 0.04 65)", // Muted Orange - darker start
+    "oklch(0.47 0.04 185)", // Muted Teal - darker start
+    "oklch(0.53 0.04 300)", // Muted Purple - darker start
+    "oklch(0.57 0.04 25)", // Muted Red - darker start
+    "oklch(0.43 0.04 250)", // Muted Dark Blue - darker start
+    "oklch(0.63 0.04 110)", // Muted Lime - darker start
+    "oklch(0.40 0.04 220)", // Muted Navy - darker start
   ],
+
+  // Glass: Vibrant colors with transparency (lighter and more distinct)
   glass: [
-    "hsl(var(--primary) / 0.8)",
-    "hsl(var(--secondary) / 0.8)",
-    "hsl(var(--accent) / 0.8)",
-    "hsl(var(--success) / 0.8)",
-    "hsl(var(--warning) / 0.8)",
+    "oklch(0.65 0.20 200 / 0.75)", // Cyan - lighter with more transparency
+    "oklch(0.70 0.22 340 / 0.75)", // Bright Pink - lighter
+    "oklch(0.68 0.18 160 / 0.75)", // Mint Green - lighter
+    "oklch(0.72 0.20 60 / 0.75)", // Golden Orange - lighter
+    "oklch(0.65 0.18 290 / 0.75)", // Lavender - lighter
+    "oklch(0.70 0.15 180 / 0.75)", // Aqua - lighter
+    "oklch(0.68 0.22 350 / 0.75)", // Rose - lighter
+    "oklch(0.67 0.18 120 / 0.75)", // Spring Green - lighter
+    "oklch(0.75 0.18 80 / 0.75)", // Amber - lighter
+    "oklch(0.63 0.20 230 / 0.75)", // Periwinkle - lighter
   ],
 };
 

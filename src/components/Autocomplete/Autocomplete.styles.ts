@@ -22,7 +22,7 @@ const inputWrapperVariants = cva(
         ghost:
           "bg-transparent border border-transparent rounded-lg hover:bg-muted/50",
         glass:
-          "bg-background/50 backdrop-blur-xl border border-border/30 rounded-lg",
+          "bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 rounded-lg shadow-2xl shadow-black/10",
         primary: "bg-primary/10 border border-primary rounded-lg",
         success: "bg-success/10 border border-success rounded-lg",
         warning: "bg-warning/10 border border-warning rounded-lg",
@@ -65,7 +65,7 @@ const inputWrapperVariants = cva(
         variant: "glass",
         focused: true,
         error: false,
-        className: "border-primary/50 ring-2 ring-primary/20",
+        className: "border-white/30 ring-2 ring-primary/20",
       },
     ],
     defaultVariants: {
@@ -74,7 +74,7 @@ const inputWrapperVariants = cva(
       focused: false,
       error: false,
     },
-  }
+  },
 );
 
 const inputVariants = cva(
@@ -95,7 +95,7 @@ const inputVariants = cva(
       size: "md",
       disabled: false,
     },
-  }
+  },
 );
 
 const dropdownVariants = cva(
@@ -107,7 +107,8 @@ const dropdownVariants = cva(
         filled: "bg-card",
         outlined: "bg-card",
         ghost: "bg-card",
-        glass: "bg-card/95 backdrop-blur-xl",
+        glass:
+          "bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 shadow-2xl shadow-black/10",
         primary: "bg-card",
         success: "bg-card",
         warning: "bg-card",
@@ -117,7 +118,7 @@ const dropdownVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 const optionVariants = cva(
@@ -148,7 +149,7 @@ const optionVariants = cva(
       selected: false,
       disabled: false,
     },
-  }
+  },
 );
 
 const labelVariants = cva("block mb-1.5 font-medium text-foreground", {

@@ -137,19 +137,19 @@ export const ToastItem: React.FC<ToastItemProps> = ({
       "showProgress",
       showProgress,
       "boolean",
-      isValidBoolean
+      isValidBoolean,
     );
     validator.validateType(
       "pauseOnHover",
       pauseOnHover,
       "boolean",
-      isValidBoolean
+      isValidBoolean,
     );
 
     // Validate content
     if (!title && !description && !children) {
       validator.warn(
-        "ToastItem should have title, description, or children for accessibility"
+        "ToastItem should have title, description, or children for accessibility",
       );
     }
 
@@ -232,23 +232,42 @@ export const ToastItem: React.FC<ToastItemProps> = ({
     }, remainingTimeRef.current);
 
     // Update progress
+    let isCancelled = false;
     const interval = setInterval(() => {
+      if (isCancelled) return;
       if (!isPaused) {
         const elapsed = Date.now() - startTimeRef.current;
         const newProgress = Math.max(0, 100 - (elapsed / duration) * 100);
         setProgress(newProgress);
-        if (newProgress === 0) clearInterval(interval);
+        if (newProgress === 0) {
+          try {
+            clearInterval(interval);
+          } catch (err) {
+            console.debug("Toast interval clear error suppressed:", err);
+          }
+        }
       }
     }, 16); // ~60fps
 
-    return () => clearInterval(interval);
+    return () => {
+      isCancelled = true;
+      try {
+        clearInterval(interval);
+      } catch (err) {
+        console.debug("Toast interval cleanup error suppressed:", err);
+      }
+    };
   };
 
   const pauseTimer = () => {
     if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      const elapsed = Date.now() - startTimeRef.current;
-      remainingTimeRef.current -= elapsed;
+      try {
+        clearTimeout(timerRef.current);
+        const elapsed = Date.now() - startTimeRef.current;
+        remainingTimeRef.current -= elapsed;
+      } catch (err) {
+        console.debug("Toast pause timer error suppressed:", err);
+      }
     }
   };
 
@@ -258,22 +277,49 @@ export const ToastItem: React.FC<ToastItemProps> = ({
 
   const handleClose = () => {
     setIsExiting(true);
-    setTimeout(() => {
-      onClose?.();
-      onRemove(id);
+    let isCancelled = false;
+    const closeTimer = setTimeout(() => {
+      if (!isCancelled) {
+        onClose?.();
+        onRemove(id);
+      }
     }, 300);
+
+    // Store for cleanup
+    return () => {
+      isCancelled = true;
+      try {
+        clearTimeout(closeTimer);
+      } catch (err) {
+        console.debug("Toast close timer error suppressed:", err);
+      }
+    };
   };
 
   useEffect(() => {
+    let isCancelled = false;
     // Enter animation
-    const enterTimer = setTimeout(() => setIsVisible(true), 50);
+    const enterTimer = setTimeout(() => {
+      if (!isCancelled) setIsVisible(true);
+    }, 50);
 
     // Auto dismiss timer
     const cleanup = startTimer();
 
     return () => {
-      clearTimeout(enterTimer);
-      if (timerRef.current) clearTimeout(timerRef.current);
+      isCancelled = true;
+      try {
+        clearTimeout(enterTimer);
+      } catch (err) {
+        console.debug("Toast enter timer error suppressed:", err);
+      }
+      if (timerRef.current) {
+        try {
+          clearTimeout(timerRef.current);
+        } catch (err) {
+          console.debug("Toast timer cleanup error suppressed:", err);
+        }
+      }
       cleanup?.();
     };
   }, []);
@@ -300,7 +346,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({
         toastVariants({ variant, status, animation }),
         "rounded-xl",
         getAnimationClasses(),
-        className
+        className,
       )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

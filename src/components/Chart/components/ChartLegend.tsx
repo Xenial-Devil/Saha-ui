@@ -1,51 +1,71 @@
-// components/ChartLegend.tsx
+"use client";
+
+import * as React from "react";
 import { cn } from "../../../lib/utils";
 
-type LegendItem = { value: string; color: string; dataKey: string };
-type Props = {
-  payload: LegendItem[];
-  config?: {
-    onClick?: (dataKey: string) => void;
-    position?: "top" | "bottom" | "right" | "left";
-  };
-  disabled: Set<string>;
-};
-
-export function ChartLegend({ payload, config, disabled }: Props) {
-  if (!payload?.length) return null;
-
-  return (
-    <div
-      className={cn(
-        "flex flex-wrap gap-2",
-        config?.position === "top" ? "mb-3" : "mt-3"
-      )}
-      role="list"
-      aria-label="Chart legend"
-    >
-      {payload.map((item) => {
-        const isDisabled = disabled.has(item.dataKey);
-        return (
-          <button
-            key={item.dataKey}
-            type="button"
-            onClick={() => config?.onClick?.(item.dataKey)}
-            className={cn(
-              "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition-all",
-              "bg-card hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-ring",
-              isDisabled ? "opacity-50 grayscale" : "opacity-100"
-            )}
-            aria-pressed={!isDisabled}
-            aria-label={`Toggle ${item.value}`}
-          >
-            <span
-              className="h-2.5 w-2.5 rounded-full"
-              style={{ backgroundColor: item.color }}
-            />
-            <span>{item.value}</span>
-          </button>
-        );
-      })}
-    </div>
-  );
+export interface ChartLegendProps {
+  payload?: Array<{
+    value: string;
+    color?: string;
+    dataKey?: string;
+    type?: string;
+    payload?: any;
+  }>;
+  verticalAlign?: "top" | "bottom" | "middle";
+  nameKey?: string;
+  className?: string;
+  content?: React.ReactElement;
 }
+
+export const ChartLegend = React.forwardRef<HTMLDivElement, ChartLegendProps>(
+  ({ payload, verticalAlign = "bottom", nameKey, className }, ref) => {
+    if (!payload?.length) {
+      return null;
+    }
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "flex items-center justify-center gap-4",
+          verticalAlign === "top" && "pb-3",
+          verticalAlign === "bottom" && "pt-3",
+          className,
+        )}
+      >
+        {payload.map((item, index) => {
+          const itemName = nameKey
+            ? item.payload?.[nameKey]
+            : item.value || item.dataKey;
+
+          return (
+            <div
+              key={`legend-item-${index}`}
+              className="flex items-center gap-1.5"
+            >
+              <div
+                className="h-2 w-2 shrink-0 rounded-[2px]"
+                style={{
+                  backgroundColor: item.color || "hsl(var(--muted-foreground))",
+                }}
+              />
+              <span className="text-xs text-muted-foreground">{itemName}</span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  },
+);
+
+ChartLegend.displayName = "ChartLegend";
+
+// Wrapper component for Recharts Legend content prop
+export const ChartLegendContent = React.forwardRef<
+  HTMLDivElement,
+  Omit<ChartLegendProps, "payload">
+>((props, ref) => {
+  return <ChartLegend ref={ref} payload={(props as any).payload} {...props} />;
+});
+
+ChartLegendContent.displayName = "ChartLegendContent";

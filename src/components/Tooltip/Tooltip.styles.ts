@@ -11,7 +11,7 @@ const tooltipVariants = cva(
         light:
           "bg-white text-gray-900 border border-gray-200 shadow-xl dark:bg-gray-100 dark:text-gray-900 hover:shadow-2xl hover:scale-105",
         glass:
-          "glass-strong backdrop-blur-2xl text-foreground shadow-[0_8px_32px_0] shadow-black/20 hover:shadow-[0_12px_48px_0] hover:shadow-black/30 hover:scale-105 relative before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-white/10 before:pointer-events-none",
+          "bg-white/10 dark:bg-black/10 backdrop-blur-xl text-foreground border border-white/20 shadow-2xl shadow-black/10 hover:shadow-[0_12px_48px_0] hover:shadow-primary/20 hover:scale-105 relative before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 before:pointer-events-none after:absolute after:inset-0 after:rounded-xl after:bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.1),transparent_50%)] after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-700 after:pointer-events-none",
         primary:
           "bg-primary text-primary-foreground shadow-[0_8px_24px_0] shadow-primary/40 border border-primary/50 hover:shadow-[0_12px_32px_0] hover:shadow-primary/50 hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/20 before:to-transparent before:pointer-events-none",
         success:
@@ -44,7 +44,7 @@ const tooltipVariants = cva(
       position: "top",
       interactive: false,
     },
-  }
+  },
 );
 
 /**
@@ -57,7 +57,7 @@ const arrowVariants = cva("absolute w-2 h-2 rotate-45", {
       dark: "bg-gray-900 border-l border-t border-gray-700",
       light: "bg-white border-l border-t border-gray-200 dark:bg-gray-100",
       glass:
-        "glass-strong backdrop-blur-2xl border-l border-t border-border/30",
+        "bg-white/10 dark:bg-black/10 backdrop-blur-xl border-l border-t border-white/20",
       primary: "bg-primary border-l border-t border-primary/50",
       success: "bg-green-500 border-l border-t border-green-600",
       warning: "bg-yellow-500 border-l border-t border-yellow-600",

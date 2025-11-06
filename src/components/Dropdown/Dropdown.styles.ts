@@ -55,8 +55,8 @@ const dropdownTriggerVariants = cva(
           "focus-visible:ring-ring/50",
         ],
         glass: [
-          "border-border/50 glass text-foreground",
-          "hover:border-border",
+          "bg-white/10 dark:bg-black/10 backdrop-blur-xl border-white/20 text-foreground",
+          "hover:border-white/30 shadow-2xl shadow-black/10",
           "focus-visible:ring-ring/50",
         ],
       },
@@ -70,7 +70,7 @@ const dropdownTriggerVariants = cva(
       variant: "default",
       size: "md",
     },
-  }
+  },
 );
 
 /**
@@ -94,13 +94,14 @@ const dropdownContentVariants = cva(
         warning: "border-warning/40 bg-background",
         error: "border-destructive/40 bg-background",
         ghost: "border-border bg-background",
-        glass: "border-border/50 glass",
+        glass:
+          "bg-white/10 dark:bg-black/10 backdrop-blur-xl border-white/20 shadow-2xl shadow-black/10",
       },
     },
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 /**
@@ -149,15 +150,15 @@ const dropdownItemVariants = cva(
           "data-[selected=true]:bg-foreground/10 data-[selected=true]:font-medium",
         ],
         glass: [
-          "text-foreground hover:bg-background/50",
-          "data-[selected=true]:bg-background/80 data-[selected=true]:font-medium",
+          "text-foreground hover:bg-white/10 dark:hover:bg-black/10",
+          "data-[selected=true]:bg-white/20 dark:data-[selected=true]:bg-black/20 data-[selected=true]:font-medium",
         ],
       },
     },
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 export {
   dropdownTriggerVariants,

@@ -42,7 +42,7 @@ interface CarouselContextValue {
 }
 
 const CarouselContext = createContext<CarouselContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 const useCarousel = () => {
@@ -71,7 +71,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     // Development-only validation
     useEffect(() => {
@@ -104,7 +104,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
         "autoplayInterval",
         autoplayInterval,
         "number",
-        isValidNumber
+        isValidNumber,
       );
 
       if (autoplayInterval <= 0) {
@@ -118,20 +118,20 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
         "pauseOnHover",
         pauseOnHover,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType("swipeable", swipeable, "boolean", isValidBoolean);
       validator.validateType(
         "showNavigation",
         showNavigation,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "showIndicators",
         showIndicators,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
 
       // Common validators
@@ -161,7 +161,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     const carouselContent = content.find(
       (child) =>
         React.isValidElement(child) &&
-        (child.type as any).displayName === "CarouselContent"
+        (child.type as any).displayName === "CarouselContent",
     );
 
     const totalSlides =
@@ -178,7 +178,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
         setActiveIndex(newIndex);
         onSlideChange?.(newIndex);
       },
-      [totalSlides, loop, onSlideChange]
+      [totalSlides, loop, onSlideChange],
     );
 
     const nextSlide = useCallback(() => {
@@ -201,11 +201,23 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
         }, autoplayInterval);
 
         return () => {
-          if (intervalRef.current) clearInterval(intervalRef.current);
+          if (intervalRef.current) {
+            try {
+              clearInterval(intervalRef.current);
+            } catch (err) {
+              console.debug("Carousel interval cleanup error suppressed:", err);
+            }
+          }
         };
       }
       return () => {
-        if (intervalRef.current) clearInterval(intervalRef.current);
+        if (intervalRef.current) {
+          try {
+            clearInterval(intervalRef.current);
+          } catch (err) {
+            console.debug("Carousel interval cleanup error suppressed:", err);
+          }
+        }
       };
     }, [
       autoplay,
@@ -284,7 +296,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
                   key={index}
                   onClick={() => goToSlide(index)}
                   className={cn(
-                    indicatorVariants({ active: index === activeIndex })
+                    indicatorVariants({ active: index === activeIndex }),
                   )}
                   aria-label={`Go to slide ${index + 1}`}
                 />
@@ -294,7 +306,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
         </div>
       </CarouselContext.Provider>
     );
-  }
+  },
 );
 
 Carousel.displayName = "Carousel";
@@ -312,7 +324,7 @@ const CarouselContent = React.forwardRef<HTMLDivElement, CarouselContentProps>(
         <div
           className={cn(
             "flex h-full transition-transform duration-500 ease-in-out",
-            effect === "slide" && "transform"
+            effect === "slide" && "transform",
           )}
           style={
             effect === "slide"
@@ -332,7 +344,7 @@ const CarouselContent = React.forwardRef<HTMLDivElement, CarouselContentProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 CarouselContent.displayName = "CarouselContent";
@@ -351,14 +363,14 @@ const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
             "absolute inset-0 transition-opacity duration-500",
             isActive ? "opacity-100 z-10" : "opacity-0 z-0",
           ],
-          className
+          className,
         )}
         {...props}
       >
         {children}
       </div>
     );
-  }
+  },
 );
 
 CarouselItem.displayName = "CarouselItem";
@@ -399,7 +411,7 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, CarouselNextProps>(
         {children || <ChevronRight className="w-6 h-6" />}
       </button>
     );
-  }
+  },
 );
 
 CarouselNext.displayName = "CarouselNext";

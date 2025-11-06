@@ -1,21 +1,22 @@
+"use client";
+
 import {
   ResponsiveContainer,
   ComposedChart,
-  Line,
   Bar,
+  Line,
   Area,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
 } from "recharts";
-import { chartCanvasVariants } from "../Chart.styles";
-import { ChartTooltip } from "../components/ChartTooltip";
+import { ChartTooltipContent } from "../components/ChartTooltip";
 import { useChartColors } from "../../../hooks/useChartColors";
 import type {
   BaseChartComponentProps,
-  LineSeriesConfig,
   BarSeriesConfig,
+  LineSeriesConfig,
   AreaSeriesConfig,
 } from "../Chart.types";
 
@@ -28,96 +29,127 @@ export function ComposedChartComponent({
   const { getColor } = useChartColors(variant);
 
   const visibleSeries = config.series.filter(
-    (s) => !hiddenSeries.has(s.dataKey) && !s.hide
+    (s) => !hiddenSeries.has(s.dataKey) && !s.hide,
   );
+
+  const heightMap = {
+    sm: 200,
+    md: 300,
+    lg: 400,
+    xl: 500,
+  };
 
   const renderSeries = (series: any, index: number) => {
     const color = series.color || getColor(index);
-    const name = series.name || series.dataKey;
+    const seriesType = (series as any).type || "bar";
 
-    if ("barSize" in series || "stackId" in series) {
-      const barSeries = series as BarSeriesConfig;
-      return (
-        <Bar
-          key={series.dataKey}
-          dataKey={series.dataKey}
-          name={name}
-          fill={color}
-          radius={barSeries.radius || [10, 10, 0, 0]}
-          stackId={barSeries.stackId}
-          maxBarSize={barSeries.barSize || 48}
-        />
-      );
+    switch (seriesType) {
+      case "line":
+        const lineSeries = series as LineSeriesConfig;
+        return (
+          <Line
+            key={series.dataKey}
+            type={lineSeries.type || "monotone"}
+            dataKey={series.dataKey}
+            name={series.name || series.dataKey}
+            stroke={color}
+            strokeWidth={lineSeries.strokeWidth || 2}
+            dot={lineSeries.dot !== false ? { r: 3, strokeWidth: 2 } : false}
+            activeDot={lineSeries.activeDot !== false ? { r: 4 } : false}
+          />
+        );
+
+      case "area":
+        const areaSeries = series as AreaSeriesConfig;
+        return (
+          <Area
+            key={series.dataKey}
+            type={areaSeries.type || "monotone"}
+            dataKey={series.dataKey}
+            name={series.name || series.dataKey}
+            stroke={color}
+            fill={color}
+            strokeWidth={areaSeries.strokeWidth || 2}
+            fillOpacity={areaSeries.fillOpacity ?? 0.6}
+            stackId={areaSeries.stackId}
+          />
+        );
+
+      case "bar":
+      default:
+        const barSeries = series as BarSeriesConfig;
+        return (
+          <Bar
+            key={series.dataKey}
+            dataKey={series.dataKey}
+            name={series.name || series.dataKey}
+            fill={color}
+            stackId={barSeries.stackId}
+            radius={barSeries.radius || [4, 4, 0, 0]}
+            maxBarSize={barSeries.barSize || 60}
+          />
+        );
     }
-
-    if ("fillOpacity" in series && series.fillOpacity !== undefined) {
-      const areaSeries = series as AreaSeriesConfig;
-      return (
-        <Area
-          key={series.dataKey}
-          type={areaSeries.type || "monotone"}
-          dataKey={series.dataKey}
-          name={name}
-          stroke={color}
-          fill={color}
-          fillOpacity={areaSeries.fillOpacity || 0.25}
-          strokeWidth={areaSeries.strokeWidth || 2.2}
-        />
-      );
-    }
-
-    const lineSeries = series as LineSeriesConfig;
-    return (
-      <Line
-        key={series.dataKey}
-        type={lineSeries.type || "monotone"}
-        dataKey={series.dataKey}
-        name={name}
-        stroke={color}
-        strokeWidth={lineSeries.strokeWidth || 2.5}
-        dot={{ fill: color, r: 3.5 }}
-      />
-    );
   };
 
   return (
-    <div className={chartCanvasVariants({ size })}>
-      <ResponsiveContainer width="100%" height="100%">
-        <ComposedChart
-          data={config.data}
-          margin={{ top: 8, right: 12, left: 8, bottom: 8 }}
-        >
-          {config.grid?.show !== false && (
-            <CartesianGrid
-              strokeDasharray={config.grid?.strokeDasharray || "3 4"}
-              className="stroke-border/40"
-              vertical={config.grid?.vertical ?? true}
-              horizontal={config.grid?.horizontal ?? true}
-            />
-          )}
-
-          <XAxis
-            dataKey={config.xAxis?.dataKey}
-            tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
+    <ResponsiveContainer width="100%" height={heightMap[size]}>
+      <ComposedChart
+        data={config.data}
+        margin={{ top: 5, right: 10, left: 10, bottom: 0 }}
+        accessibilityLayer
+      >
+        {config.grid?.show !== false && (
+          <CartesianGrid
+            strokeDasharray="3 3"
+            vertical={config.grid?.vertical ?? false}
+            horizontal={config.grid?.horizontal ?? true}
           />
+        )}
 
-          <YAxis
-            tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
-          />
+        <XAxis
+          dataKey={config.xAxis?.dataKey}
+          hide={config.xAxis?.hide}
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+          tickFormatter={config.xAxis?.tickFormatter}
+          label={
+            config.xAxis?.label
+              ? {
+                  value: config.xAxis.label,
+                  position: "insideBottom",
+                  offset: -5,
+                }
+              : undefined
+          }
+        />
 
-          {config.tooltip?.show !== false && (
-            <Tooltip content={<ChartTooltip config={config.tooltip} />} />
-          )}
+        <YAxis
+          hide={config.yAxis?.hide}
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+          tickFormatter={config.yAxis?.tickFormatter}
+          domain={config.yAxis?.domain}
+          scale={config.yAxis?.scale}
+          label={
+            config.yAxis?.label
+              ? {
+                  value: config.yAxis.label,
+                  angle: -90,
+                  position: "insideLeft",
+                }
+              : undefined
+          }
+        />
 
-          {visibleSeries.map((series, index) => renderSeries(series, index))}
-        </ComposedChart>
-      </ResponsiveContainer>
-    </div>
+        {config.tooltip?.show !== false && (
+          <Tooltip content={<ChartTooltipContent />} />
+        )}
+
+        {visibleSeries.map((series, index) => renderSeries(series, index))}
+      </ComposedChart>
+    </ResponsiveContainer>
   );
 }

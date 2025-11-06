@@ -29,7 +29,7 @@ const inputLabelVariants = cva(
     defaultVariants: {
       disabled: false,
     },
-  }
+  },
 );
 
 /**
@@ -47,7 +47,7 @@ const inputWrapperVariants = cva(
     defaultVariants: {
       fullWidth: false,
     },
-  }
+  },
 );
 
 /**
@@ -76,7 +76,7 @@ const inputVariants = cva(
         ghost:
           "bg-transparent border-2 border-transparent hover:bg-accent/10 hover:scale-[1.01] focus:bg-accent/10 focus:border-accent/30 focus:scale-[1.02] focus:shadow-lg focus:shadow-accent/20 before:bg-gradient-to-r before:from-accent/10 before:via-transparent before:to-accent/10",
         glass:
-          "bg-background/20 backdrop-blur-2xl border-2 border-white/10 focus:border-primary/50 hover:border-white/20 hover:scale-[1.01] shadow-xl hover:shadow-2xl focus:shadow-2xl focus:scale-[1.02] before:bg-gradient-to-r before:from-white/5 before:via-transparent before:to-white/5 after:bg-gradient-to-t after:from-black/10 after:to-transparent after:pointer-events-none",
+          "bg-white/10 dark:bg-black/10 backdrop-blur-xl border-2 border-white/20 focus:border-primary/40 hover:border-white/30 hover:scale-[1.01] shadow-2xl shadow-black/10 hover:shadow-2xl hover:shadow-primary/20 focus:shadow-2xl focus:shadow-primary/25 focus:scale-[1.02] before:bg-gradient-to-r before:from-white/10 before:via-transparent before:to-white/10 after:bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.1),transparent_50%)] after:opacity-0 focus:after:opacity-100 after:transition-opacity after:duration-700 after:pointer-events-none",
       },
       size: {
         sm: "h-9 px-3 text-sm gap-2 rounded-lg",
@@ -141,7 +141,7 @@ const inputVariants = cva(
       hasStartIcon: false,
       hasEndIcon: false,
     },
-  }
+  },
 );
 
 /**
@@ -208,7 +208,7 @@ const inputIconVariants = cva(
       position: "start",
       size: "md",
     },
-  }
+  },
 );
 
 /**

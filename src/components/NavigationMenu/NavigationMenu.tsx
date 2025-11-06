@@ -1,3 +1,5 @@
+"use client";
+
 import React, {
   useMemo,
   createContext,
@@ -7,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import { cn } from "../../lib/utils";
+import { Slot } from "../../lib/Slot";
 import type {
   NavigationMenuProps,
   NavigationItem,
@@ -47,7 +50,7 @@ export const NavigationMenu: React.FC<NavigationMenuProps> = ({
   children,
 }) => {
   const [openItems, setOpenItems] = useState<Set<string>>(
-    new Set(defaultOpenIds)
+    new Set(defaultOpenIds),
   );
 
   const toggleItem = (id: string) => {
@@ -86,7 +89,7 @@ export const NavigationMenu: React.FC<NavigationMenuProps> = ({
         "responsive",
         responsive,
         "boolean",
-        (val) => typeof val === "boolean"
+        (val) => typeof val === "boolean",
       );
     }
   }
@@ -101,7 +104,7 @@ export const NavigationMenu: React.FC<NavigationMenuProps> = ({
       toggleItem,
       onSelect,
     }),
-    [variant, size, orientation, responsive, openItems, onSelect]
+    [variant, size, orientation, responsive, openItems, onSelect],
   );
 
   // track open ids in future (controlled/uncontrolled)
@@ -196,8 +199,8 @@ const MenuItemWithNesting: React.FC<{
                 ? ctx.orientation === "vertical" && isOpen
                   ? "rotate-90"
                   : ctx.orientation === "horizontal"
-                  ? `group-hover/item-0:rotate-90 rotate-0`
-                  : "rotate-0"
+                    ? `group-hover/item-0:rotate-90 rotate-0`
+                    : "rotate-0"
                 : "rotate-0"
             }`}
           >
@@ -251,7 +254,7 @@ export const NavigationMenuItem: React.FC<NavItemProps> = ({
     console.warn(
       `[NavigationMenuItem] Item "${label}" (id: ${id}) has both children and href. ` +
         `Menu items with children should not have href - they toggle children instead of navigating. ` +
-        `Remove the href prop to fix this.`
+        `Remove the href prop to fix this.`,
     );
   }
 
@@ -337,8 +340,8 @@ export const NavigationMenuItem: React.FC<NavItemProps> = ({
                 ? ctx.orientation === "vertical" && isOpen
                   ? "rotate-90"
                   : ctx.orientation === "horizontal"
-                  ? `group-hover/item-${level}:rotate-90 rotate-0`
-                  : "rotate-0"
+                    ? `group-hover/item-${level}:rotate-90 rotate-0`
+                    : "rotate-0"
                 : "rotate-0"
             }`}
           >
@@ -405,24 +408,30 @@ export const NavigationMenuSection: React.FC<
 /**
  * NavigationMenuList - Container for navigation menu items (Radix-style API)
  */
-export const NavigationMenuList: React.FC<{
-  children?: React.ReactNode;
-  className?: string;
-}> = ({ children, className }) => {
+export const NavigationMenuList = React.forwardRef<
+  HTMLDivElement,
+  {
+    children?: React.ReactNode;
+    className?: string;
+    asChild?: boolean;
+  }
+>(({ children, className, asChild = false }, ref) => {
   const ctx = useContext(NavigationMenuContext);
+  const Comp = asChild ? Slot : "div";
 
   return (
-    <div
+    <Comp
+      ref={ref}
       className={cn(
         "flex flex-col gap-1",
         ctx.orientation === "horizontal" && "flex-row items-center",
-        className
+        className,
       )}
     >
       {children}
-    </div>
+    </Comp>
   );
-};
+});
 
 NavigationMenuList.displayName = "NavigationMenuList";
 
@@ -455,15 +464,21 @@ NavigationMenuTrigger.displayName = "NavigationMenuTrigger";
  * NavigationMenuContent - Content container for navigation items (Radix-style API)
  * Always renders as vertical (for dropdown menus)
  */
-export const NavigationMenuContent: React.FC<{
-  children?: React.ReactNode;
-  className?: string;
-}> = ({ children, className }) => {
+export const NavigationMenuContent = React.forwardRef<
+  HTMLDivElement,
+  {
+    children?: React.ReactNode;
+    className?: string;
+    asChild?: boolean;
+  }
+>(({ children, className, asChild = false }, ref) => {
   const ctx = useContext(NavigationMenuContext);
   const level = useContext(LevelContext);
+  const Comp = asChild ? Slot : "div";
 
   return (
-    <div
+    <Comp
+      ref={ref}
       className={cn(
         navSubMenu({
           open: true,
@@ -471,15 +486,15 @@ export const NavigationMenuContent: React.FC<{
           variant: ctx.variant as any,
           level: Math.min(level + 1, 3) as 0 | 1 | 2 | 3,
         }),
-        className
+        className,
       )}
     >
       <LevelContext.Provider value={level + 1}>
         {children}
       </LevelContext.Provider>
-    </div>
+    </Comp>
   );
-};
+});
 
 NavigationMenuContent.displayName = "NavigationMenuContent";
 
@@ -504,7 +519,7 @@ export const NavigationMenuLink = React.forwardRef<
   const hasContent = React.Children.toArray(children).some(
     (child) =>
       React.isValidElement(child) &&
-      (child.type as any).displayName === "NavigationMenuContent"
+      (child.type as any).displayName === "NavigationMenuContent",
   );
 
   // Split children into link content and submenu content
@@ -548,7 +563,7 @@ export const NavigationMenuLink = React.forwardRef<
         }),
         active && "bg-accent/20",
         hasContent && "group/item-" + level,
-        className
+        className,
       )}
       onClick={(e) => {
         if (hasContent && !useHover) {
@@ -564,7 +579,7 @@ export const NavigationMenuLink = React.forwardRef<
         <span
           className={cn(
             "ml-auto transition-transform duration-200",
-            level === 0 && isOpen && "rotate-90"
+            level === 0 && isOpen && "rotate-90",
           )}
         >
           ▸
@@ -584,7 +599,7 @@ export const NavigationMenuLink = React.forwardRef<
     <div
       className={cn(
         navItemContainer({ orientation: ctx.orientation as any }),
-        useHover && "relative group"
+        useHover && "relative group",
       )}
       onMouseEnter={() => {
         if (hasContent && useHover) {
@@ -603,7 +618,7 @@ export const NavigationMenuLink = React.forwardRef<
           className={cn(
             useHover &&
               level === 0 &&
-              "absolute top-full left-0 min-w-[200px] z-50"
+              "absolute top-full left-0 min-w-[200px] z-50",
           )}
         >
           {submenuContent}

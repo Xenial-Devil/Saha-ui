@@ -4,12 +4,12 @@ import { cva } from "class-variance-authority";
  */
 const badgeVariants = cva(
   // Base styles
-  "relative inline-flex items-center justify-center gap-1.5 font-medium transition-all duration-200 select-none overflow-hidden isolate",
+  "relative inline-flex items-center justify-center gap-1.5 font-medium transition-all duration-200 select-none overflow-hidden isolate transform-gpu will-change-transform",
   {
     variants: {
       variant: {
         default:
-          "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700 shadow-sm hover:shadow-md",
+          "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700 shadow-sm hover:shadow-md hover:scale-105 active:scale-95",
         primary:
           "bg-gradient-to-r from-primary/90 to-primary text-primary-foreground shadow-md shadow-primary/25 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 active:scale-95 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
         secondary:
@@ -28,17 +28,17 @@ const badgeVariants = cva(
         ghost:
           "bg-transparent text-foreground hover:bg-foreground/5 dark:hover:bg-foreground/10 hover:scale-105 active:scale-95",
         glass:
-          "backdrop-blur-md bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10 shadow-lg hover:bg-white/20 dark:hover:bg-black/20 hover:scale-105 active:scale-95 hover:shadow-xl before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
+          "bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 shadow-2xl shadow-black/10 hover:bg-white/15 dark:hover:bg-black/15 hover:scale-105 active:scale-95 hover:shadow-2xl hover:shadow-primary/20 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300 after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.1),transparent_50%)] after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-500",
       },
       size: {
-        sm: "text-xs px-2 py-0.5 min-h-[20px]",
-        md: "text-sm px-2.5 py-1 min-h-[24px]",
-        lg: "text-base px-3 py-1.5 min-h-[28px]",
+        sm: "text-xs px-2 py-0.5 min-h-[20px] rounded-md",
+        md: "text-sm px-2.5 py-1 min-h-[24px] rounded-lg",
+        lg: "text-base px-3 py-1.5 min-h-[28px] rounded-lg",
       },
       shape: {
-        rounded: "rounded-md",
-        pill: "rounded-full",
-        square: "rounded-none",
+        rounded: "",
+        pill: "!rounded-full",
+        square: "!rounded-none",
       },
     },
     defaultVariants: {
@@ -46,6 +46,6 @@ const badgeVariants = cva(
       size: "md",
       shape: "rounded",
     },
-  }
+  },
 );
 export { badgeVariants };

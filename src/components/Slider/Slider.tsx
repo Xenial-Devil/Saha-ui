@@ -8,6 +8,7 @@ import React, {
   useEffect,
 } from "react";
 import { cn } from "../../lib/utils";
+import { Slot } from "../../lib/Slot";
 import type {
   SliderProps,
   SliderSize,
@@ -104,7 +105,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     // Development-only validation
     useEffect(() => {
@@ -164,7 +165,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         values.forEach((val, index) => {
           if (val < min || val > max) {
             validator.error(
-              `value[${index}] (${val}) is outside the range [${min}, ${max}]`
+              `value[${index}] (${val}) is outside the range [${min}, ${max}]`,
             );
           }
         });
@@ -177,7 +178,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         "showTooltip",
         showTooltip,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType("range", range, "boolean", isValidBoolean);
       validator.validateType("required", required, "boolean", isValidBoolean);
@@ -203,7 +204,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
     const isControlled = controlledValue !== undefined;
     const [internalValue, setInternalValue] = useState<number | number[]>(
-      defaultValue
+      defaultValue,
     );
     const value = isControlled ? controlledValue : internalValue;
 
@@ -234,7 +235,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         const rawValue = min + percentage * (max - min);
         return roundToStep(clamp(rawValue, min, max), step);
       },
-      [min, max, step, orientation]
+      [min, max, step, orientation],
     );
 
     // Handle value change
@@ -247,7 +248,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         }
         onChange?.(newValue);
       },
-      [disabled, isControlled, onChange]
+      [disabled, isControlled, onChange],
     );
 
     // Handle mouse/touch move
@@ -273,7 +274,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         range,
         value,
         handleChange,
-      ]
+      ],
     );
 
     // Mouse events
@@ -289,7 +290,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       (e: MouseEvent) => {
         handleMove(e.clientX, e.clientY);
       },
-      [handleMove]
+      [handleMove],
     );
 
     const handleMouseUp = useCallback(() => {
@@ -315,7 +316,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           handleMove(e.touches[0].clientX, e.touches[0].clientY);
         }
       },
-      [handleMove]
+      [handleMove],
     );
 
     // Track click
@@ -378,7 +379,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         newValues[thumbIndex] = clamp(
           roundToStep(value[thumbIndex] + delta, step),
           min,
-          max
+          max,
         );
         newValues.sort((a, b) => a - b);
         handleChange(newValues);
@@ -386,7 +387,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         const newValue = clamp(
           roundToStep(normalizedValue[0] + delta, step),
           min,
-          max
+          max,
         );
         handleChange(newValue);
       }
@@ -447,7 +448,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             ref={ref}
             className={cn(
               containerVariants({ orientation, disabled }),
-              className
+              className,
             )}
             {...props}
           >
@@ -475,7 +476,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           key={thumbIndex}
           className={cn(
             thumbVariants({ variant, size, disabled }),
-            thumbClassName
+            thumbClassName,
           )}
           style={{
             ...positionStyle,
@@ -521,7 +522,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           ref={ref}
           className={cn(
             containerVariants({ orientation, disabled }),
-            className
+            className,
           )}
           {...props}
         >
@@ -536,7 +537,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           <div
             className={cn(
               "relative flex items-center",
-              orientation === "vertical" && "flex-col h-full"
+              orientation === "vertical" && "flex-col h-full",
             )}
           >
             {/* Value display */}
@@ -550,7 +551,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             <div
               className={cn(
                 "relative flex-1",
-                orientation === "vertical" && "w-auto h-full"
+                orientation === "vertical" && "w-auto h-full",
               )}
             >
               {/* Track */}
@@ -558,7 +559,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                 ref={trackRef}
                 className={cn(
                   trackVariants({ variant, size, orientation }),
-                  trackClassName
+                  trackClassName,
                 )}
                 style={trackColor ? { backgroundColor: trackColor } : {}}
                 onClick={handleTrackClick}
@@ -573,7 +574,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                             ? `${getPercentage(
                                 Math.min(...normalizedValue),
                                 min,
-                                max
+                                max,
                               )}%`
                             : "0%",
                           width: range
@@ -581,12 +582,12 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                                 getPercentage(
                                   Math.max(...normalizedValue),
                                   min,
-                                  max
+                                  max,
                                 ) -
                                 getPercentage(
                                   Math.min(...normalizedValue),
                                   min,
-                                  max
+                                  max,
                                 )
                               }%`
                             : `${getPercentage(normalizedValue[0], min, max)}%`,
@@ -596,7 +597,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                             ? `${getPercentage(
                                 Math.min(...normalizedValue),
                                 min,
-                                max
+                                max,
                               )}%`
                             : "0%",
                           height: range
@@ -604,12 +605,12 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                                 getPercentage(
                                   Math.max(...normalizedValue),
                                   min,
-                                  max
+                                  max,
                                 ) -
                                 getPercentage(
                                   Math.min(...normalizedValue),
                                   min,
-                                  max
+                                  max,
                                 )
                               }%`
                             : `${getPercentage(normalizedValue[0], min, max)}%`,
@@ -642,7 +643,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
                 {/* Thumbs */}
                 {normalizedValue.map((thumbValue, index) =>
-                  renderThumb(thumbValue, index)
+                  renderThumb(thumbValue, index),
                 )}
               </div>
             </div>
@@ -660,7 +661,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             <p
               className={cn(
                 "mt-1.5 text-xs",
-                error ? "text-danger" : "text-muted-foreground"
+                error ? "text-danger" : "text-muted-foreground",
               )}
             >
               {error || helperText}
@@ -678,7 +679,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         </div>
       </SliderContext.Provider>
     );
-  }
+  },
 );
 
 Slider.displayName = "Slider";
@@ -688,10 +689,15 @@ Slider.displayName = "Slider";
 export interface SliderTrackProps {
   children?: React.ReactNode;
   className?: string;
+  /**
+   * When true, will render its child element and merge props
+   * @default false
+   */
+  asChild?: boolean;
 }
 
 export const SliderTrack = React.forwardRef<HTMLDivElement, SliderTrackProps>(
-  ({ children, className }, ref) => {
+  ({ children, className, asChild = false }, ref) => {
     const { variant, size, orientation, min, max, disabled, handleChange } =
       useSlider();
 
@@ -716,7 +722,7 @@ export const SliderTrack = React.forwardRef<HTMLDivElement, SliderTrackProps>(
         const rawValue = min + percentage * (max - min);
         return clamp(rawValue, min, max);
       },
-      [min, max, orientation]
+      [min, max, orientation],
     );
 
     const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -725,16 +731,18 @@ export const SliderTrack = React.forwardRef<HTMLDivElement, SliderTrackProps>(
       handleChange(newValue);
     };
 
+    const Comp = asChild ? Slot : "div";
+
     return (
-      <div
+      <Comp
         ref={ref || trackRef}
         className={cn(trackVariants({ variant, size, orientation }), className)}
         onClick={handleTrackClick}
       >
         {children}
-      </div>
+      </Comp>
     );
-  }
+  },
 );
 
 SliderTrack.displayName = "SliderTrack";
@@ -827,7 +835,7 @@ export const SliderThumb = React.forwardRef<HTMLDivElement, SliderThumbProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 SliderThumb.displayName = "SliderThumb";

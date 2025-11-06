@@ -53,9 +53,9 @@ const popoverVariants = cva(
           "shadow-lg shadow-info/20",
         ],
         glass: [
-          "backdrop-blur-xl bg-white/80 dark:bg-gray-900/80",
-          "border border-white/40 dark:border-white/20",
-          "shadow-xl",
+          "bg-white/10 dark:bg-black/10 backdrop-blur-xl",
+          "border border-white/20",
+          "shadow-2xl shadow-black/10",
         ],
         bordered: [
           "bg-card text-foreground",
@@ -95,7 +95,7 @@ const popoverVariants = cva(
       size: "md",
       position: "bottom",
     },
-  }
+  },
 );
 
 /**
@@ -113,7 +113,7 @@ const arrowVariants = cva("absolute w-3 h-3 rotate-45", {
       danger: "bg-destructive border-l border-t border-destructive/80",
       info: "bg-info border-l border-t border-info/80",
       glass:
-        "backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-l border-t border-white/40 dark:border-white/20",
+        "bg-white/10 dark:bg-black/10 backdrop-blur-xl border-l border-t border-white/20",
       bordered: "bg-card border-l border-t border-border border-2",
       elevated: "bg-card border-l border-t border-border/30",
       flat: "bg-card border-l border-t border-border/50",

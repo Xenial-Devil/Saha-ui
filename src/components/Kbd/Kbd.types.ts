@@ -109,6 +109,13 @@ export interface KbdProps
    * Long form description
    */
   title?: string;
+
+  /**
+   * When true, the Kbd will render its child element and merge props
+   * Useful for composition with other components
+   * @default false
+   */
+  asChild?: boolean;
 }
 
 /**

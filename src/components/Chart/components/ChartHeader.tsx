@@ -1,29 +1,33 @@
-// components/ChartHeader.tsx
-type Props = {
-  title?: string;
-  description?: string;
-  size?: "sm" | "md" | "lg" | "xl";
-};
+import * as React from "react";
+import { cn } from "../../../lib/utils";
 
-const sizeToGap: Record<NonNullable<Props["size"]>, string> = {
-  sm: "mb-2",
-  md: "mb-3",
-  lg: "mb-4",
-  xl: "mb-5",
-};
-
-export function ChartHeader({ title, description, size = "md" }: Props) {
-  if (!title && !description) return null;
-  return (
-    <div className={sizeToGap[size]}>
-      {title && (
-        <h3 className="text-lg font-semibold tracking-tight leading-tight">
-          {title}
-        </h3>
-      )}
-      {description && (
-        <p className="text-sm text-muted-foreground">{description}</p>
-      )}
-    </div>
-  );
+export interface ChartHeaderProps {
+  title?: React.ReactNode;
+  description?: React.ReactNode;
+  className?: string;
 }
+
+export const ChartHeader = React.forwardRef<HTMLDivElement, ChartHeaderProps>(
+  ({ title, description, className, ...props }, ref) => {
+    if (!title && !description) {
+      return null;
+    }
+
+    return (
+      <div
+        ref={ref}
+        className={cn("flex flex-col space-y-1.5", className)}
+        {...props}
+      >
+        {title && (
+          <h3 className="font-semibold leading-none tracking-tight">{title}</h3>
+        )}
+        {description && (
+          <p className="text-sm text-muted-foreground">{description}</p>
+        )}
+      </div>
+    );
+  },
+);
+
+ChartHeader.displayName = "ChartHeader";

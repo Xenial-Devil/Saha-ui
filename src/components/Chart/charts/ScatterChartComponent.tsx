@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ResponsiveContainer,
   ScatterChart,
@@ -6,9 +8,9 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  ZAxis,
 } from "recharts";
-import { chartCanvasVariants } from "../Chart.styles";
-import { ChartTooltip } from "../components/ChartTooltip";
+import { ChartTooltipContent } from "../components/ChartTooltip";
 import { useChartColors } from "../../../hooks/useChartColors";
 import type {
   BaseChartComponentProps,
@@ -24,60 +26,73 @@ export function ScatterChartComponent({
   const { getColor } = useChartColors(variant);
 
   const visibleSeries = config.series.filter(
-    (s) => !hiddenSeries.has(s.dataKey) && !s.hide
+    (s) => !hiddenSeries.has(s.dataKey) && !s.hide,
   ) as ScatterSeriesConfig[];
 
+  const heightMap = {
+    sm: 200,
+    md: 300,
+    lg: 400,
+    xl: 500,
+  };
+
   return (
-    <div className={chartCanvasVariants({ size })}>
-      <ResponsiveContainer width="100%" height="100%">
-        <ScatterChart margin={{ top: 8, right: 12, left: 8, bottom: 8 }}>
-          {config.grid?.show !== false && (
-            <CartesianGrid
-              strokeDasharray={config.grid?.strokeDasharray || "3 4"}
-              className="stroke-border/40"
-            />
-          )}
-
-          <XAxis
-            type="number"
-            dataKey="x"
-            name={config.xAxis?.label}
-            tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
-            tickFormatter={config.xAxis?.tickFormatter}
+    <ResponsiveContainer width="100%" height={heightMap[size]}>
+      <ScatterChart
+        margin={{ top: 5, right: 10, left: 10, bottom: 0 }}
+        accessibilityLayer
+      >
+        {config.grid?.show !== false && (
+          <CartesianGrid
+            strokeDasharray="3 3"
+            vertical={config.grid?.vertical ?? false}
+            horizontal={config.grid?.horizontal ?? true}
           />
+        )}
 
-          <YAxis
-            type="number"
-            dataKey="y"
-            name={config.yAxis?.label}
-            tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
-            tickFormatter={config.yAxis?.tickFormatter}
-          />
+        <XAxis
+          type="number"
+          dataKey={config.xAxis?.dataKey || "x"}
+          name={config.xAxis?.label || "X"}
+          hide={config.xAxis?.hide}
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+          tickFormatter={config.xAxis?.tickFormatter}
+          domain={config.xAxis?.domain as [number, number] | undefined}
+        />
 
-          {config.tooltip?.show !== false && (
-            <Tooltip
-              content={<ChartTooltip config={config.tooltip} />}
-              cursor={{ strokeDasharray: "3 3" }}
-            />
-          )}
+        <YAxis
+          type="number"
+          dataKey={config.yAxis?.dataKey || "y"}
+          name={config.yAxis?.label || "Y"}
+          hide={config.yAxis?.hide}
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+          tickFormatter={config.yAxis?.tickFormatter}
+          domain={config.yAxis?.domain as [number, number] | undefined}
+        />
 
-          {visibleSeries.map((series, index) => (
+        <ZAxis range={[50, 400]} />
+
+        {config.tooltip?.show !== false && (
+          <Tooltip content={<ChartTooltipContent indicator="dot" />} />
+        )}
+
+        {visibleSeries.map((series, index) => {
+          const color = series.color || getColor(index);
+          return (
             <Scatter
               key={series.dataKey}
               name={series.name || series.dataKey}
               data={config.data}
-              fill={series.color || getColor(index)}
+              fill={color}
               shape={series.shape || "circle"}
             />
-          ))}
-        </ScatterChart>
-      </ResponsiveContainer>
-    </div>
+          );
+        })}
+      </ScatterChart>
+    </ResponsiveContainer>
   );
 }

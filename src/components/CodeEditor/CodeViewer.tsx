@@ -1,3 +1,5 @@
+"use client";
+
 // src/components/code-editor/CodeViewer.tsx
 import { CodeEditor, type CodeEditorProps } from "./CodeEditor";
 
