@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Command Component
  *

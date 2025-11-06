@@ -13,7 +13,7 @@ export type ButtonVariant =
   | "ghost"
   | "glass";
 
-export type ButtonSize = "sm" | "md" | "lg" | "xl";
+export type ButtonSize = "sm" | "md" | "lg" | "xl" | "icon";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -33,4 +33,16 @@ export interface ButtonProps
    * Button content
    */
   children: React.ReactNode;
+
+  /**
+   * Show loading spinner and disable button
+   * @default false
+   */
+  loading?: boolean;
+
+  /**
+   * Render as child element, passing props to the child
+   * @default false
+   */
+  asChild?: boolean;
 }

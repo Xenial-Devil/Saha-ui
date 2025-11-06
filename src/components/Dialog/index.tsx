@@ -1,3 +1,5 @@
+"use client";
+
 // Main Dialog component
 export { Dialog, default } from "./Dialog";
 

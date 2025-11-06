@@ -1,3 +1,5 @@
+"use client";
+
 export { ToastProvider, useToast } from "./ToastProvider";
 export { ToastItem } from "./ToastItem";
 export type {

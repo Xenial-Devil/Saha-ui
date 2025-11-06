@@ -24,7 +24,7 @@ export interface UseFetchResult<T> {
 
 export function useFetch<T = any>(
   url: string,
-  options: UseFetchOptions = {}
+  options: UseFetchOptions = {},
 ): UseFetchResult<T> {
   const { immediate = true, onSuccess, onError, ...fetchOptions } = options;
 
@@ -39,7 +39,12 @@ export function useFetch<T = any>(
   const fetchData = useCallback(async () => {
     // Cancel previous request
     if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
+      try {
+        abortControllerRef.current.abort();
+      } catch (err) {
+        // Suppress abort errors
+        console.debug("Abort error suppressed:", err);
+      }
     }
 
     // Create new abort controller
@@ -67,8 +72,21 @@ export function useFetch<T = any>(
       setError(null);
       onSuccess?.(result);
     } catch (err) {
+      // Handle AbortError or cancelation errors
       if (err instanceof Error && err.name === "AbortError") {
         // Request was cancelled, don't update state
+        return;
+      }
+
+      // Check for manual cancelation errors
+      if (
+        typeof err === "object" &&
+        err !== null &&
+        "type" in err &&
+        (err as any).type === "cancelation"
+      ) {
+        // Manual cancelation, don't update state
+        console.debug("Operation manually canceled");
         return;
       }
 
@@ -91,7 +109,12 @@ export function useFetch<T = any>(
     return () => {
       // Cleanup: abort request on unmount
       if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
+        try {
+          abortControllerRef.current.abort();
+        } catch (err) {
+          // Suppress abort errors during cleanup
+          console.debug("Cleanup abort error suppressed:", err);
+        }
       }
     };
   }, [immediate, fetchData]);

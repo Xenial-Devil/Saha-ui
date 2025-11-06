@@ -55,4 +55,11 @@ export interface LinkProps
    * Link content
    */
   children: React.ReactNode;
+
+  /**
+   * When true, the Link will render its child element and merge props
+   * Useful for composition with other components (e.g., Next.js Link)
+   * @default false
+   */
+  asChild?: boolean;
 }

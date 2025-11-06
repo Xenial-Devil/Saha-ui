@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect } from "react";
 import { cn } from "../../lib/utils";
 import { ChevronDown } from "lucide-react";
+import { Slot } from "../../lib/Slot";
 import type {
   AccordionProps,
   AccordionItemProps,
@@ -32,14 +33,14 @@ interface AccordionContextValue {
 }
 
 const AccordionContext = createContext<AccordionContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 const useAccordionContext = () => {
   const context = useContext(AccordionContext);
   if (!context) {
     throw new Error(
-      "Accordion components must be used within an Accordion component"
+      "Accordion components must be used within an Accordion component",
     );
   }
   return context;
@@ -59,7 +60,7 @@ const useAccordionItemContext = () => {
   const context = useContext(AccordionItemContext);
   if (!context) {
     throw new Error(
-      "AccordionTrigger and AccordionContent must be used within an AccordionItem component"
+      "AccordionTrigger and AccordionContent must be used within an AccordionItem component",
     );
   }
   return context;
@@ -77,7 +78,7 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
       collapsible = false,
       children,
     },
-    ref
+    ref,
   ) => {
     // Use the custom hook for accordion state management
     const {
@@ -115,7 +116,7 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
         "collapsible",
         collapsible,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
 
       // Validate children
@@ -145,7 +146,7 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
         </div>
       </AccordionContext.Provider>
     );
-  }
+  },
 );
 
 Accordion.displayName = "Accordion";
@@ -179,7 +180,7 @@ AccordionItem.displayName = "AccordionItem";
 export const AccordionTrigger = React.forwardRef<
   HTMLButtonElement,
   AccordionTriggerProps
->(({ children, className, icon }, ref) => {
+>(({ children, className, icon, asChild = false }, ref) => {
   const { onValueChange } = useAccordionContext();
   const { isOpen, disabled, value } = useAccordionItemContext();
 
@@ -189,8 +190,10 @@ export const AccordionTrigger = React.forwardRef<
     }
   };
 
+  const Comp = asChild ? Slot : "button";
+
   return (
-    <button
+    <Comp
       ref={ref}
       type="button"
       className={cn(accordionHeaderVariants({ isOpen }), className)}
@@ -198,28 +201,34 @@ export const AccordionTrigger = React.forwardRef<
       aria-expanded={isOpen}
       disabled={disabled}
     >
-      <h3 className="text-base font-semibold text-foreground tracking-wide flex-1 text-left">
-        {children}
-      </h3>
-      <div className="relative">
-        <div
-          className={cn(
-            "absolute -inset-2 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 rounded-full blur-md opacity-0 transition-opacity duration-300",
-            isOpen && "opacity-100"
-          )}
-        />
-        {icon || (
-          <ChevronDown
-            className={cn(
-              "relative h-5 w-5 transition-all duration-500 ease-out",
-              isOpen
-                ? "rotate-180 text-primary"
-                : "rotate-0 text-muted-foreground group-hover:text-foreground"
+      {asChild ? (
+        children
+      ) : (
+        <>
+          <h3 className="text-base font-semibold text-foreground tracking-wide flex-1 text-left">
+            {children}
+          </h3>
+          <div className="relative">
+            <div
+              className={cn(
+                "absolute -inset-2 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 rounded-full blur-md opacity-0 transition-opacity duration-300",
+                isOpen && "opacity-100",
+              )}
+            />
+            {icon || (
+              <ChevronDown
+                className={cn(
+                  "relative h-5 w-5 transition-all duration-500 ease-out",
+                  isOpen
+                    ? "rotate-180 text-primary"
+                    : "rotate-0 text-muted-foreground group-hover:text-foreground",
+                )}
+              />
             )}
-          />
-        )}
-      </div>
-    </button>
+          </div>
+        </>
+      )}
+    </Comp>
   );
 });
 
@@ -240,7 +249,7 @@ export const AccordionContent = React.forwardRef<
       <div
         className={cn(
           "text-muted-foreground leading-relaxed transition-all duration-300",
-          isOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+          isOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
         )}
       >
         {children}

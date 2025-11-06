@@ -65,7 +65,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
       contentClassName,
       ...props
     },
-    ref
+    ref,
   ) => {
     // Use the custom hook for aspect ratio logic
     const {
@@ -135,7 +135,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
         "zoomOnHover",
         zoomOnHover,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType("lazy", lazy, "boolean", isValidBoolean);
 
@@ -143,19 +143,21 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
       if (ratio === "custom") {
         if (!customRatio) {
           validator.error(
-            '"customRatio" prop is required when ratio is set to "custom"'
+            '"customRatio" prop is required when ratio is set to "custom"',
           );
         } else {
-          validator.validateType(
-            "customRatio",
-            customRatio,
-            "number",
-            isValidNumber
-          );
+          // customRatio can be either a number or a string
+          const isValidCustomRatio =
+            typeof customRatio === "number" || typeof customRatio === "string";
+          if (!isValidCustomRatio) {
+            validator.error(
+              `"customRatio" must be a number or string. Received: ${typeof customRatio}`,
+            );
+          }
         }
       } else if (customRatio !== undefined) {
         validator.warn(
-          `"customRatio" prop is ignored when ratio is "${ratio}". Only use customRatio when ratio="custom".`
+          `"customRatio" prop is ignored when ratio is "${ratio}". Only use customRatio when ratio="custom".`,
         );
       }
 
@@ -165,7 +167,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
         if (isValidNumber(zoomScale)) {
           if (zoomScale < 1.0 || zoomScale > 2.0) {
             validator.warn(
-              `"zoomScale" should be between 1.0 and 2.0. Received: ${zoomScale}. Value will be clamped.`
+              `"zoomScale" should be between 1.0 and 2.0. Received: ${zoomScale}. Value will be clamped.`,
             );
           }
         }
@@ -180,7 +182,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
           "onMouseEnter",
           onMouseEnter,
           "function",
-          isValidFunction
+          isValidFunction,
         );
       }
       if (onMouseLeave) {
@@ -188,7 +190,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
           "onMouseLeave",
           onMouseLeave,
           "function",
-          isValidFunction
+          isValidFunction,
         );
       }
 
@@ -237,7 +239,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
               : "group-hover:scale-[1.02]",
             variant === "gradient" && "z-10",
             lazy && "[&_img]:lazy",
-            contentClassName
+            contentClassName,
           )}
           style={
             zoomOnHover
@@ -258,14 +260,14 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
           <div
             className={cn(
               overlayVariants({ position: overlayPosition }),
-              "group-hover:opacity-80"
+              "group-hover:opacity-80",
             )}
             aria-hidden="true"
           />
         )}
       </div>
     );
-  }
+  },
 );
 
 AspectRatio.displayName = "AspectRatio";

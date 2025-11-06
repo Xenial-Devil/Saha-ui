@@ -1,14 +1,17 @@
+"use client";
+
 // Main component
 export { Chart } from "./Chart";
 
-// Components
+// Core Shadcn-style components
 export { ChartContainer } from "./components/ChartContainer";
+export { ChartWrapper } from "./components/ChartWrapper";
 export { ChartHeader } from "./components/ChartHeader";
-export { ChartTooltip } from "./components/ChartTooltip";
-export { ChartLegend } from "./components/ChartLegend";
+export { ChartTooltip, ChartTooltipContent } from "./components/ChartTooltip";
+export { ChartLegend, ChartLegendContent } from "./components/ChartLegend";
 export { ChartLoading } from "./components/ChartLoading";
 
-// Chart types
+// Chart type components (backward compatibility)
 export { LineChartComponent } from "./charts/LineChartComponent";
 export { BarChartComponent } from "./charts/BarChartComponent";
 export { AreaChartComponent } from "./charts/AreaChartComponent";
@@ -30,6 +33,14 @@ export { createChartConfig } from "../../lib/chartConfig";
 
 // Types
 export type * from "./Chart.types";
+export type {
+  ChartConfig,
+  ChartContainerProps,
+} from "./components/ChartContainer";
+export type { ChartWrapperProps } from "./components/ChartWrapper";
+export type { ChartTooltipProps } from "./components/ChartTooltip";
+export type { ChartLegendProps } from "./components/ChartLegend";
+export type { ChartHeaderProps } from "./components/ChartHeader";
 
 // Styles
 export * from "./Chart.styles";

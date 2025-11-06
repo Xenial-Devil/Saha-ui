@@ -16,7 +16,7 @@ export const alertVariants = cva(
         outline:
           "bg-card/50 backdrop-blur-sm border-2 border-current/30 shadow-md shadow-current/10 hover:border-current/50 hover:shadow-lg hover:shadow-current/25 hover:bg-card/70",
         glass:
-          "bg-background/30 backdrop-blur-xl border border-white/10 shadow-2xl shadow-current/20 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/5 before:to-transparent hover:border-white/20 hover:shadow-current/30",
+          "bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 shadow-2xl shadow-black/10 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.1),transparent_50%)] after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-700 hover:border-white/30 hover:shadow-current/30",
       },
       status: {
         info: "",
@@ -163,5 +163,5 @@ export const alertVariants = cva(
       status: "info",
       rounded: true,
     },
-  }
+  },
 );

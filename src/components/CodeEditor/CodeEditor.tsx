@@ -1,3 +1,5 @@
+"use client";
+
 // src/components/code-editor/CodeEditor.tsx
 import * as React from "react";
 import Editor, { OnMount, useMonaco } from "@monaco-editor/react";
@@ -81,7 +83,7 @@ export function CodeEditor({
   showMinimap = true,
   options,
 
-  toolbarPlacement = "floating",
+  toolbarPlacement = "inline",
   languages: languagesProp,
   showLanguageSelect = true,
   showCopy = true,
@@ -92,7 +94,7 @@ export function CodeEditor({
   variant = "default",
   size = "default",
   fullWidth = true,
-  theme = "dark",
+  theme = "saha-ui-dark",
   wordWrap = false,
 
   className,
@@ -127,7 +129,7 @@ export function CodeEditor({
 
   const languageOptions = React.useMemo(
     () => normalizeLanguages(languagesProp ?? DEFAULT_LANG_OPTIONS),
-    [languagesProp]
+    [languagesProp],
   );
 
   // Sync prop changes
@@ -253,11 +255,35 @@ export function CodeEditor({
 
   const containerClasses = cn(
     codeEditorVariants({ variant, size, fullWidth, theme }),
-    className
+    className,
   );
 
   return (
-    <div className={containerClasses} style={style}>
+    <div className={cn(containerClasses, "flex flex-col")} style={style}>
+      <style>
+        {`
+          .monaco-editor .monaco-scrollable-element > .scrollbar > .slider {
+            border-radius: 10px !important;
+            transition: background-color 0.2s ease, width 0.2s ease, height 0.2s ease !important;
+          }
+          .monaco-editor .monaco-scrollable-element > .scrollbar.vertical > .slider {
+            width: 10px !important;
+            margin-left: 2px !important;
+          }
+          .monaco-editor .monaco-scrollable-element > .scrollbar.horizontal > .slider {
+            height: 10px !important;
+            margin-top: 2px !important;
+          }
+          .monaco-editor .monaco-scrollable-element > .scrollbar.vertical > .slider:hover,
+          .monaco-editor .monaco-scrollable-element > .scrollbar.horizontal > .slider:hover {
+            width: 14px !important;
+            height: 14px !important;
+          }
+          .monaco-editor .monaco-scrollable-element > .scrollbar {
+            background: transparent !important;
+          }
+        `}
+      </style>
       {showTabBar && <TabBar theme={theme} filename={filename} />}
 
       {showToolbar && (
@@ -282,7 +308,7 @@ export function CodeEditor({
       )}
 
       <div
-        className={cn("relative", height ? undefined : "h-full")}
+        className={cn("relative flex-1 overflow-hidden")}
         style={
           height
             ? { height: typeof height === "number" ? `${height}px` : height }

@@ -23,7 +23,9 @@ export type CodeEditorTheme =
   | "monokai"
   | "dracula"
   | "nord"
-  | "solarized";
+  | "solarized"
+  | "saha-ui-light"
+  | "saha-ui-dark";
 
 // ============================================================================
 // CODE EDITOR VARIANTS
@@ -31,48 +33,49 @@ export type CodeEditorTheme =
 
 export const codeEditorVariants = cva(
   [
-    "relative w-full rounded-lg border transition-all duration-200",
+    "relative w-full rounded-xl border transition-all duration-300",
     "focus-within:ring-2 focus-within:ring-offset-2",
-    "overflow-hidden",
+    "overflow-hidden shadow-lg",
+    "backdrop-blur-sm",
   ],
   {
     variants: {
       variant: {
         default: [
-          "border-input",
-          "focus-within:border-primary focus-within:ring-primary/20",
+          "border-border/60 shadow-md",
+          "focus-within:border-primary focus-within:ring-primary/30 focus-within:shadow-xl",
         ],
         primary: [
-          "border-primary/50",
-          "focus-within:border-primary focus-within:ring-primary/30",
+          "border-primary/60 shadow-primary/20 shadow-md",
+          "focus-within:border-primary focus-within:ring-primary/40 focus-within:shadow-primary/30",
         ],
         secondary: [
-          "border-secondary/50",
-          "focus-within:border-secondary focus-within:ring-secondary/30",
+          "border-secondary/60 shadow-secondary/20 shadow-md",
+          "focus-within:border-secondary focus-within:ring-secondary/40 focus-within:shadow-secondary/30",
         ],
         accent: [
-          "border-accent/50",
-          "focus-within:border-accent focus-within:ring-accent/30",
+          "border-accent/60 shadow-accent/20 shadow-md",
+          "focus-within:border-accent focus-within:ring-accent/40 focus-within:shadow-accent/30",
         ],
         success: [
-          "border-success/50",
-          "focus-within:border-success focus-within:ring-success/30",
+          "border-success/60 shadow-success/20 shadow-md",
+          "focus-within:border-success focus-within:ring-success/40 focus-within:shadow-success/30",
         ],
         warning: [
-          "border-warning/50",
-          "focus-within:border-warning focus-within:ring-warning/30",
+          "border-warning/60 shadow-warning/20 shadow-md",
+          "focus-within:border-warning focus-within:ring-warning/40 focus-within:shadow-warning/30",
         ],
         error: [
-          "border-error/50",
-          "focus-within:border-error focus-within:ring-error/30",
+          "border-error/60 shadow-error/20 shadow-md",
+          "focus-within:border-error focus-within:ring-error/40 focus-within:shadow-error/30",
         ],
         info: [
-          "border-info/50",
-          "focus-within:border-info focus-within:ring-info/30",
+          "border-info/60 shadow-info/20 shadow-md",
+          "focus-within:border-info focus-within:ring-info/40 focus-within:shadow-info/30",
         ],
         outline: [
-          "border-input shadow-sm",
-          "focus-within:border-primary focus-within:ring-primary/20",
+          "border-border shadow-md",
+          "focus-within:border-primary focus-within:ring-primary/30 focus-within:shadow-lg",
         ],
         ghost: [
           "border-transparent",
@@ -98,15 +101,17 @@ export const codeEditorVariants = cva(
         dracula: "bg-[#282a36]",
         nord: "bg-[#2e3440]",
         solarized: "bg-[#002b36]",
+        "saha-ui-light": "bg-background",
+        "saha-ui-dark": "bg-background",
       },
     },
     defaultVariants: {
       variant: "default",
       size: "default",
       fullWidth: true,
-      theme: "dark",
+      theme: "saha-ui-dark",
     },
-  }
+  },
 );
 
 export const editorGutterVariants = cva(
@@ -122,6 +127,10 @@ export const editorGutterVariants = cva(
         dracula: "bg-[#282a36] border-[#44475a] text-[#6272a4]",
         nord: "bg-[#2e3440] border-[#3b4252] text-[#4c566a]",
         solarized: "bg-[#002b36] border-[#073642] text-[#586e75]",
+        "saha-ui-light":
+          "bg-background-secondary border-border text-text-secondary",
+        "saha-ui-dark":
+          "bg-background-secondary border-border text-text-secondary",
       },
       size: {
         sm: "text-xs min-w-[2.5rem] py-0.5",
@@ -131,10 +140,10 @@ export const editorGutterVariants = cva(
       },
     },
     defaultVariants: {
-      theme: "dark",
+      theme: "saha-ui-dark",
       size: "default",
     },
-  }
+  },
 );
 
 export const editorContentVariants = cva(
@@ -150,6 +159,8 @@ export const editorContentVariants = cva(
         dracula: "bg-[#282a36] text-[#f8f8f2]",
         nord: "bg-[#2e3440] text-[#eceff4]",
         solarized: "bg-[#002b36] text-[#839496]",
+        "saha-ui-light": "bg-background text-foreground",
+        "saha-ui-dark": "bg-background text-foreground",
       },
       size: {
         sm: "text-xs p-3 leading-5",
@@ -163,11 +174,11 @@ export const editorContentVariants = cva(
       },
     },
     defaultVariants: {
-      theme: "dark",
+      theme: "saha-ui-dark",
       size: "default",
       wordWrap: false,
     },
-  }
+  },
 );
 
 export const editorLineVariants = cva("relative", {
@@ -182,6 +193,8 @@ export const editorLineVariants = cva("relative", {
       dracula: "hover:bg-[#44475a]/30",
       nord: "hover:bg-[#3b4252]/50",
       solarized: "hover:bg-[#073642]/50",
+      "saha-ui-light": "hover:bg-surface-hover",
+      "saha-ui-dark": "hover:bg-surface-hover",
     },
   },
   compoundVariants: [
@@ -193,65 +206,88 @@ export const editorLineVariants = cva("relative", {
     { active: true, theme: "dracula", class: "bg-[#44475a]/50" },
     { active: true, theme: "nord", class: "bg-[#3b4252]/70" },
     { active: true, theme: "solarized", class: "bg-[#073642]/70" },
+    { active: true, theme: "saha-ui-light", class: "bg-surface-active" },
+    { active: true, theme: "saha-ui-dark", class: "bg-surface-active" },
   ],
   defaultVariants: {
     active: false,
-    theme: "dark",
+    theme: "saha-ui-dark",
   },
 });
 
 export const editorStatusBarVariants = cva(
-  ["flex items-center justify-between px-4 py-1.5 border-t text-xs font-mono"],
-  {
-    variants: {
-      theme: {
-        light: "bg-gray-50 border-gray-200 text-gray-600",
-        dark: "bg-slate-800 border-slate-700 text-slate-400",
-        vscode: "bg-[#007acc] border-[#007acc] text-white",
-        github: "bg-gray-50 border-gray-200 text-gray-600",
-        monokai: "bg-[#272822] border-[#3e3d32] text-[#75715e]",
-        dracula: "bg-[#21222c] border-[#44475a] text-[#6272a4]",
-        nord: "bg-[#2e3440] border-[#3b4252] text-[#4c566a]",
-        solarized: "bg-[#073642] border-[#073642] text-[#586e75]",
-      },
-    },
-    defaultVariants: { theme: "dark" },
-  }
-);
-
-// VS Code-like tab bar for file tabs
-export const editorTabBarVariants = cva(["flex items-center border-b h-9"], {
-  variants: {
-    theme: {
-      light: "bg-gray-100 border-gray-300",
-      dark: "bg-[#252526] border-[#1e1e1e]",
-      vscode: "bg-[#252526] border-[#1e1e1e]",
-      github: "bg-gray-100 border-gray-300",
-      monokai: "bg-[#2d2a2e] border-[#221f22]",
-      dracula: "bg-[#21222c] border-[#191a21]",
-      nord: "bg-[#2e3440] border-[#242933]",
-      solarized: "bg-[#002b36] border-[#001e26]",
-    },
-  },
-  defaultVariants: { theme: "dark" },
-});
-
-// Individual tab styling
-export const editorTabVariants = cva(
   [
-    "flex items-center gap-2 px-4 h-full border-r text-sm transition-colors cursor-pointer relative",
+    "flex items-center justify-between px-4 py-2.5 border-t text-xs font-mono backdrop-blur-sm",
+    "transition-colors duration-200",
   ],
   {
     variants: {
       theme: {
-        light: "border-gray-300 text-gray-700 hover:bg-white",
-        dark: "border-[#1e1e1e] text-[#969696] hover:bg-[#2d2d30]",
-        vscode: "border-[#1e1e1e] text-[#969696] hover:bg-[#2d2d30]",
-        github: "border-gray-300 text-gray-700 hover:bg-white",
-        monokai: "border-[#221f22] text-[#939293] hover:bg-[#3a3739]",
-        dracula: "border-[#191a21] text-[#6272a4] hover:bg-[#282a36]",
-        nord: "border-[#242933] text-[#4c566a] hover:bg-[#3b4252]",
-        solarized: "border-[#001e26] text-[#586e75] hover:bg-[#073642]",
+        light:
+          "bg-gray-50/98 border-gray-200/90 text-gray-700 hover:bg-gray-100/98",
+        dark: "bg-slate-800/98 border-slate-700/90 text-slate-300 hover:bg-slate-800",
+        vscode:
+          "bg-[#007acc]/98 border-[#007acc]/90 text-white font-medium hover:bg-[#007acc]",
+        github:
+          "bg-gray-50/98 border-gray-200/90 text-gray-700 hover:bg-gray-100/98",
+        monokai:
+          "bg-[#272822]/98 border-[#3e3d32]/90 text-[#a6e22e] hover:bg-[#272822]",
+        dracula:
+          "bg-[#21222c]/98 border-[#44475a]/90 text-[#bd93f9] hover:bg-[#21222c]",
+        nord: "bg-[#2e3440]/98 border-[#3b4252]/90 text-[#88c0d0] hover:bg-[#2e3440]",
+        solarized:
+          "bg-[#073642]/98 border-[#073642]/90 text-[#2aa198] hover:bg-[#073642]",
+        "saha-ui-light":
+          "bg-[#f5f6f7]/98 border-[#e5e7eb]/90 text-[#414A4C] font-medium hover:bg-[#f5f6f7]",
+        "saha-ui-dark":
+          "bg-[#1e2022]/98 border-[#313335]/90 text-[#FFFAFA] font-medium hover:bg-[#1e2022]",
+      },
+    },
+    defaultVariants: { theme: "saha-ui-dark" },
+  },
+);
+
+// VS Code-like tab bar for file tabs
+export const editorTabBarVariants = cva(
+  ["flex items-center border-b h-10 backdrop-blur-sm"],
+  {
+    variants: {
+      theme: {
+        light: "bg-gray-100/95 border-gray-300/80",
+        dark: "bg-[#252526]/95 border-[#1e1e1e]/80",
+        vscode: "bg-[#252526]/95 border-[#1e1e1e]/80",
+        github: "bg-gray-100/95 border-gray-300/80",
+        monokai: "bg-[#2d2a2e]/95 border-[#221f22]/80",
+        dracula: "bg-[#21222c]/95 border-[#191a21]/80",
+        nord: "bg-[#2e3440]/95 border-[#242933]/80",
+        solarized: "bg-[#002b36]/95 border-[#001e26]/80",
+        "saha-ui-light": "bg-background-secondary/95 border-border/80",
+        "saha-ui-dark": "bg-background-secondary/95 border-border/80",
+      },
+    },
+    defaultVariants: { theme: "saha-ui-dark" },
+  },
+);
+
+// Individual tab styling
+export const editorTabVariants = cva(
+  [
+    "flex items-center gap-2 px-4 h-full border-r text-sm transition-all duration-200 cursor-pointer relative",
+    "hover:scale-[1.02] hover:z-10",
+  ],
+  {
+    variants: {
+      theme: {
+        light: "border-gray-300/60 text-gray-700 hover:bg-white/80",
+        dark: "border-[#1e1e1e]/60 text-[#969696] hover:bg-[#2d2d30]/80",
+        vscode: "border-[#1e1e1e]/60 text-[#969696] hover:bg-[#2d2d30]/80",
+        github: "border-gray-300/60 text-gray-700 hover:bg-white/80",
+        monokai: "border-[#221f22]/60 text-[#939293] hover:bg-[#3a3739]/80",
+        dracula: "border-[#191a21]/60 text-[#6272a4] hover:bg-[#282a36]/80",
+        nord: "border-[#242933]/60 text-[#4c566a] hover:bg-[#3b4252]/80",
+        solarized: "border-[#001e26]/60 text-[#586e75] hover:bg-[#073642]/80",
+        "saha-ui-light": "border-border/60 text-text hover:bg-surface-hover/80",
+        "saha-ui-dark": "border-border/60 text-text hover:bg-surface-hover/80",
       },
       active: { true: "", false: "opacity-60" },
     },
@@ -260,42 +296,57 @@ export const editorTabVariants = cva(
         active: true,
         theme: "vscode",
         class:
-          "bg-[#1e1e1e] text-white after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-[#007acc]",
+          "bg-[#1e1e1e] text-white after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#007acc] after:shadow-[0_0_8px_rgba(0,122,204,0.5)]",
       },
       {
         active: true,
         theme: "dark",
         class:
-          "bg-[#1e1e1e] text-white after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-blue-500",
+          "bg-[#1e1e1e] text-white after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-blue-500 after:shadow-[0_0_8px_rgba(59,130,246,0.5)]",
       },
       {
         active: true,
         theme: "light",
         class:
-          "bg-white text-gray-900 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-blue-600",
+          "bg-white text-gray-900 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-blue-600 after:shadow-[0_0_8px_rgba(37,99,235,0.5)]",
+      },
+      {
+        active: true,
+        theme: "saha-ui-light",
+        class:
+          "bg-background text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-primary after:shadow-[0_0_8px_var(--primary)]",
+      },
+      {
+        active: true,
+        theme: "saha-ui-dark",
+        class:
+          "bg-background text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-primary after:shadow-[0_0_8px_var(--primary)]",
       },
     ],
-    defaultVariants: { theme: "dark", active: false },
-  }
+    defaultVariants: { theme: "saha-ui-dark", active: false },
+  },
 );
 
 // Toolbar container
 export const editorToolbarVariants = cva(
   [
-    "pointer-events-auto rounded-md shadow-md backdrop-blur",
+    "pointer-events-auto rounded-lg backdrop-blur-md",
     "flex items-center",
+    "transition-all duration-300",
   ],
   {
     variants: {
       theme: {
-        light: "bg-white/70 border border-gray-200 text-gray-800",
-        dark: "bg-slate-800/60 border border-slate-700 text-slate-200",
-        vscode: "bg-[#252526]/70 border border-[#1e1e1e] text-[#d4d4d4]",
-        github: "bg-white/70 border border-gray-200 text-gray-800",
-        monokai: "bg-[#2d2a2e]/70 border-[#221f22] text-[#f8f8f2]",
-        dracula: "bg-[#21222c]/70 border border-[#191a21] text-[#f8f8f2]",
-        nord: "bg-[#2e3440]/70 border border-[#242933] text-[#eceff4]",
-        solarized: "bg-[#002b36]/70 border border-[#001e26] text-[#93a1a1]",
+        light: "text-gray-800",
+        dark: "text-slate-200",
+        vscode: "text-[#d4d4d4]",
+        github: "text-gray-800",
+        monokai: "text-[#f8f8f2]",
+        dracula: "text-[#f8f8f2]",
+        nord: "text-[#eceff4]",
+        solarized: "text-[#93a1a1]",
+        "saha-ui-light": "text-foreground",
+        "saha-ui-dark": "text-foreground",
       } satisfies Record<CodeEditorTheme, string>,
       size: {
         sm: "gap-1 p-1 text-xs",
@@ -304,25 +355,132 @@ export const editorToolbarVariants = cva(
         xl: "gap-3 px-3 py-2.5 text-base",
       } satisfies Record<CodeEditorSize, string>,
       placement: {
-        floating: "absolute top-2 right-2 z-20",
-        inline: "relative z-10",
+        floating:
+          "absolute top-3 right-3 z-20 shadow-[0_8px_32px_rgba(0,0,0,0.35)] hover:shadow-[0_12px_48px_rgba(0,0,0,0.45)]",
+        inline: "relative z-10 mb-2 shadow-sm",
       },
     },
+    compoundVariants: [
+      // Floating toolbar - semi-transparent with backdrop blur
+      {
+        theme: "light",
+        placement: "floating",
+        class: "bg-white/90 border border-gray-200/70",
+      },
+      {
+        theme: "dark",
+        placement: "floating",
+        class: "bg-slate-800/90 border border-slate-700/70",
+      },
+      {
+        theme: "vscode",
+        placement: "floating",
+        class: "bg-[#252526]/90 border border-[#1e1e1e]/70",
+      },
+      {
+        theme: "github",
+        placement: "floating",
+        class: "bg-white/90 border border-gray-200/70",
+      },
+      {
+        theme: "monokai",
+        placement: "floating",
+        class: "bg-[#2d2a2e]/90 border border-[#221f22]/70",
+      },
+      {
+        theme: "dracula",
+        placement: "floating",
+        class: "bg-[#21222c]/90 border border-[#191a21]/70",
+      },
+      {
+        theme: "nord",
+        placement: "floating",
+        class: "bg-[#2e3440]/90 border border-[#242933]/70",
+      },
+      {
+        theme: "solarized",
+        placement: "floating",
+        class: "bg-[#002b36]/90 border border-[#001e26]/70",
+      },
+      {
+        theme: "saha-ui-light",
+        placement: "floating",
+        class: "bg-card/90 border border-border/70",
+      },
+      {
+        theme: "saha-ui-dark",
+        placement: "floating",
+        class: "bg-card/90 border border-border/70",
+      },
+
+      // Inline toolbar - more opaque for better contrast against editor background
+      {
+        theme: "light",
+        placement: "inline",
+        class: "bg-white/95 border border-gray-200/80",
+      },
+      {
+        theme: "dark",
+        placement: "inline",
+        class: "bg-slate-800/95 border border-slate-700/80",
+      },
+      {
+        theme: "vscode",
+        placement: "inline",
+        class: "bg-[#252526]/95 border border-[#1e1e1e]/80",
+      },
+      {
+        theme: "github",
+        placement: "inline",
+        class: "bg-white/95 border border-gray-200/80",
+      },
+      {
+        theme: "monokai",
+        placement: "inline",
+        class: "bg-[#2d2a2e]/95 border border-[#221f22]/80",
+      },
+      {
+        theme: "dracula",
+        placement: "inline",
+        class: "bg-[#21222c]/95 border border-[#191a21]/80",
+      },
+      {
+        theme: "nord",
+        placement: "inline",
+        class: "bg-[#2e3440]/95 border border-[#242933]/80",
+      },
+      {
+        theme: "solarized",
+        placement: "inline",
+        class: "bg-[#002b36]/95 border border-[#001e26]/80",
+      },
+      {
+        theme: "saha-ui-light",
+        placement: "inline",
+        class: "bg-card/95 border border-border/80",
+      },
+      {
+        theme: "saha-ui-dark",
+        placement: "inline",
+        class: "bg-card/95 border border-border/80",
+      },
+    ],
     defaultVariants: {
-      theme: "dark",
+      theme: "saha-ui-dark",
       size: "default",
-      placement: "floating",
+      placement: "inline",
     },
-  }
+  },
 );
 
 // Action button (copy, etc.)
 export const editorActionVariants = cva(
   [
-    "inline-flex items-center justify-center rounded-md font-medium",
+    "inline-flex items-center justify-center rounded-lg font-medium",
     "transition-all duration-200",
-    "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/40 focus-visible:ring-offset-2",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1",
     "disabled:opacity-50 disabled:pointer-events-none select-none",
+    "hover:scale-105 active:scale-95",
   ],
   {
     variants: {
@@ -341,6 +499,8 @@ export const editorActionVariants = cva(
         dracula: "bg-[#282a36] !text-[#f8f8f2]",
         nord: "bg-[#2e3440] !text-[#eceff4]",
         solarized: "bg-[#002b36] !text-[#93a1a1]",
+        "saha-ui-light": "bg-background !text-foreground",
+        "saha-ui-dark": "bg-background !text-foreground",
       } satisfies Record<CodeEditorTheme, string>,
       variant: { solid: "", outline: "border", ghost: "" },
       intent: {
@@ -446,38 +606,43 @@ export const editorActionVariants = cva(
       {
         variant: "ghost",
         intent: "neutral",
-        class: "text-foreground hover:bg-foreground/5",
+        class: "text-foreground hover:bg-foreground/10 active:bg-foreground/15",
       },
       {
         variant: "ghost",
         intent: "primary",
-        class: "text-primary hover:bg-primary/10",
+        class: "text-primary hover:bg-primary/15 active:bg-primary/20",
       },
       {
         variant: "ghost",
         intent: "secondary",
-        class: "text-secondary hover:bg-secondary/10",
+        class: "text-secondary hover:bg-secondary/15 active:bg-secondary/20",
       },
       {
         variant: "ghost",
         intent: "accent",
-        class: "text-accent hover:bg-accent/10",
+        class: "text-accent hover:bg-accent/15 active:bg-accent/20",
       },
-      { variant: "ghost", intent: "info", class: "text-info hover:bg-info/10" },
+      {
+        variant: "ghost",
+        intent: "info",
+        class: "text-info hover:bg-info/15 active:bg-info/20",
+      },
       {
         variant: "ghost",
         intent: "success",
-        class: "text-success hover:bg-success/10",
+        class: "text-success hover:bg-success/15 active:bg-success/20",
       },
       {
         variant: "ghost",
         intent: "warning",
-        class: "text-warning hover:bg-warning/10",
+        class: "text-warning hover:bg-warning/15 active:bg-warning/20",
       },
       {
         variant: "ghost",
         intent: "error",
-        class: "text-destructive hover:bg-destructive/10",
+        class:
+          "text-destructive hover:bg-destructive/15 active:bg-destructive/20",
       },
       // Theme-specific colors for neutral outline buttons
       {
@@ -582,17 +747,18 @@ export const editorActionVariants = cva(
       size: "default",
       variant: "outline",
       intent: "neutral",
-      theme: "dark",
+      theme: "saha-ui-dark",
     },
-  }
+  },
 );
 
 // Icon-only button
 export const editorIconButtonVariants = cva(
   [
-    "inline-flex items-center justify-center rounded-md",
-    "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+    "inline-flex items-center justify-center rounded-lg",
+    "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
     "disabled:opacity-50 disabled:pointer-events-none",
+    "hover:scale-110 active:scale-95",
   ],
   {
     variants: {
@@ -603,22 +769,24 @@ export const editorIconButtonVariants = cva(
         xl: "h-10 w-10 text-base",
       } satisfies Record<CodeEditorSize, string>,
       style: {
-        ghost: "hover:bg-foreground/5",
-        subtle: "bg-muted/60 hover:bg-muted/80",
-        outline: "border border-border/60 hover:bg-foreground/5",
+        ghost: "hover:bg-foreground/10 active:bg-foreground/15",
+        subtle: "bg-muted/60 hover:bg-muted/80 active:bg-muted",
+        outline:
+          "border border-border/60 hover:bg-foreground/10 hover:border-border",
       },
     },
     defaultVariants: {
       size: "default",
       style: "ghost",
     },
-  }
+  },
 );
 
 // Language select
 export const editorSelectVariants = cva(
   [
-    "inline-flex items-center rounded-md border bg-transparent outline-none ring-0 transition-colors",
+    "inline-flex items-center rounded-lg border bg-transparent outline-none ring-0 transition-all duration-200",
+    "hover:scale-[1.02] focus:scale-[1.02] cursor-pointer",
   ],
   {
     variants: {
@@ -629,21 +797,31 @@ export const editorSelectVariants = cva(
         xl: "h-10 px-3 text-base",
       } satisfies Record<CodeEditorSize, string>,
       theme: {
-        light: "border-gray-300 text-gray-800 hover:bg-gray-100",
-        dark: "border-slate-700 text-slate-200 hover:bg-slate-800/70",
-        vscode: "border-[#3e3e3e] text-[#d4d4d4] hover:bg-[#2d2d2d]",
-        github: "border-gray-300 text-gray-800 hover:bg-gray-100",
-        monokai: "border-[#3e3d32] text-[#f8f8f2] hover:bg-[#3a3739]",
-        dracula: "border-[#44475a] text-[#f8f8f2] hover:bg-[#343746]",
-        nord: "border-[#3b4252] text-[#eceff4] hover:bg-[#3b4252]",
-        solarized: "border-[#073642] text-[#93a1a1] hover:bg-[#073642]/70",
+        light:
+          "border-gray-300/70 text-gray-800 hover:bg-gray-100 hover:border-gray-400",
+        dark: "border-slate-700/70 text-slate-200 hover:bg-slate-800/70 hover:border-slate-600",
+        vscode:
+          "border-[#3e3e3e]/70 text-[#d4d4d4] hover:bg-[#2d2d2d] hover:border-[#3e3e3e]",
+        github:
+          "border-gray-300/70 text-gray-800 hover:bg-gray-100 hover:border-gray-400",
+        monokai:
+          "border-[#3e3d32]/70 text-[#f8f8f2] hover:bg-[#3a3739] hover:border-[#3e3d32]",
+        dracula:
+          "border-[#44475a]/70 text-[#f8f8f2] hover:bg-[#343746] hover:border-[#44475a]",
+        nord: "border-[#3b4252]/70 text-[#eceff4] hover:bg-[#3b4252] hover:border-[#4c566a]",
+        solarized:
+          "border-[#073642]/70 text-[#93a1a1] hover:bg-[#073642]/70 hover:border-[#073642]",
+        "saha-ui-light":
+          "border-border/70 text-foreground hover:bg-muted hover:border-border",
+        "saha-ui-dark":
+          "border-border/70 text-foreground hover:bg-muted hover:border-border",
       } satisfies Record<CodeEditorTheme, string>,
     },
     defaultVariants: {
       size: "default",
-      theme: "dark",
+      theme: "saha-ui-dark",
     },
-  }
+  },
 );
 
 // Find bar
@@ -652,14 +830,16 @@ export const editorFindBarVariants = cva(
   {
     variants: {
       theme: {
-        light: "bg-white/90 border-gray-200 text-gray-800",
-        dark: "bg-slate-800/90 border-slate-700 text-slate-200",
-        vscode: "bg-[#252526]/90 border-[#1e1e1e] text-[#d4d4d4]",
-        github: "bg-white/90 border-gray-200 text-gray-800",
-        monokai: "bg-[#2d2a2e]/90 border-[#221f22] text-[#f8f8f2]",
-        dracula: "bg-[#21222c]/90 border-[#191a21] text-[#f8f8f2]",
-        nord: "bg-[#2e3440]/90 border-[#242933] text-[#eceff4]",
-        solarized: "bg-[#002b36]/90 border-[#001e26] text-[#93a1a1]",
+        light: "bg-white border-gray-300 text-gray-900",
+        dark: "bg-slate-900 border-slate-700 text-slate-100",
+        vscode: "bg-[#1e1e1e] border-[#3e3e3e] text-[#d4d4d4]",
+        github: "bg-white border-gray-300 text-gray-900",
+        monokai: "bg-[#272822] border-[#3e3d32] text-[#f8f8f2]",
+        dracula: "bg-[#282a36] border-[#44475a] text-[#f8f8f2]",
+        nord: "bg-[#2e3440] border-[#3b4252] text-[#eceff4]",
+        solarized: "bg-[#002b36] border-[#073642] text-[#839496]",
+        "saha-ui-light": "bg-background border-border text-foreground",
+        "saha-ui-dark": "bg-background border-border text-foreground",
       } satisfies Record<CodeEditorTheme, string>,
       size: {
         sm: "px-2 py-1",
@@ -669,10 +849,10 @@ export const editorFindBarVariants = cva(
       } satisfies Record<CodeEditorSize, string>,
     },
     defaultVariants: {
-      theme: "dark",
+      theme: "saha-ui-dark",
       size: "default",
     },
-  }
+  },
 );
 
 export const editorFindInputVariants = cva(
@@ -698,13 +878,15 @@ export const editorFindInputVariants = cva(
         dracula: "border-[#44475a] text-[#f8f8f2]",
         nord: "border-[#3b4252] text-[#eceff4]",
         solarized: "border-[#073642] text-[#93a1a1]",
+        "saha-ui-light": "border-border text-text",
+        "saha-ui-dark": "border-border text-text",
       } satisfies Record<CodeEditorTheme, string>,
     },
     defaultVariants: {
       size: "default",
-      theme: "dark",
+      theme: "saha-ui-dark",
     },
-  }
+  },
 );
 
 // Minimap rail
@@ -717,10 +899,12 @@ export const editorMinimapVariants = cva(
         dark: "bg-slate-800 border-slate-700",
         vscode: "bg-[#1e1e1e] border-[#3e3e3e]",
         github: "bg-gray-50 border-gray-200",
-        monokai: "bg-[#2d2a2e] border-[#221f22]",
-        dracula: "bg-[#21222c] border-[#191a21]",
-        nord: "bg-[#2e3440] border-[#242933]",
-        solarized: "bg-[#002b36] border-[#001e26]",
+        monokai: "bg-[#272822] border-[#3e3d32]",
+        dracula: "bg-[#282a36] border-[#44475a]",
+        nord: "bg-[#2e3440] border-[#3b4252]",
+        solarized: "bg-[#002b36] border-[#073642]",
+        "saha-ui-light": "bg-background-secondary border-border",
+        "saha-ui-dark": "bg-background-secondary border-border",
       } satisfies Record<CodeEditorTheme, string>,
       size: {
         sm: "w-10",
@@ -730,10 +914,10 @@ export const editorMinimapVariants = cva(
       } satisfies Record<CodeEditorSize, string>,
     },
     defaultVariants: {
-      theme: "dark",
+      theme: "saha-ui-dark",
       size: "default",
     },
-  }
+  },
 );
 
 // Tooltip/badge
@@ -753,6 +937,8 @@ export const editorTooltipVariants = cva(
         dracula: "bg-[#21222c] text-[#f8f8f2] border-[#191a21]",
         nord: "bg-[#2e3440] text-[#eceff4] border-[#242933]",
         solarized: "bg-[#002b36] text-[#93a1a1] border-[#001e26]",
+        "saha-ui-light": "bg-surface text-text border-border",
+        "saha-ui-dark": "bg-surface text-text border-border",
       } satisfies Record<CodeEditorTheme, string>,
       tone: {
         neutral: "",
@@ -764,8 +950,8 @@ export const editorTooltipVariants = cva(
         info: "text-info border-info/50",
       },
     },
-    defaultVariants: { theme: "dark", tone: "neutral" },
-  }
+    defaultVariants: { theme: "saha-ui-dark", tone: "neutral" },
+  },
 );
 
 // Gutter markers
@@ -790,7 +976,7 @@ export const editorGutterMarkerVariants = cva(
       },
     },
     defaultVariants: { kind: "info", hollow: false },
-  }
+  },
 );
 
 // Extra types for actions
@@ -840,7 +1026,7 @@ export const buttonVariants = cva(
       },
     },
     defaultVariants: { variant: "primary", size: "md" },
-  }
+  },
 );
 
 export const shimmerVariants = cva("", {

@@ -93,14 +93,14 @@ interface ContextMenuContextValue {
 }
 
 const ContextMenuContext = createContext<ContextMenuContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 const useContextMenu = () => {
   const context = useContext(ContextMenuContext);
   if (!context) {
     throw new Error(
-      "ContextMenu components must be used within ContextMenu provider"
+      "ContextMenu components must be used within ContextMenu provider",
     );
   }
   return context;
@@ -150,7 +150,7 @@ const validateContextMenuProps = (props: Partial<ContextMenuProps>) => {
         "defaultOpen",
         props.defaultOpen,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
     }
 
@@ -169,12 +169,12 @@ const validateContextMenuProps = (props: Partial<ContextMenuProps>) => {
         "onOpenChange",
         props.onOpenChange,
         "function",
-        isValidFunction
+        isValidFunction,
       );
     }
 
     // Validate children
-    validator.validateChildren(props.children, true);
+    // Children are already required by TypeScript types, no need to validate
   }
 };
 
@@ -183,14 +183,14 @@ const validateTriggerProps = (props: Partial<ContextMenuTriggerProps>) => {
   if (process.env.NODE_ENV === "development") {
     const validator = new ComponentValidator("ContextMenuTrigger");
 
-    validator.validateChildren(props.children, true);
+    // Children are already required by TypeScript types, no need to validate
 
     if (props.disabled !== undefined) {
       validator.validateType(
         "disabled",
         props.disabled,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
     }
 
@@ -199,7 +199,7 @@ const validateTriggerProps = (props: Partial<ContextMenuTriggerProps>) => {
         "asChild",
         props.asChild,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
     }
 
@@ -208,7 +208,7 @@ const validateTriggerProps = (props: Partial<ContextMenuTriggerProps>) => {
         "className",
         props.className,
         "string",
-        isValidString
+        isValidString,
       );
     }
   }
@@ -219,14 +219,14 @@ const validateContentProps = (props: Partial<ContextMenuContentProps>) => {
   if (process.env.NODE_ENV === "development") {
     const validator = new ComponentValidator("ContextMenuContent");
 
-    validator.validateChildren(props.children, true);
+    // Children are already required by TypeScript types, no need to validate
 
     if (props.sideOffset !== undefined) {
       validator.validateType(
         "sideOffset",
         props.sideOffset,
         "number",
-        isValidNumber
+        isValidNumber,
       );
     }
 
@@ -235,7 +235,7 @@ const validateContentProps = (props: Partial<ContextMenuContentProps>) => {
         "alignOffset",
         props.alignOffset,
         "number",
-        isValidNumber
+        isValidNumber,
       );
     }
 
@@ -244,7 +244,7 @@ const validateContentProps = (props: Partial<ContextMenuContentProps>) => {
         "collisionPadding",
         props.collisionPadding,
         "number",
-        isValidNumber
+        isValidNumber,
       );
     }
 
@@ -253,7 +253,7 @@ const validateContentProps = (props: Partial<ContextMenuContentProps>) => {
         "avoidCollisions",
         props.avoidCollisions,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
     }
 
@@ -273,14 +273,14 @@ const validateItemProps = (props: Partial<ContextMenuItemProps>) => {
   if (process.env.NODE_ENV === "development") {
     const validator = new ComponentValidator("ContextMenuItem");
 
-    validator.validateChildren(props.children, true);
+    // Children are already required by TypeScript types, no need to validate
 
     if (props.disabled !== undefined) {
       validator.validateType(
         "disabled",
         props.disabled,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
     }
 
@@ -303,7 +303,7 @@ const validateItemProps = (props: Partial<ContextMenuItemProps>) => {
         "onSelect",
         props.onSelect,
         "function",
-        isValidFunction
+        isValidFunction,
       );
     }
   }
@@ -311,19 +311,19 @@ const validateItemProps = (props: Partial<ContextMenuItemProps>) => {
 
 // Validate ContextMenuCheckboxItem props
 const validateCheckboxItemProps = (
-  props: Partial<ContextMenuCheckboxItemProps>
+  props: Partial<ContextMenuCheckboxItemProps>,
 ) => {
   if (process.env.NODE_ENV === "development") {
     const validator = new ComponentValidator("ContextMenuCheckboxItem");
 
-    validator.validateChildren(props.children, true);
+    // Children are already required by TypeScript types, no need to validate
 
     if (props.checked !== undefined) {
       validator.validateType(
         "checked",
         props.checked,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
     }
 
@@ -332,7 +332,7 @@ const validateCheckboxItemProps = (
         "defaultChecked",
         props.defaultChecked,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
     }
 
@@ -341,7 +341,7 @@ const validateCheckboxItemProps = (
         "disabled",
         props.disabled,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
     }
 
@@ -354,7 +354,7 @@ const validateCheckboxItemProps = (
         "onCheckedChange",
         props.onCheckedChange,
         "function",
-        isValidFunction
+        isValidFunction,
       );
     }
 
@@ -363,7 +363,7 @@ const validateCheckboxItemProps = (
         "onSelect",
         props.onSelect,
         "function",
-        isValidFunction
+        isValidFunction,
       );
     }
   }
@@ -371,12 +371,12 @@ const validateCheckboxItemProps = (
 
 // Validate ContextMenuRadioGroup props
 const validateRadioGroupProps = (
-  props: Partial<ContextMenuRadioGroupProps>
+  props: Partial<ContextMenuRadioGroupProps>,
 ) => {
   if (process.env.NODE_ENV === "development") {
     const validator = new ComponentValidator("ContextMenuRadioGroup");
 
-    validator.validateChildren(props.children, true);
+    // Children are already required by TypeScript types, no need to validate
 
     if (props.value !== undefined) {
       validator.validateType("value", props.value, "string", isValidString);
@@ -387,7 +387,7 @@ const validateRadioGroupProps = (
         "defaultValue",
         props.defaultValue,
         "string",
-        isValidString
+        isValidString,
       );
     }
 
@@ -396,7 +396,7 @@ const validateRadioGroupProps = (
         "onValueChange",
         props.onValueChange,
         "function",
-        isValidFunction
+        isValidFunction,
       );
     }
   }
@@ -407,7 +407,7 @@ const validateRadioItemProps = (props: Partial<ContextMenuRadioItemProps>) => {
   if (process.env.NODE_ENV === "development") {
     const validator = new ComponentValidator("ContextMenuRadioItem");
 
-    validator.validateChildren(props.children, true);
+    // Children are already required by TypeScript types, no need to validate
     validator.validateRequired("value", props.value);
 
     if (props.value !== undefined) {
@@ -419,7 +419,7 @@ const validateRadioItemProps = (props: Partial<ContextMenuRadioItemProps>) => {
         "disabled",
         props.disabled,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
     }
 
@@ -432,7 +432,7 @@ const validateRadioItemProps = (props: Partial<ContextMenuRadioItemProps>) => {
         "onSelect",
         props.onSelect,
         "function",
-        isValidFunction
+        isValidFunction,
       );
     }
   }
@@ -454,7 +454,7 @@ export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     // Validation
     validateContextMenuProps({
@@ -479,7 +479,7 @@ export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuProps>(
         }
         onOpenChange?.(open);
       },
-      [controlledOpen, onOpenChange]
+      [controlledOpen, onOpenChange],
     );
 
     const contextValue: ContextMenuContextValue = {
@@ -500,7 +500,7 @@ export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuProps>(
         </div>
       </ContextMenuContext.Provider>
     );
-  }
+  },
 );
 
 ContextMenu.displayName = "ContextMenu";
@@ -528,7 +528,7 @@ export const ContextMenuTrigger = forwardRef<
       setPosition({ x: e.clientX, y: e.clientY });
       setIsOpen(true);
     },
-    [disabled, setIsOpen, setPosition]
+    [disabled, setIsOpen, setPosition],
   );
 
   return (
@@ -548,7 +548,7 @@ export const ContextMenuTrigger = forwardRef<
       className={cn(
         "cursor-context-menu",
         disabled && "cursor-not-allowed opacity-50",
-        className
+        className,
       )}
       {...props}
     >
@@ -579,7 +579,7 @@ export const ContextMenuContent = forwardRef<
       loop = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { variant, size, isOpen, setIsOpen, position, contentRef } =
       useContextMenu();
@@ -662,7 +662,7 @@ export const ContextMenuContent = forwardRef<
       if (!isOpen || !contentRef.current) return;
 
       const items = contentRef.current.querySelectorAll(
-        '[role="menuitem"]:not([data-disabled])'
+        '[role="menuitem"]:not([data-disabled])',
       );
       let currentIndex = -1;
 
@@ -729,7 +729,7 @@ export const ContextMenuContent = forwardRef<
               data-state={isOpen ? "open" : "closed"}
               className={cn(
                 contextMenuContentVariants({ variant, size }),
-                className
+                className,
               )}
               style={{
                 position: "fixed",
@@ -744,11 +744,11 @@ export const ContextMenuContent = forwardRef<
             >
               {children}
             </div>,
-            document.body
+            document.body,
           )}
       </>
     );
-  }
+  },
 );
 
 ContextMenuContent.displayName = "ContextMenuContent";
@@ -770,7 +770,7 @@ export const ContextMenuItem = forwardRef<HTMLDivElement, ContextMenuItemProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { size, setIsOpen, variant: menuVariant } = useContextMenu();
 
@@ -798,7 +798,7 @@ export const ContextMenuItem = forwardRef<HTMLDivElement, ContextMenuItemProps>(
           setIsOpen(false);
         }
       },
-      [disabled, onSelect, setIsOpen]
+      [disabled, onSelect, setIsOpen],
     );
 
     const handleKeyDown = useCallback(
@@ -818,7 +818,7 @@ export const ContextMenuItem = forwardRef<HTMLDivElement, ContextMenuItemProps>(
           }
         }
       },
-      [disabled, onSelect, setIsOpen]
+      [disabled, onSelect, setIsOpen],
     );
 
     // Variant-specific hover styles based on menu variant
@@ -872,7 +872,7 @@ export const ContextMenuItem = forwardRef<HTMLDivElement, ContextMenuItemProps>(
           inset && size === "lg" && "pl-12",
           // Variant-specific hover colors
           getVariantHoverStyles(),
-          className
+          className,
         )}
         {...props}
       >
@@ -887,7 +887,7 @@ export const ContextMenuItem = forwardRef<HTMLDivElement, ContextMenuItemProps>(
         {shortcut && <ContextMenuShortcut>{shortcut}</ContextMenuShortcut>}
       </div>
     );
-  }
+  },
 );
 
 ContextMenuItem.displayName = "ContextMenuItem";
@@ -913,7 +913,7 @@ export const ContextMenuCheckboxItem = forwardRef<
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { size, variant } = useContextMenu();
     const [internalChecked, setInternalChecked] = useState(defaultChecked);
@@ -963,7 +963,7 @@ export const ContextMenuCheckboxItem = forwardRef<
         const event = new Event("select", { bubbles: true, cancelable: true });
         onSelect?.(event);
       },
-      [disabled, isChecked, controlledChecked, onCheckedChange, onSelect]
+      [disabled, isChecked, controlledChecked, onCheckedChange, onSelect],
     );
 
     // Variant-specific hover styles
@@ -1017,7 +1017,7 @@ export const ContextMenuCheckboxItem = forwardRef<
           inset && size === "lg" && "pl-17",
           // Variant-specific hover colors
           getVariantHoverStyles(),
-          className
+          className,
         )}
         {...props}
       >
@@ -1034,7 +1034,7 @@ export const ContextMenuCheckboxItem = forwardRef<
         </span>
       </div>
     );
-  }
+  },
 );
 
 ContextMenuCheckboxItem.displayName = "ContextMenuCheckboxItem";
@@ -1063,7 +1063,7 @@ export const ContextMenuRadioGroup = forwardRef<
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [internalValue, setInternalValue] = useState(defaultValue);
 
@@ -1087,7 +1087,7 @@ export const ContextMenuRadioGroup = forwardRef<
         }
         onValueChange?.(newValue);
       },
-      [controlledValue, onValueChange]
+      [controlledValue, onValueChange],
     );
 
     return (
@@ -1099,7 +1099,7 @@ export const ContextMenuRadioGroup = forwardRef<
         </div>
       </RadioContext.Provider>
     );
-  }
+  },
 );
 
 ContextMenuRadioGroup.displayName = "ContextMenuRadioGroup";
@@ -1123,7 +1123,7 @@ export const ContextMenuRadioItem = forwardRef<
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { size, variant } = useContextMenu();
     const radioContext = useContext(RadioContext);
@@ -1142,7 +1142,7 @@ export const ContextMenuRadioItem = forwardRef<
 
     if (!radioContext) {
       throw new Error(
-        "ContextMenuRadioItem must be used within ContextMenuRadioGroup"
+        "ContextMenuRadioItem must be used within ContextMenuRadioGroup",
       );
     }
 
@@ -1159,7 +1159,7 @@ export const ContextMenuRadioItem = forwardRef<
         const event = new Event("select", { bubbles: true, cancelable: true });
         onSelect?.(event);
       },
-      [disabled, itemValue, onValueChange, onSelect]
+      [disabled, itemValue, onValueChange, onSelect],
     );
 
     // Variant-specific hover styles
@@ -1213,7 +1213,7 @@ export const ContextMenuRadioItem = forwardRef<
           inset && size === "lg" && "pl-17",
           // Variant-specific hover colors
           getVariantHoverStyles(),
-          className
+          className,
         )}
         {...props}
       >
@@ -1228,7 +1228,7 @@ export const ContextMenuRadioItem = forwardRef<
         <span className="flex-1 leading-none">{children}</span>
       </div>
     );
-  }
+  },
 );
 
 ContextMenuRadioItem.displayName = "ContextMenuRadioItem";
@@ -1254,7 +1254,7 @@ export const ContextMenuSub = forwardRef<HTMLDivElement, ContextMenuSubProps>(
       onOpenChange,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [internalOpen, setInternalOpen] = useState(defaultOpen);
     const triggerRef = useRef<HTMLDivElement>(null);
@@ -1268,7 +1268,7 @@ export const ContextMenuSub = forwardRef<HTMLDivElement, ContextMenuSubProps>(
         }
         onOpenChange?.(open);
       },
-      [controlledOpen, onOpenChange]
+      [controlledOpen, onOpenChange],
     );
 
     return (
@@ -1280,7 +1280,7 @@ export const ContextMenuSub = forwardRef<HTMLDivElement, ContextMenuSubProps>(
         </div>
       </SubContext.Provider>
     );
-  }
+  },
 );
 
 ContextMenuSub.displayName = "ContextMenuSub";
@@ -1295,14 +1295,14 @@ export const ContextMenuSubTrigger = forwardRef<
 >(
   (
     { children, disabled = false, inset = false, icon, className, ...props },
-    ref
+    ref,
   ) => {
     const { size, variant } = useContextMenu();
     const subContext = useContext(SubContext);
 
     if (!subContext) {
       throw new Error(
-        "ContextMenuSubTrigger must be used within ContextMenuSub"
+        "ContextMenuSubTrigger must be used within ContextMenuSub",
       );
     }
 
@@ -1385,7 +1385,7 @@ export const ContextMenuSubTrigger = forwardRef<
           contextMenuSubTriggerVariants({ size, inset }),
           getVariantHoverStyles(),
           "relative transition-all duration-200 ease-in-out",
-          className
+          className,
         )}
         {...props}
       >
@@ -1398,7 +1398,7 @@ export const ContextMenuSubTrigger = forwardRef<
         <ChevronRight className="absolute right-3 h-4 w-4 pointer-events-none" />
       </div>
     );
-  }
+  },
 );
 
 ContextMenuSubTrigger.displayName = "ContextMenuSubTrigger";
@@ -1420,7 +1420,7 @@ export const ContextMenuSubContent = forwardRef<
       sideOffset = 8,
       ...props
     },
-    _ref
+    _ref,
   ) => {
     const { variant, size } = useContextMenu();
     const subContext = useContext(SubContext);
@@ -1429,7 +1429,7 @@ export const ContextMenuSubContent = forwardRef<
 
     if (!subContext) {
       throw new Error(
-        "ContextMenuSubContent must be used within ContextMenuSub"
+        "ContextMenuSubContent must be used within ContextMenuSub",
       );
     }
 
@@ -1521,7 +1521,7 @@ export const ContextMenuSubContent = forwardRef<
           size === "sm" && "text-xs min-w-[14rem]",
           size === "md" && "text-sm min-w-[16rem]",
           size === "lg" && "text-base min-w-[18rem]",
-          className
+          className,
         )}
         style={{
           top: `${position.top}px`,
@@ -1533,9 +1533,9 @@ export const ContextMenuSubContent = forwardRef<
       >
         {children}
       </div>,
-      document.body
+      document.body,
     );
-  }
+  },
 );
 
 ContextMenuSubContent.displayName = "ContextMenuSubContent";

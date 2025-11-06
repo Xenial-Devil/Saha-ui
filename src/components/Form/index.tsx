@@ -95,7 +95,7 @@ type FormFieldContextValue<TName extends string = string> = {
 };
 
 const FormFieldContext = createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue
+  {} as FormFieldContextValue,
 );
 
 type FormItemContextValue = {
@@ -103,7 +103,7 @@ type FormItemContextValue = {
 };
 
 const FormItemContext = createContext<FormItemContextValue>(
-  {} as FormItemContextValue
+  {} as FormItemContextValue,
 );
 
 const useFormField = () => {
@@ -186,11 +186,12 @@ export const Form = React.forwardRef<HTMLFormElement, FormProps>(
       variant = "default",
       size = "md",
       layout = "vertical",
+      loading = false,
       disabled = false,
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     // If FormProvider is available and props look like RHF (has control, etc.),
     // use FormProvider. Otherwise, render as a regular form.
@@ -200,7 +201,7 @@ export const Form = React.forwardRef<HTMLFormElement, FormProps>(
       variant,
       size,
       layout,
-      disabled,
+      disabled: disabled || loading,
     };
 
     if (isReactHookForm && FormProvider) {
@@ -225,7 +226,7 @@ export const Form = React.forwardRef<HTMLFormElement, FormProps>(
         </form>
       </FormContext.Provider>
     );
-  }
+  },
 );
 
 Form.displayName = "Form";
@@ -297,14 +298,14 @@ export const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
             variant: variant || config.variant,
             layout: layout || config.layout,
           }),
-          className
+          className,
         )}
         {...props}
       >
         {children}
       </div>
     );
-  }
+  },
 );
 
 FormItem.displayName = "FormItem";
@@ -327,7 +328,7 @@ export const FormLabel = React.forwardRef<HTMLLabelElement, FormLabelProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const config = useFormConfig();
 
@@ -340,7 +341,7 @@ export const FormLabel = React.forwardRef<HTMLLabelElement, FormLabelProps>(
             size: size || config.size,
             required,
           }),
-          className
+          className,
         )}
         {...props}
       >
@@ -357,7 +358,7 @@ export const FormLabel = React.forwardRef<HTMLLabelElement, FormLabelProps>(
         )}
       </label>
     );
-  }
+  },
 );
 
 FormLabel.displayName = "FormLabel";
@@ -380,7 +381,7 @@ export const FormControl = React.forwardRef<HTMLDivElement, FormControlProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 
 FormControl.displayName = "FormControl";
@@ -406,7 +407,7 @@ export const FormDescription = React.forwardRef<
           variant: variant || config.variant,
           size: size || config.size,
         }),
-        className
+        className,
       )}
       {...props}
     >
@@ -456,10 +457,10 @@ export const FormMessage = React.forwardRef<
     variant === "success"
       ? "text-success"
       : variant === "warning"
-      ? "text-warning"
-      : variant === "info"
-      ? "text-info"
-      : "text-destructive"; // error is default
+        ? "text-warning"
+        : variant === "info"
+          ? "text-info"
+          : "text-destructive"; // error is default
 
   return (
     <p
@@ -493,7 +494,7 @@ export const FormSection = React.forwardRef<HTMLDivElement, FormSectionProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <div
@@ -514,7 +515,7 @@ export const FormSection = React.forwardRef<HTMLDivElement, FormSectionProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 
 FormSection.displayName = "FormSection";
@@ -538,14 +539,14 @@ export const FormActions = React.forwardRef<HTMLDivElement, FormActionsProps>(
             align,
             variant: variant || config.variant,
           }),
-          className
+          className,
         )}
         {...props}
       >
         {children}
       </div>
     );
-  }
+  },
 );
 
 FormActions.displayName = "FormActions";
@@ -571,7 +572,7 @@ FormActions.displayName = "FormActions";
  * ```
  */
 export const FormCompact = <
-  TFieldValues extends Record<string, any> = Record<string, any>
+  TFieldValues extends Record<string, any> = Record<string, any>,
 >({
   form,
   title,
@@ -655,7 +656,7 @@ export const FormCompact = <
         </FormItem>
       );
     },
-    []
+    [],
   );
 
   return (

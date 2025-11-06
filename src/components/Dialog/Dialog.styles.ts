@@ -26,7 +26,7 @@ const overlayVariants = cva(
       backdrop: "default",
       state: "closed",
     },
-  }
+  },
 );
 /**
  * Content variants with SMOOTH animations
@@ -51,7 +51,8 @@ const contentVariants = cva(
         warning: "bg-warning/5 border-2 border-warning/30",
         error: "bg-destructive/5 border-2 border-destructive/30",
         info: "bg-info/5 border-2 border-info/30",
-        glass: "bg-background/80 backdrop-blur-xl border border-white/20",
+        glass:
+          "bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 shadow-2xl shadow-black/10",
       },
       size: {
         xs: "max-w-xs",
@@ -254,6 +255,6 @@ const contentVariants = cva(
       fullScreen: false,
       state: "closed",
     },
-  }
+  },
 );
 export { overlayVariants, contentVariants };

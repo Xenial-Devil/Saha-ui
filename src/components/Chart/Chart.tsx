@@ -1,5 +1,7 @@
+"use client";
+
+import { ChartWrapper } from "./components/ChartWrapper";
 import { ChartContainer } from "./components/ChartContainer";
-import { ChartHeader } from "./components/ChartHeader";
 import { ChartLegend } from "./components/ChartLegend";
 import { ChartLoading } from "./components/ChartLoading";
 import { useChartData } from "../../hooks/useChartData";
@@ -42,7 +44,7 @@ export function Chart({
   className,
   children,
 }: ChartProps) {
-  const { hiddenSeries, toggleSeries } = useChartData(config);
+  const { hiddenSeries } = useChartData(config);
   const { getColor } = useChartColors(variant);
 
   // Prepare legend data
@@ -53,7 +55,7 @@ export function Chart({
         color: series.color || getColor(index),
         dataKey: series.dataKey,
       })),
-    [config.series, getColor]
+    [config.series, getColor],
   );
 
   // Get chart component
@@ -77,38 +79,50 @@ export function Chart({
     return config;
   }, [type, config]);
 
-  return (
-    <ChartContainer variant={variant} size={size} className={className}>
-      <ChartHeader title={title} description={description} size={size} />
+  // Convert config to Shadcn-style chart config
+  const shadcnConfig = useMemo(() => {
+    const configObj: Record<string, any> = {};
+    config.series.forEach((series, index) => {
+      configObj[series.dataKey] = {
+        label: series.name || series.dataKey,
+        color: series.color || getColor(index),
+      };
+    });
+    return configObj;
+  }, [config.series, getColor]);
 
+  return (
+    <ChartWrapper title={title} description={description} className={className}>
       {config.legend?.show !== false && config.legend?.position === "top" && (
         <ChartLegend
           payload={legendPayload}
-          config={{ ...config.legend, onClick: toggleSeries }}
-          disabled={hiddenSeries}
+          verticalAlign="top"
+          className="cursor-pointer"
         />
       )}
 
       {loading ? (
         <ChartLoading size={size} />
       ) : (
-        <ChartComponent
-          config={chartConfig}
-          variant={variant}
-          size={size}
-          hiddenSeries={hiddenSeries}
-        />
+        <ChartContainer config={shadcnConfig} className="w-full">
+          <ChartComponent
+            config={chartConfig}
+            variant={variant}
+            size={size}
+            hiddenSeries={hiddenSeries}
+          />
+        </ChartContainer>
       )}
 
       {config.legend?.show !== false && config.legend?.position !== "top" && (
         <ChartLegend
           payload={legendPayload}
-          config={{ ...config.legend, onClick: toggleSeries }}
-          disabled={hiddenSeries}
+          verticalAlign="bottom"
+          className="cursor-pointer"
         />
       )}
 
       {children}
-    </ChartContainer>
+    </ChartWrapper>
   );
 }

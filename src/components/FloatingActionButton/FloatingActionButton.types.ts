@@ -40,4 +40,10 @@ export interface FloatingActionButtonProps
     x?: number;
     y?: number;
   };
+  /**
+   * When true, the FloatingActionButton will render its child element and merge props
+   * Useful for composition with other components
+   * @default false
+   */
+  asChild?: boolean;
 }

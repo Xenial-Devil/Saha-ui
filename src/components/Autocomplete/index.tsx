@@ -10,13 +10,14 @@ import React, {
   useMemo,
 } from "react";
 import { cn } from "../../lib/utils";
+import { ChevronDown, X, Check, Search, Loader2 } from "lucide-react";
+import { Slot } from "../../lib/Slot";
 import type {
   AutocompleteProps,
   AutocompleteOption as AutocompleteOptionType,
   AutocompleteSize,
   AutocompleteVariant,
 } from "./Autocomplete.types";
-import { Search, X, ChevronDown, Loader2, Check } from "lucide-react";
 import {
   createValidator,
   commonValidators,
@@ -55,14 +56,14 @@ interface AutocompleteContextValue {
 }
 
 const AutocompleteContext = createContext<AutocompleteContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 const useAutocomplete = () => {
   const context = useContext(AutocompleteContext);
   if (!context) {
     throw new Error(
-      "Autocomplete subcomponents must be used within <Autocomplete>"
+      "Autocomplete subcomponents must be used within <Autocomplete>",
     );
   }
   return context;
@@ -73,13 +74,13 @@ const useAutocomplete = () => {
 // Default filter function
 const defaultFilterOptions = (
   options: AutocompleteOptionType[],
-  inputValue: string
+  inputValue: string,
 ): AutocompleteOptionType[] => {
   const lowerInput = inputValue.toLowerCase();
   return options.filter(
     (option) =>
       option.label.toLowerCase().includes(lowerInput) ||
-      option.description?.toLowerCase().includes(lowerInput)
+      option.description?.toLowerCase().includes(lowerInput),
   );
 };
 
@@ -96,7 +97,7 @@ const highlightText = (text: string, query: string) => {
           </mark>
         ) : (
           part
-        )
+        ),
       )}
     </span>
   );
@@ -150,7 +151,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     // Development-only validation
     useEffect(() => {
@@ -197,7 +198,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
           "maxOptions",
           maxOptions,
           "number",
-          isValidNumber
+          isValidNumber,
         );
         if (maxOptions <= 0) {
           validator.error("maxOptions must be greater than 0");
@@ -214,38 +215,38 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
         "autoFilter",
         autoFilter,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "showNoResults",
         showNoResults,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType("groupBy", groupBy, "boolean", isValidBoolean);
       validator.validateType(
         "highlightMatch",
         highlightMatch,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "showDescriptions",
         showDescriptions,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "autoSelectFirst",
         autoSelectFirst,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "closeOnSelect",
         closeOnSelect,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
 
       // Common validators
@@ -350,7 +351,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
         onOpenChange,
         autoSelectFirst,
         filteredOptions,
-      ]
+      ],
     );
 
     // Handle option select
@@ -377,7 +378,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
         closeOnSelect,
         isOpenControlled,
         onOpenChange,
-      ]
+      ],
     );
 
     // Handle clear
@@ -397,7 +398,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
         case "ArrowDown":
           e.preventDefault();
           setHighlightedIndex((prev) =>
-            prev < filteredOptions.length - 1 ? prev + 1 : prev
+            prev < filteredOptions.length - 1 ? prev + 1 : prev,
           );
           break;
 
@@ -449,7 +450,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
     useEffect(() => {
       if (highlightedIndex >= 0 && dropdownRef.current) {
         const highlightedElement = dropdownRef.current.querySelector(
-          `[data-option-index="${highlightedIndex}"]`
+          `[data-option-index="${highlightedIndex}"]`,
         );
         highlightedElement?.scrollIntoView({ block: "nearest" });
       }
@@ -482,7 +483,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
     // Render option
     const renderOptionContent = (
       option: AutocompleteOptionType,
-      index: number
+      index: number,
     ) => {
       if (renderOption) {
         return renderOption(option, value);
@@ -672,7 +673,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
             <p
               className={cn(
                 "mt-1.5 text-xs",
-                error ? "text-danger" : "text-muted-foreground"
+                error ? "text-danger" : "text-muted-foreground",
               )}
             >
               {error || helperText}
@@ -706,15 +707,15 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
                         {groupOptions.map((option) =>
                           renderOptionContent(
                             option,
-                            filteredOptions.indexOf(option)
-                          )
+                            filteredOptions.indexOf(option),
+                          ),
                         )}
                       </div>
-                    )
+                    ),
                   )
                 ) : (
                   filteredOptions.map((option, index) =>
-                    renderOptionContent(option, index)
+                    renderOptionContent(option, index),
                   )
                 )}
               </div>
@@ -723,7 +724,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
         </div>
       </AutocompleteContext.Provider>
     );
-  }
+  },
 );
 
 Autocomplete.displayName = "Autocomplete";
@@ -806,23 +807,30 @@ AutocompleteInput.displayName = "AutocompleteInput";
 export interface AutocompleteDropdownProps {
   children?: React.ReactNode;
   className?: string;
+  /**
+   * When true, will render its child element and merge props
+   * @default false
+   */
+  asChild?: boolean;
 }
 
 export const AutocompleteDropdown = React.forwardRef<
   HTMLDivElement,
   AutocompleteDropdownProps
->(({ children, className }, ref) => {
+>(({ children, className, asChild = false }, ref) => {
   const { isOpen, variant, dropdownRef } = useAutocomplete();
 
   if (!isOpen) return null;
 
+  const Comp = asChild ? Slot : "div";
+
   return (
-    <div
+    <Comp
       ref={ref || dropdownRef}
       className={cn(dropdownVariants({ variant }), className)}
     >
       {children}
-    </div>
+    </Comp>
   );
 });
 
@@ -832,12 +840,17 @@ export interface AutocompleteOptionProps {
   option: AutocompleteOptionType;
   index: number;
   children?: React.ReactNode;
+  /**
+   * When true, will render its child element and merge props
+   * @default false
+   */
+  asChild?: boolean;
 }
 
 export const AutocompleteOption = React.forwardRef<
   HTMLDivElement,
   AutocompleteOptionProps
->(({ option, index, children }, ref) => {
+>(({ option, index, children, asChild = false }, ref) => {
   const {
     selectedValue,
     highlightedIndex,
@@ -850,8 +863,10 @@ export const AutocompleteOption = React.forwardRef<
   const isHighlighted = highlightedIndex === index;
   const isSelected = option.value === selectedValue;
 
+  const Comp = asChild ? Slot : "div";
+
   return (
-    <div
+    <Comp
       ref={ref}
       data-option-index={index}
       className={optionVariants({
@@ -863,30 +878,36 @@ export const AutocompleteOption = React.forwardRef<
       onClick={() => !option.disabled && handleSelect(option)}
       onMouseEnter={() => setHighlightedIndex(index)}
     >
-      {children || (
-        <>
-          {option.icon && <span className="flex-shrink-0">{option.icon}</span>}
-          {option.avatar && (
-            <img
-              src={option.avatar}
-              alt={option.label}
-              className="w-6 h-6 rounded-full flex-shrink-0"
-            />
-          )}
-          <div className="flex-1 min-w-0">
-            <div className="truncate">{highlightText(option.label, value)}</div>
-            {option.description && (
-              <div className="text-xs text-muted-foreground truncate">
-                {option.description}
+      {asChild
+        ? children
+        : children || (
+            <>
+              {option.icon && (
+                <span className="flex-shrink-0">{option.icon}</span>
+              )}
+              {option.avatar && (
+                <img
+                  src={option.avatar}
+                  alt={option.label}
+                  className="w-6 h-6 rounded-full flex-shrink-0"
+                />
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="truncate">
+                  {highlightText(option.label, value)}
+                </div>
+                {option.description && (
+                  <div className="text-xs text-muted-foreground truncate">
+                    {option.description}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          {isSelected && (
-            <Check size={16} className="flex-shrink-0 text-primary" />
+              {isSelected && (
+                <Check size={16} className="flex-shrink-0 text-primary" />
+              )}
+            </>
           )}
-        </>
-      )}
-    </div>
+    </Comp>
   );
 });
 

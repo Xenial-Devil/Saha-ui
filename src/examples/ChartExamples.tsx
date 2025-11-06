@@ -185,31 +185,91 @@ export default function ChartExamples() {
           </p>
         </div>
 
-        {/* Basic Bar Chart */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Basic Bar Chart</h3>
-          <Chart
-            type="bar"
-            config={{
-              data: salesData,
-              xAxis: { dataKey: "month" },
-              yAxis: {},
-              series: [
-                {
-                  dataKey: "sales",
-                  name: "Sales",
-                  radius: [8, 8, 0, 0],
-                  color: "#10b981",
-                },
-              ],
-              legend: { show: false },
-              tooltip: { show: true },
-              grid: { show: true },
-            }}
-            title="Monthly Sales"
-            variant="success"
-            size="md"
-          />
+        {/* Single Series with Gradient (Auto-applied) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Accent Variant</h3>
+            <p className="text-sm text-muted-foreground">
+              Single series - automatic gradient from dark to light
+            </p>
+            <Chart
+              type="bar"
+              config={{
+                data: salesData,
+                xAxis: { dataKey: "month" },
+                yAxis: {},
+                series: [
+                  {
+                    dataKey: "sales",
+                    name: "Sales",
+                    radius: [8, 8, 0, 0],
+                  },
+                ],
+                legend: { show: false },
+                tooltip: { show: true },
+                grid: { show: true },
+              }}
+              title="Sales Gradient"
+              variant="accent"
+              size="md"
+            />
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Success Variant</h3>
+            <p className="text-sm text-muted-foreground">
+              Single series - progressive lightness effect
+            </p>
+            <Chart
+              type="bar"
+              config={{
+                data: salesData,
+                xAxis: { dataKey: "month" },
+                yAxis: {},
+                series: [
+                  {
+                    dataKey: "sales",
+                    name: "Sales",
+                    radius: [8, 8, 0, 0],
+                  },
+                ],
+                legend: { show: false },
+                tooltip: { show: true },
+                grid: { show: true },
+              }}
+              title="Revenue Growth"
+              variant="success"
+              size="md"
+            />
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Warning Variant</h3>
+            <p className="text-sm text-muted-foreground">
+              Single series - each bar gets lighter
+            </p>
+            <Chart
+              type="bar"
+              config={{
+                data: salesData,
+                xAxis: { dataKey: "month" },
+                yAxis: {},
+                series: [
+                  {
+                    dataKey: "sales",
+                    name: "Sales",
+                    radius: [8, 8, 0, 0],
+                  },
+                ],
+                legend: { show: false },
+                tooltip: { show: true },
+                grid: { show: true },
+              }}
+              title="Alert Metrics"
+              variant="warning"
+              size="md"
+            />
+          </div>
         </div>
 
         {/* Stacked Bar Chart */}
@@ -245,9 +305,14 @@ export default function ChartExamples() {
           />
         </div>
 
-        {/* Grouped Bar Chart */}
+        {/* Multiple Series with Different Colors */}
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Grouped Bar Chart</h3>
+          <h3 className="text-xl font-semibold">
+            Multiple Series (Different Colors)
+          </h3>
+          <p className="text-muted-foreground">
+            Each series uses a distinct color - no gradient applied
+          </p>
           <Chart
             type="bar"
             config={{
@@ -258,17 +323,14 @@ export default function ChartExamples() {
                 {
                   dataKey: "sales",
                   name: "Sales",
-                  color: "#3b82f6",
                 },
                 {
                   dataKey: "revenue",
                   name: "Revenue",
-                  color: "#10b981",
                 },
                 {
                   dataKey: "profit",
                   name: "Profit",
-                  color: "#f59e0b",
                 },
               ],
               legend: { show: true, position: "top" },
@@ -276,9 +338,97 @@ export default function ChartExamples() {
               grid: { show: true },
             }}
             title="Monthly Metrics Comparison"
+            description="Three different series with distinct colors"
             variant="default"
             size="lg"
           />
+        </div>
+
+        {/* Comparison Grid - Primary vs Glass */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold">Primary Variant</h3>
+            <p className="text-sm text-muted-foreground">
+              Solid blue gradient: Dark → Light
+            </p>
+            <Chart
+              type="bar"
+              config={{
+                data: revenueData,
+                xAxis: { dataKey: "quarter" },
+                yAxis: {},
+                series: [
+                  {
+                    dataKey: "revenue",
+                    name: "Revenue",
+                    radius: [8, 8, 0, 0],
+                  },
+                ],
+                legend: { show: false },
+                tooltip: { show: true },
+                grid: { show: true },
+              }}
+              title="Quarterly Revenue"
+              variant="primary"
+              size="md"
+            />
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold">Glass Variant</h3>
+            <p className="text-sm text-muted-foreground">
+              Transparent with vibrant colors: Cyan → Pink → Mint
+            </p>
+            <Chart
+              type="bar"
+              config={{
+                data: revenueData,
+                xAxis: { dataKey: "quarter" },
+                yAxis: {},
+                series: [
+                  {
+                    dataKey: "revenue",
+                    name: "Revenue",
+                    radius: [8, 8, 0, 0],
+                  },
+                ],
+                legend: { show: false },
+                tooltip: { show: true },
+                grid: { show: true },
+              }}
+              title="Quarterly Performance"
+              variant="glass"
+              size="md"
+            />
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold">Error Variant</h3>
+            <p className="text-sm text-muted-foreground">
+              Red gradient: Dark red → Light red
+            </p>
+            <Chart
+              type="bar"
+              config={{
+                data: revenueData,
+                xAxis: { dataKey: "quarter" },
+                yAxis: {},
+                series: [
+                  {
+                    dataKey: "revenue",
+                    name: "Revenue",
+                    radius: [8, 8, 0, 0],
+                  },
+                ],
+                legend: { show: false },
+                tooltip: { show: true },
+                grid: { show: true },
+              }}
+              title="Risk Indicators"
+              variant="error"
+              size="md"
+            />
+          </div>
         </div>
       </section>
 
@@ -444,6 +594,7 @@ export default function ChartExamples() {
                   color: "#f59e0b",
                 },
               ],
+              xAxis: { dataKey: "metric" },
               legend: { show: false },
               tooltip: { show: true },
               grid: { show: true },
@@ -605,77 +756,6 @@ export default function ChartExamples() {
             size="md"
             loading={true}
           />
-        </div>
-      </section>
-
-      {/* ========== USAGE GUIDE ========== */}
-      <section className="space-y-4 bg-muted/50 rounded-lg p-6">
-        <h2 className="text-2xl font-semibold">Quick Usage Guide</h2>
-
-        <div className="space-y-4">
-          <div>
-            <h3 className="font-semibold mb-2">Config-Based API</h3>
-            <pre className="bg-background border border-border rounded p-4 overflow-x-auto text-sm">
-              <code>{`import { Chart } from '@/components/Chart';
-
-<Chart
-  type="line"
-  config={{
-    data: [
-      { month: 'Jan', sales: 120 },
-      { month: 'Feb', sales: 190 },
-    ],
-    xAxis: { dataKey: 'month' },
-    yAxis: {},
-    series: [
-      {
-        dataKey: 'sales',
-        name: 'Sales',
-        type: 'monotone',
-        strokeWidth: 2,
-      },
-    ],
-    legend: { show: true, position: 'top' },
-    tooltip: { show: true },
-    grid: { show: true },
-  }}
-  title="Monthly Sales"
-  variant="primary"
-  size="md"
-/>`}</code>
-            </pre>
-          </div>
-
-          <div>
-            <h3 className="font-semibold mb-2">Multi-Series Example</h3>
-            <pre className="bg-background border border-border rounded p-4 overflow-x-auto text-sm">
-              <code>{`<Chart
-  type="line"
-  config={{
-    data: weeklyData,
-    xAxis: { dataKey: 'day' },
-    yAxis: {},
-    series: [
-      {
-        dataKey: 'revenue',
-        name: 'Revenue',
-        type: 'monotone',
-        color: '#10b981',
-      },
-      {
-        dataKey: 'expenses',
-        name: 'Expenses',
-        type: 'monotone',
-        color: '#ef4444',
-      },
-    ],
-    legend: { show: true, position: 'bottom' },
-  }}
-  title="Revenue vs Expenses"
-  variant="default"
-/>`}</code>
-            </pre>
-          </div>
         </div>
       </section>
     </div>

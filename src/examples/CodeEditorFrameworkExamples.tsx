@@ -35,6 +35,8 @@ const VARIANTS = [
 const SIZES = ["sm", "default", "lg", "xl"] as const;
 
 const THEMES = [
+  "saha-ui-dark",
+  "saha-ui-light",
   "vscode",
   "dark",
   "light",
@@ -46,7 +48,7 @@ const THEMES = [
 ] as const;
 
 export default function CodeEditorAllVariantsDemo() {
-  const [theme, setTheme] = useState<(typeof THEMES)[number]>("vscode");
+  const [theme, setTheme] = useState<(typeof THEMES)[number]>("saha-ui-dark");
 
   return (
     <div className="space-y-10 p-6">
@@ -66,7 +68,9 @@ export default function CodeEditorAllVariantsDemo() {
           >
             {THEMES.map((t) => (
               <option key={t} value={t}>
-                {t}
+                {t === "saha-ui-dark" || t === "saha-ui-light"
+                  ? `${t} ✨ NEW`
+                  : t}
               </option>
             ))}
           </select>
@@ -78,6 +82,10 @@ export default function CodeEditorAllVariantsDemo() {
         <h3 className="text-lg font-semibold">
           All variants (theme: <code>{theme}</code>, size: default)
         </h3>
+        <p className="text-sm text-slate-600 dark:text-gray-400">
+          Note: Editors use flex layout to properly show all content including
+          last lines
+        </p>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           {VARIANTS.map((variant) => (
             <div key={variant} className="space-y-2">
@@ -127,8 +135,8 @@ export default function CodeEditorAllVariantsDemo() {
                   size === "sm"
                     ? "h-[180px]"
                     : size === "default"
-                    ? "h-[220px]"
-                    : "h-[260px]"
+                      ? "h-[220px]"
+                      : "h-[260px]"
                 }
                 theme={theme}
                 size={size as any}
@@ -144,7 +152,54 @@ export default function CodeEditorAllVariantsDemo() {
         </div>
       </section>
 
-      {/* 3) Themes gallery (Viewer only for quick scan) */}
+      {/* 3) Toolbar Placement Comparison */}
+      <section className="space-y-4">
+        <h3 className="text-lg font-semibold">
+          Toolbar Placement (theme: <code>{theme}</code>)
+        </h3>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="font-medium">Inline (Default)</span>
+              <Badge variant="primary">Recommended</Badge>
+            </div>
+            <p className="text-sm text-slate-600 dark:text-gray-400">
+              Toolbar always visible at the top. Better accessibility.
+            </p>
+            <CodeEditor
+              className="h-[280px]"
+              theme={theme}
+              variant="primary"
+              language="tsx"
+              defaultValue={SAMPLE_TSX}
+              showToolbar
+              toolbarPlacement="inline"
+              showStatusBar
+            />
+          </div>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="font-medium">Floating</span>
+              <Badge variant="accent">Optional</Badge>
+            </div>
+            <p className="text-sm text-slate-600 dark:text-gray-400">
+              Toolbar overlays in top-right. Enhanced blur shadow for depth.
+            </p>
+            <CodeEditor
+              className="h-[280px]"
+              theme={theme}
+              variant="accent"
+              language="tsx"
+              defaultValue={SAMPLE_TSX}
+              showToolbar
+              toolbarPlacement="floating"
+              showStatusBar
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* 4) Themes gallery (Viewer only for quick scan) */}
       <section className="space-y-4">
         <h3 className="text-lg font-semibold">Themes (viewer)</h3>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -153,6 +208,9 @@ export default function CodeEditorAllVariantsDemo() {
               <div className="flex items-center gap-2">
                 <span className="font-medium">{t}</span>
                 <Badge variant="default">Viewer</Badge>
+                {(t === "saha-ui-dark" || t === "saha-ui-light") && (
+                  <Badge variant="primary">NEW</Badge>
+                )}
               </div>
               <CodeViewer
                 className="h-[180px]"

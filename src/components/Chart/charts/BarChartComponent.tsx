@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ResponsiveContainer,
   BarChart,
@@ -6,9 +8,9 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  Cell,
 } from "recharts";
-import { chartCanvasVariants } from "../Chart.styles";
-import { ChartTooltip } from "../components/ChartTooltip";
+import { ChartTooltipContent } from "../components/ChartTooltip";
 import { useChartColors } from "../../../hooks/useChartColors";
 import type { BaseChartComponentProps, BarSeriesConfig } from "../Chart.types";
 
@@ -21,65 +23,116 @@ export function BarChartComponent({
   const { getColor } = useChartColors(variant);
 
   const visibleSeries = config.series.filter(
-    (s) => !hiddenSeries.has(s.dataKey) && !s.hide
+    (s) => !hiddenSeries.has(s.dataKey) && !s.hide,
   ) as BarSeriesConfig[];
 
+  const heightMap = {
+    sm: 200,
+    md: 300,
+    lg: 400,
+    xl: 500,
+  };
+
+  // Function to generate gradient colors for single series
+  const getGradientColor = (
+    baseColor: string,
+    index: number,
+    total: number,
+  ): string => {
+    if (total === 1) return baseColor;
+
+    // Parse OKLCH color
+    const match = baseColor.match(
+      /oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\)/,
+    );
+    if (!match) return baseColor;
+
+    const [, lightness, chroma, hue, alpha] = match;
+    const L = parseFloat(lightness);
+    const C = parseFloat(chroma);
+    const H = parseFloat(hue);
+    const A = alpha ? parseFloat(alpha) : 1;
+
+    // Create gradient by adjusting lightness
+    // Start from base lightness and go lighter
+    const step = (0.85 - L) / (total - 1);
+    const newLightness = Math.min(0.85, L + step * index);
+
+    return `oklch(${newLightness.toFixed(3)} ${C} ${H}${A < 1 ? ` / ${A}` : ""})`;
+  };
+
+  // Check if single series (need gradient within bars)
+  const isSingleSeries = visibleSeries.length === 1;
+
   return (
-    <div className={chartCanvasVariants({ size })}>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={config.data}
-          margin={{ top: 8, right: 12, left: 8, bottom: 8 }}
-        >
-          {config.grid?.show !== false && (
-            <CartesianGrid
-              strokeDasharray={config.grid?.strokeDasharray || "3 4"}
-              className="stroke-border/40"
-              vertical={config.grid?.vertical ?? true}
-              horizontal={config.grid?.horizontal ?? true}
-            />
-          )}
-
-          <XAxis
-            dataKey={config.xAxis?.dataKey}
-            hide={config.xAxis?.hide}
-            tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
-            tickFormatter={config.xAxis?.tickFormatter}
+    <ResponsiveContainer width="100%" height={heightMap[size]}>
+      <BarChart
+        data={config.data}
+        margin={{ top: 5, right: 10, left: 10, bottom: 0 }}
+        accessibilityLayer
+      >
+        {config.grid?.show !== false && (
+          <CartesianGrid
+            strokeDasharray="3 3"
+            vertical={config.grid?.vertical ?? false}
+            horizontal={config.grid?.horizontal ?? true}
           />
+        )}
 
-          <YAxis
-            hide={config.yAxis?.hide}
-            tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
-            tickFormatter={config.yAxis?.tickFormatter}
-            domain={config.yAxis?.domain}
+        <XAxis
+          dataKey={config.xAxis?.dataKey}
+          hide={config.xAxis?.hide}
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+          tickFormatter={config.xAxis?.tickFormatter}
+        />
+
+        <YAxis
+          hide={config.yAxis?.hide}
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+          tickFormatter={config.yAxis?.tickFormatter}
+          domain={config.yAxis?.domain}
+        />
+
+        {config.tooltip?.show !== false && (
+          <Tooltip
+            content={<ChartTooltipContent indicator="line" />}
+            cursor={false}
           />
+        )}
 
-          {config.tooltip?.show !== false && (
-            <Tooltip
-              content={<ChartTooltip config={config.tooltip} />}
-              cursor={{ fill: "hsl(var(--accent) / 0.08)" }}
-            />
-          )}
+        {visibleSeries.map((series, seriesIndex) => {
+          // Get base color for this series
+          const baseColor = series.color || getColor(seriesIndex);
 
-          {visibleSeries.map((series, index) => (
+          return (
             <Bar
               key={series.dataKey}
               dataKey={series.dataKey}
               name={series.name || series.dataKey}
-              fill={series.color || getColor(index)}
+              fill={baseColor}
               stackId={series.stackId}
-              radius={series.radius || [10, 10, 0, 0]}
-              maxBarSize={series.barSize || 48}
-            />
-          ))}
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+              radius={series.radius || [4, 4, 0, 0]}
+              maxBarSize={series.barSize || 60}
+            >
+              {isSingleSeries &&
+                config.data.map((_entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={getGradientColor(
+                      baseColor,
+                      index,
+                      config.data.length,
+                    )}
+                  />
+                ))}
+            </Bar>
+          );
+        })}
+      </BarChart>
+    </ResponsiveContainer>
   );
 }

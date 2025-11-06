@@ -101,4 +101,11 @@ export interface ChipProps
    * Custom class name for the chip
    */
   className?: string;
+
+  /**
+   * When true, the Chip will render its child element and merge props
+   * Useful for composition with other components
+   * @default false
+   */
+  asChild?: boolean;
 }
