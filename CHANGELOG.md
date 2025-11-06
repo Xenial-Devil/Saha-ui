@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.14.0...v1.15.0) (2025-11-06)
+
+
+### Features
+
+* **skeleton:** overhaul animations, presets, accessibility, docs ([b114622](https://github.com/Xenial-Devil/Saha-ui/commit/b1146228f6f9f6f774ab6531b8852965194adaf4))
+
 # [1.14.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.13.3...v1.14.0) (2025-11-06)
 
 
