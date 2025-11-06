@@ -345,7 +345,36 @@ export {
 export { default as PlayButton } from "./components/PlayButton";
 export { playButtonVariants } from "./components/PlayButton/PlayButton.styles";
 export { default as Skeleton } from "./components/Skeleton";
-export { skeletonVariants } from "./components/Skeleton/Skeleton.styles";
+export {
+  skeletonVariants,
+  skeletonContainerVariants,
+} from "./components/Skeleton/Skeleton.styles";
+export type {
+  SkeletonProps,
+  SkeletonVariant,
+  SkeletonShape,
+  SkeletonSpeed,
+  SkeletonSpacing,
+} from "./components/Skeleton/Skeleton.types";
+
+// Skeleton Presets
+export {
+  SkeletonCard,
+  SkeletonAvatar,
+  SkeletonList,
+  SkeletonTable,
+  SkeletonForm,
+  SkeletonText,
+} from "./components/Skeleton/presets";
+export type {
+  SkeletonPresetProps,
+  SkeletonCardProps,
+  SkeletonAvatarProps,
+  SkeletonListProps,
+  SkeletonTableProps,
+  SkeletonFormProps,
+  SkeletonTextProps,
+} from "./components/Skeleton/Skeleton.types";
 export { default as Spinner } from "./components/Spinner";
 export {
   spinnerVariants,
@@ -904,13 +933,6 @@ export type {
   PlayButtonVariant,
   PlayButtonSize,
 } from "./components/PlayButton/PlayButton.types";
-
-export type {
-  SkeletonProps,
-  SkeletonVariant,
-  SkeletonShape,
-  SkeletonSpeed,
-} from "./components/Skeleton/Skeleton.types";
 
 export type {
   SpinnerProps,
