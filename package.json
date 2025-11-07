@@ -14,7 +14,8 @@
     "url": "https://github.com/Xenial-Devil/Saha-ui/issues"
   },
   "bin": {
-    "saha-ui": "./bin/cli.js"
+    "saha-ui": "./bin/cli.js",
+    "saha-ui-mcp": "./bin/mcp.js"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -38,6 +39,7 @@
   "files": [
     "dist",
     "bin",
+    "mcp",
     "README.md",
     "LICENSE"
   ],
@@ -60,25 +62,37 @@
     "cva",
     "saha-ui",
     "modern-ui",
-    "dark-mode"
+    "dark-mode",
+    "mcp",
+    "model-context-protocol",
+    "ai-assistant"
   ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:lib": "vite build",
+    "build:mcp": "vite build",
+    "build:legacy": "vite build && vite build --config vite.mcp.config.ts",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationMap",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
+    "test:mcp": "node mcp/test-dynamic-features.js",
+    "mcp:client": "node test-client.js",
+    "mcp:demo": "node demo-mcp.js",
+    "mcp:validate": "node validate-mcp-v2.js",
     "prepublishOnly": "npm run build",
-    "postinstall": "node -e \"console.log('\\n✨ Saha UI installed! Run: npx saha-ui init\\n')\""
+    "postinstall": "node -e \"console.log('\\n✨ Saha UI installed! Run: npx saha-ui init\\n✨ MCP Server v2.0 available: npx saha-ui-mcp\\n')\""
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
     "@monaco-editor/react": "^4.7.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "glob": "^11.0.3",
     "monaco-editor": "^0.54.0",
     "react-resizable-panels": "^3.0.6",
     "rechart": "^0.0.1",
@@ -100,7 +114,6 @@
     "eslint": "^9.37.0",
     "eslint-plugin-react-hooks": "^7.0.0",
     "eslint-plugin-react-refresh": "^0.4.23",
-    "glob": "^11.0.3",
     "postcss": "^8.5.6",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

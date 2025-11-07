@@ -43,6 +43,12 @@ export default defineConfig({
         "react-resizable-panels",
         "monaco-editor",
         "@monaco-editor/react",
+        "@modelcontextprotocol/sdk",
+        /^@modelcontextprotocol\/.*/,
+        "glob",
+        "fs",
+        "path",
+        "url",
       ],
       input: Object.fromEntries(
         glob

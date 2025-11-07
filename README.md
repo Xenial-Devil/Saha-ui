@@ -5562,6 +5562,106 @@ Saha UI is optimized for minimal bundle impact:
 - [NPM Package Summary](./NPM_PACKAGE_SUMMARY.md) - Package details
 - [Type Safety Guide](./TYPE_SAFETY_GUIDE.md) - TypeScript best practices
 - [Component Modernization](./ULTRA_MODERN_SUMMARY.md) - Architecture details
+- **[🤖 MCP Server](./docs/MCP_SERVER.md)** - AI Assistant Integration (Built-in!)
+
+---
+
+## 🤖 MCP Server - AI-Powered Development (v2.0 - Dynamic & Context-Aware)
+
+Saha UI includes a **built-in Model Context Protocol (MCP) server** that provides AI assistants with intelligent, human-like access to the component library.
+
+### 🧠 Intelligence Features
+
+- 🎯 **Context Awareness**: Remembers your session and adapts responses based on what you've viewed
+- 💡 **Intent Detection**: Automatically understands if you need tutorials, examples, styling help, or troubleshooting
+- 🔍 **Fuzzy Matching**: Handles typos gracefully - "Buton" → Button, "inpt" → Input
+- 🤝 **Smart Suggestions**: Proactive recommendations for related components, hooks, and next steps
+- 📊 **Progressive Disclosure**: Shows summaries first, details on request - no information overload
+- 🗣️ **Natural Language**: Ask questions naturally - "How do I customize colors?" works perfectly
+
+### Core Features
+
+- 📦 **73 Components**: Complete source code, types, variants, and styles
+- 🪝 **40+ Hooks**: Full implementation with usage examples and best practices
+- 🎨 **Theme System**: OKLCH colors, Tailwind config, CSS variables
+- 🔎 **Smart Search**: Context-aware code search with intelligent filtering
+- 💬 **Conversational**: Ask questions naturally, get personalized answers
+- ⚡ **Recommendations**: Get component suggestions based on your project type
+
+### Quick Setup
+
+The MCP server is included with Saha UI - no separate installation needed!
+
+```bash
+# Install Saha UI
+npm install saha-ui
+
+# Configure your AI client (e.g., Claude Desktop)
+# Add to claude_desktop_config.json:
+```
+
+```json
+{
+  "mcpServers": {
+    "saha-ui": {
+      "command": "npx",
+      "args": ["saha-ui-mcp"]
+    }
+  }
+}
+```
+
+That's it! The MCP server runs directly from your `node_modules`.
+
+### Example Interactions
+
+The MCP server understands natural language and adapts to your needs:
+
+**Beginner-Friendly:**
+> "How do I get started with Saha UI?"
+> 
+> "Show me simple form components"
+> 
+> "What's the easiest way to add a button?"
+
+**Discovery & Exploration:**
+> "What components work well for a dashboard?"
+> 
+> "Show me components similar to Card"
+> 
+> "Find components with glass morphism"
+
+**Advanced Usage:**
+> "Customize Button theme colors using OKLCH"
+> 
+> "Integrate DataTable with Next.js 15 App Router"
+> 
+> "Search for all components using CVA variants"
+
+**The server handles typos too:** "Show me the Botton component" → Automatically suggests Button ✓
+
+### Smart Features in Action
+
+```typescript
+// Fuzzy matching - typos are okay!
+"Buton" → Button ✓
+"inpt" → Input ✓
+"useDebonc" → useDebounce ✓
+
+// Context awareness - remembers what you've viewed
+// Viewing Input → Suggests useDebounce hook
+// Viewing Card → Suggests related components
+
+// Intent detection - understands what you need
+"How to style..." → Styling mode (variants, theme)
+"Show example..." → Example mode (code samples)
+"Fix error..." → Troubleshooting mode (solutions)
+```
+
+📚 **Documentation:**
+- **[Full MCP Server Guide](./docs/MCP_SERVER.md)** - Complete documentation
+- **[Dynamic Features](./docs/MCP_DYNAMIC_FEATURES.md)** - Smart features quick reference
+- **[Quick Reference](./docs/MCP_QUICK_REFERENCE.md)** - Tool & command reference
 
 ---
 
