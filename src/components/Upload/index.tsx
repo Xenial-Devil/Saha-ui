@@ -113,7 +113,7 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
 
       ...props
     },
-    ref
+    ref,
   ) => {
     // Development-only validation
     useEffect(() => {
@@ -183,7 +183,7 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
           "cropAspectRatio",
           cropAspectRatio,
           "number",
-          isValidNumber
+          isValidNumber,
         );
         if (cropAspectRatio <= 0) {
           validator.error("cropAspectRatio must be greater than 0");
@@ -196,25 +196,25 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
         "showFileList",
         showFileList,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "showPreview",
         showPreview,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "allowRemove",
         allowRemove,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "allowRetry",
         allowRetry,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType("disabled", disabled, "boolean", isValidBoolean);
       validator.validateType("readOnly", readOnly, "boolean", isValidBoolean);
@@ -222,19 +222,19 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
         "autoUpload",
         autoUpload,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "enableImageEdit",
         enableImageEdit,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "showImageEditor",
         showImageEditor,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
 
       // Common validators
@@ -305,7 +305,7 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
       if (maxFiles && fileList.length + filesArray.length > maxFiles) {
         onValidationError?.(
           filesArray[0],
-          `Maximum ${maxFiles} file${maxFiles > 1 ? "s" : ""} allowed`
+          `Maximum ${maxFiles} file${maxFiles > 1 ? "s" : ""} allowed`,
         );
         return;
       }
@@ -322,8 +322,8 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
           status: validationError
             ? "error"
             : autoUpload
-            ? "uploading"
-            : "pending",
+              ? "uploading"
+              : "pending",
           error: validationError || undefined,
           preview: showPreview ? createPreview(file) : undefined,
           progress: 0,
@@ -362,7 +362,7 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
         // Simulate progress (replace with real upload logic)
         const updateProgress = (progress: number) => {
           const updatedFiles = fileList.map((f) =>
-            f.id === uploadFile.id ? { ...f, progress } : f
+            f.id === uploadFile.id ? { ...f, progress } : f,
           );
           if (!isControlled) {
             setUncontrolledFileList(updatedFiles);
@@ -381,7 +381,7 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
         const updatedFiles = fileList.map((f) =>
           f.id === uploadFile.id
             ? { ...f, status: "success" as const, progress: 100 }
-            : f
+            : f,
         );
 
         if (!isControlled) {
@@ -396,7 +396,7 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
         const updatedFiles = fileList.map((f) =>
           f.id === uploadFile.id
             ? { ...f, status: "error" as const, error: errorMessage }
-            : f
+            : f,
         );
 
         if (!isControlled) {
@@ -497,7 +497,7 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
       const updatedFiles = fileList.map((f) =>
         f.id === editingFile.id
           ? { ...f, cropData, croppedPreview: croppedImage }
-          : f
+          : f,
       );
 
       if (!isControlled) {
@@ -540,7 +540,7 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
           }
         });
       };
-    }, []);
+    }, [fileList]);
 
     const renderFileIcon = (file: UploadFile) => {
       if (file.type.startsWith("image/")) {
@@ -590,7 +590,7 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
           <label
             className={cn(
               "block text-sm font-semibold text-foreground",
-              labelClassName
+              labelClassName,
             )}
           >
             {label}
@@ -614,7 +614,7 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
             }),
             disabled && "pointer-events-none",
             className,
-            dropzoneClassName
+            dropzoneClassName,
           )}
         >
           <input
@@ -813,7 +813,7 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Upload.displayName = "Upload";

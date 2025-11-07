@@ -60,8 +60,6 @@ const useRadioContext = () => {
   return useContext(RadioContext);
 };
 
-
-
 /**
  * Radio component
  */
@@ -70,8 +68,8 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
     {
       label,
       description,
-      error,
-      helperText,
+      error: _error,
+      helperText: _helperText,
       labelPosition = "right",
       variant = "primary",
       size = "md",
@@ -87,7 +85,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
       defaultChecked: _defaultChecked, // Extract to prevent spreading
       ...props
     },
-    ref
+    ref,
   ) => {
     const context = useRadioContext();
     const isControlled = context !== undefined;
@@ -129,14 +127,14 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
           !["left", "right", "top", "bottom"].includes(labelPosition)
         ) {
           validator.error(
-            "Invalid prop: 'labelPosition' must be one of: 'left', 'right', 'top', 'bottom'."
+            "Invalid prop: 'labelPosition' must be one of: 'left', 'right', 'top', 'bottom'.",
           );
         }
 
         // Context validation
         if (context && !props.value) {
           validator.warn(
-            "Warning: Radio inside RadioGroup should have a 'value' prop."
+            "Warning: Radio inside RadioGroup should have a 'value' prop.",
           );
         }
       }
@@ -175,7 +173,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
         className={cn(
           radioVariants({ variant: finalVariant, size: finalSize }),
           card && "absolute top-4 right-4",
-          className
+          className,
         )}
         disabled={disabled}
         {...(isChecked !== undefined && { checked: isChecked })}
@@ -197,7 +195,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
           className={cn(
             radioLabelVariants({ disabled, card: true }),
             !hoverEffect && "hover:scale-100 hover:border-border",
-            className
+            className,
           )}
         >
           {radioInput}
@@ -242,7 +240,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
               <span
                 className={cn(
                   radioTextVariants({ size: finalSize, disabled }),
-                  "font-semibold"
+                  "font-semibold",
                 )}
               >
                 {label}
@@ -252,7 +250,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
               <span
                 className={cn(
                   radioDescriptionVariants({ disabled }),
-                  "text-xs leading-relaxed"
+                  "text-xs leading-relaxed",
                 )}
               >
                 {description}
@@ -280,7 +278,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
               <div className="flex items-center gap-2">
                 <span
                   className={cn(
-                    radioTextVariants({ size: finalSize, disabled })
+                    radioTextVariants({ size: finalSize, disabled }),
                   )}
                 >
                   {label}
@@ -314,7 +312,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
                 {label && (
                   <span
                     className={cn(
-                      radioTextVariants({ size: finalSize, disabled })
+                      radioTextVariants({ size: finalSize, disabled }),
                     )}
                   >
                     {label}
@@ -336,7 +334,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
         )}
       </label>
     );
-  }
+  },
 );
 
 Radio.displayName = "Radio";
@@ -364,7 +362,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
     const isControlled = controlledValue !== undefined;
@@ -403,7 +401,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
         // Direction validation
         if (direction && !["vertical", "horizontal"].includes(direction)) {
           validator.error(
-            "Invalid prop: 'direction' must be 'vertical' or 'horizontal'."
+            "Invalid prop: 'direction' must be 'vertical' or 'horizontal'.",
           );
         }
 
@@ -422,17 +420,17 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
             options.forEach((option, index) => {
               if (typeof option !== "object" || !option) {
                 validator.error(
-                  `Invalid prop: 'options[${index}]' must be an object.`
+                  `Invalid prop: 'options[${index}]' must be an object.`,
                 );
               } else {
                 if (!("value" in option) || !isValidString(option.value)) {
                   validator.error(
-                    `Invalid prop: 'options[${index}].value' is required and must be a string.`
+                    `Invalid prop: 'options[${index}].value' is required and must be a string.`,
                   );
                 }
                 if (!("label" in option) || !isValidString(option.label)) {
                   validator.error(
-                    `Invalid prop: 'options[${index}].label' is required and must be a string.`
+                    `Invalid prop: 'options[${index}].label' is required and must be a string.`,
                   );
                 }
               }
@@ -443,7 +441,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
         // Either options or children should be provided
         if (!options && !children) {
           validator.warn(
-            "Warning: RadioGroup should have either 'options' prop or children."
+            "Warning: RadioGroup should have either 'options' prop or children.",
           );
         }
       }
@@ -490,7 +488,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
             className={cn(
               radioGroupVariants({ direction }),
               card && "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4",
-              className
+              className,
             )}
           >
             {options
@@ -518,7 +516,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
                       recommended={option.recommended}
                       hoverEffect={hoverEffect}
                     />
-                  )
+                  ),
                 )
               : children}
           </div>
@@ -532,7 +530,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 RadioGroup.displayName = "RadioGroup";

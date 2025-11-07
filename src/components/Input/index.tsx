@@ -24,7 +24,9 @@ import {
  * sizes, validation states, icons, and helper text support.
  *
  * Supports all HTML input types except file.
+ * Fully accessible with ARIA attributes and screen reader support.
  *
+ * @component
  * @example
  * ```tsx
  * // Basic input
@@ -52,6 +54,12 @@ import {
  *   variant="error"
  *   error="Password must be at least 8 characters"
  * />
+ *
+ * // With accessibility
+ * <Input
+ *   aria-label="Search articles"
+ *   placeholder="Search..."
+ * />
  * ```
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -76,12 +84,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       value,
       defaultValue,
       onChange,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      "aria-describedby": ariaDescribedBy,
+      "aria-invalid": ariaInvalid,
+      "aria-required": ariaRequired,
+      "aria-errormessage": ariaErrorMessage,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [internalValue, setInternalValue] = useState(
-      defaultValue?.toString() || ""
+      defaultValue?.toString() || "",
     );
     const currentValue = value !== undefined ? value : internalValue;
 
@@ -114,14 +128,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             validator.error("Invalid prop: 'maxLength' must be a number.");
           } else if (maxLength < 0) {
             validator.error(
-              "Invalid prop: 'maxLength' must be a positive number."
+              "Invalid prop: 'maxLength' must be a positive number.",
             );
           }
         }
 
         if (showCounter && !maxLength) {
           validator.warn(
-            "Warning: 'showCounter' is enabled but 'maxLength' is not set. Counter will not be displayed."
+            "Warning: 'showCounter' is enabled but 'maxLength' is not set. Counter will not be displayed.",
           );
         }
 
@@ -155,23 +169,38 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const characterCount =
       typeof currentValue === "string" ? currentValue.length : 0;
 
+    // Generate unique IDs for accessibility
+    const helperId =
+      helperText || error ? `${props.id || "input"}-helper` : undefined;
+    const errorId = error ? `${props.id || "input"}-error` : undefined;
+
+    // Determine aria-describedby - combine custom and auto-generated
+    const describedBy =
+      [ariaDescribedBy, helperId || errorId].filter(Boolean).join(" ") ||
+      undefined;
+
     return (
       <div
         className={cn(
           inputContainerVariants({ fullWidth }),
-          containerClassName
+          containerClassName,
         )}
       >
         {/* Label */}
         {label && (
           <label
+            htmlFor={props.id}
             className={cn(
               inputLabelVariants({ disabled: !!disabled }),
-              labelClassName
+              labelClassName,
             )}
           >
             {label}
-            {required && <span className="text-destructive ml-1">*</span>}
+            {required && (
+              <span className="text-destructive ml-1" aria-hidden="true">
+                *
+              </span>
+            )}
           </label>
         )}
 
@@ -184,7 +213,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 inputIconVariants({
                   position: "start",
                   ...(size && { size }),
-                })
+                }),
               )}
             >
               {startIcon}
@@ -201,6 +230,24 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             disabled={disabled}
             required={required}
             maxLength={maxLength}
+            aria-label={ariaLabel}
+            aria-labelledby={ariaLabelledBy}
+            aria-describedby={describedBy}
+            aria-invalid={
+              ariaInvalid !== undefined
+                ? ariaInvalid
+                : error
+                  ? "true"
+                  : undefined
+            }
+            aria-required={
+              ariaRequired !== undefined
+                ? ariaRequired
+                : required
+                  ? "true"
+                  : undefined
+            }
+            aria-errormessage={ariaErrorMessage || errorId}
             className={cn(
               inputVariants({
                 variant,
@@ -208,7 +255,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 hasStartIcon: !!startIcon,
                 hasEndIcon: !!endIcon || showCounter,
               }),
-              className
+              className,
             )}
             {...props}
           />
@@ -220,7 +267,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 inputIconVariants({
                   position: "end",
                   ...(size && { size }),
-                })
+                }),
               )}
             >
               {showCounter && maxLength ? (
@@ -236,13 +283,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
         {/* Helper Text / Error Message */}
         {(helperText || error) && (
-          <p className={cn(helperTextVariants({ error: !!error }))}>
+          <p
+            id={helperId || errorId}
+            className={cn(helperTextVariants({ error: !!error }))}
+            role={error ? "alert" : undefined}
+            aria-live={error ? "polite" : undefined}
+          >
             {error || helperText}
           </p>
         )}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = "Input";

@@ -625,7 +625,7 @@ export const ContextMenuContent = forwardRef<
       y = Math.max(collisionPadding, y);
 
       setAdjustedPosition({ x, y });
-    }, [isOpen, position, sideOffset, collisionPadding]);
+    }, [isOpen, position, sideOffset, collisionPadding, contentRef]);
 
     // Close on click outside
     useEffect(() => {
@@ -655,7 +655,7 @@ export const ContextMenuContent = forwardRef<
         document.removeEventListener("keydown", handleEscape);
         document.removeEventListener("contextmenu", handleClickOutside);
       };
-    }, [isOpen, setIsOpen]);
+    }, [isOpen, setIsOpen, contentRef]);
 
     // Keyboard navigation
     useEffect(() => {
@@ -699,12 +699,11 @@ export const ContextMenuContent = forwardRef<
         }
       };
 
-      contentRef.current.addEventListener("keydown", handleKeyDown);
-
+      document.addEventListener("keydown", handleKeyDown);
       return () => {
-        contentRef.current?.removeEventListener("keydown", handleKeyDown);
+        document.removeEventListener("keydown", handleKeyDown);
       };
-    }, [isOpen, loop]);
+    }, [isOpen, loop, contentRef]);
 
     if (!isOpen) return null;
 
@@ -1445,7 +1444,7 @@ export const ContextMenuSubContent = forwardRef<
           left: triggerRect.right,
         });
       }
-    }, [isOpen, sideOffset]);
+    }, [isOpen, sideOffset, triggerRef]);
 
     if (!isOpen) return null;
 
@@ -1627,6 +1626,3 @@ ContextMenuGroup.displayName = "ContextMenuGroup";
 // ===========================
 // Exports
 // ===========================
-
-export * from "./ContextMenu.types";
-export * from "./ContextMenu.styles";

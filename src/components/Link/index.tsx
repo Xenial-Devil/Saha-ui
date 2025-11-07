@@ -5,36 +5,45 @@ import { linkVariants } from "./Link.styles";
 import { Slot } from "../../lib/Slot";
 
 /**
- * Link Component
+ * Link - Styled anchor element with multiple variants and accessibility features.
  *
- * A versatile link component with multiple variants, external link detection,
- * and accessibility features.
+ * A versatile link component that provides various visual styles, automatic
+ * external link handling, and comprehensive accessibility support. Can be used
+ * for internal navigation, external links, or styled as a button.
  *
  * @example
- * ```tsx
  * // Basic link
- * <Link href="/about">About</Link>
+ * <Link href="/about">About Us</Link>
  *
+ * @example
  * // Primary variant with animated underline
  * <Link variant="primary" href="/docs">
  *   Documentation
  * </Link>
  *
- * // External link (auto-detects and shows icon)
- * <Link external href="https://example.com">
- *   Visit Site
+ * @example
+ * // External link with icon
+ * <Link href="https://example.com" external>
+ *   Visit Example
  * </Link>
  *
- * // Button style link
+ * @example
+ * // Button-styled link
  * <Link variant="button" href="/get-started">
  *   Get Started
  * </Link>
  *
+ * @example
  * // With custom icon
- * <Link icon={<Star size={16} />} href="/featured">
+ * <Link icon={<StarIcon size={16} />} href="/featured">
  *   Featured Content
  * </Link>
- * ```
+ *
+ * @example
+ * // Disabled state
+ * <Link href="/premium" disabled aria-label="Premium feature coming soon">
+ *   Premium
+ * </Link>
  */
 const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   (
@@ -51,17 +60,31 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       target,
       rel,
       asChild = false,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledby,
+      "aria-describedby": ariaDescribedby,
+      "aria-current": ariaCurrent,
       ...props
     },
     ref,
   ) => {
-    // Development-only validation
     // Auto-set target and rel for external links
     const isExternal = external || target === "_blank";
     const finalTarget = isExternal ? "_blank" : target;
     const finalRel = isExternal ? rel || "noopener noreferrer" : rel;
 
     const Comp = asChild ? Slot : "a";
+
+    // Build accessibility props
+    const accessibilityProps = {
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledby,
+      "aria-describedby": ariaDescribedby,
+      "aria-current": ariaCurrent,
+      "aria-disabled": disabled ? true : undefined,
+      // Add role="link" when disabled to maintain semantics
+      role: disabled ? "link" : undefined,
+    };
 
     return (
       <Comp
@@ -78,7 +101,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
             "after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-current after:transition-all after:duration-300 hover:after:w-full",
           className,
         )}
-        aria-disabled={disabled}
+        {...accessibilityProps}
         {...props}
       >
         {asChild ? (
@@ -87,7 +110,10 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
           <>
             {/* Custom icon */}
             {icon && (
-              <span className="inline-flex items-center justify-center transition-transform group-hover:scale-110">
+              <span
+                className="inline-flex items-center justify-center transition-transform group-hover:scale-110"
+                aria-hidden="true"
+              >
                 {icon}
               </span>
             )}
@@ -102,6 +128,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -114,7 +141,10 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
 
             {/* Glow effect for button variant */}
             {variant === "button" && (
-              <span className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 opacity-0 group-hover:opacity-100 blur-lg transition-opacity duration-300 -z-10 rounded-xl"></span>
+              <span
+                className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 opacity-0 group-hover:opacity-100 blur-lg transition-opacity duration-300 -z-10 rounded-xl"
+                aria-hidden="true"
+              ></span>
             )}
           </>
         )}

@@ -76,9 +76,9 @@ import { TextArea } from "../TextArea";
  */
 
 // Try to import from react-hook-form if available
-let Controller: any = null;
-let FormProvider: any = null;
-let useFormContext: any = () => ({
+const Controller: any = null;
+const FormProvider: any = null;
+const useFormContext: any = () => ({
   getFieldState: () => ({}),
   formState: {},
 });

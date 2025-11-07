@@ -1,0 +1,364 @@
+================================================================================
+                        SAHA UI - COMPONENTS LIST
+================================================================================
+Version: 1.21.0
+Total Components: 81
+Total Hooks: 40
+Last Updated: 2025-11-07
+
+================================================================================
+                           COMPONENT CATEGORIES
+================================================================================
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                        1. LAYOUT COMPONENTS (4)                          │
+└──────────────────────────────────────────────────────────────────────────┘
+  1. Container          - Responsive container with max-width constraints
+  2. Grid               - CSS Grid layout system with GridItem
+  3. Section            - Semantic section wrapper
+  4. Stack              - Flexbox-based stacking layout
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                      2. NAVIGATION COMPONENTS (6)                        │
+└──────────────────────────────────────────────────────────────────────────┘
+  5. Breadcrumb         - Navigation breadcrumb trail
+  6. Link               - Styled anchor element with variants
+  7. Menubar            - Horizontal menu bar with dropdowns
+  8. NavigationMenu     - Complex navigation menu system
+  9. Pagination         - Page navigation controls
+ 10. Steps              - Step-by-step navigation indicator
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                       3. FORM COMPONENTS (19)                            │
+└──────────────────────────────────────────────────────────────────────────┘
+ 11. Autocomplete       - Auto-completion input field
+ 12. Checkbox           - Checkbox with CheckboxGroup
+ 13. Combobox           - Searchable select component
+ 14. DatePicker         - Date selection component with calendar
+ 15. Field              - Form field wrapper system
+ 16. FileInput          - File upload with drag-drop, preview, progress, validation
+ 17. Form               - Form management components
+ 18. Input              - Text input with variants
+ 19. InputOTP           - One-time password input
+ 20. NativeSelect       - Native HTML select wrapper
+ 21. NumberInput        - Numeric input with increment/decrement, formatting, validation
+ 22. Radio              - Radio button with RadioGroup
+ 23. Select             - Custom select dropdown
+ 24. Slider             - Range slider input
+ 25. Switch             - Toggle switch
+ 26. TagInput           - Multi-tag input field
+ 27. TextArea           - Multi-line text input
+ 28. TextEditor         - Rich text editor
+ 29. Upload             - File upload component
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                      4. BUTTON COMPONENTS (6)                            │
+└──────────────────────────────────────────────────────────────────────────┘
+ 30. Button             - Primary button component with shimmer effects
+ 31. ButtonGroup        - Grouped button layout
+ 32. FloatingActionButton - FAB for primary actions
+ 33. PlayButton         - Media play button
+ 34. Toggle             - Toggle button
+ 35. ToggleGroup        - Grouped toggle buttons
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                    5. DATA DISPLAY COMPONENTS (22)                       │
+└──────────────────────────────────────────────────────────────────────────┘
+ 36. Accordion          - Collapsible content sections
+ 37. Avatar             - User avatar with status indicators
+ 38. AvatarGroup        - Grouped avatars with overflow
+ 39. Badge              - Status and count badges
+ 40. Card               - Container card with header/footer
+ 41. Chip               - Compact information chip
+ 42. CodeEditor         - Monaco-based code editor with syntax highlighting
+ 43. DataTable          - Advanced data table (sorting, filtering, pagination)
+ 44. Empty              - Empty state placeholder
+ 45. Image              - Enhanced image component with loading states
+ 46. Item               - Flexible list item component
+ 47. Kbd                - Keyboard shortcut display
+ 48. Label              - Form label component
+ 49. List               - Ordered/unordered list
+ 50. Rating             - Star rating component
+ 51. Separator          - Visual divider
+ 52. Skeleton           - Loading skeleton (6 presets: Card, Avatar, List,
+                          Table, Form, Text)
+ 53. Table              - Basic table component
+ 54. Tag                - Taggable content
+ 55. Timeline           - Vertical timeline display
+ 56. Tree               - Hierarchical tree view
+ 57. Typography         - Text formatting components (H1-H6, P, Lead, etc.)
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                     6. FEEDBACK COMPONENTS (8)                           │
+└──────────────────────────────────────────────────────────────────────────┘
+ 58. Alert              - Alert messages
+ 59. Notification       - Notification center with positioning, stacking, auto-dismiss
+ 60. Progress           - Progress bar indicator
+ 61. Result             - Result/status pages (success, error, 404, 403, 500)
+ 62. Sonner             - Toast notification system (alternative)
+ 63. Spinner            - Loading spinner
+ 64. Toast              - Toast notification system
+ 65. Tooltip            - Hover tooltip
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                      7. OVERLAY COMPONENTS (7)                           │
+└──────────────────────────────────────────────────────────────────────────┘
+ 66. Dialog             - Modal dialog
+ 67. Drawer             - Side drawer panel
+ 68. Dropdown           - Dropdown menu
+ 69. HoverCard          - Hover-triggered card
+ 70. Popover            - Popover overlay
+ 71. ContextMenu        - Right-click context menu
+ 72. Command            - Command palette (⌘K)
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                       8. MEDIA COMPONENTS (3)                            │
+└──────────────────────────────────────────────────────────────────────────┘
+ 73. AspectRatio        - Aspect ratio container
+ 74. Carousel           - Image/content carousel
+ 75. Calendar           - Calendar date display
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                      9. UTILITY COMPONENTS (4)                           │
+└──────────────────────────────────────────────────────────────────────────┘
+ 76. Chart              - Comprehensive charting system with 10 chart types:
+                          • LineChart
+                          • BarChart
+                          • AreaChart
+                          • PieChart
+                          • RadarChart
+                          • RadialBarChart
+                          • ScatterChart
+                          • ComposedChart
+                          • FunnelChart
+                          • TreemapChart
+ 77. Collapsible        - Collapsible content
+ 78. Resizable          - Resizable panel system
+ 79. ScrollArea         - Custom scrollbar area
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                       10. THEME COMPONENTS (2)                           │
+└──────────────────────────────────────────────────────────────────────────┘
+ 80. ThemeProvider      - Theme context provider
+ 81. ThemeToggle        - Theme switcher component
+
+
+
+================================================================================
+                            CUSTOM HOOKS (40)
+================================================================================
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                   COMPONENT-SPECIFIC HOOKS (7)                           │
+└──────────────────────────────────────────────────────────────────────────┘
+  1. useAccordion           - Accordion state management
+  2. useAspectRatio         - Aspect ratio calculations
+  3. useAvatar              - Avatar logic
+  4. useChartColors         - Chart color management
+  5. useChartData           - Chart data processing
+  6. useDataTable           - DataTable state and logic
+  7. useTheme               - Theme context access
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                    STATE MANAGEMENT HOOKS (9)                            │
+└──────────────────────────────────────────────────────────────────────────┘
+  8. useArray               - Array state utilities
+  9. useAsync               - Async operation state
+ 10. useControllableState   - Controlled/uncontrolled state
+ 11. useCounter             - Counter state
+ 12. useDisclosure          - Open/close state
+ 13. useLocalStorage        - Local storage sync
+ 14. useSessionStorage      - Session storage sync
+ 15. useToggle              - Boolean toggle
+ 16. usePrevious            - Previous value tracking
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                       DOM & EVENT HOOKS (8)                              │
+└──────────────────────────────────────────────────────────────────────────┘
+ 17. useClickOutside        - Click outside detection
+ 18. useDOM                 - DOM utilities
+ 19. useEventListener       - Event listener management
+ 20. useFocusTrap           - Focus trapping
+ 21. useHover               - Hover state
+ 22. useIntersectionObserver - Viewport intersection
+ 23. useScrollLock          - Scroll locking
+ 24. useWindowSize          - Window size tracking
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                   FORM & VALIDATION HOOKS (2)                            │
+└──────────────────────────────────────────────────────────────────────────┘
+ 25. useForm                - Form state management
+ 26. useValidation          - Input validation
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                        UTILITY HOOKS (14)                                │
+└──────────────────────────────────────────────────────────────────────────┘
+ 27. useAnimation           - Animation utilities
+ 28. useClipboard           - Clipboard operations
+ 29. useColorMode           - Color mode management
+ 30. useDebounce            - Debounced values
+ 31. useFetch               - Data fetching
+ 32. useInterval            - Interval management
+ 33. useMediaQuery          - Media query matching
+ 34. useMergedRefs          - Ref merging
+ 35. usePagination          - Pagination logic
+ 36. useReducedMotion       - Motion preference detection
+ 37. useSearchFilter        - Search filtering
+ 38. useThrottle            - Throttled values
+ 39. useTimeout             - Timeout management
+ 40. useUpdateEffect        - Effect without initial run
+
+================================================================================
+                         COMPONENTS BY COMPLEXITY
+================================================================================
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                         SIMPLE COMPONENTS (20)                           │
+└──────────────────────────────────────────────────────────────────────────┘
+Avatar, Badge, Button, Chip, Image, Kbd, Label, Link, PlayButton, Progress,
+Rating, Separator, Skeleton, Spinner, Switch, Tag, Checkbox, Radio,
+AspectRatio, Empty
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                        MEDIUM COMPONENTS (38)                            │
+└──────────────────────────────────────────────────────────────────────────┘
+Alert, Breadcrumb, ButtonGroup, Card, Collapsible, Container, ContextMenu,
+Dropdown, Field, FloatingActionButton, Form, Grid, HoverCard, Input, InputOTP,
+Item, List, Menubar, NativeSelect, Pagination, Popover, Section, Select,
+Slider, Stack, Steps, Table, TagInput, TextArea, Timeline, Toast, Toggle,
+ToggleGroup, Tooltip, Tree, Typography, Upload, AvatarGroup
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                        COMPLEX COMPONENTS (20)                           │
+└──────────────────────────────────────────────────────────────────────────┘
+Accordion, Autocomplete, Calendar, Carousel, Chart, CodeEditor, Combobox,
+Command, DataTable, DatePicker, Dialog, Drawer, NavigationMenu, Resizable,
+ScrollArea, Sonner, TextEditor, ThemeProvider, ThemeToggle
+
+================================================================================
+                         COMPONENTS BY USE CASE
+================================================================================
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                      GETTING STARTED (Essential)                         │
+└──────────────────────────────────────────────────────────────────────────┘
+ThemeProvider, Button, Input, Card, Typography
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                     FORMS & DATA ENTRY (17 components)                   │
+└──────────────────────────────────────────────────────────────────────────┘
+Form, Field, Input, TextArea, InputOTP, Checkbox, Radio, Switch, Select,
+NativeSelect, Combobox, Autocomplete, DatePicker, Slider, TagInput, Upload,
+TextEditor
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                      NAVIGATION (6 components)                           │
+└──────────────────────────────────────────────────────────────────────────┘
+Breadcrumb, Link, NavigationMenu, Menubar, Pagination, Steps
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                     DATA DISPLAY (20 components)                         │
+└──────────────────────────────────────────────────────────────────────────┘
+Table, DataTable, List, Tree, Timeline, Card, Item, Avatar, AvatarGroup,
+Badge, Chip, Separator, Kbd, Label, Image, Rating, Skeleton, Empty,
+Typography, CodeEditor
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                   FEEDBACK & OVERLAYS (15 components)                    │
+└──────────────────────────────────────────────────────────────────────────┘
+Dialog, Drawer, Popover, Dropdown, ContextMenu, HoverCard, Alert, Toast,
+Sonner, Progress, Spinner, Tooltip, Command
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                   LAYOUT & STRUCTURE (11 components)                     │
+└──────────────────────────────────────────────────────────────────────────┘
+Container, Stack, Grid, Section, Accordion, Collapsible, Carousel,
+ScrollArea, AspectRatio, Resizable, Calendar
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                    BUTTONS & ACTIONS (5 components)                      │
+└──────────────────────────────────────────────────────────────────────────┘
+Button, ButtonGroup, FloatingActionButton, PlayButton, Toggle, ToggleGroup
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                       ADVANCED (2 components)                            │
+└──────────────────────────────────────────────────────────────────────────┘
+Chart (10 chart types), DataTable (with full CRUD operations)
+
+================================================================================
+                            FEATURE MATRIX
+================================================================================
+
+VARIANT SUPPORT:
+  ✓ Glass Morphism: Card, Button, Badge, Dialog, Drawer, Alert, Popover,
+                    Tooltip, HoverCard
+  ✓ Solid: All applicable components
+  ✓ Outline: Button, Badge, Card, Input, Select
+  ✓ Ghost: Button, Badge
+  ✓ Gradient: Button, Badge, Progress
+
+DARK MODE SUPPORT:
+  ✓ All 78 components support dark mode via ThemeProvider
+
+TYPESCRIPT SUPPORT:
+  ✓ 100% - Full TypeScript definitions for all components and hooks
+
+ACCESSIBILITY FEATURES:
+  ✓ ARIA Compliant - All interactive components include proper ARIA attributes
+  ✓ Keyboard Navigation - Full keyboard support for all interactive components
+  ✓ Focus Management - Focus traps, focus visible states, focus restoration
+  ✓ Screen Reader Support - Semantic HTML and ARIA labels
+
+================================================================================
+                          TECHNICAL STACK
+================================================================================
+
+Build System:       Vite, TypeScript, SWC
+CSS Framework:      Tailwind CSS v4
+Color System:       OKLCH (Perceptually uniform)
+Styling:            Class Variance Authority (CVA)
+React Version:      18.0+ and 19.0+ compatible
+Framework Support:  Next.js 15/16, Vite, Remix, Astro
+
+================================================================================
+                            STATISTICS
+================================================================================
+
+Total Components:           78
+Total Hooks:                40
+Chart Types:                10
+Skeleton Presets:           6
+Form Components:            17
+Layout Components:          4
+Navigation Components:      6
+Overlay Components:         7
+TypeScript Coverage:        100%
+Dark Mode Support:          100%
+Accessibility Score:        High
+
+================================================================================
+                         QUICK REFERENCE
+================================================================================
+
+MOST USED COMPONENTS:
+  • Button, Input, Card, Typography (Basic UI)
+  • Form, Field, Select, Checkbox, Radio (Forms)
+  • Dialog, Drawer, Popover (Overlays)
+  • Table, DataTable (Data Display)
+  • Alert, Toast, Spinner (Feedback)
+
+MOST USED HOOKS:
+  • useTheme (Theming)
+  • useDisclosure (Modal/Drawer state)
+  • useMediaQuery (Responsive design)
+  • useDebounce, useThrottle (Performance)
+  • useLocalStorage (Persistence)
+
+LEARNING PATH:
+  1. Beginner:     ThemeProvider, Button, Card, Input, Typography
+  2. Intermediate: Form components, Navigation, Overlays
+  3. Advanced:     DataTable, Chart, Command, Custom themes
+
+================================================================================
+                            END OF LIST
+================================================================================

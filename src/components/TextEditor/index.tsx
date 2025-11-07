@@ -7,7 +7,6 @@ import {
   editorContentVariants,
   toolbarButtonVariants,
   toolbarSeparatorVariants,
-  toolbarGroupVariants,
 } from "./TextEditor.styles";
 import type { TextEditorProps, EditorCommand } from "./TextEditor.types";
 import {
@@ -627,7 +626,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
         }
 
         updateActiveCommands();
-        handleInput();
+        handleInputRef.current?.();
       },
       [disabled, readOnly, updateActiveCommands],
     );
@@ -659,6 +658,12 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
         }
       }
     }, [isControlled, onChange]);
+
+    // Store handleInput in ref to avoid circular dependency
+    const handleInputRef = React.useRef(handleInput);
+    React.useEffect(() => {
+      handleInputRef.current = handleInput;
+    }, [handleInput]);
 
     // Handle selection change
     React.useEffect(() => {
@@ -810,19 +815,4 @@ TextEditor.displayName = "TextEditor";
 // EXPORTS
 // ============================================================================
 
-export type {
-  TextEditorProps,
-  TextEditorVariant,
-  TextEditorSize,
-  ToolbarButtonVariant,
-  EditorCommand,
-} from "./TextEditor.types";
-
-export {
-  textEditorVariants,
-  toolbarVariants,
-  editorContentVariants,
-  toolbarButtonVariants,
-  toolbarGroupVariants,
-  toolbarSeparatorVariants,
-};
+export type { TextEditorProps, EditorCommand };

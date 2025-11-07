@@ -44,7 +44,7 @@ export function ComposedChartComponent({
     const seriesType = (series as any).type || "bar";
 
     switch (seriesType) {
-      case "line":
+      case "line": {
         const lineSeries = series as LineSeriesConfig;
         return (
           <Line
@@ -58,8 +58,9 @@ export function ComposedChartComponent({
             activeDot={lineSeries.activeDot !== false ? { r: 4 } : false}
           />
         );
+      }
 
-      case "area":
+      case "area": {
         const areaSeries = series as AreaSeriesConfig;
         return (
           <Area
@@ -74,9 +75,10 @@ export function ComposedChartComponent({
             stackId={areaSeries.stackId}
           />
         );
+      }
 
       case "bar":
-      default:
+      default: {
         const barSeries = series as BarSeriesConfig;
         return (
           <Bar
@@ -89,6 +91,7 @@ export function ComposedChartComponent({
             maxBarSize={barSeries.barSize || 60}
           />
         );
+      }
     }
   };
 

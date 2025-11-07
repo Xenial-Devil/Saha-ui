@@ -11,7 +11,9 @@ import { Slot } from "../../lib/Slot";
  * Badge Component
  *
  * A small, inline status indicator or label component with various styles and options.
+ * Fully accessible with ARIA attributes and screen reader support.
  *
+ * @component
  * @example
  * ```tsx
  * // Basic usage
@@ -35,6 +37,12 @@ import { Slot } from "../../lib/Slot";
  *
  * // Glass effect with pulse
  * <Badge variant="glass" pulse>Live</Badge>
+ *
+ * // Accessible badge with aria-label
+ * <Badge aria-label="3 unread notifications" variant="error">3</Badge>
+ *
+ * // Status badge with live region
+ * <Badge aria-live="polite" pulse variant="success">Online</Badge>
  * ```
  */
 const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
@@ -51,6 +59,11 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       icon,
       pulse = false,
       asChild = false,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      "aria-describedby": ariaDescribedBy,
+      "aria-live": ariaLive,
+      "aria-atomic": ariaAtomic,
       ...props
     },
     ref,
@@ -65,6 +78,11 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
           pulse && "animate-pulse",
           className,
         )}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={ariaDescribedBy}
+        aria-live={ariaLive}
+        aria-atomic={ariaAtomic}
         {...props}
       >
         {asChild ? (
@@ -102,7 +120,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
                   size === "md" && "w-4 h-4",
                   size === "lg" && "w-5 h-5",
                 )}
-                aria-label="Remove badge"
+                aria-label={`Remove ${typeof children === "string" ? children : "badge"}`}
               >
                 <svg
                   className={cn(
