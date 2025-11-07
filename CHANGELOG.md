@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.15.0...v1.16.0) (2025-11-07)
+
+
+### Features
+
+* **mcp:** add v.0 dynamic MCP docs and packagingAdd comprehensive documentation and changes to introduce ([e323754](https://github.com/Xenial-Devil/Saha-ui/commit/e3237548f57ec364f15d84411b0ffead084ff414))
+
 # [1.15.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.14.0...v1.15.0) (2025-11-06)
 
 
