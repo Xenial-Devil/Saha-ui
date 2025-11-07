@@ -1,7 +1,7 @@
 <div align="center">
   <h1>🎨 Saha UI</h1>
   <p><strong>Ultra-Modern React Component Library</strong></p>
-  
+
   <p>
     <a href="https://www.npmjs.com/package/saha-ui"><img src="https://img.shields.io/npm/v/saha-ui.svg?style=flat-square" alt="npm version"></a>
     <a href="https://www.npmjs.com/package/saha-ui"><img src="https://img.shields.io/npm/dm/saha-ui.svg?style=flat-square" alt="npm downloads"></a>
@@ -29,7 +29,7 @@
 
 ## ✨ Features
 
-- 🎨 **73 Modern Components** - Accordion, Alert, AspectRatio, Autocomplete, Avatar, AvatarGroup, Badge, Breadcrumb, Button, ButtonGroup, Calendar, Card, Carousel, Chart, Checkbox, Chip, CodeEditor, Collapsible, Combobox, Command, ContextMenu, DataTable, DatePicker, Dialog, Drawer, Dropdown, Empty, Field, FloatingActionButton, Form, HoverCard, Image, Input, InputOTP, Item, Kbd, Label, Link, List, Menubar, NativeSelect, NavigationMenu, Pagination, PlayButton, Popover, Progress, Radio, Rating, Resizable, ScrollArea, Select, Separator, Skeleton, Slider, Sonner, Spinner, Steps, Switch, Tab, Table, Tag, TagInput, TextArea, TextEditor, ThemeProvider, ThemeToggle, Timeline, Toast, Toggle, ToggleGroup, Tooltip, Tree, Typography, Upload
+- 🎨 **78 Modern Components** - Accordion, Alert, AspectRatio, Autocomplete, Avatar, AvatarGroup, Badge, Breadcrumb, Button, ButtonGroup, Calendar, Card, Carousel, Chart (10 chart types), Checkbox, Chip, CodeEditor, Collapsible, Combobox, Command, Container, ContextMenu, DataTable, DatePicker, Dialog, Drawer, Dropdown, Empty, Field, FloatingActionButton, Form, Grid, HoverCard, Image, Input, InputOTP, Item, Kbd, Label, Link, List, Menubar, NativeSelect, NavigationMenu, Pagination, PlayButton, Popover, Progress, Radio, Rating, Resizable, ScrollArea, Section, Select, Separator, Skeleton (6 presets), Slider, Sonner, Spinner, Stack, Steps, Switch, Tab, Table, Tag, TagInput, TextArea, TextEditor, ThemeProvider, ThemeToggle, Timeline, Toast, Toggle, ToggleGroup, Tooltip, Tree, Typography, Upload
 - ⚡ **Next.js 15/16 Ready** - Full App Router support with Server & Client Components
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
@@ -41,7 +41,7 @@
 - 📦 **Modular** - Individual component imports for maximum flexibility
 - 📱 **Responsive** - Mobile-first design with touch gesture support
 - 🔧 **Customizable** - Easy to extend and customize with Tailwind CSS
-- 🪝 **Custom Hooks** - Reusable hooks for complex component logic (useAccordion, useAspectRatio, useAvatar, and more)
+- 🪝 **40 Custom Hooks** - Comprehensive hook library including useAccordion, useAnimation, useArray, useAspectRatio, useAsync, useAvatar, useChartColors, useChartData, useClickOutside, useClipboard, useColorMode, useControllableState, useCounter, useDataTable, useDebounce, useDisclosure, useDOM, useEventListener, useFetch, useFocusTrap, useForm, useHover, useIntersectionObserver, useInterval, useLocalStorage, useMediaQuery, useMergedRefs, usePagination, usePrevious, useReducedMotion, useScrollLock, useSearchFilter, useSessionStorage, useTheme, useThrottle, useTimeout, useToggle, useUpdateEffect, useValidation, useWindowSize
 
 ---
 
@@ -65,7 +65,14 @@ pnpm add saha-ui
 Run this command in your project root to setup CSS and Tailwind configuration:
 
 ```bash
-npx saha-ui init
+# npm
+npx saha-ui@latest init
+
+# yarn
+yarn dlx saha-ui@latest init
+
+# pnpm
+pnpm dlx saha-ui@latest init
 ```
 
 This will automatically:
@@ -84,17 +91,20 @@ See [CSS_DISTRIBUTION_SOLUTION.md](./CSS_DISTRIBUTION_SOLUTION.md) for detailed 
 Saha UI requires React 18+ or React 19+:
 
 ```bash
+# npm
 npm install react@^18.0.0 react-dom@^18.0.0
 # or
 npm install react@^19.0.0 react-dom@^19.0.0
-```
 
-### Optional Dependencies
+# yarn
+yarn add react@^18.0.0 react-dom@^18.0.0
+# or
+yarn add react@^19.0.0 react-dom@^19.0.0
 
-For icons (if using Link or ThemeToggle components):
-
-```bash
-npm install lucide-react
+# pnpm
+pnpm add react@^18.0.0 react-dom@^18.0.0
+# or
+pnpm add react@^19.0.0 react-dom@^19.0.0
 ```
 
 ## 🚀 Quick Start
@@ -177,7 +187,17 @@ Saha UI is **fully compatible** with Next.js 15 and 16 App Router!
 ### Quick Setup
 
 ```bash
+# npm
 npm install saha-ui
+npx saha-ui@latest init
+
+# yarn
+yarn add saha-ui
+yarn dlx saha-ui@latest init
+
+# pnpm
+pnpm add saha-ui
+pnpm dlx saha-ui@latest init
 ```
 
 ```tsx
@@ -257,6 +277,121 @@ export function InteractiveButton() {
 
 ---
 
+## 🔄 Using asChild Pattern
+
+Many Saha UI components support the `asChild` prop, which allows you to merge the component's props and behavior with a child element. This is particularly useful when you want to use a component's styling and functionality with custom elements like Next.js `Link` or React Router `Link`.
+
+### Components Supporting asChild
+
+The following **24 components** support the `asChild` prop:
+
+- **Navigation & Actions:** Button, Link, Badge, Toggle, FloatingActionButton
+- **Layout:** Container, Grid, Stack, Section, Card
+- **Interactive:** Accordion (Trigger), Collapsible (Trigger), Tooltip (Trigger), HoverCard (Trigger), Dropdown (Trigger), ContextMenu (Trigger), NavigationMenu (Link), Combobox (Trigger)
+- **Display:** Item, Kbd, Chip, Autocomplete (Input/Option), Slider (Thumb)
+
+### Basic Usage
+
+```tsx
+import { Button } from "saha-ui";
+import Link from "next/link";
+
+// Without asChild - creates a button
+<Button variant="primary">Click me</Button>
+
+// With asChild - merges with Next.js Link
+<Button asChild variant="primary">
+  <Link href="/dashboard">Go to Dashboard</Link>
+</Button>
+```
+
+### Common Use Cases
+
+#### 1. Navigation Buttons with Next.js Link
+
+```tsx
+import { Button } from "saha-ui";
+import Link from "next/link";
+
+<Button asChild variant="primary" size="lg">
+  <Link href="/products">Browse Products</Link>
+</Button>
+
+// The button styling is applied to the Link component
+// Result: <a href="/products" class="button-primary-classes">Browse Products</a>
+```
+
+#### 2. Badge as Link
+
+```tsx
+import { Badge } from "saha-ui";
+import Link from "next/link";
+
+<Badge asChild variant="success" dot>
+  <Link href="/notifications">5 New Messages</Link>
+</Badge>
+```
+
+#### 3. Card as Interactive Container
+
+```tsx
+import { Card } from "saha-ui";
+import Link from "next/link";
+
+<Card asChild variant="glass" hoverable>
+  <Link href="/blog/post-1">
+    <h3>Blog Post Title</h3>
+    <p>Post excerpt...</p>
+  </Link>
+</Card>
+```
+
+#### 4. Tooltip with Custom Trigger
+
+```tsx
+import { Tooltip, TooltipTrigger, TooltipContent } from "saha-ui";
+
+<Tooltip>
+  <TooltipTrigger asChild>
+    <button className="custom-icon-button">
+      <IconHelp />
+    </button>
+  </TooltipTrigger>
+  <TooltipContent>Help information</TooltipContent>
+</Tooltip>
+```
+
+#### 5. Dropdown Menu Trigger
+
+```tsx
+import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from "saha-ui";
+import { Button } from "saha-ui";
+
+<Dropdown>
+  <DropdownTrigger asChild>
+    <Button variant="outline">Open Menu</Button>
+  </DropdownTrigger>
+  <DropdownContent>
+    <DropdownItem>Profile</DropdownItem>
+    <DropdownItem>Settings</DropdownItem>
+    <DropdownItem>Logout</DropdownItem>
+  </DropdownContent>
+</Dropdown>
+```
+
+### Benefits of asChild
+
+| Benefit | Description |
+|---------|-------------|
+| **Preserves Styling** | All component variants, sizes, and styles are maintained |
+| **Router Integration** | Works seamlessly with Next.js Link, React Router, and custom routing |
+| **Accessibility** | Maintains all ARIA attributes and keyboard navigation |
+| **Type Safety** | Full TypeScript support with proper type inference |
+| **Clean DOM** | No unnecessary wrapper elements, cleaner HTML output |
+| **Flexibility** | Use with any custom component or HTML element |
+
+---
+
 ## 🎨 Components
 
 ### Overview
@@ -276,12 +411,14 @@ export function InteractiveButton() {
 | **Calendar**             | Date calendar with month/year navigation and date selection              | ✅     | ✅  |
 | **Card**                 | Container with 5 variants and sub-components                             | ✅     | ✅  |
 | **Carousel**             | Image slider with 4 transition effects and autoplay                      | ✅     | ✅  |
+| **Chart**                | Comprehensive charting with 10 types (Line, Bar, Area, Pie, Radar, etc) | ✅     | ✅  |
 | **Checkbox**             | Checkbox with 7 variants, 3 sizes, indeterminate, card mode, icons       | ✅     | ✅  |
 | **Chip**                 | Interactive tags with 5 variants, deletable, and avatars                 | ✅     | ✅  |
 | **CodeEditor**           | Code editor with syntax highlighting and themes                          | ✅     | ✅  |
 | **Collapsible**          | Expandable content with smooth animations                                | ✅     | ✅  |
 | **Combobox**             | Combined input and dropdown with search and selection                    | ✅     | ✅  |
 | **Command**              | Command palette with search and keyboard navigation                      | ✅     | ✅  |
+| **Container**            | Responsive container with max-width constraints and padding              | ✅     | ✅  |
 | **ContextMenu**          | Right-click context menu with nested items and shortcuts                 | ✅     | ✅  |
 | **DataTable**            | Advanced data table with sorting, filtering, pagination                  | ✅     | ✅  |
 | **DatePicker**           | Calendar date picker with 5 variants, 3 sizes, date restrictions         | ✅     | ✅  |
@@ -292,6 +429,7 @@ export function InteractiveButton() {
 | **Field**                | Form field wrapper with label, description, and error states             | ✅     | ✅  |
 | **FloatingActionButton** | Modern FAB with 9 variants, 4 sizes, positions, extended mode            | ✅     | ✅  |
 | **Form**                 | Form container with validation and layout management                     | ✅     | ✅  |
+| **Grid**                 | CSS Grid layout system with responsive columns and gaps                  | ✅     | ✅  |
 | **HoverCard**            | Rich hover card with content preview and positioning                     | ✅     | ✅  |
 | **Image**                | Advanced image with lazy loading and aspect ratio                        | ✅     | ✅  |
 | **Input**                | Text input with 10 variants, 4 sizes, icons, validation, all input types | ✅     | ✅  |
@@ -312,12 +450,14 @@ export function InteractiveButton() {
 | **Rating**               | Star rating with 6 variants, 4 sizes, multiple icons, half stars         | ✅     | ✅  |
 | **Resizable**            | Resizable panels with drag handles and constraints                       | ✅     | ✅  |
 | **ScrollArea**           | Custom scrollbar with smooth scrolling and styling                       | ✅     | ✅  |
+| **Section**              | Semantic section wrapper with variants and spacing                       | ✅     | ✅  |
 | **Select**               | Advanced dropdown with search, multi-select, icons, avatars, grouping    | ✅     | ✅  |
 | **Separator**            | Content separator with 5 variants and label support                      | ✅     | ✅  |
 | **Skeleton**             | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
 | **Slider**               | Range slider with single/dual handles and custom marks                   | ✅     | ✅  |
 | **Sonner**               | Toast notifications with rich content and animations                     | ✅     | ✅  |
 | **Spinner**              | Loading spinner with 10 variants, 6 sizes, 4 animations, fullscreen mode | ✅     | ✅  |
+| **Stack**                | Flexbox-based stacking layout with direction and spacing control         | ✅     | ✅  |
 | **Steps**                | Progress indicator with 4 variants, horizontal/vertical layouts          | ✅     | ✅  |
 | **Switch**               | Toggle switch with 7 variants, 3 sizes, icons, loading state             | ✅     | ✅  |
 | **Tab**                  | Tab navigation with 14 variants, 3 sizes, icons, badges, disabled states | ✅     | ✅  |
@@ -339,6 +479,206 @@ export function InteractiveButton() {
 
 ---
 
+## 🪝 Custom Hooks (40 Total)
+
+Saha UI provides a comprehensive collection of reusable React hooks to enhance your development experience:
+
+### Component-Specific Hooks (7)
+| Hook | Description |
+|------|-------------|
+| **useAccordion** | Accordion state management and behavior control |
+| **useAspectRatio** | Aspect ratio calculations and responsive sizing |
+| **useAvatar** | Avatar loading, fallback, and status management |
+| **useChartColors** | Chart color palette and theme management |
+| **useChartData** | Chart data processing and transformation |
+| **useDataTable** | DataTable state, sorting, filtering, and pagination |
+| **useTheme** | Theme context access and dark mode management |
+
+### State Management Hooks (9)
+| Hook | Description |
+|------|-------------|
+| **useArray** | Array state utilities (push, pop, filter, update) |
+| **useAsync** | Async operation state (loading, error, data) |
+| **useControllableState** | Controlled/uncontrolled component state |
+| **useCounter** | Counter state with increment/decrement |
+| **useDisclosure** | Open/close state for modals and dropdowns |
+| **useLocalStorage** | Local storage synchronization |
+| **useSessionStorage** | Session storage synchronization |
+| **useToggle** | Boolean toggle state |
+| **usePrevious** | Previous value tracking across renders |
+
+### DOM & Event Hooks (8)
+| Hook | Description |
+|------|-------------|
+| **useClickOutside** | Detect clicks outside an element |
+| **useDOM** | DOM manipulation utilities |
+| **useEventListener** | Safe event listener management |
+| **useFocusTrap** | Trap focus within a component |
+| **useHover** | Hover state detection |
+| **useIntersectionObserver** | Viewport intersection detection |
+| **useScrollLock** | Lock/unlock body scroll |
+| **useWindowSize** | Window dimensions tracking |
+
+### Form & Validation Hooks (2)
+| Hook | Description |
+|------|-------------|
+| **useForm** | Form state management and validation |
+| **useValidation** | Input validation with custom rules |
+
+### Utility Hooks (14)
+| Hook | Description |
+|------|-------------|
+| **useAnimation** | Animation control utilities |
+| **useClipboard** | Clipboard copy/paste operations |
+| **useColorMode** | Color mode (light/dark) management |
+| **useDebounce** | Debounced value updates |
+| **useFetch** | Data fetching with loading states |
+| **useInterval** | Interval management with cleanup |
+| **useMediaQuery** | CSS media query matching |
+| **useMergedRefs** | Merge multiple refs into one |
+| **usePagination** | Pagination logic and state |
+| **useReducedMotion** | Detect user motion preferences |
+| **useSearchFilter** | Search and filter operations |
+| **useThrottle** | Throttled value updates |
+| **useTimeout** | Timeout management with cleanup |
+| **useUpdateEffect** | useEffect that skips first render |
+
+### Hook Usage Examples
+
+```tsx
+import { useTheme, useToggle, useDebounce, useLocalStorage } from "saha-ui";
+
+// Theme management
+function ThemeExample() {
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+      Current theme: {theme}
+    </button>
+  );
+}
+
+// Toggle state
+function ToggleExample() {
+  const [isOpen, toggle] = useToggle(false);
+
+  return (
+    <div>
+      <button onClick={toggle}>Toggle</button>
+      {isOpen && <div>Content is visible!</div>}
+    </div>
+  );
+}
+
+// Debounced search
+function SearchExample() {
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
+
+  useEffect(() => {
+    // API call with debounced value
+    if (debouncedSearch) {
+      fetchResults(debouncedSearch);
+    }
+  }, [debouncedSearch]);
+
+  return <input value={search} onChange={(e) => setSearch(e.target.value)} />;
+}
+
+// Local storage persistence
+function StorageExample() {
+  const [name, setName] = useLocalStorage("user-name", "Guest");
+
+  return (
+    <input
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+      placeholder="Your name"
+    />
+  );
+}
+```
+
+---
+
+## 🔄 asChild Pattern
+
+Many Saha UI components support the `asChild` prop, which allows you to compose components with your own elements while preserving the component's styling and behavior. This is particularly useful when you want to render a component as a link, custom router component, or any other element.
+
+### How It Works
+
+When `asChild={true}`, the component passes its props to its direct child instead of rendering its default element. This uses the Slot pattern internally.
+
+### Supported Components
+
+The following components support `asChild`:
+- **Navigation:** Button, Link, Badge
+- **Layout:** Container, Grid, Stack, Section, Card
+- **Interactive:** Accordion (trigger), FloatingActionButton, Toggle, Tooltip (trigger)
+- **Data Display:** Chip, Item, Kbd
+- **Overlays:** Combobox, ContextMenu, Dropdown, HoverCard, NavigationMenu
+
+### Basic Example
+
+```tsx
+import { Button } from "saha-ui";
+import Link from "next/link";
+
+// Regular button
+<Button variant="primary">Click Me</Button>
+
+// Button rendered as Next.js Link (preserves button styling)
+<Button variant="primary" asChild>
+  <Link href="/dashboard">Go to Dashboard</Link>
+</Button>
+
+// Button rendered as anchor tag
+<Button variant="gradient" asChild>
+  <a href="https://example.com">External Link</a>
+</Button>
+```
+
+### Advanced Examples
+
+```tsx
+// Badge as a link
+<Badge variant="success" asChild>
+  <Link href="/notifications">3 New</Link>
+</Badge>
+
+// Card as clickable link
+<Card variant="glass" hoverable asChild>
+  <Link href="/article/123">
+    <CardContent>Click entire card</CardContent>
+  </Link>
+</Card>
+
+// FloatingActionButton as Next.js Link
+<FloatingActionButton variant="primary" position="bottom-right" asChild>
+  <Link href="/create">
+    <Plus size={24} />
+  </Link>
+</FloatingActionButton>
+
+// Custom router component
+import { Link as RouterLink } from "react-router-dom";
+
+<Button variant="outline" asChild>
+  <RouterLink to="/settings">Settings</RouterLink>
+</Button>
+```
+
+### Benefits
+
+- ✅ Preserves all component styling and variants
+- ✅ Works with any routing library (Next.js, React Router, etc.)
+- ✅ Maintains accessibility features
+- ✅ Type-safe with TypeScript
+- ✅ No wrapper elements (cleaner DOM)
+
+---
+
 ## ⚡ Quick Examples
 
 Here are simple examples for all components to get you started quickly:
@@ -348,8 +688,24 @@ Here are simple examples for all components to get you started quickly:
 ```tsx
 import { Button } from "saha-ui";
 
+// Basic button
 <Button variant="primary">Click Me</Button>
 <Button variant="ghost" size="sm">Small Ghost</Button>
+
+// asChild - Render as a custom element (Link, anchor, etc.)
+<Button variant="primary" asChild>
+  <a href="/dashboard">Go to Dashboard</a>
+</Button>
+
+// asChild with Next.js Link
+<Button variant="gradient" size="lg" asChild>
+  <Link href="/profile">View Profile</Link>
+</Button>
+
+// asChild with custom component
+<Button variant="outline" asChild>
+  <CustomRouterLink to="/settings">Settings</CustomRouterLink>
+</Button>
 ```
 
 ### ButtonGroup
@@ -378,9 +734,20 @@ import { Alert } from "saha-ui";
 ```tsx
 import { Badge } from "saha-ui";
 
+// Basic badge
 <Badge variant="primary">New</Badge>
 <Badge variant="success" dot pulse>Online</Badge>
 <Badge removable onRemove={() => console.log('removed')}>Tag</Badge>
+
+// asChild - Render badge as a link
+<Badge variant="info" asChild>
+  <a href="/notifications">3 New</a>
+</Badge>
+
+// asChild with Next.js Link
+<Badge variant="warning" dot asChild>
+  <Link href="/alerts">Pending</Link>
+</Badge>
 ```
 
 ### Breadcrumb
@@ -421,12 +788,30 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator } from "saha-ui";
 ```tsx
 import { Card, CardHeader, CardTitle, CardContent } from "saha-ui";
 
+// Basic card
 <Card variant="glass" hoverable>
   <CardHeader>
     <CardTitle>Card Title</CardTitle>
   </CardHeader>
   <CardContent>Your content here</CardContent>
-</Card>;
+</Card>
+
+// asChild - Clickable card as a link
+<Card variant="outline" hoverable asChild>
+  <a href="/article/123">
+    <CardHeader>
+      <CardTitle>Read More</CardTitle>
+    </CardHeader>
+    <CardContent>Click anywhere on this card to navigate</CardContent>
+  </a>
+</Card>
+
+// asChild with Next.js Link
+<Card variant="glass" asChild>
+  <Link href="/product/456">
+    <CardContent>Product Details</CardContent>
+  </Link>
+</Card>
 ```
 
 ### Chip
@@ -454,6 +839,16 @@ import { Chip } from "saha-ui";
 <Chip avatar={<Avatar name="JD" size="xs" />} color="primary">
   John Doe
 </Chip>
+
+// asChild - Chip as a link
+<Chip variant="filled" color="primary" asChild>
+  <a href="/tags/react">React</a>
+</Chip>
+
+// asChild with Next.js Link
+<Chip variant="outlined" clickable asChild>
+  <Link href="/category/javascript">JavaScript</Link>
+</Chip>
 ```
 
 ### Separator
@@ -472,6 +867,7 @@ import { Separator } from "saha-ui";
 ```tsx
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "saha-ui";
 
+// Basic accordion
 <Accordion type="single" collapsible>
   <AccordionItem value="item-1">
     <AccordionTrigger>Section 1</AccordionTrigger>
@@ -487,6 +883,18 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "sa
 <Accordion type="multiple" variant="glass">
   <AccordionItem value="item-1">
     <AccordionTrigger>Section 1</AccordionTrigger>
+    <AccordionContent>Content here</AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+// asChild - Custom trigger element
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger asChild>
+      <button className="custom-trigger-class">
+        Click to expand
+      </button>
+    </AccordionTrigger>
     <AccordionContent>Content here</AccordionContent>
   </AccordionItem>
 </Accordion>
@@ -545,6 +953,22 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "saha-ui";
     <div>Click <a href="#">here</a> for more</div>
   </TooltipContent>
 </Tooltip>
+
+// asChild - Use tooltip with custom trigger element
+<Tooltip variant="info">
+  <TooltipTrigger asChild>
+    <span className="custom-element">Hover for info</span>
+  </TooltipTrigger>
+  <TooltipContent>Additional information</TooltipContent>
+</Tooltip>
+
+// asChild with icon or custom component
+<Tooltip>
+  <TooltipTrigger asChild>
+    <InfoIcon className="cursor-help" />
+  </TooltipTrigger>
+  <TooltipContent>Help text here</TooltipContent>
+</Tooltip>
 ```
 
 ### Link
@@ -552,11 +976,27 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "saha-ui";
 ```tsx
 import { Link } from "saha-ui";
 
+// Basic links
 <Link href="/about">About Us</Link>
 <Link href="https://example.com" variant="primary" external>
   External Link
 </Link>
 <Link href="/contact" showIcon>Contact</Link>
+
+// asChild - Use Link styles with Next.js Link or custom component
+<Link variant="primary" asChild>
+  <NextLink href="/dashboard">Dashboard</NextLink>
+</Link>
+
+// asChild with button styling
+<Link variant="gradient" showIcon asChild>
+  <button onClick={handleClick}>Custom Action</button>
+</Link>
+
+// asChild preserves all Link styling
+<Link variant="underline" asChild>
+  <RouterLink to="/settings">Settings</RouterLink>
+</Link>
 ```
 
 ### List
@@ -806,8 +1246,10 @@ import { PlayButton } from "saha-ui";
 
 ```tsx
 import { FloatingActionButton } from "saha-ui";
-import { Plus } from "lucide-react";
+import { Plus, MessageCircle } from "lucide-react";
+import Link from "next/link";
 
+// Basic FAB
 <FloatingActionButton
   variant="primary"
   position="bottom-right"
@@ -815,11 +1257,9 @@ import { Plus } from "lucide-react";
   onClick={() => console.log("FAB clicked!")}
 >
   <Plus size={24} />
-</FloatingActionButton>;
+</FloatingActionButton>
 
-{
-  /* Extended FAB */
-}
+// Extended FAB
 <FloatingActionButton
   variant="accent"
   position="bottom-left"
@@ -827,7 +1267,360 @@ import { Plus } from "lucide-react";
   extended
 >
   <Plus size={20} />
-</FloatingActionButton>;
+</FloatingActionButton>
+
+// asChild - Render FAB as a link
+<FloatingActionButton
+  variant="primary"
+  position="bottom-right"
+  label="Chat"
+  asChild
+>
+  <a href="/chat">
+    <MessageCircle size={24} />
+  </a>
+</FloatingActionButton>
+
+// asChild with Next.js Link
+<FloatingActionButton variant="success" position="bottom-center" asChild>
+  <Link href="/create">
+    <Plus size={24} />
+  </Link>
+</FloatingActionButton>
+```
+
+### Toggle
+
+```tsx
+import { Toggle } from "saha-ui";
+import { Bold } from "lucide-react";
+
+// Basic toggle
+<Toggle>
+  <Bold size={16} />
+</Toggle>
+
+// With variants
+<Toggle variant="outline" pressed={isBold} onPressedChange={setIsBold}>
+  <Bold size={16} />
+</Toggle>
+
+// asChild - Custom element
+<Toggle variant="primary" asChild>
+  <button className="custom-class">
+    <Bold size={16} />
+  </button>
+</Toggle>
+```
+
+### Container
+
+```tsx
+import { Container } from "saha-ui";
+
+// Basic container
+<Container>
+  <p>Content with max-width and padding</p>
+</Container>
+
+// With size variants
+<Container size="sm" centered>
+  <p>Small centered container</p>
+</Container>
+
+// asChild - Container as section
+<Container variant="glass" asChild>
+  <section className="my-section">
+    <h1>Section Title</h1>
+    <p>Content here</p>
+  </section>
+</Container>
+```
+
+### Grid
+
+```tsx
+import { Grid, GridItem } from "saha-ui";
+
+// Basic grid
+<Grid cols={3} gap={4}>
+  <GridItem>Item 1</GridItem>
+  <GridItem>Item 2</GridItem>
+  <GridItem>Item 3</GridItem>
+</Grid>
+
+// Responsive grid
+<Grid cols={{ base: 1, md: 2, lg: 3 }} gap={6}>
+  <GridItem span={2}>Wide item</GridItem>
+  <GridItem>Regular item</GridItem>
+</Grid>
+
+// asChild - Grid as article
+<Grid cols={2} gap={4} asChild>
+  <article>
+    <GridItem>Content 1</GridItem>
+    <GridItem>Content 2</GridItem>
+  </article>
+</Grid>
+```
+
+### Stack
+
+```tsx
+import { Stack } from "saha-ui";
+
+// Vertical stack
+<Stack direction="vertical" spacing={4}>
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</Stack>
+
+// Horizontal stack
+<Stack direction="horizontal" spacing={2} align="center">
+  <Button>Action 1</Button>
+  <Button>Action 2</Button>
+</Stack>
+
+// asChild - Stack as nav
+<Stack direction="horizontal" spacing={4} asChild>
+  <nav>
+    <Link href="/">Home</Link>
+    <Link href="/about">About</Link>
+  </nav>
+</Stack>
+```
+
+### Item
+
+```tsx
+import { Item, ItemMedia, ItemContent, ItemTitle, ItemDescription } from "saha-ui";
+
+// Basic item
+<Item>
+  <ItemMedia>
+    <Avatar src="/user.jpg" />
+  </ItemMedia>
+  <ItemContent>
+    <ItemTitle>John Doe</ItemTitle>
+    <ItemDescription>Software Engineer</ItemDescription>
+  </ItemContent>
+</Item>
+
+// asChild - Item as link
+<Item variant="interactive" asChild>
+  <a href="/profile/123">
+    <ItemContent>
+      <ItemTitle>View Profile</ItemTitle>
+      <ItemDescription>Click to see details</ItemDescription>
+    </ItemContent>
+  </a>
+</Item>
+```
+
+### Kbd
+
+```tsx
+import { Kbd, KbdGroup } from "saha-ui";
+
+// Single key
+<Kbd>Ctrl</Kbd>
+
+// Key combination
+<KbdGroup>
+  <Kbd>Ctrl</Kbd>
+  <Kbd>C</Kbd>
+</KbdGroup>
+
+// asChild - Kbd as button
+<Kbd variant="outline" asChild>
+  <button onClick={handleShortcut}>⌘ K</button>
+</Kbd>
+```
+
+### HoverCard
+
+```tsx
+import { HoverCard, HoverCardTrigger, HoverCardContent } from "saha-ui";
+
+// Basic hover card
+<HoverCard>
+  <HoverCardTrigger>
+    <span>Hover me</span>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    <p>Additional information appears here</p>
+  </HoverCardContent>
+</HoverCard>
+
+// asChild - Custom trigger element
+<HoverCard variant="glass">
+  <HoverCardTrigger asChild>
+    <a href="/user/123">@username</a>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    <div className="flex items-center gap-3">
+      <Avatar src="/user.jpg" />
+      <div>
+        <h4>John Doe</h4>
+        <p>Software Engineer</p>
+      </div>
+    </div>
+  </HoverCardContent>
+</HoverCard>
+
+// asChild with button
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <Button variant="ghost">Profile Preview</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>User details...</HoverCardContent>
+</HoverCard>
+```
+
+### Collapsible
+
+```tsx
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "saha-ui";
+
+// Basic collapsible
+<Collapsible>
+  <CollapsibleTrigger>Show More</CollapsibleTrigger>
+  <CollapsibleContent>
+    <p>Hidden content appears here</p>
+  </CollapsibleContent>
+</Collapsible>
+
+// asChild - Custom trigger
+<Collapsible variant="bordered">
+  <CollapsibleTrigger asChild>
+    <button className="custom-button">
+      Toggle Details
+    </button>
+  </CollapsibleTrigger>
+  <CollapsibleContent>
+    <p>Collapsible content with smooth animation</p>
+  </CollapsibleContent>
+</Collapsible>
+
+// asChild with heading
+<Collapsible>
+  <CollapsibleTrigger asChild>
+    <h3 className="cursor-pointer">FAQ Question</h3>
+  </CollapsibleTrigger>
+  <CollapsibleContent>Answer to the question</CollapsibleContent>
+</Collapsible>
+```
+
+### NavigationMenu
+
+```tsx
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink
+} from "saha-ui";
+
+// Basic navigation menu
+<NavigationMenu>
+  <NavigationMenuItem>
+    <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+    <NavigationMenuContent>
+      <NavigationMenuLink href="/products/all">All Products</NavigationMenuLink>
+      <NavigationMenuLink href="/products/new">New Arrivals</NavigationMenuLink>
+    </NavigationMenuContent>
+  </NavigationMenuItem>
+</NavigationMenu>
+
+// asChild - Custom trigger element
+<NavigationMenu>
+  <NavigationMenuItem>
+    <NavigationMenuTrigger asChild>
+      <button className="nav-button">Services</button>
+    </NavigationMenuTrigger>
+    <NavigationMenuContent>
+      <p>Service content here</p>
+    </NavigationMenuContent>
+  </NavigationMenuItem>
+</NavigationMenu>
+
+// asChild - Links with Next.js
+<NavigationMenu>
+  <NavigationMenuItem>
+    <NavigationMenuLink asChild>
+      <Link href="/about">About Us</Link>
+    </NavigationMenuLink>
+  </NavigationMenuItem>
+</NavigationMenu>
+```
+
+### ContextMenu
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem
+} from "saha-ui";
+
+// Basic context menu
+<ContextMenu>
+  <ContextMenuTrigger>
+    <div>Right click me</div>
+  </ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem>Edit</ContextMenuItem>
+    <ContextMenuItem>Delete</ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>
+
+// asChild - Custom trigger
+<ContextMenu>
+  <ContextMenuTrigger asChild>
+    <Card variant="outline">
+      <CardContent>Right click this card</CardContent>
+    </Card>
+  </ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem>Copy</ContextMenuItem>
+    <ContextMenuItem>Paste</ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>
+```
+
+### Combobox
+
+```tsx
+import {
+  Combobox,
+  ComboboxTrigger,
+  ComboboxContent,
+  ComboboxItem
+} from "saha-ui";
+
+// Basic combobox
+<Combobox>
+  <ComboboxTrigger>Select option</ComboboxTrigger>
+  <ComboboxContent>
+    <ComboboxItem value="1">Option 1</ComboboxItem>
+    <ComboboxItem value="2">Option 2</ComboboxItem>
+  </ComboboxContent>
+</Combobox>
+
+// asChild - Custom trigger button
+<Combobox>
+  <ComboboxTrigger asChild>
+    <Button variant="outline">Choose framework</Button>
+  </ComboboxTrigger>
+  <ComboboxContent>
+    <ComboboxItem value="react">React</ComboboxItem>
+    <ComboboxItem value="vue">Vue</ComboboxItem>
+    <ComboboxItem value="angular">Angular</ComboboxItem>
+  </ComboboxContent>
+</Combobox>
 ```
 
 ### Radio
@@ -1316,8 +2109,8 @@ import { Sparkles } from "lucide-react";
 
 Container component that groups multiple buttons together with seamless styling.
 
-**Variants:** `default` `outline` `ghost` `glass`  
-**Sizes:** `sm` `md` `lg` `xl`  
+**Variants:** `default` `outline` `ghost` `glass`
+**Sizes:** `sm` `md` `lg` `xl`
 **Orientation:** `horizontal` `vertical`
 
 ```tsx
@@ -1414,8 +2207,8 @@ import { ButtonGroup, Button } from "saha-ui";
 
 Navigation component showing the current page's location within a hierarchy with 5 modern variants.
 
-**Variants:** `default` `ghost` `bordered` `pills` `underline`  
-**Sizes:** `sm` `md` `lg`  
+**Variants:** `default` `ghost` `bordered` `pills` `underline`
+**Sizes:** `sm` `md` `lg`
 **Separators:** `chevron` `slash` `dot` `arrow` `custom`
 
 ```tsx
@@ -1589,7 +2382,7 @@ const customItemClass = breadcrumbItemVariants({
 
 Display important messages with inline icons and auto-link detection.
 
-**Variants:** `solid` `subtle` `left-accent` `top-accent` `outline`  
+**Variants:** `solid` `subtle` `left-accent` `top-accent` `outline`
 **Status:** `info` `success` `warning` `danger`
 
 ```tsx
@@ -1618,8 +2411,8 @@ import { Alert } from "saha-ui";
 
 Small status indicators and labels with rich visual variants.
 
-**Variants:** `default` `primary` `secondary` `success` `warning` `error` `info` `outline` `glass`  
-**Sizes:** `sm` `md` `lg`  
+**Variants:** `default` `primary` `secondary` `success` `warning` `error` `info` `outline` `glass`
+**Sizes:** `sm` `md` `lg`
 **Shapes:** `rounded` `pill` `square`
 
 ```tsx
@@ -1703,8 +2496,8 @@ import { Badge } from "saha-ui";
 
 Versatile container component with sub-components for structured layouts.
 
-**Variants:** `default` `glass` `glass-strong` `glass-subtle` `bordered`  
-**Padding:** `none` `sm` `md` `lg` `xl`  
+**Variants:** `default` `glass` `glass-strong` `glass-subtle` `bordered`
+**Padding:** `none` `sm` `md` `lg` `xl`
 **Rounded:** `sm` `md` `lg` `xl` `2xl`
 
 ```tsx
@@ -1755,8 +2548,8 @@ const customClass = cardVariants({ variant: 'glass-strong', padding: 'xl', round
 
 Interactive tag component with multiple variants, deletable functionality, and icon/avatar support.
 
-**Variants:** `filled` `outlined` `soft` `gradient` `glass`  
-**Colors:** `default` `primary` `secondary` `success` `warning` `error` `info`  
+**Variants:** `filled` `outlined` `soft` `gradient` `glass`
+**Colors:** `default` `primary` `secondary` `success` `warning` `error` `info`
 **Sizes:** `sm` `md` `lg`
 
 ```tsx
@@ -1958,9 +2751,9 @@ const customChipClass = chipVariants({
 
 Content separator component with 5 modern variants, optional labels, and decorative elements.
 
-**Variants:** `solid` `dashed` `dotted` `gradient` `glass`  
-**Orientation:** `horizontal` `vertical`  
-**Thickness:** `thin` `medium` `thick`  
+**Variants:** `solid` `dashed` `dotted` `gradient` `glass`
+**Orientation:** `horizontal` `vertical`
+**Thickness:** `thin` `medium` `thick`
 **Spacing:** `none` `xs` `sm` `md` `lg` `xl`
 
 ```tsx
@@ -2127,7 +2920,7 @@ const customLabelClass = SeparatorLabelVariants({
 
 Collapsible content sections with smooth animations and multiple behavior modes.
 
-**Variants:** `default` `bordered` `flush` `glass`  
+**Variants:** `default` `bordered` `flush` `glass`
 **Sizes:** `sm` `md` `lg`
 
 ```tsx
@@ -2159,8 +2952,8 @@ import { Accordion } from "saha-ui";
 
 Profile images with status indicators and smart fallbacks.
 
-**Sizes:** `xs` `sm` `md` `lg` `xl` `2xl`  
-**Shapes:** `circle` `square` `rounded`  
+**Sizes:** `xs` `sm` `md` `lg` `xl` `2xl`
+**Shapes:** `circle` `square` `rounded`
 **Status:** `online` `offline` `away` `busy` `none`
 
 ```tsx
@@ -2192,7 +2985,7 @@ import { Avatar } from "saha-ui";
 
 Display multiple avatars with overlap and count indicator.
 
-**Variants:** `stack` `row` `grid` `grid-dense`  
+**Variants:** `stack` `row` `grid` `grid-dense`
 **Sizes:** `xs` `sm` `md` `lg` `xl` `2xl`
 
 ```tsx
@@ -2227,9 +3020,9 @@ import { AvatarGroup, Avatar } from "saha-ui";
 
 Contextual hints and information with smart positioning, multiple trigger types, and interactive capabilities.
 
-**Variants:** `default` `dark` `light` `glass` `primary` `success` `warning` `error` `info`  
-**Positions:** `top` `bottom` `left` `right`  
-**Sizes:** `sm` `md` `lg`  
+**Variants:** `default` `dark` `light` `glass` `primary` `success` `warning` `error` `info`
+**Positions:** `top` `bottom` `left` `right`
+**Sizes:** `sm` `md` `lg`
 **Triggers:** `hover` `click` `focus` `manual`
 
 ```tsx
@@ -2456,7 +3249,7 @@ const customArrowClass = arrowVariants({
 
 Smart, versatile links with automatic external detection and multiple visual variants.
 
-**Variants:** `default` `primary` `secondary` `accent` `muted` `underline` `ghost` `button` `glass`  
+**Variants:** `default` `primary` `secondary` `accent` `muted` `underline` `ghost` `button` `glass`
 **Sizes:** `sm` `md` `lg`
 
 ```tsx
@@ -2553,8 +3346,8 @@ import { Star } from "lucide-react";
 
 Versatile lists with 5 modern variants, icon support, and enhanced animations powered by CVA (Class Variance Authority).
 
-**Types:** `disc` `circle` `square` `decimal` `decimal-leading-zero` `lower-roman` `upper-roman` `lower-alpha` `upper-alpha` `none`  
-**Variants:** `default` `bordered` `divided` `striped` `cards`  
+**Types:** `disc` `circle` `square` `decimal` `decimal-leading-zero` `lower-roman` `upper-roman` `lower-alpha` `upper-alpha` `none`
+**Variants:** `default` `bordered` `divided` `striped` `cards`
 **Sizes:** `sm` `md` `lg`
 
 ```tsx
@@ -2724,9 +3517,9 @@ const customItemClass = listItemVariants({
 
 Chronological event display with 4 modern variants, flexible positioning, status indicators, and icon support powered by CVA.
 
-**Variants:** `default` `outlined` `gradient` `minimal`  
-**Positions:** `left` `right` `alternate`  
-**Sizes:** `sm` `md` `lg`  
+**Variants:** `default` `outlined` `gradient` `minimal`
+**Positions:** `left` `right` `alternate`
+**Sizes:** `sm` `md` `lg`
 **Status:** `default` `primary` `success` `warning` `error` `info`
 
 ```tsx
@@ -3022,7 +3815,7 @@ const customDotClass = timelineDotVariants({
 
 Hierarchical data visualization with expand/collapse functionality.
 
-**Variants:** `default` `glass` `bordered` `minimal`  
+**Variants:** `default` `glass` `bordered` `minimal`
 **Sizes:** `sm` `md` `lg`
 
 ```tsx
@@ -3229,8 +4022,8 @@ const customNodeClass = treeNodeVariants({
 
 Advanced image component with loading states and effects.
 
-**Variants:** `default` `rounded` `circular` `bordered` `glass`  
-**Fit:** `cover` `contain` `fill` `none` `scale-down`  
+**Variants:** `default` `rounded` `circular` `bordered` `glass`
+**Fit:** `cover` `contain` `fill` `none` `scale-down`
 **Sizes:** `xs` `sm` `md` `lg` `xl` `2xl` `full`
 
 ```tsx
@@ -3264,8 +4057,8 @@ import { Image } from "saha-ui";
 
 Feature-rich image slider with multiple transition effects.
 
-**Variants:** `default` `contained` `bordered` `glass`  
-**Effects:** `slide` `fade` `cube` `flip`  
+**Variants:** `default` `contained` `bordered` `glass`
+**Effects:** `slide` `fade` `cube` `flip`
 **Direction:** `forward` `backward`
 
 ```tsx
@@ -3315,9 +4108,9 @@ import { Carousel } from "saha-ui";
 
 Progress indicator for multi-step processes and wizards.
 
-**Variants:** `default` `bordered` `glass` `minimal`  
-**Orientation:** `horizontal` `vertical`  
-**Sizes:** `sm` `md` `lg`  
+**Variants:** `default` `bordered` `glass` `minimal`
+**Orientation:** `horizontal` `vertical`
+**Sizes:** `sm` `md` `lg`
 **Status:** `completed` `current` `pending` `error`
 
 ```tsx
@@ -3401,8 +4194,8 @@ import { User, CreditCard, Check } from "lucide-react";
 
 Data table component with sorting, selection, and responsive design.
 
-**Variants:** `default` `bordered` `striped` `glass` `minimal`  
-**Sizes:** `sm` `md` `lg`  
+**Variants:** `default` `bordered` `striped` `glass` `minimal`
+**Sizes:** `sm` `md` `lg`
 **Density:** `compact` `normal` `comfortable`
 
 ```tsx
@@ -3555,9 +4348,9 @@ const data = [
 
 Interactive star rating component with multiple icons and variants.
 
-**Variants:** `default` `primary` `secondary` `gradient` `glass` `outline`  
-**Sizes:** `sm` `md` `lg` `xl`  
-**Icons:** `star` `heart` `circle` `diamond`  
+**Variants:** `default` `primary` `secondary` `gradient` `glass` `outline`
+**Sizes:** `sm` `md` `lg` `xl`
+**Icons:** `star` `heart` `circle` `diamond`
 **Precision:** `full` `half`
 
 ```tsx
@@ -3827,8 +4620,8 @@ import { Popover, Button } from "saha-ui";
 </Popover>
 ```
 
-**Variants:** `default` `primary` `secondary` `success` `warning` `danger` `info` `glass` `bordered` `elevated` `flat`  
-**Positions:** 12 options including `top`, `bottom`, `left`, `right` (with -start and -end variations)  
+**Variants:** `default` `primary` `secondary` `success` `warning` `danger` `info` `glass` `bordered` `elevated` `flat`
+**Positions:** 12 options including `top`, `bottom`, `left`, `right` (with -start and -end variations)
 **Sizes:** `sm` `md` `lg` `xl`
 
 **Features:**
@@ -3883,7 +4676,7 @@ const [playing, setPlaying] = useState(false);
 </div>
 ```
 
-**Variants:** `default` `primary` `secondary` `accent` `info` `success` `warning` `error` `glass`  
+**Variants:** `default` `primary` `secondary` `accent` `info` `success` `warning` `error` `glass`
 **Sizes:** `sm` `md` `lg` `xl`
 
 **Features:**
@@ -4361,8 +5154,8 @@ import { Skeleton } from "saha-ui";
 ))}
 ```
 
-**Variants:** `default` `pulse` `wave` `shimmer` `gradient`  
-**Shapes:** `rectangle` `circle` `rounded` `text`  
+**Variants:** `default` `pulse` `wave` `shimmer` `gradient`
+**Shapes:** `rectangle` `circle` `rounded` `text`
 **Speeds:** `slow` `normal` `fast`
 
 **Features:**
@@ -4606,11 +5399,11 @@ import { Spinner } from "saha-ui";
 }
 ```
 
-**Variants:** `default` `primary` `secondary` `accent` `info` `success` `warning` `error` `glass` `gradient`  
-**Sizes:** `xs` `sm` `md` `lg` `xl` `2xl`  
-**Types:** `ring` `dots` `dashed` `bars` `dotRing` `orbit` `pulse` `square` `triangle` `wave` `spiral` `infinity` `flower` `grid` `bounce`  
-**Animations:** `spin` `pulse` `bounce` `ping`  
-**Thickness:** `thin` `default` `thick`  
+**Variants:** `default` `primary` `secondary` `accent` `info` `success` `warning` `error` `glass` `gradient`
+**Sizes:** `xs` `sm` `md` `lg` `xl` `2xl`
+**Types:** `ring` `dots` `dashed` `bars` `dotRing` `orbit` `pulse` `square` `triangle` `wave` `spiral` `infinity` `flower` `grid` `bounce`
+**Animations:** `spin` `pulse` `bounce` `ping`
+**Thickness:** `thin` `default` `thick`
 **Logo Sizes:** `xs` `sm` `md` `lg` `xl`
 
 **Features:**
@@ -4782,8 +5575,8 @@ function DataTable() {
 }
 ```
 
-**Variants:** `default` `primary` `secondary` `outlined` `minimal`  
-**Sizes:** `sm` `md` `lg`  
+**Variants:** `default` `primary` `secondary` `outlined` `minimal`
+**Sizes:** `sm` `md` `lg`
 **Shapes:** `rounded` `square` `pill`
 
 **Features:**
@@ -4953,8 +5746,8 @@ import { DatePicker } from "saha-ui";
 />
 ```
 
-**Variants:** `default` `primary` `secondary` `outlined` `minimal`  
-**Sizes:** `sm` `md` `lg`  
+**Variants:** `default` `primary` `secondary` `outlined` `minimal`
+**Sizes:** `sm` `md` `lg`
 **Formats:** Customizable (MM/DD/YYYY, DD/MM/YYYY, etc.)
 
 **Features:**
@@ -5059,7 +5852,7 @@ const tabs: TabItem[] = [
 </div>
 ```
 
-**Variants:** `default` `primary` `secondary` `accent` `success` `warning` `danger` `info` `glass` `bordered` `elevated` `flat` `outlined` `minimal`  
+**Variants:** `default` `primary` `secondary` `accent` `success` `warning` `danger` `info` `glass` `bordered` `elevated` `flat` `outlined` `minimal`
 **Sizes:** `sm` `md` `lg`
 
 **Props:**
@@ -5300,8 +6093,8 @@ import { Mail, Lock, Search, User } from "lucide-react";
 </div>
 ```
 
-**Variants:** `primary` `secondary` `accent` `info` `success` `warning` `error` `outline` `ghost` `glass`  
-**Sizes:** `sm` `md` `lg` `xl`  
+**Variants:** `primary` `secondary` `accent` `info` `success` `warning` `error` `outline` `ghost` `glass`
+**Sizes:** `sm` `md` `lg` `xl`
 **Input Types:** All HTML input types except `file`
 
 **Props:**
@@ -5594,7 +6387,17 @@ The MCP server is included with Saha UI - no separate installation needed!
 
 ```bash
 # Install Saha UI
+# npm
 npm install saha-ui
+npx saha-ui@latest init
+
+# yarn
+yarn add saha-ui
+yarn dlx saha-ui@latest init
+
+# pnpm
+pnpm add saha-ui
+pnpm dlx saha-ui@latest init
 
 # Configure your AI client (e.g., Claude Desktop)
 # Add to claude_desktop_config.json:
@@ -5619,23 +6422,23 @@ The MCP server understands natural language and adapts to your needs:
 
 **Beginner-Friendly:**
 > "How do I get started with Saha UI?"
-> 
+>
 > "Show me simple form components"
-> 
+>
 > "What's the easiest way to add a button?"
 
 **Discovery & Exploration:**
 > "What components work well for a dashboard?"
-> 
+>
 > "Show me components similar to Card"
-> 
+>
 > "Find components with glass morphism"
 
 **Advanced Usage:**
 > "Customize Button theme colors using OKLCH"
-> 
+>
 > "Integrate DataTable with Next.js 15 App Router"
-> 
+>
 > "Search for all components using CVA variants"
 
 **The server handles typos too:** "Show me the Botton component" → Automatically suggests Button ✓
