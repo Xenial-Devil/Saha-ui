@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.16.0...v1.17.0) (2025-11-09)
+
+
+### Features
+
+* **result,masonry,docs:** add types, docs, examples & audits ([7c63de7](https://github.com/Xenial-Devil/Saha-ui/commit/7c63de72e35d4b28e4369aaac0cc4729a3016c47))
+
 # [1.18.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.17.0...v1.18.0) (2025-11-07)
 
 
