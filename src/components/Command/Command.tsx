@@ -58,7 +58,11 @@ import type {
   CommandSize,
   CommandVariant,
 } from "./Command.types";
-import { containerVariants, inputVariants, itemVariants } from "./Command.styles";
+import {
+  containerVariants,
+  inputVariants,
+  itemVariants,
+} from "./Command.styles";
 
 // Context for composable components
 interface CommandContextValue {
@@ -76,7 +80,7 @@ interface CommandContextValue {
 }
 
 const CommandContext = createContext<CommandContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 const useCommand = () => {
@@ -87,14 +91,12 @@ const useCommand = () => {
   return context;
 };
 
-
-
 /**
  * Default filter function
  */
 const defaultFilter = (
   items: CommandItemType[],
-  search: string
+  search: string,
 ): CommandItemType[] => {
   if (!search) return items;
 
@@ -307,7 +309,7 @@ export const Command = forwardRef<HTMLDivElement, CommandProps>(
               return prev - 1;
             });
             break;
-          case "Enter":
+          case "Enter": {
             e.preventDefault();
             const selectedItem = filteredItems[selectedIndex];
             if (selectedItem && !selectedItem.disabled) {
@@ -315,6 +317,7 @@ export const Command = forwardRef<HTMLDivElement, CommandProps>(
               onSelect?.(selectedItem.value);
             }
             break;
+          }
           case "Escape":
             e.preventDefault();
             setValue("");
@@ -411,7 +414,7 @@ export const Command = forwardRef<HTMLDivElement, CommandProps>(
                               {groupFiltered.map((itm: CommandItemType) => {
                                 const globalIndex = filteredItems.findIndex(
                                   (fi: CommandItemType) =>
-                                    fi.value === itm.value
+                                    fi.value === itm.value,
                                 );
                                 return (
                                   <CommandItemInternal
@@ -427,7 +430,7 @@ export const Command = forwardRef<HTMLDivElement, CommandProps>(
                           // Flat item
                           const itm = item as CommandItemType;
                           const globalIndex = filteredItems.findIndex(
-                            (fi: CommandItemType) => fi.value === itm.value
+                            (fi: CommandItemType) => fi.value === itm.value,
                           );
                           if (globalIndex === -1) return null;
 
@@ -448,7 +451,7 @@ export const Command = forwardRef<HTMLDivElement, CommandProps>(
         </div>
       </CommandContext.Provider>
     );
-  }
+  },
 );
 
 Command.displayName = "Command";
@@ -478,7 +481,7 @@ const CommandItemInternal: React.FC<{
           selected: isSelected,
           disabled: item.disabled,
           size,
-        })
+        }),
       )}
     >
       {item.icon && <div className="flex-shrink-0">{item.icon}</div>}
@@ -505,7 +508,7 @@ export const CommandInput = forwardRef<HTMLInputElement, CommandInputProps>(
       className,
       autoFocus = true,
     },
-    ref
+    ref,
   ) => {
     const { value, setValue, size, disabled } = useCommand();
 
@@ -524,7 +527,7 @@ export const CommandInput = forwardRef<HTMLInputElement, CommandInputProps>(
         />
       </div>
     );
-  }
+  },
 );
 
 CommandInput.displayName = "CommandInput";
@@ -543,7 +546,7 @@ export const CommandList = forwardRef<HTMLDivElement, CommandListProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 
 CommandList.displayName = "CommandList";
@@ -562,13 +565,13 @@ export const CommandEmpty = forwardRef<HTMLDivElement, CommandEmptyProps>(
         ref={ref}
         className={cn(
           "flex flex-col items-center justify-center py-8 text-muted-foreground",
-          className
+          className,
         )}
       >
         {children || "No results found"}
       </div>
     );
-  }
+  },
 );
 
 CommandEmpty.displayName = "CommandEmpty";
@@ -593,7 +596,7 @@ export const CommandLoading = forwardRef<HTMLDivElement, CommandLoadingProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 CommandLoading.displayName = "CommandLoading";
@@ -613,7 +616,7 @@ export const CommandGroup = forwardRef<HTMLDivElement, CommandGroupProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 
 CommandGroup.displayName = "CommandGroup";
@@ -636,7 +639,7 @@ export const CommandItem = forwardRef<HTMLDivElement, CommandItemProps>(
       children,
       forceMount,
     },
-    ref
+    ref,
   ) => {
     const {
       value,
@@ -703,7 +706,7 @@ export const CommandItem = forwardRef<HTMLDivElement, CommandItemProps>(
             disabled,
             size,
           }),
-          className
+          className,
         )}
       >
         {icon && <div className="flex-shrink-0">{icon}</div>}
@@ -722,7 +725,7 @@ export const CommandItem = forwardRef<HTMLDivElement, CommandItemProps>(
         {shortcut && <CommandShortcut keys={shortcut} />}
       </div>
     );
-  }
+  },
 );
 
 CommandItem.displayName = "CommandItem";
@@ -755,7 +758,7 @@ export const CommandShortcut = forwardRef<
       ref={ref}
       className={cn(
         "flex items-center gap-1 text-xs text-muted-foreground",
-        className
+        className,
       )}
     >
       {keysArray.map((key, i) => (

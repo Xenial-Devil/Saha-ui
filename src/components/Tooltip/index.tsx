@@ -26,7 +26,7 @@ export type TooltipVariantsProps = VariantProps<typeof tooltipVariants>;
 
 // Create Tooltip Context
 const TooltipContext = createContext<TooltipContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 const useTooltip = () => {
@@ -91,7 +91,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       disabled = false,
       ...props
     },
-    _ref
+    _ref,
   ) => {
     const [internalOpen, setInternalOpen] = useState(false);
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -141,7 +141,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
         "interactive",
         interactive,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType("disabled", disabled, "boolean", isValidBoolean);
 
@@ -171,14 +171,17 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       className,
     ]);
 
-    const setOpen = (open: boolean) => {
-      if (disabled) return;
+    const setOpen = React.useCallback(
+      (open: boolean) => {
+        if (disabled) return;
 
-      if (controlledOpen === undefined) {
-        setInternalOpen(open);
-      }
-      onOpenChange?.(open);
-    };
+        if (controlledOpen === undefined) {
+          setInternalOpen(open);
+        }
+        onOpenChange?.(open);
+      },
+      [disabled, controlledOpen, onOpenChange],
+    );
 
     const handleMouseEnter = () => {
       if (trigger !== "hover" || disabled) return;
@@ -226,7 +229,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       document.addEventListener("mousedown", handleClickOutside);
       return () =>
         document.removeEventListener("mousedown", handleClickOutside);
-    }, [interactive, isOpen, trigger]);
+    }, [interactive, isOpen, trigger, setOpen]);
 
     // Clean up timeout on unmount
     useEffect(() => {
@@ -266,7 +269,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
         </div>
       </TooltipContext.Provider>
     );
-  }
+  },
 );
 
 Tooltip.displayName = "Tooltip";
@@ -333,7 +336,7 @@ export const TooltipContent = React.forwardRef<
         isOpen
           ? "opacity-100 scale-100 visible"
           : "opacity-0 scale-95 invisible",
-        className
+        className,
       )}
       style={{
         maxWidth,

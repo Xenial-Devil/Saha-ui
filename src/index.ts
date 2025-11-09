@@ -62,8 +62,37 @@ export {
   avatarWrapperVariants,
   moreIndicatorVariants,
 } from "./components/AvatarGroup/AvatarGroup.styles";
+export { AppBar } from "./components/AppBar";
+export {
+  appBarVariants,
+  appBarContentVariants,
+  appBarScrollVariants,
+} from "./components/AppBar/AppBar.styles";
+export type { AppBarProps } from "./components/AppBar";
 export { default as Badge } from "./components/Badge";
 export { badgeVariants } from "./components/Badge/Badge.styles";
+export { Backdrop } from "./components/Backdrop";
+export {
+  backdropVariants,
+  backdropContentVariants,
+} from "./components/Backdrop/Backdrop.styles";
+export type { BackdropProps } from "./components/Backdrop";
+export {
+  BottomNavigation,
+  BottomNavigationAction,
+} from "./components/BottomNavigation";
+export {
+  bottomNavigationVariants,
+  bottomNavigationContainerVariants,
+  bottomNavigationActionVariants,
+  bottomNavigationIconVariants,
+  bottomNavigationLabelVariants,
+  bottomNavigationBadgeVariants,
+} from "./components/BottomNavigation/BottomNavigation.styles";
+export type {
+  BottomNavigationProps,
+  BottomNavigationActionProps,
+} from "./components/BottomNavigation";
 export {
   Breadcrumb,
   BreadcrumbItem,
@@ -109,6 +138,40 @@ export {
 } from "./components/Carousel/Carousel.styles";
 export { Chip } from "./components/Chip";
 export { chipVariants } from "./components/Chip/Chip.styles";
+export { IconButton } from "./components/IconButton";
+export {
+  iconButtonVariants,
+  iconWrapperVariants,
+} from "./components/IconButton/IconButton.styles";
+export type { IconButtonProps } from "./components/IconButton";
+export { Paper } from "./components/Paper";
+export { paperVariants } from "./components/Paper/Paper.styles";
+export type { PaperProps } from "./components/Paper";
+export { Snackbar } from "./components/Snackbar";
+export {
+  snackbarVariants,
+  snackbarIconVariants,
+  snackbarMessageVariants,
+  snackbarActionVariants,
+  snackbarCloseVariants,
+} from "./components/Snackbar/Snackbar.styles";
+export type { SnackbarProps } from "./components/Snackbar";
+export {
+  Stepper,
+  StepIcon,
+  StepLabel,
+  StepConnector,
+} from "./components/Stepper";
+export {
+  stepperVariants,
+  stepItemVariants,
+  stepIconContainerVariants,
+  stepLabelVariants,
+  stepDescriptionVariants,
+  stepConnectorVariants,
+  stepContentVariants,
+} from "./components/Stepper/Stepper.styles";
+export type { StepperProps } from "./components/Stepper";
 export { default as Separator } from "./components/Separator";
 export {
   SeparatorVariants,
@@ -514,13 +577,15 @@ export {
   textAreaVariants,
   countVariants,
 } from "./components/TextArea/TextArea.styles";
+export { TextEditor } from "./components/TextEditor";
 export {
-  TextEditor,
   textEditorVariants,
   toolbarVariants,
   editorContentVariants,
   toolbarButtonVariants,
-} from "./components/TextEditor";
+  toolbarGroupVariants,
+  toolbarSeparatorVariants,
+} from "./components/TextEditor/TextEditor.styles";
 export { Toggle, ToggleGroup, toggleVariants } from "./components/Toggle";
 export {
   ToggleGroup as ToggleGroupStandalone,
@@ -1063,13 +1128,13 @@ export type { TagInputProps } from "./components/TagInput/TagInput.types";
 
 export type { TextAreaProps } from "./components/TextArea/TextArea.types";
 
+export type { TextEditorProps, EditorCommand } from "./components/TextEditor";
+
 export type {
-  TextEditorProps,
   TextEditorVariant,
   TextEditorSize,
   ToolbarButtonVariant,
-  EditorCommand,
-} from "./components/TextEditor";
+} from "./components/TextEditor/TextEditor.styles";
 
 export type {
   ToggleProps,
@@ -1241,3 +1306,150 @@ export { useChartData } from "./hooks/useChartData";
 // Utils
 export { formatters } from "./lib/formatters";
 export { createChartConfig } from "./lib/chartConfig";
+
+// SpeedDial Component
+export { SpeedDial } from "./components/SpeedDial";
+export {
+  speedDialVariants,
+  speedDialButtonVariants,
+  speedDialActionsVariants,
+  speedDialActionVariants,
+  speedDialActionLabelVariants,
+  speedDialBackdropVariants,
+} from "./components/SpeedDial/SpeedDial.styles";
+export type {
+  SpeedDialProps,
+  SpeedDialAction,
+  SpeedDialPosition,
+  SpeedDialDirection,
+} from "./components/SpeedDial/SpeedDial.types";
+
+// Masonry Component
+export { Masonry, MasonryColumn } from "./components/Masonry";
+export {
+  masonryVariants,
+  masonryColumnVariants,
+  masonryItemVariants,
+  masonryCSSVariants,
+  responsiveColumnClasses,
+} from "./components/Masonry/Masonry.styles";
+export type {
+  MasonryProps,
+  MasonryColumns,
+  MasonryGap,
+} from "./components/Masonry/Masonry.types";
+
+// Transfer Component
+export { Transfer, TransferList } from "./components/Transfer";
+export {
+  transferVariants,
+  transferListVariants,
+  transferListHeaderVariants,
+  transferListBodyVariants,
+  transferItemVariants,
+  transferOperationsVariants,
+  transferOperationButtonVariants,
+  transferSearchVariants,
+  transferCheckboxVariants,
+  transferEmptyVariants,
+  transferFooterVariants,
+} from "./components/Transfer/Transfer.styles";
+export type {
+  TransferProps,
+  TransferItem,
+  TransferOrientation,
+  TransferSize,
+} from "./components/Transfer/Transfer.types";
+
+// StatCard Component
+export { StatCard } from "./components/StatCard";
+export {
+  statCardVariants,
+  statCardHeaderVariants,
+  statCardTitleVariants,
+  statCardIconVariants,
+  statCardValueVariants,
+  statCardDescriptionVariants,
+  statCardTrendVariants,
+  statCardFooterVariants,
+  statCardSkeletonVariants,
+} from "./components/StatCard/StatCard.styles";
+export type {
+  StatCardProps,
+  StatCardTrend,
+  StatCardColor,
+  StatCardSize,
+  StatCardVariant,
+} from "./components/StatCard/StatCard.types";
+
+// Segmented Component
+export { Segmented } from "./components/Segmented";
+export {
+  segmentedVariants,
+  segmentedOptionVariants,
+  segmentedIndicatorVariants,
+} from "./components/Segmented/Segmented.styles";
+export type {
+  SegmentedProps,
+  SegmentedOption,
+  SegmentedSize,
+  SegmentedVariant,
+} from "./components/Segmented/Segmented.types";
+
+// Affix Component
+export { Affix } from "./components/Affix";
+export {
+  affixVariants,
+  affixPlaceholderVariants,
+  affixContentVariants,
+} from "./components/Affix/Affix.styles";
+export type {
+  AffixProps,
+  AffixState,
+  AffixTarget,
+} from "./components/Affix/Affix.types";
+
+// Tour Component
+export { Tour } from "./components/Tour";
+export {
+  tourVariants,
+  tourMaskVariants,
+  tourSpotlightVariants,
+  tourPopoverVariants,
+  tourHeaderVariants,
+  tourTitleVariants,
+  tourStepNumberVariants,
+  tourDescriptionVariants,
+  tourCoverVariants,
+  tourFooterVariants,
+  tourProgressVariants,
+  tourProgressDotVariants,
+  tourButtonVariants,
+  tourArrowVariants,
+  tourCloseButtonVariants,
+} from "./components/Tour/Tour.styles";
+export type {
+  TourProps,
+  TourStep,
+  TourPlacement,
+  TourState,
+} from "./components/Tour/Tour.types";
+
+// ColorPicker Component
+export { ColorPicker } from "./components/ColorPicker";
+export {
+  colorPickerVariants,
+  colorPickerTriggerVariants,
+  colorPickerSwatchVariants,
+  colorPickerPopoverVariants,
+  colorPickerInputVariants,
+  colorPickerPresetColorsVariants,
+  colorPickerPresetColorVariants,
+  colorPickerClearButtonVariants,
+} from "./components/ColorPicker/ColorPicker.styles";
+export type {
+  ColorPickerProps,
+  PresetColor,
+  ColorFormat,
+  ColorPickerSize,
+} from "./components/ColorPicker/ColorPicker.types";

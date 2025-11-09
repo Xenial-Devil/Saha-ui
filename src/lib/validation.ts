@@ -55,7 +55,9 @@ export const isValidObject = (value: any): value is object => {
 /**
  * Validate that a value is a valid function
  */
-export const isValidFunction = (value: any): value is Function => {
+export const isValidFunction = (
+  value: any,
+): value is (...args: any[]) => any => {
   return typeof value === "function";
 };
 
@@ -64,7 +66,7 @@ export const isValidFunction = (value: any): value is Function => {
  */
 export const isValidEnum = <T extends string>(
   value: any,
-  allowedValues: readonly T[]
+  allowedValues: readonly T[],
 ): value is T => {
   return allowedValues.includes(value);
 };
@@ -116,11 +118,11 @@ export class ComponentValidator {
     propName: string,
     value: any,
     expectedType: string,
-    validator: (val: any) => boolean
+    validator: (val: any) => boolean,
   ): boolean {
     if (value !== undefined && value !== null && !validator(value)) {
       this.error(
-        `Invalid prop '${propName}': expected ${expectedType}, got ${typeof value}.`
+        `Invalid prop '${propName}': expected ${expectedType}, got ${typeof value}.`,
       );
       return false;
     }
@@ -133,13 +135,13 @@ export class ComponentValidator {
   validateEnum<T extends string>(
     propName: string,
     value: any,
-    allowedValues: readonly T[]
+    allowedValues: readonly T[],
   ): boolean {
     if (value !== undefined && !isValidEnum(value, allowedValues)) {
       this.error(
         `Invalid prop '${propName}': must be one of [${allowedValues.join(
-          ", "
-        )}], got '${value}'.`
+          ", ",
+        )}], got '${value}'.`,
       );
       return false;
     }
@@ -163,7 +165,7 @@ export class ComponentValidator {
   validateArray(
     propName: string,
     value: any,
-    itemValidator?: (item: any) => boolean
+    itemValidator?: (item: any) => boolean,
   ): boolean {
     if (value !== undefined && value !== null) {
       if (!isValidArray(value)) {
@@ -175,7 +177,7 @@ export class ComponentValidator {
         const invalidItems = value.filter((item) => !itemValidator(item));
         if (invalidItems.length > 0) {
           this.error(
-            `Invalid prop '${propName}': contains ${invalidItems.length} invalid item(s).`
+            `Invalid prop '${propName}': contains ${invalidItems.length} invalid item(s).`,
           );
           return false;
         }
@@ -191,7 +193,7 @@ export class ComponentValidator {
     propName: string,
     value: number,
     min?: number,
-    max?: number
+    max?: number,
   ): boolean {
     if (value !== undefined && value !== null) {
       if (!isValidNumber(value)) {
@@ -201,14 +203,14 @@ export class ComponentValidator {
 
       if (min !== undefined && value < min) {
         this.error(
-          `Invalid prop '${propName}': must be >= ${min}, got ${value}.`
+          `Invalid prop '${propName}': must be >= ${min}, got ${value}.`,
         );
         return false;
       }
 
       if (max !== undefined && value > max) {
         this.error(
-          `Invalid prop '${propName}': must be <= ${max}, got ${value}.`
+          `Invalid prop '${propName}': must be <= ${max}, got ${value}.`,
         );
         return false;
       }
@@ -221,14 +223,14 @@ export class ComponentValidator {
    */
   validateMutuallyExclusive(props: string[], values: any[]): boolean {
     const definedProps = props.filter(
-      (_, index) => values[index] !== undefined
+      (_, index) => values[index] !== undefined,
     );
 
     if (definedProps.length > 1) {
       this.error(
         `Mutually exclusive props detected: [${definedProps.join(
-          ", "
-        )}]. Only one should be defined.`
+          ", ",
+        )}]. Only one should be defined.`,
       );
       return false;
     }
@@ -242,18 +244,18 @@ export class ComponentValidator {
     propName: string,
     value: any,
     condition: boolean,
-    conditionDescription: string
+    conditionDescription: string,
   ): boolean {
     if (!condition && value !== undefined) {
       this.error(
-        `Invalid prop '${propName}': should only be used when ${conditionDescription}.`
+        `Invalid prop '${propName}': should only be used when ${conditionDescription}.`,
       );
       return false;
     }
 
     if (condition && value === undefined) {
       this.warn(
-        `Missing prop '${propName}': recommended when ${conditionDescription}.`
+        `Missing prop '${propName}': recommended when ${conditionDescription}.`,
       );
       return false;
     }
@@ -285,7 +287,7 @@ export const createValidator = (componentName: string): ComponentValidator => {
  */
 export const validateProps = (
   componentName: string,
-  validationFn: (validator: ComponentValidator, props: any) => void
+  validationFn: (validator: ComponentValidator, props: any) => void,
 ) => {
   return (props: any) => {
     if (isDevelopment) {
@@ -313,7 +315,7 @@ export const commonValidators = {
   variant: (
     validator: ComponentValidator,
     value: any,
-    variants: readonly string[]
+    variants: readonly string[],
   ) => {
     return validator.validateEnum("variant", value, variants);
   },

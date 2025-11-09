@@ -111,12 +111,9 @@ const ScrollAreaRoot = React.forwardRef<HTMLDivElement, ScrollAreaRootProps>(
 );
 ScrollAreaRoot.displayName = "ScrollAreaRoot";
 
-interface ScrollAreaViewportPropsInternal
-  extends React.HTMLAttributes<HTMLDivElement> {}
-
 const ScrollAreaViewport = React.forwardRef<
   HTMLDivElement,
-  ScrollAreaViewportPropsInternal
+  React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => {
   const context = useScrollAreaContext();
   const localRef = React.useRef<HTMLDivElement>(null);

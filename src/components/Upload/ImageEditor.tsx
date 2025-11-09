@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { cn } from "../../lib/utils";
 import type { CropData } from "./Upload.types";
 import {
@@ -35,33 +35,7 @@ export const ImageEditor = ({
   const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Load image
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.src = imageUrl;
-    img.onload = () => {
-      imageRef.current = img;
-
-      // Calculate initial scale to fit image in canvas
-      const containerWidth = containerRef.current?.clientWidth || 600;
-      const containerHeight = containerRef.current?.clientHeight || 400;
-
-      const scaleX = (containerWidth * 0.9) / img.width;
-      const scaleY = (containerHeight * 0.9) / img.height;
-      const fitScale = Math.min(scaleX, scaleY);
-
-      setInitialScale(fitScale);
-      setScale(fitScale);
-      drawCanvas();
-    };
-  }, [imageUrl]);
-
-  useEffect(() => {
-    drawCanvas();
-  }, [scale, rotate, position]);
-
-  const drawCanvas = () => {
+  const drawCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     const img = imageRef.current;
     if (!canvas || !img) return;
@@ -96,7 +70,7 @@ export const ImageEditor = ({
       -scaledWidth / 2 + position.x,
       -scaledHeight / 2 + position.y,
       scaledWidth,
-      scaledHeight
+      scaledHeight,
     );
 
     // Restore context after drawing image
@@ -107,7 +81,7 @@ export const ImageEditor = ({
       // Calculate crop area
       const cropWidth = Math.min(
         canvas.width * 0.8,
-        canvas.height * 0.8 * aspectRatio
+        canvas.height * 0.8 * aspectRatio,
       );
       const cropHeight = cropWidth / aspectRatio;
       const cropX = (canvas.width - cropWidth) / 2;
@@ -124,7 +98,7 @@ export const ImageEditor = ({
         0,
         cropY + cropHeight,
         canvas.width,
-        canvas.height - cropY - cropHeight
+        canvas.height - cropY - cropHeight,
       );
 
       // Left bar
@@ -135,7 +109,7 @@ export const ImageEditor = ({
         cropX + cropWidth,
         cropY,
         canvas.width - cropX - cropWidth,
-        cropHeight
+        cropHeight,
       );
 
       // Draw crop border
@@ -156,11 +130,37 @@ export const ImageEditor = ({
           x - handleSize / 2,
           y - handleSize / 2,
           handleSize,
-          handleSize
+          handleSize,
         );
       });
     }
-  };
+  }, [aspectRatio, position, rotate, scale]);
+
+  useEffect(() => {
+    // Load image
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = imageUrl;
+    img.onload = () => {
+      imageRef.current = img;
+
+      // Calculate initial scale to fit image in canvas
+      const containerWidth = containerRef.current?.clientWidth || 600;
+      const containerHeight = containerRef.current?.clientHeight || 400;
+
+      const scaleX = (containerWidth * 0.9) / img.width;
+      const scaleY = (containerHeight * 0.9) / img.height;
+      const fitScale = Math.min(scaleX, scaleY);
+
+      setInitialScale(fitScale);
+      setScale(fitScale);
+      drawCanvas();
+    };
+  }, [imageUrl, drawCanvas]);
+
+  useEffect(() => {
+    drawCanvas();
+  }, [scale, rotate, position, drawCanvas]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -217,7 +217,7 @@ export const ImageEditor = ({
     if (aspectRatio) {
       cropWidth = Math.min(
         canvas.width * 0.8,
-        canvas.height * 0.8 * aspectRatio
+        canvas.height * 0.8 * aspectRatio,
       );
       cropHeight = cropWidth / aspectRatio;
       cropX = (canvas.width - cropWidth) / 2;
@@ -240,7 +240,7 @@ export const ImageEditor = ({
         0,
         0,
         cropWidth,
-        cropHeight
+        cropHeight,
       );
 
       const croppedImage = croppedCanvas.toDataURL("image/png");
@@ -284,7 +284,7 @@ export const ImageEditor = ({
             ref={canvasRef}
             className={cn(
               "w-full h-full",
-              isDragging ? "cursor-grabbing" : "cursor-grab"
+              isDragging ? "cursor-grabbing" : "cursor-grab",
             )}
           />
         </div>
@@ -309,15 +309,15 @@ export const ImageEditor = ({
                 value={Math.round(scale * 100)}
                 onChange={(e) => setScale(Number(e.target.value) / 100)}
                 className="flex-1 min-w-0 h-2 bg-muted rounded-lg appearance-none cursor-pointer
-                  [&::-webkit-slider-thumb]:appearance-none 
-                  [&::-webkit-slider-thumb]:w-4 
-                  [&::-webkit-slider-thumb]:h-4 
-                  [&::-webkit-slider-thumb]:rounded-full 
+                  [&::-webkit-slider-thumb]:appearance-none
+                  [&::-webkit-slider-thumb]:w-4
+                  [&::-webkit-slider-thumb]:h-4
+                  [&::-webkit-slider-thumb]:rounded-full
                   [&::-webkit-slider-thumb]:bg-primary
                   [&::-webkit-slider-thumb]:cursor-pointer
-                  [&::-moz-range-thumb]:w-4 
-                  [&::-moz-range-thumb]:h-4 
-                  [&::-moz-range-thumb]:rounded-full 
+                  [&::-moz-range-thumb]:w-4
+                  [&::-moz-range-thumb]:h-4
+                  [&::-moz-range-thumb]:rounded-full
                   [&::-moz-range-thumb]:bg-primary
                   [&::-moz-range-thumb]:border-0
                   [&::-moz-range-thumb]:cursor-pointer"

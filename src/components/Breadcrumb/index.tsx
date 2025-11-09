@@ -25,7 +25,7 @@ interface BreadcrumbContextValue {
 }
 
 const BreadcrumbContext = createContext<BreadcrumbContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 const useBreadcrumb = () => {
@@ -46,7 +46,7 @@ const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     // Development-only validation
     useEffect(() => {
@@ -100,7 +100,7 @@ const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
         </nav>
       </BreadcrumbContext.Provider>
     );
-  }
+  },
 );
 
 Breadcrumb.displayName = "Breadcrumb";
@@ -111,7 +111,7 @@ const BreadcrumbItem = React.forwardRef<
 >(
   (
     { href, icon, isCurrentPage = false, className, children, ...props },
-    ref
+    ref,
   ) => {
     const { variant, size } = useBreadcrumb();
 
@@ -132,7 +132,7 @@ const BreadcrumbItem = React.forwardRef<
         <span>{children}</span>
       </Component>
     );
-  }
+  },
 );
 
 BreadcrumbItem.displayName = "BreadcrumbItem";

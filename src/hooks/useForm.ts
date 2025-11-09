@@ -31,7 +31,7 @@ export interface UseFormActions<T> {
   setError: <K extends keyof T>(field: K, error: string) => void;
   setTouched: <K extends keyof T>(field: K, touched: boolean) => void;
   handleChange: <K extends keyof T>(
-    field: K
+    field: K,
   ) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleBlur: <K extends keyof T>(field: K) => () => void;
   validate: () => boolean;
@@ -57,7 +57,7 @@ export interface UseFormActions<T> {
  */
 export function useForm<T extends Record<string, any>>(
   initialValues: T,
-  validationRules?: ValidationRules<T>
+  validationRules?: ValidationRules<T>,
 ): [FormState<T>, UseFormActions<T>] {
   // Initialize form state
   const [formState, setFormState] = useState<FormState<T>>(() => {
@@ -96,7 +96,7 @@ export function useForm<T extends Record<string, any>>(
         [field]: { ...prev[field], touched },
       }));
     },
-    []
+    [],
   );
 
   // Handle input change
@@ -105,17 +105,7 @@ export function useForm<T extends Record<string, any>>(
       (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setValue(field, e.target.value as T[K]);
       },
-    [setValue]
-  );
-
-  // Handle input blur
-  const handleBlur = useCallback(
-    <K extends keyof T>(field: K) =>
-      () => {
-        setTouched(field, true);
-        validateField(field);
-      },
-    [setTouched]
+    [setValue],
   );
 
   // Validate single field
@@ -132,7 +122,17 @@ export function useForm<T extends Record<string, any>>(
       setError(field, error || "");
       return !error;
     },
-    [formState, validationRules, setError]
+    [formState, validationRules, setError],
+  );
+
+  // Handle input blur
+  const handleBlur = useCallback(
+    <K extends keyof T>(field: K) =>
+      () => {
+        setTouched(field, true);
+        validateField(field);
+      },
+    [setTouched, validateField],
   );
 
   // Validate all fields

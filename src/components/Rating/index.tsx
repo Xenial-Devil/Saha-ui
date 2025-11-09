@@ -71,7 +71,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
       animated = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     // Development-only validation
     useEffect(() => {
@@ -133,13 +133,13 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
         "showTooltip",
         showTooltip,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "allowClear",
         allowClear,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType("animated", animated, "boolean", isValidBoolean);
 
@@ -191,7 +191,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
      */
     const calculateRating = (
       index: number,
-      event: React.MouseEvent
+      event: React.MouseEvent,
     ): number => {
       if (precision === "full") {
         return index + 1;
@@ -289,7 +289,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
             newValue = 0;
           }
           break;
-        default:
+        default: {
           // Handle number keys 1-9
           const num = parseInt(event.key);
           if (!isNaN(num) && num >= 0 && num <= max) {
@@ -297,6 +297,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
             newValue = num;
           }
           break;
+        }
       }
 
       if (newValue !== value) {
@@ -332,7 +333,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
               iconState === "half" && "opacity-70",
               disabled && "opacity-50 cursor-not-allowed",
               animated && "transition-all duration-200",
-              iconClassName
+              iconClassName,
             )}
             style={{
               color: isFilled ? color : emptyColor,
@@ -358,7 +359,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
           className={cn(
             "relative inline-flex items-center justify-center",
             isInteractive && "cursor-pointer",
-            disabled && "cursor-not-allowed"
+            disabled && "cursor-not-allowed",
           )}
           onClick={(e) => handleClick(index, e)}
           onMouseEnter={(e) => handleMouseEnter(index, e)}
@@ -380,7 +381,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
                   interactive: false,
                 }),
                 "fill-current absolute top-0 left-0 pointer-events-none",
-                animated && "transition-all duration-200"
+                animated && "transition-all duration-200",
               )}
               style={{
                 color: color,
@@ -402,7 +403,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
         className={cn(
           "inline-flex items-center gap-2",
           disabled && "opacity-50 cursor-not-allowed",
-          className
+          className,
         )}
         {...props}
       >
@@ -437,10 +438,9 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Rating.displayName = "Rating";
 
 export default Rating;
-export { ratingVariants };

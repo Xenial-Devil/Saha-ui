@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable react-refresh/only-export-components */
+
 import * as React from "react";
 import { cn } from "../../lib/utils";
 import {
@@ -24,32 +26,7 @@ import type {
   SonnerContextValue,
   ToastItemProps,
 } from "./Sonner.types";
-
-export type {
-  SonnerVariant,
-  SonnerPosition,
-  SonnerType,
-  Toast,
-  SonnerProviderProps,
-  SonnerContextValue,
-  ToastItemProps,
-};
-
-// ============================================================================
-// CONTEXT
-// ============================================================================
-
-const SonnerContext = React.createContext<SonnerContextValue | undefined>(
-  undefined,
-);
-
-export function useSonner() {
-  const context = React.useContext(SonnerContext);
-  if (!context) {
-    throw new Error("useSonner must be used within SonnerProvider");
-  }
-  return context;
-}
+import { SonnerContext } from "./hooks";
 
 // ============================================================================
 // SONNER PROVIDER
@@ -65,6 +42,10 @@ export function SonnerProvider({
   richColors = true,
 }: SonnerProviderProps) {
   const [toasts, setToasts] = React.useState<Toast[]>([]);
+
+  const dismiss = React.useCallback((id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
 
   const toast = React.useCallback(
     (newToast: Omit<Toast, "id">): string => {
@@ -93,7 +74,7 @@ export function SonnerProvider({
 
       return id;
     },
-    [variant, duration, maxToasts],
+    [variant, duration, maxToasts, dismiss],
   );
 
   const success = React.useCallback(
@@ -131,9 +112,7 @@ export function SonnerProvider({
     [toast],
   );
 
-  const dismiss = React.useCallback((id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  }, []);
+  // dismiss moved above (reordered so it's declared before `toast`)
 
   const dismissAll = React.useCallback(() => {
     setToasts([]);
@@ -373,3 +352,13 @@ export function Sonner(props: SonnerProps) {
 // ============================================================================
 
 export { SonnerContainer };
+export { useSonner } from "./hooks";
+export type {
+  SonnerVariant,
+  SonnerPosition,
+  SonnerType,
+  Toast,
+  SonnerProviderProps,
+  SonnerContextValue,
+  ToastItemProps,
+};

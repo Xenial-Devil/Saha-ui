@@ -441,7 +441,9 @@ import { Button } from "saha-ui";
 | **List**                 | Modern lists with 5 variants and icon support                            | ✅     | ✅  |
 | **Menubar**              | Menu bar with dropdown menus and keyboard navigation                     | ✅     | ✅  |
 | **NativeSelect**         | Native select dropdown with custom styling                               | ✅     | ✅  |
-| **NavigationMenu**       | Navigation menu with nested items and mega menu support                  | ✅     | ✅  |
+| **NavigationMenu**       | navigation menu with nested items and mega menu support                  | ✅     | ✅  |
+| **Notification**         | Notification center with positioning, stacking, auto-dismiss, context    | ✅     | ✅  |
+| **NumberInput**          | Numeric input with increment/decrement, formatting, validation           | ✅     | ✅  |
 | **Pagination**           | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels  | ✅     | ✅  |
 | **PlayButton**           | Animated play/pause button with 9 variants, 4 sizes, smooth transitions  | ✅     | ✅  |
 | **Popover**              | Rich content popover with 11 variants, 12 positions, 4 triggers          | ✅     | ✅  |
@@ -449,10 +451,12 @@ import { Button } from "saha-ui";
 | **Radio**                | Radio button with 7 variants, 3 sizes, RadioGroup, descriptions          | ✅     | ✅  |
 | **Rating**               | Star rating with 6 variants, 4 sizes, multiple icons, half stars         | ✅     | ✅  |
 | **Resizable**            | Resizable panels with drag handles and constraints                       | ✅     | ✅  |
+| **Result**               | Result/status pages with 7 status types (success, error, 404, 403, 500) | ✅     | ✅  |
 | **ScrollArea**           | Custom scrollbar with smooth scrolling and styling                       | ✅     | ✅  |
 | **Section**              | Semantic section wrapper with variants and spacing                       | ✅     | ✅  |
 | **Select**               | Advanced dropdown with search, multi-select, icons, avatars, grouping    | ✅     | ✅  |
 | **Separator**            | Content separator with 5 variants and label support                      | ✅     | ✅  |
+| **FileInput**            | File upload with drag-drop, preview, progress, validation                | ✅     | ✅  |
 | **Skeleton**             | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
 | **Slider**               | Range slider with single/dual handles and custom marks                   | ✅     | ✅  |
 | **Sonner**               | Toast notifications with rich content and animations                     | ✅     | ✅  |

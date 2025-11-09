@@ -74,7 +74,7 @@ interface MenubarContextValue {
 }
 
 const MenubarContext = React.createContext<MenubarContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 const useMenubarContext = () => {
@@ -111,12 +111,15 @@ const useMenubarContext = () => {
 export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
   (
     { children, variant = "default", size = "md", className, ...props },
-    ref
+    ref,
   ) => {
     const [openMenu, setOpenMenu] = React.useState<string | null>(null);
 
     // Runtime validation
-    const validator = new ComponentValidator("Menubar");
+    const validator = React.useMemo(
+      () => new ComponentValidator("Menubar"),
+      [],
+    );
 
     React.useEffect(() => {
       validator.validateEnum("variant", variant, VALID_VARIANTS);
@@ -124,10 +127,10 @@ export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
 
       if (!children) {
         validator.warn(
-          "Menubar has no children. Consider providing MenubarMenu components."
+          "Menubar has no children. Consider providing MenubarMenu components.",
         );
       }
-    }, [variant, size, children]);
+    }, [validator, variant, size, children]);
 
     return (
       <MenubarContext.Provider value={{ variant, size, openMenu, setOpenMenu }}>
@@ -141,7 +144,7 @@ export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
         </div>
       </MenubarContext.Provider>
     );
-  }
+  },
 );
 
 Menubar.displayName = "Menubar";
@@ -163,7 +166,7 @@ export const MenubarMenu = React.forwardRef<HTMLDivElement, MenubarMenuProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const menuId = React.useId();
     const { openMenu, setOpenMenu } = useMenubarContext();
@@ -179,14 +182,17 @@ export const MenubarMenu = React.forwardRef<HTMLDivElement, MenubarMenuProps>(
     };
 
     // Runtime validation
-    const validator = new ComponentValidator("MenubarMenu");
+    const validator = React.useMemo(
+      () => new ComponentValidator("MenubarMenu"),
+      [],
+    );
 
     React.useEffect(() => {
       validator.validateType(
         "defaultOpen",
         defaultOpen,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
 
       if (controlledOpen !== undefined) {
@@ -194,16 +200,16 @@ export const MenubarMenu = React.forwardRef<HTMLDivElement, MenubarMenuProps>(
           "open",
           controlledOpen,
           "boolean",
-          isValidBoolean
+          isValidBoolean,
         );
       }
 
       if (!children) {
         validator.warn(
-          "MenubarMenu has no children. Provide MenubarTrigger and MenubarContent."
+          "MenubarMenu has no children. Provide MenubarTrigger and MenubarContent.",
         );
       }
-    }, [defaultOpen, controlledOpen, children]);
+    }, [validator, defaultOpen, controlledOpen, children]);
 
     return (
       <div
@@ -224,7 +230,7 @@ export const MenubarMenu = React.forwardRef<HTMLDivElement, MenubarMenuProps>(
         })}
       </div>
     );
-  }
+  },
 );
 
 MenubarMenu.displayName = "MenubarMenu";
@@ -249,12 +255,12 @@ export const MenubarTrigger = React.forwardRef<
       children,
       disabled = false,
       className,
-      menuId,
+      menuId: _menuId,
       isOpen,
       onOpenChange,
       ...props
     },
-    ref
+    ref,
   ) => {
     const context = useMenubarContext();
     const handleClick = () => {
@@ -270,7 +276,7 @@ export const MenubarTrigger = React.forwardRef<
         disabled={disabled}
         className={cn(
           menubarTriggerVariants({ disabled, variant: context.variant }),
-          className
+          className,
         )}
         data-state={isOpen ? "open" : "closed"}
         aria-haspopup="menu"
@@ -281,7 +287,7 @@ export const MenubarTrigger = React.forwardRef<
         {children}
       </button>
     );
-  }
+  },
 );
 
 MenubarTrigger.displayName = "MenubarTrigger";
@@ -307,12 +313,12 @@ export const MenubarContent = React.forwardRef<
       align = "start",
       side = "bottom",
       className,
-      menuId,
+      menuId: _menuId,
       isOpen,
       onOpenChange,
       ...props
     },
-    ref
+    ref,
   ) => {
     const contentRef = React.useRef<HTMLDivElement>(null);
 
@@ -335,29 +341,32 @@ export const MenubarContent = React.forwardRef<
     }, [isOpen, onOpenChange]);
 
     // Runtime validation
-    const validator = new ComponentValidator("MenubarContent");
+    const validator = React.useMemo(
+      () => new ComponentValidator("MenubarContent"),
+      [],
+    );
 
     React.useEffect(() => {
       if (align && !VALID_ALIGNS.includes(align)) {
         validator.error(
           `Invalid prop 'align': must be one of [${VALID_ALIGNS.join(
-            ", "
-          )}], got '${align}'.`
+            ", ",
+          )}], got '${align}'.`,
         );
       }
 
       if (side && !VALID_SIDES.includes(side)) {
         validator.error(
           `Invalid prop 'side': must be one of [${VALID_SIDES.join(
-            ", "
-          )}], got '${side}'.`
+            ", ",
+          )}], got '${side}'.`,
         );
       }
-    }, [align, side]);
-
-    if (!isOpen) return null;
+    }, [validator, align, side]);
 
     const context = useMenubarContext();
+
+    if (!isOpen) return null;
 
     return (
       <div
@@ -368,7 +377,7 @@ export const MenubarContent = React.forwardRef<
         }}
         className={cn(
           menubarContentVariants({ align, side, variant: context.variant }),
-          className
+          className,
         )}
         role="menu"
         data-state={isOpen ? "open" : "closed"}
@@ -378,7 +387,7 @@ export const MenubarContent = React.forwardRef<
         {children}
       </div>
     );
-  }
+  },
 );
 
 MenubarContent.displayName = "MenubarContent";
@@ -403,7 +412,7 @@ export const MenubarItem = React.forwardRef<
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const context = useMenubarContext();
     const handleClick = () => {
@@ -419,7 +428,7 @@ export const MenubarItem = React.forwardRef<
         disabled={disabled}
         className={cn(
           menubarItemVariants({ disabled, inset, variant: context.variant }),
-          className
+          className,
         )}
         role="menuitem"
         onClick={handleClick}
@@ -428,7 +437,7 @@ export const MenubarItem = React.forwardRef<
         {children}
       </button>
     );
-  }
+  },
 );
 
 MenubarItem.displayName = "MenubarItem";
@@ -453,7 +462,7 @@ export const MenubarCheckboxItem = React.forwardRef<
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const context = useMenubarContext();
     const handleClick = () => {
@@ -473,7 +482,7 @@ export const MenubarCheckboxItem = React.forwardRef<
             inset: true,
             variant: context.variant,
           }),
-          className
+          className,
         )}
         role="menuitemcheckbox"
         aria-checked={checked}
@@ -500,7 +509,7 @@ export const MenubarCheckboxItem = React.forwardRef<
         {children}
       </button>
     );
-  }
+  },
 );
 
 MenubarCheckboxItem.displayName = "MenubarCheckboxItem";
@@ -568,7 +577,7 @@ export const MenubarRadioItem = React.forwardRef<
           inset: true,
           variant: menubarContext.variant,
         }),
-        className
+        className,
       )}
       role="menuitemradio"
       aria-checked={isSelected}
@@ -606,7 +615,7 @@ export const MenubarSub = React.forwardRef<HTMLDivElement, MenubarSubProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [isOpen, setIsOpen] = React.useState(defaultOpen);
 
@@ -632,7 +641,7 @@ export const MenubarSub = React.forwardRef<HTMLDivElement, MenubarSubProps>(
         })}
       </div>
     );
-  }
+  },
 );
 
 MenubarSub.displayName = "MenubarSub";
@@ -653,7 +662,7 @@ export const MenubarSubTrigger = React.forwardRef<
 >(
   (
     { children, disabled = false, className, isOpen, onOpenChange, ...props },
-    ref
+    ref,
   ) => {
     const context = useMenubarContext();
     const handleClick = () => {
@@ -669,7 +678,7 @@ export const MenubarSubTrigger = React.forwardRef<
         disabled={disabled}
         className={cn(
           menubarItemVariants({ disabled, variant: context.variant }),
-          className
+          className,
         )}
         data-state={isOpen ? "open" : "closed"}
         role="menuitem"
@@ -694,7 +703,7 @@ export const MenubarSubTrigger = React.forwardRef<
         </svg>
       </button>
     );
-  }
+  },
 );
 
 MenubarSubTrigger.displayName = "MenubarSubTrigger";
@@ -710,9 +719,9 @@ export const MenubarSubContent = React.forwardRef<
   HTMLDivElement,
   MenubarSubContentProps & { isOpen?: boolean }
 >(({ children, className, isOpen, ...props }, ref) => {
-  if (!isOpen) return null;
-
   const context = useMenubarContext();
+
+  if (!isOpen) return null;
 
   return (
     <div
@@ -720,7 +729,7 @@ export const MenubarSubContent = React.forwardRef<
       className={cn(
         menubarContentVariants({ side: "right", variant: context.variant }),
         "left-full top-0 ml-1",
-        className
+        className,
       )}
       role="menu"
       data-state={isOpen ? "open" : "closed"}
@@ -798,7 +807,7 @@ export const MenubarLabel = React.forwardRef<HTMLDivElement, MenubarLabelProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 
 MenubarLabel.displayName = "MenubarLabel";

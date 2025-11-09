@@ -35,7 +35,7 @@ const formatDate = (date: Date | null | undefined, format: string): string => {
 
 const isSameDay = (
   date1: Date | null | undefined,
-  date2: Date | null | undefined
+  date2: Date | null | undefined,
 ): boolean => {
   if (!date1 || !date2) return false;
   return (
@@ -134,28 +134,28 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
       maxDate,
       disabled = false,
       readOnly = false,
-      required = false,
+      required: _required = false,
       placeholder = "Select date",
       displayFormat = "MM/DD/YYYY",
       separator = " ~ ",
       startWeekOn = 0,
       showShortcuts = false,
       showFooter = false,
-      showClear = true,
-      showToday = true,
+      showClear: _showClear = true,
+      showToday: _showToday = true,
       configs,
       disabledDates = [],
       startFrom,
       popoverDirection = "down",
-      i18n = "en",
+      i18n: _i18n = "en",
       inputClassName,
       containerClassName,
-      inputId,
-      inputName,
+      inputId: _inputId,
+      inputName: _inputName,
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
@@ -290,51 +290,63 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
         if (maxDate && isDateAfter(date, maxDate)) return true;
 
         return disabledDates.some((range) =>
-          isDateBetween(date, range.startDate, range.endDate)
+          isDateBetween(date, range.startDate, range.endDate),
         );
       },
-      [minDate, maxDate, disabledDates]
+      [minDate, maxDate, disabledDates],
     );
 
-    const handleDateSelect = (date: Date) => {
-      if (isDateDisabled(date) || readOnly) return;
+    const handleDateSelect = useCallback(
+      (date: Date) => {
+        if (isDateDisabled(date) || readOnly) return;
 
-      if (!useRange || asSingle) {
-        // Single date selection
-        onChange({ startDate: date, endDate: date });
-        if (!showFooter) {
-          setIsOpen(false);
-        }
-      } else {
-        // Range selection
-        const currentRange = showFooter ? tempRange : value;
-
-        if (
-          !currentRange.startDate ||
-          (currentRange.startDate && currentRange.endDate)
-        ) {
-          // Start new range
-          const newRange = { startDate: date, endDate: null };
-          if (showFooter) {
-            setTempRange(newRange);
-          } else {
-            onChange(newRange);
-          }
-        } else {
-          // Complete range
-          const newRange = isDateBefore(date, currentRange.startDate)
-            ? { startDate: date, endDate: currentRange.startDate }
-            : { startDate: currentRange.startDate, endDate: date };
-
-          if (showFooter) {
-            setTempRange(newRange);
-          } else {
-            onChange(newRange);
+        if (!useRange || asSingle) {
+          // Single date selection
+          onChange({ startDate: date, endDate: date });
+          if (!showFooter) {
             setIsOpen(false);
           }
+        } else {
+          // Range selection
+          const currentRange = showFooter ? tempRange : value;
+
+          if (
+            !currentRange.startDate ||
+            (currentRange.startDate && currentRange.endDate)
+          ) {
+            // Start new range
+            const newRange = { startDate: date, endDate: null };
+            if (showFooter) {
+              setTempRange(newRange);
+            } else {
+              onChange(newRange);
+            }
+          } else {
+            // Complete range
+            const newRange = isDateBefore(date, currentRange.startDate)
+              ? { startDate: date, endDate: currentRange.startDate }
+              : { startDate: currentRange.startDate, endDate: date };
+
+            if (showFooter) {
+              setTempRange(newRange);
+            } else {
+              onChange(newRange);
+              setIsOpen(false);
+            }
+          }
         }
-      }
-    };
+      },
+      [
+        isDateDisabled,
+        readOnly,
+        useRange,
+        asSingle,
+        onChange,
+        showFooter,
+        tempRange,
+        value,
+      ],
+    );
 
     const handleShortcutClick = (shortcut: ShortcutConfig) => {
       const newRange = {
@@ -360,212 +372,233 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
       setIsOpen(false);
     };
 
-    const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
+    const weekDays = useMemo(
+      () => ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+      [],
+    );
+    const months = useMemo(
+      () => [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+      [],
+    );
 
     // Rotate week days based on startWeekOn
     const rotatedWeekDays = useMemo(
       () => [...weekDays.slice(startWeekOn), ...weekDays.slice(0, startWeekOn)],
-      [startWeekOn]
+      [startWeekOn, weekDays],
     );
 
     // Generate calendar days for a month
-    const generateCalendarDays = (date: Date) => {
-      const year = date.getFullYear();
-      const month = date.getMonth();
-      const daysInMonth = getDaysInMonth(year, month);
-      const firstDay = (getFirstDayOfMonth(year, month) - startWeekOn + 7) % 7;
-      const days: (Date | null)[] = [];
+    const generateCalendarDays = useCallback(
+      (date: Date) => {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const daysInMonth = getDaysInMonth(year, month);
+        const firstDay =
+          (getFirstDayOfMonth(year, month) - startWeekOn + 7) % 7;
+        const days: (Date | null)[] = [];
 
-      // Previous month days
-      for (let i = 0; i < firstDay; i++) {
-        days.push(null);
-      }
+        // Previous month days
+        for (let i = 0; i < firstDay; i++) {
+          days.push(null);
+        }
 
-      // Current month days
-      for (let i = 1; i <= daysInMonth; i++) {
-        days.push(new Date(year, month, i));
-      }
+        // Current month days
+        for (let i = 1; i <= daysInMonth; i++) {
+          days.push(new Date(year, month, i));
+        }
 
-      return days;
-    };
+        return days;
+      },
+      [startWeekOn],
+    );
 
-    const getDateClassName = (day: Date, isCurrentMonth: boolean = true) => {
-      const currentRange = showFooter && useRange ? tempRange : value;
-      const baseClass =
-        "flex items-center justify-center w-10 h-10 rounded-lg transition-colors";
+    const getDateClassName = useCallback(
+      (day: Date, isCurrentMonth: boolean = true) => {
+        const currentRange = showFooter && useRange ? tempRange : value;
+        const baseClass =
+          "flex items-center justify-center w-10 h-10 rounded-lg transition-colors";
 
-      if (!isCurrentMonth) {
-        return cn(baseClass, "text-base-content/30 hover:bg-base-200/50");
-      }
+        if (!isCurrentMonth) {
+          return cn(baseClass, "text-base-content/30 hover:bg-base-200/50");
+        }
 
-      const isDisabled = isDateDisabled(day);
-      const isToday = isSameDay(day, new Date());
-      const isStart =
-        currentRange.startDate && isSameDay(day, currentRange.startDate);
-      const isEnd =
-        currentRange.endDate && isSameDay(day, currentRange.endDate);
-      const isInRange =
-        useRange &&
-        currentRange.startDate &&
-        currentRange.endDate &&
-        isDateBetween(day, currentRange.startDate, currentRange.endDate);
-      const isHoverInRange =
-        useRange &&
-        hoveredDate &&
-        currentRange.startDate &&
-        !currentRange.endDate &&
-        ((isDateAfter(hoveredDate, currentRange.startDate) &&
-          isDateBetween(day, currentRange.startDate, hoveredDate)) ||
-          (isDateBefore(hoveredDate, currentRange.startDate) &&
-            isDateBetween(day, hoveredDate, currentRange.startDate)));
+        const isDisabled = isDateDisabled(day);
+        const isToday = isSameDay(day, new Date());
+        const isStart =
+          currentRange.startDate && isSameDay(day, currentRange.startDate);
+        const isEnd =
+          currentRange.endDate && isSameDay(day, currentRange.endDate);
+        const isInRange =
+          useRange &&
+          currentRange.startDate &&
+          currentRange.endDate &&
+          isDateBetween(day, currentRange.startDate, currentRange.endDate);
+        const isHoverInRange =
+          useRange &&
+          hoveredDate &&
+          currentRange.startDate &&
+          !currentRange.endDate &&
+          ((isDateAfter(hoveredDate, currentRange.startDate) &&
+            isDateBetween(day, currentRange.startDate, hoveredDate)) ||
+            (isDateBefore(hoveredDate, currentRange.startDate) &&
+              isDateBetween(day, hoveredDate, currentRange.startDate)));
 
-      // Variant-based color classes
-      const variantClasses = {
-        default: {
-          selected: "bg-primary text-white",
-          range: "bg-primary/20 text-primary",
-          today: "border-2 border-primary text-primary hover:bg-primary/10",
-          hover: "hover:bg-base-200",
-        },
-        primary: {
-          selected: "bg-primary text-white",
-          range: "bg-primary/20 text-primary",
-          today: "border-2 border-primary text-primary hover:bg-primary/10",
-          hover: "hover:bg-primary/10",
-        },
-        secondary: {
-          selected: "bg-secondary text-white",
-          range: "bg-secondary/20 text-secondary",
-          today:
-            "border-2 border-secondary text-secondary hover:bg-secondary/10",
-          hover: "hover:bg-secondary/10",
-        },
-        accent: {
-          selected: "bg-accent text-white",
-          range: "bg-accent/20 text-accent",
-          today: "border-2 border-accent text-accent hover:bg-accent/10",
-          hover: "hover:bg-accent/10",
-        },
-        success: {
-          selected: "bg-success text-white",
-          range: "bg-success/20 text-success",
-          today: "border-2 border-success text-success hover:bg-success/10",
-          hover: "hover:bg-success/10",
-        },
-        warning: {
-          selected: "bg-warning text-white",
-          range: "bg-warning/20 text-warning",
-          today: "border-2 border-warning text-warning hover:bg-warning/10",
-          hover: "hover:bg-warning/10",
-        },
-        danger: {
-          selected: "bg-destructive text-white",
-          range: "bg-destructive/20 text-destructive",
-          today:
-            "border-2 border-destructive text-destructive hover:bg-destructive/10",
-          hover: "hover:bg-destructive/10",
-        },
-        info: {
-          selected: "bg-info text-white",
-          range: "bg-info/20 text-info",
-          today: "border-2 border-info text-info hover:bg-info/10",
-          hover: "hover:bg-info/10",
-        },
-        glass: {
-          selected: "bg-primary text-white",
-          range: "bg-primary/20 text-primary",
-          today:
-            "border-2 border-primary text-primary hover:bg-white/10 dark:hover:bg-gray-900/10",
-          hover: "hover:bg-white/10 dark:hover:bg-gray-900/10",
-        },
-        bordered: {
-          selected: "bg-primary text-white",
-          range: "bg-primary/20 text-primary",
-          today: "border-2 border-primary text-primary hover:bg-primary/10",
-          hover: "hover:bg-base-200",
-        },
-        elevated: {
-          selected: "bg-primary text-white",
-          range: "bg-primary/20 text-primary",
-          today: "border-2 border-primary text-primary hover:bg-primary/10",
-          hover: "hover:bg-base-200",
-        },
-        flat: {
-          selected: "bg-primary text-white",
-          range: "bg-primary/20 text-primary",
-          today: "border-2 border-primary text-primary hover:bg-primary/10",
-          hover: "hover:bg-base-200",
-        },
-        outlined: {
-          selected: "bg-base-content text-base-100",
-          range: "bg-base-content/20 text-base-content",
-          today:
-            "border-2 border-base-content text-base-content hover:bg-base-content/10",
-          hover: "hover:bg-base-200",
-        },
-        minimal: {
-          selected: "bg-primary text-white",
-          range: "bg-primary/20 text-primary",
-          today: "border-2 border-primary text-primary hover:bg-primary/10",
-          hover: "hover:bg-base-200",
-        },
-      };
+        // Variant-based color classes
+        const variantClasses = {
+          default: {
+            selected: "bg-primary text-white",
+            range: "bg-primary/20 text-primary",
+            today: "border-2 border-primary text-primary hover:bg-primary/10",
+            hover: "hover:bg-base-200",
+          },
+          primary: {
+            selected: "bg-primary text-white",
+            range: "bg-primary/20 text-primary",
+            today: "border-2 border-primary text-primary hover:bg-primary/10",
+            hover: "hover:bg-primary/10",
+          },
+          secondary: {
+            selected: "bg-secondary text-white",
+            range: "bg-secondary/20 text-secondary",
+            today:
+              "border-2 border-secondary text-secondary hover:bg-secondary/10",
+            hover: "hover:bg-secondary/10",
+          },
+          accent: {
+            selected: "bg-accent text-white",
+            range: "bg-accent/20 text-accent",
+            today: "border-2 border-accent text-accent hover:bg-accent/10",
+            hover: "hover:bg-accent/10",
+          },
+          success: {
+            selected: "bg-success text-white",
+            range: "bg-success/20 text-success",
+            today: "border-2 border-success text-success hover:bg-success/10",
+            hover: "hover:bg-success/10",
+          },
+          warning: {
+            selected: "bg-warning text-white",
+            range: "bg-warning/20 text-warning",
+            today: "border-2 border-warning text-warning hover:bg-warning/10",
+            hover: "hover:bg-warning/10",
+          },
+          danger: {
+            selected: "bg-destructive text-white",
+            range: "bg-destructive/20 text-destructive",
+            today:
+              "border-2 border-destructive text-destructive hover:bg-destructive/10",
+            hover: "hover:bg-destructive/10",
+          },
+          info: {
+            selected: "bg-info text-white",
+            range: "bg-info/20 text-info",
+            today: "border-2 border-info text-info hover:bg-info/10",
+            hover: "hover:bg-info/10",
+          },
+          glass: {
+            selected: "bg-primary text-white",
+            range: "bg-primary/20 text-primary",
+            today:
+              "border-2 border-primary text-primary hover:bg-white/10 dark:hover:bg-gray-900/10",
+            hover: "hover:bg-white/10 dark:hover:bg-gray-900/10",
+          },
+          bordered: {
+            selected: "bg-primary text-white",
+            range: "bg-primary/20 text-primary",
+            today: "border-2 border-primary text-primary hover:bg-primary/10",
+            hover: "hover:bg-base-200",
+          },
+          elevated: {
+            selected: "bg-primary text-white",
+            range: "bg-primary/20 text-primary",
+            today: "border-2 border-primary text-primary hover:bg-primary/10",
+            hover: "hover:bg-base-200",
+          },
+          flat: {
+            selected: "bg-primary text-white",
+            range: "bg-primary/20 text-primary",
+            today: "border-2 border-primary text-primary hover:bg-primary/10",
+            hover: "hover:bg-base-200",
+          },
+          outlined: {
+            selected: "bg-base-content text-base-100",
+            range: "bg-base-content/20 text-base-content",
+            today:
+              "border-2 border-base-content text-base-content hover:bg-base-content/10",
+            hover: "hover:bg-base-200",
+          },
+          minimal: {
+            selected: "bg-primary text-white",
+            range: "bg-primary/20 text-primary",
+            today: "border-2 border-primary text-primary hover:bg-primary/10",
+            hover: "hover:bg-base-200",
+          },
+        };
 
-      const colors = variantClasses[variant];
+        const colors = variantClasses[variant];
 
-      if (isDisabled) {
-        return cn(
-          baseClass,
-          "text-base-content/30 cursor-not-allowed line-through"
-        );
-      }
+        if (isDisabled) {
+          return cn(
+            baseClass,
+            "text-base-content/30 cursor-not-allowed line-through",
+          );
+        }
 
-      if (isStart && isEnd) {
-        return cn(baseClass, colors.selected, "font-semibold");
-      }
+        if (isStart && isEnd) {
+          return cn(baseClass, colors.selected, "font-semibold");
+        }
 
-      if (isStart) {
-        return cn(
-          baseClass,
-          colors.selected,
-          "font-semibold",
-          useRange && "rounded-r-none"
-        );
-      }
+        if (isStart) {
+          return cn(
+            baseClass,
+            colors.selected,
+            "font-semibold",
+            useRange && "rounded-r-none",
+          );
+        }
 
-      if (isEnd) {
-        return cn(
-          baseClass,
-          colors.selected,
-          "font-semibold",
-          useRange && "rounded-l-none"
-        );
-      }
+        if (isEnd) {
+          return cn(
+            baseClass,
+            colors.selected,
+            "font-semibold",
+            useRange && "rounded-l-none",
+          );
+        }
 
-      if (isInRange || isHoverInRange) {
-        return cn(baseClass, colors.range, "rounded-none");
-      }
+        if (isInRange || isHoverInRange) {
+          return cn(baseClass, colors.range, "rounded-none");
+        }
 
-      if (isToday) {
-        return cn(baseClass, colors.today, "font-semibold");
-      }
+        if (isToday) {
+          return cn(baseClass, colors.today, "font-semibold");
+        }
 
-      return cn(baseClass, colors.hover, "cursor-pointer");
-    };
+        return cn(baseClass, colors.hover, "cursor-pointer");
+      },
+      [
+        showFooter,
+        useRange,
+        tempRange,
+        value,
+        isDateDisabled,
+        hoveredDate,
+        variant,
+      ],
+    );
 
     const shortcuts = useMemo(() => {
       const defaultShortcuts = getDefaultShortcuts();
@@ -579,7 +612,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
             };
           }
           return { key, ...config } as ShortcutConfig & { key: string };
-        }
+        },
       );
     }, [configs?.shortcuts]);
 
@@ -592,7 +625,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
 
       return `${formatDate(
         value.startDate,
-        displayFormat
+        displayFormat,
       )}${separator}${formatDate(value.endDate, displayFormat)}`;
     }, [value, asSingle, useRange, displayFormat, separator]);
 
@@ -707,19 +740,13 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
       },
       [
         firstMonth,
-        secondMonth,
         rotatedWeekDays,
         months,
-        hoveredDate,
-        showFooter,
-        useRange,
-        value,
-        tempRange,
-        variant,
         isDateDisabled,
         handleDateSelect,
         getDateClassName,
-      ]
+        generateCalendarDays,
+      ],
     );
 
     return (
@@ -783,7 +810,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                 "fixed z-[9999] text-sm lg:text-xs 2xl:text-sm",
                 "transition-opacity duration-150 will-change-transform",
                 "opacity-100",
-                "w-fit"
+                "w-fit",
               )}
               style={{
                 top: isAbove
@@ -825,7 +852,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                   variant === "outlined" &&
                     "bg-white dark:bg-gray-800 border-base-content/20",
                   variant === "minimal" &&
-                    "bg-white dark:bg-gray-800 border-base-300"
+                    "bg-white dark:bg-gray-800 border-base-300",
                 )}
                 style={{
                   clipPath: isAbove
@@ -839,7 +866,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                 className={cn(
                   calendarVariants({ variant }),
                   isAbove ? "mb-2.5" : "mt-2.5",
-                  "w-fit will-change-transform contain-layout contain-paint"
+                  "w-fit will-change-transform contain-layout contain-paint",
                 )}
               >
                 <div className="flex w-fit">
@@ -862,7 +889,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                         variant === "elevated" && "border-base-300",
                         variant === "flat" && "border-base-300",
                         variant === "outlined" && "border-base-content/20",
-                        variant === "minimal" && "border-base-300"
+                        variant === "minimal" && "border-base-300",
                       )}
                     >
                       <div className="flex flex-col gap-1">
@@ -894,7 +921,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                               variant === "elevated" && "hover:bg-base-200",
                               variant === "flat" && "hover:bg-base-200",
                               variant === "outlined" && "hover:bg-base-200",
-                              variant === "minimal" && "hover:bg-base-200"
+                              variant === "minimal" && "hover:bg-base-200",
                             )}
                           >
                             {shortcut.text}
@@ -908,7 +935,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                   <div
                     className={cn(
                       "flex transform-gpu",
-                      asSingle || !useRange ? "w-auto" : ""
+                      asSingle || !useRange ? "w-auto" : "",
                     )}
                   >
                     {renderCalendar(firstMonth)}
@@ -935,7 +962,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                       variant === "elevated" && "border-base-300",
                       variant === "flat" && "border-base-300",
                       variant === "outlined" && "border-base-content/20",
-                      variant === "minimal" && "border-base-300"
+                      variant === "minimal" && "border-base-300",
                     )}
                   >
                     <div className="flex items-center gap-2 ml-auto">
@@ -971,7 +998,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                           variant === "outlined" &&
                             "border-base-content/20 hover:bg-base-200",
                           variant === "minimal" &&
-                            "border-base-300 hover:bg-base-200"
+                            "border-base-300 hover:bg-base-200",
                         )}
                       >
                         {configs?.footer?.cancel || "Cancel"}
@@ -1007,7 +1034,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                           variant === "outlined" &&
                             "bg-base-content hover:bg-base-content/90",
                           variant === "minimal" &&
-                            "bg-primary hover:bg-primary/90"
+                            "bg-primary hover:bg-primary/90",
                         )}
                       >
                         {configs?.footer?.apply || "Apply"}
@@ -1017,11 +1044,11 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
                 )}
               </div>
             </div>,
-            document.body
+            document.body,
           )}
       </div>
     );
-  }
+  },
 );
 
 DatePicker.displayName = "DatePicker";

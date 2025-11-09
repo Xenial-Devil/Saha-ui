@@ -9,6 +9,7 @@ import {
   useRef,
   isValidElement,
   cloneElement,
+  useCallback,
 } from "react";
 import { cn } from "../../lib/utils";
 import { useClickOutside } from "../../hooks/useClickOutside";
@@ -64,7 +65,7 @@ interface DropdownContextValue {
 }
 
 const DropdownContext = createContext<DropdownContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 const useDropdownContext = () => {
@@ -75,15 +76,13 @@ const useDropdownContext = () => {
   return context;
 };
 
-
-
 /**
  * Dropdown Component (Compound Pattern)
  */
 export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
   (
     {
-      trigger,
+      trigger: _trigger,
       triggerAsChild,
       options,
       children,
@@ -121,7 +120,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       contentClassName,
       ...props
     },
-    ref
+    ref,
   ) => {
     // Development-only validation
     useEffect(() => {
@@ -167,27 +166,27 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         "closeOnSelect",
         closeOnSelect,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType("modal", modal, "boolean", isValidBoolean);
       validator.validateType(
         "searchable",
         searchable,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "commandPalette",
         commandPalette,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType("grouped", grouped, "boolean", isValidBoolean);
       validator.validateType(
         "checkmarks",
         checkmarks,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType("disabled", disabled, "boolean", isValidBoolean);
       validator.validateType("loading", loading, "boolean", isValidBoolean);
@@ -197,7 +196,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           "triggerAsChild",
           triggerAsChild,
           "boolean",
-          isValidBoolean
+          isValidBoolean,
         );
       }
 
@@ -240,45 +239,59 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     const contentRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
 
-    const handleOpenChange = (newOpen: boolean) => {
-      if (!isControlledOpen) {
-        setUncontrolledOpen(newOpen);
-      }
-      onOpenChange?.(newOpen);
-      if (!newOpen) {
-        setSearchQuery("");
-        setFocusedIndex(0);
-      }
-    };
-
-    const handleValueChange = (newValue: string) => {
-      if (disabled) return;
-
-      let updatedValue: string | string[];
-      if (multiple) {
-        const currentArray = Array.isArray(value) ? value : [];
-        if (currentArray.includes(newValue)) {
-          updatedValue = currentArray.filter((v) => v !== newValue);
-        } else {
-          updatedValue = [...currentArray, newValue];
+    const handleOpenChange = useCallback(
+      (newOpen: boolean) => {
+        if (!isControlledOpen) {
+          setUncontrolledOpen(newOpen);
         }
-      } else {
-        updatedValue = newValue;
-      }
+        onOpenChange?.(newOpen);
+        if (!newOpen) {
+          setSearchQuery("");
+          setFocusedIndex(0);
+        }
+      },
+      [isControlledOpen, onOpenChange],
+    );
 
-      if (!isControlledValue) {
-        setUncontrolledValue(updatedValue);
-      }
-      onChange?.(updatedValue);
+    const handleValueChange = useCallback(
+      (newValue: string) => {
+        if (disabled) return;
 
-      if (closeOnSelect && !multiple) {
-        handleOpenChange(false);
-      }
-    };
+        let updatedValue: string | string[];
+        if (multiple) {
+          const currentArray = Array.isArray(value) ? value : [];
+          if (currentArray.includes(newValue)) {
+            updatedValue = currentArray.filter((v) => v !== newValue);
+          } else {
+            updatedValue = [...currentArray, newValue];
+          }
+        } else {
+          updatedValue = newValue;
+        }
 
-    const handleClose = () => {
+        if (!isControlledValue) {
+          setUncontrolledValue(updatedValue);
+        }
+        onChange?.(updatedValue);
+
+        if (closeOnSelect && !multiple) {
+          handleOpenChange(false);
+        }
+      },
+      [
+        disabled,
+        multiple,
+        value,
+        isControlledValue,
+        onChange,
+        closeOnSelect,
+        handleOpenChange,
+      ],
+    );
+
+    const handleClose = useCallback(() => {
       handleOpenChange(false);
-    };
+    }, [handleOpenChange]);
 
     // Keyboard navigation
     useEffect(() => {
@@ -290,7 +303,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         } else if (e.key === "ArrowDown") {
           e.preventDefault();
           setFocusedIndex((prev) =>
-            Math.min(prev + 1, (options?.length || 1) - 1)
+            Math.min(prev + 1, (options?.length || 1) - 1),
           );
         } else if (e.key === "ArrowUp") {
           e.preventDefault();
@@ -306,7 +319,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [isOpen, focusedIndex, options]);
+    }, [isOpen, focusedIndex, options, handleClose, handleValueChange]);
 
     // Focus search input when opened
     useEffect(() => {
@@ -403,7 +416,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           className={cn(
             dropdownTriggerVariants({ variant, size }),
             width && `w-[${width}]`,
-            triggerClassName
+            triggerClassName,
           )}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
@@ -414,7 +427,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           <ChevronDown
             className={cn(
               "h-4 w-4 shrink-0 transition-transform duration-300",
-              isOpen && "rotate-180"
+              isOpen && "rotate-180",
             )}
           />
         </button>
@@ -433,7 +446,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
                 align === "center" && "left-1/2 -translate-x-1/2",
                 align === "end" && "right-0",
                 width && `w-[${width}]`,
-                contentClassName
+                contentClassName,
               )}
               style={{
                 maxHeight,
@@ -457,7 +470,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
                         "w-full rounded-lg border-2 border-border bg-background",
                         "py-2 pl-10 pr-8 text-sm",
                         "focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50",
-                        "transition-all duration-200"
+                        "transition-all duration-200",
                       )}
                     />
                     {searchQuery && (
@@ -512,7 +525,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Dropdown.displayName = "Dropdown";
@@ -539,7 +552,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const context = useDropdownContext();
     const isSelected = context?.multiple
@@ -562,7 +575,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
           ref={ref}
           className={cn(
             "px-4 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground",
-            className
+            className,
           )}
           {...props}
         >
@@ -606,7 +619,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
               <span
                 className={cn(
                   "font-semibold leading-none text-foreground",
-                  color && ""
+                  color && "",
                 )}
                 style={color ? { color } : undefined}
               >
@@ -641,7 +654,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 
 DropdownItem.displayName = "DropdownItem";
@@ -679,7 +692,7 @@ export const DropdownGroup = forwardRef<HTMLDivElement, DropdownGroupProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 
 DropdownGroup.displayName = "DropdownGroup";
@@ -727,7 +740,7 @@ export const DropdownTrigger = forwardRef<
       <ChevronDown
         className={cn(
           "h-4 w-4 shrink-0 transition-transform duration-300",
-          isOpen && "rotate-180"
+          isOpen && "rotate-180",
         )}
       />
     </button>
@@ -747,12 +760,12 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       className,
       align = "start",
       side = "bottom",
-      sideOffset = 4,
+      sideOffset: _sideOffset = 4,
       width,
       maxHeight = "320px",
       ...props
     },
-    ref
+    ref,
   ) => {
     const context = useDropdownContext();
     const { isOpen, variant } = context;
@@ -773,7 +786,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
           align === "center" && "left-1/2 -translate-x-1/2",
           align === "end" && "right-0",
           width && `w-[${width}]`,
-          className
+          className,
         )}
         style={{
           maxHeight,
@@ -783,7 +796,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
         <div className="max-h-[280px] overflow-y-auto p-1">{children}</div>
       </div>
     );
-  }
+  },
 );
 
 DropdownContent.displayName = "DropdownContent";

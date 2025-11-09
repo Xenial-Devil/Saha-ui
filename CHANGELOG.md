@@ -1,3 +1,31 @@
+# [1.18.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.17.0...v1.18.0) (2025-11-07)
+
+
+### Features
+
+* **components:** add 4 additional components (Stepper, Snackbar, AppBar, BottomNavigation)
+  - **Stepper**: Multi-step wizard component with horizontal/vertical orientations, 3 variants, interactive steps
+  - **Snackbar**: Toast-like notifications with 4 variants, auto-hide, 5 severity levels, positioning options
+  - **AppBar**: Application header/toolbar with 4 variants, fixed/sticky positioning, hide-on-scroll
+  - **BottomNavigation**: Mobile bottom navigation with badges, 3 variants, hide-on-scroll, 3-5 items support
+  - All components include comprehensive TypeScript types, CVA styling, and accessibility support
+  - Full dark mode support and responsive design
+  - Production-ready with animation effects
+
+# [1.17.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.16.0...v1.17.0) (2025-11-07)
+
+
+### Features
+
+* **components:** add 4 new components (Divider, IconButton, Paper, Backdrop)
+  - **Divider**: Versatile separator with horizontal/vertical orientations, 4 variants, optional labels
+  - **IconButton**: Compact icon buttons with 6 variants, 7 colors, 5 sizes, loading states
+  - **Paper**: Surface component with elevation system, 4 variants, hoverable states
+  - **Backdrop**: Full-screen overlay with blur effects, scroll locking, smooth transitions
+  - All components include comprehensive TypeScript types, CVA styling, and accessibility support
+  - Added example files demonstrating usage patterns
+  - Created documentation in NEW_COMPONENTS.md and QUICK_COMPONENT_GUIDE.md
+
 # [1.16.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.15.0...v1.16.0) (2025-11-07)
 
 

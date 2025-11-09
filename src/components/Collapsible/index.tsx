@@ -10,7 +10,6 @@ import React, {
 } from "react";
 import { ChevronsUpDown } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { ComponentValidator, isValidBoolean } from "../../lib/validation";
 import type {
   CollapsibleProps,
   CollapsibleTriggerProps,
@@ -28,42 +27,18 @@ import {
 } from "./Collapsible.styles";
 
 // ===========================
-// Validation Constants
-// ===========================
-
-const VALID_VARIANTS: CollapsibleVariant[] = [
-  "default",
-  "primary",
-  "secondary",
-  "accent",
-  "success",
-  "warning",
-  "error",
-  "info",
-  "outline",
-  "glass",
-];
-
-const VALID_ANIMATIONS: CollapsibleAnimation[] = [
-  "smooth",
-  "spring",
-  "bounce",
-  "none",
-];
-
-// ===========================
 // Context
 // ===========================
 
 const CollapsibleContext = createContext<CollapsibleContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 const useCollapsibleContext = () => {
   const context = useContext(CollapsibleContext);
   if (!context) {
     throw new Error(
-      "Collapsible compound components must be used within a Collapsible component"
+      "Collapsible compound components must be used within a Collapsible component",
     );
   }
   return context;
@@ -118,55 +93,15 @@ const Collapsible = React.forwardRef<HTMLDivElement, CollapsibleProps>(
       animation = "smooth",
       disabled = false,
       className,
-      onAnimationStart,
-      onAnimationEnd,
-      preserveContent = false,
-      animationDelay = 0,
+      onAnimationStart: _onAnimationStart,
+      onAnimationEnd: _onAnimationEnd,
+      preserveContent: _preserveContent = false,
+      animationDelay: _animationDelay = 0,
       animationDuration = 500,
       ...props
     },
-    ref
+    ref,
   ) => {
-    // Runtime validation
-    const validator = new ComponentValidator("Collapsible");
-
-    React.useEffect(() => {
-      validator.validateEnum("variant", variant, VALID_VARIANTS);
-      validator.validateEnum("animation", animation, VALID_ANIMATIONS);
-      if (controlledOpen !== undefined) {
-        validator.validateType(
-          "open",
-          controlledOpen,
-          "boolean",
-          isValidBoolean
-        );
-      }
-      if (defaultOpen !== undefined) {
-        validator.validateType(
-          "defaultOpen",
-          defaultOpen,
-          "boolean",
-          isValidBoolean
-        );
-      }
-      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
-      if (animationDuration !== undefined) {
-        validator.validateType(
-          "animationDuration",
-          animationDuration,
-          "number",
-          (val: any) => typeof val === "number" && val >= 0
-        );
-      }
-    }, [
-      variant,
-      animation,
-      controlledOpen,
-      defaultOpen,
-      disabled,
-      animationDuration,
-    ]);
-
     // State management
     const [internalOpen, setInternalOpen] = useState(defaultOpen);
     const isControlled = controlledOpen !== undefined;
@@ -182,7 +117,7 @@ const Collapsible = React.forwardRef<HTMLDivElement, CollapsibleProps>(
 
         onOpenChange?.(newOpen);
       },
-      [disabled, isControlled, onOpenChange]
+      [disabled, isControlled, onOpenChange],
     );
 
     const contextValue: CollapsibleContextValue = {
@@ -205,7 +140,7 @@ const Collapsible = React.forwardRef<HTMLDivElement, CollapsibleProps>(
         </div>
       </CollapsibleContext.Provider>
     );
-  }
+  },
 );
 
 Collapsible.displayName = "Collapsible";
@@ -247,7 +182,7 @@ const CollapsibleTrigger = React.forwardRef<
       onClick,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { open, setOpen, disabled, variant } = useCollapsibleContext();
 
@@ -297,7 +232,7 @@ const CollapsibleTrigger = React.forwardRef<
         {showIcon && iconPosition === "right" && iconWithStyles}
       </button>
     );
-  }
+  },
 );
 
 CollapsibleTrigger.displayName = "CollapsibleTrigger";
@@ -410,7 +345,7 @@ const CollapsibleContent = React.forwardRef<
       className={cn(
         collapsibleContentVariants({ variant, animation }),
         !shouldRender && "hidden",
-        className
+        className,
       )}
       {...props}
     >
@@ -468,7 +403,7 @@ const CollapsibleCompact = React.forwardRef<
       animationDuration = 500,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <Collapsible
@@ -496,7 +431,7 @@ const CollapsibleCompact = React.forwardRef<
         </CollapsibleContent>
       </Collapsible>
     );
-  }
+  },
 );
 
 CollapsibleCompact.displayName = "Collapsible.Compact";
@@ -510,8 +445,6 @@ export {
   CollapsibleTrigger,
   CollapsibleContent,
   CollapsibleCompact,
-  CollapsibleContext,
-  useCollapsibleContext,
 };
 export type {
   CollapsibleProps,

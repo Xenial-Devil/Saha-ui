@@ -4,6 +4,11 @@ import { ButtonProps } from "./Button.types";
 import { buttonVariants, shimmerVariants } from "./Button.styles";
 import { Slot } from "../../lib/Slot";
 
+/**
+ * Loading spinner component displayed when button is in loading state
+ * @private
+ */
+
 const LoadingSpinner = () => (
   <svg
     className="animate-spin h-5 w-5"
@@ -27,6 +32,34 @@ const LoadingSpinner = () => (
   </svg>
 );
 
+/**
+ * Button component with multiple variants, sizes, and states
+ *
+ * @component
+ * @example
+ * // Basic button
+ * <Button>Click me</Button>
+ *
+ * @example
+ * // Button with variant and size
+ * <Button variant="primary" size="lg">Large Primary</Button>
+ *
+ * @example
+ * // Loading button
+ * <Button loading>Saving...</Button>
+ *
+ * @example
+ * // Button as link (asChild pattern)
+ * <Button asChild>
+ *   <a href="/home">Home</a>
+ * </Button>
+ *
+ * @example
+ * // Accessible button with icon
+ * <Button aria-label="Close dialog">
+ *   <XIcon />
+ * </Button>
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -37,7 +70,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       disabled,
       asChild = false,
       loading,
-      ...props // loading is already destructured above, won't be in props
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
+      "aria-describedby": ariaDescribedBy,
+      "aria-pressed": ariaPressed,
+      "aria-expanded": ariaExpanded,
+      "aria-controls": ariaControls,
+      "aria-haspopup": ariaHasPopup,
+      ...props
     },
     ref,
   ) => {
@@ -54,6 +94,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         disabled={disabled || loading}
         aria-busy={loading ? "true" : undefined}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={ariaDescribedBy}
+        aria-pressed={ariaPressed}
+        aria-expanded={ariaExpanded}
+        aria-controls={ariaControls}
+        aria-haspopup={ariaHasPopup}
+        aria-disabled={disabled || loading ? "true" : undefined}
         {...props}
       >
         {asChild ? (

@@ -33,6 +33,8 @@ import MenubarExample from "./MenubarExample";
 import { PaginationExample } from "./PaginationExample";
 import { TabExample } from "./TabExample";
 import { StepsExample } from "./StepsExample";
+import AppBarExample from "./AppBarExample";
+import BottomNavigationExample from "./BottomNavigationExample";
 
 // Data Display
 import { TableExample } from "./TableExample";
@@ -68,6 +70,8 @@ import LabelExample from "./LabelExample";
 import UploadExample from "./UploadExample";
 import { TagExample } from "./TagExample";
 import { TagInputExample } from "./TagInputExample";
+import ColorPickerExample from "./ColorPickerExample";
+import SegmentedExample from "./SegmentedExample";
 
 // Feedback Components
 import { AlertExample } from "./AlertExample";
@@ -76,6 +80,7 @@ import { SonnerExample } from "./SonnerExample";
 import ProgressExample from "./ProgressExample";
 import SpinnerExample from "./SpinnerExample";
 import { SkeletonExample } from "./SkeletonExample";
+import ResultExample from "./ResultExample";
 
 // Overlay Components
 import DialogExample from "./DialogExample";
@@ -104,6 +109,14 @@ import { TypographyExample } from "./TypographyExample";
 import TextEditorExample from "./TextEditorExample";
 import CodeEditorFrameworkExamples from "./CodeEditorFrameworkExamples";
 import ChartExamples from "./ChartExamples";
+
+// Theme Components
+import ThemeProviderExample from "./ThemeProviderExample";
+import ThemeToggleExample from "./ThemeToggleExample";
+
+// Utility Components (continued)
+import SpeedDialExample from "./SpeedDialExample";
+import StepperExample from "./StepperExample";
 
 // AsChild Examples
 import AsChildExamples from "./AsChildExamples";
@@ -157,6 +170,8 @@ export const AllComponentExamples = () => {
         <PaginationExample />
         <TabExample />
         <StepsExample />
+        <AppBarExample />
+        <BottomNavigationExample />
       </div>
 
       {/* Data Display */}
@@ -198,6 +213,8 @@ export const AllComponentExamples = () => {
         <UploadExample />
         <TagExample />
         <TagInputExample />
+        <ColorPickerExample />
+        <SegmentedExample />
       </div>
 
       {/* Feedback Components */}
@@ -209,6 +226,7 @@ export const AllComponentExamples = () => {
         <ProgressExample />
         <SpinnerExample />
         <SkeletonExample />
+        <ResultExample />
       </div>
 
       {/* Overlay Components */}
@@ -238,6 +256,15 @@ export const AllComponentExamples = () => {
         <ResizableExample />
         <ItemExample />
         <FloatingActionButtonExample />
+        <SpeedDialExample />
+        <StepperExample />
+      </div>
+
+      {/* Theme Components */}
+      <div className="mb-16">
+        <h2 className="text-3xl font-bold mb-6 text-text">Theme</h2>
+        <ThemeProviderExample />
+        <ThemeToggleExample />
       </div>
 
       {/* Typography */}

@@ -17,7 +17,7 @@ import { paginationVariants } from "./Pagination.styles";
 const generatePagination = (
   currentPage: number,
   totalPages: number,
-  siblingCount: number
+  siblingCount: number,
 ): (number | "ellipsis-left" | "ellipsis-right")[] => {
   // If total pages is less than 7, show all pages
   if (totalPages <= 7) {
@@ -50,7 +50,7 @@ const generatePagination = (
     const rightItemCount = 3 + 2 * siblingCount;
     const rightRange = Array.from(
       { length: rightItemCount },
-      (_, i) => totalPages - rightItemCount + i + 1
+      (_, i) => totalPages - rightItemCount + i + 1,
     );
     return [firstPageIndex, "ellipsis-left", ...rightRange];
   }
@@ -58,7 +58,7 @@ const generatePagination = (
   // Both ellipsis
   const middleRange = Array.from(
     { length: rightSiblingIndex - leftSiblingIndex + 1 },
-    (_, i) => leftSiblingIndex + i
+    (_, i) => leftSiblingIndex + i,
   );
   return [
     firstPageIndex,
@@ -70,29 +70,49 @@ const generatePagination = (
 };
 
 /**
- * Pagination Component
+ * Pagination - Navigation component for paginated content.
  *
  * A comprehensive pagination component with multiple variants, sizes, and customization options.
- * Supports ellipsis for large page counts and full keyboard navigation.
+ * Implements accessible patterns with ARIA attributes and full keyboard navigation support.
  *
  * @example
- * ```tsx
  * // Basic pagination
- * <Pagination totalPages={10} currentPage={1} onPageChange={(page) => setPage(page)} />
+ * <Pagination
+ *   totalPages={10}
+ *   currentPage={1}
+ *   onPageChange={(page) => setPage(page)}
+ * />
  *
+ * @example
  * // Custom variant and size
- * <Pagination variant="primary" size="lg" totalPages={20} currentPage={5} />
+ * <Pagination
+ *   variant="primary"
+ *   size="lg"
+ *   totalPages={20}
+ *   currentPage={5}
+ *   onPageChange={handlePageChange}
+ * />
  *
+ * @example
  * // Minimal with custom labels
  * <Pagination
  *   variant="minimal"
  *   shape="pill"
  *   totalPages={50}
  *   currentPage={25}
- *   previousLabel="← Prev"
+ *   previousLabel="← Previous"
  *   nextLabel="Next →"
+ *   onPageChange={setPage}
  * />
- * ```
+ *
+ * @example
+ * // With custom ARIA label
+ * <Pagination
+ *   totalPages={15}
+ *   currentPage={3}
+ *   onPageChange={setPage}
+ *   aria-label="Search results pagination"
+ * />
  */
 export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
   (
@@ -115,7 +135,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     // Development-only validation
     useEffect(() => {
@@ -150,13 +170,13 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         "currentPage",
         currentPage,
         "number",
-        isValidNumber
+        isValidNumber,
       );
       validator.validateType(
         "siblingCount",
         siblingCount,
         "number",
-        isValidNumber
+        isValidNumber,
       );
 
       if (totalPages < 1) {
@@ -165,7 +185,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
 
       if (currentPage < 1 || currentPage > totalPages) {
         validator.warn(
-          `currentPage (${currentPage}) should be between 1 and ${totalPages}`
+          `currentPage (${currentPage}) should be between 1 and ${totalPages}`,
         );
       }
 
@@ -178,19 +198,19 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         "showFirstLast",
         showFirstLast,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "showPrevNext",
         showPrevNext,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType(
         "showPageNumbers",
         showPageNumbers,
         "boolean",
-        isValidBoolean
+        isValidBoolean,
       );
       validator.validateType("disabled", disabled, "boolean", isValidBoolean);
 
@@ -217,7 +237,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
     // Generate pagination items
     const paginationItems = useMemo(
       () => generatePagination(validCurrentPage, totalPages, siblingCount),
-      [validCurrentPage, totalPages, siblingCount]
+      [validCurrentPage, totalPages, siblingCount],
     );
 
     const handlePageChange = (page: number) => {
@@ -238,7 +258,8 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
       <nav
         ref={ref}
         className={cn("flex items-center gap-1", className)}
-        aria-label="Pagination"
+        aria-label={props["aria-label"] || "Pagination"}
+        role="navigation"
         {...props}
       >
         {/* First Page Button */}
@@ -248,7 +269,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             onClick={() => handlePageChange(1)}
             disabled={disabled || validCurrentPage === 1}
             className={cn(paginationVariants({ variant, size, shape }))}
-            aria-label="Go to first page"
+            aria-label={`Go to first page, page 1`}
           >
             {firstLabel || (
               <svg
@@ -260,6 +281,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
               >
                 <polyline points="11 17 6 12 11 7" />
                 <polyline points="18 17 13 12 18 7" />
@@ -275,7 +297,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             onClick={() => handlePageChange(validCurrentPage - 1)}
             disabled={disabled || validCurrentPage === 1}
             className={cn(paginationVariants({ variant, size, shape }))}
-            aria-label="Go to previous page"
+            aria-label={`Go to previous page, page ${validCurrentPage - 1}`}
           >
             {previousLabel || (
               <svg
@@ -287,6 +309,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
               >
                 <polyline points="15 18 9 12 15 6" />
               </svg>
@@ -306,9 +329,9 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                     size === "sm"
                       ? "h-8 min-w-8"
                       : size === "lg"
-                      ? "h-12 min-w-12"
-                      : "h-10 min-w-10",
-                    "text-base-content/50"
+                        ? "h-12 min-w-12"
+                        : "h-10 min-w-10",
+                    "text-base-content/50",
                   )}
                   aria-hidden="true"
                 >
@@ -343,7 +366,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             onClick={() => handlePageChange(validCurrentPage + 1)}
             disabled={disabled || validCurrentPage === totalPages}
             className={cn(paginationVariants({ variant, size, shape }))}
-            aria-label="Go to next page"
+            aria-label={`Go to next page, page ${validCurrentPage + 1}`}
           >
             {nextLabel || (
               <svg
@@ -355,6 +378,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
               >
                 <polyline points="9 18 15 12 9 6" />
               </svg>
@@ -369,7 +393,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
             onClick={() => handlePageChange(totalPages)}
             disabled={disabled || validCurrentPage === totalPages}
             className={cn(paginationVariants({ variant, size, shape }))}
-            aria-label="Go to last page"
+            aria-label={`Go to last page, page ${totalPages}`}
           >
             {lastLabel || (
               <svg
@@ -381,6 +405,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
               >
                 <polyline points="13 17 18 12 13 7" />
                 <polyline points="6 17 11 12 6 7" />
@@ -390,7 +415,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         )}
       </nav>
     );
-  }
+  },
 );
 
 Pagination.displayName = "Pagination";

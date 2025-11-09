@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { cn } from "../../lib/utils";
 import type { ToastItemProps } from "./Toast.types";
 import {
@@ -223,7 +223,28 @@ export const ToastItem: React.FC<ToastItemProps> = ({
     return "translate-x-0 translate-y-0 scale-100 opacity-100";
   };
 
-  const startTimer = () => {
+  const handleClose = useCallback(() => {
+    setIsExiting(true);
+    let isCancelled = false;
+    const closeTimer = setTimeout(() => {
+      if (!isCancelled) {
+        onClose?.();
+        onRemove(id);
+      }
+    }, 300);
+
+    // Store for cleanup
+    return () => {
+      isCancelled = true;
+      try {
+        clearTimeout(closeTimer);
+      } catch (err) {
+        console.debug("Toast close timer error suppressed:", err);
+      }
+    };
+  }, [id, onClose, onRemove]);
+
+  const startTimer = useCallback(() => {
     if (duration === 0) return;
 
     startTimeRef.current = Date.now();
@@ -257,9 +278,9 @@ export const ToastItem: React.FC<ToastItemProps> = ({
         console.debug("Toast interval cleanup error suppressed:", err);
       }
     };
-  };
+  }, [duration, handleClose, isPaused]);
 
-  const pauseTimer = () => {
+  const pauseTimer = useCallback(() => {
     if (timerRef.current) {
       try {
         clearTimeout(timerRef.current);
@@ -269,32 +290,11 @@ export const ToastItem: React.FC<ToastItemProps> = ({
         console.debug("Toast pause timer error suppressed:", err);
       }
     }
-  };
+  }, []);
 
-  const resumeTimer = () => {
+  const resumeTimer = useCallback(() => {
     startTimer();
-  };
-
-  const handleClose = () => {
-    setIsExiting(true);
-    let isCancelled = false;
-    const closeTimer = setTimeout(() => {
-      if (!isCancelled) {
-        onClose?.();
-        onRemove(id);
-      }
-    }, 300);
-
-    // Store for cleanup
-    return () => {
-      isCancelled = true;
-      try {
-        clearTimeout(closeTimer);
-      } catch (err) {
-        console.debug("Toast close timer error suppressed:", err);
-      }
-    };
-  };
+  }, [startTimer]);
 
   useEffect(() => {
     let isCancelled = false;
@@ -322,7 +322,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({
       }
       cleanup?.();
     };
-  }, []);
+  }, [startTimer]);
 
   useEffect(() => {
     if (isPaused) {
@@ -330,7 +330,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({
     } else if (isVisible && !isExiting) {
       resumeTimer();
     }
-  }, [isPaused]);
+  }, [isPaused, pauseTimer, resumeTimer, isVisible, isExiting]);
 
   const handleMouseEnter = () => {
     if (pauseOnHover) setIsPaused(true);
