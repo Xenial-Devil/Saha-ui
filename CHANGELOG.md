@@ -1,3 +1,11 @@
+# [1.18.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.17.0...v1.18.0) (2025-11-17)
+
+
+### Features
+
+* remove COMPONENTS_LIST.txt tracking ([02301f0](https://github.com/Xenial-Devil/Saha-ui/commit/02301f0b9d33d65651fcb8026fa9ddc0449e3dad))
+* **video-player:** add new VideoPlayer component and docs ([639bcbf](https://github.com/Xenial-Devil/Saha-ui/commit/639bcbf66383ac818baddbcae43702fc89dbcdb5))
+
 # [1.17.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.16.0...v1.17.0) (2025-11-09)
 
 
