@@ -1453,3 +1453,5 @@ export type {
   ColorFormat,
   ColorPickerSize,
 } from "./components/ColorPicker/ColorPicker.types";
+
+export { VideoPlayer, type VideoPlayerProps } from "./components/VideoPlayer";

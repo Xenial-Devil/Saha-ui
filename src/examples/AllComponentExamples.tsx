@@ -16,60 +16,60 @@ import ColorPalette from "./ColorPalette";
 // Card & content examples are not imported here for the same reason as above.
 
 // Navigation
-import { BreadcrumbExample } from "./BreadcrumbExample";
-import NavigationMenuExample from "./NavigationMenuExample";
-import MenubarExample from "./MenubarExample";
-import { PaginationExample } from "./PaginationExample";
-import { TabExample } from "./TabExample";
-import { StepsExample } from "./StepsExample";
-import AppBarExample from "./AppBarExample";
-import BottomNavigationExample from "./BottomNavigationExample";
+// import { BreadcrumbExample } from "./BreadcrumbExample";
+// import NavigationMenuExample from "./NavigationMenuExample";
+// import MenubarExample from "./MenubarExample";
+// import { PaginationExample } from "./PaginationExample";
+// import { TabExample } from "./TabExample";
+// import { StepsExample } from "./StepsExample";
+// import AppBarExample from "./AppBarExample";
+// import BottomNavigationExample from "./BottomNavigationExample";
 
-// Data Display
-import { TableExample } from "./TableExample";
-import { DataTableExample } from "./DataTableExample";
-import { ListExample } from "./ListExample";
-import { TreeExample } from "./TreeExample";
-import { TimelineExample } from "./TimelineExample";
-import { AccordionExample } from "./AccordionExample";
-import CollapsibleExample from "./CollapsibleExample";
+// // Data Display
+// import { TableExample } from "./TableExample";
+// import { DataTableExample } from "./DataTableExample";
+// import { ListExample } from "./ListExample";
+// import { TreeExample } from "./TreeExample";
+// import { TimelineExample } from "./TimelineExample";
+// import { AccordionExample } from "./AccordionExample";
+// import CollapsibleExample from "./CollapsibleExample";
 
-// Form Components
-import FormExample from "./FormExample";
-import { InputExample } from "./InputExample";
-import TextAreaExample from "./TextAreaExample";
-import { SelectExample } from "./SelectExample";
-import { AutocompleteExample } from "./AutocompleteExample";
-import ComboboxExample from "./ComboboxExample";
-import NativeSelectExample from "./NativeSelectExample";
-import { CheckboxExample } from "./CheckboxExample";
-import { CheckboxGroupExample } from "./CheckboxGroupExample";
-import { RadioExample } from "./RadioExample";
-import { RadioAdvancedExample } from "./RadioAdvancedExample";
-import { SwitchExample } from "./SwitchExample";
-import { ToggleExample } from "./ToggleExample";
-import ToggleGroupExample from "./ToggleGroupExample";
-import { SliderExample } from "./SliderExample";
-import { RatingExample } from "./RatingExample";
-import { DatePickerExample } from "./DatePickerExample";
-import { CalendarExample } from "./CalendarExample";
-import InputOTPExample from "./InputOTPExample";
-import { FieldExample } from "./FieldExample";
-import LabelExample from "./LabelExample";
-import UploadExample from "./UploadExample";
-import { TagExample } from "./TagExample";
-import { TagInputExample } from "./TagInputExample";
-import ColorPickerExample from "./ColorPickerExample";
-import SegmentedExample from "./SegmentedExample";
+// // Form Components
+// import FormExample from "./FormExample";
+// import { InputExample } from "./InputExample";
+// import TextAreaExample from "./TextAreaExample";
+// import { SelectExample } from "./SelectExample";
+// import { AutocompleteExample } from "./AutocompleteExample";
+// import ComboboxExample from "./ComboboxExample";
+// import NativeSelectExample from "./NativeSelectExample";
+// import { CheckboxExample } from "./CheckboxExample";
+// import { CheckboxGroupExample } from "./CheckboxGroupExample";
+// import { RadioExample } from "./RadioExample";
+// import { RadioAdvancedExample } from "./RadioAdvancedExample";
+// import { SwitchExample } from "./SwitchExample";
+// import { ToggleExample } from "./ToggleExample";
+// import ToggleGroupExample from "./ToggleGroupExample";
+// import { SliderExample } from "./SliderExample";
+// import { RatingExample } from "./RatingExample";
+// import { DatePickerExample } from "./DatePickerExample";
+// import { CalendarExample } from "./CalendarExample";
+// import InputOTPExample from "./InputOTPExample";
+// import { FieldExample } from "./FieldExample";
+// import LabelExample from "./LabelExample";
+// import UploadExample from "./UploadExample";
+// import { TagExample } from "./TagExample";
+// import { TagInputExample } from "./TagInputExample";
+// import ColorPickerExample from "./ColorPickerExample";
+// import SegmentedExample from "./SegmentedExample";
 
-// Feedback Components
-import { AlertExample } from "./AlertExample";
-import { ToastExample } from "./ToastExample";
-import { SonnerExample } from "./SonnerExample";
-import ProgressExample from "./ProgressExample";
-import SpinnerExample from "./SpinnerExample";
-import { SkeletonExample } from "./SkeletonExample";
-import ResultExample from "./ResultExample";
+// // Feedback Components
+// import { AlertExample } from "./AlertExample";
+// import { ToastExample } from "./ToastExample";
+// import { SonnerExample } from "./SonnerExample";
+// import ProgressExample from "./ProgressExample";
+// import SpinnerExample from "./SpinnerExample";
+// import { SkeletonExample } from "./SkeletonExample";
+// import ResultExample from "./ResultExample";
 
 // Overlay Components
 import DialogExample from "./DialogExample";
@@ -93,7 +93,7 @@ import ThemeToggleExample from "./ThemeToggleExample";
 // Utility Components (continued)
 import SpeedDialExample from "./SpeedDialExample";
 import StepperExample from "./StepperExample";
-
+import VideoPlayerExample from "./VideoPlayerExample";
 // AsChild Examples
 
 export const AllComponentExamples = () => {
@@ -137,7 +137,7 @@ export const AllComponentExamples = () => {
       </div> */}
 
       {/* Navigation Components */}
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <h2 className="text-3xl font-bold mb-6 text-text">Navigation</h2>
         <BreadcrumbExample />
         <NavigationMenuExample />
@@ -147,10 +147,10 @@ export const AllComponentExamples = () => {
         <StepsExample />
         <AppBarExample />
         <BottomNavigationExample />
-      </div>
+      </div> */}
 
       {/* Data Display */}
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <h2 className="text-3xl font-bold mb-6 text-text">Data Display</h2>
         <TableExample />
         <DataTableExample />
@@ -159,11 +159,11 @@ export const AllComponentExamples = () => {
         <TimelineExample />
         <AccordionExample />
         <CollapsibleExample />
-      </div>
+      </div> */}
 
       {/* Form Components */}
       <div className="mb-16">
-        <h2 className="text-3xl font-bold mb-6 text-text">Form Components</h2>
+        {/* <h2 className="text-3xl font-bold mb-6 text-text">Form Components</h2>
         <FormExample />
         <InputExample />
         <TextAreaExample />
@@ -189,11 +189,11 @@ export const AllComponentExamples = () => {
         <TagExample />
         <TagInputExample />
         <ColorPickerExample />
-        <SegmentedExample />
+        <SegmentedExample /> */}
       </div>
 
       {/* Feedback Components */}
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <h2 className="text-3xl font-bold mb-6 text-text">Feedback</h2>
         <AlertExample />
         <ToastExample />
@@ -202,7 +202,7 @@ export const AllComponentExamples = () => {
         <SpinnerExample />
         <SkeletonExample />
         <ResultExample />
-      </div>
+      </div> */}
 
       {/* Overlay Components */}
       <div className="mb-16">
@@ -265,6 +265,7 @@ export const AllComponentExamples = () => {
         </h2>
         <AsChildExamples />
       </div> */}
+      <VideoPlayerExample />
     </div>
   );
 };
