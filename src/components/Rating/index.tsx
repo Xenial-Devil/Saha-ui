@@ -1,15 +1,10 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { cn } from "../../lib/utils";
 import type { RatingProps } from "./Rating.types";
 import { Star, Heart, Circle, Diamond } from "lucide-react";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
+// validation removed
 import { ratingVariants, iconVariants } from "./Rating.styles";
 
 /**
@@ -71,97 +66,9 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
       animated = true,
       ...props
     },
-    ref,
+    ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Rating");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "primary",
-        "secondary",
-        "gradient",
-        "glass",
-        "outline",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg", "xl"] as const);
-
-      // Validate icon
-      validator.validateEnum("icon", icon, [
-        "star",
-        "heart",
-        "circle",
-        "diamond",
-      ] as const);
-
-      // Validate precision
-      validator.validateEnum("precision", precision, ["full", "half"] as const);
-
-      // Validate numeric props
-      validator.validateType("value", value, "number", isValidNumber);
-      validator.validateType("max", max, "number", isValidNumber);
-
-      if (max <= 0) {
-        validator.error("max must be greater than 0");
-      }
-
-      if (value < 0) {
-        validator.warn("value should not be negative");
-      }
-
-      if (value > max) {
-        validator.warn("value should not exceed max");
-      }
-
-      if (count !== undefined) {
-        validator.validateType("count", count, "number", isValidNumber);
-        if (count < 0) {
-          validator.warn("count should not be negative");
-        }
-      }
-
-      // Validate boolean props
-      validator.validateType("readOnly", readOnly, "boolean", isValidBoolean);
-      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
-      validator.validateType("showValue", showValue, "boolean", isValidBoolean);
-      validator.validateType("hoverable", hoverable, "boolean", isValidBoolean);
-      validator.validateType(
-        "showTooltip",
-        showTooltip,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType(
-        "allowClear",
-        allowClear,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType("animated", animated, "boolean", isValidBoolean);
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      variant,
-      size,
-      icon,
-      precision,
-      value,
-      max,
-      count,
-      readOnly,
-      disabled,
-      showValue,
-      hoverable,
-      showTooltip,
-      allowClear,
-      animated,
-      className,
-    ]);
+    // development-only validation removed
 
     const [hoverValue, setHoverValue] = useState<number | null>(null);
     const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
@@ -191,7 +98,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
      */
     const calculateRating = (
       index: number,
-      event: React.MouseEvent,
+      event: React.MouseEvent
     ): number => {
       if (precision === "full") {
         return index + 1;
@@ -333,7 +240,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
               iconState === "half" && "opacity-70",
               disabled && "opacity-50 cursor-not-allowed",
               animated && "transition-all duration-200",
-              iconClassName,
+              iconClassName
             )}
             style={{
               color: isFilled ? color : emptyColor,
@@ -359,7 +266,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
           className={cn(
             "relative inline-flex items-center justify-center",
             isInteractive && "cursor-pointer",
-            disabled && "cursor-not-allowed",
+            disabled && "cursor-not-allowed"
           )}
           onClick={(e) => handleClick(index, e)}
           onMouseEnter={(e) => handleMouseEnter(index, e)}
@@ -381,7 +288,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
                   interactive: false,
                 }),
                 "fill-current absolute top-0 left-0 pointer-events-none",
-                animated && "transition-all duration-200",
+                animated && "transition-all duration-200"
               )}
               style={{
                 color: color,
@@ -403,7 +310,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
         className={cn(
           "inline-flex items-center gap-2",
           disabled && "opacity-50 cursor-not-allowed",
-          className,
+          className
         )}
         {...props}
       >
@@ -438,7 +345,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
         )}
       </div>
     );
-  },
+  }
 );
 
 Rating.displayName = "Rating";

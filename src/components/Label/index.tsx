@@ -2,7 +2,6 @@
 
 import React from "react";
 import { cn } from "../../lib/utils";
-import { ComponentValidator, isValidBoolean } from "../../lib/validation";
 import type {
   LabelProps,
   LabelGroupProps,
@@ -10,9 +9,6 @@ import type {
   LabelErrorProps,
   LabelRequiredProps,
   LabelOptionalProps,
-  LabelVariant,
-  LabelSize,
-  LabelPosition,
 } from "./Label.types";
 import {
   labelVariants,
@@ -23,28 +19,6 @@ import {
   labelOptionalVariants,
   labelHelpVariants,
 } from "./Label.styles";
-
-// ===========================
-// Validation Constants
-// ===========================
-
-const VALID_VARIANTS: LabelVariant[] = [
-  "default",
-  "primary",
-  "secondary",
-  "accent",
-  "success",
-  "warning",
-  "error",
-  "info",
-  "muted",
-  "outline",
-  "glass",
-];
-
-const VALID_SIZES: LabelSize[] = ["sm", "md", "lg"];
-
-const VALID_POSITIONS: LabelPosition[] = ["top", "left", "right", "floating"];
 
 // ===========================
 // Label Component
@@ -98,70 +72,6 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
     },
     ref
   ) => {
-    // Runtime validation (development only)
-    const validator = new ComponentValidator("Label");
-
-    React.useEffect(() => {
-      // Validate variant
-      validator.validateEnum("variant", variant, VALID_VARIANTS);
-
-      // Validate size
-      validator.validateEnum("size", size, VALID_SIZES);
-
-      // Validate position
-      validator.validateEnum("position", position, VALID_POSITIONS);
-
-      // Validate boolean props
-      validator.validateType("required", required, "boolean", isValidBoolean);
-      validator.validateType("optional", optional, "boolean", isValidBoolean);
-      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
-      validator.validateType("error", error, "boolean", isValidBoolean);
-      validator.validateType("showHelp", showHelp, "boolean", isValidBoolean);
-
-      // Warn about conflicting states
-      if (required && optional) {
-        validator.warn(
-          "Label has both 'required' and 'optional' props. Only one should be used."
-        );
-      }
-
-      if (disabled && required) {
-        validator.warn(
-          "Label is both 'disabled' and 'required'. This might be confusing for users."
-        );
-      }
-
-      // Validate htmlFor
-      if (!htmlFor && position !== "top") {
-        validator.warn(
-          "Label without 'htmlFor' prop may not be properly associated with a form control."
-        );
-      }
-
-      // Validate help text
-      if (showHelp && !helpText) {
-        validator.warn(
-          "Label has 'showHelp' enabled but no 'helpText' provided."
-        );
-      }
-
-      // Validate children
-      if (!children) {
-        validator.warn("Label has no children. Consider providing label text.");
-      }
-    }, [
-      variant,
-      size,
-      position,
-      required,
-      optional,
-      disabled,
-      error,
-      showHelp,
-      helpText,
-      htmlFor,
-      children,
-    ]);
 
     return (
       <label
@@ -212,34 +122,6 @@ export const LabelGroup = React.forwardRef<HTMLDivElement, LabelGroupProps>(
     { children, direction = "vertical", spacing = "md", className, ...props },
     ref
   ) => {
-    // Runtime validation (development only)
-    const validator = new ComponentValidator("LabelGroup");
-
-    React.useEffect(() => {
-      // Validate direction
-      if (
-        direction !== undefined &&
-        !["horizontal", "vertical"].includes(direction)
-      ) {
-        validator.error(
-          `Invalid prop 'direction': must be one of [horizontal, vertical], got '${direction}'.`
-        );
-      }
-
-      // Validate spacing
-      if (spacing !== undefined && !["sm", "md", "lg"].includes(spacing)) {
-        validator.error(
-          `Invalid prop 'spacing': must be one of [sm, md, lg], got '${spacing}'.`
-        );
-      }
-
-      // Validate children
-      if (!children) {
-        validator.warn(
-          "LabelGroup has no children. Consider providing Label components."
-        );
-      }
-    }, [direction, spacing, children]);
 
     return (
       <div

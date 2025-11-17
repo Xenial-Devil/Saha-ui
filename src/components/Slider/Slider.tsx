@@ -16,12 +16,7 @@ import type {
   SliderOrientation,
   SliderMark,
 } from "./Slider.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
+// validation removed
 import {
   containerVariants,
   trackVariants,
@@ -105,106 +100,13 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       children,
       ...props
     },
-    ref,
+    ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Slider");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "primary",
-        "secondary",
-        "accent",
-        "success",
-        "warning",
-        "error",
-        "ghost",
-        "glass",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
-
-      // Validate orientation
-      validator.validateEnum("orientation", orientation, [
-        "horizontal",
-        "vertical",
-      ] as const);
-
-      // Validate valueLabelDisplay
-      validator.validateEnum("valueLabelDisplay", valueLabelDisplay, [
-        "auto",
-        "on",
-        "off",
-      ] as const);
-
-      // Validate numeric props
-      validator.validateType("min", min, "number", isValidNumber);
-      validator.validateType("max", max, "number", isValidNumber);
-      validator.validateType("step", step, "number", isValidNumber);
-
-      if (min >= max) {
-        validator.error("min must be less than max");
-      }
-
-      if (step <= 0) {
-        validator.error("step must be greater than 0");
-      }
-
-      if (step > max - min) {
-        validator.warn("step is larger than the range (max - min)");
-      }
-
-      // Validate value range
-      if (controlledValue !== undefined) {
-        const values = Array.isArray(controlledValue)
-          ? controlledValue
-          : [controlledValue];
-        values.forEach((val, index) => {
-          if (val < min || val > max) {
-            validator.error(
-              `value[${index}] (${val}) is outside the range [${min}, ${max}]`,
-            );
-          }
-        });
-      }
-
-      // Validate boolean props
-      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
-      validator.validateType("showValue", showValue, "boolean", isValidBoolean);
-      validator.validateType(
-        "showTooltip",
-        showTooltip,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType("range", range, "boolean", isValidBoolean);
-      validator.validateType("required", required, "boolean", isValidBoolean);
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      variant,
-      size,
-      orientation,
-      valueLabelDisplay,
-      min,
-      max,
-      step,
-      controlledValue,
-      disabled,
-      showValue,
-      showTooltip,
-      range,
-      required,
-      className,
-    ]);
+    // development-only validation removed
 
     const isControlled = controlledValue !== undefined;
     const [internalValue, setInternalValue] = useState<number | number[]>(
-      defaultValue,
+      defaultValue
     );
     const value = isControlled ? controlledValue : internalValue;
 
@@ -235,7 +137,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         const rawValue = min + percentage * (max - min);
         return roundToStep(clamp(rawValue, min, max), step);
       },
-      [min, max, step, orientation],
+      [min, max, step, orientation]
     );
 
     // Handle value change
@@ -248,7 +150,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         }
         onChange?.(newValue);
       },
-      [disabled, isControlled, onChange],
+      [disabled, isControlled, onChange]
     );
 
     // Handle mouse/touch move
@@ -274,7 +176,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         range,
         value,
         handleChange,
-      ],
+      ]
     );
 
     // Mouse events
@@ -290,7 +192,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       (e: MouseEvent) => {
         handleMove(e.clientX, e.clientY);
       },
-      [handleMove],
+      [handleMove]
     );
 
     const handleMouseUp = useCallback(() => {
@@ -316,7 +218,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           handleMove(e.touches[0].clientX, e.touches[0].clientY);
         }
       },
-      [handleMove],
+      [handleMove]
     );
 
     // Track click
@@ -379,7 +281,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         newValues[thumbIndex] = clamp(
           roundToStep(value[thumbIndex] + delta, step),
           min,
-          max,
+          max
         );
         newValues.sort((a, b) => a - b);
         handleChange(newValues);
@@ -387,7 +289,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         const newValue = clamp(
           roundToStep(normalizedValue[0] + delta, step),
           min,
-          max,
+          max
         );
         handleChange(newValue);
       }
@@ -448,7 +350,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             ref={ref}
             className={cn(
               containerVariants({ orientation, disabled }),
-              className,
+              className
             )}
             {...props}
           >
@@ -476,7 +378,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           key={thumbIndex}
           className={cn(
             thumbVariants({ variant, size, disabled }),
-            thumbClassName,
+            thumbClassName
           )}
           style={{
             ...positionStyle,
@@ -522,7 +424,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           ref={ref}
           className={cn(
             containerVariants({ orientation, disabled }),
-            className,
+            className
           )}
           {...props}
         >
@@ -537,7 +439,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           <div
             className={cn(
               "relative flex items-center",
-              orientation === "vertical" && "flex-col h-full",
+              orientation === "vertical" && "flex-col h-full"
             )}
           >
             {/* Value display */}
@@ -551,7 +453,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             <div
               className={cn(
                 "relative flex-1",
-                orientation === "vertical" && "w-auto h-full",
+                orientation === "vertical" && "w-auto h-full"
               )}
             >
               {/* Track */}
@@ -559,7 +461,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                 ref={trackRef}
                 className={cn(
                   trackVariants({ variant, size, orientation }),
-                  trackClassName,
+                  trackClassName
                 )}
                 style={trackColor ? { backgroundColor: trackColor } : {}}
                 onClick={handleTrackClick}
@@ -574,7 +476,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                             ? `${getPercentage(
                                 Math.min(...normalizedValue),
                                 min,
-                                max,
+                                max
                               )}%`
                             : "0%",
                           width: range
@@ -582,12 +484,12 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                                 getPercentage(
                                   Math.max(...normalizedValue),
                                   min,
-                                  max,
+                                  max
                                 ) -
                                 getPercentage(
                                   Math.min(...normalizedValue),
                                   min,
-                                  max,
+                                  max
                                 )
                               }%`
                             : `${getPercentage(normalizedValue[0], min, max)}%`,
@@ -597,7 +499,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                             ? `${getPercentage(
                                 Math.min(...normalizedValue),
                                 min,
-                                max,
+                                max
                               )}%`
                             : "0%",
                           height: range
@@ -605,12 +507,12 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                                 getPercentage(
                                   Math.max(...normalizedValue),
                                   min,
-                                  max,
+                                  max
                                 ) -
                                 getPercentage(
                                   Math.min(...normalizedValue),
                                   min,
-                                  max,
+                                  max
                                 )
                               }%`
                             : `${getPercentage(normalizedValue[0], min, max)}%`,
@@ -643,7 +545,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
                 {/* Thumbs */}
                 {normalizedValue.map((thumbValue, index) =>
-                  renderThumb(thumbValue, index),
+                  renderThumb(thumbValue, index)
                 )}
               </div>
             </div>
@@ -661,7 +563,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             <p
               className={cn(
                 "mt-1.5 text-xs",
-                error ? "text-danger" : "text-muted-foreground",
+                error ? "text-danger" : "text-muted-foreground"
               )}
             >
               {error || helperText}
@@ -679,7 +581,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         </div>
       </SliderContext.Provider>
     );
-  },
+  }
 );
 
 Slider.displayName = "Slider";
@@ -722,7 +624,7 @@ export const SliderTrack = React.forwardRef<HTMLDivElement, SliderTrackProps>(
         const rawValue = min + percentage * (max - min);
         return clamp(rawValue, min, max);
       },
-      [min, max, orientation],
+      [min, max, orientation]
     );
 
     const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -742,7 +644,7 @@ export const SliderTrack = React.forwardRef<HTMLDivElement, SliderTrackProps>(
         {children}
       </Comp>
     );
-  },
+  }
 );
 
 SliderTrack.displayName = "SliderTrack";
@@ -835,7 +737,7 @@ export const SliderThumb = React.forwardRef<HTMLDivElement, SliderThumbProps>(
         )}
       </div>
     );
-  },
+  }
 );
 
 SliderThumb.displayName = "SliderThumb";

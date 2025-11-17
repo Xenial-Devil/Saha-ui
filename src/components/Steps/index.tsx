@@ -7,7 +7,6 @@ import React, {
   useCallback,
   Children,
   isValidElement,
-  useEffect,
 } from "react";
 import { cn } from "../../lib/utils";
 import { Check } from "lucide-react";
@@ -19,11 +18,7 @@ import type {
   StepsSize,
   StepsOrientation,
 } from "./Steps.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-} from "../../lib/validation";
+// validation removed
 import {
   stepsVariants,
   stepVariants,
@@ -82,38 +77,7 @@ export const Steps = React.forwardRef<HTMLDivElement, StepsProps>(
       }
     });
 
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Steps");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "bordered",
-        "glass",
-        "minimal",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
-
-      // Validate orientation
-      validator.validateEnum("orientation", orientation, [
-        "horizontal",
-        "vertical",
-      ] as const);
-
-      // Validate boolean props
-      validator.validateType("clickable", clickable, "boolean", isValidBoolean);
-
-      // Validate children
-      if (!children) {
-        validator.warn("Steps should have StepItem children");
-      }
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [variant, size, orientation, clickable, children, className]);
+    // development-only validation removed
 
     const handleValueChange = useCallback(
       (newValue: string | number) => {

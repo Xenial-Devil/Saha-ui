@@ -7,10 +7,10 @@ import React, {
   useRef,
   useEffect,
   useMemo,
+  useCallback,
   forwardRef,
 } from "react";
 import { cn } from "../../lib/utils";
-import { createValidator } from "../../lib/validation";
 import type {
   InputOTPProps,
   InputOTPContextValue,
@@ -99,38 +99,6 @@ export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
     },
     ref
   ) => {
-    // Runtime validation (development only)
-    if (process.env.NODE_ENV === "development") {
-      const validator = createValidator("InputOTP");
-      validator.validateEnum("variant", variant, [
-        "primary",
-        "secondary",
-        "accent",
-        "info",
-        "success",
-        "warning",
-        "error",
-        "outline",
-        "ghost",
-        "glass",
-      ]);
-      validator.validateEnum("size", size, ["sm", "md", "lg", "xl"]);
-      validator.validateEnum("type", type, ["numeric", "alphanumeric", "text"]);
-
-      if (length < 1 || length > 12) {
-        console.error(
-          `[InputOTP] Invalid prop 'length': must be between 1 and 12, received ${length}`
-        );
-      }
-
-      if (controlledValue !== undefined && onChange === undefined) {
-        console.warn(
-          "[InputOTP] Component is controlled (value prop provided) but no onChange handler is provided. " +
-            "This will result in a read-only input. Did you forget to add an onChange prop?"
-        );
-      }
-    }
-
     const [internalValue, setInternalValue] = useState(defaultValue);
     const [activeIndex, setActiveIndex] = useState(-1);
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -156,7 +124,7 @@ export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
     /**
      * Get pattern based on type
      */
-    const getPattern = (): RegExp => {
+    const getPattern = useCallback((): RegExp => {
       if (pattern) return pattern;
       switch (type) {
         case "numeric":
@@ -168,54 +136,81 @@ export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
         default:
           return /^[0-9]$/;
       }
-    };
+    }, [pattern, type]);
 
     /**
      * Handle character input
      */
-    const handleChange = (index: number, char: string) => {
-      if (disabled) return;
+    const handleChange = useCallback(
+      (index: number, char: string) => {
+        if (disabled) return;
 
-      const charPattern = getPattern();
+        const charPattern = getPattern();
 
-      // Validate character
-      if (char && !charPattern.test(char)) {
-        return;
-      }
+        // Validate character
+        if (char && !charPattern.test(char)) {
+          return;
+        }
 
-      const newValue = value.split("");
-      newValue[index] = char.toUpperCase();
-      const updatedValue = newValue.join("");
+        const newValue = value.split("");
+        newValue[index] = char.toUpperCase();
+        const updatedValue = newValue.join("");
 
-      if (isControlled) {
-        onChange?.(updatedValue);
-      } else {
-        setInternalValue(updatedValue);
-        onChange?.(updatedValue);
-      }
+        if (isControlled) {
+          onChange?.(updatedValue);
+        } else {
+          setInternalValue(updatedValue);
+          onChange?.(updatedValue);
+        }
 
-      // Move to next input if character was entered
-      if (char && index < length - 1) {
-        inputRefs.current[index + 1]?.focus();
-      }
-    };
+        // Move to next input if character was entered
+        if (char && index < length - 1) {
+          inputRefs.current[index + 1]?.focus();
+        }
+      },
+      [disabled, value, isControlled, onChange, length, getPattern]
+    );
 
     /**
      * Handle key down events
      */
-    const handleKeyDown = (
-      index: number,
-      e: React.KeyboardEvent<HTMLInputElement>
-    ) => {
-      if (disabled) return;
+    const handleKeyDown = useCallback(
+      (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (disabled) return;
 
-      // Handle backspace
-      if (e.key === "Backspace") {
-        e.preventDefault();
-        const newValue = value.split("");
+        // Handle backspace
+        if (e.key === "Backspace") {
+          e.preventDefault();
+          const newValue = value.split("");
 
-        if (newValue[index]) {
-          // Clear current value
+          if (newValue[index]) {
+            // Clear current value
+            newValue[index] = "";
+            const updatedValue = newValue.join("");
+            if (isControlled) {
+              onChange?.(updatedValue);
+            } else {
+              setInternalValue(updatedValue);
+              onChange?.(updatedValue);
+            }
+          } else if (index > 0) {
+            // Move to previous and clear
+            newValue[index - 1] = "";
+            const updatedValue = newValue.join("");
+            if (isControlled) {
+              onChange?.(updatedValue);
+            } else {
+              setInternalValue(updatedValue);
+              onChange?.(updatedValue);
+            }
+            inputRefs.current[index - 1]?.focus();
+          }
+        }
+
+        // Handle delete
+        if (e.key === "Delete") {
+          e.preventDefault();
+          const newValue = value.split("");
           newValue[index] = "";
           const updatedValue = newValue.join("");
           if (isControlled) {
@@ -224,105 +219,89 @@ export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
             setInternalValue(updatedValue);
             onChange?.(updatedValue);
           }
-        } else if (index > 0) {
-          // Move to previous and clear
-          newValue[index - 1] = "";
-          const updatedValue = newValue.join("");
-          if (isControlled) {
-            onChange?.(updatedValue);
-          } else {
-            setInternalValue(updatedValue);
-            onChange?.(updatedValue);
-          }
+        }
+
+        // Handle arrow keys
+        if (e.key === "ArrowLeft" && index > 0) {
+          e.preventDefault();
           inputRefs.current[index - 1]?.focus();
         }
-      }
 
-      // Handle delete
-      if (e.key === "Delete") {
-        e.preventDefault();
-        const newValue = value.split("");
-        newValue[index] = "";
-        const updatedValue = newValue.join("");
-        if (isControlled) {
-          onChange?.(updatedValue);
-        } else {
-          setInternalValue(updatedValue);
-          onChange?.(updatedValue);
+        if (e.key === "ArrowRight" && index < length - 1) {
+          e.preventDefault();
+          inputRefs.current[index + 1]?.focus();
         }
-      }
 
-      // Handle arrow keys
-      if (e.key === "ArrowLeft" && index > 0) {
-        e.preventDefault();
-        inputRefs.current[index - 1]?.focus();
-      }
+        // Handle home/end
+        if (e.key === "Home") {
+          e.preventDefault();
+          inputRefs.current[0]?.focus();
+        }
 
-      if (e.key === "ArrowRight" && index < length - 1) {
-        e.preventDefault();
-        inputRefs.current[index + 1]?.focus();
-      }
-
-      // Handle home/end
-      if (e.key === "Home") {
-        e.preventDefault();
-        inputRefs.current[0]?.focus();
-      }
-
-      if (e.key === "End") {
-        e.preventDefault();
-        inputRefs.current[length - 1]?.focus();
-      }
-    };
+        if (e.key === "End") {
+          e.preventDefault();
+          inputRefs.current[length - 1]?.focus();
+        }
+      },
+      [disabled, value, isControlled, onChange, length]
+    );
 
     /**
      * Handle paste event
      */
-    const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-      if (!allowPaste || disabled) {
+    const handlePaste = useCallback(
+      (e: React.ClipboardEvent<HTMLInputElement>) => {
+        if (!allowPaste || disabled) {
+          e.preventDefault();
+          return;
+        }
+
         e.preventDefault();
-        return;
-      }
+        const pastedData = e.clipboardData
+          .getData("text/plain")
+          .slice(0, length);
+        const charPattern = getPattern();
 
-      e.preventDefault();
-      const pastedData = e.clipboardData.getData("text/plain").slice(0, length);
-      const charPattern = getPattern();
+        // Validate pasted data
+        const validChars = pastedData
+          .split("")
+          .filter((char) => charPattern.test(char))
+          .slice(0, length);
 
-      // Validate pasted data
-      const validChars = pastedData
-        .split("")
-        .filter((char) => charPattern.test(char))
-        .slice(0, length);
+        const newValue = validChars.join("").toUpperCase();
 
-      const newValue = validChars.join("").toUpperCase();
+        if (isControlled) {
+          onChange?.(newValue);
+        } else {
+          setInternalValue(newValue);
+          onChange?.(newValue);
+        }
 
-      if (isControlled) {
-        onChange?.(newValue);
-      } else {
-        setInternalValue(newValue);
-        onChange?.(newValue);
-      }
-
-      // Focus last filled input or first empty
-      const nextIndex = Math.min(validChars.length, length - 1);
-      inputRefs.current[nextIndex]?.focus();
-    };
+        // Focus last filled input or first empty
+        const nextIndex = Math.min(validChars.length, length - 1);
+        inputRefs.current[nextIndex]?.focus();
+      },
+      [allowPaste, disabled, length, isControlled, onChange, getPattern]
+    );
 
     /**
      * Handle focus
      */
-    const handleFocus = (index: number) => {
-      setActiveIndex(index);
-      onFocus?.(new FocusEvent("focus") as any);
-    };
+    const handleFocus = useCallback(
+      (index: number) => {
+        setActiveIndex(index);
+        onFocus?.(new FocusEvent("focus") as any);
+      },
+      [onFocus]
+    );
 
     /**
      * Handle blur
      */
-    const handleBlur = () => {
+    const handleBlur = useCallback(() => {
       setActiveIndex(-1);
       onBlur?.(new FocusEvent("blur") as any);
-    };
+    }, [onBlur]);
 
     // Context value
     const contextValue: InputOTPContextValue = useMemo(
@@ -341,7 +320,20 @@ export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(
         handleBlur,
         inputRefs,
       }),
-      [value, variant, size, type, disabled, mask, maskChar, activeIndex]
+      [
+        value,
+        variant,
+        size,
+        type,
+        disabled,
+        mask,
+        maskChar,
+        activeIndex,
+        handleChange,
+        handleKeyDown,
+        handleFocus,
+        handleBlur,
+      ]
     );
 
     // If children are provided, use composable API

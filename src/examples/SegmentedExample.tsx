@@ -35,7 +35,11 @@ export default function SegmentedExample() {
   const viewOptions = [
     { value: "list", label: "List", icon: <List className="w-4 h-4" /> },
     { value: "grid", label: "Grid", icon: <Grid className="w-4 h-4" /> },
-    { value: "board", label: "Board", icon: <LayoutGrid className="w-4 h-4" /> },
+    {
+      value: "board",
+      label: "Board",
+      icon: <LayoutGrid className="w-4 h-4" />,
+    },
   ];
 
   const layoutOptions = [
@@ -55,12 +59,20 @@ export default function SegmentedExample() {
     { value: "overview", label: "Overview" },
     { value: "analytics", label: "Analytics" },
     { value: "reports", label: "Reports" },
-    { value: "settings", label: "Settings", icon: <Settings className="w-4 h-4" /> },
+    {
+      value: "settings",
+      label: "Settings",
+      icon: <Settings className="w-4 h-4" />,
+    },
   ];
 
   const visibilityOptions = [
     { value: "public", label: "Public", icon: <Eye className="w-4 h-4" /> },
-    { value: "private", label: "Private", icon: <EyeOff className="w-4 h-4" /> },
+    {
+      value: "private",
+      label: "Private",
+      icon: <EyeOff className="w-4 h-4" />,
+    },
   ];
 
   const statusOptions = [
@@ -72,7 +84,11 @@ export default function SegmentedExample() {
   const contactOptions = [
     { value: "email", label: "Email", icon: <Mail className="w-4 h-4" /> },
     { value: "phone", label: "Phone", icon: <Phone className="w-4 h-4" /> },
-    { value: "chat", label: "Chat", icon: <MessageSquare className="w-4 h-4" /> },
+    {
+      value: "chat",
+      label: "Chat",
+      icon: <MessageSquare className="w-4 h-4" />,
+    },
   ];
 
   const timeOptions = [
@@ -87,8 +103,9 @@ export default function SegmentedExample() {
       <div>
         <h2 className="text-3xl font-bold mb-2">Segmented Control</h2>
         <p className="text-muted-foreground mb-6">
-          An iOS-style segmented control component for switching between views or filtering
-          options. Features animated indicator and full keyboard support.
+          An iOS-style segmented control component for switching between views
+          or filtering options. Features animated indicator and full keyboard
+          support.
         </p>
       </div>
 
@@ -101,14 +118,24 @@ export default function SegmentedExample() {
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">View Mode</label>
-              <Segmented options={viewOptions} value={view} onChange={setView} />
+              <Segmented
+                options={viewOptions}
+                value={view}
+                onChange={setView}
+              />
               <p className="text-xs text-muted-foreground">Selected: {view}</p>
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Layout</label>
-              <Segmented options={layoutOptions} value={layout} onChange={setLayout} />
-              <p className="text-xs text-muted-foreground">Selected: {layout}</p>
+              <Segmented
+                options={layoutOptions}
+                value={layout}
+                onChange={setLayout}
+              />
+              <p className="text-xs text-muted-foreground">
+                Selected: {layout}
+              </p>
             </div>
           </div>
         </CardContent>
@@ -157,7 +184,7 @@ export default function SegmentedExample() {
                 options={filterOptions}
                 value={filter}
                 onChange={setFilter}
-                variant="ghost"
+                variant="outlined" /* 'ghost' is not in SegmentedVariant union; use 'outlined' */
               />
             </div>
           </div>
@@ -213,7 +240,12 @@ export default function SegmentedExample() {
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">View Options</label>
-              <Segmented options={viewOptions} value={view} onChange={setView} size="lg" />
+              <Segmented
+                options={viewOptions}
+                value={view}
+                onChange={setView}
+                size="lg"
+              />
             </div>
 
             <div className="space-y-2">
@@ -248,7 +280,12 @@ export default function SegmentedExample() {
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Full Width Tabs</label>
-              <Segmented options={tabOptions} value={tab} onChange={setTab} block />
+              <Segmented
+                options={tabOptions}
+                value={tab}
+                onChange={setTab}
+                block
+              />
             </div>
 
             <div className="space-y-2">
@@ -350,9 +387,21 @@ export default function SegmentedExample() {
               <label className="text-sm font-medium">Dashboard View</label>
               <Segmented
                 options={[
-                  { value: "overview", label: "Overview", icon: <LayoutGrid className="w-4 h-4" /> },
-                  { value: "calendar", label: "Calendar", icon: <Calendar className="w-4 h-4" /> },
-                  { value: "team", label: "Team", icon: <Users className="w-4 h-4" /> },
+                  {
+                    value: "overview",
+                    label: "Overview",
+                    icon: <LayoutGrid className="w-4 h-4" />,
+                  },
+                  {
+                    value: "calendar",
+                    label: "Calendar",
+                    icon: <Calendar className="w-4 h-4" />,
+                  },
+                  {
+                    value: "team",
+                    label: "Team",
+                    icon: <Users className="w-4 h-4" />,
+                  },
                 ]}
                 value="overview"
                 onChange={() => {}}
@@ -373,12 +422,26 @@ export default function SegmentedExample() {
 
             {/* Notification Settings */}
             <div className="space-y-2">
-              <label className="text-sm font-medium">Notification Preference</label>
+              <label className="text-sm font-medium">
+                Notification Preference
+              </label>
               <Segmented
                 options={[
-                  { value: "all", label: "All", icon: <Bell className="w-4 h-4" /> },
-                  { value: "important", label: "Important", icon: <Star className="w-4 h-4" /> },
-                  { value: "none", label: "None", icon: <EyeOff className="w-4 h-4" /> },
+                  {
+                    value: "all",
+                    label: "All",
+                    icon: <Bell className="w-4 h-4" />,
+                  },
+                  {
+                    value: "important",
+                    label: "Important",
+                    icon: <Star className="w-4 h-4" />,
+                  },
+                  {
+                    value: "none",
+                    label: "None",
+                    icon: <EyeOff className="w-4 h-4" />,
+                  },
                 ]}
                 value="all"
                 onChange={() => {}}
@@ -392,9 +455,21 @@ export default function SegmentedExample() {
               <label className="text-sm font-medium">Quick Actions</label>
               <Segmented
                 options={[
-                  { value: "like", label: "Like", icon: <Heart className="w-4 h-4" /> },
-                  { value: "bookmark", label: "Bookmark", icon: <Bookmark className="w-4 h-4" /> },
-                  { value: "share", label: "Share", icon: <Share2 className="w-4 h-4" /> },
+                  {
+                    value: "like",
+                    label: "Like",
+                    icon: <Heart className="w-4 h-4" />,
+                  },
+                  {
+                    value: "bookmark",
+                    label: "Bookmark",
+                    icon: <Bookmark className="w-4 h-4" />,
+                  },
+                  {
+                    value: "share",
+                    label: "Share",
+                    icon: <Share2 className="w-4 h-4" />,
+                  },
                 ]}
                 value="like"
                 onChange={() => {}}
@@ -407,9 +482,21 @@ export default function SegmentedExample() {
               <label className="text-sm font-medium">File Operations</label>
               <Segmented
                 options={[
-                  { value: "download", label: "Download", icon: <Download className="w-4 h-4" /> },
-                  { value: "upload", label: "Upload", icon: <Upload className="w-4 h-4" /> },
-                  { value: "share", label: "Share", icon: <Share2 className="w-4 h-4" /> },
+                  {
+                    value: "download",
+                    label: "Download",
+                    icon: <Download className="w-4 h-4" />,
+                  },
+                  {
+                    value: "upload",
+                    label: "Upload",
+                    icon: <Upload className="w-4 h-4" />,
+                  },
+                  {
+                    value: "share",
+                    label: "Share",
+                    icon: <Share2 className="w-4 h-4" />,
+                  },
                 ]}
                 value="download"
                 onChange={() => {}}

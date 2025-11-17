@@ -1,7 +1,5 @@
 "use client";
 
-/* eslint-disable react-refresh/only-export-components */
-
 import * as React from "react";
 import { cn } from "../../lib/utils";
 import {
@@ -74,42 +72,42 @@ export function SonnerProvider({
 
       return id;
     },
-    [variant, duration, maxToasts, dismiss],
+    [variant, duration, maxToasts, dismiss]
   );
 
   const success = React.useCallback(
     (title: string, description?: string) => {
       return toast({ type: "success", title, description });
     },
-    [toast],
+    [toast]
   );
 
   const error = React.useCallback(
     (title: string, description?: string) => {
       return toast({ type: "error", title, description });
     },
-    [toast],
+    [toast]
   );
 
   const warning = React.useCallback(
     (title: string, description?: string) => {
       return toast({ type: "warning", title, description });
     },
-    [toast],
+    [toast]
   );
 
   const info = React.useCallback(
     (title: string, description?: string) => {
       return toast({ type: "info", title, description });
     },
-    [toast],
+    [toast]
   );
 
   const loading = React.useCallback(
     (title: string, description?: string) => {
       return toast({ type: "loading", title, description, duration: 0 });
     },
-    [toast],
+    [toast]
   );
 
   // dismiss moved above (reordered so it's declared before `toast`)
@@ -120,7 +118,7 @@ export function SonnerProvider({
 
   const update = React.useCallback((id: string, toast: Partial<Toast>) => {
     setToasts((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, ...toast } : t)),
+      prev.map((t) => (t.id === id ? { ...t, ...toast } : t))
     );
   }, []);
 
@@ -264,7 +262,7 @@ function SonnerToast({
         isExiting && "opacity-0 scale-95 translate-x-full",
         !expand && index > 0 && "mt-2 scale-95 opacity-80",
         expand && "mt-2",
-        isHovered && "scale-100 opacity-100",
+        isHovered && "scale-100 opacity-100"
       )}
       style={{
         zIndex: 1000 - index,

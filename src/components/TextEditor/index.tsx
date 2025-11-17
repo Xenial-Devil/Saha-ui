@@ -447,7 +447,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
       autoFocus = false,
       ...props
     },
-    ref,
+    ref
   ) => {
     const editorRef = React.useRef<HTMLDivElement>(null);
     const [internalValue, setInternalValue] = React.useState(defaultValue);
@@ -619,16 +619,16 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
               document.execCommand("formatBlock", false, "<pre>");
               break;
           }
-        } catch (error) {
+        } catch {
           // Suppress errors from execCommand (deprecated API)
           // This includes "cancelation" errors from browser extensions
-          console.debug("TextEditor execCommand error (non-critical):", error);
+          console.debug("TextEditor execCommand error (non-critical)");
         }
 
         updateActiveCommands();
         handleInputRef.current?.();
       },
-      [disabled, readOnly, updateActiveCommands],
+      [disabled, readOnly, updateActiveCommands]
     );
 
     // Handle content changes
@@ -652,9 +652,9 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
           }
           // Call onChange without triggering re-render
           onChange?.(sanitizedHTML);
-        } catch (error) {
+        } catch {
           // Suppress any errors during input handling
-          console.debug("TextEditor input error (non-critical):", error);
+          console.debug("TextEditor input error (non-critical)");
         }
       }
     }, [isControlled, onChange]);
@@ -725,7 +725,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
         ref={ref}
         className={cn(
           textEditorVariants({ variant, size, fullWidth }),
-          className,
+          className
         )}
         {...props}
       >
@@ -737,7 +737,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
                 variant: toolbarVariant,
                 size,
                 sticky: stickyToolbar,
-              }),
+              })
             )}
           >
             {toolbarButtons.map((button, index) => {
@@ -760,7 +760,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
                   type="button"
                   onClick={() => executeCommand(button.command!)}
                   className={cn(
-                    toolbarButtonVariants({ variant: toolbarVariant, size }),
+                    toolbarButtonVariants({ variant: toolbarVariant, size })
                   )}
                   data-active={isActive}
                   title={button.tooltip || button.label}
@@ -791,7 +791,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
               const text = e.clipboardData.getData("text/plain");
               const sanitizedText = text.replace(
                 /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-                "",
+                ""
               );
               document.execCommand("insertText", false, sanitizedText);
             }
@@ -806,7 +806,7 @@ export const TextEditor = React.forwardRef<HTMLDivElement, TextEditorProps>(
         />
       </div>
     );
-  },
+  }
 );
 
 TextEditor.displayName = "TextEditor";

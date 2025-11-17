@@ -1,20 +1,8 @@
 "use client";
 
-import React, {
-  forwardRef,
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-} from "react";
+import React, { forwardRef, createContext, useContext, useState } from "react";
 import { cn } from "../../lib/utils";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidArray,
-  isValidString,
-} from "../../lib/validation";
+// validation removed
 import type {
   RadioProps,
   RadioGroupProps,
@@ -85,72 +73,12 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
       defaultChecked: _defaultChecked, // Extract to prevent spreading
       ...props
     },
-    ref,
+    ref
   ) => {
     const context = useRadioContext();
     const isControlled = context !== undefined;
 
-    // ===== PROP VALIDATION =====
-    useEffect(() => {
-      if (process.env.NODE_ENV !== "production") {
-        const validator = createValidator("Radio");
-
-        // Common validators
-        commonValidators.size(validator, size);
-        const radioVariants = [
-          "default",
-          "primary",
-          "secondary",
-          "accent",
-          "success",
-          "warning",
-          "error",
-        ] as const;
-        commonValidators.variant(validator, variant, radioVariants);
-        commonValidators.disabled(validator, disabled);
-        commonValidators.className(validator, className);
-
-        // Boolean validations
-        if (card !== undefined && !isValidBoolean(card)) {
-          validator.error("Invalid prop: 'card' must be a boolean.");
-        }
-        if (recommended !== undefined && !isValidBoolean(recommended)) {
-          validator.error("Invalid prop: 'recommended' must be a boolean.");
-        }
-        if (hoverEffect !== undefined && !isValidBoolean(hoverEffect)) {
-          validator.error("Invalid prop: 'hoverEffect' must be a boolean.");
-        }
-
-        // Label position validation
-        if (
-          labelPosition &&
-          !["left", "right", "top", "bottom"].includes(labelPosition)
-        ) {
-          validator.error(
-            "Invalid prop: 'labelPosition' must be one of: 'left', 'right', 'top', 'bottom'.",
-          );
-        }
-
-        // Context validation
-        if (context && !props.value) {
-          validator.warn(
-            "Warning: Radio inside RadioGroup should have a 'value' prop.",
-          );
-        }
-      }
-    }, [
-      variant,
-      size,
-      disabled,
-      className,
-      card,
-      recommended,
-      hoverEffect,
-      labelPosition,
-      context,
-      props.value,
-    ]);
-    // ===== END PROP VALIDATION =====
+    // development-only validation removed
 
     const finalVariant = context?.variant || variant;
     const finalSize = context?.size || size;
@@ -173,7 +101,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
         className={cn(
           radioVariants({ variant: finalVariant, size: finalSize }),
           card && "absolute top-4 right-4",
-          className,
+          className
         )}
         disabled={disabled}
         {...(isChecked !== undefined && { checked: isChecked })}
@@ -195,7 +123,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
           className={cn(
             radioLabelVariants({ disabled, card: true }),
             !hoverEffect && "hover:scale-100 hover:border-border",
-            className,
+            className
           )}
         >
           {radioInput}
@@ -240,7 +168,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
               <span
                 className={cn(
                   radioTextVariants({ size: finalSize, disabled }),
-                  "font-semibold",
+                  "font-semibold"
                 )}
               >
                 {label}
@@ -250,7 +178,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
               <span
                 className={cn(
                   radioDescriptionVariants({ disabled }),
-                  "text-xs leading-relaxed",
+                  "text-xs leading-relaxed"
                 )}
               >
                 {description}
@@ -278,7 +206,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
               <div className="flex items-center gap-2">
                 <span
                   className={cn(
-                    radioTextVariants({ size: finalSize, disabled }),
+                    radioTextVariants({ size: finalSize, disabled })
                   )}
                 >
                   {label}
@@ -312,7 +240,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
                 {label && (
                   <span
                     className={cn(
-                      radioTextVariants({ size: finalSize, disabled }),
+                      radioTextVariants({ size: finalSize, disabled })
                     )}
                   >
                     {label}
@@ -334,7 +262,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioCardProps>(
         )}
       </label>
     );
-  },
+  }
 );
 
 Radio.displayName = "Radio";
@@ -362,103 +290,13 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
       className,
       ...props
     },
-    ref,
+    ref
   ) => {
     const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
     const isControlled = controlledValue !== undefined;
     const value = isControlled ? controlledValue : uncontrolledValue;
 
-    // ===== PROP VALIDATION =====
-    useEffect(() => {
-      if (process.env.NODE_ENV !== "production") {
-        const validator = createValidator("RadioGroup");
-
-        // Common validators
-        commonValidators.size(validator, size);
-        const radioVariants = [
-          "default",
-          "primary",
-          "secondary",
-          "accent",
-          "success",
-          "warning",
-          "error",
-        ] as const;
-        commonValidators.variant(validator, variant, radioVariants);
-        commonValidators.className(validator, className);
-
-        // Required name
-        validator.validateRequired("name", name);
-
-        // Value validation
-        if (value !== undefined && !isValidString(value)) {
-          validator.error("Invalid prop: 'value' must be a string.");
-        }
-        if (defaultValue !== undefined && !isValidString(defaultValue)) {
-          validator.error("Invalid prop: 'defaultValue' must be a string.");
-        }
-
-        // Direction validation
-        if (direction && !["vertical", "horizontal"].includes(direction)) {
-          validator.error(
-            "Invalid prop: 'direction' must be 'vertical' or 'horizontal'.",
-          );
-        }
-
-        // Boolean validations
-        if (card !== undefined && !isValidBoolean(card)) {
-          validator.error("Invalid prop: 'card' must be a boolean.");
-        }
-        if (hoverEffect !== undefined && !isValidBoolean(hoverEffect)) {
-          validator.error("Invalid prop: 'hoverEffect' must be a boolean.");
-        }
-
-        // Options validation
-        if (options) {
-          validator.validateArray("options", options);
-          if (isValidArray(options)) {
-            options.forEach((option, index) => {
-              if (typeof option !== "object" || !option) {
-                validator.error(
-                  `Invalid prop: 'options[${index}]' must be an object.`,
-                );
-              } else {
-                if (!("value" in option) || !isValidString(option.value)) {
-                  validator.error(
-                    `Invalid prop: 'options[${index}].value' is required and must be a string.`,
-                  );
-                }
-                if (!("label" in option) || !isValidString(option.label)) {
-                  validator.error(
-                    `Invalid prop: 'options[${index}].label' is required and must be a string.`,
-                  );
-                }
-              }
-            });
-          }
-        }
-
-        // Either options or children should be provided
-        if (!options && !children) {
-          validator.warn(
-            "Warning: RadioGroup should have either 'options' prop or children.",
-          );
-        }
-      }
-    }, [
-      variant,
-      size,
-      className,
-      name,
-      value,
-      defaultValue,
-      direction,
-      card,
-      hoverEffect,
-      options,
-      children,
-    ]);
-    // ===== END PROP VALIDATION =====
+    // development-only validation removed
 
     const handleChange = (newValue: string) => {
       if (!isControlled) {
@@ -488,7 +326,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
             className={cn(
               radioGroupVariants({ direction }),
               card && "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4",
-              className,
+              className
             )}
           >
             {options
@@ -516,7 +354,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
                       recommended={option.recommended}
                       hoverEffect={hoverEffect}
                     />
-                  ),
+                  )
                 )
               : children}
           </div>
@@ -530,7 +368,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
         )}
       </div>
     );
-  },
+  }
 );
 
 RadioGroup.displayName = "RadioGroup";

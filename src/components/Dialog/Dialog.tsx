@@ -89,12 +89,12 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
       bodyClassName,
       footerClassName,
     },
-    ref,
+    ref
   ) => {
     const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
     const [isAnimating, setIsAnimating] = useState(false);
     const [animationState, setAnimationState] = useState<"open" | "closed">(
-      "closed",
+      "closed"
     );
     const previousActiveElement = useRef<HTMLElement | null>(null);
     const DialogRef = useRef<HTMLDivElement>(null);
@@ -118,7 +118,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           onClose?.();
         }
       },
-      [preventClose, isControlled, onOpenChange, onOpen, onClose],
+      [preventClose, isControlled, onOpenChange, onOpen, onClose]
     );
 
     // Close Dialog
@@ -161,25 +161,25 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         if (raf1 !== null) {
           try {
             cancelAnimationFrame(raf1);
-          } catch (err) {
+          } catch {
             // Suppress cancelation errors
-            console.debug("Animation frame cancelation suppressed:", err);
+            console.debug("Animation frame cancellation suppressed");
           }
         }
         if (raf2 !== null) {
           try {
             cancelAnimationFrame(raf2);
-          } catch (err) {
+          } catch {
             // Suppress cancelation errors
-            console.debug("Animation frame cancelation suppressed:", err);
+            console.debug("Animation frame cancellation suppressed");
           }
         }
         if (timer !== null) {
           try {
             clearTimeout(timer);
-          } catch (err) {
+          } catch {
             // Suppress cancelation errors
-            console.debug("Timeout cancelation suppressed:", err);
+            console.debug("Timeout cancellation suppressed");
           }
         }
       };
@@ -202,9 +202,9 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         try {
           document.body.style.overflow = originalOverflow;
           document.body.style.paddingRight = originalPaddingRight;
-        } catch (err) {
+        } catch {
           // Suppress errors during cleanup
-          console.debug("Scroll lock cleanup error suppressed:", err);
+          console.debug("Scroll lock cleanup suppressed");
         }
       };
     }, [open, lockScroll, nested]);
@@ -232,7 +232,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
 
       const Dialog = DialogRef.current;
       const focusableElements = Dialog.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
@@ -272,9 +272,9 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         try {
           clearTimeout(focusTimer);
           Dialog.removeEventListener("keydown", handleTabKey);
-        } catch (err) {
+        } catch {
           // Suppress cleanup errors
-          console.debug("Focus trap cleanup error suppressed:", err);
+          console.debug("Focus trap cleanup suppressed");
         }
       };
     }, [open, focusTrap, returnFocus, nested]);
@@ -285,9 +285,9 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         try {
           previousActiveElement.current.focus();
           previousActiveElement.current = null;
-        } catch (err) {
+        } catch {
           // Suppress focus errors
-          console.debug("Return focus error suppressed:", err);
+          console.debug("Return focus suppressed");
           previousActiveElement.current = null;
         }
       }
@@ -303,7 +303,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         (child: any) =>
           child?.type?.displayName === "DialogHeader" ||
           child?.type?.displayName === "DialogBody" ||
-          child?.type?.displayName === "DialogFooter",
+          child?.type?.displayName === "DialogFooter"
       );
 
     const DialogContent = (
@@ -405,7 +405,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
     // Portal rendering
     const portalContainer = portalTarget || document.body;
     return createPortal(DialogContent, portalContainer);
-  },
+  }
 );
 
 Dialog.displayName = "Dialog";

@@ -22,7 +22,13 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
 }) => {
   const { theme, setTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Set mounted state after client-side hydration
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -67,7 +73,11 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         className={cn(themeToggleButtonVariants({ variant }), className)}
         aria-label="Toggle theme"
         aria-expanded={isOpen}
-        title={`Current theme: ${currentThemeOption.label}`}
+        title={
+          mounted
+            ? `Current theme: ${currentThemeOption.label}`
+            : "Toggle theme"
+        }
       >
         <span className={cn(themeToggleIconWrap({ size: "md" }))}>
           <CurrentIcon

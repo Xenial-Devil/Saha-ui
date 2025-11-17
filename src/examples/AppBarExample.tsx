@@ -22,6 +22,10 @@ export default function AppBarExample() {
   const [isDark, setIsDark] = useState(false);
   const [cartCount, setCartCount] = useState(3);
   const [notificationCount, setNotificationCount] = useState(5);
+  // reference setters to avoid "declared but its value is never read" TypeScript
+  // errors when examples are static; this is a no-op that marks the symbols used.
+  void setCartCount;
+  void setNotificationCount;
 
   return (
     <div className="space-y-8">

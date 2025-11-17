@@ -192,7 +192,7 @@ export default function NavigationMenuExample() {
       <section>
         <h2 className="text-2xl font-bold mb-4">Radix-Style API ⭐ NEW</h2>
         <p className="text-sm text-muted-foreground mb-4">
-          Familiar API pattern from Radix UI / shadcn with NavigationMenuList,
+          NavigationMenuList,
           NavigationMenuTrigger, NavigationMenuContent, and NavigationMenuLink
         </p>
         <div className="grid grid-cols-2 gap-8">
@@ -587,7 +587,7 @@ export default function NavigationMenuExample() {
           {/* Basic composition */}
           <div>
             <h3 className="text-lg font-semibold mb-2">Basic Composition</h3>
-            <NavigationMenu variant="outlined" onSelect={handleSelect}>
+            <NavigationMenu variant="outlined"  onSelect={handleSelect}>
               <NavigationMenuItem
                 id="dashboard"
                 label="Dashboard"
@@ -976,7 +976,9 @@ export default function NavigationMenuExample() {
                   orientation="horizontal"
                   defaultOpenIds={["settings"]}
                   onSelect={handleSelect}
-                />
+                >
+
+                </NavigationMenu>
               </div>
             </div>
           ))}
@@ -1084,7 +1086,7 @@ export default function NavigationMenuExample() {
             <p className="text-sm text-gray-600 mb-4">
               Section titles hide on tablet, show on mobile and desktop
             </p>
-            <NavigationMenu variant="filled" responsive>
+            <NavigationMenu variant="filled">
               <NavigationMenuSection title="Main Menu">
                 <NavigationMenuItem
                   id="home-r"

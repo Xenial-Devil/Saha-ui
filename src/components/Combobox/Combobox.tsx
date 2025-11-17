@@ -28,12 +28,6 @@ import type {
   ComboboxVariant,
 } from "./Combobox.types";
 import { Check, ChevronDown, X, Search, Plus, Loader2 } from "lucide-react";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
 import { triggerVariants, contentVariants, optionVariants, searchVariants } from "./Combobox.styles";
 
 /**
@@ -169,11 +163,8 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       creatable = false,
       createText = "Create",
       allowDeselect = true,
-      autoComplete = true,
       autoHighlight = true,
       closeOnSelect,
-      openOnFocus = false,
-      placement = "bottom-start",
       maxHeight = "320px",
       showCheckmarks = true,
       showAvatars = true,
@@ -201,142 +192,6 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Combobox");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "primary",
-        "secondary",
-        "accent",
-        "success",
-        "warning",
-        "error",
-        "info",
-        "ghost",
-        "glass",
-        "outline",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
-
-      // Validate placement
-      validator.validateEnum("placement", placement, [
-        "top",
-        "top-start",
-        "top-end",
-        "bottom",
-        "bottom-start",
-        "bottom-end",
-      ] as const);
-
-      // Validate numeric props
-      if (maxDisplay !== undefined) {
-        validator.validateType(
-          "maxDisplay",
-          maxDisplay,
-          "number",
-          isValidNumber
-        );
-        if (maxDisplay <= 0) {
-          validator.error("maxDisplay must be greater than 0");
-        }
-      }
-
-      // Validate boolean props
-      validator.validateType("multiple", multiple, "boolean", isValidBoolean);
-      validator.validateType(
-        "searchable",
-        searchable,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType("clearable", clearable, "boolean", isValidBoolean);
-      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
-      validator.validateType("readOnly", readOnly, "boolean", isValidBoolean);
-      validator.validateType("required", required, "boolean", isValidBoolean);
-      validator.validateType("loading", loading, "boolean", isValidBoolean);
-      validator.validateType("creatable", creatable, "boolean", isValidBoolean);
-      validator.validateType(
-        "allowDeselect",
-        allowDeselect,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "autoComplete",
-        autoComplete,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "autoHighlight",
-        autoHighlight,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "openOnFocus",
-        openOnFocus,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "showCheckmarks",
-        showCheckmarks,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "showAvatars",
-        showAvatars,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "showDescriptions",
-        showDescriptions,
-        "boolean",
-        isValidBoolean
-      );
-
-      if (closeOnSelect !== undefined) {
-        validator.validateType(
-          "closeOnSelect",
-          closeOnSelect,
-          "boolean",
-          isValidBoolean
-        );
-      }
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      variant,
-      size,
-      placement,
-      maxDisplay,
-      multiple,
-      searchable,
-      clearable,
-      disabled,
-      readOnly,
-      required,
-      loading,
-      creatable,
-      allowDeselect,
-      autoComplete,
-      autoHighlight,
-      closeOnSelect,
-      openOnFocus,
-      showCheckmarks,
-      showAvatars,
-      showDescriptions,
-      className,
-    ]);
 
     // Detect usage mode
     const isComponentBased = !propOptions.length && children;
