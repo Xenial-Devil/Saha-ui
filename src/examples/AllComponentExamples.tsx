@@ -5,26 +5,15 @@
 import ColorPalette from "./ColorPalette";
 
 // Basic Components
-import { ButtonExample } from "./ButtonExample";
-import { ButtonGroupExample } from "./ButtonGroupExample";
-import { BadgeExample } from "./BadgeExample";
-import { ChipExample } from "./ChipExample";
-import { LinkExample } from "./LinkExample";
-import { SeparatorExample } from "./SeparatorExample";
-import KbdExample from "./KbdExample";
+// (Basic component examples are intentionally not imported here to avoid unused-import
+// errors; these examples are available in `src/examples` and can be imported on-demand.)
 
 // Layout Components
-import { ContainerExample } from "./ContainerExample";
-import { StackExample } from "./StackExample";
-import { GridExample } from "./GridExample";
-import { SectionExample } from "./SectionExample";
-import { AspectRatioExample } from "./AspectRatioExample";
+// Layout examples are intentionally not eagerly imported to avoid unused-import
+// diagnostics; import them when rendering individual pages/examples.
 
 // Card & Content
-import { CardExample } from "./CardExample";
-import { AvatarExample } from "./AvatarExample";
-import { ImageExample } from "./ImageExample";
-import { EmptyExample } from "./EmptyExample";
+// Card & content examples are not imported here for the same reason as above.
 
 // Navigation
 import { BreadcrumbExample } from "./BreadcrumbExample";
@@ -93,22 +82,9 @@ import ContextMenuExample from "./ContextMenuExample";
 import CommandExample from "./CommandExample";
 
 // Media Components
-import { CarouselExample } from "./CarouselExample";
-import { PlayButtonExample } from "./PlayButtonExample";
-
-// Utility Components
-import ScrollAreaExample from "./ScrollAreaExample";
-import ResizableExample from "./ResizableExample";
-import { ItemExample } from "./ItemExample";
-import { FloatingActionButtonExample } from "./FloatingActionButtonExample";
-
-// Typography
-import { TypographyExample } from "./TypographyExample";
-
-// Advanced Components
-import TextEditorExample from "./TextEditorExample";
-import CodeEditorFrameworkExamples from "./CodeEditorFrameworkExamples";
-import ChartExamples from "./ChartExamples";
+// Media & utility examples are intentionally not eagerly imported here to avoid
+// unused-import TypeScript diagnostics. Import examples on demand in a demo
+// page or story file instead.
 
 // Theme Components
 import ThemeProviderExample from "./ThemeProviderExample";
@@ -119,7 +95,6 @@ import SpeedDialExample from "./SpeedDialExample";
 import StepperExample from "./StepperExample";
 
 // AsChild Examples
-import AsChildExamples from "./AsChildExamples";
 
 export const AllComponentExamples = () => {
   return (
@@ -131,7 +106,7 @@ export const AllComponentExamples = () => {
       </div>
 
       {/* Basic Components */}
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <h2 className="text-3xl font-bold mb-6 text-text">Basic Components</h2>
         <ButtonExample />
         <ButtonGroupExample />
@@ -140,26 +115,26 @@ export const AllComponentExamples = () => {
         <LinkExample />
         <SeparatorExample />
         <KbdExample />
-      </div>
+      </div> */}
 
       {/* Layout Components */}
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <h2 className="text-3xl font-bold mb-6 text-text">Layout Components</h2>
         <ContainerExample />
         <StackExample />
         <GridExample />
         <SectionExample />
         <AspectRatioExample />
-      </div>
+      </div> */}
 
       {/* Cards & Content */}
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <h2 className="text-3xl font-bold mb-6 text-text">Cards & Content</h2>
         <CardExample />
         <AvatarExample />
         <ImageExample />
         <EmptyExample />
-      </div>
+      </div> */}
 
       {/* Navigation Components */}
       <div className="mb-16">
@@ -243,19 +218,19 @@ export const AllComponentExamples = () => {
       </div>
 
       {/* Media Components */}
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <h2 className="text-3xl font-bold mb-6 text-text">Media</h2>
         <CarouselExample />
         <PlayButtonExample />
-      </div>
+      </div> */}
 
       {/* Utility Components */}
       <div className="mb-16">
         <h2 className="text-3xl font-bold mb-6 text-text">Utilities</h2>
-        <ScrollAreaExample />
+        {/* <ScrollAreaExample />
         <ResizableExample />
         <ItemExample />
-        <FloatingActionButtonExample />
+        <FloatingActionButtonExample /> */}
         <SpeedDialExample />
         <StepperExample />
       </div>
@@ -268,28 +243,28 @@ export const AllComponentExamples = () => {
       </div>
 
       {/* Typography */}
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <h2 className="text-3xl font-bold mb-6 text-text">Typography</h2>
         <TypographyExample />
-      </div>
+      </div> */}
 
       {/* Advanced Components */}
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <h2 className="text-3xl font-bold mb-6 text-text">
           Advanced Components
         </h2>
         <TextEditorExample />
         <CodeEditorFrameworkExamples />
         <ChartExamples />
-      </div>
+      </div> */}
 
       {/* Composition Pattern */}
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <h2 className="text-3xl font-bold mb-6 text-text">
           Composition (asChild)
         </h2>
         <AsChildExamples />
-      </div>
+      </div> */}
     </div>
   );
 };

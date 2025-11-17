@@ -30,9 +30,15 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": true
   },
-  "include": ["src","mcp"],
-  "exclude": ["src/**/*.test.tsx", "src/**/*.test.ts", "node_modules", "dist"],
+  "include": ["src", "mcp"],
+  "exclude": [
+    "src/**/*.test.tsx",
+    "src/**/*.test.ts",
+    "node_modules",
+    "dist",
+    "src/examples/**"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

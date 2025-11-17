@@ -10,12 +10,14 @@ import { useState, useEffect, useCallback, useRef } from "react";
 export interface UseFetchOptions extends RequestInit {
   immediate?: boolean;
   onSuccess?: (data: any) => void;
-  onError?: (error: Error) => void;
+  // Accept unknown so callers can receive whatever the runtime throws (Error or plain objects)
+  onError?: (error: unknown) => void;
 }
 
 export interface UseFetchResult<T> {
   data: T | null;
-  error: Error | null;
+  // Error may be an Error instance or an arbitrary thrown value (extensions may throw plain objects)
+  error: unknown | null;
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
@@ -24,12 +26,12 @@ export interface UseFetchResult<T> {
 
 export function useFetch<T = any>(
   url: string,
-  options: UseFetchOptions = {},
+  options: UseFetchOptions = {}
 ): UseFetchResult<T> {
   const { immediate = true, onSuccess, onError, ...fetchOptions } = options;
 
   const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<unknown | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(immediate);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -78,24 +80,17 @@ export function useFetch<T = any>(
         return;
       }
 
-      // Check for manual cancelation errors
-      if (
-        typeof err === "object" &&
-        err !== null &&
-        "type" in err &&
-        (err as any).type === "cancelation"
-      ) {
-        // Manual cancelation, don't update state
-        console.debug("Operation manually canceled");
-        return;
-      }
+      // Note: don't special-case non-Error thrown values here. Callers receive
+      // the original thrown value via onError so they can decide how to handle it.
 
-      const error = err instanceof Error ? err : new Error("Unknown error");
-      setError(error);
+      // Preserve the original thrown value when possible. If it's not an Error instance,
+      // keep the raw value so callers (and tests) can inspect extension/browser-provided objects.
+      const reportedError = err instanceof Error ? err : err;
+      setError(reportedError);
       setIsError(true);
       setIsSuccess(false);
       setData(null);
-      onError?.(error);
+      onError?.(reportedError);
     } finally {
       setIsLoading(false);
     }

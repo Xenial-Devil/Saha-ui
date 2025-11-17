@@ -10,11 +10,6 @@ import { createPortal } from "react-dom";
 import { DrawerContext } from "./DrawerComponents";
 import { DrawerOverlay, DrawerContent } from "./DrawerOverlay";
 import type { DrawerProps } from "./Drawer.types";
-import {
-  createValidator,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
 
 /**
  * Drawer - Side panel component with advanced features
@@ -58,7 +53,7 @@ export const Drawer = ({
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
   const [isAnimating, setIsAnimating] = useState(false);
   const [animationState, setAnimationState] = useState<"open" | "closed">(
-    "closed",
+    "closed"
   );
 
   const isControlled = controlledOpen !== undefined;
@@ -67,86 +62,6 @@ export const Drawer = ({
   const drawerRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
 
-  // Development-only validation
-  useEffect(() => {
-    const validator = createValidator("Drawer");
-
-    // Validate position
-    validator.validateEnum("position", position, [
-      "left",
-      "right",
-      "top",
-      "bottom",
-    ] as const);
-
-    // Validate size
-    validator.validateEnum("size", size, [
-      "xs",
-      "sm",
-      "md",
-      "lg",
-      "xl",
-      "full",
-    ] as const);
-
-    // Validate backdrop
-    validator.validateEnum("backdrop", backdrop, [
-      "default",
-      "blur",
-      "transparent",
-      "dark",
-    ] as const);
-
-    // Validate animation
-    validator.validateEnum("animation", animation, [
-      "slide",
-      "fade",
-      "scale",
-      "none",
-    ] as const);
-
-    // Validate boolean props
-    validator.validateType(
-      "showOverlay",
-      showOverlay,
-      "boolean",
-      isValidBoolean,
-    );
-    validator.validateType(
-      "closeOnOverlayClick",
-      closeOnOverlayClick,
-      "boolean",
-      isValidBoolean,
-    );
-    validator.validateType(
-      "closeOnEscape",
-      closeOnEscape,
-      "boolean",
-      isValidBoolean,
-    );
-    validator.validateType("lockScroll", lockScroll, "boolean", isValidBoolean);
-    validator.validateType("nested", nested, "boolean", isValidBoolean);
-
-    // Validate zIndex
-    validator.validateType("zIndex", zIndex, "number", isValidNumber);
-
-    // Validate children
-    if (!children) {
-      validator.warn("Drawer should have children content");
-    }
-  }, [
-    position,
-    size,
-    backdrop,
-    animation,
-    showOverlay,
-    closeOnOverlayClick,
-    closeOnEscape,
-    lockScroll,
-    nested,
-    zIndex,
-    children,
-  ]);
 
   // Handle open state changes
   const setOpen = useCallback(
@@ -156,7 +71,7 @@ export const Drawer = ({
       }
       onOpenChange?.(newOpen);
     },
-    [isControlled, onOpenChange],
+    [isControlled, onOpenChange]
   );
 
   // Animation state management
@@ -190,22 +105,22 @@ export const Drawer = ({
       if (timeout) {
         try {
           clearTimeout(timeout);
-        } catch (err) {
-          console.debug("Drawer timeout cancelation suppressed:", err);
+        } catch {
+          console.debug("Drawer timeout cancellation suppressed");
         }
       }
       if (raf1) {
         try {
           cancelAnimationFrame(raf1);
-        } catch (err) {
-          console.debug("Drawer RAF cancelation suppressed:", err);
+        } catch {
+          console.debug("Drawer RAF cancellation suppressed");
         }
       }
       if (raf2) {
         try {
           cancelAnimationFrame(raf2);
-        } catch (err) {
-          console.debug("Drawer RAF cancelation suppressed:", err);
+        } catch {
+          console.debug("Drawer RAF cancellation suppressed");
         }
       }
     };
@@ -232,8 +147,8 @@ export const Drawer = ({
       try {
         document.body.style.overflow = "";
         document.body.style.paddingRight = "";
-      } catch (err) {
-        console.debug("Drawer scroll lock cleanup error suppressed:", err);
+      } catch {
+        console.debug("Drawer scroll lock cleanup suppressed");
       }
     };
   }, [open, lockScroll, nested]);
@@ -256,8 +171,8 @@ export const Drawer = ({
       try {
         previousActiveElement.current.focus();
         previousActiveElement.current = null;
-      } catch (err) {
-        console.debug("Drawer focus restore error suppressed:", err);
+      } catch {
+        console.debug("Drawer focus restore suppressed");
         previousActiveElement.current = null;
       }
     }
@@ -267,8 +182,8 @@ export const Drawer = ({
       if (focusTimeout) {
         try {
           clearTimeout(focusTimeout);
-        } catch (err) {
-          console.debug("Drawer focus timeout cancelation suppressed:", err);
+        } catch {
+          console.debug("Drawer focus timeout cancellation suppressed");
         }
       }
     };
@@ -324,13 +239,13 @@ export const Drawer = ({
     (child) =>
       (child as ReactElement)?.type &&
       typeof (child as ReactElement).type !== "string" &&
-      ((child as ReactElement).type as any).displayName === "DrawerTrigger",
+      ((child as ReactElement).type as any).displayName === "DrawerTrigger"
   );
   const content = childArray.find(
     (child) =>
       (child as ReactElement)?.type &&
       typeof (child as ReactElement).type !== "string" &&
-      ((child as ReactElement).type as any).displayName === "DrawerContent",
+      ((child as ReactElement).type as any).displayName === "DrawerContent"
   );
 
   const drawerPortalContent = (

@@ -1,6 +1,5 @@
 "use client";
-
-import React, { createContext, useContext, useEffect } from "react";
+import React, { createContext, useContext } from "react";
 import { cn } from "../../lib/utils";
 import type {
   ButtonGroupProps,
@@ -8,11 +7,6 @@ import type {
   ButtonGroupOrientation,
   ButtonGroupSize,
 } from "./ButtonGroup.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-} from "../../lib/validation";
 import { buttonGroupVariants } from "./ButtonGroup.styles";
 
 interface ButtonGroupContextValue {
@@ -51,55 +45,6 @@ const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("ButtonGroup");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "outline",
-        "ghost",
-        "glass",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg", "xl"] as const);
-
-      // Validate orientation
-      validator.validateEnum("orientation", orientation, [
-        "horizontal",
-        "vertical",
-      ] as const);
-
-      // Validate boolean props
-      validator.validateType(
-        "fullRounded",
-        fullRounded,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType("fullWidth", fullWidth, "boolean", isValidBoolean);
-      validator.validateType("attached", attached, "boolean", isValidBoolean);
-
-      // Validate children
-      if (!children) {
-        validator.warn("ButtonGroup should have children buttons");
-      }
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      variant,
-      size,
-      orientation,
-      fullRounded,
-      fullWidth,
-      attached,
-      children,
-      className,
-    ]);
-
     const processedChildren = React.Children.map(children, (child, index) => {
       if (!React.isValidElement(child)) return child;
 

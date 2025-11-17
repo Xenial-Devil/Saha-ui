@@ -1,14 +1,8 @@
 "use client";
 
-import React, { Children, isValidElement, useEffect } from "react";
+import React, { Children, isValidElement } from "react";
 import { cn } from "../../lib/utils";
 import { AvatarGroupProps, AvatarGroupSize } from "./AvatarGroup.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
 import {
   avatarGroupVariants,
   avatarWrapperVariants,
@@ -79,62 +73,6 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("AvatarGroup");
-
-      // Validate size
-      validator.validateEnum("size", size, [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-        "2xl",
-      ] as const);
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "stack",
-        "row",
-        "grid",
-        "grid-dense",
-      ] as const);
-
-      // Validate numeric props
-      if (max !== undefined) {
-        validator.validateType("max", max, "number", isValidNumber);
-        if (max <= 0) {
-          validator.error("max must be greater than 0");
-        }
-      }
-
-      if (spacing !== undefined) {
-        validator.validateType("spacing", spacing, "number", isValidNumber);
-        if (spacing < 0) {
-          validator.error("spacing must be non-negative");
-        }
-      }
-
-      // Validate boolean props
-      validator.validateType("showCount", showCount, "boolean", isValidBoolean);
-      validator.validateType("reverse", reverse, "boolean", isValidBoolean);
-      validator.validateType("gap", gap, "boolean", isValidBoolean);
-      validator.validateType("withRing", withRing, "boolean", isValidBoolean);
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      size,
-      variant,
-      max,
-      spacing,
-      showCount,
-      reverse,
-      gap,
-      withRing,
-      className,
-    ]);
 
     // Convert children to array and filter valid Avatar elements
     const childrenArray = Children.toArray(children).filter((child) =>

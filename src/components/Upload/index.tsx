@@ -22,12 +22,6 @@ import {
   Edit,
 } from "lucide-react";
 import { ImageEditor } from "./ImageEditor";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
 import { uploadVariants, fileItemVariants } from "./Upload.styles";
 
 // Helper function to format file size
@@ -57,7 +51,6 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
       accept,
       maxSize,
       maxFiles,
-      minFiles,
 
       // Validation
       validator,
@@ -115,151 +108,6 @@ export const Upload = forwardRef<HTMLInputElement, UploadProps>(
     },
     ref,
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Upload");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "primary",
-        "secondary",
-        "accent",
-        "success",
-        "warning",
-        "error",
-        "info",
-        "outline",
-        "ghost",
-        "glass",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
-
-      // Validate rounded
-      validator.validateEnum("rounded", rounded, [
-        "none",
-        "sm",
-        "default",
-        "md",
-        "lg",
-        "xl",
-        "full",
-      ] as const);
-
-      // Validate uploadType
-      validator.validateEnum("uploadType", uploadType, [
-        "button",
-        "dragger",
-        "avatar",
-        "image",
-      ] as const);
-
-      // Validate numeric props
-      if (maxSize !== undefined) {
-        validator.validateType("maxSize", maxSize, "number", isValidNumber);
-        if (maxSize <= 0) {
-          validator.error("maxSize must be greater than 0");
-        }
-      }
-
-      if (maxFiles !== undefined) {
-        validator.validateType("maxFiles", maxFiles, "number", isValidNumber);
-        if (maxFiles <= 0) {
-          validator.error("maxFiles must be greater than 0");
-        }
-      }
-
-      if (minFiles !== undefined) {
-        validator.validateType("minFiles", minFiles, "number", isValidNumber);
-        if (minFiles < 0) {
-          validator.error("minFiles must be non-negative");
-        }
-      }
-
-      if (cropAspectRatio !== undefined) {
-        validator.validateType(
-          "cropAspectRatio",
-          cropAspectRatio,
-          "number",
-          isValidNumber,
-        );
-        if (cropAspectRatio <= 0) {
-          validator.error("cropAspectRatio must be greater than 0");
-        }
-      }
-
-      // Validate boolean props
-      validator.validateType("multiple", multiple, "boolean", isValidBoolean);
-      validator.validateType(
-        "showFileList",
-        showFileList,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType(
-        "showPreview",
-        showPreview,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType(
-        "allowRemove",
-        allowRemove,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType(
-        "allowRetry",
-        allowRetry,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
-      validator.validateType("readOnly", readOnly, "boolean", isValidBoolean);
-      validator.validateType(
-        "autoUpload",
-        autoUpload,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType(
-        "enableImageEdit",
-        enableImageEdit,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType(
-        "showImageEditor",
-        showImageEditor,
-        "boolean",
-        isValidBoolean,
-      );
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      variant,
-      size,
-      rounded,
-      uploadType,
-      maxSize,
-      maxFiles,
-      minFiles,
-      cropAspectRatio,
-      multiple,
-      showFileList,
-      showPreview,
-      allowRemove,
-      allowRetry,
-      disabled,
-      readOnly,
-      autoUpload,
-      enableImageEdit,
-      showImageEditor,
-      className,
-    ]);
 
     const [uncontrolledFileList, setUncontrolledFileList] =
       useState<UploadFile[]>(defaultFileList);

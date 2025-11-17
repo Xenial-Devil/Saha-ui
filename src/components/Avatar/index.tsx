@@ -1,13 +1,8 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { cn } from "../../lib/utils";
 import { AvatarProps } from "./Avatar.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-} from "../../lib/validation";
 import { avatarVariants, statusVariants } from "./Avatar.styles";
 import { useAvatar } from "../../hooks/useAvatar";
 
@@ -27,43 +22,6 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Avatar");
-
-      // Validate size
-      validator.validateEnum("size", size, [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl",
-        "2xl",
-      ] as const);
-
-      // Validate shape
-      validator.validateEnum("shape", shape, [
-        "circle",
-        "square",
-        "rounded",
-      ] as const);
-
-      // Validate status
-      validator.validateEnum("status", status, [
-        "online",
-        "offline",
-        "away",
-        "busy",
-        "none",
-      ] as const);
-
-      // Validate boolean props
-      validator.validateType("bordered", bordered, "boolean", isValidBoolean);
-      validator.validateType("ring", ring, "boolean", isValidBoolean);
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [size, shape, status, bordered, ring, className]);
 
     // Use the custom hook for avatar logic
     const {

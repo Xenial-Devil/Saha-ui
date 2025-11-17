@@ -2,7 +2,6 @@
 
 import React from "react";
 import { cn } from "../../lib/utils";
-import { ComponentValidator } from "../../lib/validation";
 import type {
   NativeSelectProps,
   NativeSelectOptionProps,
@@ -11,8 +10,6 @@ import type {
   NativeSelectDescriptionProps,
   NativeSelectErrorProps,
   NativeSelectWrapperProps,
-  NativeSelectVariant,
-  NativeSelectSize,
 } from "./NativeSelect.types";
 import {
   nativeSelectVariants,
@@ -24,32 +21,6 @@ import {
   nativeSelectOptionVariants,
   nativeSelectGroupVariants,
 } from "./NativeSelect.styles";
-
-// ===========================
-// Validation Constants
-// ===========================
-
-const VALID_VARIANTS: NativeSelectVariant[] = [
-  "default",
-  "bordered",
-  "filled",
-  "ghost",
-  "primary",
-  "secondary",
-  "success",
-  "warning",
-  "danger",
-  "info",
-  "purple",
-  "pink",
-  "indigo",
-  "cyan",
-  "teal",
-  "orange",
-  "glass",
-];
-
-const VALID_SIZES: NativeSelectSize[] = ["sm", "md", "lg"];
 
 // ===========================
 // NativeSelect Component (Root)
@@ -102,31 +73,6 @@ export const NativeSelect = React.forwardRef<
     },
     ref
   ) => {
-    // Runtime validation
-    const validator = new ComponentValidator("NativeSelect");
-
-    React.useEffect(() => {
-      validator.validateEnum("variant", variant, VALID_VARIANTS);
-      validator.validateEnum("size", size, VALID_SIZES);
-
-      if (error && success) {
-        validator.warn(
-          "Both 'error' and 'success' props are true. 'error' will take precedence."
-        );
-      }
-
-      if (placeholder && multiple) {
-        validator.warn(
-          "Placeholder is not typically used with multiple select. Consider using a disabled option instead."
-        );
-      }
-
-      if (!children) {
-        validator.warn(
-          "NativeSelect has no children. Consider providing option elements."
-        );
-      }
-    }, [variant, size, error, success, placeholder, multiple, children]);
 
     // Get color-specific styles for options dropdown
     const getColorStyles = () => {

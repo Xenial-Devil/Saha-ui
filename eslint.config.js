@@ -25,7 +25,7 @@ export default [
     ],
   },
   {
-    files: ["**/*.{ts,tsx}"],
+    files: [ "**/*.{ts,tsx}" ],
     languageOptions: {
       ecmaVersion: 2020,
       sourceType: "module",
@@ -57,11 +57,9 @@ export default [
       "react-hooks/rules-of-hooks": "warn",
       "react-hooks/exhaustive-deps": "warn",
 
-      // React Refresh
-      "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
-      ],
+      // React Refresh: disable this rule repository-wide per request to ignore
+      // "Fast refresh only works when a file only exports components" warnings.
+      "react-refresh/only-export-components": "off",
 
       // TypeScript specific rules - relaxed for existing codebase
       "@typescript-eslint/no-unused-vars": [
@@ -90,7 +88,7 @@ export default [
     },
   },
   {
-    files: ["**/*.js", "**/*.cjs", "**/*.mjs"],
+    files: [ "**/*.js", "**/*.cjs", "**/*.mjs" ],
     languageOptions: {
       ecmaVersion: 2020,
       sourceType: "module",

@@ -3,46 +3,8 @@ import ThemeToggle from "./components/ThemeToggle";
 import { ToastProvider } from "./components/Toast";
 import { Sparkles } from "lucide-react";
 import { AllComponentExamples } from "./examples";
-import { useEffect } from "react";
-
-// Note: All component showcases have been moved to src/examples/ folder
-// This keeps App.tsx clean and examples separate from the production build
 
 function App() {
-  // Global error handler to suppress cancelation errors
-  useEffect(() => {
-    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
-      // Check for cancelation errors
-      if (
-        event.reason &&
-        typeof event.reason === "object" &&
-        "type" in event.reason &&
-        event.reason.type === "cancelation"
-      ) {
-        // Suppress cancelation errors
-        event.preventDefault();
-        console.debug("Cancelation error suppressed:", event.reason);
-        return;
-      }
-
-      // Check for AbortError
-      if (event.reason instanceof Error && event.reason.name === "AbortError") {
-        // Suppress abort errors
-        event.preventDefault();
-        console.debug("Abort error suppressed:", event.reason);
-        return;
-      }
-    };
-
-    window.addEventListener("unhandledrejection", handleUnhandledRejection);
-
-    return () => {
-      window.removeEventListener(
-        "unhandledrejection",
-        handleUnhandledRejection,
-      );
-    };
-  }, []);
 
   return (
     <ThemeProvider>

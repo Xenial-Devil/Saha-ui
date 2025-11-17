@@ -1,14 +1,9 @@
 "use client";
 
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo } from "react";
 import { cn } from "../../lib/utils";
 import type { PaginationProps } from "./Pagination.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
+// validation removed
 import { paginationVariants } from "./Pagination.styles";
 
 /**
@@ -17,7 +12,7 @@ import { paginationVariants } from "./Pagination.styles";
 const generatePagination = (
   currentPage: number,
   totalPages: number,
-  siblingCount: number,
+  siblingCount: number
 ): (number | "ellipsis-left" | "ellipsis-right")[] => {
   // If total pages is less than 7, show all pages
   if (totalPages <= 7) {
@@ -50,7 +45,7 @@ const generatePagination = (
     const rightItemCount = 3 + 2 * siblingCount;
     const rightRange = Array.from(
       { length: rightItemCount },
-      (_, i) => totalPages - rightItemCount + i + 1,
+      (_, i) => totalPages - rightItemCount + i + 1
     );
     return [firstPageIndex, "ellipsis-left", ...rightRange];
   }
@@ -58,7 +53,7 @@ const generatePagination = (
   // Both ellipsis
   const middleRange = Array.from(
     { length: rightSiblingIndex - leftSiblingIndex + 1 },
-    (_, i) => leftSiblingIndex + i,
+    (_, i) => leftSiblingIndex + i
   );
   return [
     firstPageIndex,
@@ -135,101 +130,9 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
       className,
       ...props
     },
-    ref,
+    ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Pagination");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "primary",
-        "secondary",
-        "accent",
-        "ghost",
-        "glass",
-        "outlined",
-        "minimal",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
-
-      // Validate shape
-      validator.validateEnum("shape", shape, [
-        "rounded",
-        "circle",
-        "square",
-        "pill",
-      ] as const);
-
-      // Validate numeric props
-      validator.validateType("totalPages", totalPages, "number", isValidNumber);
-      validator.validateType(
-        "currentPage",
-        currentPage,
-        "number",
-        isValidNumber,
-      );
-      validator.validateType(
-        "siblingCount",
-        siblingCount,
-        "number",
-        isValidNumber,
-      );
-
-      if (totalPages < 1) {
-        validator.error("totalPages must be at least 1");
-      }
-
-      if (currentPage < 1 || currentPage > totalPages) {
-        validator.warn(
-          `currentPage (${currentPage}) should be between 1 and ${totalPages}`,
-        );
-      }
-
-      if (siblingCount < 0) {
-        validator.error("siblingCount must be non-negative");
-      }
-
-      // Validate boolean props
-      validator.validateType(
-        "showFirstLast",
-        showFirstLast,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType(
-        "showPrevNext",
-        showPrevNext,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType(
-        "showPageNumbers",
-        showPageNumbers,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType("disabled", disabled, "boolean", isValidBoolean);
-
-      // Common validators
-      commonValidators.className(validator, className);
-      commonValidators.disabled(validator, disabled);
-    }, [
-      variant,
-      size,
-      shape,
-      totalPages,
-      currentPage,
-      siblingCount,
-      showFirstLast,
-      showPrevNext,
-      showPageNumbers,
-      disabled,
-      className,
-    ]);
+    // development-only validation removed
 
     // Ensure currentPage is within valid range
     const validCurrentPage = Math.max(1, Math.min(currentPage, totalPages));
@@ -237,7 +140,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
     // Generate pagination items
     const paginationItems = useMemo(
       () => generatePagination(validCurrentPage, totalPages, siblingCount),
-      [validCurrentPage, totalPages, siblingCount],
+      [validCurrentPage, totalPages, siblingCount]
     );
 
     const handlePageChange = (page: number) => {
@@ -329,9 +232,9 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
                     size === "sm"
                       ? "h-8 min-w-8"
                       : size === "lg"
-                        ? "h-12 min-w-12"
-                        : "h-10 min-w-10",
-                    "text-base-content/50",
+                      ? "h-12 min-w-12"
+                      : "h-10 min-w-10",
+                    "text-base-content/50"
                   )}
                   aria-hidden="true"
                 >
@@ -415,7 +318,7 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>(
         )}
       </nav>
     );
-  },
+  }
 );
 
 Pagination.displayName = "Pagination";

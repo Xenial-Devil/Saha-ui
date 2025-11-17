@@ -20,12 +20,6 @@ import {
 } from "./Carousel.types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
-import {
   carouselVariants,
   navigationVariants,
   indicatorVariants,
@@ -42,7 +36,7 @@ interface CarouselContextValue {
 }
 
 const CarouselContext = createContext<CarouselContextValue | undefined>(
-  undefined,
+  undefined
 );
 
 const useCarousel = () => {
@@ -71,84 +65,8 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       children,
       ...props
     },
-    ref,
+    ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Carousel");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "contained",
-        "bordered",
-        "glass",
-      ] as const);
-
-      // Validate effect
-      validator.validateEnum("effect", effect, [
-        "slide",
-        "fade",
-        "cube",
-        "flip",
-      ] as const);
-
-      // Validate direction
-      validator.validateEnum("direction", direction, [
-        "forward",
-        "backward",
-      ] as const);
-
-      // Validate numeric props
-      validator.validateType(
-        "autoplayInterval",
-        autoplayInterval,
-        "number",
-        isValidNumber,
-      );
-
-      if (autoplayInterval <= 0) {
-        validator.error("autoplayInterval must be greater than 0");
-      }
-
-      // Validate boolean props
-      validator.validateType("autoplay", autoplay, "boolean", isValidBoolean);
-      validator.validateType("loop", loop, "boolean", isValidBoolean);
-      validator.validateType(
-        "pauseOnHover",
-        pauseOnHover,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType("swipeable", swipeable, "boolean", isValidBoolean);
-      validator.validateType(
-        "showNavigation",
-        showNavigation,
-        "boolean",
-        isValidBoolean,
-      );
-      validator.validateType(
-        "showIndicators",
-        showIndicators,
-        "boolean",
-        isValidBoolean,
-      );
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      variant,
-      effect,
-      direction,
-      autoplayInterval,
-      autoplay,
-      loop,
-      pauseOnHover,
-      swipeable,
-      showNavigation,
-      showIndicators,
-      className,
-    ]);
 
     const [activeIndex, setActiveIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
@@ -161,7 +79,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     const carouselContent = content.find(
       (child) =>
         React.isValidElement(child) &&
-        (child.type as any).displayName === "CarouselContent",
+        (child.type as any).displayName === "CarouselContent"
     );
 
     const totalSlides =
@@ -178,7 +96,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
         setActiveIndex(newIndex);
         onSlideChange?.(newIndex);
       },
-      [totalSlides, loop, onSlideChange],
+      [totalSlides, loop, onSlideChange]
     );
 
     const nextSlide = useCallback(() => {
@@ -204,8 +122,8 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
           if (intervalRef.current) {
             try {
               clearInterval(intervalRef.current);
-            } catch (err) {
-              console.debug("Carousel interval cleanup error suppressed:", err);
+            } catch {
+              console.debug("Carousel interval cleanup suppressed");
             }
           }
         };
@@ -296,7 +214,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
                   key={index}
                   onClick={() => goToSlide(index)}
                   className={cn(
-                    indicatorVariants({ active: index === activeIndex }),
+                    indicatorVariants({ active: index === activeIndex })
                   )}
                   aria-label={`Go to slide ${index + 1}`}
                 />
@@ -306,7 +224,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
         </div>
       </CarouselContext.Provider>
     );
-  },
+  }
 );
 
 Carousel.displayName = "Carousel";
@@ -324,7 +242,7 @@ const CarouselContent = React.forwardRef<HTMLDivElement, CarouselContentProps>(
         <div
           className={cn(
             "flex h-full transition-transform duration-500 ease-in-out",
-            effect === "slide" && "transform",
+            effect === "slide" && "transform"
           )}
           style={
             effect === "slide"
@@ -344,7 +262,7 @@ const CarouselContent = React.forwardRef<HTMLDivElement, CarouselContentProps>(
         </div>
       </div>
     );
-  },
+  }
 );
 
 CarouselContent.displayName = "CarouselContent";
@@ -363,14 +281,14 @@ const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
             "absolute inset-0 transition-opacity duration-500",
             isActive ? "opacity-100 z-10" : "opacity-0 z-0",
           ],
-          className,
+          className
         )}
         {...props}
       >
         {children}
       </div>
     );
-  },
+  }
 );
 
 CarouselItem.displayName = "CarouselItem";
@@ -411,7 +329,7 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, CarouselNextProps>(
         {children || <ChevronRight className="w-6 h-6" />}
       </button>
     );
-  },
+  }
 );
 
 CarouselNext.displayName = "CarouselNext";

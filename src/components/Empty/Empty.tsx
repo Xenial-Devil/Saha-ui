@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect } from "react";
+import React, { createContext, useContext } from "react";
 import { cn } from "../../lib/utils";
 import type {
   EmptyActionsProps,
@@ -11,11 +11,6 @@ import type {
   EmptySize,
   EmptyTitleProps,
 } from "./Empty.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-} from "../../lib/validation";
 import {
   emptyVariants,
   iconContainerVariants,
@@ -281,85 +276,6 @@ export const Empty = React.forwardRef<HTMLDivElement, EmptyProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Empty");
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg", "xl"] as const);
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "subtle",
-        "outlined",
-        "glass",
-      ] as const);
-
-      // Validate iconType
-      validator.validateEnum("iconType", iconType, [
-        "default",
-        "success",
-        "error",
-        "warning",
-        "info",
-        "search",
-        "folder",
-        "file",
-        "inbox",
-        "lock",
-        "key",
-        "user",
-        "users",
-        "settings",
-        "cloud",
-        "wifi",
-        "database",
-        "notification",
-        "document",
-        "image",
-        "cart",
-        "bookmark",
-      ] as const);
-
-      // Validate iconColor
-      validator.validateEnum("iconColor", iconColor, [
-        "primary",
-        "secondary",
-        "muted",
-        "success",
-        "warning",
-        "danger",
-        "info",
-      ] as const);
-
-      // Validate boolean props
-      validator.validateType(
-        "fullHeight",
-        fullHeight,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType("animated", animated, "boolean", isValidBoolean);
-      validator.validateType(
-        "showBackground",
-        showBackground,
-        "boolean",
-        isValidBoolean
-      );
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [
-      size,
-      variant,
-      iconType,
-      iconColor,
-      fullHeight,
-      animated,
-      showBackground,
-      className,
-    ]);
 
     return (
       <EmptyContext.Provider value={{ size, variant, animated }}>

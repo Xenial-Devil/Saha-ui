@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import type {
   TabsProps,
   TabsListProps,
@@ -9,7 +9,7 @@ import type {
   TabVariant,
   TabSize,
 } from "./Tab.types";
-import { createValidator, commonValidators } from "../../lib/validation";
+// validation removed
 import { tabsListVariants, tabsTriggerVariants } from "./Tab.styles";
 
 /**
@@ -37,7 +37,6 @@ const useTabsContext = () => {
   return context;
 };
 
-
 /**
  * Root Tabs component - provides context for child components
  * @example
@@ -63,18 +62,7 @@ export const Tabs: React.FC<TabsProps> = ({
 
   const value = controlledValue ?? uncontrolledValue;
 
-  // Development-only validation
-  useEffect(() => {
-    const validator = createValidator("Tabs");
-
-    // Validate children
-    if (!children) {
-      validator.warn("Tabs should have TabsList and TabsContent children");
-    }
-
-    // Common validators
-    commonValidators.className(validator, className);
-  }, [children, className]);
+  // development-only validation removed
 
   const handleValueChange = (newValue: string) => {
     if (controlledValue === undefined) {
@@ -114,35 +102,7 @@ export const TabsList: React.FC<TabsListProps> = ({
 }) => {
   const context = useTabsContext();
 
-  // Development-only validation
-  useEffect(() => {
-    const validator = createValidator("TabsList");
-
-    // Validate variant
-    validator.validateEnum("variant", variant, [
-      "default",
-      "primary",
-      "secondary",
-      "accent",
-      "glass",
-      "outline",
-      "pills",
-      "underline",
-      "bordered",
-      "minimal",
-    ] as const);
-
-    // Validate size
-    validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
-
-    // Validate children
-    if (!children) {
-      validator.warn("TabsList should have TabsTrigger children");
-    }
-
-    // Common validators
-    commonValidators.className(validator, className);
-  }, [variant, size, children, className]);
+  // development-only validation removed
 
   // Update context with variant and size
   const updatedContext = {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect } from "react";
+import React, { createContext, useContext } from "react";
 import { cn } from "../../lib/utils";
 import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 import type {
@@ -15,11 +15,7 @@ import type {
   TableSize,
   TableDensity,
 } from "./Table.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-} from "../../lib/validation";
+// validation removed
 import {
   tableContainerVariants,
   tableVariants,
@@ -59,36 +55,7 @@ export const Table = React.forwardRef<HTMLDivElement, TableProps>(
     },
     ref
   ) => {
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Table");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "bordered",
-        "striped",
-        "glass",
-        "minimal",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg"] as const);
-
-      // Validate density
-      validator.validateEnum("density", density, [
-        "compact",
-        "normal",
-        "comfortable",
-      ] as const);
-
-      // Validate boolean props
-      validator.validateType("striped", striped, "boolean", isValidBoolean);
-      validator.validateType("hoverable", hoverable, "boolean", isValidBoolean);
-
-      // Common validators
-      commonValidators.className(validator, className);
-    }, [variant, size, density, striped, hoverable, className]);
+    // development-only validation removed
 
     return (
       <TableContext.Provider
@@ -119,16 +86,7 @@ export const TableHeader = React.forwardRef<
 >(({ sticky = false, className, children }, ref) => {
   const { size } = useTableContext();
 
-  // Development-only validation
-  useEffect(() => {
-    const validator = createValidator("TableHeader");
-
-    // Validate boolean props
-    validator.validateType("sticky", sticky, "boolean", isValidBoolean);
-
-    // Common validators
-    commonValidators.className(validator, className);
-  }, [sticky, className]);
+  // development-only validation removed
 
   return (
     <thead

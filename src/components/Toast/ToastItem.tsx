@@ -2,12 +2,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { cn } from "../../lib/utils";
 import type { ToastItemProps } from "./Toast.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
+// validation removed - development-only checks disabled per user request
 import { toastVariants } from "./Toast.styles";
 
 // Icon components for each status
@@ -86,90 +81,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({
   pauseOnHover = true,
   position = "top-right",
 }) => {
-  // Development-only validation
-  useEffect(() => {
-    const validator = createValidator("ToastItem");
-
-    // Validate status
-    validator.validateEnum("status", status, [
-      "info",
-      "success",
-      "warning",
-      "danger",
-    ] as const);
-
-    // Validate variant
-    validator.validateEnum("variant", variant, [
-      "solid",
-      "subtle",
-      "outline",
-      "glass",
-    ] as const);
-
-    // Validate animation
-    validator.validateEnum("animation", animation, [
-      "slide",
-      "fade",
-      "scale",
-      "bounce",
-    ] as const);
-
-    // Validate position
-    validator.validateEnum("position", position, [
-      "top-left",
-      "top-center",
-      "top-right",
-      "bottom-left",
-      "bottom-center",
-      "bottom-right",
-    ] as const);
-
-    // Validate duration
-    validator.validateType("duration", duration, "number", isValidNumber);
-    if (duration !== undefined && duration < 0) {
-      validator.error("duration must be a positive number");
-    }
-
-    // Validate boolean props
-    validator.validateType("closable", closable, "boolean", isValidBoolean);
-    validator.validateType("showIcon", showIcon, "boolean", isValidBoolean);
-    validator.validateType(
-      "showProgress",
-      showProgress,
-      "boolean",
-      isValidBoolean,
-    );
-    validator.validateType(
-      "pauseOnHover",
-      pauseOnHover,
-      "boolean",
-      isValidBoolean,
-    );
-
-    // Validate content
-    if (!title && !description && !children) {
-      validator.warn(
-        "ToastItem should have title, description, or children for accessibility",
-      );
-    }
-
-    // Common validators
-    commonValidators.className(validator, className);
-  }, [
-    status,
-    variant,
-    animation,
-    position,
-    duration,
-    closable,
-    showIcon,
-    showProgress,
-    pauseOnHover,
-    title,
-    description,
-    children,
-    className,
-  ]);
+  // validation removed
 
   const [isVisible, setIsVisible] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
@@ -238,8 +150,8 @@ export const ToastItem: React.FC<ToastItemProps> = ({
       isCancelled = true;
       try {
         clearTimeout(closeTimer);
-      } catch (err) {
-        console.debug("Toast close timer error suppressed:", err);
+      } catch {
+        console.debug("Toast close timer suppressed");
       }
     };
   }, [id, onClose, onRemove]);
@@ -263,8 +175,8 @@ export const ToastItem: React.FC<ToastItemProps> = ({
         if (newProgress === 0) {
           try {
             clearInterval(interval);
-          } catch (err) {
-            console.debug("Toast interval clear error suppressed:", err);
+          } catch {
+            console.debug("Toast interval clear suppressed");
           }
         }
       }
@@ -274,8 +186,8 @@ export const ToastItem: React.FC<ToastItemProps> = ({
       isCancelled = true;
       try {
         clearInterval(interval);
-      } catch (err) {
-        console.debug("Toast interval cleanup error suppressed:", err);
+      } catch {
+        console.debug("Toast interval cleanup suppressed");
       }
     };
   }, [duration, handleClose, isPaused]);
@@ -286,8 +198,8 @@ export const ToastItem: React.FC<ToastItemProps> = ({
         clearTimeout(timerRef.current);
         const elapsed = Date.now() - startTimeRef.current;
         remainingTimeRef.current -= elapsed;
-      } catch (err) {
-        console.debug("Toast pause timer error suppressed:", err);
+      } catch {
+        console.debug("Toast pause timer suppressed");
       }
     }
   }, []);
@@ -310,14 +222,14 @@ export const ToastItem: React.FC<ToastItemProps> = ({
       isCancelled = true;
       try {
         clearTimeout(enterTimer);
-      } catch (err) {
-        console.debug("Toast enter timer error suppressed:", err);
+      } catch {
+        console.debug("Toast enter timer suppressed");
       }
       if (timerRef.current) {
         try {
           clearTimeout(timerRef.current);
-        } catch (err) {
-          console.debug("Toast timer cleanup error suppressed:", err);
+        } catch {
+          console.debug("Toast timer cleanup suppressed");
         }
       }
       cleanup?.();
@@ -346,7 +258,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({
         toastVariants({ variant, status, animation }),
         "rounded-xl",
         getAnimationClasses(),
-        className,
+        className
       )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

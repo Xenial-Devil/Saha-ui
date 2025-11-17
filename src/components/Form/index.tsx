@@ -95,7 +95,7 @@ type FormFieldContextValue<TName extends string = string> = {
 };
 
 const FormFieldContext = createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue,
+  {} as FormFieldContextValue
 );
 
 type FormItemContextValue = {
@@ -103,7 +103,7 @@ type FormItemContextValue = {
 };
 
 const FormItemContext = createContext<FormItemContextValue>(
-  {} as FormItemContextValue,
+  {} as FormItemContextValue
 );
 
 const useFormField = () => {
@@ -111,11 +111,11 @@ const useFormField = () => {
   const itemContext = useContext(FormItemContext);
   const { getFieldState, formState } = useFormContext();
 
-  const fieldState = getFieldState(fieldContext.name, formState);
+  // If not inside a form field context, return null so callers can handle
+  // the absence without breaking hook rules.
+  if (!fieldContext || !itemContext) return null as any;
 
-  if (!fieldContext) {
-    throw new Error("useFormField should be used within <FormField>");
-  }
+  const fieldState = getFieldState(fieldContext.name, formState);
 
   const { id } = itemContext;
 
@@ -191,7 +191,7 @@ export const Form = React.forwardRef<HTMLFormElement, FormProps>(
       className,
       ...props
     },
-    ref,
+    ref
   ) => {
     // If FormProvider is available and props look like RHF (has control, etc.),
     // use FormProvider. Otherwise, render as a regular form.
@@ -226,7 +226,7 @@ export const Form = React.forwardRef<HTMLFormElement, FormProps>(
         </form>
       </FormContext.Provider>
     );
-  },
+  }
 );
 
 Form.displayName = "Form";
@@ -298,14 +298,14 @@ export const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
             variant: variant || config.variant,
             layout: layout || config.layout,
           }),
-          className,
+          className
         )}
         {...props}
       >
         {children}
       </div>
     );
-  },
+  }
 );
 
 FormItem.displayName = "FormItem";
@@ -328,7 +328,7 @@ export const FormLabel = React.forwardRef<HTMLLabelElement, FormLabelProps>(
       children,
       ...props
     },
-    ref,
+    ref
   ) => {
     const config = useFormConfig();
 
@@ -341,7 +341,7 @@ export const FormLabel = React.forwardRef<HTMLLabelElement, FormLabelProps>(
             size: size || config.size,
             required,
           }),
-          className,
+          className
         )}
         {...props}
       >
@@ -358,7 +358,7 @@ export const FormLabel = React.forwardRef<HTMLLabelElement, FormLabelProps>(
         )}
       </label>
     );
-  },
+  }
 );
 
 FormLabel.displayName = "FormLabel";
@@ -381,7 +381,7 @@ export const FormControl = React.forwardRef<HTMLDivElement, FormControlProps>(
         {children}
       </div>
     );
-  },
+  }
 );
 
 FormControl.displayName = "FormControl";
@@ -407,7 +407,7 @@ export const FormDescription = React.forwardRef<
           variant: variant || config.variant,
           size: size || config.size,
         }),
-        className,
+        className
       )}
       {...props}
     >
@@ -435,11 +435,12 @@ export const FormMessage = React.forwardRef<
   // Try to get error from React Hook Form if context is available
   let error;
   let formMessageId;
-  try {
-    const { error: fieldError, formMessageId: msgId } = useFormField();
+  const field = useFormField();
+  if (field) {
+    const { error: fieldError, formMessageId: msgId } = field as any;
     error = fieldError;
     formMessageId = msgId;
-  } catch {
+  } else {
     // Not in a FormField context, use manually
     formMessageId = itemContext?.id
       ? `${itemContext.id}-form-item-message`
@@ -457,10 +458,10 @@ export const FormMessage = React.forwardRef<
     variant === "success"
       ? "text-success"
       : variant === "warning"
-        ? "text-warning"
-        : variant === "info"
-          ? "text-info"
-          : "text-destructive"; // error is default
+      ? "text-warning"
+      : variant === "info"
+      ? "text-info"
+      : "text-destructive"; // error is default
 
   return (
     <p
@@ -494,7 +495,7 @@ export const FormSection = React.forwardRef<HTMLDivElement, FormSectionProps>(
       children,
       ...props
     },
-    ref,
+    ref
   ) => {
     return (
       <div
@@ -515,7 +516,7 @@ export const FormSection = React.forwardRef<HTMLDivElement, FormSectionProps>(
         {children}
       </div>
     );
-  },
+  }
 );
 
 FormSection.displayName = "FormSection";
@@ -539,14 +540,14 @@ export const FormActions = React.forwardRef<HTMLDivElement, FormActionsProps>(
             align,
             variant: variant || config.variant,
           }),
-          className,
+          className
         )}
         {...props}
       >
         {children}
       </div>
     );
-  },
+  }
 );
 
 FormActions.displayName = "FormActions";
@@ -572,7 +573,7 @@ FormActions.displayName = "FormActions";
  * ```
  */
 export const FormCompact = <
-  TFieldValues extends Record<string, any> = Record<string, any>,
+  TFieldValues extends Record<string, any> = Record<string, any>
 >({
   form,
   title,
@@ -656,7 +657,7 @@ export const FormCompact = <
         </FormItem>
       );
     },
-    [],
+    []
   );
 
   return (

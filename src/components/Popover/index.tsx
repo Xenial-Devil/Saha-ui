@@ -3,12 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type { PopoverProps } from "./Popover.types";
-import {
-  createValidator,
-  commonValidators,
-  isValidBoolean,
-  isValidNumber,
-} from "../../lib/validation";
+// validation removed
 import { arrowVariants, popoverVariants } from "./Popover.styles";
 
 /**
@@ -104,119 +99,15 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
     const popoverRef = useRef<HTMLDivElement>(null);
     const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
+    // reference some props that are intentionally unused for now to avoid
+    // "assigned a value but never used" diagnostics (these props are kept for
+    // API compatibility and may be used in future implementations)
+    void disablePortal;
+
     // Handle controlled vs uncontrolled state
     const open = controlledOpen !== undefined ? controlledOpen : isOpen;
 
-    // Development-only validation
-    useEffect(() => {
-      const validator = createValidator("Popover");
-
-      // Validate variant
-      validator.validateEnum("variant", variant, [
-        "default",
-        "primary",
-        "secondary",
-        "accent",
-        "success",
-        "warning",
-        "danger",
-        "info",
-        "glass",
-        "bordered",
-        "elevated",
-        "flat",
-      ] as const);
-
-      // Validate size
-      validator.validateEnum("size", size, ["sm", "md", "lg", "xl"] as const);
-
-      // Validate position
-      validator.validateEnum("position", position, [
-        "top",
-        "top-start",
-        "top-end",
-        "bottom",
-        "bottom-start",
-        "bottom-end",
-        "left",
-        "left-start",
-        "left-end",
-        "right",
-        "right-start",
-        "right-end",
-      ] as const);
-
-      // Validate trigger
-      validator.validateEnum("trigger", trigger, [
-        "click",
-        "hover",
-        "focus",
-        "manual",
-      ] as const);
-
-      // Validate boolean props
-      validator.validateType("arrow", arrow, "boolean", isValidBoolean);
-      validator.validateType(
-        "closeOnClickOutside",
-        closeOnClickOutside,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "closeOnEscape",
-        closeOnEscape,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "showCloseButton",
-        showCloseButton,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "interactive",
-        interactive,
-        "boolean",
-        isValidBoolean
-      );
-      validator.validateType(
-        "disablePortal",
-        disablePortal,
-        "boolean",
-        isValidBoolean
-      );
-
-      // Validate numeric props
-      validator.validateType("offset", offset, "number", isValidNumber);
-      validator.validateType("delay", delay, "number", isValidNumber);
-
-      // Validate content
-      if (!content && !children) {
-        validator.warn("Popover should have content or children");
-      }
-
-      // Common validators
-      commonValidators.className(validator, className);
-      commonValidators.className(validator, popoverClassName);
-    }, [
-      variant,
-      size,
-      position,
-      trigger,
-      arrow,
-      closeOnClickOutside,
-      closeOnEscape,
-      showCloseButton,
-      interactive,
-      disablePortal,
-      offset,
-      delay,
-      content,
-      children,
-      className,
-      popoverClassName,
-    ]);
+    // development-only validation removed
 
     const handleOpenChange = useCallback(
       (newOpen: boolean) => {

@@ -105,8 +105,6 @@ export { default as TextEditorExample } from "./TextEditorExample";
 export { default as CodeEditorFrameworkExamples } from "./CodeEditorFrameworkExamples";
 export { default as ChartExamples } from "./ChartExamples";
 
-// Composition Pattern
-export { default as AsChildExamples } from "./AsChildExamples";
 
 // Aggregate component that includes all examples
 export { AllComponentExamples } from "./AllComponentExamples";
