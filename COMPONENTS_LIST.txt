@@ -1,127 +1,141 @@
 ================================================================================
                         SAHA UI - COMPONENTS LIST
 ================================================================================
-Version: 1.21.0
-Total Components: 81
-Total Hooks: 40
-Last Updated: 2025-11-07
+Version: 1.17.0
+Total Components: 101
+Total Hooks: 39
+Last Updated: 2024-11-17
 
 ================================================================================
                            COMPONENT CATEGORIES
 ================================================================================
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                        1. LAYOUT COMPONENTS (4)                          │
+│                        1. LAYOUT COMPONENTS (6)                          │
 └──────────────────────────────────────────────────────────────────────────┘
   1. Container          - Responsive container with max-width constraints
   2. Grid               - CSS Grid layout system with GridItem
-  3. Section            - Semantic section wrapper
-  4. Stack              - Flexbox-based stacking layout
+  3. Masonry            - Masonry layout with columns
+  4. Paper              - Material-style elevated surface
+  5. Section            - Semantic section wrapper
+  6. Stack              - Flexbox-based stacking layout
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                      2. NAVIGATION COMPONENTS (6)                        │
+│                      2. NAVIGATION COMPONENTS (9)                        │
 └──────────────────────────────────────────────────────────────────────────┘
-  5. Breadcrumb         - Navigation breadcrumb trail
-  6. Link               - Styled anchor element with variants
-  7. Menubar            - Horizontal menu bar with dropdowns
-  8. NavigationMenu     - Complex navigation menu system
-  9. Pagination         - Page navigation controls
- 10. Steps              - Step-by-step navigation indicator
+  7. AppBar             - Application bar with scroll effects
+  8. BottomNavigation   - Mobile bottom navigation bar
+  9. Breadcrumb         - Navigation breadcrumb trail
+ 10. Link               - Styled anchor element with variants
+ 11. Menubar            - Horizontal menu bar with dropdowns
+ 12. NavigationMenu     - Complex navigation menu system
+ 13. Pagination         - Page navigation controls
+ 14. Segmented          - Segmented control navigation
+ 15. Steps              - Step-by-step navigation indicator
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                       3. FORM COMPONENTS (19)                            │
+│                       3. FORM COMPONENTS (18)                            │
 └──────────────────────────────────────────────────────────────────────────┘
- 11. Autocomplete       - Auto-completion input field
- 12. Checkbox           - Checkbox with CheckboxGroup
- 13. Combobox           - Searchable select component
- 14. DatePicker         - Date selection component with calendar
- 15. Field              - Form field wrapper system
- 16. FileInput          - File upload with drag-drop, preview, progress, validation
- 17. Form               - Form management components
- 18. Input              - Text input with variants
- 19. InputOTP           - One-time password input
- 20. NativeSelect       - Native HTML select wrapper
- 21. NumberInput        - Numeric input with increment/decrement, formatting, validation
- 22. Radio              - Radio button with RadioGroup
- 23. Select             - Custom select dropdown
- 24. Slider             - Range slider input
- 25. Switch             - Toggle switch
- 26. TagInput           - Multi-tag input field
- 27. TextArea           - Multi-line text input
- 28. TextEditor         - Rich text editor
- 29. Upload             - File upload component
+ 16. Autocomplete       - Auto-completion input field
+ 17. Checkbox           - Checkbox with CheckboxGroup
+ 18. ColorPicker        - Color selection component with presets
+ 19. Combobox           - Searchable select component
+ 20. DatePicker         - Date selection component with calendar
+ 21. Field              - Form field wrapper system
+ 22. Form               - Form management components
+ 23. Input              - Text input with variants
+ 24. InputOTP           - One-time password input
+ 25. NativeSelect       - Native HTML select wrapper
+ 26. Radio              - Radio button with RadioGroup
+ 27. Select             - Custom select dropdown
+ 28. Slider             - Range slider input
+ 29. Switch             - Toggle switch
+ 30. TagInput           - Multi-tag input field
+ 31. TextArea           - Multi-line text input
+ 32. TextEditor         - Rich text editor
+ 33. Upload             - File upload component
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                      4. BUTTON COMPONENTS (6)                            │
+│                      4. BUTTON COMPONENTS (8)                            │
 └──────────────────────────────────────────────────────────────────────────┘
- 30. Button             - Primary button component with shimmer effects
- 31. ButtonGroup        - Grouped button layout
- 32. FloatingActionButton - FAB for primary actions
- 33. PlayButton         - Media play button
- 34. Toggle             - Toggle button
- 35. ToggleGroup        - Grouped toggle buttons
+ 34. Button             - Primary button component with shimmer effects
+ 35. ButtonGroup        - Grouped button layout
+ 36. FloatingActionButton - FAB for primary actions
+ 37. IconButton         - Icon-only button
+ 38. PlayButton         - Media play button
+ 39. SpeedDial          - Speed dial action button with expandable actions
+ 40. Toggle             - Toggle button
+ 41. ToggleGroup        - Grouped toggle buttons
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                    5. DATA DISPLAY COMPONENTS (22)                       │
+│                    5. DATA DISPLAY COMPONENTS (26)                       │
 └──────────────────────────────────────────────────────────────────────────┘
- 36. Accordion          - Collapsible content sections
- 37. Avatar             - User avatar with status indicators
- 38. AvatarGroup        - Grouped avatars with overflow
- 39. Badge              - Status and count badges
- 40. Card               - Container card with header/footer
- 41. Chip               - Compact information chip
- 42. CodeEditor         - Monaco-based code editor with syntax highlighting
- 43. DataTable          - Advanced data table (sorting, filtering, pagination)
- 44. Empty              - Empty state placeholder
- 45. Image              - Enhanced image component with loading states
- 46. Item               - Flexible list item component
- 47. Kbd                - Keyboard shortcut display
- 48. Label              - Form label component
- 49. List               - Ordered/unordered list
- 50. Rating             - Star rating component
- 51. Separator          - Visual divider
- 52. Skeleton           - Loading skeleton (6 presets: Card, Avatar, List,
+ 42. Accordion          - Collapsible content sections
+ 43. Avatar             - User avatar with status indicators
+ 44. AvatarGroup        - Grouped avatars with overflow
+ 45. Badge              - Status and count badges
+ 46. Card               - Container card with header/footer
+ 47. Chip               - Compact information chip
+ 48. CodeEditor         - Monaco-based code editor with syntax highlighting
+ 49. CodeViewer         - Read-only code viewer with syntax highlighting
+ 50. DataTable          - Advanced data table (sorting, filtering, pagination)
+ 51. Empty              - Empty state placeholder
+ 52. Image              - Enhanced image component with loading states
+ 53. Item               - Flexible list item component
+ 54. Kbd                - Keyboard shortcut display
+ 55. Label              - Form label component
+ 56. List               - Ordered/unordered list
+ 57. Rating             - Star rating component
+ 58. Separator          - Visual divider
+ 59. Skeleton           - Loading skeleton (6 presets: Card, Avatar, List,
                           Table, Form, Text)
- 53. Table              - Basic table component
- 54. Tag                - Taggable content
- 55. Timeline           - Vertical timeline display
- 56. Tree               - Hierarchical tree view
- 57. Typography         - Text formatting components (H1-H6, P, Lead, etc.)
+ 60. StatCard           - Statistical card with trends and icons
+ 61. Stepper            - Step indicator with labels and connectors
+ 62. Table              - Basic table component
+ 63. Tabs               - Tabbed interface
+ 64. Tag                - Taggable content
+ 65. Timeline           - Vertical timeline display
+ 66. Tree               - Hierarchical tree view
+ 67. Typography         - Text formatting components (H1-H6, P, Lead, etc.)
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                     6. FEEDBACK COMPONENTS (8)                           │
+│                     6. FEEDBACK COMPONENTS (10)                          │
 └──────────────────────────────────────────────────────────────────────────┘
- 58. Alert              - Alert messages
- 59. Notification       - Notification center with positioning, stacking, auto-dismiss
- 60. Progress           - Progress bar indicator
- 61. Result             - Result/status pages (success, error, 404, 403, 500)
- 62. Sonner             - Toast notification system (alternative)
- 63. Spinner            - Loading spinner
- 64. Toast              - Toast notification system
- 65. Tooltip            - Hover tooltip
+ 68. Alert              - Alert messages
+ 69. Backdrop           - Backdrop overlay for modals
+ 70. Progress           - Progress bar indicator
+ 71. Result             - Result/status pages (success, error, 404, 403, 500)
+ 72. Snackbar           - Material-style snackbar notifications
+ 73. Sonner             - Toast notification system (alternative)
+ 74. Spinner            - Loading spinner
+ 75. Toast              - Toast notification system
+ 76. Tooltip            - Hover tooltip
+ 77. Tour               - Guided tour component with steps
 
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                      7. OVERLAY COMPONENTS (7)                           │
 └──────────────────────────────────────────────────────────────────────────┘
- 66. Dialog             - Modal dialog
- 67. Drawer             - Side drawer panel
- 68. Dropdown           - Dropdown menu
- 69. HoverCard          - Hover-triggered card
- 70. Popover            - Popover overlay
- 71. ContextMenu        - Right-click context menu
- 72. Command            - Command palette (⌘K)
+ 78. Command            - Command palette (⌘K)
+ 79. ContextMenu        - Right-click context menu
+ 80. Dialog             - Modal dialog
+ 81. Drawer             - Side drawer panel
+ 82. Dropdown           - Dropdown menu
+ 83. HoverCard          - Hover-triggered card
+ 84. Popover            - Popover overlay
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                       8. MEDIA COMPONENTS (3)                            │
+│                       8. MEDIA COMPONENTS (4)                            │
 └──────────────────────────────────────────────────────────────────────────┘
- 73. AspectRatio        - Aspect ratio container
- 74. Carousel           - Image/content carousel
- 75. Calendar           - Calendar date display
+ 85. AspectRatio        - Aspect ratio container
+ 86. Calendar           - Calendar date display
+ 87. Carousel           - Image/content carousel
+ 88. VideoPlayer        - Video player with controls
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                      9. UTILITY COMPONENTS (4)                           │
+│                      9. UTILITY COMPONENTS (6)                           │
 └──────────────────────────────────────────────────────────────────────────┘
- 76. Chart              - Comprehensive charting system with 10 chart types:
+ 89. Affix              - Affix element to viewport
+ 90. Chart              - Comprehensive charting system with 10 chart types:
                           • LineChart
                           • BarChart
                           • AreaChart
@@ -132,20 +146,21 @@ Last Updated: 2025-11-07
                           • ComposedChart
                           • FunnelChart
                           • TreemapChart
- 77. Collapsible        - Collapsible content
- 78. Resizable          - Resizable panel system
- 79. ScrollArea         - Custom scrollbar area
+ 91. Collapsible        - Collapsible content
+ 92. Resizable          - Resizable panel system
+ 93. ScrollArea         - Custom scrollbar area
+ 94. Transfer           - Transfer list with dual panels
 
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                       10. THEME COMPONENTS (2)                           │
 └──────────────────────────────────────────────────────────────────────────┘
- 80. ThemeProvider      - Theme context provider
- 81. ThemeToggle        - Theme switcher component
+ 95. ThemeProvider      - Theme context provider
+ 96. ThemeToggle        - Theme switcher component
 
 
 
 ================================================================================
-                            CUSTOM HOOKS (40)
+                            CUSTOM HOOKS (39)
 ================================================================================
 
 ┌──────────────────────────────────────────────────────────────────────────┐
@@ -213,27 +228,29 @@ Last Updated: 2025-11-07
 ================================================================================
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                         SIMPLE COMPONENTS (20)                           │
+│                         SIMPLE COMPONENTS (25)                           │
 └──────────────────────────────────────────────────────────────────────────┘
-Avatar, Badge, Button, Chip, Image, Kbd, Label, Link, PlayButton, Progress,
-Rating, Separator, Skeleton, Spinner, Switch, Tag, Checkbox, Radio,
-AspectRatio, Empty
+Affix, AspectRatio, Avatar, Backdrop, Badge, Button, Checkbox, Chip, Empty,
+IconButton, Image, Kbd, Label, Link, Paper, PlayButton, Progress, Radio,
+Rating, Separator, Skeleton, Spinner, Switch, Tag, VideoPlayer
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                        MEDIUM COMPONENTS (38)                            │
+│                        MEDIUM COMPONENTS (50)                            │
 └──────────────────────────────────────────────────────────────────────────┘
-Alert, Breadcrumb, ButtonGroup, Card, Collapsible, Container, ContextMenu,
-Dropdown, Field, FloatingActionButton, Form, Grid, HoverCard, Input, InputOTP,
-Item, List, Menubar, NativeSelect, Pagination, Popover, Section, Select,
-Slider, Stack, Steps, Table, TagInput, TextArea, Timeline, Toast, Toggle,
-ToggleGroup, Tooltip, Tree, Typography, Upload, AvatarGroup
+Alert, AppBar, AvatarGroup, BottomNavigation, Breadcrumb, ButtonGroup, Card,
+CodeViewer, Collapsible, Container, ContextMenu, Dropdown, Field,
+FloatingActionButton, Form, Grid, HoverCard, Input, InputOTP, Item, List,
+Masonry, Menubar, NativeSelect, Pagination, Popover, Result, ScrollArea,
+Section, Segmented, Select, Slider, Snackbar, SpeedDial, Stack, StatCard,
+Steps, Stepper, Table, Tabs, TagInput, TextArea, Timeline, Toast, Toggle,
+ToggleGroup, Tooltip, Transfer, Tree, Typography, Upload
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                        COMPLEX COMPONENTS (20)                           │
+│                        COMPLEX COMPONENTS (21)                           │
 └──────────────────────────────────────────────────────────────────────────┘
-Accordion, Autocomplete, Calendar, Carousel, Chart, CodeEditor, Combobox,
-Command, DataTable, DatePicker, Dialog, Drawer, NavigationMenu, Resizable,
-ScrollArea, Sonner, TextEditor, ThemeProvider, ThemeToggle
+Accordion, Autocomplete, Calendar, Carousel, Chart, CodeEditor, ColorPicker,
+Combobox, Command, DataTable, DatePicker, Dialog, Drawer, NavigationMenu,
+Resizable, Sonner, TextEditor, ThemeProvider, ThemeToggle, Tour
 
 ================================================================================
                          COMPONENTS BY USE CASE
@@ -245,40 +262,42 @@ ScrollArea, Sonner, TextEditor, ThemeProvider, ThemeToggle
 ThemeProvider, Button, Input, Card, Typography
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                     FORMS & DATA ENTRY (17 components)                   │
+│                     FORMS & DATA ENTRY (18 components)                   │
 └──────────────────────────────────────────────────────────────────────────┘
-Form, Field, Input, TextArea, InputOTP, Checkbox, Radio, Switch, Select,
-NativeSelect, Combobox, Autocomplete, DatePicker, Slider, TagInput, Upload,
-TextEditor
+Autocomplete, Checkbox, ColorPicker, Combobox, DatePicker, Field, Form,
+Input, InputOTP, NativeSelect, Radio, Select, Slider, Switch, TagInput,
+TextArea, TextEditor, Upload
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                      NAVIGATION (6 components)                           │
+│                      NAVIGATION (9 components)                           │
 └──────────────────────────────────────────────────────────────────────────┘
-Breadcrumb, Link, NavigationMenu, Menubar, Pagination, Steps
+AppBar, BottomNavigation, Breadcrumb, Link, Menubar, NavigationMenu,
+Pagination, Segmented, Steps
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                     DATA DISPLAY (20 components)                         │
+│                     DATA DISPLAY (26 components)                         │
 └──────────────────────────────────────────────────────────────────────────┘
-Table, DataTable, List, Tree, Timeline, Card, Item, Avatar, AvatarGroup,
-Badge, Chip, Separator, Kbd, Label, Image, Rating, Skeleton, Empty,
-Typography, CodeEditor
+Accordion, Avatar, AvatarGroup, Badge, Card, Chip, CodeEditor, CodeViewer,
+DataTable, Empty, Image, Item, Kbd, Label, List, Rating, Separator, Skeleton,
+StatCard, Stepper, Table, Tabs, Tag, Timeline, Tree, Typography
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                   FEEDBACK & OVERLAYS (15 components)                    │
+│                   FEEDBACK & OVERLAYS (17 components)                    │
 └──────────────────────────────────────────────────────────────────────────┘
-Dialog, Drawer, Popover, Dropdown, ContextMenu, HoverCard, Alert, Toast,
-Sonner, Progress, Spinner, Tooltip, Command
+Alert, Backdrop, Command, ContextMenu, Dialog, Drawer, Dropdown, HoverCard,
+Popover, Progress, Result, Snackbar, Sonner, Spinner, Toast, Tooltip, Tour
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                   LAYOUT & STRUCTURE (11 components)                     │
+│                   LAYOUT & STRUCTURE (12 components)                     │
 └──────────────────────────────────────────────────────────────────────────┘
-Container, Stack, Grid, Section, Accordion, Collapsible, Carousel,
-ScrollArea, AspectRatio, Resizable, Calendar
+AspectRatio, Calendar, Carousel, Collapsible, Container, Grid, Masonry,
+Paper, Resizable, ScrollArea, Section, Stack
 
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                    BUTTONS & ACTIONS (5 components)                      │
+│                    BUTTONS & ACTIONS (8 components)                      │
 └──────────────────────────────────────────────────────────────────────────┘
-Button, ButtonGroup, FloatingActionButton, PlayButton, Toggle, ToggleGroup
+Button, ButtonGroup, FloatingActionButton, IconButton, PlayButton, SpeedDial,
+Toggle, ToggleGroup
 
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                       ADVANCED (2 components)                            │
@@ -291,14 +310,15 @@ Chart (10 chart types), DataTable (with full CRUD operations)
 
 VARIANT SUPPORT:
   ✓ Glass Morphism: Card, Button, Badge, Dialog, Drawer, Alert, Popover,
-                    Tooltip, HoverCard
+                    Tooltip, HoverCard, Paper
   ✓ Solid: All applicable components
   ✓ Outline: Button, Badge, Card, Input, Select
   ✓ Ghost: Button, Badge
   ✓ Gradient: Button, Badge, Progress
+  ✓ Material: Paper, AppBar, Snackbar
 
 DARK MODE SUPPORT:
-  ✓ All 78 components support dark mode via ThemeProvider
+  ✓ All 96 components support dark mode via ThemeProvider
 
 TYPESCRIPT SUPPORT:
   ✓ 100% - Full TypeScript definitions for all components and hooks
@@ -324,14 +344,20 @@ Framework Support:  Next.js 15/16, Vite, Remix, Astro
                             STATISTICS
 ================================================================================
 
-Total Components:           78
-Total Hooks:                40
+Total Components:           96
+Total Hooks:                39
 Chart Types:                10
 Skeleton Presets:           6
-Form Components:            17
-Layout Components:          4
-Navigation Components:      6
+Form Components:            18
+Layout Components:          6
+Navigation Components:      9
+Button Components:          8
+Data Display Components:    26
+Feedback Components:        10
 Overlay Components:         7
+Media Components:           4
+Utility Components:         6
+Theme Components:           2
 TypeScript Coverage:        100%
 Dark Mode Support:          100%
 Accessibility Score:        High
@@ -344,8 +370,9 @@ MOST USED COMPONENTS:
   • Button, Input, Card, Typography (Basic UI)
   • Form, Field, Select, Checkbox, Radio (Forms)
   • Dialog, Drawer, Popover (Overlays)
-  • Table, DataTable (Data Display)
-  • Alert, Toast, Spinner (Feedback)
+  • Table, DataTable, Tabs (Data Display)
+  • Alert, Toast, Snackbar, Spinner (Feedback)
+  • AppBar, BottomNavigation (Navigation)
 
 MOST USED HOOKS:
   • useTheme (Theming)
@@ -355,9 +382,46 @@ MOST USED HOOKS:
   • useLocalStorage (Persistence)
 
 LEARNING PATH:
-  1. Beginner:     ThemeProvider, Button, Card, Input, Typography
-  2. Intermediate: Form components, Navigation, Overlays
-  3. Advanced:     DataTable, Chart, Command, Custom themes
+  1. Beginner:     ThemeProvider, Button, Card, Input, Typography, Badge
+  2. Intermediate: Form components, Navigation, Overlays, Tabs, Stepper
+  3. Advanced:     DataTable, Chart, Command, Tour, Transfer, Custom themes
+
+================================================================================
+                        COMPONENTS IN DEVELOPMENT
+================================================================================
+
+The following components have documentation but are not yet exported from the
+main index. They may be in development or pending final implementation:
+
+  • FileInput         - File upload with drag-drop, preview, progress
+  • NumberInput       - Numeric input with increment/decrement, formatting
+  • Notification      - Notification center with positioning, stacking
+
+Note: These components may be available in future releases.
+
+================================================================================
+                      RECENT ADDITIONS (v1.17.0)
+================================================================================
+
+New Components Added:
+  • Affix             - Affix element to viewport
+  • AppBar            - Application bar with scroll effects
+  • Backdrop          - Backdrop overlay for modals
+  • BottomNavigation  - Mobile bottom navigation bar
+  • CodeViewer        - Read-only code viewer
+  • ColorPicker       - Color selection with presets
+  • IconButton        - Icon-only button
+  • Masonry           - Masonry layout system
+  • Paper             - Material-style elevated surface
+  • Segmented         - Segmented control navigation
+  • Snackbar          - Material-style notifications
+  • SpeedDial         - Speed dial action button
+  • StatCard          - Statistical card with trends
+  • Stepper           - Step indicator with connectors
+  • Tabs              - Tabbed interface
+  • Tour              - Guided tour component
+  • Transfer          - Transfer list with dual panels
+  • VideoPlayer       - Video player with controls
 
 ================================================================================
                             END OF LIST
