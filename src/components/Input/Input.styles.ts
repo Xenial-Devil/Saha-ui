@@ -29,7 +29,7 @@ const inputLabelVariants = cva(
     defaultVariants: {
       disabled: false,
     },
-  },
+  }
 );
 
 /**
@@ -47,36 +47,36 @@ const inputWrapperVariants = cva(
     defaultVariants: {
       fullWidth: false,
     },
-  },
+  }
 );
 
 /**
- * Input field variants using CVA with standard variants
+ * Input field variants using CVA with standard variants (matching InputOTP style)
  */
 const inputVariants = cva(
-  "w-full font-medium transition-all duration-300 focus:outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 relative before:absolute before:inset-0 before:rounded-[inherit] before:transition-opacity before:duration-300 before:opacity-0 focus:before:opacity-100 after:absolute after:inset-0 after:rounded-[inherit] after:transition-all after:duration-300",
+  "w-full font-medium transition-all duration-200 focus:outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       variant: {
         primary:
-          "bg-primary text-primary-foreground border-2 border-primary hover:bg-primary/90 hover:scale-[1.01] focus:ring-4 focus:ring-primary/30 hover:shadow-lg hover:shadow-primary/30 focus:shadow-xl focus:shadow-primary/40 focus:scale-[1.02] before:bg-gradient-to-r before:from-primary-foreground/10 before:via-transparent before:to-primary-foreground/10 after:bg-gradient-to-t after:from-black/10 after:to-transparent after:pointer-events-none",
+          "bg-primary/10 text-primary border-2 border-primary/30 hover:border-primary hover:bg-primary/20 focus:border-primary focus:bg-primary/20 focus:ring-2 focus:ring-primary/30",
         secondary:
-          "bg-secondary text-secondary-foreground border-2 border-secondary hover:bg-secondary/80 hover:scale-[1.01] focus:ring-4 focus:ring-secondary/30 hover:shadow-lg hover:shadow-secondary/30 focus:shadow-xl focus:shadow-secondary/40 focus:scale-[1.02] before:bg-gradient-to-r before:from-secondary-foreground/10 before:via-transparent before:to-secondary-foreground/10 after:bg-gradient-to-t after:from-black/10 after:to-transparent after:pointer-events-none",
+          "bg-secondary/10 text-secondary border-2 border-secondary/30 hover:border-secondary hover:bg-secondary/20 focus:border-secondary focus:bg-secondary/20 focus:ring-2 focus:ring-secondary/30",
         accent:
-          "bg-accent text-accent-foreground border-2 border-accent hover:bg-accent/90 hover:scale-[1.01] focus:ring-4 focus:ring-accent/30 hover:shadow-lg hover:shadow-accent/30 focus:shadow-xl focus:shadow-accent/40 focus:scale-[1.02] before:bg-gradient-to-r before:from-accent-foreground/10 before:via-transparent before:to-accent-foreground/10 after:bg-gradient-to-t after:from-black/10 after:to-transparent after:pointer-events-none",
-        info: "bg-info/10 text-info border-2 border-info hover:bg-info/20 hover:scale-[1.01] hover:border-info/80 focus:border-info focus:ring-4 focus:ring-info/30 hover:shadow-lg hover:shadow-info/30 focus:shadow-xl focus:shadow-info/40 focus:scale-[1.02] before:bg-gradient-to-r before:from-info/20 before:via-transparent before:to-info/20 backdrop-blur-sm after:bg-gradient-to-t after:from-info/5 after:to-transparent after:pointer-events-none",
+          "bg-accent/10 text-accent border-2 border-accent/30 hover:border-accent hover:bg-accent/20 focus:border-accent focus:bg-accent/20 focus:ring-2 focus:ring-accent/30",
+        info: "bg-info/5 text-info border-2 border-info/30 hover:border-info hover:bg-info/10 focus:border-info focus:bg-info/10 focus:ring-2 focus:ring-info/20",
         success:
-          "bg-success/10 text-success border-2 border-success hover:bg-success/20 hover:scale-[1.01] hover:border-success/80 focus:border-success focus:ring-4 focus:ring-success/30 hover:shadow-lg hover:shadow-success/30 focus:shadow-xl focus:shadow-success/40 focus:scale-[1.02] before:bg-gradient-to-r before:from-success/20 before:via-transparent before:to-success/20 backdrop-blur-sm after:bg-gradient-to-t after:from-success/5 after:to-transparent after:pointer-events-none",
+          "bg-success/5 text-success border-2 border-success/30 hover:border-success hover:bg-success/10 focus:border-success focus:bg-success/10 focus:ring-2 focus:ring-success/20",
         warning:
-          "bg-warning/10 text-warning border-2 border-warning hover:bg-warning/20 hover:scale-[1.01] hover:border-warning/80 focus:border-warning focus:ring-4 focus:ring-warning/30 hover:shadow-lg hover:shadow-warning/30 focus:shadow-xl focus:shadow-warning/40 focus:scale-[1.02] before:bg-gradient-to-r before:from-warning/20 before:via-transparent before:to-warning/20 backdrop-blur-sm after:bg-gradient-to-t after:from-warning/5 after:to-transparent after:pointer-events-none",
+          "bg-warning/5 text-warning border-2 border-warning/30 hover:border-warning hover:bg-warning/10 focus:border-warning focus:bg-warning/10 focus:ring-2 focus:ring-warning/20",
         error:
-          "bg-destructive/10 text-destructive border-2 border-destructive hover:bg-destructive/20 hover:scale-[1.01] hover:border-destructive/80 focus:border-destructive focus:ring-4 focus:ring-destructive/30 hover:shadow-lg hover:shadow-destructive/30 focus:shadow-xl focus:shadow-destructive/40 focus:scale-[1.02] before:bg-gradient-to-r before:from-destructive/20 before:via-transparent before:to-destructive/20 backdrop-blur-sm after:bg-gradient-to-t after:from-destructive/5 after:to-transparent after:pointer-events-none",
+          "bg-destructive/5 text-destructive border-2 border-destructive/30 hover:border-destructive hover:bg-destructive/10 focus:border-destructive focus:bg-destructive/10 focus:ring-2 focus:ring-destructive/20",
         outline:
-          "bg-card/50 backdrop-blur-sm border-2 border-border focus:border-primary hover:border-primary/60 hover:scale-[1.01] shadow-sm focus:shadow-xl hover:shadow-lg focus:ring-4 focus:ring-primary/20 focus:scale-[1.02] before:bg-gradient-to-r before:from-primary/10 before:via-transparent before:to-primary/10 after:bg-gradient-to-br after:from-background/50 after:to-transparent after:pointer-events-none",
+          "bg-background border-2 border-border hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-primary/20",
         ghost:
-          "bg-transparent border-2 border-transparent hover:bg-accent/10 hover:scale-[1.01] focus:bg-accent/10 focus:border-accent/30 focus:scale-[1.02] focus:shadow-lg focus:shadow-accent/20 before:bg-gradient-to-r before:from-accent/10 before:via-transparent before:to-accent/10",
+          "bg-muted/30 border-2 border-transparent hover:bg-muted/50 hover:border-muted focus:bg-muted/50 focus:border-muted/80 focus:ring-2 focus:ring-muted/20",
         glass:
-          "bg-white/10 dark:bg-black/10 backdrop-blur-xl border-2 border-white/20 focus:border-primary/40 hover:border-white/30 hover:scale-[1.01] shadow-2xl shadow-black/10 hover:shadow-2xl hover:shadow-primary/20 focus:shadow-2xl focus:shadow-primary/25 focus:scale-[1.02] before:bg-gradient-to-r before:from-white/10 before:via-transparent before:to-white/10 after:bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.1),transparent_50%)] after:opacity-0 focus:after:opacity-100 after:transition-opacity after:duration-700 after:pointer-events-none",
+          "bg-background/30 backdrop-blur-sm border-2 border-white/20 dark:border-white/10 hover:border-white/30 dark:hover:border-white/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20",
       },
       size: {
         sm: "h-9 px-3 text-sm gap-2 rounded-lg",
@@ -141,7 +141,7 @@ const inputVariants = cva(
       hasStartIcon: false,
       hasEndIcon: false,
     },
-  },
+  }
 );
 
 /**
@@ -208,7 +208,7 @@ const inputIconVariants = cva(
       position: "start",
       size: "md",
     },
-  },
+  }
 );
 
 /**

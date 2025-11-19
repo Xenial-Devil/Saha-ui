@@ -1455,3 +1455,5 @@ export type {
 } from "./components/ColorPicker/ColorPicker.types";
 
 export { VideoPlayer, type VideoPlayerProps } from "./components/VideoPlayer";
+
+export {Result,type ResultProps} from "./components/Result"
