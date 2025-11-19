@@ -1,3 +1,11 @@
+# [1.19.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.18.0...v1.19.0) (2025-11-19)
+
+
+### Features
+
+* **link:** prevent hover underline on decorated link variants ([6048a71](https://github.com/Xenial-Devil/Saha-ui/commit/6048a716f50c0188076538ab87019f6b4640684e))
+* **styles:** simplify and standardize Input & Grid styles ([d8f0c7d](https://github.com/Xenial-Devil/Saha-ui/commit/d8f0c7d199ff67818e19e65c230ff6c1f8eb606d))
+
 # [1.18.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.17.0...v1.18.0) (2025-11-17)
 
 
