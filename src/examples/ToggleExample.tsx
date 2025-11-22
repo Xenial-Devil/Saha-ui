@@ -1,5 +1,6 @@
 import React from "react";
 import { Toggle, ToggleGroup } from "../components/Toggle/index";
+import ThemeToggle from "../components/ThemeToggle";
 import type { ToggleVariant } from "../components/Toggle/Toggle.types";
 import {
   Bold,
@@ -35,6 +36,28 @@ export function ToggleExample() {
           Interactive toggle buttons with multiple variants and sizes.
         </p>
         <BasicToggleExample />
+      </section>
+
+      <section>
+        <h2 className="mb-4 text-2xl font-bold">Theme Toggle</h2>
+        <p className="mb-6 text-muted-foreground">
+          Examples of the `ThemeToggle` in icon and icon-label modes. Use
+          `menuClassName` to control the open menu's bg/text/border classes.
+        </p>
+        <div className="flex items-center gap-4">
+          <ThemeToggle variant="icon" />
+
+          <ThemeToggle
+            variant="icon-label"
+            menuClassName="bg-white text-foreground border border-muted"
+          />
+
+          <ThemeToggle
+            variant="icon-label"
+            appearance="glass"
+            menuClassName="bg-primary text-white border border-primary"
+          />
+        </div>
       </section>
 
       <section>

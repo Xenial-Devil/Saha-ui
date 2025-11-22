@@ -3,7 +3,7 @@ import { cva } from "class-variance-authority";
 /**
  * Popover content variants
  */
-const popoverVariants = cva(
+const popoverBaseVariants = cva(
   [
     "absolute z-50 rounded-lg",
     "transition-all duration-200 ease-out",
@@ -75,28 +75,40 @@ const popoverVariants = cva(
         lg: "text-base p-4 min-w-[280px] max-w-[400px]",
         xl: "text-base p-5 min-w-[360px] max-w-[500px]",
       },
-      position: {
-        top: "bottom-full left-1/2 -translate-x-1/2",
-        "top-start": "bottom-full left-0",
-        "top-end": "bottom-full right-0",
-        bottom: "top-full left-1/2 -translate-x-1/2",
-        "bottom-start": "top-full left-0",
-        "bottom-end": "top-full right-0",
-        left: "right-full top-1/2 -translate-y-1/2",
-        "left-start": "right-full top-0",
-        "left-end": "right-full bottom-0",
-        right: "left-full top-1/2 -translate-y-1/2",
-        "right-start": "left-full top-0",
-        "right-end": "left-full bottom-0",
-      },
     },
     defaultVariants: {
       variant: "default",
       size: "md",
-      position: "bottom",
     },
-  },
+  }
 );
+
+// preserve the old combined API for consumers that expect a single cva
+// with a `position` variant — build it by combining base + position classes
+const popoverVariants = (
+  opts: { variant?: string; size?: string; position?: string } = {}
+) => {
+  const base = popoverBaseVariants({
+    variant: opts.variant as any,
+    size: opts.size as any,
+  });
+  const posMap: Record<string, string> = {
+    top: "bottom-full left-1/2 -translate-x-1/2",
+    "top-start": "bottom-full left-0",
+    "top-end": "bottom-full right-0",
+    bottom: "top-full left-1/2 -translate-x-1/2",
+    "bottom-start": "top-full left-0",
+    "bottom-end": "top-full right-0",
+    left: "right-full top-1/2 -translate-y-1/2",
+    "left-start": "right-full top-0",
+    "left-end": "right-full bottom-0",
+    right: "left-full top-1/2 -translate-y-1/2",
+    "right-start": "left-full top-0",
+    "right-end": "left-full bottom-0",
+  };
+  const posClass = opts.position ? posMap[opts.position] || "" : "";
+  return `${base} ${posClass}`.trim();
+};
 
 /**
  * Arrow variants for popover
@@ -138,4 +150,4 @@ const arrowVariants = cva("absolute w-3 h-3 rotate-45", {
     position: "bottom",
   },
 });
-export { arrowVariants, popoverVariants };
+export { arrowVariants, popoverVariants, popoverBaseVariants };

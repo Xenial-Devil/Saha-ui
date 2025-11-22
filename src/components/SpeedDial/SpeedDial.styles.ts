@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 
 export const speedDialVariants = cva(
-  "fixed z-50 flex items-center justify-center",
+  "absolute z-20 flex items-center justify-center",
   {
     variants: {
       position: {
@@ -109,10 +109,10 @@ export const speedDialActionLabelVariants = cva(
   {
     variants: {
       direction: {
-        up: "bottom-full mb-2",
-        down: "top-full mt-2",
-        left: "right-full mr-2",
-        right: "left-full ml-2",
+        up: "bottom-full mb-3",
+        down: "top-full mt-3",
+        left: "right-full mr-3",
+        right: "left-full ml-3",
       },
       show: {
         true: "opacity-100",

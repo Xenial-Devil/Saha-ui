@@ -29,6 +29,10 @@ export interface TooltipContextValue {
   trigger: TooltipTriggerType;
   delay: number;
   disabled: boolean;
+  // optional anchor ref when content is rendered in a portal
+  anchorRef?: React.RefObject<HTMLElement | null>;
+  // shared hover timeout ref used by trigger + content
+  timeoutRef?: React.MutableRefObject<NodeJS.Timeout | null>;
 }
 
 export interface TooltipProps extends React.HTMLAttributes<HTMLDivElement> {

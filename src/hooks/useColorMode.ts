@@ -49,11 +49,16 @@ export function useColorMode(
       : "light";
   }, []);
 
+  // Track the OS/system preference so we can react to changes
+  const [systemPref, setSystemPref] = useState<"light" | "dark">(
+    typeof window === "undefined" ? "light" : getSystemPreference()
+  );
+
   const getResolvedMode = useCallback(
     (mode: ColorMode): "light" | "dark" => {
-      return mode === "system" ? getSystemPreference() : mode;
+      return mode === "system" ? systemPref : (mode as "light" | "dark");
     },
-    [getSystemPreference]
+    [systemPref]
   );
 
   const isDark = getResolvedMode(colorMode) === "dark";
@@ -75,20 +80,24 @@ export function useColorMode(
   }, [colorMode, getResolvedMode, classNameDark, classNameLight]);
 
   useEffect(() => {
-    if (typeof window === "undefined" || colorMode !== "system") return;
+    if (typeof window === "undefined") return;
 
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-    const handleChange = () => {
-      setColorModeState(colorMode);
+    // update systemPref initially and on changes
+    const handleChange = (e: MediaQueryListEvent) => {
+      setSystemPref(e.matches ? "dark" : "light");
     };
+
+    // set initial
+    setSystemPref(mediaQuery.matches ? "dark" : "light");
 
     mediaQuery.addEventListener("change", handleChange);
 
     return () => {
       mediaQuery.removeEventListener("change", handleChange);
     };
-  }, [colorMode]);
+  }, []);
 
   const setColorMode = useCallback(
     (mode: ColorMode) => {

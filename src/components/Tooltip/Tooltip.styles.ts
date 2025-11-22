@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 
-const tooltipVariants = cva(
+const tooltipBaseVariants = cva(
   "absolute whitespace-nowrap z-50 transition-all duration-300 ease-out",
   {
     variants: {
@@ -27,12 +27,6 @@ const tooltipVariants = cva(
         md: "text-sm px-3 py-1.5 rounded-lg",
         lg: "text-base px-4 py-2 rounded-xl",
       },
-      position: {
-        top: "bottom-full left-1/2 -translate-x-1/2",
-        bottom: "top-full left-1/2 -translate-x-1/2",
-        left: "right-full top-1/2 -translate-y-1/2",
-        right: "left-full top-1/2 -translate-y-1/2",
-      },
       interactive: {
         true: "pointer-events-auto cursor-auto",
         false: "pointer-events-none",
@@ -41,11 +35,33 @@ const tooltipVariants = cva(
     defaultVariants: {
       variant: "default",
       size: "md",
-      position: "top",
       interactive: false,
     },
-  },
+  }
 );
+
+const tooltipVariants = (
+  opts: {
+    variant?: string;
+    size?: string;
+    position?: string;
+    interactive?: boolean;
+  } = {}
+) => {
+  const base = tooltipBaseVariants({
+    variant: opts.variant as any,
+    size: opts.size as any,
+    interactive: opts.interactive as any,
+  });
+  const posMap: Record<string, string> = {
+    top: "bottom-full left-1/2 -translate-x-1/2",
+    bottom: "top-full left-1/2 -translate-x-1/2",
+    left: "right-full top-1/2 -translate-y-1/2",
+    right: "left-full top-1/2 -translate-y-1/2",
+  };
+  const posClass = opts.position ? posMap[opts.position] || "" : "";
+  return `${base} ${posClass}`.trim();
+};
 
 /**
  * Arrow variants for tooltip
@@ -76,4 +92,4 @@ const arrowVariants = cva("absolute w-2 h-2 rotate-45", {
     position: "top",
   },
 });
-export { tooltipVariants, arrowVariants };
+export { tooltipVariants, tooltipBaseVariants, arrowVariants };

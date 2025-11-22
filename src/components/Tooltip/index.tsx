@@ -6,6 +6,8 @@ import React, {
   createContext,
   useContext,
 } from "react";
+import usePortalPosition from "../../lib/usePortalPosition";
+import { createPortal } from "react-dom";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import {
@@ -15,7 +17,11 @@ import {
   TooltipContextValue,
 } from "./Tooltip.types";
 // validation removed
-import { tooltipVariants, arrowVariants } from "./Tooltip.styles";
+import {
+  tooltipVariants,
+  tooltipBaseVariants,
+  arrowVariants,
+} from "./Tooltip.styles";
 
 export type TooltipVariantsProps = VariantProps<typeof tooltipVariants>;
 
@@ -89,7 +95,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     _ref
   ) => {
     const [internalOpen, setInternalOpen] = useState(false);
-    const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
     // Use controlled or uncontrolled state
@@ -111,14 +117,13 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
 
     const handleMouseEnter = () => {
       if (trigger !== "hover" || disabled) return;
-      if (timeoutId) clearTimeout(timeoutId);
-      const id = setTimeout(() => setOpen(true), delay);
-      setTimeoutId(id);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setOpen(true), delay);
     };
 
     const handleMouseLeave = () => {
       if (trigger !== "hover" || disabled) return;
-      if (timeoutId) clearTimeout(timeoutId);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
       if (!interactive) {
         setOpen(false);
       }
@@ -144,10 +149,10 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       if (!interactive || !isOpen || trigger !== "click") return;
 
       const handleClickOutside = (event: MouseEvent) => {
-        if (
-          wrapperRef.current &&
-          !wrapperRef.current.contains(event.target as Node)
-        ) {
+        const target = event.target as Node;
+        const insideWrapper = wrapperRef.current?.contains(target);
+        // if content is portaled, we won't have its ref here; TooltipContent will guard closing
+        if (!insideWrapper) {
           setOpen(false);
         }
       };
@@ -160,9 +165,9 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     // Clean up timeout on unmount
     useEffect(() => {
       return () => {
-        if (timeoutId) clearTimeout(timeoutId);
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
       };
-    }, [timeoutId]);
+    }, []);
 
     const contextValue: TooltipContextValue = {
       isOpen,
@@ -177,6 +182,8 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       trigger,
       delay,
       disabled,
+      anchorRef: wrapperRef,
+      timeoutRef,
     };
 
     return (
@@ -237,51 +244,132 @@ export const TooltipContent = React.forwardRef<
     offset,
     disabled,
   } = useTooltip();
+  const { anchorRef, timeoutRef, trigger, setOpen } = useTooltip() as any;
 
-  // Calculate offset based on position
-  const getOffsetStyle = () => {
-    switch (position) {
-      case "top":
-        return { marginBottom: `${offset}px` };
-      case "bottom":
-        return { marginTop: `${offset}px` };
-      case "left":
-        return { marginRight: `${offset}px` };
-      case "right":
-        return { marginLeft: `${offset}px` };
+  // do not early-return here because hooks must be called in same order
+
+  const { portalContainer, portalRef, portalPos } = usePortalPosition(
+    anchorRef as React.RefObject<HTMLElement>,
+    isOpen,
+    { position, offset }
+  );
+
+  const [positionReady, setPositionReady] = useState(false);
+  useEffect(() => {
+    if (!isOpen) {
+      setPositionReady(false);
+      return;
     }
-  };
+    // enable transitions after the portal position has a chance to settle
+    const t = setTimeout(() => setPositionReady(true), 20);
+    return () => clearTimeout(t);
+  }, [isOpen, portalPos.left, portalPos.top]);
+
+  // Close on outside click when interactive and using click trigger
+  useEffect(() => {
+    if (!interactive || !isOpen || trigger !== "click") return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      const insideWrapper = (
+        anchorRef as React.RefObject<HTMLElement>
+      )?.current?.contains(target);
+      const insidePortal = portalRef?.current?.contains(target);
+      if (!insideWrapper && !insidePortal) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [interactive, isOpen, trigger, setOpen, anchorRef, portalRef]);
+
+  // compute arrow inline style similar to Popover
+  let arrowStyle: React.CSSProperties | undefined = undefined;
+  try {
+    const anchorEl = (anchorRef as React.RefObject<HTMLElement>)
+      ?.current as HTMLElement | null;
+    const popEl = portalRef?.current as HTMLElement | null;
+    if (anchorEl && popEl) {
+      const anchorRect = anchorEl.getBoundingClientRect();
+      const popRect = popEl.getBoundingClientRect();
+      const anchorCenterX =
+        anchorRect.left + anchorRect.width / 2 + window.scrollX;
+      const anchorCenterY =
+        anchorRect.top + anchorRect.height / 2 + window.scrollY;
+      const posName = (position || "top").split("-")[0];
+      if (posName === "top" || posName === "bottom") {
+        const leftPx = anchorCenterX - portalPos.left;
+        arrowStyle = {
+          left: `${Math.max(6, Math.min(popRect.width - 6, leftPx))}px`,
+        };
+      } else {
+        const topPx = anchorCenterY - portalPos.top;
+        arrowStyle = {
+          top: `${Math.max(6, Math.min(popRect.height - 6, topPx))}px`,
+        };
+      }
+    }
+  } catch {
+    // ignore
+  }
 
   if (disabled) return null;
 
-  return (
+  const contentNode = (
     <div
-      ref={ref}
+      ref={(node) => {
+        if (typeof ref === "function") ref(node as any);
+        else if (ref)
+          (ref as React.MutableRefObject<HTMLDivElement | null>).current =
+            node as HTMLDivElement | null;
+        portalRef.current = node as HTMLDivElement | null;
+      }}
+      onMouseEnter={() => {
+        if (trigger === "hover") {
+          if (timeoutRef?.current) clearTimeout(timeoutRef.current);
+          setOpen(true);
+        }
+      }}
+      onMouseLeave={() => {
+        if (trigger === "hover") {
+          if (timeoutRef?.current) clearTimeout(timeoutRef.current);
+          timeoutRef.current = setTimeout(() => {
+            setOpen(false);
+          }, 100);
+        }
+      }}
       className={cn(
-        tooltipVariants({ variant, size, position, interactive }),
+        tooltipBaseVariants({ variant, size, interactive }),
         isOpen
           ? "opacity-100 scale-100 visible"
           : "opacity-0 scale-95 invisible",
+        positionReady ? undefined : "transition-none",
         className
       )}
       style={{
         maxWidth,
-        ...getOffsetStyle(),
+        position: "absolute",
+        top: portalPos.top,
+        left: portalPos.left,
       }}
       role="tooltip"
       aria-hidden={!isOpen}
       {...props}
     >
-      {/* Content */}
       <div className="relative z-10">{children}</div>
-
-      {/* Arrow */}
-      {arrow && <div className={cn(arrowVariants({ variant, position }))} />}
-
-      {/* Subtle glow effect */}
+      {arrow && (
+        <div
+          className={cn(arrowVariants({ variant, position }))}
+          style={arrowStyle}
+        />
+      )}
       <div className="absolute inset-0 rounded-inherit bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
     </div>
   );
+
+  if (!portalContainer) return contentNode;
+  return createPortal(contentNode, portalContainer);
 });
 
 TooltipContent.displayName = "TooltipContent";

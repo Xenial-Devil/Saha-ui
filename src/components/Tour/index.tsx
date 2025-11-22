@@ -27,6 +27,8 @@ import {
   tourArrowVariants,
   tourCloseButtonVariants,
 } from "./Tour.styles";
+import { createPortal } from "react-dom";
+import usePortalPosition from "../../lib/usePortalPosition";
 
 export type TourVariantsProps = VariantProps<typeof tourVariants>;
 
@@ -107,7 +109,7 @@ const Tour = React.forwardRef<HTMLDivElement, TourProps>(
       finishButtonContent = "Finish",
       ...props
     },
-    ref,
+    ref
   ) => {
     const [uncontrolledCurrent, setUncontrolledCurrent] = useState(0);
     const [state, setState] = useState<TourState>({
@@ -119,6 +121,7 @@ const Tour = React.forwardRef<HTMLDivElement, TourProps>(
     });
 
     const popoverRef = useRef<HTMLDivElement>(null);
+    const anchorRef = useRef<HTMLElement | null>(null);
 
     // Determine if component is controlled
     const isControlled = controlledCurrent !== undefined;
@@ -141,7 +144,7 @@ const Tour = React.forwardRef<HTMLDivElement, TourProps>(
 
         return step.target;
       },
-      [],
+      []
     );
 
     // Calculate positions
@@ -369,7 +372,19 @@ const Tour = React.forwardRef<HTMLDivElement, TourProps>(
     const isLastStep = currentStep === steps.length - 1;
     const showSkipButton = step.showSkip !== false;
 
-    return (
+    // set anchorRef to the target element so the portal can anchor to it
+    const targetElement = getTargetElement(step);
+    useEffect(() => {
+      anchorRef.current = targetElement as HTMLElement | null;
+    }, [targetElement]);
+
+    const { portalContainer, portalRef, portalPos } = usePortalPosition(
+      anchorRef,
+      open,
+      { position: state.placement }
+    );
+
+    const node = (
       <div
         ref={ref}
         className={cn(tourVariants({ open }), className)}
@@ -381,7 +396,7 @@ const Tour = React.forwardRef<HTMLDivElement, TourProps>(
           <div
             className={cn(
               tourMaskVariants({ open, closable: maskClosable }),
-              maskClassName,
+              maskClassName
             )}
             onClick={handleMaskClick}
             aria-hidden="true"
@@ -403,16 +418,21 @@ const Tour = React.forwardRef<HTMLDivElement, TourProps>(
           />
         )}
 
-        {/* Popover */}
+        {/* Popover (portal) */}
         <div
-          ref={popoverRef}
+          ref={(node) => {
+            // popoverRef is a local ref object; assign to .current
+            if (popoverRef) popoverRef.current = node as HTMLDivElement | null;
+            portalRef.current = node as HTMLDivElement | null;
+          }}
           className={cn(
             tourPopoverVariants({ placement: state.placement }),
-            popoverClassName,
+            popoverClassName
           )}
           style={{
-            top: state.popoverPosition.top,
-            left: state.popoverPosition.left,
+            top: portalPos.top,
+            left: portalPos.left,
+            position: "absolute",
           }}
           role="dialog"
           aria-labelledby="tour-title"
@@ -480,7 +500,7 @@ const Tour = React.forwardRef<HTMLDivElement, TourProps>(
                       tourProgressDotVariants({
                         active: index === currentStep,
                         completed: index < currentStep,
-                      }),
+                      })
                     )}
                     aria-label={`Go to step ${index + 1}`}
                     aria-current={index === currentStep ? "step" : undefined}
@@ -533,7 +553,10 @@ const Tour = React.forwardRef<HTMLDivElement, TourProps>(
         </div>
       </div>
     );
-  },
+
+    if (!portalContainer) return node;
+    return createPortal(node, portalContainer);
+  }
 );
 
 Tour.displayName = "Tour";

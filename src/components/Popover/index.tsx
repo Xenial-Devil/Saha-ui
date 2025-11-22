@@ -1,10 +1,16 @@
 "use client";
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
+import usePortalPosition from "../../lib/usePortalPosition";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 import type { PopoverProps } from "./Popover.types";
 // validation removed
-import { arrowVariants, popoverVariants } from "./Popover.styles";
+import {
+  arrowVariants,
+  popoverVariants,
+  popoverBaseVariants,
+} from "./Popover.styles";
 
 /**
  * Flat Popover Component
@@ -153,10 +159,10 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
       if (!open || !closeOnClickOutside) return;
 
       const handleClickOutside = (event: MouseEvent) => {
-        if (
-          wrapperRef.current &&
-          !wrapperRef.current.contains(event.target as Node)
-        ) {
+        const target = event.target as Node;
+        const insideWrapper = wrapperRef.current?.contains(target);
+        const insidePopover = popoverRef.current?.contains(target);
+        if (!insideWrapper && !insidePopover) {
           handleOpenChange(false);
         }
       };
@@ -198,34 +204,6 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
       }
     }, [open]);
 
-    // Calculate offset style
-    const getOffsetStyle = () => {
-      const offsetMap: Record<string, string> = {
-        top: `${offset}px`,
-        "top-start": `${offset}px`,
-        "top-end": `${offset}px`,
-        bottom: `${offset}px`,
-        "bottom-start": `${offset}px`,
-        "bottom-end": `${offset}px`,
-        left: `${offset}px`,
-        "left-start": `${offset}px`,
-        "left-end": `${offset}px`,
-        right: `${offset}px`,
-        "right-start": `${offset}px`,
-        "right-end": `${offset}px`,
-      };
-
-      if (position.startsWith("top")) {
-        return { marginBottom: offsetMap[position] };
-      } else if (position.startsWith("bottom")) {
-        return { marginTop: offsetMap[position] };
-      } else if (position.startsWith("left")) {
-        return { marginRight: offsetMap[position] };
-      } else {
-        return { marginLeft: offsetMap[position] };
-      }
-    };
-
     const triggerProps =
       trigger === "click"
         ? { onClick: handleTrigger }
@@ -243,78 +221,32 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
         {/* Trigger element */}
         <div {...triggerProps}>{children}</div>
 
-        {/* Popover content */}
+        {/* Popover content (portal) */}
         {mounted && (
-          <div
-            ref={popoverRef}
-            className={cn(
-              popoverVariants({ variant, size, position }),
-              open ? "opacity-100 scale-100" : "opacity-0 scale-95",
-              "origin-center",
-              popoverClassName,
-              className
-            )}
-            style={{
-              ...getOffsetStyle(),
-              maxWidth,
-              pointerEvents: interactive ? "auto" : "none",
-            }}
-            role="dialog"
-            aria-modal="false"
+          <PortalPopover
+            anchorRef={wrapperRef}
+            open={open}
+            popoverRef={popoverRef}
+            popoverClassName={popoverClassName}
+            className={className}
+            popoverVariantsProps={{ variant, size, position }}
+            offset={offset}
+            timeoutRef={timeoutRef}
+            trigger={trigger}
+            delay={delay}
+            handleOpenChange={handleOpenChange}
+            maxWidth={maxWidth}
+            interactive={interactive}
+            content={content}
+            footer={footer}
+            arrow={arrow}
+            arrowClassName={arrowClassName}
+            showCloseButton={showCloseButton}
+            title={title}
+            onClose={() => handleOpenChange(false)}
+            disablePortal={disablePortal}
             {...props}
-          >
-            {/* Header with optional close button */}
-            {(title || showCloseButton) && (
-              <div className="flex items-start justify-between mb-2 pb-2 border-b border-border/50">
-                {title && (
-                  <div className="font-semibold text-base text-foreground">
-                    {title}
-                  </div>
-                )}
-                {showCloseButton && (
-                  <button
-                    onClick={() => handleOpenChange(false)}
-                    className="ml-auto p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-                    aria-label="Close popover"
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                )}
-              </div>
-            )}
-
-            {/* Content */}
-            <div className="text-foreground/90">{content}</div>
-
-            {/* Footer */}
-            {footer && (
-              <div className="mt-3 pt-3 border-t border-border/50">
-                {footer}
-              </div>
-            )}
-
-            {/* Arrow */}
-            {arrow && (
-              <div
-                className={cn(
-                  arrowVariants({ variant, position }),
-                  arrowClassName
-                )}
-              />
-            )}
-          </div>
+          />
         )}
       </div>
     );
@@ -324,3 +256,157 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
 Popover.displayName = "Popover";
 
 export default Popover;
+
+function PortalPopover({
+  anchorRef,
+  open,
+  popoverRef,
+  popoverClassName,
+  className,
+  popoverVariantsProps,
+  offset,
+  maxWidth,
+  interactive,
+  content,
+  footer,
+  arrow,
+  arrowClassName,
+  showCloseButton,
+  title,
+  onClose,
+  disablePortal,
+  timeoutRef,
+  trigger,
+  handleOpenChange,
+  ...props
+}: any) {
+  const { portalContainer, portalRef, portalPos } = usePortalPosition(
+    anchorRef as React.RefObject<HTMLElement>,
+    open,
+    { position: popoverVariantsProps.position, offset }
+  );
+
+  // compute arrow inline style to precisely align arrow with anchor center
+  let arrowStyle: React.CSSProperties | undefined = undefined;
+  try {
+    const anchorEl = anchorRef?.current as HTMLElement | null;
+    const popEl = portalRef?.current as HTMLElement | null;
+    if (anchorEl && popEl) {
+      const anchorRect = anchorEl.getBoundingClientRect();
+      const popRect = popEl.getBoundingClientRect();
+      const anchorCenterX =
+        anchorRect.left + anchorRect.width / 2 + window.scrollX;
+      const anchorCenterY =
+        anchorRect.top + anchorRect.height / 2 + window.scrollY;
+
+      const posName = (popoverVariantsProps.position || "bottom").split("-")[0];
+
+      if (posName === "top" || posName === "bottom") {
+        const leftPx = anchorCenterX - portalPos.left; // position relative to popover
+        arrowStyle = {
+          left: `${Math.max(8, Math.min(popRect.width - 8, leftPx))}px`,
+        };
+      } else if (posName === "left" || posName === "right") {
+        const topPx = anchorCenterY - portalPos.top;
+        arrowStyle = {
+          top: `${Math.max(8, Math.min(popRect.height - 8, topPx))}px`,
+        };
+      }
+    }
+  } catch {
+    // ignore
+  }
+
+  const popoverNode = (
+    <div
+      ref={(node) => {
+        // assign both refs
+        if (typeof popoverRef === "function") popoverRef(node);
+        else if (popoverRef) popoverRef.current = node;
+        portalRef.current = node;
+      }}
+      onMouseEnter={() => {
+        if (trigger === "hover") {
+          if (timeoutRef?.current) clearTimeout(timeoutRef.current);
+          handleOpenChange?.(true);
+        }
+      }}
+      onMouseLeave={() => {
+        if (trigger === "hover") {
+          if (timeoutRef?.current) clearTimeout(timeoutRef.current);
+          timeoutRef.current = setTimeout(() => handleOpenChange?.(false), 100);
+        }
+      }}
+      className={cn(
+        popoverBaseVariants(popoverVariantsProps),
+        open ? "opacity-100 scale-100" : "opacity-0 scale-95",
+        "origin-center",
+        popoverClassName,
+        className
+      )}
+      style={{
+        position: "absolute",
+        top: portalPos.top,
+        left: portalPos.left,
+        maxWidth,
+        pointerEvents: interactive ? "auto" : "none",
+      }}
+      role="dialog"
+      aria-modal="false"
+      {...props}
+    >
+      {(title || showCloseButton) && (
+        <div className="flex items-start justify-between mb-2 pb-2 border-b border-border/50">
+          {title && (
+            <div className="font-semibold text-base text-foreground">
+              {title}
+            </div>
+          )}
+          {showCloseButton && (
+            <button
+              onClick={() => onClose?.()}
+              className="ml-auto p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+              aria-label="Close popover"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
+      )}
+
+      <div className="text-foreground/90">{content}</div>
+
+      {footer && (
+        <div className="mt-3 pt-3 border-t border-border/50">{footer}</div>
+      )}
+
+      {arrow && (
+        <div
+          className={cn(
+            arrowVariants({
+              variant: popoverVariantsProps.variant,
+              position: popoverVariantsProps.position,
+            }),
+            arrowClassName
+          )}
+          style={arrowStyle}
+        />
+      )}
+    </div>
+  );
+
+  if (disablePortal || !portalContainer) return popoverNode;
+  return createPortal(popoverNode, portalContainer);
+}
