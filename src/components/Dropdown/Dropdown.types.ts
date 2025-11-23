@@ -78,6 +78,8 @@ export interface DropdownProps {
   className?: string;
   triggerClassName?: string;
   contentClassName?: string;
+  /** Disable portaling and render content inline */
+  disablePortal?: boolean;
 }
 
 export interface DropdownTriggerProps {

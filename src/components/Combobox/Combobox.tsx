@@ -10,6 +10,8 @@ import React, {
   useMemo,
   forwardRef,
 } from "react";
+import { createPortal } from "react-dom";
+import usePortalPosition from "../../lib/usePortalPosition";
 import { cn } from "../../lib/utils";
 import type {
   ComboboxProps,
@@ -28,7 +30,12 @@ import type {
   ComboboxVariant,
 } from "./Combobox.types";
 import { Check, ChevronDown, X, Search, Plus, Loader2 } from "lucide-react";
-import { triggerVariants, contentVariants, optionVariants, searchVariants } from "./Combobox.styles";
+import {
+  triggerVariants,
+  contentVariants,
+  optionVariants,
+  searchVariants,
+} from "./Combobox.styles";
 
 /**
  * Combobox Component
@@ -91,8 +98,6 @@ const useCombobox = () => {
   }
   return context;
 };
-
-
 
 /**
  * Default filter function with advanced fuzzy matching
@@ -189,10 +194,11 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       id,
       "aria-label": ariaLabel,
       "aria-describedby": ariaDescribedby,
+      placement = "bottom",
+      disablePortal = false,
     },
     ref
   ) => {
-
     // Detect usage mode
     const isComponentBased = !propOptions.length && children;
 
@@ -207,6 +213,23 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const triggerRef = useRef<HTMLButtonElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
+
+    // Portal positioning (optional)
+    const { portalContainer, portalRef, portalPos } = usePortalPosition(
+      triggerRef as React.RefObject<HTMLElement>,
+      isOpen,
+      { position: placement }
+    );
+
+    const [positionReady, setPositionReady] = useState(false);
+    useEffect(() => {
+      if (!isOpen) {
+        setPositionReady(false);
+        return;
+      }
+      const t = setTimeout(() => setPositionReady(true), 20);
+      return () => clearTimeout(t);
+    }, [isOpen, portalPos.left, portalPos.top]);
 
     const isControlled = controlledValue !== undefined;
     const value = isControlled ? controlledValue : internalValue;
@@ -465,17 +488,16 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       handleOpenChange,
     ]);
 
-    // Click outside handler
+    // Click outside handler (respect portal when used)
     useEffect(() => {
       if (!isOpen) return;
 
       const handleClickOutside = (e: MouseEvent) => {
-        if (
-          triggerRef.current &&
-          !triggerRef.current.contains(e.target as Node) &&
-          dropdownRef.current &&
-          !dropdownRef.current.contains(e.target as Node)
-        ) {
+        const target = e.target as Node;
+        const insideTrigger = triggerRef.current?.contains(target);
+        const insideDropdown = dropdownRef.current?.contains(target);
+        const insidePortal = portalRef?.current?.contains(target);
+        if (!insideTrigger && !insideDropdown && !insidePortal) {
           handleOpenChange(false);
         }
       };
@@ -483,7 +505,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       document.addEventListener("mousedown", handleClickOutside);
       return () =>
         document.removeEventListener("mousedown", handleClickOutside);
-    }, [isOpen, handleOpenChange]);
+    }, [isOpen, handleOpenChange, portalRef]);
 
     // Context value
     const contextValue: ComboboxContextValue = {
@@ -647,77 +669,108 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           {isOpen && (
             <>
               {/* Component-based API */}
-              {isComponentBased ? (
-                children
-              ) : (
-                <div
-                  ref={dropdownRef}
-                  className={cn(
-                    contentVariants({ variant }),
-                    dropdownClassName
-                  )}
-                  style={{ maxHeight }}
-                >
-                  {/* Search input */}
-                  {searchable && (
-                    <div className="relative">
-                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-                      <input
-                        ref={searchInputRef}
-                        type="text"
-                        value={inputValue}
-                        onChange={(e) => handleSearch(e.target.value)}
-                        placeholder={searchPlaceholder}
-                        className={cn(searchVariants({ size }), "pl-10")}
-                      />
-                    </div>
-                  )}
-
-                  {/* Options list */}
-                  <div className="overflow-y-auto max-h-[280px] py-1">
-                    {loading ? (
-                      <div className="flex items-center justify-center py-8">
-                        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
-                        <span className="ml-2 text-muted-foreground">
-                          {loadingMessage}
-                        </span>
-                      </div>
-                    ) : filteredOptions.length === 0 ? (
-                      <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
-                        {emptyMessage}
-                        {creatable && inputValue.trim() && (
-                          <button
-                            onClick={handleCreate}
-                            className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
-                          >
-                            <Plus className="w-4 h-4" />
-                            {typeof createText === "function"
-                              ? createText(inputValue)
-                              : `${createText} "${inputValue}"`}
-                          </button>
+              {isComponentBased
+                ? children
+                : (() => {
+                    const contentNode = (
+                      <div
+                        ref={(node) => {
+                          dropdownRef.current = node as HTMLDivElement | null;
+                          portalRef.current = node as HTMLDivElement | null;
+                        }}
+                        className={cn(
+                          contentVariants({ variant }),
+                          dropdownClassName,
+                          positionReady ? undefined : "transition-none"
                         )}
-                      </div>
-                    ) : (
-                      <>
-                        {propOptions.map((item, groupIndex) => {
-                          if ("options" in item) {
-                            // Grouped options
-                            const group = item as ComboboxGroupType;
-                            const groupOptions = filterOptions(
-                              group.options,
-                              inputValue
-                            );
-                            if (groupOptions.length === 0) return null;
+                        style={{
+                          position: "absolute",
+                          top: portalPos.top,
+                          left: portalPos.left,
+                          maxHeight,
+                        }}
+                      >
+                        {/* Search input */}
+                        {searchable && (
+                          <div className="relative">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                            <input
+                              ref={searchInputRef}
+                              type="text"
+                              value={inputValue}
+                              onChange={(e) => handleSearch(e.target.value)}
+                              placeholder={searchPlaceholder}
+                              className={cn(searchVariants({ size }), "pl-10")}
+                            />
+                          </div>
+                        )}
 
-                            return (
-                              <div key={groupIndex}>
-                                <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                  {group.label}
-                                </div>
-                                {groupOptions.map((option) => {
+                        {/* Options list */}
+                        <div className="overflow-y-auto max-h-[280px] py-1">
+                          {loading ? (
+                            <div className="flex items-center justify-center py-8">
+                              <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+                              <span className="ml-2 text-muted-foreground">
+                                {loadingMessage}
+                              </span>
+                            </div>
+                          ) : filteredOptions.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
+                              {emptyMessage}
+                              {creatable && inputValue.trim() && (
+                                <button
+                                  onClick={handleCreate}
+                                  className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
+                                >
+                                  <Plus className="w-4 h-4" />
+                                  {typeof createText === "function"
+                                    ? createText(inputValue)
+                                    : `${createText} "${inputValue}"`}
+                                </button>
+                              )}
+                            </div>
+                          ) : (
+                            <>
+                              {propOptions.map((item, groupIndex) => {
+                                if ("options" in item) {
+                                  // Grouped options
+                                  const group = item as ComboboxGroupType;
+                                  const groupOptions = filterOptions(
+                                    group.options,
+                                    inputValue
+                                  );
+                                  if (groupOptions.length === 0) return null;
+
+                                  return (
+                                    <div key={groupIndex}>
+                                      <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                        {group.label}
+                                      </div>
+                                      {groupOptions.map((option) => {
+                                        const globalIndex =
+                                          filteredOptions.findIndex(
+                                            (o) => o.value === option.value
+                                          );
+                                        return (
+                                          <ComboboxOptionItem
+                                            key={option.value}
+                                            option={option}
+                                            index={globalIndex}
+                                            renderOption={renderOption}
+                                            optionClassName={optionClassName}
+                                          />
+                                        );
+                                      })}
+                                    </div>
+                                  );
+                                } else {
+                                  // Flat option
+                                  const option = item as ComboboxOption;
                                   const globalIndex = filteredOptions.findIndex(
                                     (o) => o.value === option.value
                                   );
+                                  if (globalIndex === -1) return null;
+
                                   return (
                                     <ComboboxOptionItem
                                       key={option.value}
@@ -727,33 +780,17 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                                       optionClassName={optionClassName}
                                     />
                                   );
-                                })}
-                              </div>
-                            );
-                          } else {
-                            // Flat option
-                            const option = item as ComboboxOption;
-                            const globalIndex = filteredOptions.findIndex(
-                              (o) => o.value === option.value
-                            );
-                            if (globalIndex === -1) return null;
+                                }
+                              })}
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    );
 
-                            return (
-                              <ComboboxOptionItem
-                                key={option.value}
-                                option={option}
-                                index={globalIndex}
-                                renderOption={renderOption}
-                                optionClassName={optionClassName}
-                              />
-                            );
-                          }
-                        })}
-                      </>
-                    )}
-                  </div>
-                </div>
-              )}
+                    if (!portalContainer || disablePortal) return contentNode;
+                    return createPortal(contentNode, portalContainer);
+                  })()}
             </>
           )}
 

@@ -40,7 +40,7 @@ import ColorPalette from "./ColorPalette";
 // import TextAreaExample from "./TextAreaExample";
 // import { SelectExample } from "./SelectExample";
  import { AutocompleteExample } from "./AutocompleteExample";
-// import ComboboxExample from "./ComboboxExample";
+ import ComboboxExample from "./ComboboxExample";
 // import NativeSelectExample from "./NativeSelectExample";
 // import { CheckboxExample } from "./CheckboxExample";
 // import { CheckboxGroupExample } from "./CheckboxGroupExample";
@@ -191,6 +191,7 @@ export const AllComponentExamples = () => {
         <ColorPickerExample />
         <SegmentedExample /> */}
         <AutocompleteExample />
+        <ComboboxExample />
       </div>
 
       {/* Feedback Components */}

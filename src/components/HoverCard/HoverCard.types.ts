@@ -53,6 +53,8 @@ export interface HoverCardContextValue {
   position?: HoverCardPosition;
   openDelay?: number;
   closeDelay?: number;
+  triggerRef?: React.RefObject<HTMLElement | null>;
+  disablePortal?: boolean;
 }
 
 /**
@@ -119,6 +121,8 @@ export interface HoverCardProps {
    * Additional CSS classes
    */
   className?: string;
+  /** Disable portaling and render inline */
+  disablePortal?: boolean;
 }
 
 /**
