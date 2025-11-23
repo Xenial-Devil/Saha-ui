@@ -1,3 +1,10 @@
+# [1.21.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.20.0...v1.21.0) (2025-11-23)
+
+
+### Features
+
+* **toggle:** consolidate Toggle/Group contexts and rename items ([bb7e94c](https://github.com/Xenial-Devil/Saha-ui/commit/bb7e94cc1f2df69cfa8c0662aabc0d650c2de245))
+
 # [1.20.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.19.0...v1.20.0) (2025-11-23)
 
 
