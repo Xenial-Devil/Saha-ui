@@ -14,7 +14,7 @@ import { Slot } from "../../lib/Slot";
 // CONTEXT
 // ============================================================================
 
-interface ToggleGroupContextValue {
+export interface ToggleGroupContextValue {
   type: "single" | "multiple";
   value: string | string[] | undefined;
   onValueChange: (value: string | string[]) => void;
@@ -23,7 +23,7 @@ interface ToggleGroupContextValue {
   disabled?: boolean;
 }
 
-const ToggleGroupContext = React.createContext<
+export const ToggleGroupContext = React.createContext<
   ToggleGroupContextValue | undefined
 >(undefined);
 
@@ -69,7 +69,7 @@ export const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
       asChild = false,
       ...props
     },
-    ref,
+    ref
   ) => {
     const groupContext = useToggleGroup();
     const [uncontrolledPressed, setUncontrolledPressed] =
@@ -148,7 +148,7 @@ export const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
             variant: effectiveVariant,
             size: effectiveSize,
           }),
-          className,
+          className
         )}
         onClick={handleClick}
         {...props}
@@ -156,7 +156,7 @@ export const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
         {children}
       </Comp>
     );
-  },
+  }
 );
 
 Toggle.displayName = "Toggle";
@@ -203,7 +203,7 @@ export const ToggleGroup = React.forwardRef<HTMLDivElement, ToggleGroupProps>(
       children,
       ...props
     },
-    ref,
+    ref
   ) => {
     const [uncontrolledValue, setUncontrolledValue] = React.useState<
       string | string[]
@@ -220,7 +220,7 @@ export const ToggleGroup = React.forwardRef<HTMLDivElement, ToggleGroupProps>(
           onValueChange(newValue as any);
         }
       },
-      [value, onValueChange],
+      [value, onValueChange]
     );
 
     const contextValue: ToggleGroupContextValue = React.useMemo(
@@ -232,7 +232,7 @@ export const ToggleGroup = React.forwardRef<HTMLDivElement, ToggleGroupProps>(
         size,
         disabled,
       }),
-      [type, effectiveValue, handleValueChange, variant, size, disabled],
+      [type, effectiveValue, handleValueChange, variant, size, disabled]
     );
 
     return (
@@ -248,7 +248,7 @@ export const ToggleGroup = React.forwardRef<HTMLDivElement, ToggleGroupProps>(
         </div>
       </ToggleGroupContext.Provider>
     );
-  },
+  }
 );
 
 ToggleGroup.displayName = "ToggleGroup";

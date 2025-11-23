@@ -1,4 +1,4 @@
-import { ToggleGroup, ToggleGroupItem } from "../components/ToggleGroup/index";
+import { ToggleGroup, Toggle } from "../components/ToggleGroup/index";
 import {
   AlignLeft,
   AlignCenter,
@@ -45,29 +45,29 @@ export default function ToggleGroupExample() {
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Text Alignment</h3>
             <ToggleGroup type="single" defaultValue="left">
-              <ToggleGroupItem value="left">
+              <Toggle value="left">
                 <AlignLeft className="h-4 w-4" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="center">
+              </Toggle>
+              <Toggle value="center">
                 <AlignCenter className="h-4 w-4" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="right">
+              </Toggle>
+              <Toggle value="right">
                 <AlignRight className="h-4 w-4" />
-              </ToggleGroupItem>
+              </Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">List Style</h3>
             <ToggleGroup type="single" defaultValue="bullet">
-              <ToggleGroupItem value="bullet">
+              <Toggle value="bullet">
                 <List className="h-4 w-4" />
                 <span>Bullet</span>
-              </ToggleGroupItem>
-              <ToggleGroupItem value="numbered">
+              </Toggle>
+              <Toggle value="numbered">
                 <ListOrdered className="h-4 w-4" />
                 <span>Numbered</span>
-              </ToggleGroupItem>
+              </Toggle>
             </ToggleGroup>
           </div>
         </div>
@@ -85,33 +85,33 @@ export default function ToggleGroupExample() {
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Text Formatting</h3>
             <ToggleGroup type="multiple" defaultValue={["bold"]}>
-              <ToggleGroupItem value="bold">
+              <Toggle value="bold">
                 <Bold className="h-4 w-4" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="italic">
+              </Toggle>
+              <Toggle value="italic">
                 <Italic className="h-4 w-4" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="underline">
+              </Toggle>
+              <Toggle value="underline">
                 <Underline className="h-4 w-4" />
-              </ToggleGroupItem>
+              </Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Content Types</h3>
             <ToggleGroup type="multiple" defaultValue={["text", "image"]}>
-              <ToggleGroupItem value="text">
+              <Toggle value="text">
                 <Type className="h-4 w-4" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="image">
+              </Toggle>
+              <Toggle value="image">
                 <Image className="h-4 w-4" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="link">
+              </Toggle>
+              <Toggle value="link">
                 <Link className="h-4 w-4" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="table">
+              </Toggle>
+              <Toggle value="table">
                 <Table className="h-4 w-4" />
-              </ToggleGroupItem>
+              </Toggle>
             </ToggleGroup>
           </div>
         </div>
@@ -127,90 +127,90 @@ export default function ToggleGroupExample() {
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Default</h3>
             <ToggleGroup type="single" variant="default">
-              <ToggleGroupItem value="1">One</ToggleGroupItem>
-              <ToggleGroupItem value="2">Two</ToggleGroupItem>
-              <ToggleGroupItem value="3">Three</ToggleGroupItem>
+              <Toggle value="1">One</Toggle>
+              <Toggle value="2">Two</Toggle>
+              <Toggle value="3">Three</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Primary</h3>
             <ToggleGroup type="single" variant="primary">
-              <ToggleGroupItem value="1">One</ToggleGroupItem>
-              <ToggleGroupItem value="2">Two</ToggleGroupItem>
-              <ToggleGroupItem value="3">Three</ToggleGroupItem>
+              <Toggle value="1">One</Toggle>
+              <Toggle value="2">Two</Toggle>
+              <Toggle value="3">Three</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Secondary</h3>
             <ToggleGroup type="single" variant="secondary">
-              <ToggleGroupItem value="1">One</ToggleGroupItem>
-              <ToggleGroupItem value="2">Two</ToggleGroupItem>
-              <ToggleGroupItem value="3">Three</ToggleGroupItem>
+              <Toggle value="1">One</Toggle>
+              <Toggle value="2">Two</Toggle>
+              <Toggle value="3">Three</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Accent</h3>
             <ToggleGroup type="single" variant="accent">
-              <ToggleGroupItem value="1">One</ToggleGroupItem>
-              <ToggleGroupItem value="2">Two</ToggleGroupItem>
-              <ToggleGroupItem value="3">Three</ToggleGroupItem>
+              <Toggle value="1">One</Toggle>
+              <Toggle value="2">Two</Toggle>
+              <Toggle value="3">Three</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Success</h3>
             <ToggleGroup type="single" variant="success">
-              <ToggleGroupItem value="1">One</ToggleGroupItem>
-              <ToggleGroupItem value="2">Two</ToggleGroupItem>
-              <ToggleGroupItem value="3">Three</ToggleGroupItem>
+              <Toggle value="1">One</Toggle>
+              <Toggle value="2">Two</Toggle>
+              <Toggle value="3">Three</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Warning</h3>
             <ToggleGroup type="single" variant="warning">
-              <ToggleGroupItem value="1">One</ToggleGroupItem>
-              <ToggleGroupItem value="2">Two</ToggleGroupItem>
-              <ToggleGroupItem value="3">Three</ToggleGroupItem>
+              <Toggle value="1">One</Toggle>
+              <Toggle value="2">Two</Toggle>
+              <Toggle value="3">Three</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Error</h3>
             <ToggleGroup type="single" variant="error">
-              <ToggleGroupItem value="1">One</ToggleGroupItem>
-              <ToggleGroupItem value="2">Two</ToggleGroupItem>
-              <ToggleGroupItem value="3">Three</ToggleGroupItem>
+              <Toggle value="1">One</Toggle>
+              <Toggle value="2">Two</Toggle>
+              <Toggle value="3">Three</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Info</h3>
             <ToggleGroup type="single" variant="info">
-              <ToggleGroupItem value="1">One</ToggleGroupItem>
-              <ToggleGroupItem value="2">Two</ToggleGroupItem>
-              <ToggleGroupItem value="3">Three</ToggleGroupItem>
+              <Toggle value="1">One</Toggle>
+              <Toggle value="2">Two</Toggle>
+              <Toggle value="3">Three</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Outline</h3>
             <ToggleGroup type="single" variant="outline">
-              <ToggleGroupItem value="1">One</ToggleGroupItem>
-              <ToggleGroupItem value="2">Two</ToggleGroupItem>
-              <ToggleGroupItem value="3">Three</ToggleGroupItem>
+              <Toggle value="1">One</Toggle>
+              <Toggle value="2">Two</Toggle>
+              <Toggle value="3">Three</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Ghost</h3>
             <ToggleGroup type="single" variant="ghost">
-              <ToggleGroupItem value="1">One</ToggleGroupItem>
-              <ToggleGroupItem value="2">Two</ToggleGroupItem>
-              <ToggleGroupItem value="3">Three</ToggleGroupItem>
+              <Toggle value="1">One</Toggle>
+              <Toggle value="2">Two</Toggle>
+              <Toggle value="3">Three</Toggle>
             </ToggleGroup>
           </div>
         </div>
@@ -226,60 +226,60 @@ export default function ToggleGroupExample() {
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Small</h3>
             <ToggleGroup type="single" size="sm">
-              <ToggleGroupItem value="h1">
+              <Toggle value="h1">
                 <Heading1 className="h-3 w-3" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="h2">
+              </Toggle>
+              <Toggle value="h2">
                 <Heading2 className="h-3 w-3" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="p">
+              </Toggle>
+              <Toggle value="p">
                 <Type className="h-3 w-3" />
-              </ToggleGroupItem>
+              </Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Default</h3>
             <ToggleGroup type="single" size="default">
-              <ToggleGroupItem value="h1">
+              <Toggle value="h1">
                 <Heading1 className="h-4 w-4" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="h2">
+              </Toggle>
+              <Toggle value="h2">
                 <Heading2 className="h-4 w-4" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="p">
+              </Toggle>
+              <Toggle value="p">
                 <Type className="h-4 w-4" />
-              </ToggleGroupItem>
+              </Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Large</h3>
             <ToggleGroup type="single" size="lg">
-              <ToggleGroupItem value="h1">
+              <Toggle value="h1">
                 <Heading1 className="h-5 w-5" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="h2">
+              </Toggle>
+              <Toggle value="h2">
                 <Heading2 className="h-5 w-5" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="p">
+              </Toggle>
+              <Toggle value="p">
                 <Type className="h-5 w-5" />
-              </ToggleGroupItem>
+              </Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Extra Large</h3>
             <ToggleGroup type="single" size="xl">
-              <ToggleGroupItem value="h1">
+              <Toggle value="h1">
                 <Heading1 className="h-5 w-5" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="h2">
+              </Toggle>
+              <Toggle value="h2">
                 <Heading2 className="h-5 w-5" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="p">
+              </Toggle>
+              <Toggle value="p">
                 <Type className="h-5 w-5" />
-              </ToggleGroupItem>
+              </Toggle>
             </ToggleGroup>
           </div>
         </div>
@@ -295,45 +295,45 @@ export default function ToggleGroupExample() {
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">No Spacing (Attached)</h3>
             <ToggleGroup type="single" spacing={0} variant="outline">
-              <ToggleGroupItem value="left">Left</ToggleGroupItem>
-              <ToggleGroupItem value="center">Center</ToggleGroupItem>
-              <ToggleGroupItem value="right">Right</ToggleGroupItem>
+              <Toggle value="left">Left</Toggle>
+              <Toggle value="center">Center</Toggle>
+              <Toggle value="right">Right</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Spacing 1 (Default)</h3>
             <ToggleGroup type="single" spacing={1}>
-              <ToggleGroupItem value="left">Left</ToggleGroupItem>
-              <ToggleGroupItem value="center">Center</ToggleGroupItem>
-              <ToggleGroupItem value="right">Right</ToggleGroupItem>
+              <Toggle value="left">Left</Toggle>
+              <Toggle value="center">Center</Toggle>
+              <Toggle value="right">Right</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Spacing 2</h3>
             <ToggleGroup type="single" spacing={2}>
-              <ToggleGroupItem value="left">Left</ToggleGroupItem>
-              <ToggleGroupItem value="center">Center</ToggleGroupItem>
-              <ToggleGroupItem value="right">Right</ToggleGroupItem>
+              <Toggle value="left">Left</Toggle>
+              <Toggle value="center">Center</Toggle>
+              <Toggle value="right">Right</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Spacing 3</h3>
             <ToggleGroup type="single" spacing={3}>
-              <ToggleGroupItem value="left">Left</ToggleGroupItem>
-              <ToggleGroupItem value="center">Center</ToggleGroupItem>
-              <ToggleGroupItem value="right">Right</ToggleGroupItem>
+              <Toggle value="left">Left</Toggle>
+              <Toggle value="center">Center</Toggle>
+              <Toggle value="right">Right</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Spacing 4</h3>
             <ToggleGroup type="single" spacing={4}>
-              <ToggleGroupItem value="left">Left</ToggleGroupItem>
-              <ToggleGroupItem value="center">Center</ToggleGroupItem>
-              <ToggleGroupItem value="right">Right</ToggleGroupItem>
+              <Toggle value="left">Left</Toggle>
+              <Toggle value="center">Center</Toggle>
+              <Toggle value="right">Right</Toggle>
             </ToggleGroup>
           </div>
         </div>
@@ -349,18 +349,18 @@ export default function ToggleGroupExample() {
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Horizontal (Default)</h3>
             <ToggleGroup type="single" orientation="horizontal">
-              <ToggleGroupItem value="1">Option 1</ToggleGroupItem>
-              <ToggleGroupItem value="2">Option 2</ToggleGroupItem>
-              <ToggleGroupItem value="3">Option 3</ToggleGroupItem>
+              <Toggle value="1">Option 1</Toggle>
+              <Toggle value="2">Option 2</Toggle>
+              <Toggle value="3">Option 3</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Vertical</h3>
             <ToggleGroup type="single" orientation="vertical">
-              <ToggleGroupItem value="1">Option 1</ToggleGroupItem>
-              <ToggleGroupItem value="2">Option 2</ToggleGroupItem>
-              <ToggleGroupItem value="3">Option 3</ToggleGroupItem>
+              <Toggle value="1">Option 1</Toggle>
+              <Toggle value="2">Option 2</Toggle>
+              <Toggle value="3">Option 3</Toggle>
             </ToggleGroup>
           </div>
 
@@ -372,9 +372,9 @@ export default function ToggleGroupExample() {
               spacing={0}
               variant="outline"
             >
-              <ToggleGroupItem value="1">Option 1</ToggleGroupItem>
-              <ToggleGroupItem value="2">Option 2</ToggleGroupItem>
-              <ToggleGroupItem value="3">Option 3</ToggleGroupItem>
+              <Toggle value="1">Option 1</Toggle>
+              <Toggle value="2">Option 2</Toggle>
+              <Toggle value="3">Option 3</Toggle>
             </ToggleGroup>
           </div>
         </div>
@@ -390,20 +390,20 @@ export default function ToggleGroupExample() {
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Entire Group Disabled</h3>
             <ToggleGroup type="single" disabled>
-              <ToggleGroupItem value="1">One</ToggleGroupItem>
-              <ToggleGroupItem value="2">Two</ToggleGroupItem>
-              <ToggleGroupItem value="3">Three</ToggleGroupItem>
+              <Toggle value="1">One</Toggle>
+              <Toggle value="2">Two</Toggle>
+              <Toggle value="3">Three</Toggle>
             </ToggleGroup>
           </div>
 
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-medium">Individual Items Disabled</h3>
             <ToggleGroup type="single">
-              <ToggleGroupItem value="1">Enabled</ToggleGroupItem>
-              <ToggleGroupItem value="2" disabled>
+              <Toggle value="1">Enabled</Toggle>
+              <Toggle value="2" disabled>
                 Disabled
-              </ToggleGroupItem>
-              <ToggleGroupItem value="3">Enabled</ToggleGroupItem>
+              </Toggle>
+              <Toggle value="3">Enabled</Toggle>
             </ToggleGroup>
           </div>
         </div>
@@ -420,36 +420,36 @@ export default function ToggleGroupExample() {
             <h3 className="text-sm font-medium">Rich Text Editor Toolbar</h3>
             <div className="flex flex-wrap gap-2">
               <ToggleGroup type="multiple" spacing={0} variant="outline">
-                <ToggleGroupItem value="bold">
+                <Toggle value="bold">
                   <Bold className="h-4 w-4" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="italic">
+                </Toggle>
+                <Toggle value="italic">
                   <Italic className="h-4 w-4" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="underline">
+                </Toggle>
+                <Toggle value="underline">
                   <Underline className="h-4 w-4" />
-                </ToggleGroupItem>
+                </Toggle>
               </ToggleGroup>
 
               <ToggleGroup type="single" spacing={0} variant="outline">
-                <ToggleGroupItem value="left">
+                <Toggle value="left">
                   <AlignLeft className="h-4 w-4" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="center">
+                </Toggle>
+                <Toggle value="center">
                   <AlignCenter className="h-4 w-4" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="right">
+                </Toggle>
+                <Toggle value="right">
                   <AlignRight className="h-4 w-4" />
-                </ToggleGroupItem>
+                </Toggle>
               </ToggleGroup>
 
               <ToggleGroup type="single" spacing={0} variant="outline">
-                <ToggleGroupItem value="quote">
+                <Toggle value="quote">
                   <Quote className="h-4 w-4" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="code">
+                </Toggle>
+                <Toggle value="code">
                   <Code className="h-4 w-4" />
-                </ToggleGroupItem>
+                </Toggle>
               </ToggleGroup>
             </div>
           </div>
@@ -463,22 +463,22 @@ export default function ToggleGroupExample() {
               variant="ghost"
               className="w-48"
             >
-              <ToggleGroupItem value="content">
+              <Toggle value="content">
                 <Type className="h-4 w-4" />
                 <span>Content</span>
-              </ToggleGroupItem>
-              <ToggleGroupItem value="media">
+              </Toggle>
+              <Toggle value="media">
                 <Image className="h-4 w-4" />
                 <span>Media</span>
-              </ToggleGroupItem>
-              <ToggleGroupItem value="links">
+              </Toggle>
+              <Toggle value="links">
                 <Link className="h-4 w-4" />
                 <span>Links</span>
-              </ToggleGroupItem>
-              <ToggleGroupItem value="tables">
+              </Toggle>
+              <Toggle value="tables">
                 <Table className="h-4 w-4" />
                 <span>Tables</span>
-              </ToggleGroupItem>
+              </Toggle>
             </ToggleGroup>
           </div>
 
@@ -490,9 +490,9 @@ export default function ToggleGroupExample() {
               variant="primary"
               defaultValue="all"
             >
-              <ToggleGroupItem value="all">All</ToggleGroupItem>
-              <ToggleGroupItem value="active">Active</ToggleGroupItem>
-              <ToggleGroupItem value="completed">Completed</ToggleGroupItem>
+              <Toggle value="all">All</Toggle>
+              <Toggle value="active">Active</Toggle>
+              <Toggle value="completed">Completed</Toggle>
             </ToggleGroup>
           </div>
         </div>

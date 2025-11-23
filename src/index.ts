@@ -586,10 +586,9 @@ export {
   toolbarGroupVariants,
   toolbarSeparatorVariants,
 } from "./components/TextEditor/TextEditor.styles";
-export { Toggle, ToggleGroup, toggleVariants } from "./components/Toggle";
+export { Toggle, toggleVariants } from "./components/Toggle";
 export {
-  ToggleGroup as ToggleGroupStandalone,
-  ToggleGroupItem,
+  ToggleGroup,
   toggleGroupVariants,
   toggleGroupItemVariants,
 } from "./components/ToggleGroup";
@@ -1138,13 +1137,12 @@ export type {
 
 export type {
   ToggleProps,
-  ToggleGroupProps,
   ToggleVariant,
   ToggleSize,
 } from "./components/Toggle";
 
 export type {
-  ToggleGroupProps as ToggleGroupStandaloneProps,
+  ToggleGroupProps,
   ToggleGroupItemProps,
   ToggleGroupVariant,
   ToggleGroupSize,
@@ -1456,4 +1454,4 @@ export type {
 
 export { VideoPlayer, type VideoPlayerProps } from "./components/VideoPlayer";
 
-export {Result,type ResultProps} from "./components/Result"
+export { Result, type ResultProps } from "./components/Result";
