@@ -1,3 +1,10 @@
+# [1.22.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.21.0...v1.22.0) (2025-11-23)
+
+
+### Features
+
+* **ui:** improve theme dropdown portal positioning and clicks ([2f8039e](https://github.com/Xenial-Devil/Saha-ui/commit/2f8039ea497979377450cf07d49e63186b6515b1))
+
 # [1.21.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.20.0...v1.21.0) (2025-11-23)
 
 
