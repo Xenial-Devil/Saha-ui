@@ -38,6 +38,8 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
     top: 0,
     left: 0,
   });
+  const [portalTransformOrigin, setPortalTransformOrigin] =
+    useState<string>("left top");
   const portalRef = React.useRef<HTMLDivElement | null>(null);
 
   // Set mounted state after client-side hydration
@@ -48,10 +50,27 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
+      const target = event.target as Node;
+
+      // Use composedPath when available to handle portal/shadow DOM correctly
+      const path: EventTarget[] = (event as any).composedPath?.() || [];
+
+      const clickedInsideDropdown =
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+        (path.length
+          ? path.includes(dropdownRef.current)
+          : dropdownRef.current.contains(target));
+
+      const clickedInsidePortal =
+        portalContainer &&
+        (path.length
+          ? path.includes(portalContainer)
+          : portalContainer.contains(target));
+
+      // If click is inside either dropdown or portal, ignore
+      if (clickedInsideDropdown || clickedInsidePortal) return;
+
+      if (dropdownRef.current && !dropdownRef.current.contains(target)) {
         setIsOpen(false);
       }
     };
@@ -63,7 +82,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen, portalContainer]);
 
   // Create a portal container once
   useEffect(() => {
@@ -126,8 +145,60 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
       }
 
       setPortalPos({ top, left });
+
+      // compute a reasonable transform-origin for animation based on where the
+      // menu was positioned relative to the button
+      const originX = left <= rect.left ? "left" : "right";
+      const originY = top >= rect.bottom ? "top" : "bottom";
+      setPortalTransformOrigin(`${originX} ${originY}`);
     }
   }, [isOpen, variant, themeOptionsCount]);
+
+  // Compute portal position synchronously (used when opening so portal
+  // renders in-place immediately and avoids the 'jump' from 0,0 -> position)
+  const computePortalPositionSync = () => {
+    if (!dropdownRef.current) return;
+
+    const rect = dropdownRef.current.getBoundingClientRect();
+
+    const menuWidthMap: Record<string, number> = {
+      icon: 176,
+      "icon-label": 208,
+    };
+
+    const estimatedMenuWidth = menuWidthMap[variant] ?? 200;
+    const approxOptionHeight = 48;
+    const estimatedMenuHeight = Math.min(
+      themeOptionsCount * approxOptionHeight + 16,
+      400
+    );
+
+    const margin = 8;
+
+    let left = rect.left + window.scrollX;
+    if (left + estimatedMenuWidth > window.innerWidth - margin) {
+      const altLeft = rect.right + window.scrollX - estimatedMenuWidth;
+      left = Math.max(
+        margin,
+        Math.min(altLeft, window.innerWidth - estimatedMenuWidth - margin)
+      );
+    }
+
+    let top = rect.bottom + window.scrollY;
+    if (
+      top + estimatedMenuHeight >
+      window.scrollY + window.innerHeight - margin
+    ) {
+      const flippedTop = rect.top + window.scrollY - estimatedMenuHeight;
+      top = Math.max(margin, flippedTop);
+    }
+
+    setPortalPos({ top, left });
+
+    const originX = left <= rect.left ? "left" : "right";
+    const originY = top >= rect.bottom ? "top" : "bottom";
+    setPortalTransformOrigin(`${originX} ${originY}`);
+  };
 
   // After portal renders, measure its actual size and clamp/flip if needed
   useEffect(() => {
@@ -219,7 +290,12 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
   return (
     <div ref={dropdownRef} className="relative">
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          // If opening, compute portal position synchronously so the portal
+          // renders at the correct place immediately (avoids initial jump)
+          if (!isOpen) computePortalPositionSync();
+          setIsOpen(!isOpen);
+        }}
         className={cn(
           themeToggleButtonVariants({ variant, appearance }),
           className
@@ -269,14 +345,15 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
             <div
               ref={portalRef}
               className={cn(
-                // disable animation when rendering into portal so menu appears exactly at position
-                themeDropdownVariants({ variant, animated: "off" }),
+                // allow animation for portal-mounted menu; we'll set transform origin
+                themeDropdownVariants({ variant, animated: "on" }),
                 computedMenuClassName
               )}
               style={{
                 position: "absolute",
                 top: portalPos.top,
                 left: portalPos.left,
+                transformOrigin: portalTransformOrigin,
               }}
               role="menu"
             >
