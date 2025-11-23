@@ -110,6 +110,9 @@ export interface ComboboxPropsBase {
   /** Dropdown placement */
   placement?: ComboboxPlacement;
 
+  /** Disable portaling (render inline) */
+  disablePortal?: boolean;
+
   /** Max dropdown height */
   maxHeight?: string;
 

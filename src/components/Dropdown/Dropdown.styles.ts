@@ -70,7 +70,7 @@ const dropdownTriggerVariants = cva(
       variant: "default",
       size: "md",
     },
-  },
+  }
 );
 
 /**
@@ -101,7 +101,7 @@ const dropdownContentVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  },
+  }
 );
 
 /**
@@ -116,6 +116,11 @@ const dropdownItemVariants = cva(
   ],
   {
     variants: {
+      size: {
+        sm: "gap-2 px-3 py-1.5 text-sm",
+        md: "gap-3 px-4 py-2.5 text-base",
+        lg: "gap-4 px-5 py-3 text-lg",
+      },
       variant: {
         default: [
           "text-foreground hover:bg-foreground/5",
@@ -157,8 +162,9 @@ const dropdownItemVariants = cva(
     },
     defaultVariants: {
       variant: "default",
+      size: "md",
     },
-  },
+  }
 );
 export {
   dropdownTriggerVariants,

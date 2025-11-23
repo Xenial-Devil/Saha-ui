@@ -26,6 +26,8 @@ import {
   labelVariants,
   optionVariants,
 } from "./Autocomplete.styles";
+import { createPortal } from "react-dom";
+import usePortalPosition from "../../lib/usePortalPosition";
 
 // Context for composable components
 interface AutocompleteContextValue {
@@ -50,14 +52,14 @@ interface AutocompleteContextValue {
 }
 
 const AutocompleteContext = createContext<AutocompleteContextValue | undefined>(
-  undefined,
+  undefined
 );
 
 const useAutocomplete = () => {
   const context = useContext(AutocompleteContext);
   if (!context) {
     throw new Error(
-      "Autocomplete subcomponents must be used within <Autocomplete>",
+      "Autocomplete subcomponents must be used within <Autocomplete>"
     );
   }
   return context;
@@ -68,30 +70,49 @@ const useAutocomplete = () => {
 // Default filter function
 const defaultFilterOptions = (
   options: AutocompleteOptionType[],
-  inputValue: string,
+  inputValue: string
 ): AutocompleteOptionType[] => {
   const lowerInput = inputValue.toLowerCase();
   return options.filter(
     (option) =>
       option.label.toLowerCase().includes(lowerInput) ||
-      option.description?.toLowerCase().includes(lowerInput),
+      option.description?.toLowerCase().includes(lowerInput)
   );
 };
 
-// Highlight matching text
-const highlightText = (text: string, query: string) => {
+// Highlight matching text; uses `variant` to pick an appropriate highlight color
+const highlightText = (
+  text: string,
+  query: string,
+  variant: string = "default"
+) => {
   if (!query) return text;
   const parts = text.split(new RegExp(`(${query})`, "gi"));
+
+  const highlightMap: Record<string, string> = {
+    default: "bg-primary/20 text-primary",
+    primary: "bg-primary/20 text-primary",
+    success: "bg-success/20 text-success",
+    warning: "bg-warning/20 text-warning",
+    error: "bg-danger/20 text-danger",
+    glass: "bg-white/8 text-foreground",
+    ghost: "bg-muted/8 text-foreground",
+    filled: "bg-muted/8 text-foreground",
+    outlined: "bg-muted/8 text-foreground",
+  };
+
+  const markClass = highlightMap[variant] ?? highlightMap.default;
+
   return (
     <span>
       {parts.map((part, i) =>
         part.toLowerCase() === query.toLowerCase() ? (
-          <mark key={i} className="bg-primary/20 text-primary font-medium">
+          <mark key={i} className={`${markClass} font-medium`}>
             {part}
           </mark>
         ) : (
           part
-        ),
+        )
       )}
     </span>
   );
@@ -144,9 +165,8 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
       children,
       ...props
     },
-    ref,
+    ref
   ) => {
-
     const [internalValue, setInternalValue] = useState("");
     const [internalSelectedValue, setInternalSelectedValue] = useState("");
     const [internalOpen, setInternalOpen] = useState(false);
@@ -225,7 +245,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
         onOpenChange,
         autoSelectFirst,
         filteredOptions,
-      ],
+      ]
     );
 
     // Handle option select
@@ -252,7 +272,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
         closeOnSelect,
         isOpenControlled,
         onOpenChange,
-      ],
+      ]
     );
 
     // Handle clear
@@ -272,7 +292,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
         case "ArrowDown":
           e.preventDefault();
           setHighlightedIndex((prev) =>
-            prev < filteredOptions.length - 1 ? prev + 1 : prev,
+            prev < filteredOptions.length - 1 ? prev + 1 : prev
           );
           break;
 
@@ -324,7 +344,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
     useEffect(() => {
       if (highlightedIndex >= 0 && dropdownRef.current) {
         const highlightedElement = dropdownRef.current.querySelector(
-          `[data-option-index="${highlightedIndex}"]`,
+          `[data-option-index="${highlightedIndex}"]`
         );
         highlightedElement?.scrollIntoView({ block: "nearest" });
       }
@@ -357,7 +377,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
     // Render option
     const renderOptionContent = (
       option: AutocompleteOptionType,
-      index: number,
+      index: number
     ) => {
       if (renderOption) {
         return renderOption(option, value);
@@ -366,11 +386,24 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
       const isHighlighted = highlightedIndex === index;
       const isSelected = option.value === selectedValue;
 
+      const variantClassMap: Record<string, string> = {
+        default: "text-primary",
+        primary: "text-primary",
+        success: "text-success",
+        warning: "text-warning",
+        error: "text-danger",
+        glass: "text-foreground",
+        ghost: "text-foreground",
+        filled: "text-foreground",
+        outlined: "text-foreground",
+      };
+
       return (
         <div
           key={option.value}
           data-option-index={index}
           className={optionVariants({
+            variant,
             size,
             highlighted: isHighlighted,
             selected: isSelected,
@@ -393,7 +426,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
           <div className="flex-1 min-w-0">
             <div className="truncate">
               {highlightMatch
-                ? highlightText(option.label, value)
+                ? highlightText(option.label, value, variant)
                 : option.label}
             </div>
             {showDescriptions && option.description && (
@@ -405,7 +438,13 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
 
           {/* Selected Check */}
           {isSelected && (
-            <Check size={16} className="flex-shrink-0 text-primary" />
+            <Check
+              size={16}
+              className={cn(
+                "flex-shrink-0",
+                variantClassMap[variant] ?? "text-primary"
+              )}
+            />
           )}
         </div>
       );
@@ -547,7 +586,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
             <p
               className={cn(
                 "mt-1.5 text-xs",
-                error ? "text-danger" : "text-muted-foreground",
+                error ? "text-danger" : "text-muted-foreground"
               )}
             >
               {error || helperText}
@@ -581,15 +620,15 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
                         {groupOptions.map((option) =>
                           renderOptionContent(
                             option,
-                            filteredOptions.indexOf(option),
-                          ),
+                            filteredOptions.indexOf(option)
+                          )
                         )}
                       </div>
-                    ),
+                    )
                   )
                 ) : (
                   filteredOptions.map((option, index) =>
-                    renderOptionContent(option, index),
+                    renderOptionContent(option, index)
                   )
                 )}
               </div>
@@ -598,7 +637,7 @@ export const Autocomplete = React.forwardRef<HTMLDivElement, AutocompleteProps>(
         </div>
       </AutocompleteContext.Provider>
     );
-  },
+  }
 );
 
 Autocomplete.displayName = "Autocomplete";
@@ -694,18 +733,42 @@ export const AutocompleteDropdown = React.forwardRef<
 >(({ children, className, asChild = false }, ref) => {
   const { isOpen, variant, dropdownRef } = useAutocomplete();
 
-  if (!isOpen) return null;
-
   const Comp = asChild ? Slot : "div";
 
-  return (
+  // position via portal anchored to the input element (dropdownRef may be used by callers)
+  const anchorRef = (dropdownRef &&
+    dropdownRef.current
+      ?.previousElementSibling) as React.RefObject<HTMLElement> | null;
+
+  // fallback to dropdownRef's parent or the dropdownRef itself
+  const anchor = anchorRef || (dropdownRef as React.RefObject<HTMLElement>);
+
+  const { portalContainer, portalRef, portalPos } = usePortalPosition(
+    anchor as any,
+    isOpen,
+    { position: "bottom" }
+  );
+
+  if (!isOpen) return null;
+
+  const node = (
     <Comp
-      ref={ref || dropdownRef}
+      ref={(node) => {
+        if (typeof ref === "function") ref(node as HTMLDivElement);
+        else if (ref)
+          (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        if (dropdownRef) dropdownRef.current = node as HTMLDivElement | null;
+        portalRef.current = node as HTMLDivElement | null;
+      }}
       className={cn(dropdownVariants({ variant }), className)}
+      style={{ position: "absolute", top: portalPos.top, left: portalPos.left }}
     >
       {children}
     </Comp>
   );
+
+  if (!portalContainer) return node;
+  return createPortal(node, portalContainer);
 });
 
 AutocompleteDropdown.displayName = "AutocompleteDropdown";
@@ -732,6 +795,7 @@ export const AutocompleteOption = React.forwardRef<
     handleSelect,
     setHighlightedIndex,
     value,
+    variant,
   } = useAutocomplete();
 
   const isHighlighted = highlightedIndex === index;
@@ -744,6 +808,7 @@ export const AutocompleteOption = React.forwardRef<
       ref={ref}
       data-option-index={index}
       className={optionVariants({
+        variant,
         size,
         highlighted: isHighlighted,
         selected: isSelected,
@@ -768,7 +833,7 @@ export const AutocompleteOption = React.forwardRef<
               )}
               <div className="flex-1 min-w-0">
                 <div className="truncate">
-                  {highlightText(option.label, value)}
+                  {highlightText(option.label, value, variant)}
                 </div>
                 {option.description && (
                   <div className="text-xs text-muted-foreground truncate">
@@ -777,7 +842,22 @@ export const AutocompleteOption = React.forwardRef<
                 )}
               </div>
               {isSelected && (
-                <Check size={16} className="flex-shrink-0 text-primary" />
+                <Check
+                  size={16}
+                  className={cn("flex-shrink-0", {
+                    "text-primary":
+                      variant === "primary" || variant === "default",
+                    "text-success": variant === "success",
+                    "text-warning": variant === "warning",
+                    "text-danger": variant === "error",
+                    "text-foreground": [
+                      "glass",
+                      "ghost",
+                      "filled",
+                      "outlined",
+                    ].includes(variant),
+                  })}
+                />
               )}
             </>
           )}

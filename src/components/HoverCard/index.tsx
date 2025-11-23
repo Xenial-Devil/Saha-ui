@@ -8,6 +8,8 @@ import React, {
   useRef,
   useEffect,
 } from "react";
+import { createPortal } from "react-dom";
+import usePortalPosition from "../../lib/usePortalPosition";
 import {
   HoverCardProps,
   HoverCardTriggerProps,
@@ -57,6 +59,7 @@ export const HoverCard: React.FC<HoverCardProps> = ({
   defaultOpen = false,
   children,
   className,
+  disablePortal = false,
 }) => {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
   const isControlled = controlledOpen !== undefined;
@@ -72,6 +75,8 @@ export const HoverCard: React.FC<HoverCardProps> = ({
     [isControlled, onOpenChange]
   );
 
+  const triggerRef = useRef<HTMLElement | null>(null);
+
   const contextValue: HoverCardContextValue = {
     open,
     setOpen,
@@ -80,6 +85,8 @@ export const HoverCard: React.FC<HoverCardProps> = ({
     position,
     openDelay,
     closeDelay,
+    triggerRef,
+    disablePortal,
   };
 
   return (
@@ -100,7 +107,7 @@ export const HoverCardTrigger: React.FC<HoverCardTriggerProps> = ({
   children,
   className,
 }) => {
-  const { setOpen, openDelay, closeDelay } = useHoverCardContext();
+  const { setOpen, openDelay, closeDelay, triggerRef } = useHoverCardContext();
   const openTimeoutRef = useRef<number | undefined>(undefined);
   const closeTimeoutRef = useRef<number | undefined>(undefined);
 
@@ -130,12 +137,14 @@ export const HoverCardTrigger: React.FC<HoverCardTriggerProps> = ({
     return React.cloneElement(children, {
       onMouseEnter: handleMouseEnter,
       onMouseLeave: handleMouseLeave,
+      ref: triggerRef as any,
       className: `${childProps.className || ""} ${className || ""}`.trim(),
     } as any);
   }
 
   return (
     <div
+      ref={triggerRef as any}
       className={hoverCardTriggerVariants({ className })}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -159,9 +168,32 @@ export const HoverCardContent: React.FC<HoverCardContentProps> = ({
   align = "center",
   sideOffset = 8,
 }) => {
-  const { open, setOpen, variant, size, position, closeDelay } =
-    useHoverCardContext();
+  const {
+    open,
+    setOpen,
+    variant,
+    size,
+    position,
+    closeDelay,
+    triggerRef,
+    disablePortal,
+  } = useHoverCardContext() as any;
   const contentRef = useRef<HTMLDivElement>(null);
+  const { portalContainer, portalRef, portalPos } = usePortalPosition(
+    triggerRef as React.RefObject<HTMLElement>,
+    open,
+    { position }
+  );
+
+  const [positionReady, setPositionReady] = useState(false);
+  useEffect(() => {
+    if (!open) {
+      setPositionReady(false);
+      return;
+    }
+    const t = setTimeout(() => setPositionReady(true), 20);
+    return () => clearTimeout(t);
+  }, [open, portalPos.left, portalPos.top]);
   const closeTimeoutRef = useRef<number | undefined>(undefined);
 
   const handleMouseEnter = useCallback(() => {
@@ -174,62 +206,33 @@ export const HoverCardContent: React.FC<HoverCardContentProps> = ({
     }, closeDelay);
   }, [setOpen, closeDelay]);
 
-  useEffect(() => {
-    return () => {
-      clearTimeout(closeTimeoutRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!open || !contentRef.current || !avoidCollisions) return;
-
-    const content = contentRef.current;
-    const rect = content.getBoundingClientRect();
-    const viewport = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
-
-    // Adjust position to avoid viewport edges
-    let adjustedLeft = rect.left;
-    let adjustedTop = rect.top;
-
-    if (rect.right > viewport.width - collisionPadding) {
-      adjustedLeft = viewport.width - rect.width - collisionPadding;
-    }
-    if (rect.left < collisionPadding) {
-      adjustedLeft = collisionPadding;
-    }
-    if (rect.bottom > viewport.height - collisionPadding) {
-      adjustedTop = viewport.height - rect.height - collisionPadding;
-    }
-    if (rect.top < collisionPadding) {
-      adjustedTop = collisionPadding;
-    }
-
-    if (adjustedLeft !== rect.left || adjustedTop !== rect.top) {
-      content.style.left = `${adjustedLeft}px`;
-      content.style.top = `${adjustedTop}px`;
-    }
-  }, [open, avoidCollisions, collisionPadding]);
+  // mark unused collision props as used to avoid TS6133
+  void avoidCollisions;
+  void collisionPadding;
 
   if (!open) return null;
 
-  // Calculate position classes
   const positionClasses = getPositionClasses(
     position || "bottom",
     align,
     sideOffset
   );
+  const isPortaled = !!portalContainer && !disablePortal;
+  const combinedClasses = `${isPortaled ? "" : positionClasses} ${
+    className || ""
+  } ${positionReady ? "" : "transition-none"}`.trim();
 
-  return (
+  const contentNode = (
     <div
-      ref={contentRef}
+      ref={(node) => {
+        contentRef.current = node as HTMLDivElement | null;
+        if (portalRef) portalRef.current = node as HTMLDivElement | null;
+      }}
       className={hoverCardContentVariants({
         variant,
         size,
         animation: "fade",
-        className: `${positionClasses} ${className || ""}`,
+        className: combinedClasses,
       })}
       style={{
         width: width
@@ -237,6 +240,9 @@ export const HoverCardContent: React.FC<HoverCardContentProps> = ({
             ? `${width}px`
             : width
           : undefined,
+        position: portalContainer ? "absolute" : undefined,
+        top: portalContainer ? portalPos.top : undefined,
+        left: portalContainer ? portalPos.left : undefined,
       }}
       data-state={open ? "open" : "closed"}
       data-side={position?.split("-")[0] || "bottom"}
@@ -266,6 +272,9 @@ export const HoverCardContent: React.FC<HoverCardContentProps> = ({
       )}
     </div>
   );
+
+  if (!portalContainer || disablePortal) return contentNode;
+  return createPortal(contentNode, portalContainer);
 };
 
 /**

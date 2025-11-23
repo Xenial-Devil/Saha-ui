@@ -11,6 +11,8 @@ import {
   cloneElement,
   useCallback,
 } from "react";
+import { createPortal } from "react-dom";
+import usePortalPosition from "../../lib/usePortalPosition";
 import { cn } from "../../lib/utils";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import type {
@@ -59,7 +61,7 @@ interface DropdownContextValue {
 }
 
 const DropdownContext = createContext<DropdownContextValue | undefined>(
-  undefined,
+  undefined
 );
 
 const useDropdownContext = () => {
@@ -108,11 +110,11 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       className,
       triggerClassName,
       contentClassName,
+      disablePortal = false,
       ...props
     },
-    ref,
+    ref
   ) => {
-
     // Detect usage mode: Component-based vs Props-based
     const isComponentBased = !options && children;
 
@@ -130,6 +132,24 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
     const contentRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
+
+    const position = `${side}${align ? `-${align}` : ""}`;
+    const { portalContainer, portalRef, portalPos } = usePortalPosition(
+      triggerRef as React.RefObject<HTMLElement>,
+      isOpen,
+      { position }
+    );
+
+    const [positionReady, setPositionReady] = useState(false);
+    useEffect(() => {
+      if (!isOpen) {
+        setPositionReady(false);
+        return;
+      }
+      const t = setTimeout(() => setPositionReady(true), 20);
+      return () => clearTimeout(t);
+    }, [isOpen, portalPos.left, portalPos.top]);
 
     const handleOpenChange = useCallback(
       (newOpen: boolean) => {
@@ -142,7 +162,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           setFocusedIndex(0);
         }
       },
-      [isControlledOpen, onOpenChange],
+      [isControlledOpen, onOpenChange]
     );
 
     const handleValueChange = useCallback(
@@ -178,7 +198,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         onChange,
         closeOnSelect,
         handleOpenChange,
-      ],
+      ]
     );
 
     const handleClose = useCallback(() => {
@@ -195,7 +215,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         } else if (e.key === "ArrowDown") {
           e.preventDefault();
           setFocusedIndex((prev) =>
-            Math.min(prev + 1, (options?.length || 1) - 1),
+            Math.min(prev + 1, (options?.length || 1) - 1)
           );
         } else if (e.key === "ArrowUp") {
           e.preventDefault();
@@ -302,13 +322,14 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
         {/* Trigger */}
         <button
+          ref={triggerRef}
           type="button"
           onClick={() => !disabled && handleOpenChange(!isOpen)}
           disabled={disabled || loading}
           className={cn(
             dropdownTriggerVariants({ variant, size }),
             width && `w-[${width}]`,
-            triggerClassName,
+            triggerClassName
           )}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
@@ -319,7 +340,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           <ChevronDown
             className={cn(
               "h-4 w-4 shrink-0 transition-transform duration-300",
-              isOpen && "rotate-180",
+              isOpen && "rotate-180"
             )}
           />
         </button>
@@ -327,84 +348,121 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         {/* Content */}
         {isOpen && (
           <DropdownContext.Provider value={contextValue}>
-            <div
-              ref={contentRef}
-              className={cn(
-                dropdownContentVariants({ variant }),
-                "absolute mt-2 w-full min-w-[200px]",
-                side === "top" && "bottom-full mb-2 mt-0",
-                side === "bottom" && "top-full",
-                align === "start" && "left-0",
-                align === "center" && "left-1/2 -translate-x-1/2",
-                align === "end" && "right-0",
-                width && `w-[${width}]`,
-                contentClassName,
-              )}
-              style={{
-                maxHeight,
-              }}
-            >
-              {/* Search */}
-              {searchable && (
-                <div className="border-b-2 border-border p-2">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <input
-                      ref={searchInputRef}
-                      type="text"
-                      placeholder={searchPlaceholder}
-                      value={searchQuery}
-                      onChange={(e) => {
-                        setSearchQuery(e.target.value);
-                        onSearch?.(e.target.value);
-                      }}
-                      className={cn(
-                        "w-full rounded-lg border-2 border-border bg-background",
-                        "py-2 pl-10 pr-8 text-sm",
-                        "focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50",
-                        "transition-all duration-200",
-                      )}
-                    />
-                    {searchQuery && (
-                      <button
-                        onClick={() => setSearchQuery("")}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 hover:bg-muted"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
+            {(() => {
+              const triggerWidth =
+                triggerRef.current?.getBoundingClientRect().width;
+              const sizeMin = size === "sm" ? 120 : size === "lg" ? 280 : 200;
+              const computedWidth = width
+                ? typeof width === "number"
+                  ? `${width}px`
+                  : String(width)
+                : triggerWidth
+                ? `${Math.max(triggerWidth, sizeMin)}px`
+                : `${sizeMin}px`;
+              const computedMinWidth = triggerWidth
+                ? `${Math.max(triggerWidth, sizeMin)}px`
+                : `${sizeMin}px`;
+
+              const contentNode = (
+                <div
+                  ref={(node) => {
+                    contentRef.current = node as HTMLDivElement | null;
+                    portalRef.current = node as HTMLDivElement | null;
+                  }}
+                  className={cn(
+                    dropdownContentVariants({ variant }),
+                    "absolute mt-2",
+                    side === "top" && "bottom-full mb-2 mt-0",
+                    side === "bottom" && "top-full",
+                    // When rendering in a portal we use portalPos (absolute coords)
+                    // so don't apply alignment utility classes that assume
+                    // positioning relative to the trigger container.
+                    !portalContainer && align === "start" && "left-0",
+                    !portalContainer &&
+                      align === "center" &&
+                      "left-1/2 -translate-x-1/2",
+                    !portalContainer && align === "end" && "right-0",
+                    width && `w-[${width}]`,
+                    contentClassName,
+                    positionReady ? undefined : "transition-none"
+                  )}
+                  style={{
+                    maxHeight,
+                    position: "absolute",
+                    top: portalPos.top,
+                    left: portalPos.left,
+                    width: computedWidth,
+                    minWidth: computedMinWidth,
+                  }}
+                >
+                  {/* Search */}
+                  {searchable && (
+                    <div className="border-b-2 border-border p-2">
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <input
+                          ref={searchInputRef}
+                          type="text"
+                          placeholder={searchPlaceholder}
+                          value={searchQuery}
+                          onChange={(e) => {
+                            setSearchQuery(e.target.value);
+                            onSearch?.(e.target.value);
+                          }}
+                          className={cn(
+                            "w-full rounded-lg border-2 border-border bg-background",
+                            "py-2 pl-10 pr-8 text-sm",
+                            "focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50",
+                            "transition-all duration-200"
+                          )}
+                        />
+                        {searchQuery && (
+                          <button
+                            onClick={() => setSearchQuery("")}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 hover:bg-muted"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Options */}
+                  <div className="max-h-[280px] overflow-y-auto p-1">
+                    {filteredOptions && filteredOptions.length > 0 ? (
+                      filteredOptions.map((option, index) => (
+                        <DropdownItem
+                          key={option.value}
+                          value={option.value}
+                          label={option.label}
+                          icon={option.icon}
+                          avatar={option.avatar}
+                          description={option.description}
+                          badge={option.badge}
+                          shortcut={option.shortcut}
+                          color={option.color}
+                          disabled={option.disabled}
+                          divider={option.divider}
+                          header={option.header}
+                          data-focused={index === focusedIndex}
+                          className={cn(
+                            index === focusedIndex && "bg-muted/50"
+                          )}
+                        />
+                      ))
+                    ) : (
+                      <div className="py-8 text-center text-sm text-muted-foreground">
+                        {emptyMessage}
+                      </div>
                     )}
                   </div>
                 </div>
-              )}
+              );
 
-              {/* Options */}
-              <div className="max-h-[280px] overflow-y-auto p-1">
-                {filteredOptions && filteredOptions.length > 0 ? (
-                  filteredOptions.map((option, index) => (
-                    <DropdownItem
-                      key={option.value}
-                      value={option.value}
-                      label={option.label}
-                      icon={option.icon}
-                      avatar={option.avatar}
-                      description={option.description}
-                      badge={option.badge}
-                      shortcut={option.shortcut}
-                      color={option.color}
-                      disabled={option.disabled}
-                      divider={option.divider}
-                      header={option.header}
-                      data-focused={index === focusedIndex}
-                      className={cn(index === focusedIndex && "bg-muted/50")}
-                    />
-                  ))
-                ) : (
-                  <div className="py-8 text-center text-sm text-muted-foreground">
-                    {emptyMessage}
-                  </div>
-                )}
-              </div>
-            </div>
+              if (!portalContainer || disablePortal) return contentNode;
+              return createPortal(contentNode, portalContainer);
+            })()}
           </DropdownContext.Provider>
         )}
 
@@ -417,7 +475,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         )}
       </div>
     );
-  },
+  }
 );
 
 Dropdown.displayName = "Dropdown";
@@ -444,7 +502,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
       className,
       ...props
     },
-    ref,
+    ref
   ) => {
     const context = useDropdownContext();
     const isSelected = context?.multiple
@@ -467,7 +525,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
           ref={ref}
           className={cn(
             "px-4 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground",
-            className,
+            className
           )}
           {...props}
         >
@@ -482,7 +540,13 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
         onClick={handleClick}
         data-disabled={disabled ? "true" : undefined}
         data-selected={isSelected ? "true" : "false"}
-        className={cn(dropdownItemVariants({ variant: "default" }), className)}
+        className={cn(
+          dropdownItemVariants({
+            variant: context?.variant || "default",
+            size: context?.size || "md",
+          }),
+          className
+        )}
         {...props}
       >
         {/* Checkmark */}
@@ -511,7 +575,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
               <span
                 className={cn(
                   "font-semibold leading-none text-foreground",
-                  color && "",
+                  color && ""
                 )}
                 style={color ? { color } : undefined}
               >
@@ -546,7 +610,7 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
         {children}
       </div>
     );
-  },
+  }
 );
 
 DropdownItem.displayName = "DropdownItem";
@@ -584,7 +648,7 @@ export const DropdownGroup = forwardRef<HTMLDivElement, DropdownGroupProps>(
         {children}
       </div>
     );
-  },
+  }
 );
 
 DropdownGroup.displayName = "DropdownGroup";
@@ -632,7 +696,7 @@ export const DropdownTrigger = forwardRef<
       <ChevronDown
         className={cn(
           "h-4 w-4 shrink-0 transition-transform duration-300",
-          isOpen && "rotate-180",
+          isOpen && "rotate-180"
         )}
       />
     </button>
@@ -657,7 +721,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
       maxHeight = "320px",
       ...props
     },
-    ref,
+    ref
   ) => {
     const context = useDropdownContext();
     const { isOpen, variant } = context;
@@ -669,7 +733,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
         ref={ref}
         className={cn(
           dropdownContentVariants({ variant }),
-          "absolute mt-2 w-full min-w-[200px]",
+          "absolute mt-2 w-full",
           side === "top" && "bottom-full mb-2 mt-0",
           side === "bottom" && "top-full",
           side === "left" && "right-full mr-2 mt-0",
@@ -678,7 +742,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
           align === "center" && "left-1/2 -translate-x-1/2",
           align === "end" && "right-0",
           width && `w-[${width}]`,
-          className,
+          className
         )}
         style={{
           maxHeight,
@@ -688,7 +752,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
         <div className="max-h-[280px] overflow-y-auto p-1">{children}</div>
       </div>
     );
-  },
+  }
 );
 
 DropdownContent.displayName = "DropdownContent";

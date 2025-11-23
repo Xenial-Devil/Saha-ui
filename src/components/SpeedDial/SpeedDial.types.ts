@@ -55,7 +55,14 @@ export interface SpeedDialAction {
   /**
    * Color variant for the action button
    */
-  color?: "default" | "primary" | "secondary" | "success" | "warning" | "error" | "info";
+  color?:
+    | "default"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "warning"
+    | "error"
+    | "info";
 }
 
 /**
@@ -129,7 +136,14 @@ export interface SpeedDialProps
    * Color scheme of the main button
    * @default "primary"
    */
-  color?: "default" | "primary" | "secondary" | "success" | "warning" | "error" | "info";
+  color?:
+    | "default"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "warning"
+    | "error"
+    | "info";
 
   /**
    * Size of the SpeedDial button
@@ -211,4 +225,10 @@ export interface SpeedDialProps
    * Custom backdrop className
    */
   backdropClassName?: string;
+
+  /**
+   * Whether to disable portaling of actions/backdrop
+   * @default false
+   */
+  disablePortal?: boolean;
 }

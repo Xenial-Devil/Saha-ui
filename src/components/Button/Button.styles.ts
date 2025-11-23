@@ -2,7 +2,7 @@ import { cva } from "class-variance-authority";
 // Define button variants using CVA
 const buttonVariants = cva(
   // Base styles - applied to all buttons
-  "group relative inline-flex items-center justify-center font-semibold transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40 disabled:saturate-50 overflow-hidden isolate hover:scale-[1.02] active:scale-[0.98] transform-gpu will-change-transform",
+  "group relative inline-flex items-center justify-center font-semibold transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40 disabled:saturate-50 overflow-hidden isolate hover:scale-[1.02] active:scale-[0.98] transform-gpu will-change-transform cursor-pointer",
   {
     variants: {
       variant: {
@@ -38,7 +38,7 @@ const buttonVariants = cva(
       variant: "primary",
       size: "md",
     },
-  },
+  }
 );
 
 // Shimmer effect classes

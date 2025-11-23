@@ -19,12 +19,16 @@ export { StackExample } from "./StackExample";
 export { GridExample } from "./GridExample";
 export { SectionExample } from "./SectionExample";
 export { AspectRatioExample } from "./AspectRatioExample";
+export { default as AffixExample } from "./AffixExample";
+export { default as MasonryExample } from "./MasonryExample";
 
 // Card & Content
 export { CardExample } from "./CardExample";
 export { AvatarExample } from "./AvatarExample";
 export { ImageExample } from "./ImageExample";
 export { EmptyExample } from "./EmptyExample";
+export { default as AvatarGroupExample } from "./AvatarGroupExample";
+export { default as PaperExample } from "./PaperExample";
 
 // Navigation
 export { BreadcrumbExample } from "./BreadcrumbExample";
@@ -76,6 +80,7 @@ export { SonnerExample } from "./SonnerExample";
 export { default as ProgressExample } from "./ProgressExample";
 export { default as SpinnerExample } from "./SpinnerExample";
 export { SkeletonExample } from "./SkeletonExample";
+export { default as SnackbarExample } from "./SnackbarExample";
 
 // Overlay Components
 export { default as DialogExample } from "./DialogExample";
@@ -86,16 +91,20 @@ export { default as HoverCardExample } from "./HoverCardExample";
 export { DropdownExample } from "./DropdownExample";
 export { default as ContextMenuExample } from "./ContextMenuExample";
 export { default as CommandExample } from "./CommandExample";
+export { default as BackdropExample } from "./BackdropExample";
+export { default as TourExample } from "./TourExample";
 
 // Media Components
 export { CarouselExample } from "./CarouselExample";
 export { PlayButtonExample } from "./PlayButtonExample";
+export { default as ChartExample } from "./ChartExample";
 
 // Utility Components
 export { default as ScrollAreaExample } from "./ScrollAreaExample";
 export { default as ResizableExample } from "./ResizableExample";
 export { ItemExample } from "./ItemExample";
 export { FloatingActionButtonExample } from "./FloatingActionButtonExample";
+export { default as IconButtonExample } from "./IconButtonExample";
 
 // Typography
 export { TypographyExample } from "./TypographyExample";
@@ -104,7 +113,9 @@ export { TypographyExample } from "./TypographyExample";
 export { default as TextEditorExample } from "./TextEditorExample";
 export { default as CodeEditorFrameworkExamples } from "./CodeEditorFrameworkExamples";
 export { default as ChartExamples } from "./ChartExamples";
-
+export { default as CodeEditorExample } from "./CodeEditorExample";
+export { default as StatCardExample } from "./StatCardExample";
+export { default as TransferExample } from "./TransferExample";
 
 // Aggregate component that includes all examples
 export { AllComponentExamples } from "./AllComponentExamples";
