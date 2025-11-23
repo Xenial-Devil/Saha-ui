@@ -47,8 +47,8 @@ import ColorPalette from "./ColorPalette";
 // import { RadioExample } from "./RadioExample";
 // import { RadioAdvancedExample } from "./RadioAdvancedExample";
 // import { SwitchExample } from "./SwitchExample";
-// import { ToggleExample } from "./ToggleExample";
-// import ToggleGroupExample from "./ToggleGroupExample";
+ import { ToggleExample } from "./ToggleExample";
+ import ToggleGroupExample from "./ToggleGroupExample";
 // import { SliderExample } from "./SliderExample";
 // import { RatingExample } from "./RatingExample";
 // import { DatePickerExample } from "./DatePickerExample";
@@ -192,6 +192,8 @@ export const AllComponentExamples = () => {
         <SegmentedExample /> */}
         <AutocompleteExample />
         <ComboboxExample />
+        <ToggleExample />
+        <ToggleGroupExample />
       </div>
 
       {/* Feedback Components */}

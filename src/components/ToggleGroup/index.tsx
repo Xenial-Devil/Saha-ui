@@ -6,29 +6,15 @@ import {
   toggleGroupVariants,
   toggleGroupItemVariants,
 } from "./ToggleGroup.styles";
-import type {
-  ToggleGroupProps,
-  ToggleGroupItemProps,
-  ToggleGroupContextValue,
-} from "./ToggleGroup.types";
+import type { ToggleGroupProps } from "./ToggleGroup.types";
+import { ToggleGroupContext } from "../Toggle";
 
 // ============================================================================
 // CONTEXT
 // ============================================================================
 
-const ToggleGroupContext = React.createContext<
-  ToggleGroupContextValue | undefined
->(undefined);
-
-function useToggleGroupContext() {
-  const context = React.useContext(ToggleGroupContext);
-  if (!context) {
-    throw new Error(
-      "ToggleGroupItem must be used within a ToggleGroup component"
-    );
-  }
-  return context;
-}
+// Use the shared ToggleGroupContext exported from the Toggle component
+// Consumers (Toggle) will use the same context instance.
 
 // ============================================================================
 // TOGGLE GROUP COMPONENT
@@ -44,16 +30,16 @@ function useToggleGroupContext() {
  * ```tsx
  * // Single selection (radio behavior)
  * <ToggleGroup type="single" value={value} onValueChange={setValue}>
- *   <ToggleGroupItem value="left">Left</ToggleGroupItem>
- *   <ToggleGroupItem value="center">Center</ToggleGroupItem>
- *   <ToggleGroupItem value="right">Right</ToggleGroupItem>
+ *   <Toggle value="left">Left</Toggle>
+ *   <Toggle value="center">Center</Toggle>
+ *   <Toggle value="right">Right</Toggle>
  * </ToggleGroup>
  *
  * // Multiple selection (checkbox behavior)
  * <ToggleGroup type="multiple" value={values} onValueChange={setValues}>
- *   <ToggleGroupItem value="bold">B</ToggleGroupItem>
- *   <ToggleGroupItem value="italic">I</ToggleGroupItem>
- *   <ToggleGroupItem value="underline">U</ToggleGroupItem>
+ *   <Toggle value="bold">B</Toggle>
+ *   <Toggle value="italic">I</Toggle>
+ *   <Toggle value="underline">U</Toggle>
  * </ToggleGroup>
  *
  * // With spacing and orientation
@@ -63,8 +49,8 @@ function useToggleGroupContext() {
  *   spacing={0}
  *   orientation="vertical"
  * >
- *   <ToggleGroupItem value="top">Top</ToggleGroupItem>
- *   <ToggleGroupItem value="bottom">Bottom</ToggleGroupItem>
+ *   <Toggle value="top">Top</Toggle>
+ *   <Toggle value="bottom">Bottom</Toggle>
  * </ToggleGroup>
  * ```
  */
@@ -111,8 +97,8 @@ export const ToggleGroup = React.forwardRef<HTMLDivElement, ToggleGroupProps>(
       [controlledValue, onValueChange]
     );
 
-    // Context value
-    const contextValue: ToggleGroupContextValue = React.useMemo(
+    // Context value (no strict type here to allow shape compatibility with Toggle's context)
+    const contextValue = React.useMemo(
       () => ({
         type,
         value,
@@ -161,120 +147,6 @@ export const ToggleGroup = React.forwardRef<HTMLDivElement, ToggleGroupProps>(
 ToggleGroup.displayName = "ToggleGroup";
 
 // ============================================================================
-// TOGGLE GROUP ITEM COMPONENT
-// ============================================================================
-
-/**
- * ToggleGroupItem Component
- *
- * Individual toggle button within a ToggleGroup.
- * Must be used as a child of ToggleGroup.
- *
- * @example
- * ```tsx
- * <ToggleGroupItem value="option1">
- *   Option 1
- * </ToggleGroupItem>
- *
- * // With icon
- * <ToggleGroupItem value="bold">
- *   <Bold className="h-4 w-4" />
- * </ToggleGroupItem>
- *
- * // Disabled item
- * <ToggleGroupItem value="disabled" disabled>
- *   Disabled
- * </ToggleGroupItem>
- * ```
- */
-export const ToggleGroupItem = React.forwardRef<
-  HTMLButtonElement,
-  ToggleGroupItemProps
->(
-  (
-    {
-      className,
-      value,
-      disabled: itemDisabled = false,
-      children,
-      onClick,
-      ...props
-    },
-    ref
-  ) => {
-    const context = useToggleGroupContext();
-    const {
-      type,
-      value: groupValue,
-      onValueChange,
-      variant,
-      size,
-      spacing,
-      orientation,
-      disabled: groupDisabled,
-    } = context;
-
-    const disabled = groupDisabled || itemDisabled;
-
-    // Determine if this item is selected
-    const isSelected = React.useMemo(() => {
-      if (groupValue === undefined) return false;
-      if (type === "single") {
-        return groupValue === value;
-      } else {
-        return Array.isArray(groupValue) && groupValue.includes(value);
-      }
-    }, [type, groupValue, value]);
-
-    // Handle click
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      if (disabled) return;
-
-      if (type === "single") {
-        // For single selection, allow deselection by clicking the same item
-        const newValue = isSelected ? undefined : value;
-        onValueChange(newValue as string);
-      } else {
-        // For multiple selection
-        const currentValues = Array.isArray(groupValue) ? groupValue : [];
-        const newValues = isSelected
-          ? currentValues.filter((v) => v !== value)
-          : [...currentValues, value];
-        onValueChange(newValues);
-      }
-
-      onClick?.(event);
-    };
-
-    return (
-      <button
-        ref={ref}
-        type="button"
-        role={type === "single" ? "radio" : "checkbox"}
-        aria-checked={isSelected}
-        aria-pressed={isSelected}
-        data-state={isSelected ? "on" : "off"}
-        data-variant={variant}
-        data-size={size}
-        data-spacing={spacing}
-        data-orientation={orientation}
-        disabled={disabled}
-        onClick={handleClick}
-        className={cn(
-          toggleGroupItemVariants({ variant, size, spacing, orientation }),
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </button>
-    );
-  }
-);
-
-ToggleGroupItem.displayName = "ToggleGroupItem";
-
-// ============================================================================
 // EXPORTS
 // ============================================================================
 
@@ -288,3 +160,7 @@ export type {
 } from "./ToggleGroup.types";
 
 export { toggleGroupVariants, toggleGroupItemVariants };
+
+// Re-export `Toggle` from the Toggle module so consumers can use `<Toggle>` inside
+// `<ToggleGroup>`. Also keep a `ToggleGroupItem` alias for backward compatibility.
+export { Toggle } from "../Toggle";
