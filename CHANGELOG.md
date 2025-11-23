@@ -1,3 +1,16 @@
+# [1.20.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.19.0...v1.20.0) (2025-11-23)
+
+
+### Bug Fixes
+
+* portalize popovers, tooltips, tour & speed-dial ([a5f2881](https://github.com/Xenial-Devil/Saha-ui/commit/a5f2881a83d14559f65c25f0ef3364dc6450446a))
+
+
+### Features
+
+* **examples:** add generated component example pages and generator ([fe16316](https://github.com/Xenial-Devil/Saha-ui/commit/fe16316f4f609ef6fea956ffb016bdadb1215bd3))
+* **ui:** add optional portal rendering for dropdowns, comboboxes, ([ec79af2](https://github.com/Xenial-Devil/Saha-ui/commit/ec79af2d68913c6159c8e6f53c4988964107cfd5))
+
 # [1.19.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.18.0...v1.19.0) (2025-11-19)
 
 
