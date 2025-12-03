@@ -51,7 +51,12 @@ export {
   aspectRatioVariants,
   overlayVariants as aspectRatioOverlayVariants,
 } from "./components/AspectRatio/AspectRatio.styles";
-export { default as Avatar } from "./components/Avatar";
+export {
+  default as Avatar,
+  Avatar as AvatarRoot,
+  AvatarImage,
+  AvatarFallback,
+} from "./components/Avatar";
 export {
   avatarVariants,
   statusVariants,
@@ -832,6 +837,8 @@ export type {
 } from "./components/AspectRatio/AspectRatio.types";
 export type {
   AvatarProps,
+  AvatarImageProps,
+  AvatarFallbackProps,
   AvatarSize,
   AvatarShape,
   AvatarStatus,
