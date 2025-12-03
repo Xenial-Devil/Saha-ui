@@ -1,3 +1,10 @@
+## [1.22.1](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.0...v1.22.1) (2025-12-03)
+
+
+### Bug Fixes
+
+* **avatar:** add compound components and legacy support ([d92a5ed](https://github.com/Xenial-Devil/Saha-ui/commit/d92a5ed8f36f89ec64bf939014e6c0751dcf0dc2))
+
 # [1.22.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.21.0...v1.22.0) (2025-11-23)
 
 
