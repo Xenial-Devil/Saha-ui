@@ -1,3 +1,11 @@
+## [1.22.2](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.1...v1.22.2) (2025-12-10)
+
+
+### Bug Fixes
+
+* add numeric/custom spacing support to components ([00ab6b8](https://github.com/Xenial-Devil/Saha-ui/commit/00ab6b8b1a2e0448c3f2a20088be8b19c3a6e335))
+* **docs:** split and restructure AI-friendly component docs ([a4f412f](https://github.com/Xenial-Devil/Saha-ui/commit/a4f412fe07628306bf8e5843c72e46ae03c1134c))
+
 ## [1.22.1](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.0...v1.22.1) (2025-12-03)
 
 
