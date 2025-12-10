@@ -62,8 +62,15 @@ export interface FormProps<TFieldValues extends FieldValues = FieldValues>
   loading?: boolean;
   /** Disable all fields */
   disabled?: boolean;
-  /** Add spacing between fields */
-  spacing?: "none" | "sm" | "md" | "lg";
+  /**
+   * Add spacing between fields
+   * Accepts predefined tokens, numbers (px), or string with units
+   * @example
+   * <Form spacing="md">Token spacing</Form>
+   * <Form spacing={16}>16px spacing</Form>
+   * <Form spacing="1.5rem">Custom spacing</Form>
+   */
+  spacing?: "none" | "sm" | "md" | "lg" | number | string;
   /** Additional class names */
   className?: string;
   /** Form children */

@@ -196,17 +196,29 @@ export const TagGroup = forwardRef<HTMLDivElement, TagGroupProps>(
       onMaxReached(hiddenCount);
     }
 
+    // Handle numeric or custom string spacing values
+    const isTokenSpacing =
+      typeof spacing === "string" && ["sm", "md", "lg"].includes(spacing);
+
+    const customStyle =
+      !isTokenSpacing && spacing !== undefined
+        ? {
+            gap: typeof spacing === "number" ? `${spacing}px` : spacing,
+          }
+        : undefined;
+
     return (
       <div
         ref={ref}
         className={cn(
           "flex items-center",
           wrap && "flex-wrap",
-          spacing === "sm" && "gap-1",
-          spacing === "md" && "gap-2",
-          spacing === "lg" && "gap-3",
+          isTokenSpacing && spacing === "sm" && "gap-1",
+          isTokenSpacing && spacing === "md" && "gap-2",
+          isTokenSpacing && spacing === "lg" && "gap-3",
           className
         )}
+        style={customStyle}
         {...props}
       >
         {visibleChildren}

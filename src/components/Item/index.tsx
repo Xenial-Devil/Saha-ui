@@ -484,9 +484,29 @@ ItemFooter.displayName = "ItemFooter";
  */
 export const ItemGroup = React.forwardRef<HTMLDivElement, ItemGroupProps>(
   (
-    { children, variant = "default", spacing = "md", className, ...props },
+    {
+      children,
+      variant = "default",
+      spacing = "md",
+      className,
+      style,
+      ...props
+    },
     ref
   ) => {
+    // Handle numeric or custom string spacing values
+    const isTokenSpacing =
+      typeof spacing === "string" &&
+      ["none", "sm", "md", "lg"].includes(spacing);
+
+    const customStyle =
+      !isTokenSpacing && spacing !== undefined
+        ? {
+            gap: typeof spacing === "number" ? `${spacing}px` : spacing,
+            ...style,
+          }
+        : style;
+
     // Runtime validation
     React.useEffect(() => {
       const validGroupVariants = [
@@ -498,13 +518,22 @@ export const ItemGroup = React.forwardRef<HTMLDivElement, ItemGroupProps>(
       const validSpacing = ["none", "sm", "md", "lg"] as const;
 
       validator.validateEnum("variant", variant, validGroupVariants);
-      validator.validateEnum("spacing", spacing, validSpacing);
-    }, [variant, spacing]);
+      if (isTokenSpacing) {
+        validator.validateEnum("spacing", spacing, validSpacing);
+      }
+    }, [variant, spacing, isTokenSpacing]);
 
     return (
       <div
         ref={ref}
-        className={cn(itemGroupVariants({ variant, spacing }), className)}
+        className={cn(
+          itemGroupVariants({
+            variant,
+            spacing: isTokenSpacing ? (spacing as any) : undefined,
+          }),
+          className
+        )}
+        style={customStyle}
         {...props}
       >
         {children}

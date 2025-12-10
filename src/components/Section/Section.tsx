@@ -72,15 +72,31 @@ export const Section = React.forwardRef<HTMLElement, SectionProps>(
       gutter = true,
       asChild = false,
       children,
+      style,
       role,
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
       "aria-describedby": ariaDescribedBy,
       ...props
     },
-    ref,
+    ref
   ) => {
     const Comp = asChild ? Slot : "section";
+
+    // Handle numeric or custom string padding values
+    const isTokenPadding =
+      typeof padding === "string" &&
+      ["none", "sm", "default", "lg", "xl"].includes(padding);
+
+    const customStyle =
+      !isTokenPadding && padding !== undefined
+        ? {
+            paddingTop: typeof padding === "number" ? `${padding}px` : padding,
+            paddingBottom:
+              typeof padding === "number" ? `${padding}px` : padding,
+            ...style,
+          }
+        : style;
 
     return (
       <Comp
@@ -88,15 +104,16 @@ export const Section = React.forwardRef<HTMLElement, SectionProps>(
         className={cn(
           sectionVariants({
             variant,
-            padding,
+            padding: isTokenPadding ? (padding as any) : undefined,
             maxWidth,
             center,
             bordered,
             fullHeight,
             gutter,
           }),
-          className,
+          className
         )}
+        style={customStyle}
         role={role}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
@@ -106,7 +123,7 @@ export const Section = React.forwardRef<HTMLElement, SectionProps>(
         {children}
       </Comp>
     );
-  },
+  }
 );
 
 Section.displayName = "Section";

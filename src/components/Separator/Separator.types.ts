@@ -22,8 +22,21 @@ export type SeparatorThickness = "thin" | "medium" | "thick";
 
 /**
  * Spacing around the Separator
+ * Accepts predefined tokens, numbers (px), or string with units
+ * @example
+ * <Separator spacing="md" />
+ * <Separator spacing={16} />
+ * <Separator spacing="1rem" />
  */
-export type SeparatorSpacing = "none" | "xs" | "sm" | "md" | "lg" | "xl";
+export type SeparatorSpacing =
+  | "none"
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | number
+  | string;
 
 /**
  * Props for the Separator component
@@ -49,7 +62,12 @@ export interface SeparatorProps extends React.HTMLAttributes<HTMLDivElement> {
 
   /**
    * Spacing around the Separator
+   * Accepts predefined tokens, numbers (px), or string with units
    * @default "md"
+   * @example
+   * <Separator spacing="lg" />
+   * <Separator spacing={20} />
+   * <Separator spacing="1.5rem" />
    */
   spacing?: SeparatorSpacing;
 

@@ -51,7 +51,16 @@ export interface TagProps {
 export interface TagGroupProps {
   children: React.ReactNode;
   className?: string;
-  spacing?: "sm" | "md" | "lg";
+  /**
+   * Spacing between tags
+   * Accepts predefined tokens, numbers (px), or string with units
+   * @default "md"
+   * @example
+   * <TagGroup spacing="sm">Small spacing</TagGroup>
+   * <TagGroup spacing={16}>16px spacing</TagGroup>
+   * <TagGroup spacing="1rem">Custom spacing</TagGroup>
+   */
+  spacing?: "sm" | "md" | "lg" | number | string;
   wrap?: boolean;
   max?: number;
   onMaxReached?: (hiddenCount: number) => void;

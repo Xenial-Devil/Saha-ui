@@ -24,7 +24,15 @@ export interface FieldSetProps
 
 export interface FieldGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   orientation?: FieldOrientation;
-  spacing?: "none" | "sm" | "md" | "lg" | "xl";
+  /**
+   * Spacing between field items
+   * Accepts predefined tokens, numbers (px), or string with units
+   * @example
+   * <FieldGroup spacing="md">Token spacing</FieldGroup>
+   * <FieldGroup spacing={16}>16px spacing</FieldGroup>
+   * <FieldGroup spacing="1rem">Custom spacing</FieldGroup>
+   */
+  spacing?: "none" | "sm" | "md" | "lg" | "xl" | number | string;
   columns?: 1 | 2 | 3 | 4;
   children?: React.ReactNode;
 }

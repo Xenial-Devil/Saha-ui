@@ -9,11 +9,21 @@ export type SectionVariant = "default" | "muted" | "accent" | "gradient";
 
 /**
  * Padding size variants for the Section component
+ * Accepts predefined tokens, numbers (px), or string with units
  * @example
  * <Section padding="sm">Small padding</Section>
  * <Section padding="lg">Large padding</Section>
+ * <Section padding={32}>32px padding</Section>
+ * <Section padding="2rem">Custom padding</Section>
  */
-export type SectionPadding = "none" | "sm" | "default" | "lg" | "xl";
+export type SectionPadding =
+  | "none"
+  | "sm"
+  | "default"
+  | "lg"
+  | "xl"
+  | number
+  | string;
 
 /**
  * Maximum width variants for the Section component
