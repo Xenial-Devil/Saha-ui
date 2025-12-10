@@ -1,346 +1,977 @@
-SAHA UI — ComponentAi List
-Generated: 2025-12-08
-Source: COMPONENTS_LIST.txt (Saha-ui repo)
-Purpose: Machine-readable, deeply descriptive component reference for AI consumption.
+================================================================================
+                        SAHA UI - COMPONENT REFERENCE
+                         For AI Assistant Consumption
+================================================================================
 
-Format for each component entry:
-- Component: <Name>
-- Summary: <One-line summary>
-- Complexity: <simple|medium|complex>
-- Props:
-  - <propName>: <type> | default: <value> | required: <yes/no> — <description>
-- Events/Callbacks:
-  - <eventName>(args) — <description>
-- Variants / CSS classes: <list of named variants, sizes, color tone props>
-- Accessibility notes: <aria roles, keyboard behavior, focus management>
-- Example: <JSX example>
-- Related hooks & components: <list>
-- Notes: <implementation/behavior nuances / assumptions>
+🎯 PURPOSE
+----------
+This document provides comprehensive component documentation for the Saha-ui 
+React component library. Use it to understand component APIs, props, usage 
+patterns, and implementation details.
 
----
+📊 DOCUMENT INFO
+----------------
+- Generated: 2025-12-08
+- Source: COMPONENTS_LIST.txt (Saha-ui repository)
+- Total Components: ~80+ components
+- Framework: React + TypeScript + Tailwind CSS
 
-Component: Container
-Summary: Responsive page-width container that constrains content width, adds vertical spacing, and optionally horizontal gutters.
-Complexity: medium
-Props:
-  - size: 'xs'|'sm'|'md'|'lg'|'xl'|'2xl'|'full' | default: 'lg' | required: no — Max-width preset (maps to design tokens like max-w-7xl, full width, etc.).
-  - padding: 'none'|'sm'|'default'|'lg' | default: 'default' | required: no — Vertical padding preset controlling top/bottom spacing.
-  - center: boolean | default: true | required: no — If true, applies horizontal centering (e.g., mx-auto) to the container.
-  - gutter: boolean | default: true | required: no — Adds responsive horizontal padding (px-4 sm:px-6 lg:px-8); disable for full-bleed layouts.
-  - asChild: boolean | default: false | required: no — When true, uses Slot pattern and forwards container styles to a child element instead of rendering a div.
-  - children: ReactNode | default: undefined | required: no — Content rendered inside the container.
-  - className: string | default: "" | required: no — Additional CSS classes.
-  - aria-label: string | default: undefined | required: no — Accessible label for landmark roles like `main` or `region`.
-  - aria-labelledby: string | default: undefined | required: no — ID of element that labels the container.
-  - aria-describedby: string | default: undefined | required: no — ID of element that describes the container.
-  - role: string | default: undefined | required: no — ARIA role (e.g., 'main', 'region', 'complementary').
-Events/Callbacks:
-  - Inherits standard `div` events via `React.HTMLAttributes<HTMLDivElement>` (onClick, onScroll, etc.).
-Variants / CSS classes:
-  - Size presets map to Tailwind max-width utilities; padding presets map to responsive `py-*` utilities.
-Accessibility notes:
-  - Use `role="main"` or `role="region"` with `aria-label`/`aria-labelledby` for important sections.
-Example:
-  <Container size="lg" padding="default" gutter>
-    <h1 className="text-3xl font-bold">Dashboard</h1>
+🗂️ COMPONENT CATEGORIES
+------------------------
+1. LAYOUT: Container, Grid, GridItem, Masonry, Paper, Section, Stack
+2. TYPOGRAPHY: Heading, Text, Link, Code, Kbd
+3. FORMS: Input, Textarea, Select, Checkbox, Radio, Switch, Slider, Form
+4. BUTTONS: Button, IconButton, ButtonGroup, ToggleButton
+5. FEEDBACK: Alert, Badge, Progress, Spinner, Skeleton, Toast
+6. OVERLAYS: Dialog, Drawer, Modal, Popover, Tooltip, ContextMenu
+7. DATA DISPLAY: Table, DataTable, Card, Avatar, Chip, Accordion
+8. NAVIGATION: Tabs, Breadcrumb, Pagination, Stepper
+9. MEDIA: Image, AspectRatio, Carousel
+10. ADVANCED: Calendar, Chart, CodeEditor, Command, Combobox, DatePicker
+
+📖 HOW TO READ THIS DOCUMENT
+-----------------------------
+Each component follows this structure:
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ COMPONENT NAME                                                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│ Summary: Brief description                                              │
+│ Complexity: simple | medium | complex                                   │
+│                                                                          │
+│ PROPS:                                                                   │
+│   propName: Type                                                         │
+│   - Default: value                                                       │
+│   - Required: yes/no                                                     │
+│   - Description: what it does                                            │
+│                                                                          │
+│ EXAMPLE:                                                                 │
+│   <ComponentName prop="value">...</ComponentName>                        │
+│                                                                          │
+│ NOTES:                                                                   │
+│   - Important behavioral details                                         │
+│   - Common use cases                                                     │
+└─────────────────────────────────────────────────────────────────────────┘
+
+⚠️ COMMON PATTERNS ACROSS ALL COMPONENTS
+-----------------------------------------
+1. asChild Pattern: Most components support `asChild={true}` to merge their
+   styles into a child element instead of rendering a wrapper.
+   
+2. className Support: All components accept a `className` prop for custom
+   styling via Tailwind CSS classes.
+   
+3. Accessibility: Components follow WAI-ARIA patterns and include proper
+   keyboard navigation, focus management, and screen reader support.
+   
+4. TypeScript: Full type safety with exported TypeScript interfaces.
+
+5. Variants: Many components use CVA (class-variance-authority) for
+   consistent variant styling.
+
+================================================================================
+                              COMPONENT LIBRARY
+================================================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. CONTAINER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 SUMMARY
+Responsive page-width container that constrains content width with automatic
+centering, vertical spacing, and optional horizontal gutters.
+
+⚙️ COMPLEXITY: Medium
+
+📦 KEY PROPS
+────────────
+size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'
+  - Default: 'lg'
+  - Controls maximum width (lg = max-w-7xl, full = 100%)
+  - Responsive breakpoint-based constraints
+
+padding: 'none' | 'sm' | 'default' | 'lg' | number | string
+  - Default: 'default'
+  - Vertical padding (y-axis)
+  - Can use tokens or custom values like '2rem'
+
+center: boolean
+  - Default: true
+  - Horizontally centers the container (mx-auto)
+
+gutter: boolean
+  - Default: true
+  - Adds responsive horizontal padding (px-4 sm:px-6 lg:px-8)
+  - Disable for full-bleed layouts
+
+asChild: boolean
+  - Default: false
+  - Merges styles into child element (Slot pattern)
+  - Use for semantic HTML like <main> or <section>
+
+className: string
+  - Additional Tailwind classes
+
+ARIA/Accessibility Props:
+  - role: string (e.g., 'main', 'region')
+  - aria-label, aria-labelledby, aria-describedby
+
+💡 USAGE EXAMPLE
+────────────────
+<Container size="lg" padding="default" gutter>
+  <h1 className="text-3xl font-bold">Dashboard</h1>
+  <p>Your content here...</p>
+</Container>
+
+// With semantic HTML
+<Container asChild size="xl" padding="lg">
+  <main role="main" aria-label="Main content">
+    <YourPageContent />
+  </main>
+</Container>
+
+🔑 KEY FEATURES
+───────────────
+✓ Responsive max-width presets
+✓ Automatic horizontal centering
+✓ Configurable vertical/horizontal spacing
+✓ Works with semantic HTML via asChild
+✓ Full accessibility support
+
+🔗 RELATED COMPONENTS
+─────────────────────
+- Section: For full-width background sections
+- Grid/Stack: For inner layout
+- Paper: For elevated surfaces
+
+⚠️ IMPORTANT NOTES
+──────────────────
+• Use asChild when you need semantic elements like <main> or <section>
+• Disable gutter for edge-to-edge layouts
+• Combine with Grid or Stack for complex layouts
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. GRID
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 SUMMARY
+Flexible CSS Grid layout with 1-12 columns, responsive breakpoints, gap control,
+alignment options, and auto-fit behavior for fluid layouts.
+
+⚙️ COMPLEXITY: Medium
+
+📦 KEY PROPS
+────────────
+cols: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
+  - Default: 12
+  - Base column count (ignored when using autoFit)
+
+responsive: { sm?: number, md?: number, lg?: number, xl?: number }
+  - Default: undefined
+  - Per-breakpoint column counts
+  - Example: { sm: 1, md: 2, lg: 3 } creates responsive grid
+
+gap: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | number | string
+  - Default: 'md'
+  - Spacing between grid items
+  - Can use tokens or custom values
+
+align: 'start' | 'center' | 'end' | 'stretch' | 'baseline'
+  - Default: 'stretch'
+  - Cross-axis alignment for items
+
+justify: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly'
+  - Default: 'start'
+  - Main-axis distribution
+
+autoFit: boolean
+  - Default: false
+  - Uses CSS repeat(auto-fit, minmax(...)) for fluid columns
+  - Great for Pinterest-style layouts
+
+minColWidth: string
+  - Default: '250px'
+  - Minimum column width when autoFit is enabled
+
+asChild: boolean
+  - Default: false
+  - Slot pattern for custom elements
+
+💡 USAGE EXAMPLES
+─────────────────
+// Basic responsive grid
+<Grid cols={3} gap="lg" responsive={{ sm: 1, md: 2, lg: 3 }}>
+  <GridItem>Card 1</GridItem>
+  <GridItem>Card 2</GridItem>
+  <GridItem>Card 3</GridItem>
+</Grid>
+
+// Auto-fit grid (Pinterest-style)
+<Grid autoFit minColWidth="280px" gap="md">
+  {items.map(item => (
+    <GridItem key={item.id}>{item.content}</GridItem>
+  ))}
+</Grid>
+
+// Dashboard layout with custom spans
+<Grid cols={12} gap="lg">
+  <GridItem colSpan={12}>
+    <Header />
+  </GridItem>
+  <GridItem colSpan={12} responsive={{ md: 4 }}>
+    <Sidebar />
+  </GridItem>
+  <GridItem colSpan={12} responsive={{ md: 8 }}>
+    <MainContent />
+  </GridItem>
+</Grid>
+
+🔑 KEY FEATURES
+───────────────
+✓ 1-12 column grid system
+✓ Responsive breakpoints (sm, md, lg, xl)
+✓ Flexible gap control
+✓ Auto-fit for fluid layouts
+✓ Alignment and justification
+✓ Works with GridItem for column/row spanning
+
+♿ ACCESSIBILITY
+───────────────
+• Use role="list" on Grid + role="listitem" on GridItem for collections
+• Provide aria-label for labeled grids
+• Ensure logical DOM order matches visual order
+
+🔗 RELATED COMPONENTS
+─────────────────────
+- GridItem: Child component with colSpan/rowSpan
+- Card: Common grid child
+- Masonry: Alternative for variable-height layouts
+
+⚠️ IMPORTANT NOTES
+──────────────────
+• Always render GridItem inside Grid for proper context
+• Use autoFit + minColWidth for responsive grids without explicit breakpoints
+• Combine responsive prop with GridItem's colSpan for complex layouts
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. GRIDITEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 SUMMARY
+Grid cell component that spans multiple columns/rows with responsive breakpoint
+support. Must be used inside a Grid component.
+
+⚙️ COMPLEXITY: Medium
+
+📦 KEY PROPS
+────────────
+colSpan: 1-12 | 'full'
+  - Default: 1
+  - Number of columns to span
+  - 'full' spans all available columns
+
+rowSpan: 1-6 | 'full'
+  - Default: 1
+  - Number of rows to span
+  - 'full' spans all available rows
+
+responsive: { sm?: number, md?: number, lg?: number, xl?: number }
+  - Default: undefined
+  - Per-breakpoint colSpan values
+  - Example: { md: 6, lg: 4 }
+
+asChild: boolean
+  - Default: false
+  - Render as semantic child element
+
+💡 USAGE EXAMPLE
+────────────────
+// Dashboard layout
+<Grid cols={12} gap="lg">
+  <GridItem colSpan={12}>
+    <HeaderCard />
+  </GridItem>
+  <GridItem colSpan={12} responsive={{ md: 4 }}>
+    <Sidebar />
+  </GridItem>
+  <GridItem colSpan={12} responsive={{ md: 8 }}>
+    <MainContent />
+  </GridItem>
+</Grid>
+
+// Masonry-style with row spanning
+<Grid cols={3}>
+  <GridItem colSpan={2} rowSpan={2}>
+    <FeaturedImage />
+  </GridItem>
+  <GridItem>
+    <SmallCard />
+  </GridItem>
+</Grid>
+
+🔑 KEY FEATURES
+───────────────
+✓ Span 1-12 columns
+✓ Span 1-6 rows
+✓ Responsive spanning at breakpoints
+✓ Works with semantic HTML via asChild
+
+♿ ACCESSIBILITY
+───────────────
+• Use role="listitem" with Grid role="list" for collections
+• Ensure logical DOM order matches visual grid order
+
+🔗 RELATED COMPONENTS
+─────────────────────
+- Grid: Parent container
+- Card: Common child content
+- Badge, Button: Common grid content
+
+⚠️ IMPORTANT NOTES
+──────────────────
+• Must be rendered inside Grid component
+• Responsive prop changes colSpan at breakpoints
+• Use 'full' to span all columns/rows dynamically
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. MASONRY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 SUMMARY
+Pinterest-style layout arranging variable-height items into columns with CSS or
+JavaScript-driven layouts, responsive columns, and optional animations.
+
+⚙️ COMPLEXITY: Medium
+
+📦 KEY PROPS
+────────────
+columns: number | { default?: number, sm?: number, md?: number, lg?: number }
+  - Default: 3
+  - Base or per-breakpoint column count
+  - Example: { default: 2, md: 3, lg: 4 }
+
+gap: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+  - Default: 'md'
+  - Spacing between items and columns
+
+mode: 'css' | 'js'
+  - Default: 'css'
+  - 'css': Uses CSS columns (simpler)
+  - 'js': JavaScript distribution (better control)
+
+animate: boolean
+  - Default: false
+  - Enables staggered entry animations
+
+animationDelay: number
+  - Default: 50
+  - Milliseconds between item animations
+
+renderItem: (child, index) => ReactNode
+  - Default: undefined
+  - Custom wrapper for animations
+
+💡 USAGE EXAMPLES
+─────────────────
+// Basic masonry gallery
+<Masonry
+  columns={{ default: 1, sm: 2, md: 3, lg: 4 }}
+  gap="lg"
+  animate
+>
+  {images.map((img) => (
+    <Card key={img.id}>
+      <Image src={img.url} alt={img.title} />
+    </Card>
+  ))}
+</Masonry>
+
+// JS mode with custom rendering
+<Masonry
+  mode="js"
+  columns={3}
+  renderItem={(child, index) => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+    >
+      {child}
+    </motion.div>
+  )}
+>
+  {items}
+</Masonry>
+
+🔑 KEY FEATURES
+───────────────
+✓ CSS or JS-driven layout modes
+✓ Responsive column counts
+✓ Built-in animations
+✓ Custom item rendering
+✓ Flexible gap control
+
+♿ ACCESSIBILITY
+───────────────
+• Ensure DOM order is logical for screen readers
+• Provide alt text for images
+• Consider skip links for long galleries
+
+🔗 RELATED COMPONENTS
+─────────────────────
+- Grid: Alternative for equal-height layouts
+- Card: Common child component
+- Image: For image galleries
+
+⚠️ IMPORTANT NOTES
+──────────────────
+• Use mode="css" for simplicity (better performance)
+• Use mode="js" when you need precise control over animations
+• JS mode maintains better column balance with variable heights
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. PAPER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 SUMMARY
+Elevated surface component with multiple variants (filled, outlined, gradient,
+glass), shadow depths, padding, rounding, and hover effects.
+
+⚙️ COMPLEXITY: Medium
+
+📦 KEY PROPS
+────────────
+variant: 'filled' | 'outlined' | 'gradient' | 'glass'
+  - Default: 'filled'
+  - Visual style of surface
+  - 'glass' creates frosted effect
+
+elevation: 0 | 1 | 2 | 3 | 4 | 5 | 6
+  - Default: 1
+  - Shadow depth (0 = flat, 6 = highest)
+
+padding: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  - Default: 'md'
+  - Internal spacing
+
+rounded: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full'
+  - Default: 'md'
+  - Corner radius
+
+hoverable: boolean
+  - Default: false
+  - Adds hover scale/shadow transitions
+
+maxWidth: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'
+  - Default: undefined
+  - Constrains width
+
+centered: boolean
+  - Default: false
+  - Centers content with flexbox
+
+💡 USAGE EXAMPLES
+─────────────────
+// Glass card with hover
+<Paper variant="glass" elevation={3} padding="lg" hoverable>
+  <h3 className="text-lg font-semibold">Glass Card</h3>
+  <p className="text-sm text-text-secondary">Frosted glass effect</p>
+</Paper>
+
+// Simple outlined surface
+<Paper variant="outlined" elevation={0} padding="md">
+  <YourContent />
+</Paper>
+
+// Interactive card
+<Paper
+  hoverable
+  onClick={() => navigate('/details')}
+  className="cursor-pointer"
+>
+  <CardContent />
+</Paper>
+
+🔑 KEY FEATURES
+───────────────
+✓ 4 visual variants
+✓ 7 elevation levels (0-6)
+✓ Flexible padding and rounding
+✓ Hover animations
+✓ Glass/frosted effects
+
+♿ ACCESSIBILITY
+───────────────
+• Add button role if clickable
+• Include keyboard navigation for interactive surfaces
+• Ensure sufficient contrast
+
+🔗 RELATED COMPONENTS
+─────────────────────
+- Card: Higher-level component built on Paper
+- Grid/Stack: For layout
+- Section: For page sections
+
+⚠️ IMPORTANT NOTES
+──────────────────
+• Paper is non-semantic (presentational only)
+• Use asChild for semantic elements
+• Combine hoverable with onClick for interactive cards
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 SUMMARY
+Semantic page section wrapper with variants, padding, max-width, optional
+full-height behavior, and built-in container-like centering.
+
+⚙️ COMPLEXITY: Medium
+
+📦 KEY PROPS
+────────────
+variant: 'default' | 'muted' | 'accent' | 'gradient'
+  - Default: 'default'
+  - Background/visual style for the section
+  - muted: subtle background, accent: branded, gradient: gradient background
+
+padding: 'none' | 'sm' | 'default' | 'lg' | 'xl'
+  - Default: 'default'
+  - Vertical padding preset
+  - Use 'none' for full-bleed content
+
+maxWidth: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'
+  - Default: 'lg'
+  - Inner content max width
+  - Controls how wide content can get
+
+center: boolean
+  - Default: true
+  - Centers inner content (mx-auto)
+
+bordered: boolean
+  - Default: false
+  - Adds top/bottom borders
+
+fullHeight: boolean
+  - Default: false
+  - Makes section fill viewport height (for hero sections)
+
+gutter: boolean
+  - Default: true
+  - Adds responsive horizontal padding
+
+asChild: boolean
+  - Default: false
+  - Uses Slot pattern for semantic elements
+
+ARIA/Accessibility Props:
+  - role: 'region' for distinct page sections
+  - aria-label: Accessible label when used as region
+  - aria-labelledby: ID of heading that labels the section
+
+💡 USAGE EXAMPLES
+─────────────────
+// Hero section
+<Section variant="gradient" padding="xl" fullHeight>
+  <h1 className="text-5xl font-bold">Welcome to Saha UI</h1>
+  <p className="text-xl mt-4">The modern React component library</p>
+  <Button size="lg" className="mt-8">Get Started</Button>
+</Section>
+
+// Feature section with muted background
+<Section variant="muted" padding="lg" maxWidth="xl">
+  <h2 className="text-3xl font-bold">Features</h2>
+  <p className="text-text-secondary">Why people love Saha UI.</p>
+  <Grid cols={3} gap="lg" className="mt-8">
+    {/* Feature cards */}
+  </Grid>
+</Section>
+
+// Bordered section with custom content
+<Section bordered padding="default" maxWidth="2xl">
+  <Container>
+    <Text>Separated content region</Text>
   </Container>
-Related hooks & components: `Section` for full-width background sections, `Grid`/`Stack` for inner layout.
-Notes:
-  - Prefer `asChild` when you need semantic elements like `<main>` or `<section>` while keeping Container styling.
+</Section>
 
----
+🔑 KEY FEATURES
+───────────────
+✓ Multiple visual variants (default, muted, accent, gradient)
+✓ Flexible padding presets
+✓ Container-like max-width control
+✓ Full viewport height option
+✓ Automatic centering
+✓ Works with semantic HTML via asChild
 
-Component: Grid
-Summary: CSS Grid layout component with 1–12 columns, responsive breakpoints, gap control, alignment, and optional auto-fit behavior.
-Complexity: medium
-Props:
-  - cols: 1|2|3|4|5|6|7|8|9|10|11|12 | default: 12 | required: no — Base column count when not using auto-fit.
-  - responsive: { sm?: GridCols; md?: GridCols; lg?: GridCols; xl?: GridCols } | default: undefined | required: no — Per-breakpoint column counts (converted to responsive Tailwind classes like `sm:grid-cols-2`).
-  - gap: 'none'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl' | default: 'md' | required: no — Gap token between items.
-  - align: 'start'|'center'|'end'|'stretch'|'baseline' | default: 'stretch' | required: no — Cross-axis alignment for grid items.
-  - justify: 'start'|'center'|'end'|'between'|'around'|'evenly' | default: 'start' | required: no — Main-axis distribution of grid content.
-  - autoFit: boolean | default: false | required: no — If true, uses CSS `repeat(auto-fit, minmax(...))` for fluid responsive columns.
-  - minColWidth: string | default: '250px' | required: no — Minimum column width used when `autoFit` is enabled.
-  - asChild: boolean | default: false | required: no — Uses Slot pattern to style a child element instead of rendering a `div`.
-  - children: ReactNode | default: undefined | required: no — Grid items, typically `GridItem` or cards.
-  - className: string | default: "" | required: no — Additional CSS classes.
-  - style: React.CSSProperties | default: undefined | required: no — Inline style (extended when `autoFit` is true).
-  - role: string | default: undefined | required: no — ARIA role (e.g., 'list').
-  - aria-label: string | default: undefined | required: no — Accessible label.
-  - aria-labelledby: string | default: undefined | required: no — ID of element that labels the grid.
-  - aria-describedby: string | default: undefined | required: no — ID of element that describes the grid.
-Events/Callbacks:
-  - Inherits all `div` events via `React.HTMLAttributes<HTMLDivElement>`.
-Variants / CSS classes:
-  - Uses `gridVariants` + responsive `grid-cols-*` classes; supports auto-fit mode with custom `grid-template-columns`.
-Accessibility notes:
-  - For list-like layouts, combine `role="list"` on Grid with `role="listitem"` on `GridItem`.
-Example:
-  <Grid cols={3} gap="lg" responsive={{ sm: 1, md: 2, lg: 3 }}>
-    <GridItem>Card 1</GridItem>
-    <GridItem>Card 2</GridItem>
-    <GridItem>Card 3</GridItem>
-  </Grid>
-Related hooks & components: `GridItem` (child), `Card`, `Badge` in examples.
-Notes:
-  - Use `autoFit` + `minColWidth` for Pinterest-style responsive grids without specifying exact column counts.
+♿ ACCESSIBILITY
+───────────────
+• Use role="region" with aria-label for distinct page sections
+• Ensure adequate color contrast in all variants
+• Use semantic heading hierarchy within sections
 
----
+🔗 RELATED COMPONENTS
+─────────────────────
+- Container: For stricter width control
+- Grid/Stack: For layout within sections
+- Paper: For elevated surfaces
 
-Component: GridItem
-Summary: Child grid cell component that can span multiple columns/rows and adapt its span responsively.
-Complexity: medium
-Props:
-  - colSpan: 1|2|3|4|5|6|7|8|9|10|11|12|'full' | default: 1 | required: no — Number of columns to span (or 'full' to span all).
-  - rowSpan: 1|2|3|4|5|6|'full' | default: 1 | required: no — Number of rows to span (or 'full' for all).
-  - responsive: { sm?: GridItemColSpan; md?: GridItemColSpan; lg?: GridItemColSpan; xl?: GridItemColSpan } | default: undefined | required: no — Per-breakpoint `colSpan` mapping, converted to classes like `md:col-span-6`.
-  - asChild: boolean | default: false | required: no — Uses Slot pattern to render as semantic child (e.g., `article`) while preserving grid styles.
-  - children: ReactNode | default: undefined | required: no — Content inside the grid cell.
-  - className: string | default: "" | required: no — Additional CSS classes.
-  - role: string | default: undefined | required: no — Optional ARIA role, e.g., 'listitem'.
-  - aria-label: string | default: undefined | required: no — Accessible label.
-  - aria-labelledby: string | default: undefined | required: no — ID of element that labels this cell.
-  - aria-describedby: string | default: undefined | required: no — ID of element that describes this cell.
-Events/Callbacks:
-  - Inherits `div` events (onClick, onMouseEnter, etc.) via `React.HTMLAttributes<HTMLDivElement>`.
-Variants / CSS classes:
-  - Uses `gridItemVariants({ colSpan, rowSpan })` and responsive `col-span-*` utilities.
-Accessibility notes:
-  - Combine with `Grid role="list"` + `GridItem role="listitem"` when representing collections.
-Example:
-  <Grid cols={12} gap="lg">
-    <GridItem colSpan={12}>
-      <HeaderCard />
-    </GridItem>
-    <GridItem colSpan={12} responsive={{ md: 4 }}>
-      <Sidebar />
-    </GridItem>
-    <GridItem colSpan={12} responsive={{ md: 8 }}>
-      <MainContent />
-    </GridItem>
-  </Grid>
-Related hooks & components: `Grid` (parent), `Card`, `Badge`, `Button` in dashboard examples.
-Notes:
-  - Always render `GridItem` inside a `Grid` so span classes have a grid context.
-
----
-
-Component: Masonry
-Summary: Masonry layout component that arranges variable-height items into columns, supporting CSS or JS-driven layout, responsive column counts, and optional animations.
-Complexity: medium
-Props:
-  - columns: number | { default?: number; sm?: number; md?: number; lg?: number; xl?: number; '2xl'?: number } | default: 3 | required: no — Base or per-breakpoint column count.
-  - gap: 'none'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl' | default: 'md' | required: no — Spacing between items/columns.
-  - children: ReactNode | default: undefined | required: yes — Items to be laid out.
-  - className: string | default: "" | required: no — Class name for the container.
-  - columnClassName: string | default: "" | required: no — Class applied to each column wrapper (JS mode).
-  - itemClassName: string | default: "" | required: no — Class for each item wrapper.
-  - mode: 'css'|'js' | default: 'css' | required: no — Whether to use CSS columns (`columns-*`) or JavaScript column distribution.
-  - renderItem: (child: ReactNode, index: number) => ReactNode | default: undefined | required: no — Custom item renderer for animations or wrappers.
-  - animate: boolean | default: false | required: no — Enables entry animations on items.
-  - animationDelay: number | default: 50 | required: no — Stagger delay in milliseconds between items when `animate` is true.
-  - asChild: boolean | default: false | required: no — Slot pattern; merge styles into child element instead of rendering a div.
-  - ...divProps: React.HTMLAttributes<HTMLDivElement> | default: {} | required: no — Other standard div attributes.
-Events/Callbacks:
-  - Standard `div` events only.
-Variants / CSS classes:
-  - Uses `masonryVariants`, `masonryColumnVariants`, `masonryCSSVariants` for gap and column presets.
-Accessibility notes:
-  - Masonry is primarily visual; ensure DOM order matches logical reading order (especially in JS mode) and provide alt text/labels for content.
-Example:
-  <Masonry
-    columns={{ default: 1, sm: 2, md: 3, lg: 4 }}
-    gap="lg"
-    animate
-  >
-    {cards.map((card) => (
-      <Card key={card.id}>{card.content}</Card>
-    ))}
-  </Masonry>
-Related hooks & components: `Card`, `Image`, `responsiveColumnClasses` in styles.
-Notes:
-  - Prefer `mode="css"` for simple layouts; use `mode="js"` plus `renderItem` when you need fine-grained animation control.
-
----
-
-Component: Paper
-Summary: Surface component providing elevation, variants (filled, outlined, gradient, glass), padding, rounding, and optional interactive/hover states.
-Complexity: medium
-Props:
-  - elevation: 0|1|2|3|4|5|6 | default: 1 | required: no — Shadow depth; 0 = flat.
-  - variant: 'filled'|'outlined'|'gradient'|'glass' | default: 'filled' | required: no — Visual style of the surface.
-  - padding: 'none'|'sm'|'md'|'lg'|'xl' | default: 'md' | required: no — Internal spacing.
-  - rounded: 'none'|'sm'|'md'|'lg'|'xl'|'full' | default: 'md' | required: no — Corner radius.
-  - hoverable: boolean | default: false | required: no — Adds hover transitions (scale/shadow) when true.
-  - centered: boolean | default: false | required: no — Centers content (often via flex utilities) depending on styles config.
-  - maxWidth: 'sm'|'md'|'lg'|'xl'|'2xl'|'full' | default: undefined | required: no — Optional max width for the paper.
-  - children: ReactNode | default: undefined | required: no — Content inside the surface.
-  - className: string | default: "" | required: no — Additional CSS classes.
-  - asChild: boolean | default: false | required: no — Use child element as the rendered node (Slot pattern).
-Events/Callbacks:
-  - Inherits `div` event handlers; can be clickable when combined with `hoverable` and `onClick`.
-Variants / CSS classes:
-  - `paperVariants` from CVA configure variant, elevation, padding, and rounding classes.
-Accessibility notes:
-  - When used as a button-like surface, add proper roles/aria attributes or wrap focusable elements inside.
-Example:
-  <Paper variant="glass" elevation={3} padding="lg" hoverable>
-    <h3 className="text-lg font-semibold">Glass Card</h3>
-    <p className="text-sm text-text-secondary">Frosted glass effect.</p>
-  </Paper>
-Related hooks & components: `Card` is often composed from Paper; used with `Grid`, `Stack`, or `Section` for layout.
-Notes:
-  - Keep `Paper` non-semantic; let parents/children encode meaning (article, button, etc.).
-
----
-
-Component: Section
-Summary: Semantic page section wrapper with variants, padding, max-width, optional full-height behavior, and built-in container-like centering.
-Complexity: medium
-Props:
-  - variant: 'default'|'muted'|'accent'|'gradient' | default: 'default' | required: no — Background/visual style.
-  - padding: 'none'|'sm'|'default'|'lg'|'xl' | default: 'default' | required: no — Vertical padding preset.
-  - maxWidth: 'xs'|'sm'|'md'|'lg'|'xl'|'2xl'|'full' | default: 'lg' | required: no — Inner content max width.
-  - center: boolean | default: true | required: no — Centers inner content (applies mx-auto to the max-width wrapper).
-  - bordered: boolean | default: false | required: no — Adds top/bottom borders.
-  - fullHeight: boolean | default: false | required: no — Makes the section fill viewport height (hero sections).
-  - asChild: boolean | default: false | required: no — Uses Slot pattern to render a different semantic element.
-  - gutter: boolean | default: true | required: no — Adds responsive horizontal padding.
-  - children: ReactNode | default: undefined | required: no — Section content (often `Container`, `Grid`, etc.).
-  - className: string | default: "" | required: no — Additional section-level classes.
-  - aria-label: string | default: undefined | required: no — Accessible label when used as a region.
-  - aria-labelledby: string | default: undefined | required: no — ID of heading that labels the section.
-  - aria-describedby: string | default: undefined | required: no — ID of element that describes the section.
-  - role: string | default: undefined | required: no — ARIA role, commonly 'region'.
-Events/Callbacks:
-  - Inherits `HTMLElement` events via `React.HTMLAttributes<HTMLElement>`.
-Variants / CSS classes:
-  - Uses CVA-driven `Section` styles to map `variant`, `padding`, `maxWidth`, `fullHeight`, and `bordered` to Tailwind classes.
-Accessibility notes:
-  - When using `role="region"`, always provide `aria-label` or `aria-labelledby`.
-Example:
-  <Section variant="muted" padding="lg" maxWidth="xl">
-    <h2 className="text-3xl font-bold">Features</h2>
-    <p className="text-text-secondary">Why people love Saha UI.</p>
-  </Section>
-Related hooks & components: `Container`, `Grid`, `Stack`, `Button`.
-Notes:
-  - Use `Section` for vertical page segmentation; combine with `Container` when you want stricter width control inside.
+⚠️ IMPORTANT NOTES
+──────────────────
+• Use Section for vertical page segmentation
+• Combine with Container when you need stricter width control inside
+• fullHeight is perfect for hero/landing sections
+• Use asChild for semantic elements like <section> or <article>
 
 
----
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. STACK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Component: Stack
-Summary: Flexbox-based layout primitive that stacks children vertically or horizontally with configurable spacing, alignment, wrapping, responsiveness, and optional dividers.
-Complexity: medium
-Props:
-  - direction: 'vertical'|'horizontal' | default: 'vertical' | required: no — Main axis for stacking.
-  - spacing: 'none'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl' | default: 'md' | required: no — Gap token mapped to Tailwind `gap-*` utilities.
-  - align: 'start'|'center'|'end'|'stretch'|'baseline' | default: 'stretch' | required: no — Cross-axis alignment.
-  - justify: 'start'|'center'|'end'|'between'|'around'|'evenly' | default: 'start' | required: no — Distribution along main axis.
-  - wrap: boolean | default: false | required: no — Enables wrapping on the main axis.
-  - responsive: boolean | default: false | required: no — When true, vertical on mobile and horizontal from `md` breakpoint.
-  - asChild: boolean | default: false | required: no — Uses Slot pattern to apply layout styles to a child element (e.g., `<nav>`).
-  - divide: boolean | default: false | required: no — Renders Tailwind `divide-x`/`divide-y` between items based on direction.
-  - children: ReactNode | default: undefined | required: no — Stack items.
-  - className: string | default: "" | required: no — Additional classes for container.
-  - aria-label: string | default: undefined | required: no — Accessible label for the grouped region.
-  - aria-labelledby: string | default: undefined | required: no — ID of a heading labeling the stack.
-  - aria-describedby: string | default: undefined | required: no — ID of description text.
-  - role: string | default: undefined | required: no — Common roles: 'list', 'group', 'toolbar', 'navigation', 'region'.
-Events/Callbacks:
-  - Inherits `div` events (onClick, onKeyDown, etc.) via `React.HTMLAttributes<HTMLDivElement>`.
-Variants / CSS classes:
-  - Combines flex direction, responsive direction, gap, and divider utilities (`divide-x`, `divide-y`).
-Accessibility notes:
-  - Match `aria-orientation` to `direction` when used as toolbar or list; ensure focus order follows visual order.
-Example:
-  <Stack direction="horizontal" spacing="md" justify="between" align="center">
-    <Button variant="primary">Save</Button>
-    <Button variant="outline">Cancel</Button>
-  </Stack>
-Related hooks & components: `Button`, `Badge`, `Card`, `Section`.
-Notes:
-  - Use `responsive` for mobile-first vertical layouts that become horizontal toolbars on larger screens.
+📝 SUMMARY
+Flexbox-based layout primitive that stacks children vertically or horizontally
+with configurable spacing, alignment, wrapping, responsiveness, and optional dividers.
 
----
+⚙️ COMPLEXITY: Medium
 
-Component: AppBar
-Summary: Top application bar for navigation headers and toolbars, with variants, colors, elevations, and positioning options.
-Complexity: medium
-Props:
-  - position: 'static'|'fixed'|'sticky'|'absolute' | default: 'static' | required: no — CSS positioning of the bar.
-  - variant: 'default'|'elevated'|'outlined'|'transparent' | default: 'default' | required: no — Visual style.
-  - color: 'default'|'primary'|'secondary'|'transparent' | default: 'default' | required: no — Color scheme.
-  - elevation: 0|1|2|3|4 | default: 2 | required: no — Shadow depth when variant is 'elevated'.
-  - blur: boolean | default: false | required: no — Applies background blur (works well with transparent variants).
-  - fullWidth: boolean | default: true | required: no — Whether the bar spans full viewport width.
-  - centered: boolean | default: false | required: no — Centers inner content within a max-width container.
-  - maxWidth: 'sm'|'md'|'lg'|'xl'|'2xl'|'full' | default: undefined | required: no — Max width for inner content when `centered`.
-  - size: 'sm'|'md'|'lg' | default: 'md' | required: no — Height preset of the bar.
-  - hideOnScroll: boolean | default: false | required: no — When supported by implementation, can hide bar on scroll.
-  - zIndex: number | default: 1100 | required: no — Stacking context value.
-  - asChild: boolean | default: false | required: no — Render as child element via Slot pattern.
-  - children: ReactNode | default: undefined | required: no — App bar content (logo, nav, actions, etc.).
-  - className: string | default: "" | required: no — Additional classes.
-Events/Callbacks:
-  - Inherits `HTMLElement` events from `React.HTMLAttributes<HTMLElement>`.
-Variants / CSS classes:
-  - `appBarVariants` controls variant, color, size, elevation, and positioning classes.
-Accessibility notes:
-  - Use as a `<header>` or region containing primary navigation; ensure sufficient contrast for links/buttons.
-Example:
-  <AppBar color="primary" variant="elevated" size="md">
-    <div className="flex items-center justify-between w-full px-4">
-      <Logo />
-      <nav className="flex gap-4">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-      </nav>
-      <Button size="sm">Sign In</Button>
-    </div>
-  </AppBar>
-Related hooks & components: `Button`, `Badge`, `BottomNavigation` for combined mobile headers.
-Notes:
-  - When `position="fixed"`, add top padding/margin to the page content equal to the bar height.
+📦 KEY PROPS
+────────────
+direction: 'vertical' | 'horizontal'
+  - Default: 'vertical'
+  - Main axis for stacking children
+  - vertical: column, horizontal: row
 
----
+spacing: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | number | string
+  - Default: 'md'
+  - Gap between items
+  - Can use tokens, pixels (number), or custom string like '2rem'
 
-Component: BottomNavigation
-Summary: Mobile-first bottom navigation bar with icon (and optional label) actions, supporting badges, variants, colors, and controlled selection.
-Complexity: medium
-Props:
-  - items: BottomNavigationItem[] | default: [] | required: yes — List of actions with `label`, `icon`, optional `badge`, `disabled`, `value`, `href`, and per-item `onClick`.
-  - value: string|number | default: undefined | required: no — Currently selected item value/index (controlled).
-  - variant: 'default'|'filled'|'shifting' | default: 'default' | required: no — Visual style of bar and active item.
-  - showLabels: boolean | default: true | required: no — Whether to show labels for inactive items (icon-only when false).
-  - color: 'primary'|'secondary'|'success'|'error'|'info' | default: 'primary' | required: no — Active item color scheme.
-  - onChange: (value: string|number) => void | default: undefined | required: no — Called when selection changes.
-  - className: string | default: "" | required: no — Container classes.
-  - itemClassName: string | default: "" | required: no — Per-item classes.
-  - zIndex: number | default: 1000 | required: no — Stacking order.
-  - hideOnScroll: boolean | default: false | required: no — Optionally hide bar when scrolling down.
-  - elevation: 0|1|2|3|4 | default: 3 | required: no — Shadow depth.
-  - bordered: boolean | default: true | required: no — Adds top border.
-Events/Callbacks:
-  - `onChange(value)` — Primary selection callback; individual item `onClick` handlers can also run.
-Variants / CSS classes:
-  - `bottomNavigationVariants` controls base bar styling; items get active/inactive classes, color variants, and optional shifting animation.
-Accessibility notes:
-  - Treat container as navigation; ensure each item has clear text (labels) and adequate touch targets for mobile.
-Example:
-  <BottomNavigation
-    items={[
-      { label: 'Home', icon: <Home />, value: 0 },
-      { label: 'Search', icon: <Search />, value: 1 },
-      { label: 'Profile', icon: <User />, value: 2 },
-    ]}
-    value={active}
-    onChange={setActive}
-  />
-Related hooks & components: `AppBar` (for top bar), `useMediaQuery` to show only on small screens.
-Notes:
-  - Map `value` to indices if you prefer numeric state (as shown in examples).
+align: 'start' | 'center' | 'end' | 'stretch' | 'baseline'
+  - Default: 'stretch'
+  - Cross-axis alignment (align-items)
+
+justify: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly'
+  - Default: 'start'
+  - Distribution along main axis (justify-content)
+
+wrap: boolean
+  - Default: false
+  - Enables wrapping on the main axis
+
+responsive: boolean
+  - Default: false
+  - When true: vertical on mobile, horizontal from md breakpoint
+
+divide: boolean
+  - Default: false
+  - Renders dividers between items (uses Tailwind divide-x/divide-y)
+
+asChild: boolean
+  - Default: false
+  - Apply layout styles to child element via Slot pattern
+
+ARIA/Accessibility Props:
+  - role: 'list', 'group', 'toolbar', 'navigation', or 'region'
+  - aria-label: Accessible label for the grouped region
+  - aria-orientation: Should match direction for toolbars
+
+💡 USAGE EXAMPLES
+─────────────────
+// Action buttons (horizontal)
+<Stack direction="horizontal" spacing="md" justify="between" align="center">
+  <Button variant="primary">Save</Button>
+  <Button variant="outline">Cancel</Button>
+</Stack>
+
+// Vertical form fields
+<Stack direction="vertical" spacing="lg">
+  <Input label="Name" />
+  <Input label="Email" type="email" />
+  <TextArea label="Message" />
+  <Button>Submit</Button>
+</Stack>
+
+// Responsive navigation (vertical on mobile, horizontal on desktop)
+<Stack direction="horizontal" spacing="sm" responsive divide>
+  <Link href="/home">Home</Link>
+  <Link href="/about">About</Link>
+  <Link href="/contact">Contact</Link>
+</Stack>
+
+// Centered badge group
+<Stack direction="horizontal" spacing="xs" align="center" wrap>
+  <Badge>React</Badge>
+  <Badge>TypeScript</Badge>
+  <Badge>Tailwind</Badge>
+</Stack>
+
+🔑 KEY FEATURES
+───────────────
+✓ Vertical or horizontal stacking
+✓ Flexible spacing with tokens or custom values
+✓ Full alignment and justification control
+✓ Responsive direction switching
+✓ Optional dividers between items
+✓ Works with semantic HTML via asChild
+
+♿ ACCESSIBILITY
+───────────────
+• Match aria-orientation to direction when used as toolbar
+• Ensure focus order follows visual order
+• Use appropriate role for context (list, toolbar, navigation)
+
+🔗 RELATED COMPONENTS
+─────────────────────
+- Grid: For 2D layouts
+- Section: For page sections
+- Button: Common stack child
+- Badge: Common stack child
+
+⚠️ IMPORTANT NOTES
+──────────────────
+• Use responsive prop for mobile-first layouts
+• Stack is the foundation for many layout patterns
+• Combine with Container or Section for page-level layouts
+• divide prop adds visual separation without extra markup
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. APPBAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 SUMMARY
+Top application bar for navigation headers and toolbars with variants, colors,
+elevations, and positioning options.
+
+⚙️ COMPLEXITY: Medium
+
+📦 KEY PROPS
+────────────
+position: 'static' | 'fixed' | 'sticky' | 'absolute'
+  - Default: 'static'
+  - CSS positioning of the bar
+  - fixed: stays at top during scroll
+
+variant: 'default' | 'elevated' | 'outlined' | 'transparent'
+  - Default: 'default'
+  - Visual style
+  - elevated: with shadow, transparent: glass-like
+
+color: 'default' | 'primary' | 'secondary' | 'transparent'
+  - Default: 'default'
+  - Color scheme of the bar
+
+elevation: 0 | 1 | 2 | 3 | 4
+  - Default: 2
+  - Shadow depth (works with elevated variant)
+
+blur: boolean
+  - Default: false
+  - Applies background blur (great with transparent variants)
+
+size: 'sm' | 'md' | 'lg'
+  - Default: 'md'
+  - Height preset of the bar
+
+fullWidth: boolean
+  - Default: true
+  - Whether bar spans full viewport width
+
+centered: boolean
+  - Default: false
+  - Centers inner content within max-width container
+
+maxWidth: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'
+  - Max width for inner content when centered
+
+hideOnScroll: boolean
+  - Default: false
+  - Auto-hide bar when scrolling down
+
+zIndex: number
+  - Default: 1100
+  - Stacking context value
+
+asChild: boolean
+  - Default: false
+  - Render as child element via Slot pattern
+
+💡 USAGE EXAMPLES
+─────────────────
+// Primary navigation bar
+<AppBar color="primary" variant="elevated" size="md">
+  <div className="flex items-center justify-between w-full px-4">
+    <Logo />
+    <nav className="flex gap-4">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+    </nav>
+    <Button size="sm">Sign In</Button>
+  </div>
+</AppBar>
+
+// Transparent glassmorphism header
+<AppBar variant="transparent" blur position="fixed" elevation={0}>
+  <Container>
+    <Stack direction="horizontal" justify="between" align="center">
+      <Heading size="h4">Brand</Heading>
+      <Stack direction="horizontal" spacing="md">
+        <Link href="/">Home</Link>
+        <Link href="/about">About</Link>
+        <Button variant="outline" size="sm">Contact</Button>
+      </Stack>
+    </Stack>
+  </Container>
+</AppBar>
+
+// Sticky header with hide on scroll
+<AppBar position="sticky" hideOnScroll size="lg">
+  <Menubar>
+    {/* App menu */}
+  </Menubar>
+</AppBar>
+
+🔑 KEY FEATURES
+───────────────
+✓ Multiple positioning modes (static, fixed, sticky, absolute)
+✓ Visual variants with elevation control
+✓ Color theming
+✓ Background blur for glassmorphism
+✓ Auto-hide on scroll
+✓ Responsive centering and max-width
+
+♿ ACCESSIBILITY
+───────────────
+• Use as <header> element with asChild
+• Ensure sufficient color contrast for all content
+• Include skip navigation link for keyboard users
+• Mark navigation region with role="navigation"
+
+🔗 RELATED COMPONENTS
+─────────────────────
+- BottomNavigation: Mobile bottom bar
+- Menubar: Desktop menu system
+- Button: Action buttons in bar
+- Badge: Notification indicators
+
+⚠️ IMPORTANT NOTES
+──────────────────
+• When position="fixed", add top padding to page content equal to bar height
+• Use blur with transparent variant for modern glassmorphism effect
+• Combine with BottomNavigation for mobile-first responsive apps
+• hideOnScroll improves mobile UX by maximizing content space
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9. BOTTOMNAVIGATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 SUMMARY
+Mobile-first bottom navigation bar with icon (and optional label) actions,
+supporting badges, variants, colors, and controlled selection.
+
+⚙️ COMPLEXITY: Medium
+
+📦 KEY PROPS
+────────────
+items: BottomNavigationItem[]
+  - Required: yes
+  - List of actions with label, icon, optional badge, disabled, value, href
+  - Each item can have its own onClick handler
+
+value: string | number
+  - Currently selected item value/index (controlled)
+
+variant: 'default' | 'filled' | 'shifting'
+  - Default: 'default'
+  - Visual style of bar and active item
+  - shifting: animated indicator follows selection
+
+showLabels: boolean
+  - Default: true
+  - Whether to show labels for inactive items
+
+color: 'primary' | 'secondary' | 'success' | 'error' | 'info'
+  - Default: 'primary'
+  - Active item color scheme
+
+elevation: 0 | 1 | 2 | 3 | 4
+  - Default: 3
+  - Shadow depth
+
+bordered: boolean
+  - Default: true
+  - Adds top border
+
+hideOnScroll: boolean
+  - Default: false
+  - Optionally hide bar when scrolling down
+
+zIndex: number
+  - Default: 1000
+  - Stacking order
+
+💡 USAGE EXAMPLES
+─────────────────
+// Basic bottom navigation
+<BottomNavigation
+  items={[
+    { label: 'Home', icon: <Home />, value: 'home' },
+    { label: 'Search', icon: <Search />, value: 'search' },
+    { label: 'Profile', icon: <User />, value: 'profile' },
+  ]}
+  value={active}
+  onChange={setActive}
+/>
+
+// With badges and icons only
+<BottomNavigation
+  items={[
+    { icon: <Home />, value: 0 },
+    { icon: <Bell />, value: 1, badge: '3' },
+    { icon: <User />, value: 2 },
+  ]}
+  showLabels={false}
+  value={activeTab}
+  onChange={setActiveTab}
+/>
+
+// Shifting variant
+<BottomNavigation
+  variant="shifting"
+  color="primary"
+  items={navigation Items}
+  value={current}
+  onChange={setCurrent}
+/>
+
+🔑 KEY FEATURES
+───────────────
+✓ Icon with optional labels
+✓ Badge support for notifications
+✓ Multiple visual variants
+✓ Color theming
+✓ Auto-hide on scroll
+✓ Touch-optimized for mobile
+
+♿ ACCESSIBILITY
+───────────────
+• Treat as navigation landmark
+• Ensure each item has clear text labels
+• Adequate touch targets for mobile (44x44px minimum)
+• Announce selection changes to screen readers
+
+🔗 RELATED COMPONENTS
+─────────────────────
+- AppBar: Desktop top navigation
+- Tabs: Alternative navigation pattern
+- Badge: Notification indicators
+
+⚠️ IMPORTANT NOTES
+──────────────────
+• Designed for mobile-first interfaces
+• Use with useMediaQuery to show only on small screens
+• Map value to indices for numeric state management
+• Combine with AppBar for responsive app headers
 
 ---
 
@@ -3604,7 +4235,7 @@ Complexity: medium
 Props (context-based version):
   - variant?: ToggleGroupVariant | default: 'default' | required: no — Visual style of group.
   - size?: ToggleGroupSize | default: 'default' | required: no — Size for toggles.
-  - spacing?: ToggleGroupSpacing | default: 1 | required: no — Gap between toggles.
+  - spacing?: 0|1|2|3|4|number|string | default: 1 | required: no — Gap between toggles (token 0-4, pixels as number, or custom string like '1rem').
   - orientation?: ToggleGroupOrientation | default: 'horizontal' | required: no — Layout direction.
   - type?: 'single'|'multiple' | default: 'single' | required: no — Selection mode.
   - value?: string|string[] | default: undefined | required: no — Controlled value(s).
@@ -4386,9 +5017,34 @@ Example:
     Email
     <LabelDescription>We never share your email.</LabelDescription>
   </Label>
-Related hooks & components: `Input`, `TextArea`, `Select`, `Form`, `Field`.
+Related hooks & components: `Input`, `TextArea`, `Select`, `Form`, `Field`, `LabelGroup`.
 Notes:
   - Prefer `Label` over plain text for focus and screen-reader semantics.
+
+---
+
+Component: LabelGroup
+Summary: Layout wrapper for grouping multiple labels with configurable spacing and direction.
+Complexity: simple
+Props:
+  - children: ReactNode | required: yes — Label elements.
+  - direction?: 'horizontal'|'vertical' | default: 'vertical' | required: no — Layout orientation.
+  - spacing?: 'sm'|'md'|'lg'|number|string | default: 'md' | required: no — Gap between labels (token, pixels as number, or custom string like '2.5rem').
+  - className?: string | default: '' | required: no — Wrapper classes.
+Events/Callbacks:
+  - Standard div events.
+Variants / CSS classes:
+  - Direction controls flex layout; spacing maps to gap utilities or inline styles.
+Accessibility notes:
+  - Use `role="group"` for semantic grouping of related labels.
+Example:
+  <LabelGroup spacing="lg" direction="vertical">
+    <Label htmlFor="firstName">First Name</Label>
+    <Label htmlFor="lastName">Last Name</Label>
+  </LabelGroup>
+Related hooks & components: `Label`, `Form`, `Field`.
+Notes:
+  - Useful for organizing form labels in consistent layouts.
 
 ---
 
@@ -4506,7 +5162,8 @@ Props:
   - speed?: SkeletonSpeed | default: 'normal' | required: no — Animation speed.
   - noAnimation?: boolean | default: false | required: no — Disable motion for reduced-motion users.
   - borderRadius?: string | default: undefined | required: no — Custom radius for rectangle shapes.
-  - spacing?: SkeletonSpacing | default: 'normal' | required: no — Gap between multiple lines.
+  - spacing?: 'tight'|'normal'|'loose'|'relaxed'|number|string | default: 'normal' | required: no 
+  — Gap between multiple lines (token, pixels as number, or custom string like '2rem').
   - className?: string | default: undefined | required: no — Container classes.
   - style?: React.CSSProperties | default: undefined | required: no — Inline styles.
 Presets:
@@ -4687,7 +5344,7 @@ Props:
 TagGroup:
   - children: React.ReactNode | required: yes — Tag elements.
   - className?: string | default: undefined | required: no — Group wrapper classes.
-  - spacing?: 'sm'|'md'|'lg' | default: 'md' | required: no — Gap between tags.
+  - spacing?: 'sm'|'md'|'lg'|number|string | default: 'md' | required: no — Gap between tags (token, pixels as number, or custom string like '1.5rem').
   - wrap?: boolean | default: true | required: no — Allow wrapping to multiple lines.
   - max?: number | default: undefined | required: no — Max visible tags.
   - onMaxReached?: (hiddenCount: number) => void | default: undefined | required: no — Notified when extra tags are hidden.
