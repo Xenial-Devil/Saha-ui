@@ -60,23 +60,45 @@ export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
       gutter = true,
       asChild = false,
       children,
+      style,
       role,
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
       "aria-describedby": ariaDescribedBy,
       ...props
     },
-    ref,
+    ref
   ) => {
     const Comp = asChild ? Slot : "div";
+
+    // Handle numeric or custom string padding values
+    const isTokenPadding =
+      typeof padding === "string" &&
+      ["none", "sm", "default", "lg"].includes(padding);
+
+    const customStyle =
+      !isTokenPadding && padding !== undefined
+        ? {
+            paddingTop: typeof padding === "number" ? `${padding}px` : padding,
+            paddingBottom:
+              typeof padding === "number" ? `${padding}px` : padding,
+            ...style,
+          }
+        : style;
 
     return (
       <Comp
         ref={ref}
         className={cn(
-          containerVariants({ size, padding, center, gutter }),
-          className,
+          containerVariants({
+            size,
+            padding: isTokenPadding ? (padding as any) : undefined,
+            center,
+            gutter,
+          }),
+          className
         )}
+        style={customStyle}
         role={role}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
@@ -86,7 +108,7 @@ export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
         {children}
       </Comp>
     );
-  },
+  }
 );
 
 Container.displayName = "Container";

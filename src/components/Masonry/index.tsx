@@ -45,10 +45,24 @@ const MasonryColumn: React.FC<MasonryColumnProps> = ({
     return undefined;
   }, [animate, animationDelay, columnIndex]);
 
+  // Handle numeric or custom string gap values
+  const isTokenGap =
+    typeof gap === "string" &&
+    ["none", "xs", "sm", "md", "lg", "xl", "2xl"].includes(gap);
+
+  const customGapStyle =
+    !isTokenGap && gap !== undefined
+      ? { gap: typeof gap === "number" ? `${gap}px` : gap }
+      : {};
+
   return (
     <div
-      className={cn(masonryColumnVariants({ gap }), className)}
+      className={cn(
+        masonryColumnVariants({ gap: isTokenGap ? (gap as any) : undefined }),
+        className
+      )}
       style={{
+        ...customGapStyle,
         opacity: mounted ? 1 : 0,
         transform: mounted ? "translateY(0)" : "translateY(1rem)",
         transition: "all 0.5s ease-out",
@@ -131,7 +145,7 @@ const Masonry = React.forwardRef<HTMLDivElement, MasonryProps>(
       asChild = false,
       ...props
     },
-    ref,
+    ref
   ) => {
     const [mounted, setMounted] = useState(!animate);
     const childrenArray = React.Children.toArray(children);
@@ -147,21 +161,34 @@ const Masonry = React.forwardRef<HTMLDivElement, MasonryProps>(
       return undefined;
     }, [animate]);
 
+    // Handle numeric or custom string gap values
+    const isTokenGap =
+      typeof gap === "string" &&
+      ["none", "xs", "sm", "md", "lg", "xl", "2xl"].includes(gap);
+
     // CSS mode - uses CSS columns
     if (mode === "css") {
       const Comp = asChild ? Slot : "div";
+
+      // Custom style for non-token gap values
+      const customStyle =
+        !isTokenGap && gap !== undefined
+          ? { columnGap: typeof gap === "number" ? `${gap}px` : gap }
+          : undefined;
 
       // Determine column classes based on configuration
       const getColumnClasses = () => {
         if (typeof columns === "number") {
           return masonryCSSVariants({
-            gap,
+            gap: isTokenGap ? (gap as any) : undefined,
             columns: columns as 1 | 2 | 3 | 4 | 5 | 6,
           });
         }
 
         // Build responsive column classes
-        const classes: string[] = [masonryCSSVariants({ gap })];
+        const classes: string[] = [
+          masonryCSSVariants({ gap: isTokenGap ? (gap as any) : undefined }),
+        ];
 
         if (columns.default) {
           classes.push(`columns-${columns.default}`);
@@ -175,7 +202,7 @@ const Masonry = React.forwardRef<HTMLDivElement, MasonryProps>(
           classes.push(
             responsiveColumnClasses.sm[
               columns.sm as keyof typeof responsiveColumnClasses.sm
-            ],
+            ]
           );
         }
         if (
@@ -187,7 +214,7 @@ const Masonry = React.forwardRef<HTMLDivElement, MasonryProps>(
           classes.push(
             responsiveColumnClasses.md[
               columns.md as keyof typeof responsiveColumnClasses.md
-            ],
+            ]
           );
         }
         if (
@@ -199,7 +226,7 @@ const Masonry = React.forwardRef<HTMLDivElement, MasonryProps>(
           classes.push(
             responsiveColumnClasses.lg[
               columns.lg as keyof typeof responsiveColumnClasses.lg
-            ],
+            ]
           );
         }
         if (
@@ -211,7 +238,7 @@ const Masonry = React.forwardRef<HTMLDivElement, MasonryProps>(
           classes.push(
             responsiveColumnClasses.xl[
               columns.xl as keyof typeof responsiveColumnClasses.xl
-            ],
+            ]
           );
         }
         if (
@@ -223,7 +250,7 @@ const Masonry = React.forwardRef<HTMLDivElement, MasonryProps>(
           classes.push(
             responsiveColumnClasses["2xl"][
               columns["2xl"] as keyof (typeof responsiveColumnClasses)["2xl"]
-            ],
+            ]
           );
         }
 
@@ -234,6 +261,7 @@ const Masonry = React.forwardRef<HTMLDivElement, MasonryProps>(
         <Comp
           ref={ref}
           className={cn(getColumnClasses(), className)}
+          style={customStyle}
           {...props}
         >
           {childrenArray.map((child, index) => {
@@ -265,7 +293,7 @@ const Masonry = React.forwardRef<HTMLDivElement, MasonryProps>(
       typeof columns === "number" ? columns : columns.default || 3;
     const columnWrapper: React.ReactNode[][] = Array.from(
       { length: columnCount },
-      () => [],
+      () => []
     );
 
     // Distribute children across columns
@@ -276,10 +304,21 @@ const Masonry = React.forwardRef<HTMLDivElement, MasonryProps>(
 
     const Comp = asChild ? Slot : "div";
 
+    // Custom style for non-token gap values in JS mode
+    const customJsStyle =
+      !isTokenGap && gap !== undefined
+        ? { gap: typeof gap === "number" ? `${gap}px` : gap }
+        : undefined;
+
     return (
       <Comp
         ref={ref}
-        className={cn("flex", masonryVariants({ gap }), className)}
+        className={cn(
+          "flex",
+          masonryVariants({ gap: isTokenGap ? (gap as any) : undefined }),
+          className
+        )}
+        style={customJsStyle}
         {...props}
       >
         {columnWrapper.map((columnChildren, columnIndex) => (
@@ -301,7 +340,7 @@ const Masonry = React.forwardRef<HTMLDivElement, MasonryProps>(
                   key={itemIndex}
                   className={cn(
                     masonryItemVariants({ animate }),
-                    itemClassName,
+                    itemClassName
                   )}
                   style={
                     animate && mounted
@@ -321,7 +360,7 @@ const Masonry = React.forwardRef<HTMLDivElement, MasonryProps>(
         ))}
       </Comp>
     );
-  },
+  }
 );
 
 Masonry.displayName = "Masonry";

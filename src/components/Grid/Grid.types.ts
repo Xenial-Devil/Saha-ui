@@ -11,8 +11,19 @@ export type GridCols = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
  * @example
  * <Grid gap="sm">Small gap</Grid>
  * <Grid gap="lg">Large gap</Grid>
+ * <Grid gap={16}>16px gap</Grid>
+ * <Grid gap="2rem">Custom gap</Grid>
  */
-export type GridGap = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+export type GridGap =
+  | "none"
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | number
+  | string;
 
 /**
  * Alignment of items on the cross axis
@@ -115,11 +126,14 @@ export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
 
   /**
    * Gap between grid items
+   * Accepts predefined tokens, numbers (px), or string with units
    * @default 'md'
    * @example
    * ```tsx
    * <Grid gap="sm">Small gaps</Grid>
    * <Grid gap="lg">Large gaps</Grid>
+   * <Grid gap={20}>20px gaps</Grid>
+   * <Grid gap="1.5rem">Custom gaps</Grid>
    * ```
    */
   gap?: GridGap;

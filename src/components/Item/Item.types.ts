@@ -267,8 +267,13 @@ export interface ItemGroupProps
 
   /**
    * Spacing between items
+   * Accepts predefined tokens, numbers (px), or string with units
+   * @example
+   * <ItemGroup spacing="md">Token spacing</ItemGroup>
+   * <ItemGroup spacing={12}>12px spacing</ItemGroup>
+   * <ItemGroup spacing="1rem">Custom spacing</ItemGroup>
    */
-  spacing?: "none" | "sm" | "md" | "lg";
+  spacing?: "none" | "sm" | "md" | "lg" | number | string;
 
   /**
    * Children (Item components)

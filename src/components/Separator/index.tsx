@@ -47,11 +47,28 @@ export const Separator = React.forwardRef<HTMLDivElement, SeparatorProps>(
       labelPosition = "center",
       decorative = false,
       className,
+      style,
       ...props
     },
     ref
   ) => {
     // Development-only validation removed for server/component readiness
+
+    // Handle numeric or custom string spacing values
+    const isTokenSpacing =
+      typeof spacing === "string" &&
+      ["none", "xs", "sm", "md", "lg", "xl"].includes(spacing);
+
+    const customStyle =
+      !isTokenSpacing && spacing !== undefined
+        ? {
+            [orientation === "horizontal" ? "marginTop" : "marginLeft"]:
+              typeof spacing === "number" ? `${spacing}px` : spacing,
+            [orientation === "horizontal" ? "marginBottom" : "marginRight"]:
+              typeof spacing === "number" ? `${spacing}px` : spacing,
+            ...style,
+          }
+        : style;
 
     // For vertical Separators, override justify-content based on label position
     const justifyClass =
@@ -72,10 +89,14 @@ export const Separator = React.forwardRef<HTMLDivElement, SeparatorProps>(
         <div
           ref={ref}
           className={cn(
-            SeparatorVariants({ orientation, spacing }),
+            SeparatorVariants({
+              orientation,
+              spacing: isTokenSpacing ? (spacing as any) : undefined,
+            }),
             justifyClass,
             className
           )}
+          style={customStyle}
           role="separator"
           aria-orientation={orientation}
           {...props}
@@ -114,7 +135,14 @@ export const Separator = React.forwardRef<HTMLDivElement, SeparatorProps>(
     return (
       <div
         ref={ref}
-        className={cn(SeparatorVariants({ orientation, spacing }), className)}
+        className={cn(
+          SeparatorVariants({
+            orientation,
+            spacing: isTokenSpacing ? (spacing as any) : undefined,
+          }),
+          className
+        )}
+        style={customStyle}
         role="separator"
         aria-orientation={orientation}
         {...props}

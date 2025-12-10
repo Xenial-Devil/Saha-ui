@@ -65,9 +65,14 @@ export interface PaperProps
 
   /**
    * Padding inside the paper
+   * Accepts predefined tokens, numbers (px), or string with units
    * @default "md"
+   * @example
+   * <Paper padding="lg">Token padding</Paper>
+   * <Paper padding={24}>24px padding</Paper>
+   * <Paper padding="2rem">Custom padding</Paper>
    */
-  padding?: "none" | "sm" | "md" | "lg" | "xl";
+  padding?: "none" | "sm" | "md" | "lg" | "xl" | number | string;
 
   /**
    * Border radius of the paper

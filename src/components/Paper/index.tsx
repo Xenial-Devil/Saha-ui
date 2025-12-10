@@ -84,11 +84,25 @@ const Paper = React.forwardRef<HTMLDivElement, PaperProps>(
       children,
       className,
       asChild = false,
+      style,
       ...props
     },
-    ref,
+    ref
   ) => {
     const Comp = asChild ? Slot : "div";
+
+    // Handle numeric or custom string padding values
+    const isTokenPadding =
+      typeof padding === "string" &&
+      ["none", "sm", "md", "lg", "xl"].includes(padding);
+
+    const customStyle =
+      !isTokenPadding && padding !== undefined
+        ? {
+            padding: typeof padding === "number" ? `${padding}px` : padding,
+            ...style,
+          }
+        : style;
 
     return (
       <Comp
@@ -97,20 +111,21 @@ const Paper = React.forwardRef<HTMLDivElement, PaperProps>(
           paperVariants({
             variant,
             elevation,
-            padding,
+            padding: isTokenPadding ? (padding as any) : undefined,
             rounded,
             hoverable,
             centered,
             maxWidth,
           }),
-          className,
+          className
         )}
+        style={customStyle}
         {...props}
       >
         {children}
       </Comp>
     );
-  },
+  }
 );
 
 Paper.displayName = "Paper";

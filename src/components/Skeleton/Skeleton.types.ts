@@ -54,8 +54,19 @@ export type SkeletonSpeed = "slow" | "normal" | "fast" | "ultra-fast";
 
 /**
  * Skeleton container spacing types
+ * Accepts predefined tokens, numbers (px), or string with units
+ * @example
+ * <Skeleton spacing="tight" />
+ * <Skeleton spacing={16} />
+ * <Skeleton spacing="1rem" />
  */
-export type SkeletonSpacing = "tight" | "normal" | "loose" | "relaxed";
+export type SkeletonSpacing =
+  | "tight"
+  | "normal"
+  | "loose"
+  | "relaxed"
+  | number
+  | string;
 
 /**
  * Props for the Skeleton component

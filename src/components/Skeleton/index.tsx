@@ -76,7 +76,7 @@ export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
       style,
       ...props
     },
-    ref,
+    ref
   ) => {
     // Convert width/height to CSS values
     const widthValue = typeof width === "number" ? `${width}px` : width;
@@ -90,10 +90,32 @@ export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
       ...style,
     };
 
+    // Handle numeric or custom string spacing values for container
+    const isTokenSpacing =
+      typeof spacing === "string" &&
+      ["tight", "normal", "loose", "relaxed"].includes(spacing);
+
+    const containerStyle =
+      !isTokenSpacing && spacing !== undefined
+        ? {
+            gap: typeof spacing === "number" ? `${spacing}px` : spacing,
+          }
+        : undefined;
+
     // If count > 1, render multiple skeletons in a container
     if (count > 1) {
       return (
-        <div className={cn(skeletonContainerVariants({ spacing }))} ref={ref}>
+        <div
+          className={cn(
+            skeletonContainerVariants({
+              spacing: isTokenSpacing
+                ? (spacing as "tight" | "normal" | "loose" | "relaxed")
+                : "normal",
+            })
+          )}
+          style={containerStyle}
+          ref={ref}
+        >
           {Array.from({ length: count }).map((_, index) => {
             // Calculate width for last item (optional variation)
             const isLastItem = index === count - 1;
@@ -114,7 +136,7 @@ export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
                     speed: noAnimation ? undefined : speed,
                   }),
                   noAnimation && "animate-none",
-                  className,
+                  className
                 )}
                 style={{
                   ...customStyles,
@@ -139,7 +161,7 @@ export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
             speed: noAnimation ? undefined : speed,
           }),
           noAnimation && "animate-none",
-          className,
+          className
         )}
         style={customStyles}
         aria-busy="true"
@@ -150,7 +172,7 @@ export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
         <span className="sr-only">Loading...</span>
       </div>
     );
-  },
+  }
 );
 
 Skeleton.displayName = "Skeleton";

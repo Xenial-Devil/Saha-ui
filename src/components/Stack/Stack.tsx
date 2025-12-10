@@ -43,13 +43,14 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
       asChild = false,
       role,
       children,
+      style,
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledby,
       "aria-describedby": ariaDescribedby,
       "aria-orientation": ariaOrientation,
       ...props
     },
-    ref,
+    ref
   ) => {
     const Comp = asChild ? Slot : "div";
 
@@ -66,21 +67,36 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
         ? effectiveDirection
         : undefined);
 
+    // Handle numeric or custom string spacing values
+    const isTokenSpacing =
+      typeof spacing === "string" &&
+      ["none", "xs", "sm", "md", "lg", "xl", "2xl"].includes(spacing);
+
+    const customStyle =
+      !isTokenSpacing && spacing !== undefined
+        ? {
+            gap: typeof spacing === "number" ? `${spacing}px` : spacing,
+            ...style,
+          }
+        : style;
+
     return (
       <Comp
         ref={ref}
         className={cn(
           stackVariants({
             direction: responsive ? "vertical" : direction,
-            spacing,
+            spacing: isTokenSpacing ? (spacing as any) : undefined,
             align,
             justify,
             wrap,
             responsive,
             divide,
           }),
-          className,
+          !isTokenSpacing && spacing !== undefined && "gap-0", // Reset gap when using custom value
+          className
         )}
+        style={customStyle}
         role={role}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledby}
@@ -91,7 +107,7 @@ export const Stack = React.forwardRef<HTMLDivElement, StackProps>(
         {children}
       </Comp>
     );
-  },
+  }
 );
 
 Stack.displayName = "Stack";

@@ -11,11 +11,20 @@ export type ContainerSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "full";
 /**
  * Padding variants for the Container component
  * Controls the vertical padding
+ * Accepts predefined tokens, numbers (px), or string with units
  * @example
  * <Container padding="none">No padding</Container>
  * <Container padding="lg">Large padding</Container>
+ * <Container padding={24}>24px padding</Container>
+ * <Container padding="2rem">Custom padding</Container>
  */
-export type ContainerPadding = "none" | "sm" | "default" | "lg";
+export type ContainerPadding =
+  | "none"
+  | "sm"
+  | "default"
+  | "lg"
+  | number
+  | string;
 
 /**
  * Props for the Container component

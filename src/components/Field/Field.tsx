@@ -78,17 +78,36 @@ export const FieldGroup = React.forwardRef<HTMLDivElement, FieldGroupProps>(
       columns = 1,
       className,
       children,
+      style,
       ...props
     },
     ref
   ) => {
+    // Handle numeric or custom string spacing values
+    const isTokenSpacing =
+      typeof spacing === "string" &&
+      ["none", "sm", "md", "lg", "xl"].includes(spacing);
+
+    const customStyle =
+      !isTokenSpacing && spacing !== undefined
+        ? {
+            gap: typeof spacing === "number" ? `${spacing}px` : spacing,
+            ...style,
+          }
+        : style;
+
     return (
       <div
         ref={ref}
         className={cn(
-          fieldGroupVariants({ orientation, spacing, columns }),
+          fieldGroupVariants({
+            orientation,
+            spacing: isTokenSpacing ? (spacing as any) : undefined,
+            columns,
+          }),
           className
         )}
+        style={customStyle}
         role="group"
         {...props}
       >
@@ -130,7 +149,6 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
     },
     ref
   ) => {
-
     const contextValue: FieldContextValue = {
       size,
       variant,

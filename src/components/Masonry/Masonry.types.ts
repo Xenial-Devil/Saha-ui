@@ -19,8 +19,22 @@ export type MasonryColumns =
 /**
  * Masonry gap types
  * Defines the spacing between masonry items
+ * Accepts predefined tokens, numbers (px), or string with units
+ * @example
+ * <Masonry gap="md">Token-based gap</Masonry>
+ * <Masonry gap={24}>24px gap</Masonry>
+ * <Masonry gap="2rem">Custom gap</Masonry>
  */
-export type MasonryGap = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+export type MasonryGap =
+  | "none"
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | number
+  | string;
 
 /**
  * Props for the Masonry component
@@ -131,7 +145,8 @@ export interface MasonryProps
 /**
  * Internal props for MasonryColumn
  */
-export interface MasonryColumnProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface MasonryColumnProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
   gap?: MasonryGap;

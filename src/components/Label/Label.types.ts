@@ -162,9 +162,14 @@ export interface LabelGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 
   /**
    * Spacing between labels
+   * Accepts predefined tokens, numbers (px), or string with units
    * @default "md"
+   * @example
+   * <LabelGroup spacing="sm">Small spacing</LabelGroup>
+   * <LabelGroup spacing={16}>16px spacing</LabelGroup>
+   * <LabelGroup spacing="1rem">Custom spacing</LabelGroup>
    */
-  spacing?: "sm" | "md" | "lg";
+  spacing?: "sm" | "md" | "lg" | number | string;
 
   /**
    * Additional CSS classes

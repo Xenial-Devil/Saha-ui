@@ -43,17 +43,37 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       hoverable,
       className,
       onClick,
+      style,
       ...props
     },
-    ref,
+    ref
   ) => {
+    // Handle numeric or custom string padding values
+    const isTokenPadding =
+      typeof padding === "string" &&
+      ["none", "sm", "md", "lg", "xl"].includes(padding);
+
+    const customStyle =
+      !isTokenPadding && padding !== undefined
+        ? {
+            padding: typeof padding === "number" ? `${padding}px` : padding,
+            ...style,
+          }
+        : style;
+
     return (
       <div
         ref={ref}
         className={cn(
-          cardVariants({ variant, padding, rounded, hoverable }),
-          className,
+          cardVariants({
+            variant,
+            padding: isTokenPadding ? (padding as any) : undefined,
+            rounded,
+            hoverable,
+          }),
+          className
         )}
+        style={customStyle}
         onClick={onClick}
         {...props}
       >
@@ -61,7 +81,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
         <div className="relative">{children}</div>
       </div>
     );
-  },
+  }
 );
 
 Card.displayName = "Card";
@@ -80,7 +100,7 @@ export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
         {children}
       </Comp>
     );
-  },
+  }
 );
 
 CardHeader.displayName = "CardHeader";
@@ -99,13 +119,13 @@ export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
         ref={ref}
         className={cn(
           "text-xl font-semibold text-foreground tracking-tight",
-          className,
+          className
         )}
       >
         {children}
       </Comp>
     );
-  },
+  }
 );
 
 CardTitle.displayName = "CardTitle";
@@ -126,7 +146,7 @@ export const CardDescription = React.forwardRef<
       ref={ref}
       className={cn(
         "text-sm text-muted-foreground mt-1.5 leading-relaxed",
-        className,
+        className
       )}
     >
       {children}
@@ -150,7 +170,7 @@ export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
         {children}
       </Comp>
     );
-  },
+  }
 );
 
 CardContent.displayName = "CardContent";
@@ -169,13 +189,13 @@ export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
         ref={ref}
         className={cn(
           "mt-4 pt-4 border-t border-border/50 flex items-center gap-2",
-          className,
+          className
         )}
       >
         {children}
       </Comp>
     );
-  },
+  }
 );
 
 CardFooter.displayName = "CardFooter";

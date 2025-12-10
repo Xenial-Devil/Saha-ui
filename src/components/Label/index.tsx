@@ -72,7 +72,6 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
     },
     ref
   ) => {
-
     return (
       <label
         ref={ref}
@@ -122,11 +121,28 @@ export const LabelGroup = React.forwardRef<HTMLDivElement, LabelGroupProps>(
     { children, direction = "vertical", spacing = "md", className, ...props },
     ref
   ) => {
+    // Handle numeric or custom string spacing values
+    const isTokenSpacing =
+      typeof spacing === "string" && ["sm", "md", "lg"].includes(spacing);
+
+    const customStyle =
+      !isTokenSpacing && spacing !== undefined
+        ? {
+            gap: typeof spacing === "number" ? `${spacing}px` : spacing,
+          }
+        : undefined;
 
     return (
       <div
         ref={ref}
-        className={cn(labelGroupVariants({ direction, spacing }), className)}
+        className={cn(
+          labelGroupVariants({
+            direction,
+            spacing: isTokenSpacing ? (spacing as "sm" | "md" | "lg") : "md",
+          }),
+          className
+        )}
+        style={customStyle}
         role="group"
         {...props}
       >

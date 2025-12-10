@@ -168,5 +168,5 @@ export type ToggleGroupVariant =
   | "ghost";
 
 export type ToggleGroupSize = "sm" | "default" | "lg" | "xl";
-export type ToggleGroupSpacing = 0 | 1 | 2 | 3 | 4;
+export type ToggleGroupSpacing = 0 | 1 | 2 | 3 | 4 | number | string;
 export type ToggleGroupOrientation = "horizontal" | "vertical";

@@ -121,15 +121,31 @@ export const ToggleGroup = React.forwardRef<HTMLDivElement, ToggleGroupProps>(
       ]
     );
 
+    // Handle numeric or custom string spacing values
+    const isTokenSpacing =
+      typeof spacing === "number" && [0, 1, 2, 3, 4].includes(spacing);
+
+    const customStyle =
+      !isTokenSpacing && spacing !== undefined && spacing !== 0
+        ? {
+            gap: typeof spacing === "number" ? `${spacing}px` : spacing,
+          }
+        : undefined;
+
     return (
       <div
         ref={ref}
         role={type === "single" ? "radiogroup" : "group"}
         aria-orientation={orientation}
         className={cn(
-          toggleGroupVariants({ variant, orientation, spacing }),
+          toggleGroupVariants({
+            variant,
+            orientation,
+            spacing: isTokenSpacing ? (spacing as 0 | 1 | 2 | 3 | 4) : 1,
+          }),
           className
         )}
+        style={customStyle}
         data-variant={variant}
         data-size={size}
         data-spacing={spacing}

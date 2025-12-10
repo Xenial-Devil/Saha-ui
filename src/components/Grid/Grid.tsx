@@ -69,7 +69,7 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(
       "aria-describedby": ariaDescribedBy,
       ...props
     },
-    ref,
+    ref
   ) => {
     const Comp = asChild ? Slot : "div";
 
@@ -85,12 +85,22 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(
           .join(" ")
       : "";
 
+    // Handle numeric or custom string gap values
+    const isTokenGap =
+      typeof gap === "string" &&
+      ["none", "xs", "sm", "md", "lg", "xl", "2xl"].includes(gap);
+
     // Auto-fit grid using CSS custom properties
     const autoFitStyle = autoFit
       ? {
           gridTemplateColumns: `repeat(auto-fit, minmax(min(${minColWidth}, 100%), 1fr))`,
+          ...(!isTokenGap && gap !== undefined
+            ? { gap: typeof gap === "number" ? `${gap}px` : gap }
+            : {}),
           ...style,
         }
+      : !isTokenGap && gap !== undefined
+      ? { gap: typeof gap === "number" ? `${gap}px` : gap, ...style }
       : style;
 
     return (
@@ -99,13 +109,14 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(
         className={cn(
           gridVariants({
             cols: autoFit ? undefined : cols,
-            gap,
+            gap: isTokenGap ? (gap as any) : undefined,
             align,
             justify,
             autoFit,
           }),
+          !isTokenGap && gap !== undefined && "gap-0", // Reset gap when using custom value
           responsiveClasses,
-          className,
+          className
         )}
         style={autoFitStyle}
         role={role}
@@ -117,7 +128,7 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(
         {children}
       </Comp>
     );
-  },
+  }
 );
 
 Grid.displayName = "Grid";
@@ -177,7 +188,7 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
       "aria-describedby": ariaDescribedBy,
       ...props
     },
-    ref,
+    ref
   ) => {
     const Comp = asChild ? Slot : "div";
 
@@ -203,7 +214,7 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
         className={cn(
           gridItemVariants({ colSpan, rowSpan }),
           responsiveClasses,
-          className,
+          className
         )}
         role={role}
         aria-label={ariaLabel}
@@ -214,7 +225,7 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
         {children}
       </Comp>
     );
-  },
+  }
 );
 
 GridItem.displayName = "GridItem";

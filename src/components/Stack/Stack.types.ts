@@ -67,6 +67,8 @@ export interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
    * - `lg`: 1.5rem (gap-6)
    * - `xl`: 2rem (gap-8)
    * - `2xl`: 3rem (gap-12)
+   * - `number`: Direct pixel value (e.g., 16 for 16px)
+   * - `string`: Custom value with units (e.g., '2rem', '20px')
    *
    * @default 'md'
    *
@@ -75,8 +77,18 @@ export interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
    *   <Card>Card 1</Card>
    *   <Card>Card 2</Card>
    * </Stack>
+   *
+   * @example
+   * <Stack spacing={16}>
+   *   <Card>16px gap</Card>
+   * </Stack>
+   *
+   * @example
+   * <Stack spacing="2rem">
+   *   <Card>Custom gap</Card>
+   * </Stack>
    */
-  spacing?: "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+  spacing?: "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | number | string;
 
   /**
    * Alignment of items on the cross axis (perpendicular to direction).
