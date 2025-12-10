@@ -23,9 +23,14 @@ const tooltipBaseVariants = cva(
         info: "bg-blue-500 text-white shadow-[0_8px_24px_0] shadow-blue-500/40 border border-blue-600 hover:shadow-[0_12px_32px_0] hover:shadow-blue-500/50 hover:scale-105 relative before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/20 before:to-transparent before:pointer-events-none",
       },
       size: {
+        xs: "text-[10px] px-1.5 py-0.5 rounded-sm",
         sm: "text-xs px-2 py-1 rounded-md",
         md: "text-sm px-3 py-1.5 rounded-lg",
         lg: "text-base px-4 py-2 rounded-xl",
+        xl: "text-lg px-5 py-2.5 rounded-2xl",
+        "2xl": "text-xl px-6 py-3 rounded-2xl",
+        "3xl": "text-2xl px-7 py-3.5 rounded-3xl",
+        "4xl": "text-3xl px-8 py-4 rounded-3xl",
       },
       interactive: {
         true: "pointer-events-auto cursor-auto",

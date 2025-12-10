@@ -6,7 +6,16 @@
  * <Container size="lg">Large container</Container>
  * <Container size="full">Full width container</Container>
  */
-export type ContainerSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "full";
+export type ContainerSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "full";
 
 /**
  * Padding variants for the Container component

@@ -20,7 +20,7 @@ export type ListVariant =
   | "striped"
   | "cards"
   | "glass";
-export type ListSize = "sm" | "md" | "lg";
+export type ListSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 
 export interface ListProps
   extends React.HTMLAttributes<HTMLUListElement | HTMLOListElement> {

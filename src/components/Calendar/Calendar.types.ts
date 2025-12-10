@@ -30,7 +30,15 @@ export type CalendarRounded = "none" | "sm" | "md" | "lg" | "xl" | "2xl";
 /**
  * Size variants for the Calendar
  */
-export type CalendarSize = "sm" | "md" | "lg";
+export type CalendarSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Selection mode for the Calendar

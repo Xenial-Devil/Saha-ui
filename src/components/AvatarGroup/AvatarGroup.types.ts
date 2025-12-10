@@ -3,7 +3,15 @@ import { ReactNode } from "react";
 /**
  * Size options for AvatarGroup
  */
-export type AvatarGroupSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+export type AvatarGroupSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Variant options for AvatarGroup layout

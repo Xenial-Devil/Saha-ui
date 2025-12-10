@@ -1,4 +1,12 @@
-export type FieldSize = "sm" | "md" | "lg";
+export type FieldSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 export type FieldVariant =
   | "default"
   | "filled"

@@ -13,7 +13,15 @@ export type TableVariant =
 /**
  * Size variants for table
  */
-export type TableSize = "sm" | "md" | "lg";
+export type TableSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Density options

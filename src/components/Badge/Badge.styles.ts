@@ -31,9 +31,14 @@ const badgeVariants = cva(
           "bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 shadow-2xl shadow-black/10 hover:bg-white/15 dark:hover:bg-black/15 hover:scale-105 active:scale-95 hover:shadow-2xl hover:shadow-primary/20 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300 after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.1),transparent_50%)] after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-500",
       },
       size: {
+        xs: "text-[10px] px-1.5 py-0.5 min-h-[16px] rounded-sm",
         sm: "text-xs px-2 py-0.5 min-h-[20px] rounded-md",
         md: "text-sm px-2.5 py-1 min-h-[24px] rounded-lg",
         lg: "text-base px-3 py-1.5 min-h-[28px] rounded-lg",
+        xl: "text-lg px-4 py-2 min-h-[32px] rounded-xl",
+        "2xl": "text-xl px-5 py-2.5 min-h-[36px] rounded-xl",
+        "3xl": "text-2xl px-6 py-3 min-h-[40px] rounded-2xl",
+        "4xl": "text-3xl px-7 py-3.5 min-h-[44px] rounded-2xl",
       },
       shape: {
         rounded: "",
@@ -46,6 +51,6 @@ const badgeVariants = cva(
       size: "md",
       shape: "rounded",
     },
-  },
+  }
 );
 export { badgeVariants };

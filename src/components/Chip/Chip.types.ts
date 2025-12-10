@@ -24,7 +24,7 @@ export type ChipColor =
  * Chip size types
  * Controls the dimensions and text size of the chip
  */
-export type ChipSize = "sm" | "md" | "lg";
+export type ChipSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 
 /**
  * Props for the Chip component

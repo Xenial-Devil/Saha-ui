@@ -24,7 +24,15 @@ export interface PresetColor {
 /**
  * ColorPicker size types
  */
-export type ColorPickerSize = "sm" | "md" | "lg";
+export type ColorPickerSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Props for the ColorPicker component
@@ -127,7 +135,13 @@ export interface ColorPickerProps
    * Placement of the popover
    * @default "bottom-start"
    */
-  placement?: "top" | "top-start" | "top-end" | "bottom" | "bottom-start" | "bottom-end";
+  placement?:
+    | "top"
+    | "top-start"
+    | "top-end"
+    | "bottom"
+    | "bottom-start"
+    | "bottom-end";
 
   /**
    * Custom trigger content

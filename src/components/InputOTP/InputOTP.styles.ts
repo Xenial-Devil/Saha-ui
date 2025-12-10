@@ -32,10 +32,14 @@ export const otpLabelVariants = cva(
 export const otpGroupVariants = cva("flex items-center gap-2", {
   variants: {
     size: {
+      xs: "gap-1",
       sm: "gap-1.5",
       md: "gap-2",
       lg: "gap-2.5",
       xl: "gap-3",
+      "2xl": "gap-3.5",
+      "3xl": "gap-4",
+      "4xl": "gap-5",
     },
   },
   defaultVariants: {
@@ -155,10 +159,14 @@ export const otpSeparatorVariants = cva(
   {
     variants: {
       size: {
+        xs: "text-xs mx-0.5",
         sm: "text-sm mx-1",
         md: "text-base mx-1.5",
         lg: "text-lg mx-2",
         xl: "text-xl mx-2.5",
+        "2xl": "text-2xl mx-3",
+        "3xl": "text-3xl mx-3.5",
+        "4xl": "text-4xl mx-4",
       },
     },
     defaultVariants: {

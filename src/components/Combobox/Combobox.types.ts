@@ -1,6 +1,14 @@
 import React from "react";
 
-export type ComboboxSize = "sm" | "md" | "lg";
+export type ComboboxSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 export type ComboboxVariant =
   | "default"

@@ -25,9 +25,14 @@ const linkVariants = cva(
           "backdrop-blur-xl bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10 px-3 py-1.5 rounded-lg shadow-lg hover:bg-white/20 dark:hover:bg-black/20 hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 text-foreground font-medium before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300 before:rounded-lg hover:no-underline",
       },
       size: {
+        xs: "text-xs gap-0.5",
         sm: "text-sm gap-1",
         md: "text-base gap-1.5",
         lg: "text-lg gap-2",
+        xl: "text-xl gap-2.5",
+        "2xl": "text-2xl gap-3",
+        "3xl": "text-3xl gap-3.5",
+        "4xl": "text-4xl gap-4",
       },
       disabled: {
         true: "opacity-50 cursor-not-allowed pointer-events-none saturate-50",

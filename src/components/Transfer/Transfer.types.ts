@@ -45,7 +45,15 @@ export type TransferOrientation = "horizontal" | "vertical";
 /**
  * Transfer size variants
  */
-export type TransferSize = "sm" | "md" | "lg";
+export type TransferSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Props for the Transfer component
@@ -119,12 +127,19 @@ export interface TransferProps
   /**
    * Callback when target keys change
    */
-  onChange?: (targetKeys: string[], direction: "left" | "right", movedKeys: string[]) => void;
+  onChange?: (
+    targetKeys: string[],
+    direction: "left" | "right",
+    movedKeys: string[]
+  ) => void;
 
   /**
    * Callback when selected keys change
    */
-  onSelectChange?: (sourceSelectedKeys: string[], targetSelectedKeys: string[]) => void;
+  onSelectChange?: (
+    sourceSelectedKeys: string[],
+    targetSelectedKeys: string[]
+  ) => void;
 
   /**
    * Titles for the source and target lists

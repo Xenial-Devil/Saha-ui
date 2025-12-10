@@ -63,9 +63,14 @@ const calendarVariants = cva(
         false: "",
       },
       size: {
+        xs: "p-2 text-xs",
         sm: "p-3 text-sm",
         md: "p-4 text-base",
         lg: "p-6 text-lg",
+        xl: "p-7 text-xl",
+        "2xl": "p-8 text-2xl",
+        "3xl": "p-10 text-3xl",
+        "4xl": "p-12 text-4xl",
       },
       rounded: {
         none: "rounded-none before:rounded-none after:rounded-none",

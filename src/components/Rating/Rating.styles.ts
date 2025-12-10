@@ -16,10 +16,14 @@ const ratingVariants = cva(
         outline: "",
       },
       size: {
+        xs: "text-xs gap-0.5",
         sm: "text-sm gap-0.5",
         md: "text-base gap-1",
         lg: "text-xl gap-1.5",
         xl: "text-2xl gap-2",
+        "2xl": "text-3xl gap-2.5",
+        "3xl": "text-4xl gap-3",
+        "4xl": "text-5xl gap-4",
       },
     },
     defaultVariants: {

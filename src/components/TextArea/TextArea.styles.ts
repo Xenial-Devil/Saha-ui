@@ -69,9 +69,14 @@ const textAreaVariants = cva(
         ],
       },
       size: {
+        xs: "px-2 py-1.5 text-xs min-h-[60px]",
         sm: "px-3 py-2 text-sm min-h-[80px]",
-        md: "px-4 py-2.5 text-base min-h-[120px]",
-        lg: "px-5 py-3 text-lg min-h-[160px]",
+        md: "px-4 py-3 text-base min-h-[100px]",
+        lg: "px-5 py-4 text-lg min-h-[120px]",
+        xl: "px-6 py-5 text-xl min-h-[140px]",
+        "2xl": "px-7 py-6 text-2xl min-h-[160px]",
+        "3xl": "px-8 py-7 text-3xl min-h-[180px]",
+        "4xl": "px-10 py-8 text-4xl min-h-[200px]",
       },
       rounded: {
         default: "rounded-lg",

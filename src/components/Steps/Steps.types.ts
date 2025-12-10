@@ -18,7 +18,15 @@ export type StepsOrientation = "horizontal" | "vertical";
 /**
  * Size variant for step indicators and text.
  */
-export type StepsSize = "sm" | "md" | "lg";
+export type StepsSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Props for the Steps component.

@@ -7,7 +7,15 @@ export type TimelineVariant =
   | "minimal"
   | "glass";
 export type TimelinePosition = "left" | "right" | "alternate";
-export type TimelineSize = "sm" | "md" | "lg";
+export type TimelineSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 export type TimelineStatus =
   | "default"
   | "success"

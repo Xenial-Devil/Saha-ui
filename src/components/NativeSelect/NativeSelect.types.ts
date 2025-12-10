@@ -25,7 +25,15 @@ export type NativeSelectVariant =
 /**
  * Native Select size types
  */
-export type NativeSelectSize = "sm" | "md" | "lg";
+export type NativeSelectSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Native Select option type

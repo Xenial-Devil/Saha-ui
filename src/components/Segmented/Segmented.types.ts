@@ -35,7 +35,15 @@ export interface SegmentedOption {
 /**
  * Segmented size types
  */
-export type SegmentedSize = "sm" | "md" | "lg";
+export type SegmentedSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Segmented variant types

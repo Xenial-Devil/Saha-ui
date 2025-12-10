@@ -79,10 +79,14 @@ const inputVariants = cva(
           "bg-background/30 backdrop-blur-sm border-2 border-white/20 dark:border-white/10 hover:border-white/30 dark:hover:border-white/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20",
       },
       size: {
+        xs: "h-7 px-2 text-xs gap-1.5 rounded-md",
         sm: "h-9 px-3 text-sm gap-2 rounded-lg",
         md: "h-11 px-4 text-base gap-2.5 rounded-xl",
         lg: "h-13 px-5 text-lg gap-3 rounded-xl",
-        xl: "h-16 px-6 text-xl gap-4 rounded-2xl",
+        xl: "h-16 px-6 text-xl gap-3.5 rounded-2xl",
+        "2xl": "h-20 px-7 text-2xl gap-4 rounded-3xl",
+        "3xl": "h-24 px-8 text-3xl gap-5 rounded-3xl",
+        "4xl": "h-28 px-10 text-4xl gap-6 rounded-3xl",
       },
       hasStartIcon: {
         true: "",

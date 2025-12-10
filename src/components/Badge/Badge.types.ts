@@ -25,7 +25,15 @@ export type BadgeVariant =
  * Badge size types
  * Controls the dimensions and text size of the badge
  */
-export type BadgeSize = "sm" | "md" | "lg";
+export type BadgeSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Badge shape types

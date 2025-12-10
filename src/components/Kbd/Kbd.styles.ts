@@ -129,9 +129,14 @@ export const kbdVariants = cva(
         ],
       },
       size: {
+        xs: ["text-[10px]", "px-1", "py-0.5", "min-w-[1.25rem]", "h-5"],
         sm: ["text-xs", "px-1.5", "py-0.5", "min-w-[1.5rem]", "h-6"],
-        md: ["text-sm", "px-2", "py-1", "min-w-[2rem]", "h-7"],
-        lg: ["text-base", "px-2.5", "py-1.5", "min-w-[2.5rem]", "h-9"],
+        md: ["text-sm", "px-2", "py-1", "min-w-[1.75rem]", "h-7"],
+        lg: ["text-base", "px-2.5", "py-1", "min-w-[2rem]", "h-8"],
+        xl: ["text-lg", "px-3", "py-1.5", "min-w-[2.25rem]", "h-9"],
+        "2xl": ["text-xl", "px-3.5", "py-1.5", "min-w-[2.5rem]", "h-10"],
+        "3xl": ["text-2xl", "px-4", "py-2", "min-w-[3rem]", "h-12"],
+        "4xl": ["text-3xl", "px-5", "py-2.5", "min-w-[3.5rem]", "h-14"],
       },
       pressed: {
         true: ["scale-95", "shadow-inner", "brightness-90"],

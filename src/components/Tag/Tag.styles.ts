@@ -64,9 +64,14 @@ const tagVariants = cva(
         ],
       },
       size: {
+        xs: "px-1.5 py-0.5 text-[10px] gap-0.5",
         sm: "px-2 py-0.5 text-xs gap-1",
         md: "px-3 py-1 text-sm gap-1.5",
         lg: "px-4 py-1.5 text-base gap-2",
+        xl: "px-5 py-2 text-lg gap-2.5",
+        "2xl": "px-6 py-2.5 text-xl gap-3",
+        "3xl": "px-7 py-3 text-2xl gap-3.5",
+        "4xl": "px-8 py-3.5 text-3xl gap-4",
       },
       rounded: {
         default: "rounded-lg",

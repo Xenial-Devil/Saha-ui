@@ -40,9 +40,14 @@ const trackVariants = cva(
           "bg-gradient-to-r from-background/20 via-background/30 to-background/20 backdrop-blur-md shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)]",
       },
       size: {
+        xs: "",
         sm: "",
         md: "",
         lg: "",
+        xl: "",
+        "2xl": "",
+        "3xl": "",
+        "4xl": "",
       },
       orientation: {
         horizontal: "w-full",

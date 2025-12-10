@@ -18,7 +18,16 @@ export type ImageFit = "cover" | "contain" | "fill" | "none" | "scale-down";
 /**
  * Size presets for Image component
  */
-export type ImageSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "full";
+export type ImageSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "full";
 
 /**
  * Props for the Image component

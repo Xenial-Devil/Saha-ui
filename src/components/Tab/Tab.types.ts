@@ -16,7 +16,7 @@ export type TabVariant =
   | "outlined"
   | "minimal";
 
-export type TabSize = "sm" | "md" | "lg";
+export type TabSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 
 // Root Tabs component props
 export interface TabsProps {

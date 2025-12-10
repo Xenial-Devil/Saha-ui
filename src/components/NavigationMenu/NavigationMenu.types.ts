@@ -17,7 +17,7 @@ export type NavVariant =
 /**
  * Size variant for navigation menu items.
  */
-export type NavSize = "sm" | "md" | "lg";
+export type NavSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 
 /**
  * Orientation/layout direction for the navigation menu.

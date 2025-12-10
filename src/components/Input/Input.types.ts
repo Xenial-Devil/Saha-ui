@@ -26,7 +26,15 @@ export type InputVariant =
  * <Input size="md" />
  * <Input size="lg" />
  */
-export type InputSize = "sm" | "md" | "lg" | "xl";
+export type InputSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Valid HTML input types (excluding file)

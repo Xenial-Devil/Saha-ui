@@ -29,7 +29,7 @@ export type ItemVariant =
  * Item size types
  * Controls the dimensions and spacing
  */
-export type ItemSize = "sm" | "md" | "lg";
+export type ItemSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 
 /**
  * Item media variant types

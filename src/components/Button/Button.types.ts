@@ -22,7 +22,16 @@ export type ButtonVariant =
 /**
  * Size variants for the Button component
  */
-export type ButtonSize = "sm" | "md" | "lg" | "xl" | "icon";
+export type ButtonSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "icon";
 
 /**
  * Props for the Button component

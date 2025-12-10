@@ -30,7 +30,15 @@ export type IconButtonColor =
  * IconButton size types
  * Controls the dimensions of the icon button
  */
-export type IconButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type IconButtonSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * IconButton shape types

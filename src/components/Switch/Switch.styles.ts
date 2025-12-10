@@ -66,9 +66,14 @@ const switchVariants = cva(
         ],
       },
       size: {
+        xs: "h-4 w-7",
         sm: "h-5 w-9",
         md: "h-6 w-11",
         lg: "h-7 w-14",
+        xl: "h-8 w-16",
+        "2xl": "h-10 w-20",
+        "3xl": "h-12 w-24",
+        "4xl": "h-14 w-28",
       },
     },
     defaultVariants: {
@@ -91,9 +96,14 @@ const switchThumbVariants = cva(
   {
     variants: {
       size: {
+        xs: "h-3 w-3 text-[8px] data-[state=checked]:translate-x-3",
         sm: "h-4 w-4 text-[10px] data-[state=checked]:translate-x-4",
         md: "h-5 w-5 text-xs data-[state=checked]:translate-x-5",
         lg: "h-6 w-6 text-sm data-[state=checked]:translate-x-7",
+        xl: "h-7 w-7 text-base data-[state=checked]:translate-x-8",
+        "2xl": "h-9 w-9 text-lg data-[state=checked]:translate-x-10",
+        "3xl": "h-11 w-11 text-xl data-[state=checked]:translate-x-12",
+        "4xl": "h-13 w-13 text-2xl data-[state=checked]:translate-x-14",
       },
     },
     defaultVariants: {
@@ -132,9 +142,14 @@ const switchTextVariants = cva(
   {
     variants: {
       size: {
+        xs: "text-xs",
         sm: "text-sm",
         md: "text-base",
         lg: "text-lg",
+        xl: "text-xl",
+        "2xl": "text-2xl",
+        "3xl": "text-3xl",
+        "4xl": "text-4xl",
       },
       disabled: {
         true: "text-muted-foreground",

@@ -70,9 +70,14 @@ export const labelVariants = cva(
         ],
       },
       size: {
+        xs: ["text-[10px]"],
         sm: ["text-xs"],
         md: ["text-sm"],
         lg: ["text-base"],
+        xl: ["text-lg"],
+        "2xl": ["text-xl"],
+        "3xl": ["text-2xl"],
+        "4xl": ["text-3xl"],
       },
       position: {
         top: ["flex-col items-start"],

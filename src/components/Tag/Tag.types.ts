@@ -20,7 +20,7 @@ export interface TagProps {
     | "outline"
     | "ghost"
     | "glass";
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
   rounded?: "default" | "full" | "none";
 
   // Interaction

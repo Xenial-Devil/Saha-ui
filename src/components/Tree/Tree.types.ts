@@ -1,7 +1,7 @@
 import React from "react";
 
 export type TreeVariant = "default" | "glass" | "bordered" | "minimal";
-export type TreeSize = "sm" | "md" | "lg";
+export type TreeSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 export type TreeNodeIconPosition = "left" | "right";
 
 export interface TreeProps extends React.HTMLAttributes<HTMLDivElement> {
