@@ -1,3 +1,11 @@
+## [1.22.3](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.2...v1.22.3) (2025-12-12)
+
+
+### Bug Fixes
+
+* add extended sizes and defaults across components ([dceb2d3](https://github.com/Xenial-Devil/Saha-ui/commit/dceb2d36c2c9d27923baf90ebe716b0c9cf7e28a))
+* **components:** add extended size presets across UI library ([f16138f](https://github.com/Xenial-Devil/Saha-ui/commit/f16138f3ad8251c848f15fc0709dbfce20a7991b))
+
 ## [1.22.2](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.1...v1.22.2) (2025-12-10)
 
 
