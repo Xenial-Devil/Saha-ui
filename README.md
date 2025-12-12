@@ -29,7 +29,7 @@
 
 ## ✨ Features
 
-- 🎨 **78 Modern Components** - Accordion, Alert, AspectRatio, Autocomplete, Avatar, AvatarGroup, Badge, Breadcrumb, Button, ButtonGroup, Calendar, Card, Carousel, Chart (10 chart types), Checkbox, Chip, CodeEditor, Collapsible, Combobox, Command, Container, ContextMenu, DataTable, DatePicker, Dialog, Drawer, Dropdown, Empty, Field, FloatingActionButton, Form, Grid, HoverCard, Image, Input, InputOTP, Item, Kbd, Label, Link, List, Menubar, NativeSelect, NavigationMenu, Pagination, PlayButton, Popover, Progress, Radio, Rating, Resizable, ScrollArea, Section, Select, Separator, Skeleton (6 presets), Slider, Sonner, Spinner, Stack, Steps, Switch, Tab, Table, Tag, TagInput, TextArea, TextEditor, ThemeProvider, ThemeToggle, Timeline, Toast, Toggle, ToggleGroup, Tooltip, Tree, Typography, Upload
+- 🎨 **98 Modern Components** - Accordion, Affix, Alert, AppBar, AspectRatio, Autocomplete, Avatar, AvatarGroup, Backdrop, Badge, BottomNavigation, Breadcrumb, Button, ButtonGroup, Calendar, Card, Carousel, Chart (10 chart types), Checkbox, Chip, CodeEditor, Collapsible, ColorPicker, Combobox, Command, Container, ContextMenu, DataTable, DatePicker, Dialog, Drawer, Dropdown, Empty, Field, FileInput, FloatingActionButton, Form, Grid, HoverCard, IconButton, Image, Input, InputOTP, Item, Kbd, Label, Link, List, Masonry, Menubar, NativeSelect, NavigationMenu, Notification, NumberInput, Pagination, Paper, PlayButton, Popover, Progress, Radio, Rating, Resizable, Result, ScrollArea, Section, Segmented, Select, Separator, Skeleton (6 presets), Slider, Snackbar, Sonner, SpeedDial, Spinner, Stack, StatCard, Stepper, Steps, Switch, Tab, Table, Tag, TagInput, TextArea, TextEditor, ThemeProvider, ThemeToggle, Timeline, Toast, Toggle, ToggleGroup, Tooltip, Tour, Transfer, Tree, Typography, Upload, VideoPlayer
 - ⚡ **Next.js 15/16 Ready** - Full App Router support with Server & Client Components
 - 🌓 **Dark Mode** - Seamless theme switching with full dark mode support
 - 🔮 **Glass Morphism** - Beautiful backdrop blur effects across components
@@ -41,7 +41,8 @@
 - 📦 **Modular** - Individual component imports for maximum flexibility
 - 📱 **Responsive** - Mobile-first design with touch gesture support
 - 🔧 **Customizable** - Easy to extend and customize with Tailwind CSS
-- 🪝 **40 Custom Hooks** - Comprehensive hook library including useAccordion, useAnimation, useArray, useAspectRatio, useAsync, useAvatar, useChartColors, useChartData, useClickOutside, useClipboard, useColorMode, useControllableState, useCounter, useDataTable, useDebounce, useDisclosure, useDOM, useEventListener, useFetch, useFocusTrap, useForm, useHover, useIntersectionObserver, useInterval, useLocalStorage, useMediaQuery, useMergedRefs, usePagination, usePrevious, useReducedMotion, useScrollLock, useSearchFilter, useSessionStorage, useTheme, useThrottle, useTimeout, useToggle, useUpdateEffect, useValidation, useWindowSize
+- 📏 **Flexible Sizing** - All components support comprehensive size variants (xs, sm, md, lg, xl, 2xl, 3xl, 4xl)
+- 🪝 **39 Custom Hooks** - Comprehensive hook library including useAccordion, useAnimation, useArray, useAspectRatio, useAsync, useAvatar, useChartColors, useChartData, useClickOutside, useClipboard, useColorMode, useControllableState, useCounter, useDataTable, useDebounce, useDisclosure, useDOM, useEventListener, useFetch, useFocusTrap, useForm, useHover, useIntersectionObserver, useInterval, useLocalStorage, useMediaQuery, useMergedRefs, usePagination, usePrevious, useReducedMotion, useScrollLock, useSearchFilter, useSessionStorage, useThrottle, useTimeout, useToggle, useUpdateEffect, useValidation, useWindowSize
 
 ---
 
@@ -233,8 +234,8 @@ export default function RootLayout({ children }) {
 
 ### Component Classification
 
-- **58 Client Components** (require `"use client"`) - All interactive components (forms, modals, charts, etc.)
-- **15 Flexible Components** (work as Server or Client) - Pure display components (cards, badges, avatars, etc.)
+- **83 Client Components** (require `"use client"`) - All interactive components (forms, modals, charts, dialogs, etc.)
+- **15 Flexible Components** (work as Server or Client) - Pure display components (cards, badges, avatars, typography, etc.)
 
 ### Usage Examples
 
@@ -315,7 +316,7 @@ import Link from "next/link";
 
 <Button asChild variant="primary" size="lg">
   <Link href="/products">Browse Products</Link>
-</Button>
+</Button>;
 
 // The button styling is applied to the Link component
 // Result: <a href="/products" class="button-primary-classes">Browse Products</a>
@@ -329,7 +330,7 @@ import Link from "next/link";
 
 <Badge asChild variant="success" dot>
   <Link href="/notifications">5 New Messages</Link>
-</Badge>
+</Badge>;
 ```
 
 #### 3. Card as Interactive Container
@@ -343,7 +344,7 @@ import Link from "next/link";
     <h3>Blog Post Title</h3>
     <p>Post excerpt...</p>
   </Link>
-</Card>
+</Card>;
 ```
 
 #### 4. Tooltip with Custom Trigger
@@ -358,13 +359,18 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "saha-ui";
     </button>
   </TooltipTrigger>
   <TooltipContent>Help information</TooltipContent>
-</Tooltip>
+</Tooltip>;
 ```
 
 #### 5. Dropdown Menu Trigger
 
 ```tsx
-import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from "saha-ui";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownContent,
+  DropdownItem,
+} from "saha-ui";
 import { Button } from "saha-ui";
 
 <Dropdown>
@@ -376,95 +382,108 @@ import { Button } from "saha-ui";
     <DropdownItem>Settings</DropdownItem>
     <DropdownItem>Logout</DropdownItem>
   </DropdownContent>
-</Dropdown>
+</Dropdown>;
 ```
 
 ### Benefits of asChild
 
-| Benefit | Description |
-|---------|-------------|
-| **Preserves Styling** | All component variants, sizes, and styles are maintained |
+| Benefit                | Description                                                          |
+| ---------------------- | -------------------------------------------------------------------- |
+| **Preserves Styling**  | All component variants, sizes, and styles are maintained             |
 | **Router Integration** | Works seamlessly with Next.js Link, React Router, and custom routing |
-| **Accessibility** | Maintains all ARIA attributes and keyboard navigation |
-| **Type Safety** | Full TypeScript support with proper type inference |
-| **Clean DOM** | No unnecessary wrapper elements, cleaner HTML output |
-| **Flexibility** | Use with any custom component or HTML element |
+| **Accessibility**      | Maintains all ARIA attributes and keyboard navigation                |
+| **Type Safety**        | Full TypeScript support with proper type inference                   |
+| **Clean DOM**          | No unnecessary wrapper elements, cleaner HTML output                 |
+| **Flexibility**        | Use with any custom component or HTML element                        |
 
 ---
 
 ## 🎨 Components
 
-### Overview
+### Overview (98 Components)
 
 | Component                | Description                                                              | Status | CVA |
 | ------------------------ | ------------------------------------------------------------------------ | ------ | --- |
 | **Accordion**            | Collapsible content with 5 behavior modes (useAccordion hook)            | ✅     | ✅  |
+| **Affix**                | Fixed positioned element that sticks on scroll                           | ✅     | ✅  |
 | **Alert**                | Notification messages with 5 variants × 4 statuses                       | ✅     | ✅  |
+| **AppBar**               | Application header/toolbar with 4 variants, fixed/sticky positioning     | ✅     | ✅  |
 | **AspectRatio**          | Aspect ratio container with zoom effects (useAspectRatio hook)           | ✅     | ✅  |
 | **Autocomplete**         | Search input with filtering, keyboard nav, grouping, async, composable   | ✅     | ✅  |
 | **Avatar**               | User profile images with status indicators (useAvatar hook)              | ✅     | ✅  |
 | **AvatarGroup**          | Grouped avatars with overlap and count                                   | ✅     | ✅  |
+| **Backdrop**             | Full-screen overlay with blur effects and scroll locking                 | ✅     | ✅  |
 | **Badge**                | Status indicators and labels with 9 variants                             | ✅     | ✅  |
+| **BottomNavigation**     | Mobile bottom navigation with badges, 3 variants, hide-on-scroll         | ✅     | ✅  |
 | **Breadcrumb**           | Navigation trail with 5 variants, 4 separators, and collapsing           | ✅     | ✅  |
-| **Button**               | Action buttons with 9 variants and 4 sizes                               | ✅     | ✅  |
+| **Button**               | Action buttons with 9 variants and 8 sizes (xs-4xl)                      | ✅     | ✅  |
 | **ButtonGroup**          | Grouped buttons with horizontal/vertical layouts                         | ✅     | ✅  |
 | **Calendar**             | Date calendar with month/year navigation and date selection              | ✅     | ✅  |
 | **Card**                 | Container with 5 variants and sub-components                             | ✅     | ✅  |
 | **Carousel**             | Image slider with 4 transition effects and autoplay                      | ✅     | ✅  |
-| **Chart**                | Comprehensive charting with 10 types (Line, Bar, Area, Pie, Radar, etc) | ✅     | ✅  |
-| **Checkbox**             | Checkbox with 7 variants, 3 sizes, indeterminate, card mode, icons       | ✅     | ✅  |
+| **Chart**                | Comprehensive charting with 10 types (Line, Bar, Area, Pie, Radar, etc)  | ✅     | ✅  |
+| **Checkbox**             | Checkbox with 7 variants, 8 sizes, indeterminate, card mode, icons       | ✅     | ✅  |
 | **Chip**                 | Interactive tags with 5 variants, deletable, and avatars                 | ✅     | ✅  |
 | **CodeEditor**           | Code editor with syntax highlighting and themes                          | ✅     | ✅  |
 | **Collapsible**          | Expandable content with smooth animations                                | ✅     | ✅  |
+| **ColorPicker**          | Color selection with multiple formats and palette                        | ✅     | ✅  |
 | **Combobox**             | Combined input and dropdown with search and selection                    | ✅     | ✅  |
 | **Command**              | Command palette with search and keyboard navigation                      | ✅     | ✅  |
 | **Container**            | Responsive container with max-width constraints and padding              | ✅     | ✅  |
 | **ContextMenu**          | Right-click context menu with nested items and shortcuts                 | ✅     | ✅  |
 | **DataTable**            | Advanced data table with sorting, filtering, pagination                  | ✅     | ✅  |
-| **DatePicker**           | Calendar date picker with 5 variants, 3 sizes, date restrictions         | ✅     | ✅  |
-| **Dialog**               | Dialog with 9 variants, 7 sizes, animations, focus trap, accessibility   | ✅     | ✅  |
-| **Drawer**               | Side panel with 4 positions, 5 sizes, animations, nested support         | ✅     | ✅  |
+| **DatePicker**           | Calendar date picker with 5 variants, 8 sizes, date restrictions         | ✅     | ✅  |
+| **Dialog**               | Dialog with 9 variants, 8 sizes, animations, focus trap, accessibility   | ✅     | ✅  |
+| **Drawer**               | Side panel with 4 positions, 8 sizes, animations, nested support         | ✅     | ✅  |
 | **Dropdown**             | Advanced menu with nested items, keyboard nav, search, shortcuts, badges | ✅     | ✅  |
-| **Empty**                | Empty states with 4 variants, 4 sizes, 13 preset icons, animations       | ✅     | ✅  |
+| **Empty**                | Empty states with 4 variants, 8 sizes, 13 preset icons, animations       | ✅     | ✅  |
 | **Field**                | Form field wrapper with label, description, and error states             | ✅     | ✅  |
-| **FloatingActionButton** | Modern FAB with 9 variants, 4 sizes, positions, extended mode            | ✅     | ✅  |
+| **FileInput**            | File upload with drag-drop, preview, progress, validation                | ✅     | ✅  |
+| **FloatingActionButton** | Modern FAB with 9 variants, 8 sizes, positions, extended mode            | ✅     | ✅  |
 | **Form**                 | Form container with validation and layout management                     | ✅     | ✅  |
 | **Grid**                 | CSS Grid layout system with responsive columns and gaps                  | ✅     | ✅  |
 | **HoverCard**            | Rich hover card with content preview and positioning                     | ✅     | ✅  |
+| **IconButton**           | Compact icon buttons with 6 variants, 7 colors, 8 sizes, loading states  | ✅     | ✅  |
 | **Image**                | Advanced image with lazy loading and aspect ratio                        | ✅     | ✅  |
-| **Input**                | Text input with 10 variants, 4 sizes, icons, validation, all input types | ✅     | ✅  |
+| **Input**                | Text input with 10 variants, 8 sizes, icons, validation, all input types | ✅     | ✅  |
 | **InputOTP**             | One-time password input with auto-focus and paste support                | ✅     | ✅  |
 | **Item**                 | Flexible item component for lists and menus                              | ✅     | ✅  |
 | **Kbd**                  | Keyboard key display with multiple styles and combinations               | ✅     | ✅  |
 | **Label**                | Form label with required indicator and description                       | ✅     | ✅  |
 | **Link**                 | Smart links with 9 variants and icon support                             | ✅     | ✅  |
 | **List**                 | Modern lists with 5 variants and icon support                            | ✅     | ✅  |
+| **Masonry**              | Pinterest-style masonry grid layout                                      | ✅     | ✅  |
 | **Menubar**              | Menu bar with dropdown menus and keyboard navigation                     | ✅     | ✅  |
 | **NativeSelect**         | Native select dropdown with custom styling                               | ✅     | ✅  |
-| **NavigationMenu**       | navigation menu with nested items and mega menu support                  | ✅     | ✅  |
+| **NavigationMenu**       | Navigation menu with nested items and mega menu support                  | ✅     | ✅  |
 | **Notification**         | Notification center with positioning, stacking, auto-dismiss, context    | ✅     | ✅  |
 | **NumberInput**          | Numeric input with increment/decrement, formatting, validation           | ✅     | ✅  |
-| **Pagination**           | Page navigation with 5 variants, 3 sizes, ellipsis, customizable labels  | ✅     | ✅  |
-| **PlayButton**           | Animated play/pause button with 9 variants, 4 sizes, smooth transitions  | ✅     | ✅  |
+| **Pagination**           | Page navigation with 5 variants, 8 sizes, ellipsis, customizable labels  | ✅     | ✅  |
+| **Paper**                | Surface component with elevation system, 4 variants, hoverable states    | ✅     | ✅  |
+| **PlayButton**           | Animated play/pause button with 9 variants, 8 sizes, smooth transitions  | ✅     | ✅  |
 | **Popover**              | Rich content popover with 11 variants, 12 positions, 4 triggers          | ✅     | ✅  |
-| **Progress**             | Progress bar with 9 variants, 5 sizes, animations, striped               | ✅     | ✅  |
-| **Radio**                | Radio button with 7 variants, 3 sizes, RadioGroup, descriptions          | ✅     | ✅  |
-| **Rating**               | Star rating with 6 variants, 4 sizes, multiple icons, half stars         | ✅     | ✅  |
+| **Progress**             | Progress bar with 9 variants, 8 sizes, animations, striped               | ✅     | ✅  |
+| **Radio**                | Radio button with 7 variants, 8 sizes, RadioGroup, descriptions          | ✅     | ✅  |
+| **Rating**               | Star rating with 6 variants, 8 sizes, multiple icons, half stars         | ✅     | ✅  |
 | **Resizable**            | Resizable panels with drag handles and constraints                       | ✅     | ✅  |
-| **Result**               | Result/status pages with 7 status types (success, error, 404, 403, 500) | ✅     | ✅  |
+| **Result**               | Result/status pages with 7 status types (success, error, 404, 403, 500)  | ✅     | ✅  |
 | **ScrollArea**           | Custom scrollbar with smooth scrolling and styling                       | ✅     | ✅  |
 | **Section**              | Semantic section wrapper with variants and spacing                       | ✅     | ✅  |
+| **Segmented**            | Segmented control with animated selection indicator                      | ✅     | ✅  |
 | **Select**               | Advanced dropdown with search, multi-select, icons, avatars, grouping    | ✅     | ✅  |
 | **Separator**            | Content separator with 5 variants and label support                      | ✅     | ✅  |
-| **FileInput**            | File upload with drag-drop, preview, progress, validation                | ✅     | ✅  |
 | **Skeleton**             | Loading placeholder with 5 variants, 4 shapes, customizable animations   | ✅     | ✅  |
 | **Slider**               | Range slider with single/dual handles and custom marks                   | ✅     | ✅  |
+| **Snackbar**             | Toast-like notifications with 4 variants, auto-hide, 5 severity levels   | ✅     | ✅  |
 | **Sonner**               | Toast notifications with rich content and animations                     | ✅     | ✅  |
-| **Spinner**              | Loading spinner with 10 variants, 6 sizes, 4 animations, fullscreen mode | ✅     | ✅  |
+| **SpeedDial**            | Floating action menu with expandable actions                             | ✅     | ✅  |
+| **Spinner**              | Loading spinner with 10 variants, 8 sizes, 4 animations, fullscreen mode | ✅     | ✅  |
 | **Stack**                | Flexbox-based stacking layout with direction and spacing control         | ✅     | ✅  |
+| **StatCard**             | Statistical data display with trends, icons, and animations              | ✅     | ✅  |
+| **Stepper**              | Multi-step wizard with horizontal/vertical orientations, 3 variants      | ✅     | ✅  |
 | **Steps**                | Progress indicator with 4 variants, horizontal/vertical layouts          | ✅     | ✅  |
-| **Switch**               | Toggle switch with 7 variants, 3 sizes, icons, loading state             | ✅     | ✅  |
-| **Tab**                  | Tab navigation with 14 variants, 3 sizes, icons, badges, disabled states | ✅     | ✅  |
+| **Switch**               | Toggle switch with 7 variants, 8 sizes, icons, loading state             | ✅     | ✅  |
+| **Tab**                  | Tab navigation with 14 variants, 8 sizes, icons, badges, disabled states | ✅     | ✅  |
 | **Table**                | Data table with sorting, selection, 5 variants, and responsive           | ✅     | ✅  |
 | **Tag**                  | Labels with 11 variants, removable, badges, dots, avatars, animations    | ✅     | ✅  |
 | **TagInput**             | Dynamic tag input with validation, Enter/Comma keys, paste support       | ✅     | ✅  |
@@ -477,88 +496,97 @@ import { Button } from "saha-ui";
 | **Toggle**               | Toggle button with pressed state and variants                            | ✅     | ✅  |
 | **ToggleGroup**          | Grouped toggle buttons with single/multiple selection                    | ✅     | ✅  |
 | **Tooltip**              | Contextual hints with 9 variants, 4 triggers, and interactive mode       | ✅     | ✅  |
+| **Tour**                 | Guided product tour with step-by-step highlights and positioning         | ✅     | ✅  |
+| **Transfer**             | Dual-list selection with search and transfer controls                    | ✅     | ✅  |
 | **Tree**                 | Hierarchical data with 4 variants, icons, and expand/collapse            | ✅     | ✅  |
 | **Typography**           | Text components with semantic variants and styling                       | ✅     | ✅  |
 | **Upload**               | File upload with drag & drop, preview, progress, validation, 4 types     | ✅     | ✅  |
+| **VideoPlayer**          | Custom video player with controls, fullscreen, and progress tracking     | ✅     | ✅  |
 
 ---
 
-## 🪝 Custom Hooks (40 Total)
+## 🪝 Custom Hooks (39 Total)
 
 Saha UI provides a comprehensive collection of reusable React hooks to enhance your development experience:
 
-### Component-Specific Hooks (7)
-| Hook | Description |
-|------|-------------|
-| **useAccordion** | Accordion state management and behavior control |
-| **useAspectRatio** | Aspect ratio calculations and responsive sizing |
-| **useAvatar** | Avatar loading, fallback, and status management |
-| **useChartColors** | Chart color palette and theme management |
-| **useChartData** | Chart data processing and transformation |
-| **useDataTable** | DataTable state, sorting, filtering, and pagination |
-| **useTheme** | Theme context access and dark mode management |
+### Component-Specific Hooks (6)
+
+| Hook               | Description                                         |
+| ------------------ | --------------------------------------------------- |
+| **useAccordion**   | Accordion state management and behavior control     |
+| **useAspectRatio** | Aspect ratio calculations and responsive sizing     |
+| **useAvatar**      | Avatar loading, fallback, and status management     |
+| **useChartColors** | Chart color palette and theme management            |
+| **useChartData**   | Chart data processing and transformation            |
+| **useDataTable**   | DataTable state, sorting, filtering, and pagination |
 
 ### State Management Hooks (9)
-| Hook | Description |
-|------|-------------|
-| **useArray** | Array state utilities (push, pop, filter, update) |
-| **useAsync** | Async operation state (loading, error, data) |
-| **useControllableState** | Controlled/uncontrolled component state |
-| **useCounter** | Counter state with increment/decrement |
-| **useDisclosure** | Open/close state for modals and dropdowns |
-| **useLocalStorage** | Local storage synchronization |
-| **useSessionStorage** | Session storage synchronization |
-| **useToggle** | Boolean toggle state |
-| **usePrevious** | Previous value tracking across renders |
+
+| Hook                     | Description                                       |
+| ------------------------ | ------------------------------------------------- |
+| **useArray**             | Array state utilities (push, pop, filter, update) |
+| **useAsync**             | Async operation state (loading, error, data)      |
+| **useControllableState** | Controlled/uncontrolled component state           |
+| **useCounter**           | Counter state with increment/decrement            |
+| **useDisclosure**        | Open/close state for modals and dropdowns         |
+| **useLocalStorage**      | Local storage synchronization                     |
+| **useSessionStorage**    | Session storage synchronization                   |
+| **useToggle**            | Boolean toggle state                              |
+| **usePrevious**          | Previous value tracking across renders            |
 
 ### DOM & Event Hooks (8)
-| Hook | Description |
-|------|-------------|
-| **useClickOutside** | Detect clicks outside an element |
-| **useDOM** | DOM manipulation utilities |
-| **useEventListener** | Safe event listener management |
-| **useFocusTrap** | Trap focus within a component |
-| **useHover** | Hover state detection |
-| **useIntersectionObserver** | Viewport intersection detection |
-| **useScrollLock** | Lock/unlock body scroll |
-| **useWindowSize** | Window dimensions tracking |
+
+| Hook                        | Description                      |
+| --------------------------- | -------------------------------- |
+| **useClickOutside**         | Detect clicks outside an element |
+| **useDOM**                  | DOM manipulation utilities       |
+| **useEventListener**        | Safe event listener management   |
+| **useFocusTrap**            | Trap focus within a component    |
+| **useHover**                | Hover state detection            |
+| **useIntersectionObserver** | Viewport intersection detection  |
+| **useScrollLock**           | Lock/unlock body scroll          |
+| **useWindowSize**           | Window dimensions tracking       |
 
 ### Form & Validation Hooks (2)
-| Hook | Description |
-|------|-------------|
-| **useForm** | Form state management and validation |
-| **useValidation** | Input validation with custom rules |
+
+| Hook              | Description                          |
+| ----------------- | ------------------------------------ |
+| **useForm**       | Form state management and validation |
+| **useValidation** | Input validation with custom rules   |
 
 ### Utility Hooks (14)
-| Hook | Description |
-|------|-------------|
-| **useAnimation** | Animation control utilities |
-| **useClipboard** | Clipboard copy/paste operations |
-| **useColorMode** | Color mode (light/dark) management |
-| **useDebounce** | Debounced value updates |
-| **useFetch** | Data fetching with loading states |
-| **useInterval** | Interval management with cleanup |
-| **useMediaQuery** | CSS media query matching |
-| **useMergedRefs** | Merge multiple refs into one |
-| **usePagination** | Pagination logic and state |
-| **useReducedMotion** | Detect user motion preferences |
-| **useSearchFilter** | Search and filter operations |
-| **useThrottle** | Throttled value updates |
-| **useTimeout** | Timeout management with cleanup |
-| **useUpdateEffect** | useEffect that skips first render |
+
+| Hook                 | Description                        |
+| -------------------- | ---------------------------------- |
+| **useAnimation**     | Animation control utilities        |
+| **useClipboard**     | Clipboard copy/paste operations    |
+| **useColorMode**     | Color mode (light/dark) management |
+| **useDebounce**      | Debounced value updates            |
+| **useFetch**         | Data fetching with loading states  |
+| **useInterval**      | Interval management with cleanup   |
+| **useMediaQuery**    | CSS media query matching           |
+| **useMergedRefs**    | Merge multiple refs into one       |
+| **usePagination**    | Pagination logic and state         |
+| **useReducedMotion** | Detect user motion preferences     |
+| **useSearchFilter**  | Search and filter operations       |
+| **useThrottle**      | Throttled value updates            |
+| **useTimeout**       | Timeout management with cleanup    |
+| **useUpdateEffect**  | useEffect that skips first render  |
 
 ### Hook Usage Examples
 
 ```tsx
-import { useTheme, useToggle, useDebounce, useLocalStorage } from "saha-ui";
+import { useColorMode, useToggle, useDebounce, useLocalStorage } from "saha-ui";
 
-// Theme management
-function ThemeExample() {
-  const { theme, setTheme } = useTheme();
+// Color mode management
+function ColorModeExample() {
+  const { colorMode, setColorMode } = useColorMode();
 
   return (
-    <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-      Current theme: {theme}
+    <button
+      onClick={() => setColorMode(colorMode === "dark" ? "light" : "dark")}
+    >
+      Current mode: {colorMode}
     </button>
   );
 }
@@ -617,6 +645,7 @@ When `asChild={true}`, the component passes its props to its direct child instea
 ### Supported Components
 
 The following components support `asChild`:
+
 - **Navigation:** Button, Link, Badge
 - **Layout:** Container, Grid, Stack, Section, Card
 - **Interactive:** Accordion (trigger), FloatingActionButton, Toggle, Tooltip (trigger)
@@ -6425,6 +6454,7 @@ That's it! The MCP server runs directly from your `node_modules`.
 The MCP server understands natural language and adapts to your needs:
 
 **Beginner-Friendly:**
+
 > "How do I get started with Saha UI?"
 >
 > "Show me simple form components"
@@ -6432,6 +6462,7 @@ The MCP server understands natural language and adapts to your needs:
 > "What's the easiest way to add a button?"
 
 **Discovery & Exploration:**
+
 > "What components work well for a dashboard?"
 >
 > "Show me components similar to Card"
@@ -6439,6 +6470,7 @@ The MCP server understands natural language and adapts to your needs:
 > "Find components with glass morphism"
 
 **Advanced Usage:**
+
 > "Customize Button theme colors using OKLCH"
 >
 > "Integrate DataTable with Next.js 15 App Router"
@@ -6466,6 +6498,7 @@ The MCP server understands natural language and adapts to your needs:
 ```
 
 📚 **Documentation:**
+
 - **[Full MCP Server Guide](./docs/MCP_SERVER.md)** - Complete documentation
 - **[Dynamic Features](./docs/MCP_DYNAMIC_FEATURES.md)** - Smart features quick reference
 - **[Quick Reference](./docs/MCP_QUICK_REFERENCE.md)** - Tool & command reference
