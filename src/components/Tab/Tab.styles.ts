@@ -123,9 +123,14 @@ const tabsListVariants = cva(
         minimal: ["bg-transparent"],
       },
       size: {
+        xs: ["text-[10px]", "sm:text-xs"],
         sm: ["text-xs", "sm:text-sm"],
         md: ["text-sm", "sm:text-base"],
         lg: ["text-base", "sm:text-lg"],
+        xl: ["text-lg", "sm:text-xl"],
+        "2xl": ["text-xl", "sm:text-2xl"],
+        "3xl": ["text-2xl", "sm:text-3xl"],
+        "4xl": ["text-3xl", "sm:text-4xl"],
       },
       fullWidth: {
         true: ["w-full"],
@@ -356,9 +361,14 @@ const tabsTriggerVariants = cva(
         ],
       },
       size: {
+        xs: ["text-[10px] sm:text-xs", "min-h-[1.5rem] sm:min-h-[1.75rem]"],
         sm: ["text-xs sm:text-sm", "min-h-[1.75rem] sm:min-h-[2rem]"],
         md: ["text-sm sm:text-base", "min-h-[2rem] sm:min-h-[2.5rem]"],
         lg: ["text-base sm:text-lg", "min-h-[2.5rem] sm:min-h-[3rem]"],
+        xl: ["text-lg sm:text-xl", "min-h-[3rem] sm:min-h-[3.5rem]"],
+        "2xl": ["text-xl sm:text-2xl", "min-h-[3.5rem] sm:min-h-[4rem]"],
+        "3xl": ["text-2xl sm:text-3xl", "min-h-[4rem] sm:min-h-[4.5rem]"],
+        "4xl": ["text-3xl sm:text-4xl", "min-h-[4.5rem] sm:min-h-[5rem]"],
       },
     },
     defaultVariants: {

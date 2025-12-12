@@ -14,7 +14,15 @@ export type BreadcrumbVariant =
 /**
  * Size variant for breadcrumb items and spacing.
  */
-export type BreadcrumbSize = "sm" | "md" | "lg";
+export type BreadcrumbSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Type of separator to display between breadcrumb items.
@@ -261,7 +269,7 @@ export interface BreadcrumbItemProps
    * </BreadcrumbItem>
    */
   onClick?: (
-    event: React.MouseEvent<HTMLAnchorElement | HTMLSpanElement>,
+    event: React.MouseEvent<HTMLAnchorElement | HTMLSpanElement>
   ) => void;
 }
 

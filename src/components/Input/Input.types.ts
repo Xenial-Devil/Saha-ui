@@ -3,11 +3,13 @@ import React from "react";
 /**
  * Input variant types - matches standard library variants
  * @example
+ * <Input variant="default" />
  * <Input variant="outline" />
  * <Input variant="ghost" />
  * <Input variant="primary" />
  */
 export type InputVariant =
+  | "default"
   | "primary"
   | "secondary"
   | "accent"
@@ -26,7 +28,15 @@ export type InputVariant =
  * <Input size="md" />
  * <Input size="lg" />
  */
-export type InputSize = "sm" | "md" | "lg" | "xl";
+export type InputSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Valid HTML input types (excluding file)
@@ -58,9 +68,10 @@ export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "type"> {
   /**
    * Visual style variant of the input
-   * @default "outline"
+   * @default "default"
    * @example
    * ```tsx
+   * <Input variant="default" />
    * <Input variant="outline" />
    * <Input variant="ghost" />
    * <Input variant="primary" />

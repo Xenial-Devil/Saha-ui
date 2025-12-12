@@ -34,6 +34,8 @@ const spinnerVariants = cva(
         lg: "w-16 h-16",
         xl: "w-24 h-24",
         "2xl": "w-32 h-32",
+        "3xl": "w-40 h-40",
+        "4xl": "w-48 h-48",
       },
       thickness: {
         thin: "border-2",
@@ -110,9 +112,4 @@ const logoSizeVariants = cva(
     },
   }
 );
-export {
-  spinnerVariants,
-  containerVariants,
-  labelVariants,
-  logoSizeVariants,
-};
+export { spinnerVariants, containerVariants, labelVariants, logoSizeVariants };

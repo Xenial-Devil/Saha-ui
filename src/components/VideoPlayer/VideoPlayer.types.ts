@@ -14,7 +14,15 @@ export type CaptionTrack = {
 };
 
 export type VideoPlayerVariant = "default" | "subtle";
-export type VideoPlayerSize = "sm" | "md" | "lg";
+export type VideoPlayerSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 export interface VideoPlayerProps extends React.HTMLAttributes<HTMLDivElement> {
   sources: VideoSource[]; // list of sources (for quality switching)

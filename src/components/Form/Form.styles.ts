@@ -93,9 +93,14 @@ export const formLabelVariants = cva(
         glass: "text-foreground",
       },
       size: {
+        xs: "text-[10px]",
         sm: "text-xs",
         md: "text-sm",
         lg: "text-base",
+        xl: "text-lg",
+        "2xl": "text-xl",
+        "3xl": "text-2xl",
+        "4xl": "text-3xl",
       },
       required: {
         true: "",
@@ -138,9 +143,14 @@ export const formDescriptionVariants = cva(
         glass: "text-muted-foreground",
       },
       size: {
+        xs: "text-[10px]",
         sm: "text-xs",
         md: "text-sm",
         lg: "text-base",
+        xl: "text-lg",
+        "2xl": "text-xl",
+        "3xl": "text-2xl",
+        "4xl": "text-3xl",
       },
     },
     defaultVariants: {
@@ -164,9 +174,14 @@ export const formMessageVariants = cva(
         info: "text-info",
       },
       size: {
+        xs: "text-[10px]",
         sm: "text-xs",
         md: "text-sm",
         lg: "text-base",
+        xl: "text-lg",
+        "2xl": "text-xl",
+        "3xl": "text-2xl",
+        "4xl": "text-3xl",
       },
     },
     defaultVariants: {

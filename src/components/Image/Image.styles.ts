@@ -25,6 +25,8 @@ const imageContainerVariants = cva(
         lg: "w-48 h-48",
         xl: "w-64 h-64",
         "2xl": "w-96 h-96",
+        "3xl": "w-[28rem] h-[28rem]",
+        "4xl": "w-[32rem] h-[32rem]",
         full: "w-full h-full",
       },
     },

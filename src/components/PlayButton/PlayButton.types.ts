@@ -17,7 +17,15 @@ export type PlayButtonVariant =
 /**
  * PlayButton size types
  */
-export type PlayButtonSize = "sm" | "md" | "lg" | "xl";
+export type PlayButtonSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Props for the PlayButton component

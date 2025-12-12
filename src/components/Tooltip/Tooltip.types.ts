@@ -12,7 +12,15 @@ export type TooltipVariant =
   | "warning"
   | "error"
   | "info";
-export type TooltipSize = "sm" | "md" | "lg";
+export type TooltipSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 export type TooltipTriggerType = "hover" | "click" | "focus" | "manual";
 
 // Context for Tooltip state sharing

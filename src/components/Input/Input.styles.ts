@@ -58,6 +58,8 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
+        default:
+          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
         primary:
           "bg-primary/10 text-primary border-2 border-primary/30 hover:border-primary hover:bg-primary/20 focus:border-primary focus:bg-primary/20 focus:ring-2 focus:ring-primary/30",
         secondary:
@@ -79,10 +81,14 @@ const inputVariants = cva(
           "bg-background/30 backdrop-blur-sm border-2 border-white/20 dark:border-white/10 hover:border-white/30 dark:hover:border-white/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20",
       },
       size: {
+        xs: "h-7 px-2 text-xs gap-1.5 rounded-md",
         sm: "h-9 px-3 text-sm gap-2 rounded-lg",
         md: "h-11 px-4 text-base gap-2.5 rounded-xl",
         lg: "h-13 px-5 text-lg gap-3 rounded-xl",
-        xl: "h-16 px-6 text-xl gap-4 rounded-2xl",
+        xl: "h-16 px-6 text-xl gap-3.5 rounded-2xl",
+        "2xl": "h-20 px-7 text-2xl gap-4 rounded-3xl",
+        "3xl": "h-24 px-8 text-3xl gap-5 rounded-3xl",
+        "4xl": "h-28 px-10 text-4xl gap-6 rounded-3xl",
       },
       hasStartIcon: {
         true: "",
@@ -136,7 +142,7 @@ const inputVariants = cva(
       },
     ],
     defaultVariants: {
-      variant: "outline",
+      variant: "default",
       size: "md",
       hasStartIcon: false,
       hasEndIcon: false,
@@ -156,13 +162,22 @@ const inputIconVariants = cva(
         end: "",
       },
       size: {
+        xs: "w-3 h-3",
         sm: "w-4 h-4",
         md: "w-5 h-5",
         lg: "w-6 h-6",
         xl: "w-7 h-7",
+        "2xl": "w-8 h-8",
+        "3xl": "w-10 h-10",
+        "4xl": "w-12 h-12",
       },
     },
     compoundVariants: [
+      {
+        position: "start",
+        size: "xs",
+        className: "left-2",
+      },
       {
         position: "start",
         size: "sm",
@@ -184,6 +199,26 @@ const inputIconVariants = cva(
         className: "left-5",
       },
       {
+        position: "start",
+        size: "2xl",
+        className: "left-6",
+      },
+      {
+        position: "start",
+        size: "3xl",
+        className: "left-7",
+      },
+      {
+        position: "start",
+        size: "4xl",
+        className: "left-8",
+      },
+      {
+        position: "end",
+        size: "xs",
+        className: "right-2",
+      },
+      {
         position: "end",
         size: "sm",
         className: "right-3",
@@ -202,6 +237,21 @@ const inputIconVariants = cva(
         position: "end",
         size: "xl",
         className: "right-5",
+      },
+      {
+        position: "end",
+        size: "2xl",
+        className: "right-6",
+      },
+      {
+        position: "end",
+        size: "3xl",
+        className: "right-7",
+      },
+      {
+        position: "end",
+        size: "4xl",
+        className: "right-8",
       },
     ],
     defaultVariants: {

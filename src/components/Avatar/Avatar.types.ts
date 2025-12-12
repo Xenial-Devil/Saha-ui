@@ -1,7 +1,15 @@
 import React from "react";
 
 // Explicit types for better type safety
-export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+export type AvatarSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 export type AvatarShape = "circle" | "square" | "rounded";
 export type AvatarStatus = "online" | "offline" | "away" | "busy" | "none";
 

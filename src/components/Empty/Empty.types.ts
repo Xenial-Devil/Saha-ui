@@ -1,4 +1,12 @@
-export type EmptySize = "sm" | "md" | "lg" | "xl";
+export type EmptySize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 export type EmptyVariant = "default" | "subtle" | "outlined" | "glass";
 

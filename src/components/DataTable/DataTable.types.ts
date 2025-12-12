@@ -210,7 +210,15 @@ export type DataTableVariant =
 /**
  * DataTable size types
  */
-export type DataTableSize = "sm" | "md" | "lg";
+export type DataTableSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * DataTable striped types

@@ -83,9 +83,14 @@ export const menubarVariants = cva(
         ],
       },
       size: {
+        xs: "h-7 text-[10px]",
         sm: "h-8 text-xs",
         md: "h-10 text-sm",
         lg: "h-12 text-base",
+        xl: "h-14 text-lg",
+        "2xl": "h-16 text-xl",
+        "3xl": "h-20 text-2xl",
+        "4xl": "h-24 text-3xl",
       },
     },
     defaultVariants: {

@@ -1,4 +1,5 @@
-import { cva } from "class-variance-authority";const stepsVariants = cva("w-full transition-all duration-300", {
+import { cva } from "class-variance-authority";
+const stepsVariants = cva("w-full transition-all duration-300", {
   variants: {
     variant: {
       default: "",
@@ -46,9 +47,14 @@ const stepIconVariants = cva(
           "bg-destructive border-destructive text-white shadow-lg shadow-destructive/30 hover:shadow-xl hover:shadow-destructive/40 hover:scale-110",
       },
       size: {
+        xs: "w-6 h-6 text-[10px]",
         sm: "w-8 h-8 text-xs",
         md: "w-10 h-10 text-sm",
         lg: "w-12 h-12 text-base",
+        xl: "w-14 h-14 text-lg",
+        "2xl": "w-16 h-16 text-xl",
+        "3xl": "w-20 h-20 text-2xl",
+        "4xl": "w-24 h-24 text-3xl",
       },
     },
     defaultVariants: {

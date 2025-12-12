@@ -5,6 +5,7 @@ export const alertVariants = cva(
   {
     variants: {
       variant: {
+        default: "bg-background text-foreground border border-border",
         solid:
           "shadow-lg shadow-current/20 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-50 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black/5 after:to-transparent hover:shadow-current/30",
         subtle:
@@ -159,9 +160,9 @@ export const alertVariants = cva(
       },
     ],
     defaultVariants: {
-      variant: "solid",
+      variant: "default",
       status: "info",
       rounded: true,
     },
-  },
+  }
 );

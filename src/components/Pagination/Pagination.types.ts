@@ -16,7 +16,15 @@ export type PaginationVariant =
 /**
  * Size variant for pagination buttons.
  */
-export type PaginationSize = "sm" | "md" | "lg";
+export type PaginationSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Shape variant for pagination buttons.

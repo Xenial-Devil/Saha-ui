@@ -19,6 +19,9 @@ const progressVariants = cva(
         md: "h-4",
         lg: "h-6",
         xl: "h-8",
+        "2xl": "h-10",
+        "3xl": "h-12",
+        "4xl": "h-16",
       },
       shape: {
         rounded: "rounded-lg",
@@ -135,6 +138,9 @@ const progressLabelVariants = cva(
         md: "text-xs",
         lg: "text-sm",
         xl: "text-base",
+        "2xl": "text-lg",
+        "3xl": "text-xl",
+        "4xl": "text-2xl",
       },
     },
     defaultVariants: {

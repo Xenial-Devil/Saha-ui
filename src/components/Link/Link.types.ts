@@ -17,7 +17,7 @@ export type LinkVariant =
 /**
  * Size variant for the link component.
  */
-export type LinkSize = "sm" | "md" | "lg";
+export type LinkSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 
 /**
  * Props for the Link component.

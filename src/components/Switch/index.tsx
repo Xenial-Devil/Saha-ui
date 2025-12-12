@@ -15,9 +15,27 @@ import {
 /**
  * Loading spinner for switch
  */
-const LoadingSpinner = ({ size }: { size: "sm" | "md" | "lg" }) => {
+const LoadingSpinner = ({
+  size,
+}: {
+  size: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
+}) => {
   const spinnerSize =
-    size === "sm" ? "w-2 h-2" : size === "md" ? "w-3 h-3" : "w-4 h-4";
+    size === "xs"
+      ? "w-1.5 h-1.5"
+      : size === "sm"
+      ? "w-2 h-2"
+      : size === "md"
+      ? "w-3 h-3"
+      : size === "lg"
+      ? "w-4 h-4"
+      : size === "xl"
+      ? "w-5 h-5"
+      : size === "2xl"
+      ? "w-6 h-6"
+      : size === "3xl"
+      ? "w-7 h-7"
+      : "w-8 h-8";
 
   return (
     <div

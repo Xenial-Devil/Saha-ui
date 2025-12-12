@@ -14,7 +14,15 @@ export type RatingVariant =
  * Rating size types
  * Controls the dimensions of the stars
  */
-export type RatingSize = "sm" | "md" | "lg" | "xl";
+export type RatingSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Rating icon types

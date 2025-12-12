@@ -49,7 +49,7 @@ export type PaperVariant = "filled" | "outlined" | "gradient" | "glass";
  */
 export interface PaperProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof paperVariants> {
+    Omit<VariantProps<typeof paperVariants>, "padding"> {
   /**
    * The elevation level (shadow depth) of the paper
    * Higher values create more prominent shadows

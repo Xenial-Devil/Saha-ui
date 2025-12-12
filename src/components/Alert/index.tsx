@@ -86,7 +86,7 @@ const StatusIcon: React.FC<{
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   (
     {
-      variant = "solid",
+      variant = "default",
       message = "",
       title,
       status = "info",

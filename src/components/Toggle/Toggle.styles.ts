@@ -69,10 +69,14 @@ export const toggleVariants = cva(
         ],
       },
       size: {
+        xs: "h-7 px-1.5 min-w-7 text-[10px]",
         sm: "h-8 px-2 min-w-8 text-xs",
         default: "h-9 px-3 min-w-9",
         lg: "h-10 px-4 min-w-10",
         xl: "h-11 px-5 min-w-11 text-base",
+        "2xl": "h-13 px-6 min-w-13 text-lg",
+        "3xl": "h-16 px-7 min-w-16 text-xl",
+        "4xl": "h-20 px-8 min-w-20 text-2xl",
       },
     },
     defaultVariants: {
@@ -94,7 +98,15 @@ export type ToggleVariant =
   | "outline"
   | "ghost";
 
-export type ToggleSize = "sm" | "default" | "lg" | "xl";
+export type ToggleSize =
+  | "xs"
+  | "sm"
+  | "default"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 // ============================================================================
 // TOGGLE GROUP VARIANTS

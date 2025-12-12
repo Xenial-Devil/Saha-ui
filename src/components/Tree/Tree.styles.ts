@@ -11,9 +11,14 @@ const treeVariants = cva("relative w-full transition-all duration-300", {
       minimal: "p-2",
     },
     size: {
+      xs: "text-[10px] gap-0.5",
       sm: "text-xs gap-1",
       md: "text-sm gap-2",
       lg: "text-base gap-3",
+      xl: "text-lg gap-4",
+      "2xl": "text-xl gap-5",
+      "3xl": "text-2xl gap-6",
+      "4xl": "text-3xl gap-8",
     },
   },
   defaultVariants: {
@@ -35,9 +40,14 @@ const treeNodeVariants = cva(
         false: "",
       },
       size: {
+        xs: "text-[10px] py-0.5",
         sm: "text-xs py-0.5",
         md: "text-sm py-1",
         lg: "text-base py-2",
+        xl: "text-lg py-2.5",
+        "2xl": "text-xl py-3",
+        "3xl": "text-2xl py-4",
+        "4xl": "text-3xl py-5",
       },
     },
     defaultVariants: {

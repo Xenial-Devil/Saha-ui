@@ -7,10 +7,14 @@ interface ChartLoadingProps {
 }
 
 const sizeMap = {
+  xs: "min-h-[150px]",
   sm: "min-h-[200px]",
   md: "min-h-[300px]",
   lg: "min-h-[400px]",
   xl: "min-h-[500px]",
+  "2xl": "min-h-[600px]",
+  "3xl": "min-h-[700px]",
+  "4xl": "min-h-[800px]",
 };
 
 export function ChartLoading({ size = "md", className }: ChartLoadingProps) {
@@ -19,7 +23,7 @@ export function ChartLoading({ size = "md", className }: ChartLoadingProps) {
       className={cn(
         "flex items-center justify-center w-full",
         sizeMap[size],
-        className,
+        className
       )}
     >
       <div className="flex flex-col items-center gap-3">

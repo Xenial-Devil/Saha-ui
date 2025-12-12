@@ -77,7 +77,7 @@ export type MasonryGap =
  */
 export interface MasonryProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "children">,
-    VariantProps<typeof masonryVariants> {
+    Omit<VariantProps<typeof masonryVariants>, "gap"> {
   /**
    * The number of columns in the masonry layout
    * Can be a single number or an object with responsive breakpoints

@@ -21,9 +21,14 @@ export const statCardVariants = cva(
         info: "",
       },
       size: {
+        xs: "p-2",
         sm: "p-4",
         md: "p-6",
         lg: "p-8",
+        xl: "p-10",
+        "2xl": "p-12",
+        "3xl": "p-16",
+        "4xl": "p-20",
       },
       clickable: {
         true: "cursor-pointer hover:scale-[1.02] active:scale-[0.98]",
@@ -54,22 +59,26 @@ export const statCardVariants = cva(
       {
         variant: "default",
         color: "success",
-        className: "border-green-200 dark:border-green-900 hover:border-green-300 dark:hover:border-green-800",
+        className:
+          "border-green-200 dark:border-green-900 hover:border-green-300 dark:hover:border-green-800",
       },
       {
         variant: "default",
         color: "warning",
-        className: "border-yellow-200 dark:border-yellow-900 hover:border-yellow-300 dark:hover:border-yellow-800",
+        className:
+          "border-yellow-200 dark:border-yellow-900 hover:border-yellow-300 dark:hover:border-yellow-800",
       },
       {
         variant: "default",
         color: "error",
-        className: "border-red-200 dark:border-red-900 hover:border-red-300 dark:hover:border-red-800",
+        className:
+          "border-red-200 dark:border-red-900 hover:border-red-300 dark:hover:border-red-800",
       },
       {
         variant: "default",
         color: "info",
-        className: "border-blue-200 dark:border-blue-900 hover:border-blue-300 dark:hover:border-blue-800",
+        className:
+          "border-blue-200 dark:border-blue-900 hover:border-blue-300 dark:hover:border-blue-800",
       },
       // Outlined variant colors
       {
@@ -126,12 +135,14 @@ export const statCardVariants = cva(
       {
         variant: "filled",
         color: "success",
-        className: "bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300",
+        className:
+          "bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300",
       },
       {
         variant: "filled",
         color: "warning",
-        className: "bg-yellow-50 dark:bg-yellow-950 text-yellow-700 dark:text-yellow-300",
+        className:
+          "bg-yellow-50 dark:bg-yellow-950 text-yellow-700 dark:text-yellow-300",
       },
       {
         variant: "filled",
@@ -141,49 +152,58 @@ export const statCardVariants = cva(
       {
         variant: "filled",
         color: "info",
-        className: "bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300",
+        className:
+          "bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300",
       },
       // Gradient variant colors
       {
         variant: "gradient",
         color: "default",
-        className: "bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900",
+        className:
+          "bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900",
       },
       {
         variant: "gradient",
         color: "primary",
-        className: "bg-gradient-to-br from-primary/10 to-primary/30 dark:from-primary/20 dark:to-primary/40 text-primary",
+        className:
+          "bg-gradient-to-br from-primary/10 to-primary/30 dark:from-primary/20 dark:to-primary/40 text-primary",
       },
       {
         variant: "gradient",
         color: "secondary",
-        className: "bg-gradient-to-br from-secondary/10 to-secondary/30 dark:from-secondary/20 dark:to-secondary/40 text-secondary",
+        className:
+          "bg-gradient-to-br from-secondary/10 to-secondary/30 dark:from-secondary/20 dark:to-secondary/40 text-secondary",
       },
       {
         variant: "gradient",
         color: "success",
-        className: "bg-gradient-to-br from-green-100 to-green-200 dark:from-green-950 dark:to-green-900 text-green-700 dark:text-green-300",
+        className:
+          "bg-gradient-to-br from-green-100 to-green-200 dark:from-green-950 dark:to-green-900 text-green-700 dark:text-green-300",
       },
       {
         variant: "gradient",
         color: "warning",
-        className: "bg-gradient-to-br from-yellow-100 to-yellow-200 dark:from-yellow-950 dark:to-yellow-900 text-yellow-700 dark:text-yellow-300",
+        className:
+          "bg-gradient-to-br from-yellow-100 to-yellow-200 dark:from-yellow-950 dark:to-yellow-900 text-yellow-700 dark:text-yellow-300",
       },
       {
         variant: "gradient",
         color: "error",
-        className: "bg-gradient-to-br from-red-100 to-red-200 dark:from-red-950 dark:to-red-900 text-red-700 dark:text-red-300",
+        className:
+          "bg-gradient-to-br from-red-100 to-red-200 dark:from-red-950 dark:to-red-900 text-red-700 dark:text-red-300",
       },
       {
         variant: "gradient",
         color: "info",
-        className: "bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-950 dark:to-blue-900 text-blue-700 dark:text-blue-300",
+        className:
+          "bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-950 dark:to-blue-900 text-blue-700 dark:text-blue-300",
       },
       // Glass variant colors
       {
         variant: "glass",
         color: "default",
-        className: "bg-white/10 dark:bg-black/10 border-white/20 dark:border-white/10",
+        className:
+          "bg-white/10 dark:bg-black/10 border-white/20 dark:border-white/10",
       },
       {
         variant: "glass",
@@ -231,9 +251,14 @@ export const statCardHeaderVariants = cva(
   {
     variants: {
       size: {
+        xs: "mb-0.5",
         sm: "mb-1",
         md: "mb-2",
         lg: "mb-3",
+        xl: "mb-4",
+        "2xl": "mb-5",
+        "3xl": "mb-6",
+        "4xl": "mb-8",
       },
     },
     defaultVariants: {
@@ -242,21 +267,23 @@ export const statCardHeaderVariants = cva(
   }
 );
 
-export const statCardTitleVariants = cva(
-  "font-medium text-muted-foreground",
-  {
-    variants: {
-      size: {
-        sm: "text-xs",
-        md: "text-sm",
-        lg: "text-base",
-      },
+export const statCardTitleVariants = cva("font-medium text-muted-foreground", {
+  variants: {
+    size: {
+      xs: "text-[10px]",
+      sm: "text-xs",
+      md: "text-sm",
+      lg: "text-base",
+      xl: "text-lg",
+      "2xl": "text-xl",
+      "3xl": "text-2xl",
+      "4xl": "text-3xl",
     },
-    defaultVariants: {
-      size: "md",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    size: "md",
+  },
+});
 
 export const statCardIconVariants = cva(
   "rounded-lg p-2 flex items-center justify-center",
@@ -266,15 +293,22 @@ export const statCardIconVariants = cva(
         default: "bg-muted text-muted-foreground",
         primary: "bg-primary/10 text-primary",
         secondary: "bg-secondary/10 text-secondary",
-        success: "bg-green-100 dark:bg-green-950 text-green-600 dark:text-green-400",
-        warning: "bg-yellow-100 dark:bg-yellow-950 text-yellow-600 dark:text-yellow-400",
+        success:
+          "bg-green-100 dark:bg-green-950 text-green-600 dark:text-green-400",
+        warning:
+          "bg-yellow-100 dark:bg-yellow-950 text-yellow-600 dark:text-yellow-400",
         error: "bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400",
         info: "bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400",
       },
       size: {
+        xs: "p-1 text-xs",
         sm: "p-1.5 text-sm",
         md: "p-2 text-base",
         lg: "p-2.5 text-lg",
+        xl: "p-3 text-xl",
+        "2xl": "p-4 text-2xl",
+        "3xl": "p-5 text-3xl",
+        "4xl": "p-6 text-4xl",
       },
     },
     defaultVariants: {
@@ -284,37 +318,41 @@ export const statCardIconVariants = cva(
   }
 );
 
-export const statCardValueVariants = cva(
-  "font-bold text-foreground",
-  {
-    variants: {
-      size: {
-        sm: "text-xl",
-        md: "text-3xl",
-        lg: "text-4xl",
-      },
+export const statCardValueVariants = cva("font-bold text-foreground", {
+  variants: {
+    size: {
+      xs: "text-lg",
+      sm: "text-xl",
+      md: "text-3xl",
+      lg: "text-4xl",
+      xl: "text-5xl",
+      "2xl": "text-6xl",
+      "3xl": "text-7xl",
+      "4xl": "text-8xl",
     },
-    defaultVariants: {
-      size: "md",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    size: "md",
+  },
+});
 
-export const statCardDescriptionVariants = cva(
-  "text-muted-foreground mt-1",
-  {
-    variants: {
-      size: {
-        sm: "text-xs mt-0.5",
-        md: "text-sm mt-1",
-        lg: "text-base mt-1.5",
-      },
+export const statCardDescriptionVariants = cva("text-muted-foreground mt-1", {
+  variants: {
+    size: {
+      xs: "text-[10px] mt-0.5",
+      sm: "text-xs mt-0.5",
+      md: "text-sm mt-1",
+      lg: "text-base mt-1.5",
+      xl: "text-lg mt-2",
+      "2xl": "text-xl mt-2.5",
+      "3xl": "text-2xl mt-3",
+      "4xl": "text-3xl mt-4",
     },
-    defaultVariants: {
-      size: "md",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    size: "md",
+  },
+});
 
 export const statCardTrendVariants = cva(
   "inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium transition-colors",
@@ -323,12 +361,18 @@ export const statCardTrendVariants = cva(
       trend: {
         up: "bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-400",
         down: "bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-400",
-        neutral: "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-400",
+        neutral:
+          "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-400",
       },
       size: {
+        xs: "text-[10px] px-1 py-0.5",
         sm: "text-xs px-1.5 py-0.5",
         md: "text-sm px-2 py-0.5",
         lg: "text-base px-2.5 py-1",
+        xl: "text-lg px-3 py-1",
+        "2xl": "text-xl px-4 py-1.5",
+        "3xl": "text-2xl px-5 py-2",
+        "4xl": "text-3xl px-6 py-2.5",
       },
     },
     defaultVariants: {
@@ -343,9 +387,14 @@ export const statCardFooterVariants = cva(
   {
     variants: {
       size: {
+        xs: "mt-1 pt-1",
         sm: "mt-2 pt-2",
         md: "mt-4 pt-4",
         lg: "mt-6 pt-6",
+        xl: "mt-8 pt-8",
+        "2xl": "mt-10 pt-10",
+        "3xl": "mt-12 pt-12",
+        "4xl": "mt-16 pt-16",
       },
     },
     defaultVariants: {
@@ -354,18 +403,20 @@ export const statCardFooterVariants = cva(
   }
 );
 
-export const statCardSkeletonVariants = cva(
-  "animate-pulse bg-muted rounded",
-  {
-    variants: {
-      size: {
-        sm: "h-3",
-        md: "h-4",
-        lg: "h-5",
-      },
+export const statCardSkeletonVariants = cva("animate-pulse bg-muted rounded", {
+  variants: {
+    size: {
+      xs: "h-2",
+      sm: "h-3",
+      md: "h-4",
+      lg: "h-5",
+      xl: "h-6",
+      "2xl": "h-8",
+      "3xl": "h-10",
+      "4xl": "h-12",
     },
-    defaultVariants: {
-      size: "md",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    size: "md",
+  },
+});

@@ -22,7 +22,15 @@ export type DatePickerVariant =
 /**
  * DatePicker size types
  */
-export type DatePickerSize = "sm" | "md" | "lg";
+export type DatePickerSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * DatePicker view mode types

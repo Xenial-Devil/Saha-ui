@@ -77,10 +77,14 @@ export const fabVariants = cva(
         ],
       },
       size: {
+        xs: "h-10 w-10 text-xs",
         sm: "h-12 w-12 text-sm",
         md: "h-14 w-14 text-base",
         lg: "h-16 w-16 text-lg",
         xl: "h-20 w-20 text-xl",
+        "2xl": "h-24 w-24 text-2xl",
+        "3xl": "h-28 w-28 text-3xl",
+        "4xl": "h-32 w-32 text-4xl",
       },
     },
     defaultVariants: {

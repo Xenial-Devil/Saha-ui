@@ -23,7 +23,15 @@ export type LabelVariant =
  * Label size types
  * Controls the dimensions and font size
  */
-export type LabelSize = "sm" | "md" | "lg";
+export type LabelSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Label position for floating labels

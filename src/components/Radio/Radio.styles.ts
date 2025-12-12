@@ -75,13 +75,18 @@ const radioVariants = cva(
         ],
       },
       size: {
+        xs: "h-3 w-3",
         sm: "h-4 w-4",
         md: "h-5 w-5",
         lg: "h-6 w-6",
+        xl: "h-7 w-7",
+        "2xl": "h-8 w-8",
+        "3xl": "h-10 w-10",
+        "4xl": "h-12 w-12",
       },
     },
     defaultVariants: {
-      variant: "primary",
+      variant: "default",
       size: "md",
     },
   }
@@ -129,9 +134,14 @@ const radioTextVariants = cva(
   {
     variants: {
       size: {
+        xs: "text-xs",
         sm: "text-sm",
         md: "text-base",
         lg: "text-lg",
+        xl: "text-xl",
+        "2xl": "text-2xl",
+        "3xl": "text-3xl",
+        "4xl": "text-4xl",
       },
       disabled: {
         true: "text-muted-foreground",
@@ -182,5 +192,5 @@ export {
   radioLabelVariants,
   radioTextVariants,
   radioDescriptionVariants,
-  radioGroupVariants,   
+  radioGroupVariants,
 };

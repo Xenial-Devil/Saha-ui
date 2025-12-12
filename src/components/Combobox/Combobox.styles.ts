@@ -75,9 +75,14 @@ const triggerVariants = cva(
         ],
       },
       size: {
+        xs: "text-xs px-2 py-1 min-h-[28px]",
         sm: "text-sm px-3 py-1.5 min-h-[32px]",
         md: "text-base px-4 py-2.5 min-h-[40px]",
         lg: "text-lg px-5 py-3 min-h-[48px]",
+        xl: "text-xl px-6 py-3.5 min-h-[56px]",
+        "2xl": "text-2xl px-7 py-4 min-h-[64px]",
+        "3xl": "text-3xl px-8 py-5 min-h-[72px]",
+        "4xl": "text-4xl px-10 py-6 min-h-[80px]",
       },
       hasError: {
         true: "border-destructive/50 focus:border-destructive focus:ring-destructive/50",
@@ -149,9 +154,14 @@ const optionVariants = cva(
         false: "",
       },
       size: {
+        xs: "px-2 py-1 text-xs",
         sm: "px-3 py-1.5 text-sm",
         md: "px-4 py-2.5 text-base",
         lg: "px-5 py-3 text-lg",
+        xl: "px-6 py-3.5 text-xl",
+        "2xl": "px-7 py-4 text-2xl",
+        "3xl": "px-8 py-5 text-3xl",
+        "4xl": "px-10 py-6 text-4xl",
       },
     },
     defaultVariants: {
@@ -176,9 +186,14 @@ const searchVariants = cva(
   {
     variants: {
       size: {
+        xs: "px-2 py-1 text-xs",
         sm: "px-3 py-1.5 text-sm",
         md: "px-4 py-2.5 text-base",
         lg: "px-5 py-3 text-lg",
+        xl: "px-6 py-3.5 text-xl",
+        "2xl": "px-7 py-4 text-2xl",
+        "3xl": "px-8 py-5 text-3xl",
+        "4xl": "px-10 py-6 text-4xl",
       },
     },
     defaultVariants: {
@@ -186,9 +201,4 @@ const searchVariants = cva(
     },
   }
 );
-export {
-  triggerVariants,
-  contentVariants,
-  optionVariants,
-  searchVariants,
-};
+export { triggerVariants, contentVariants, optionVariants, searchVariants };

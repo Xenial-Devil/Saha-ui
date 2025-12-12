@@ -40,9 +40,14 @@ const trackVariants = cva(
           "bg-gradient-to-r from-background/20 via-background/30 to-background/20 backdrop-blur-md shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)]",
       },
       size: {
+        xs: "",
         sm: "",
         md: "",
         lg: "",
+        xl: "",
+        "2xl": "",
+        "3xl": "",
+        "4xl": "",
       },
       orientation: {
         horizontal: "w-full",
@@ -134,9 +139,14 @@ const thumbVariants = cva(
           "bg-gradient-to-br from-primary/15 via-background/80 to-primary/10 border-primary/80 backdrop-blur-sm shadow-[0_0_14px_oklch(var(--primary)/0.4)] hover:shadow-[0_0_18px_oklch(var(--primary)/0.5)] active:shadow-[0_0_22px_oklch(var(--primary)/0.6)] focus:ring-primary/25",
       },
       size: {
+        xs: "w-2.5 h-2.5",
         sm: "w-3 h-3",
         md: "w-4 h-4",
         lg: "w-5 h-5",
+        xl: "w-6 h-6",
+        "2xl": "w-7 h-7",
+        "3xl": "w-8 h-8",
+        "4xl": "w-10 h-10",
       },
       disabled: {
         true: "cursor-not-allowed hover:scale-100 active:scale-100 opacity-50 shadow-none",
@@ -206,9 +216,14 @@ const markLabelVariants = cva(
 const labelVariants = cva("block mb-2 font-medium text-foreground", {
   variants: {
     size: {
+      xs: "text-[10px]",
       sm: "text-xs",
       md: "text-sm",
       lg: "text-base",
+      xl: "text-lg",
+      "2xl": "text-xl",
+      "3xl": "text-2xl",
+      "4xl": "text-3xl",
     },
     required: {
       true: "after:content-['*'] after:ml-1 after:text-danger",

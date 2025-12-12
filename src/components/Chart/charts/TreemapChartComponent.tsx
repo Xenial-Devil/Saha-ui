@@ -69,18 +69,22 @@ export function TreemapChartComponent({
   if (!series) return null;
 
   const visibleData = config.data.filter(
-    (item) => !hiddenSeries.has(item[series.dataKey] as string),
+    (item) => !hiddenSeries.has(item[series.dataKey] as string)
   );
 
   const colors = visibleData.map((_, index) =>
-    series.color ? series.color : getColor(index),
+    series.color ? series.color : getColor(index)
   );
 
   const heightMap = {
+    xs: 150,
     sm: 200,
     md: 300,
     lg: 400,
     xl: 500,
+    "2xl": 600,
+    "3xl": 700,
+    "4xl": 800,
   };
 
   return (

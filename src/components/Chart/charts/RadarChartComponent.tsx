@@ -25,14 +25,18 @@ export function RadarChartComponent({
   const { getColor } = useChartColors(variant);
 
   const visibleSeries = config.series.filter(
-    (s) => !hiddenSeries.has(s.dataKey) && !s.hide,
+    (s) => !hiddenSeries.has(s.dataKey) && !s.hide
   ) as RadarSeriesConfig[];
 
   const heightMap = {
+    xs: 150,
     sm: 200,
     md: 300,
     lg: 400,
     xl: 500,
+    "2xl": 600,
+    "3xl": 700,
+    "4xl": 800,
   };
 
   // Safety check: return null if data is empty or invalid

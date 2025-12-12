@@ -24,7 +24,15 @@ export type StatCardColor =
  * StatCard size types
  * Controls the dimensions of the stat card
  */
-export type StatCardSize = "sm" | "md" | "lg";
+export type StatCardSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * StatCard variant types

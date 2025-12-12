@@ -13,7 +13,15 @@ export type ButtonGroupVariant = "default" | "outline" | "ghost" | "glass";
 /**
  * Size of buttons in the group
  */
-export type ButtonGroupSize = "sm" | "md" | "lg" | "xl";
+export type ButtonGroupSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Props for the ButtonGroup component

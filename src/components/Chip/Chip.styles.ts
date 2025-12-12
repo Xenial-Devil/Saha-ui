@@ -21,9 +21,14 @@ export const chipVariants = cva(
         info: "",
       },
       size: {
+        xs: "text-[10px] px-1.5 py-0.5 h-5 rounded-full",
         sm: "text-xs px-2 py-1 h-6 rounded-full",
         md: "text-sm px-3 py-1.5 h-8 rounded-full",
         lg: "text-base px-4 py-2 h-10 rounded-full",
+        xl: "text-lg px-5 py-2.5 h-12 rounded-full",
+        "2xl": "text-xl px-6 py-3 h-14 rounded-full",
+        "3xl": "text-2xl px-7 py-3.5 h-16 rounded-full",
+        "4xl": "text-3xl px-8 py-4 h-20 rounded-full",
       },
       clickable: {
         true: "cursor-pointer hover:scale-110 active:scale-95 hover:rotate-1 active:rotate-0 transition-transform duration-300",

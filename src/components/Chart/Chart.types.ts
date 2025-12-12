@@ -14,7 +14,15 @@ export type ChartVariant =
   | "ghost"
   | "glass";
 
-export type ChartSize = "sm" | "md" | "lg" | "xl";
+export type ChartSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 export type ChartType =
   | "line"

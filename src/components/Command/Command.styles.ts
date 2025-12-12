@@ -25,9 +25,14 @@ const containerVariants = cva(
         outline: "border-border bg-transparent shadow-lg",
       },
       size: {
+        xs: "max-w-xs",
         sm: "max-w-sm",
         md: "max-w-lg",
         lg: "max-w-2xl",
+        xl: "max-w-3xl",
+        "2xl": "max-w-4xl",
+        "3xl": "max-w-5xl",
+        "4xl": "max-w-6xl",
       },
     },
     defaultVariants: {
@@ -50,9 +55,14 @@ const inputVariants = cva(
   {
     variants: {
       size: {
+        xs: "py-1.5 text-xs",
         sm: "py-2 text-sm",
         md: "py-3 text-base",
         lg: "py-4 text-lg",
+        xl: "py-5 text-xl",
+        "2xl": "py-6 text-2xl",
+        "3xl": "py-7 text-3xl",
+        "4xl": "py-8 text-4xl",
       },
     },
     defaultVariants: {
@@ -82,9 +92,14 @@ const itemVariants = cva(
         false: "",
       },
       size: {
+        xs: "py-1 text-xs min-h-[28px]",
         sm: "py-1.5 text-sm min-h-[32px]",
         md: "py-2.5 text-base min-h-[40px]",
         lg: "py-3 text-lg min-h-[48px]",
+        xl: "py-3.5 text-xl min-h-[56px]",
+        "2xl": "py-4 text-2xl min-h-[64px]",
+        "3xl": "py-5 text-3xl min-h-[72px]",
+        "4xl": "py-6 text-4xl min-h-[80px]",
       },
     },
     defaultVariants: {

@@ -31,7 +31,15 @@ export type MenubarVariant =
 /**
  * Menubar size types
  */
-export type MenubarSize = "sm" | "md" | "lg";
+export type MenubarSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Props for the Menubar component (root container)

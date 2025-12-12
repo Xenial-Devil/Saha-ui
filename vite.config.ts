@@ -49,6 +49,22 @@ export default defineConfig({
         "fs",
         "path",
         "url",
+        // Chart dependencies - don't bundle, users will install them
+        "recharts",
+        /^recharts\/.*/,
+        "rechart",
+        /^d3-.*/, // All d3 packages (d3-scale, d3-shape, etc.)
+        "victory-vendor",
+        "react-redux",
+        "redux",
+        "@reduxjs/toolkit",
+        "reselect",
+        "immer",
+        "decimal.js-light",
+        "eventemitter3",
+        "internmap",
+        "react-is",
+        "use-sync-external-store",
       ],
       input: Object.fromEntries(
         glob

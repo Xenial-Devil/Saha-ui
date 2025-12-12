@@ -3,11 +3,13 @@ import React from "react";
 /**
  * Visual style variants for the Button component
  * @example
+ * <Button variant="default">Default</Button>
  * <Button variant="primary">Primary</Button>
  * <Button variant="outline">Outline</Button>
  * <Button variant="ghost">Ghost</Button>
  */
 export type ButtonVariant =
+  | "default"
   | "primary"
   | "secondary"
   | "accent"
@@ -22,7 +24,16 @@ export type ButtonVariant =
 /**
  * Size variants for the Button component
  */
-export type ButtonSize = "sm" | "md" | "lg" | "xl" | "icon";
+export type ButtonSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "icon";
 
 /**
  * Props for the Button component
@@ -46,9 +57,10 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Visual style variant of the button
-   * @default "primary"
+   * @default "default"
    * @example
    * ```tsx
+   * <Button variant="default">Default Button</Button>
    * <Button variant="primary">Primary Button</Button>
    * <Button variant="outline">Outline Button</Button>
    * <Button variant="ghost">Ghost Button</Button>

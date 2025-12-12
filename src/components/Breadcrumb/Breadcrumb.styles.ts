@@ -2,9 +2,14 @@ import { cva } from "class-variance-authority";
 const breadcrumbVariants = cva("flex items-center flex-wrap gap-1 text-sm", {
   variants: {
     size: {
+      xs: "text-[10px] gap-0.5",
       sm: "text-xs gap-0.5",
       md: "text-sm gap-1",
       lg: "text-base gap-1.5",
+      xl: "text-lg gap-2",
+      "2xl": "text-xl gap-2.5",
+      "3xl": "text-2xl gap-3",
+      "4xl": "text-3xl gap-3.5",
     },
   },
   defaultVariants: {
@@ -30,9 +35,14 @@ const breadcrumbItemVariants = cva(
           "text-muted-foreground hover:text-foreground bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 hover:border-white/20 rounded-lg px-3 py-1 shadow-lg hover:shadow-xl hover:shadow-primary/20 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300",
       },
       size: {
+        xs: "text-[10px]",
         sm: "text-xs",
         md: "text-sm",
         lg: "text-base",
+        xl: "text-lg",
+        "2xl": "text-xl",
+        "3xl": "text-2xl",
+        "4xl": "text-3xl",
       },
       isCurrentPage: {
         true: "text-foreground font-semibold cursor-default pointer-events-none",
@@ -82,9 +92,14 @@ const breadcrumbItemVariants = cva(
 const breadcrumbSeparatorVariants = cva("text-muted-foreground/50", {
   variants: {
     size: {
+      xs: "mx-0.5",
       sm: "mx-0.5",
       md: "mx-1",
       lg: "mx-1.5",
+      xl: "mx-2",
+      "2xl": "mx-2.5",
+      "3xl": "mx-3",
+      "4xl": "mx-3.5",
     },
   },
   defaultVariants: {

@@ -1,4 +1,12 @@
-export type AutocompleteSize = "sm" | "md" | "lg";
+export type AutocompleteSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 export type AutocompleteVariant =
   | "default"

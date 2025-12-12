@@ -18,7 +18,15 @@ export type HoverCardVariant =
 /**
  * HoverCard size types
  */
-export type HoverCardSize = "sm" | "md" | "lg" | "xl";
+export type HoverCardSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * HoverCard position types

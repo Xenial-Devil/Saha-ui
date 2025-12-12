@@ -63,9 +63,14 @@ const calendarVariants = cva(
         false: "",
       },
       size: {
+        xs: "p-2 text-xs",
         sm: "p-3 text-sm",
         md: "p-4 text-base",
         lg: "p-6 text-lg",
+        xl: "p-7 text-xl",
+        "2xl": "p-8 text-2xl",
+        "3xl": "p-10 text-3xl",
+        "4xl": "p-12 text-4xl",
       },
       rounded: {
         none: "rounded-none before:rounded-none after:rounded-none",
@@ -110,9 +115,14 @@ const dayVariants = cva(
   {
     variants: {
       size: {
+        xs: "h-6 w-6 text-[10px]",
         sm: "h-8 w-8 text-xs",
         md: "h-10 w-10 text-sm",
         lg: "h-12 w-12 text-base",
+        xl: "h-14 w-14 text-lg",
+        "2xl": "h-16 w-16 text-xl",
+        "3xl": "h-20 w-20 text-2xl",
+        "4xl": "h-24 w-24 text-3xl",
       },
       color: {
         primary: "",

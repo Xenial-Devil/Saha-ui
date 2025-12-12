@@ -18,7 +18,15 @@ export type InputOTPVariant =
 /**
  * Input OTP size types
  */
-export type InputOTPSize = "sm" | "md" | "lg" | "xl";
+export type InputOTPSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Input type for OTP (numeric or alphanumeric)

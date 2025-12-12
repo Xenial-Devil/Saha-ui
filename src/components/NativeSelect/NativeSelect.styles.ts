@@ -164,9 +164,14 @@ export const nativeSelectVariants = cva(
         ],
       },
       size: {
+        xs: "py-1 text-xs",
         sm: "py-1.5 text-sm",
         md: "py-2.5 text-base",
         lg: "py-3.5 text-lg",
+        xl: "py-4.5 text-xl",
+        "2xl": "py-5.5 text-2xl",
+        "3xl": "py-6.5 text-3xl",
+        "4xl": "py-7.5 text-4xl",
       },
       error: {
         true: [

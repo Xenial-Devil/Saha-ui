@@ -25,7 +25,7 @@ export type KbdVariant =
  * Kbd size types
  * Controls the dimensions and font size
  */
-export type KbdSize = "sm" | "md" | "lg";
+export type KbdSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 
 /**
  * Kbd color types for semantic colors

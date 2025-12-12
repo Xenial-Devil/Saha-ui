@@ -16,7 +16,15 @@ export type ContextMenuVariant =
   | "outline"
   | "glass";
 
-export type ContextMenuSize = "sm" | "md" | "lg";
+export type ContextMenuSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 // ===========================
 // Main Component Props

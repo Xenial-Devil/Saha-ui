@@ -14,9 +14,14 @@ export const navRoot = cva("transition-all duration-300", {
       minimal: "bg-transparent",
     },
     size: {
+      xs: "text-xs py-0.5 px-1.5",
       sm: "text-sm py-1 px-2",
       md: "text-base py-2 px-3",
       lg: "text-lg py-3 px-4",
+      xl: "text-xl py-4 px-5",
+      "2xl": "text-2xl py-5 px-6",
+      "3xl": "text-3xl py-6 px-8",
+      "4xl": "text-4xl py-8 px-10",
     },
     orientation: {
       vertical: "flex flex-col gap-1",

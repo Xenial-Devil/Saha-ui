@@ -19,7 +19,15 @@ export type ProgressVariant =
  * Progress size types
  * Controls the height of the progress bar
  */
-export type ProgressSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type ProgressSize =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl";
 
 /**
  * Progress shape types
