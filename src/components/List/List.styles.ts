@@ -13,9 +13,14 @@ const listVariants = cva("w-full transition-all duration-300", {
         "space-y-3 bg-background/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-lg hover:shadow-2xl hover:border-white/20 relative before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-br before:from-white/10 before:via-transparent before:to-white/5 before:pointer-events-none",
     },
     size: {
+      xs: "text-xs",
       sm: "text-sm",
       md: "text-base",
       lg: "text-lg",
+      xl: "text-xl",
+      "2xl": "text-2xl",
+      "3xl": "text-3xl",
+      "4xl": "text-4xl",
     },
   },
   compoundVariants: [

@@ -61,7 +61,7 @@ import {
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
-      variant = "outline",
+      variant = "default",
       size = "md",
       type = "text",
       label,

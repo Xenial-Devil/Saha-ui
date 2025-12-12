@@ -11,10 +11,14 @@ const emptyVariants = cva(
           "bg-background/50 backdrop-blur-xl rounded-2xl border border-border/30",
       },
       size: {
+        xs: "p-4 gap-2",
         sm: "p-6 gap-3",
         md: "p-8 gap-4",
         lg: "p-12 gap-5",
         xl: "p-16 gap-6",
+        "2xl": "p-20 gap-7",
+        "3xl": "p-24 gap-8",
+        "4xl": "p-32 gap-10",
       },
       fullHeight: {
         true: "min-h-[400px]",
@@ -39,10 +43,14 @@ const iconContainerVariants = cva(
   {
     variants: {
       size: {
+        xs: "w-12 h-12",
         sm: "w-16 h-16",
         md: "w-20 h-20",
         lg: "w-24 h-24",
         xl: "w-32 h-32",
+        "2xl": "w-40 h-40",
+        "3xl": "w-48 h-48",
+        "4xl": "w-56 h-56",
       },
       iconColor: {
         primary: "bg-primary/10 text-primary",
@@ -69,10 +77,14 @@ const iconContainerVariants = cva(
 const titleVariants = cva("font-semibold text-foreground", {
   variants: {
     size: {
+      xs: "text-sm",
       sm: "text-base",
       md: "text-lg",
       lg: "text-xl",
       xl: "text-2xl",
+      "2xl": "text-3xl",
+      "3xl": "text-4xl",
+      "4xl": "text-5xl",
     },
   },
   defaultVariants: {
@@ -83,10 +95,14 @@ const titleVariants = cva("font-semibold text-foreground", {
 const descriptionVariants = cva("text-muted-foreground max-w-md", {
   variants: {
     size: {
+      xs: "text-[10px]",
       sm: "text-xs",
       md: "text-sm",
       lg: "text-base",
       xl: "text-lg",
+      "2xl": "text-xl",
+      "3xl": "text-2xl",
+      "4xl": "text-3xl",
     },
   },
   defaultVariants: {

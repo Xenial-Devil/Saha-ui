@@ -23,27 +23,31 @@ export function BarChartComponent({
   const { getColor } = useChartColors(variant);
 
   const visibleSeries = config.series.filter(
-    (s) => !hiddenSeries.has(s.dataKey) && !s.hide,
+    (s) => !hiddenSeries.has(s.dataKey) && !s.hide
   ) as BarSeriesConfig[];
 
   const heightMap = {
+    xs: 150,
     sm: 200,
     md: 300,
     lg: 400,
     xl: 500,
+    "2xl": 600,
+    "3xl": 700,
+    "4xl": 800,
   };
 
   // Function to generate gradient colors for single series
   const getGradientColor = (
     baseColor: string,
     index: number,
-    total: number,
+    total: number
   ): string => {
     if (total === 1) return baseColor;
 
     // Parse OKLCH color
     const match = baseColor.match(
-      /oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\)/,
+      /oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\)/
     );
     if (!match) return baseColor;
 
@@ -58,7 +62,9 @@ export function BarChartComponent({
     const step = (0.85 - L) / (total - 1);
     const newLightness = Math.min(0.85, L + step * index);
 
-    return `oklch(${newLightness.toFixed(3)} ${C} ${H}${A < 1 ? ` / ${A}` : ""})`;
+    return `oklch(${newLightness.toFixed(3)} ${C} ${H}${
+      A < 1 ? ` / ${A}` : ""
+    })`;
   };
 
   // Check if single series (need gradient within bars)
@@ -125,7 +131,7 @@ export function BarChartComponent({
                     fill={getGradientColor(
                       baseColor,
                       index,
-                      config.data.length,
+                      config.data.length
                     )}
                   />
                 ))}

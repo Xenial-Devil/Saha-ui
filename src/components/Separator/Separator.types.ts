@@ -4,6 +4,7 @@ import React from "react";
  * Visual style variant of the Separator
  */
 export type SeparatorVariant =
+  | "default"
   | "solid"
   | "dashed"
   | "dotted"
@@ -35,6 +36,9 @@ export type SeparatorSpacing =
   | "md"
   | "lg"
   | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
   | number
   | string;
 

@@ -51,9 +51,14 @@ const timelineDotVariants = cva(
           "bg-gray-400 text-white shadow-gray-400/30 hover:shadow-gray-400/40",
       },
       size: {
+        xs: "w-4 h-4",
         sm: "w-6 h-6",
         md: "w-8 h-8",
         lg: "w-10 h-10",
+        xl: "w-12 h-12",
+        "2xl": "w-16 h-16",
+        "3xl": "w-20 h-20",
+        "4xl": "w-24 h-24",
       },
       active: {
         true: "scale-125 shadow-2xl ring-2 ring-primary/20 animate-pulse-glow",

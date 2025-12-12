@@ -189,9 +189,14 @@ export const kbdSeparatorVariants = cva(
   {
     variants: {
       size: {
+        xs: "text-[10px] px-0.5",
         sm: "text-xs px-1",
         md: "text-sm px-1.5",
         lg: "text-base px-2",
+        xl: "text-lg px-2.5",
+        "2xl": "text-xl px-3",
+        "3xl": "text-2xl px-3.5",
+        "4xl": "text-3xl px-4",
       },
     },
     defaultVariants: {

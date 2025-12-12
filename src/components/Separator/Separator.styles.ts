@@ -77,6 +77,7 @@ const SeparatorVariants = cva("relative flex items-center justify-center", {
 const SeparatorLineVariants = cva("transition-all duration-300 relative", {
   variants: {
     variant: {
+      default: "border-border shadow-sm",
       solid: "border-gray-400 dark:border-gray-600 shadow-sm",
       dashed: "border-gray-400 dark:border-gray-600 border-dashed shadow-sm",
       dotted: "border-gray-400 dark:border-gray-600 border-dotted shadow-sm",
@@ -100,38 +101,38 @@ const SeparatorLineVariants = cva("transition-all duration-300 relative", {
     {
       orientation: "horizontal",
       thickness: "thin",
-      variant: ["solid", "dashed", "dotted"],
+      variant: ["default", "solid", "dashed", "dotted"],
       className: "border-t",
     },
     {
       orientation: "horizontal",
       thickness: "medium",
-      variant: ["solid", "dashed", "dotted"],
+      variant: ["default", "solid", "dashed", "dotted"],
       className: "border-t-2",
     },
     {
       orientation: "horizontal",
       thickness: "thick",
-      variant: ["solid", "dashed", "dotted"],
+      variant: ["default", "solid", "dashed", "dotted"],
       className: "border-t-4",
     },
     // Vertical thickness
     {
       orientation: "vertical",
       thickness: "thin",
-      variant: ["solid", "dashed", "dotted"],
+      variant: ["default", "solid", "dashed", "dotted"],
       className: "border-l",
     },
     {
       orientation: "vertical",
       thickness: "medium",
-      variant: ["solid", "dashed", "dotted"],
+      variant: ["default", "solid", "dashed", "dotted"],
       className: "border-l-2",
     },
     {
       orientation: "vertical",
       thickness: "thick",
-      variant: ["solid", "dashed", "dotted"],
+      variant: ["default", "solid", "dashed", "dotted"],
       className: "border-l-4",
     },
     // Gradient & Glass horizontal thickness
@@ -174,7 +175,7 @@ const SeparatorLineVariants = cva("transition-all duration-300 relative", {
     },
   ],
   defaultVariants: {
-    variant: "solid",
+    variant: "default",
     orientation: "horizontal",
     thickness: "thin",
   },

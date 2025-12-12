@@ -240,9 +240,14 @@ export const paginationVariants = cva(
         ],
       },
       size: {
+        xs: ["h-6", "min-w-6", "px-1.5", "text-xs", "gap-0.5"],
         sm: ["h-8", "min-w-8", "px-2", "text-sm", "gap-1"],
         md: ["h-10", "min-w-10", "px-3", "text-base", "gap-1.5"],
         lg: ["h-12", "min-w-12", "px-4", "text-lg", "gap-2"],
+        xl: ["h-14", "min-w-14", "px-5", "text-xl", "gap-2.5"],
+        "2xl": ["h-16", "min-w-16", "px-6", "text-2xl", "gap-3"],
+        "3xl": ["h-20", "min-w-20", "px-8", "text-3xl", "gap-4"],
+        "4xl": ["h-24", "min-w-24", "px-10", "text-4xl", "gap-5"],
       },
       shape: {
         rounded: ["rounded-md"],
@@ -256,5 +261,5 @@ export const paginationVariants = cva(
       size: "md",
       shape: "rounded",
     },
-  },
+  }
 );

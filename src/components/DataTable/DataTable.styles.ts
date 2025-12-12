@@ -162,9 +162,14 @@ export const tableHeaderVariants = cva(
         ],
       },
       size: {
+        xs: "px-1.5 py-1.5 text-[10px]",
         sm: "px-2 py-2 text-xs",
         md: "px-4 py-3 text-sm",
         lg: "px-6 py-4 text-base",
+        xl: "px-8 py-5 text-lg",
+        "2xl": "px-10 py-6 text-xl",
+        "3xl": "px-12 py-7 text-2xl",
+        "4xl": "px-14 py-8 text-3xl",
       },
       sticky: {
         true: "sticky top-0 z-10 shadow-sm",
@@ -214,9 +219,14 @@ export const tableRowVariants = cva(
 export const tableCellVariants = cva(["transition-colors", "duration-200"], {
   variants: {
     size: {
+      xs: "px-1.5 py-1.5 text-[10px]",
       sm: "px-2 py-2 text-xs",
       md: "px-4 py-3 text-sm",
       lg: "px-6 py-4 text-base",
+      xl: "px-8 py-5 text-lg",
+      "2xl": "px-10 py-6 text-xl",
+      "3xl": "px-12 py-7 text-2xl",
+      "4xl": "px-14 py-8 text-3xl",
     },
   },
   defaultVariants: {

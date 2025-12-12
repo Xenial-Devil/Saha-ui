@@ -29,10 +29,14 @@ const EmptyContext = createContext<EmptyContextValue>({
 // Preset icons
 const getPresetIcon = (iconType: EmptyProps["iconType"], size: EmptySize) => {
   const iconSizes: Record<EmptySize, string> = {
+    xs: "w-6 h-6",
     sm: "w-8 h-8",
     md: "w-10 h-10",
     lg: "w-12 h-12",
     xl: "w-16 h-16",
+    "2xl": "w-20 h-20",
+    "3xl": "w-24 h-24",
+    "4xl": "w-28 h-28",
   };
 
   const iconSize = iconSizes[size];
@@ -276,7 +280,6 @@ export const Empty = React.forwardRef<HTMLDivElement, EmptyProps>(
     },
     ref
   ) => {
-
     return (
       <EmptyContext.Provider value={{ size, variant, animated }}>
         <div
@@ -304,10 +307,14 @@ export const Empty = React.forwardRef<HTMLDivElement, EmptyProps>(
                 className={cn(
                   "object-contain",
                   {
+                    xs: "w-24 h-24",
                     sm: "w-32 h-32",
                     md: "w-40 h-40",
                     lg: "w-48 h-48",
                     xl: "w-64 h-64",
+                    "2xl": "w-80 h-80",
+                    "3xl": "w-96 h-96",
+                    "4xl": "w-[28rem] h-[28rem]",
                   }[size]
                 )}
               />
@@ -437,10 +444,14 @@ export const EmptyImage = React.forwardRef<HTMLImageElement, EmptyImageProps>(
           className={cn(
             "object-contain",
             {
+              xs: "w-24 h-24",
               sm: "w-32 h-32",
               md: "w-40 h-40",
               lg: "w-48 h-48",
               xl: "w-64 h-64",
+              "2xl": "w-80 h-80",
+              "3xl": "w-96 h-96",
+              "4xl": "w-[28rem] h-[28rem]",
             }[size],
             className
           )}

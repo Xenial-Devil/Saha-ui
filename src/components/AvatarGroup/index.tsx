@@ -20,6 +20,8 @@ const getMoreIndicatorSize = (size: AvatarGroupSize): string => {
     lg: "w-12 h-12",
     xl: "w-14 h-14",
     "2xl": "w-16 h-16",
+    "3xl": "w-20 h-20",
+    "4xl": "w-24 h-24",
   };
   return sizes[size];
 };
@@ -35,6 +37,8 @@ const getStackOverlap = (size: AvatarGroupSize): string => {
     lg: "-ml-4",
     xl: "-ml-5",
     "2xl": "-ml-6",
+    "3xl": "-ml-7",
+    "4xl": "-ml-8",
   };
   return overlaps[size];
 };
@@ -73,7 +77,6 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
     },
     ref
   ) => {
-
     // Convert children to array and filter valid Avatar elements
     const childrenArray = Children.toArray(children).filter((child) =>
       isValidElement(child)

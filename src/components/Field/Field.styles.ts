@@ -15,9 +15,14 @@ const fieldSetVariants = cva("border rounded-lg transition-all duration-200", {
       error: "border-danger bg-danger/5",
     },
     size: {
+      xs: "p-2",
       sm: "p-3",
       md: "p-4",
       lg: "p-6",
+      xl: "p-8",
+      "2xl": "p-10",
+      "3xl": "p-12",
+      "4xl": "p-16",
     },
     disabled: {
       true: "opacity-50 cursor-not-allowed",
@@ -34,9 +39,14 @@ const fieldSetVariants = cva("border rounded-lg transition-all duration-200", {
 const legendVariants = cva("font-semibold mb-4", {
   variants: {
     size: {
+      xs: "text-xs px-1.5",
       sm: "text-sm px-2",
       md: "text-base px-3",
       lg: "text-lg px-4",
+      xl: "text-xl px-5",
+      "2xl": "text-2xl px-6",
+      "3xl": "text-3xl px-7",
+      "4xl": "text-4xl px-8",
     },
   },
   defaultVariants: {
@@ -100,9 +110,14 @@ const fieldLabelVariants = cva(
   {
     variants: {
       size: {
+        xs: "text-[10px]",
         sm: "text-xs",
         md: "text-sm",
         lg: "text-base",
+        xl: "text-lg",
+        "2xl": "text-xl",
+        "3xl": "text-2xl",
+        "4xl": "text-3xl",
       },
       required: {
         true: "",
@@ -126,9 +141,14 @@ const fieldDescriptionVariants = cva(
   {
     variants: {
       size: {
+        xs: "text-[10px]",
         sm: "text-xs",
         md: "text-sm",
         lg: "text-base",
+        xl: "text-lg",
+        "2xl": "text-xl",
+        "3xl": "text-2xl",
+        "4xl": "text-3xl",
       },
       variant: {
         default: "text-muted-foreground",
@@ -154,9 +174,14 @@ const fieldErrorVariants = cva(
   {
     variants: {
       size: {
+        xs: "text-[10px]",
         sm: "text-xs",
         md: "text-sm",
         lg: "text-base",
+        xl: "text-lg",
+        "2xl": "text-xl",
+        "3xl": "text-2xl",
+        "4xl": "text-3xl",
       },
     },
     defaultVariants: {
@@ -170,9 +195,14 @@ const fieldHintVariants = cva(
   {
     variants: {
       size: {
+        xs: "text-[10px]",
         sm: "text-xs",
         md: "text-sm",
         lg: "text-sm",
+        xl: "text-base",
+        "2xl": "text-lg",
+        "3xl": "text-xl",
+        "4xl": "text-2xl",
       },
     },
     defaultVariants: {

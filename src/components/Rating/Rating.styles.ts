@@ -54,10 +54,14 @@ const iconVariants = cva(
         outline: "text-foreground hover:drop-shadow-[0_0_6px_rgba(0,0,0,0.3)]",
       },
       size: {
+        xs: "w-3 h-3",
         sm: "w-4 h-4",
         md: "w-5 h-5",
         lg: "w-6 h-6",
         xl: "w-8 h-8",
+        "2xl": "w-10 h-10",
+        "3xl": "w-12 h-12",
+        "4xl": "w-16 h-16",
       },
       state: {
         empty: "opacity-30",

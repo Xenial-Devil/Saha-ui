@@ -48,6 +48,8 @@ const getSizeClasses = (size: SpinnerSize = "md") => {
     lg: "w-12 h-12",
     xl: "w-16 h-16",
     "2xl": "w-32 h-32",
+    "3xl": "w-40 h-40",
+    "4xl": "w-48 h-48",
   };
   return sizeMap[size] || sizeMap.md;
 };
@@ -63,6 +65,8 @@ const getDotSize = (size: SpinnerSize = "md") => {
     lg: "w-3 h-3",
     xl: "w-4 h-4",
     "2xl": "w-8 h-8",
+    "3xl": "w-10 h-10",
+    "4xl": "w-12 h-12",
   };
   return dotMap[size] || dotMap.md;
 };

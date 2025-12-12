@@ -2,6 +2,7 @@ import React from "react";
 
 // Explicit types for better type safety
 export type AlertVariant =
+  | "default"
   | "solid"
   | "subtle"
   | "left-accent"
@@ -13,7 +14,7 @@ export type AlertStatus = "success" | "danger" | "warning" | "info";
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Visual style variant of the alert
-   * @default "solid"
+   * @default "default"
    */
   variant?: AlertVariant;
 

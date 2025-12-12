@@ -1,34 +1,41 @@
 import { cva } from "class-variance-authority";
 
-export const colorPickerVariants = cva(
-  "inline-flex items-center gap-2",
-  {
-    variants: {
-      size: {
-        sm: "text-sm",
-        md: "text-base",
-        lg: "text-lg",
-      },
-      disabled: {
-        true: "opacity-50 cursor-not-allowed",
-        false: "cursor-pointer",
-      },
+export const colorPickerVariants = cva("inline-flex items-center gap-2", {
+  variants: {
+    size: {
+      xs: "text-xs",
+      sm: "text-sm",
+      md: "text-base",
+      lg: "text-lg",
+      xl: "text-xl",
+      "2xl": "text-2xl",
+      "3xl": "text-3xl",
+      "4xl": "text-4xl",
     },
-    defaultVariants: {
-      size: "md",
-      disabled: false,
+    disabled: {
+      true: "opacity-50 cursor-not-allowed",
+      false: "cursor-pointer",
     },
-  }
-);
+  },
+  defaultVariants: {
+    size: "md",
+    disabled: false,
+  },
+});
 
 export const colorPickerTriggerVariants = cva(
   "inline-flex items-center gap-2 rounded-md border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
   {
     variants: {
       size: {
+        xs: "h-6 px-1.5",
         sm: "h-8 px-2",
         md: "h-10 px-3",
         lg: "h-12 px-4",
+        xl: "h-14 px-5",
+        "2xl": "h-16 px-6",
+        "3xl": "h-20 px-8",
+        "4xl": "h-24 px-10",
       },
       disabled: {
         true: "cursor-not-allowed opacity-50",
@@ -47,9 +54,14 @@ export const colorPickerSwatchVariants = cva(
   {
     variants: {
       size: {
+        xs: "h-4 w-4",
         sm: "h-5 w-5",
         md: "h-6 w-6",
         lg: "h-8 w-8",
+        xl: "h-10 w-10",
+        "2xl": "h-12 w-12",
+        "3xl": "h-14 w-14",
+        "4xl": "h-16 w-16",
       },
       interactive: {
         true: "cursor-pointer hover:scale-110 transition-transform",
@@ -121,13 +133,10 @@ export const colorPickerInputVariants = cva(
   }
 );
 
-export const colorPickerPresetGroupVariants = cva(
-  "space-y-2",
-  {
-    variants: {},
-    defaultVariants: {},
-  }
-);
+export const colorPickerPresetGroupVariants = cva("space-y-2", {
+  variants: {},
+  defaultVariants: {},
+});
 
 export const colorPickerPresetGroupTitleVariants = cva(
   "text-xs font-medium text-muted-foreground mb-2",
@@ -137,13 +146,10 @@ export const colorPickerPresetGroupTitleVariants = cva(
   }
 );
 
-export const colorPickerPresetColorsVariants = cva(
-  "grid grid-cols-8 gap-2",
-  {
-    variants: {},
-    defaultVariants: {},
-  }
-);
+export const colorPickerPresetColorsVariants = cva("grid grid-cols-8 gap-2", {
+  variants: {},
+  defaultVariants: {},
+});
 
 export const colorPickerPresetColorVariants = cva(
   "relative h-6 w-6 rounded cursor-pointer border-2 border-transparent hover:border-primary transition-all hover:scale-110 active:scale-95",

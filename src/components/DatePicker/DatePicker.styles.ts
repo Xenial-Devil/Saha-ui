@@ -127,9 +127,14 @@ export const datePickerVariants = cva(
         ],
       },
       size: {
+        xs: ["h-7", "px-1.5", "text-xs", "rounded"],
         sm: ["h-8", "px-2", "text-sm", "rounded-md"],
         md: ["h-10", "px-3", "text-base", "rounded-lg"],
         lg: ["h-12", "px-4", "text-lg", "rounded-lg"],
+        xl: ["h-14", "px-5", "text-xl", "rounded-xl"],
+        "2xl": ["h-16", "px-6", "text-2xl", "rounded-xl"],
+        "3xl": ["h-20", "px-7", "text-3xl", "rounded-2xl"],
+        "4xl": ["h-24", "px-8", "text-4xl", "rounded-2xl"],
       },
     },
     defaultVariants: {

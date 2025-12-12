@@ -259,7 +259,7 @@ export interface ItemFooterProps extends React.HTMLAttributes<HTMLDivElement> {
  */
 export interface ItemGroupProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof itemGroupVariants> {
+    Omit<VariantProps<typeof itemGroupVariants>, "spacing"> {
   /**
    * Visual variant of the group
    */

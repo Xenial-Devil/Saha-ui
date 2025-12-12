@@ -63,7 +63,7 @@ const LoadingSpinner = () => (
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      variant = "primary",
+      variant = "default",
       size = "md",
       className,
       children,

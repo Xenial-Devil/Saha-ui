@@ -30,6 +30,8 @@ const avatarWrapperVariants = cva(
         lg: "ring-0",
         xl: "ring-0",
         "2xl": "ring-0",
+        "3xl": "ring-0",
+        "4xl": "ring-0",
       },
     },
     defaultVariants: {
@@ -52,6 +54,8 @@ const moreIndicatorVariants = cva(
         lg: "text-base",
         xl: "text-lg",
         "2xl": "text-xl",
+        "3xl": "text-2xl",
+        "4xl": "text-3xl",
       },
       variant: {
         stack:
@@ -68,8 +72,4 @@ const moreIndicatorVariants = cva(
     },
   }
 );
-export {
-  avatarGroupVariants,
-  avatarWrapperVariants,
-  moreIndicatorVariants,
-};
+export { avatarGroupVariants, avatarWrapperVariants, moreIndicatorVariants };

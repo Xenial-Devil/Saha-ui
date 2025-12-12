@@ -6,6 +6,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        default:
+          "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90",
         primary:
           "bg-primary text-primary-foreground shadow-[0_4px_14px_0] shadow-primary/40 hover:shadow-[0_8px_24px_0] hover:shadow-primary/60 hover:brightness-110 active:brightness-90 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black/20 after:to-transparent after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300",
         secondary:
@@ -39,7 +41,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "primary",
+      variant: "default",
       size: "md",
     },
   }
@@ -49,6 +51,7 @@ const buttonVariants = cva(
 const shimmerVariants = cva("", {
   variants: {
     variant: {
+      default: "",
       primary:
         "after:absolute after:inset-0 after:bg-gradient-to-r after:from-transparent after:via-white/25 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-1000 after:ease-in-out",
       secondary:
@@ -68,7 +71,7 @@ const shimmerVariants = cva("", {
     },
   },
   defaultVariants: {
-    variant: "primary",
+    variant: "default",
   },
 });
 export { buttonVariants, shimmerVariants };

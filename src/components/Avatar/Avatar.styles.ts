@@ -11,6 +11,8 @@ const avatarVariants = cva(
         lg: "w-12 h-12 text-base",
         xl: "w-16 h-16 text-lg",
         "2xl": "w-20 h-20 text-xl",
+        "3xl": "w-24 h-24 text-2xl",
+        "4xl": "w-28 h-28 text-3xl",
       },
       shape: {
         circle: "rounded-full",
@@ -47,6 +49,8 @@ const statusVariants = cva(
         lg: "w-3 h-3",
         xl: "w-3.5 h-3.5",
         "2xl": "w-4 h-4",
+        "3xl": "w-5 h-5",
+        "4xl": "w-6 h-6",
       },
       status: {
         online:

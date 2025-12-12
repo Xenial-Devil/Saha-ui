@@ -39,7 +39,7 @@ export type SeparatorVariantsProps = VariantProps<typeof SeparatorVariants>;
 export const Separator = React.forwardRef<HTMLDivElement, SeparatorProps>(
   (
     {
-      variant = "solid",
+      variant = "default",
       orientation = "horizontal",
       thickness = "thin",
       spacing = "md",
@@ -57,7 +57,7 @@ export const Separator = React.forwardRef<HTMLDivElement, SeparatorProps>(
     // Handle numeric or custom string spacing values
     const isTokenSpacing =
       typeof spacing === "string" &&
-      ["none", "xs", "sm", "md", "lg", "xl"].includes(spacing);
+      ["none", "xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl"].includes(spacing);
 
     const customStyle =
       !isTokenSpacing && spacing !== undefined

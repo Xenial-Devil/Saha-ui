@@ -41,9 +41,14 @@ export const contextMenuContentVariants = cva(
         ],
       },
       size: {
+        xs: "text-[10px] min-w-[12rem]",
         sm: "text-xs min-w-[14rem]",
         md: "text-sm min-w-[16rem]",
         lg: "text-base min-w-[18rem]",
+        xl: "text-lg min-w-[20rem]",
+        "2xl": "text-xl min-w-[24rem]",
+        "3xl": "text-2xl min-w-[28rem]",
+        "4xl": "text-3xl min-w-[32rem]",
       },
     },
     defaultVariants: {
@@ -93,9 +98,14 @@ export const contextMenuItemVariants = cva(
         ],
       },
       size: {
+        xs: "px-2.5 py-1.5 text-[10px] gap-2",
         sm: "px-3 py-2 text-xs gap-2.5",
         md: "px-3.5 py-2.5 text-sm gap-3",
         lg: "px-4 py-3 text-base gap-3.5",
+        xl: "px-5 py-3.5 text-lg gap-4",
+        "2xl": "px-6 py-4 text-xl gap-5",
+        "3xl": "px-7 py-5 text-2xl gap-6",
+        "4xl": "px-8 py-6 text-3xl gap-7",
       },
       inset: {
         true: "",
@@ -142,9 +152,14 @@ export const contextMenuCheckItemVariants = cva(
   {
     variants: {
       size: {
+        xs: "pl-7 pr-2.5 py-1.5 text-[10px] gap-1.5",
         sm: "pl-8 pr-3 py-2 text-xs gap-2",
         md: "pl-9 pr-4 py-2.5 text-sm gap-2.5",
         lg: "pl-11 pr-5 py-3 text-base gap-3",
+        xl: "pl-13 pr-6 py-3.5 text-lg gap-3.5",
+        "2xl": "pl-15 pr-7 py-4 text-xl gap-4",
+        "3xl": "pl-17 pr-8 py-5 text-2xl gap-5",
+        "4xl": "pl-19 pr-9 py-6 text-3xl gap-6",
       },
       inset: {
         true: "",
@@ -183,9 +198,14 @@ export const contextMenuLabelVariants = cva(
   {
     variants: {
       size: {
+        xs: "px-2.5 py-1.5 text-[9px]",
         sm: "px-3 py-2 text-[10px]",
         md: "px-4 py-2.5 text-xs",
         lg: "px-5 py-3 text-sm",
+        xl: "px-6 py-3.5 text-base",
+        "2xl": "px-7 py-4 text-lg",
+        "3xl": "px-8 py-5 text-xl",
+        "4xl": "px-9 py-6 text-2xl",
       },
       inset: {
         true: "",
@@ -242,9 +262,14 @@ export const contextMenuShortcutVariants = cva(
   {
     variants: {
       size: {
+        xs: "text-[9px] right-2",
         sm: "text-[10px] right-2.5",
         md: "text-xs right-3",
         lg: "text-sm right-3.5",
+        xl: "text-base right-4",
+        "2xl": "text-lg right-5",
+        "3xl": "text-xl right-6",
+        "4xl": "text-2xl right-7",
       },
     },
     defaultVariants: {
@@ -269,9 +294,14 @@ export const contextMenuSubTriggerVariants = cva(
   {
     variants: {
       size: {
+        xs: "px-2.5 py-1.5 text-[10px] gap-1.5",
         sm: "px-3 py-2 text-xs gap-2",
         md: "px-4 py-2.5 text-sm gap-2.5",
         lg: "px-5 py-3 text-base gap-3",
+        xl: "px-6 py-3.5 text-lg gap-3.5",
+        "2xl": "px-7 py-4 text-xl gap-4",
+        "3xl": "px-8 py-5 text-2xl gap-5",
+        "4xl": "px-9 py-6 text-3xl gap-6",
       },
       inset: {
         true: "",
@@ -314,9 +344,14 @@ export const contextMenuIndicatorVariants = cva(
   {
     variants: {
       size: {
+        xs: "w-7 h-3.5",
         sm: "w-8 h-4",
         md: "w-9 h-5",
         lg: "w-11 h-6",
+        xl: "w-13 h-7",
+        "2xl": "w-15 h-8",
+        "3xl": "w-17 h-9",
+        "4xl": "w-19 h-10",
       },
     },
     defaultVariants: {

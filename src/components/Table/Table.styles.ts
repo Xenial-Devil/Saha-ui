@@ -23,9 +23,14 @@ const tableContainerVariants = cva(
 const tableVariants = cva("w-full border-collapse text-left", {
   variants: {
     size: {
+      xs: "text-xs",
       sm: "text-sm",
       md: "text-base",
       lg: "text-lg",
+      xl: "text-xl",
+      "2xl": "text-2xl",
+      "3xl": "text-3xl",
+      "4xl": "text-4xl",
     },
   },
   defaultVariants: {
@@ -42,9 +47,14 @@ const tableHeaderVariants = cva(
         false: "",
       },
       size: {
+        xs: "text-[10px]",
         sm: "text-xs",
         md: "text-sm",
         lg: "text-base",
+        xl: "text-lg",
+        "2xl": "text-xl",
+        "3xl": "text-2xl",
+        "4xl": "text-3xl",
       },
     },
     defaultVariants: {

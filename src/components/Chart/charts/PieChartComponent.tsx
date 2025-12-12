@@ -23,20 +23,24 @@ export function PieChartComponent({
 
   const series = config.series[0] as PieSeriesConfig;
   const visibleData = config.data.filter(
-    (item) => !hiddenSeries.has(item[series.dataKey] as string),
+    (item) => !hiddenSeries.has(item[series.dataKey] as string)
   );
 
   const heightMap = {
+    xs: 200,
     sm: 250,
     md: 350,
     lg: 450,
     xl: 550,
+    "2xl": 650,
+    "3xl": 750,
+    "4xl": 850,
   };
 
   // Calculate total for percentage labels
   const total = visibleData.reduce(
     (sum, item) => sum + (item[series.dataKey] as number),
-    0,
+    0
   );
 
   // Custom label render function for data labels (percentage inside slices)
@@ -193,7 +197,7 @@ export function PieChartComponent({
             }}
             formatter={(value) => {
               const item = visibleData.find(
-                (d) => d[config.xAxis?.dataKey || "name"] === value,
+                (d) => d[config.xAxis?.dataKey || "name"] === value
               );
               if (item) {
                 const percentage =

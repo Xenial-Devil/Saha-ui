@@ -29,9 +29,14 @@ const inputWrapperVariants = cva(
         error: "bg-danger/10 border border-danger rounded-lg",
       },
       size: {
+        xs: "h-6 px-1.5 text-xs",
         sm: "h-8 px-2 text-sm",
         md: "h-10 px-3 text-sm",
         lg: "h-12 px-4 text-base",
+        xl: "h-14 px-5 text-lg",
+        "2xl": "h-16 px-6 text-xl",
+        "3xl": "h-20 px-8 text-2xl",
+        "4xl": "h-24 px-10 text-3xl",
       },
       focused: {
         true: "",
@@ -82,9 +87,14 @@ const inputVariants = cva(
   {
     variants: {
       size: {
+        xs: "text-xs",
         sm: "text-sm",
         md: "text-sm",
         lg: "text-base",
+        xl: "text-lg",
+        "2xl": "text-xl",
+        "3xl": "text-2xl",
+        "4xl": "text-3xl",
       },
       disabled: {
         true: "cursor-not-allowed",
@@ -137,9 +147,14 @@ const optionVariants = cva(
         error: "",
       },
       size: {
+        xs: "px-1.5 py-1 text-[10px]",
         sm: "px-2 py-1.5 text-xs",
         md: "px-3 py-2 text-sm",
         lg: "px-4 py-2.5 text-base",
+        xl: "px-5 py-3 text-lg",
+        "2xl": "px-6 py-3.5 text-xl",
+        "3xl": "px-8 py-4 text-2xl",
+        "4xl": "px-10 py-5 text-3xl",
       },
       highlighted: {
         true: "",
@@ -297,9 +312,14 @@ const optionVariants = cva(
 const labelVariants = cva("block mb-1.5 font-medium text-foreground", {
   variants: {
     size: {
+      xs: "text-[10px]",
       sm: "text-xs",
       md: "text-sm",
       lg: "text-base",
+      xl: "text-lg",
+      "2xl": "text-xl",
+      "3xl": "text-2xl",
+      "4xl": "text-3xl",
     },
     required: {
       true: "after:content-['*'] after:ml-1 after:text-danger",

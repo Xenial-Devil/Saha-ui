@@ -34,9 +34,14 @@ export const itemVariants = cva(
         info: "bg-blue-500/10 border border-blue-500/20 hover:bg-blue-500/15 hover:border-blue-500/30 rounded-xl",
       },
       size: {
+        xs: "gap-1.5 p-2",
         sm: "gap-2 p-2.5",
         md: "gap-3 p-3.5",
         lg: "gap-4 p-4.5",
+        xl: "gap-5 p-5.5",
+        "2xl": "gap-6 p-6.5",
+        "3xl": "gap-7 p-7.5",
+        "4xl": "gap-8 p-8.5",
       },
       clickable: {
         true: "cursor-pointer select-none",
@@ -123,9 +128,14 @@ export const itemMediaVariants = cva(
           "rounded-xl overflow-hidden bg-gradient-to-br from-muted/30 to-muted/10 border border-border/40",
       },
       size: {
+        xs: "",
         sm: "",
         md: "",
         lg: "",
+        xl: "",
+        "2xl": "",
+        "3xl": "",
+        "4xl": "",
       },
     },
     compoundVariants: [

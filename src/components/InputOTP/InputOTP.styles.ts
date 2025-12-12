@@ -76,10 +76,14 @@ export const otpSlotVariants = cva(
           "bg-background/30 backdrop-blur-sm border-2 border-white/20 dark:border-white/10 hover:border-white/30 dark:hover:border-white/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20",
       },
       size: {
+        xs: "w-7 h-7 text-xs rounded-md",
         sm: "w-9 h-9 text-sm rounded-lg",
         md: "w-12 h-12 text-lg rounded-xl",
         lg: "w-14 h-14 text-xl rounded-xl",
         xl: "w-16 h-16 text-2xl rounded-2xl",
+        "2xl": "w-20 h-20 text-3xl rounded-2xl",
+        "3xl": "w-24 h-24 text-4xl rounded-3xl",
+        "4xl": "w-28 h-28 text-5xl rounded-3xl",
       },
       hasValue: {
         true: "",

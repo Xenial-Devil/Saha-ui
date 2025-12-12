@@ -10,9 +10,14 @@ export const segmentedVariants = cva(
         filled: "bg-primary/10",
       },
       size: {
+        xs: "p-0.5 text-xs",
         sm: "p-0.5 text-sm",
         md: "p-1 text-base",
         lg: "p-1.5 text-lg",
+        xl: "p-2 text-xl",
+        "2xl": "p-2.5 text-2xl",
+        "3xl": "p-3 text-3xl",
+        "4xl": "p-4 text-4xl",
       },
       block: {
         true: "w-full",
@@ -42,9 +47,14 @@ export const segmentedOptionVariants = cva(
         filled: "",
       },
       size: {
+        xs: "px-2 py-0.5 text-xs rounded-sm",
         sm: "px-3 py-1 text-sm rounded-md",
         md: "px-4 py-1.5 text-base rounded-md",
         lg: "px-6 py-2 text-lg rounded-lg",
+        xl: "px-8 py-2.5 text-xl rounded-lg",
+        "2xl": "px-10 py-3 text-2xl rounded-xl",
+        "3xl": "px-12 py-4 text-3xl rounded-xl",
+        "4xl": "px-16 py-5 text-4xl rounded-2xl",
       },
       active: {
         true: "",
@@ -96,9 +106,14 @@ export const segmentedIndicatorVariants = cva(
         filled: "bg-primary/20",
       },
       size: {
+        xs: "rounded-sm",
         sm: "rounded-md",
         md: "rounded-md",
         lg: "rounded-lg",
+        xl: "rounded-lg",
+        "2xl": "rounded-xl",
+        "3xl": "rounded-xl",
+        "4xl": "rounded-2xl",
       },
       animated: {
         true: "",
