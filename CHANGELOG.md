@@ -1,3 +1,10 @@
+## [1.22.7](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.6...v1.22.7) (2025-12-13)
+
+
+### Bug Fixes
+
+* **drag-drop:** render debug overlay into body portal ([5ce8b85](https://github.com/Xenial-Devil/Saha-ui/commit/5ce8b85b02fba8289f58ef4c034f4453da06ca2a))
+
 ## [1.22.6](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.5...v1.22.6) (2025-12-13)
 
 
