@@ -1,3 +1,10 @@
+## [1.22.6](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.5...v1.22.6) (2025-12-13)
+
+
+### Bug Fixes
+
+* **debug-overlay:** track pointer for accurate drag path visuals ([a7fd0be](https://github.com/Xenial-Devil/Saha-ui/commit/a7fd0be9a1987a57a55c222aecd1a240532c295a))
+
 ## [1.22.5](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.4...v1.22.5) (2025-12-13)
 
 
