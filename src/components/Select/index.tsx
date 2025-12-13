@@ -48,6 +48,7 @@ const SelectComposable = forwardRef<
     className?: string;
     multiple?: boolean;
     closeOnSelect?: boolean;
+    clearable?: boolean;
     name?: string;
   }
 >(
@@ -66,6 +67,7 @@ const SelectComposable = forwardRef<
       className,
       multiple = false,
       closeOnSelect = true,
+      clearable = false,
       name,
     },
     ref
@@ -126,6 +128,25 @@ const SelectComposable = forwardRef<
           {name && !multiple && value && (
             <input type="hidden" name={name} value={String(value)} />
           )}
+          {/* Clear button for composable pattern (positioned over trigger) */}
+          {clearable &&
+            !disabled &&
+            (multiple
+              ? Array.isArray(value) && value.length > 0
+              : Boolean(value)) && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const newValue = multiple ? [] : "";
+                  handleValueChange(newValue as any);
+                }}
+                className="absolute right-10 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-foreground/10 transition-colors"
+                aria-label="Clear selection"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
         </div>
       </SelectContext.Provider>
     );

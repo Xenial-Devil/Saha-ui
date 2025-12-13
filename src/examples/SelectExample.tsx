@@ -303,7 +303,7 @@ export const SelectExample = () => {
               value={selectedFruitMulti}
               onValueChange={setSelectedFruitMulti}
               multiple
-            
+            clearable
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select fruits" />
