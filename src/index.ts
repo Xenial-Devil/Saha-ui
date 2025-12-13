@@ -541,6 +541,7 @@ export {
   SelectionBadge,
   DebugOverlay,
 } from "./components/DragDrop";
+
 export {
   draggableItemVariants,
   droppableContainerVariants,
@@ -1107,9 +1108,33 @@ export type {
   DraggableItemProps,
   DragHandleProps,
   DragOverlayProps,
-  DropEvent,
+  DraggableItem as DraggableItemType,
+  DragPosition,
+  DragAxis,
+  DragSensor,
+  DropEffect,
   DragStartEvent,
+  DragMoveEvent,
+  DragOverEvent,
+  DropEvent,
+  DragCancelEvent,
   SelectionState,
+  HistoryState,
+  UndoRedoConfig,
+  MultiDragConfig,
+  VirtualizationConfig,
+  VirtualItem,
+  DragLock,
+  CollaborationConfig,
+  AutoScrollConfig,
+  NestedDragConstraints,
+  SnapToGridConfig,
+  BoundingConstraints,
+  CollisionDetectionConfig,
+  DragAnalytics,
+  DebugConfig,
+  DragDropPlugin,
+  TreeItem as DragDropTreeItem,
 } from "./components/DragDrop";
 
 export type {

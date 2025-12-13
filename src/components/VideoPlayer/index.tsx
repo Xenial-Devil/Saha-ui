@@ -14,6 +14,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   poster,
   thumbnail,
   captions,
+  crossOrigin,
   className,
   autoplay = false,
   loop = false,
@@ -24,6 +25,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   variant = "default",
   size = "md",
   title = "",
+  loadStrategy = "native",
   ...props
 }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -37,8 +39,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const [playbackRate, setPlaybackRate] = useState(1);
   const [showControls, setShowControls] = useState(true);
   const [activeSourceIndex, setActiveSourceIndex] = useState(0);
+  const [isBuffering, setIsBuffering] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [generatedPoster, setGeneratedPoster] = useState<string | null>(null);
+  const [pipSupported, setPipSupported] = useState(false);
+  const objectUrlRef = useRef<string | null>(null);
 
   const [sleepTimerMinutes, setSleepTimerMinutes] = useState(0);
   const sleepTimeoutRef = useRef<number | null>(null);
@@ -49,22 +54,22 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
   // Keep track of fullscreen state
   useEffect(() => {
-    const onFs = () => {
-      if (typeof document === "undefined") return;
-      setIsFullscreen(Boolean(document.fullscreenElement));
-    };
-    document.addEventListener("fullscreenchange", onFs);
-    return () => document.removeEventListener("fullscreenchange", onFs);
-  }, []);
-
-  // Attach video events
-  useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
 
-    const onLoaded = () => {
-      setDuration(v.duration || 0);
+    // Detect Picture-in-Picture support after mount
+    try {
+      const supported = Boolean(
+        typeof document !== "undefined" &&
+          (document as any).pictureInPictureEnabled &&
+          typeof (v as any).requestPictureInPicture === "function"
+      );
+      setPipSupported(supported);
+    } catch {
+      setPipSupported(false);
+    }
 
+    const onLoaded = () => {
       // Generate poster if none provided
       if (!effectivePoster && !generatedPoster) {
         try {
@@ -83,7 +88,14 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           // ignore cross-origin errors
         }
       }
+
+      setDuration(v.duration || 0);
     };
+
+    const onWaiting = () => setIsBuffering(true);
+    const onPlaying = () => setIsBuffering(false);
+    const onCanPlay = () => setIsBuffering(false);
+    const onStalled = () => setIsBuffering(true);
 
     const onTime = () => setCurrentTime(v.currentTime || 0);
 
@@ -107,6 +119,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     v.addEventListener("play", handlePlay);
     v.addEventListener("pause", handlePause);
     v.addEventListener("volumechange", onVolume);
+    v.addEventListener("waiting", onWaiting);
+    v.addEventListener("playing", onPlaying);
+    v.addEventListener("canplay", onCanPlay);
+    v.addEventListener("stalled", onStalled);
 
     setVolume(v.volume ?? 1);
     setMutedState(Boolean(v.muted));
@@ -118,6 +134,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       v.removeEventListener("play", handlePlay);
       v.removeEventListener("pause", handlePause);
       v.removeEventListener("volumechange", onVolume);
+      v.removeEventListener("waiting", onWaiting);
+      v.removeEventListener("playing", onPlaying);
+      v.removeEventListener("canplay", onCanPlay);
+      v.removeEventListener("stalled", onStalled);
     };
   }, [
     activeSourceIndex,
@@ -126,6 +146,55 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     effectivePoster,
     generatedPoster,
   ]);
+
+  // If `loadStrategy` is `fetch`, programmatically fetch the selected source
+  // and attach a blob URL. This allows inspecting response headers and
+  // controlling the network request. Cleanup the created object URL when
+  // switching sources or unmounting.
+  useEffect(() => {
+    if (loadStrategy !== "fetch") return;
+    const v = videoRef.current;
+    if (!v) return;
+
+    let cancelled = false;
+    let createdObjectUrl: string | null = null;
+
+    const fetchAndAttach = async () => {
+      const src = sources[activeSourceIndex]?.src;
+      if (!src) return;
+      try {
+        const resp = await fetch(src, { mode: "cors" });
+        if (!resp.ok) throw new Error(`Failed to fetch video: ${resp.status}`);
+        const blob = await resp.blob();
+        if (cancelled) return;
+        createdObjectUrl = URL.createObjectURL(blob);
+        objectUrlRef.current = createdObjectUrl;
+        v.src = createdObjectUrl;
+        v.load();
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error("fetch+attach video failed:", err);
+      }
+    };
+
+    // Start fetch
+    fetchAndAttach();
+
+    return () => {
+      cancelled = true;
+      if (createdObjectUrl) {
+        try {
+          URL.revokeObjectURL(createdObjectUrl);
+        } catch {
+          return;
+        }
+        if (objectUrlRef.current === createdObjectUrl)
+          objectUrlRef.current = null;
+      }
+    };
+    // We intentionally include sources/activeSourceIndex as dependency to
+    // refetch when source changes.
+  }, [loadStrategy, activeSourceIndex, sources]);
 
   // Clear timers on unmount
   useEffect(() => {
@@ -216,25 +285,91 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
       if (document.fullscreenElement) {
         await document.exitFullscreen();
+        setIsFullscreen(false);
       } else if (containerRef.current) {
         await containerRef.current.requestFullscreen();
+        setIsFullscreen(true);
       }
     } catch {
       // ignore
     }
   };
 
+  // Keep `isFullscreen` state in sync with document fullscreen changes
+  useEffect(() => {
+    const onChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
+
   const togglePip = async () => {
     const v = videoRef.current as any;
     if (!v || typeof document === "undefined") return;
     try {
-      if ((document as any).pictureInPictureElement) {
-        await (document as any).exitPictureInPicture();
-      } else {
-        await v.requestPictureInPicture();
+      const doc: any = document;
+
+      // Basic readiness checks
+      const hasSrc = Boolean(v.currentSrc || v.src || v.srcObject);
+      if (!hasSrc) {
+        // Log helpful diagnostics for debugging
+        // eslint-disable-next-line no-console
+        console.warn("No video source available for Picture-in-Picture", {
+          currentSrc: v.currentSrc,
+          src: v.src,
+          srcObject: v.srcObject,
+        });
+        return;
       }
-    } catch {
-      // ignore
+
+      if ((v.readyState ?? 0) < 1) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          "Video not ready for Picture-in-Picture (readyState < HAVE_METADATA)",
+          { readyState: v.readyState }
+        );
+        return;
+      }
+
+      // Standard API
+      if (
+        doc.pictureInPictureEnabled &&
+        typeof v.requestPictureInPicture === "function"
+      ) {
+        if (doc.pictureInPictureElement) {
+          await doc.exitPictureInPicture();
+        } else {
+          await v.requestPictureInPicture();
+        }
+        return;
+      }
+
+      // Safari/WebKit fallback
+      const anyV: any = v;
+      if (
+        typeof anyV.webkitSupportsPresentationMode === "function" &&
+        typeof anyV.webkitSetPresentationMode === "function"
+      ) {
+        try {
+          const current = anyV.webkitPresentationMode;
+          if (current === "picture-in-picture") {
+            anyV.webkitSetPresentationMode("inline");
+          } else {
+            anyV.webkitSetPresentationMode("picture-in-picture");
+          }
+          return;
+        } catch (err) {
+          console.error("webkitSetPresentationMode failed:", err);
+          return;
+        }
+      }
+
+      console.warn("Picture-in-Picture is not supported in this environment");
+    } catch (err) {
+      // Log full error for debugging (CORS, format, user gesture restrictions, etc.)
+      // eslint-disable-next-line no-console
+      console.error("requestPictureInPicture failed:", err);
     }
   };
 
@@ -249,6 +384,81 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       2500
     );
   };
+
+  // Clear a possibly stuck global cursor (set by drag system) when the
+  // user interacts with the video player. Only clear common drag cursors
+  // to avoid stomping on intentional styles.
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const resetCursorIfStuck = () => {
+      try {
+        const bodyInline = document.body.style.cursor || "";
+        const htmlInline = document.documentElement.style.cursor || "";
+        const bodyComputed =
+          window.getComputedStyle(document.body).cursor || "";
+        const htmlComputed =
+          window.getComputedStyle(document.documentElement).cursor || "";
+        const cur =
+          bodyInline || htmlInline || bodyComputed || htmlComputed || "";
+        if (/^grab(?:bing)?$|^grabbing$|^move$/i.test(cur)) {
+          document.body.style.cursor = "";
+          document.documentElement.style.cursor = "";
+        }
+      } catch {
+        // ignore
+      }
+    };
+
+    container.addEventListener("pointerdown", resetCursorIfStuck);
+    container.addEventListener("mouseenter", resetCursorIfStuck);
+    container.addEventListener("click", resetCursorIfStuck);
+
+    return () => {
+      container.removeEventListener("pointerdown", resetCursorIfStuck);
+      container.removeEventListener("mouseenter", resetCursorIfStuck);
+      container.removeEventListener("click", resetCursorIfStuck);
+    };
+  }, []);
+
+  // On mount, proactively clear a stuck global drag cursor if present and
+  // force the player container to use the default cursor while mounted.
+  useEffect(() => {
+    try {
+      const bodyInline = document.body.style.cursor || "";
+      const htmlInline = document.documentElement.style.cursor || "";
+      const bodyComputed = window.getComputedStyle(document.body).cursor || "";
+      const htmlComputed =
+        window.getComputedStyle(document.documentElement).cursor || "";
+      const isStuck = /^grab(?:bing)?$|^grabbing$|^move$/i.test(
+        bodyInline || htmlInline || bodyComputed || htmlComputed || ""
+      );
+      if (isStuck) {
+        // Clear inline style to reset cursor globally
+        document.body.style.cursor = "";
+        document.documentElement.style.cursor = "";
+      }
+    } catch {
+      // ignore
+    }
+
+    const container = containerRef.current;
+    if (!container) return;
+    const prevCursor = container.style.cursor;
+    // Force the player area to use the default cursor regardless of the body
+    // so it doesn't show a stuck 'grabbing' cursor when the player loads.
+    container.style.cursor = "auto";
+
+    return () => {
+      // restore previous inline cursor if any
+      try {
+        container.style.cursor = prevCursor || "";
+      } catch {
+        return;
+      }
+    };
+  }, []);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -412,6 +622,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
             videoElementVariants(),
             "relative z-0 h-full w-full object-cover cursor-pointer"
           )}
+          crossOrigin={crossOrigin || undefined}
           poster={effectivePoster || generatedPoster || undefined}
           preload="metadata"
           loop={loop}
@@ -420,7 +631,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           autoPlay={autoplay}
           controls={controls || false}
           controlsList="nodownload noplaybackrate noremoteplayback"
-          disablePictureInPicture
           onContextMenu={(e) => e.preventDefault()}
           onClick={togglePlay}
           onDoubleClick={toggleFullscreen}
@@ -431,6 +641,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           {captions?.map((t, i) => (
             <track
               key={t.src + i}
+              kind={t.kind || "captions"}
               src={t.src}
               srcLang={t.srclang}
               label={t.label}
@@ -440,6 +651,34 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           Your browser does not support the video element.
         </video>
       </div>
+
+      {/* Buffering spinner overlay */}
+      {isBuffering && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
+          <div className="flex items-center justify-center w-14 h-14 rounded-full bg-black/60">
+            <svg
+              className="w-8 h-8 animate-spin text-white"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+                strokeOpacity="0.25"
+              />
+              <path
+                d="M22 12a10 10 0 00-10-10"
+                stroke="currentColor"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+        </div>
+      )}
 
       {/* Center Play Overlay */}
       {!playing && (
@@ -504,6 +743,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
             fullscreen={isFullscreen}
             onToggleFullscreen={toggleFullscreen}
             onTogglePip={togglePip}
+            pipSupported={pipSupported}
             playbackRate={playbackRate}
             onPlaybackRateChange={changePlaybackRate}
             qualities={qualityLabels}

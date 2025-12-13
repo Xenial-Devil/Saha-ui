@@ -5,6 +5,7 @@ import { SelectExample } from "./SelectExample";
 
 // DragDrop Components
 import DragDropAllExamples from "./DragDropAllExamples";
+import VideoPlayerExample from "./VideoPlayerExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -21,6 +22,12 @@ export const AllComponentExamples = () => {
           Drag & Drop Component
         </h2>
         <DragDropAllExamples />
+      </div>
+
+      {/* Video Player Component */}
+      <div className="mb-16">
+        <h2 className="text-3xl font-bold mb-6 text-text">Video Player</h2>
+        <VideoPlayerExample />
       </div>
     </div>
   );

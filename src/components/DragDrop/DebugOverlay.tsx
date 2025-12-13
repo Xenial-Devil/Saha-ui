@@ -290,26 +290,94 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({
           className="fixed inset-0 pointer-events-none z-[9998]"
           style={{ width: "100vw", height: "100vh" }}
         >
+          <defs>
+            <linearGradient id="dragPathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#6366f1" stopOpacity="0.6" />
+              <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#6366f1" stopOpacity="1" />
+            </linearGradient>
+            <radialGradient id="dotGrad" cx="30%" cy="30%" r="70%">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
+              <stop offset="30%" stopColor="#6366f1" stopOpacity="1" />
+              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.6" />
+            </radialGradient>
+          </defs>
+
           <polyline
             points={dragPath.map((p) => `${p.x},${p.y}`).join(" ")}
             fill="none"
-            stroke="hsl(var(--primary))"
-            strokeWidth="2"
-            strokeOpacity="0.5"
+            stroke="url(#dragPathGrad)"
+            strokeWidth={2}
+            strokeOpacity={0.95}
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-          {dragPath.map((point, i) => (
-            <circle
-              key={i}
-              cx={point.x}
-              cy={point.y}
-              r={2}
-              fill="hsl(var(--primary))"
-              fillOpacity={0.3 + (i / dragPath.length) * 0.7}
-            />
-          ))}
+
+          {dragPath.map((point, i) => {
+            const alpha = 0.18 + (i / dragPath.length) * 0.82;
+            return (
+              <circle
+                key={i}
+                cx={point.x}
+                cy={point.y}
+                r={2.25}
+                fill="url(#dotGrad)"
+                fillOpacity={alpha}
+              />
+            );
+          })}
         </svg>
+      )}
+
+      {/* Cursor marker that follows the pointer to help visual alignment */}
+      {showDragPath && isDragging && dragPosition && (
+        <>
+          <style>{`@keyframes sahaPulse { 0% { transform: scale(1); opacity: 0.95 } 50% { transform: scale(1.12); opacity: 0.75 } 100% { transform: scale(1); opacity: 0.95 } }`}</style>
+          <div
+            aria-hidden
+            style={{
+              position: "fixed",
+              left: dragPosition.x,
+              top: dragPosition.y,
+              transform: "translate(-50%, -50%)",
+              pointerEvents: "none",
+              zIndex: 10000,
+              width: 40,
+              height: 40,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 9999,
+                background:
+                  "radial-gradient(circle at 35% 30%, rgba(139,92,246,0.20), rgba(99,102,241,0.06))",
+                border: "1px solid rgba(99,102,241,0.18)",
+                boxShadow: "0 8px 22px rgba(15,23,42,0.14)",
+                animation: "sahaPulse 1.6s ease-in-out infinite",
+                transformOrigin: "center",
+              }}
+            />
+
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 10,
+                height: 10,
+                borderRadius: 9999,
+                background: "linear-gradient(135deg,#8b5cf6,#6366f1)",
+                boxShadow: "0 6px 18px rgba(139,92,246,0.24)",
+              }}
+            />
+          </div>
+        </>
       )}
     </>
   );

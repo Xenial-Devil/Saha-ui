@@ -219,7 +219,7 @@ export const AdvancedExample: React.FC = () => {
             enabled={debugMode}
             showPerformanceMetrics={true}
             showDragPath={true}
-            showCollisionRects={false}
+            showCollisionRects={true}
             position="bottom-right"
           />
         )}

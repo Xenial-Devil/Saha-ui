@@ -179,23 +179,36 @@ export const SelectionManager: React.FC<SelectionManagerProps> = ({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [enabled, selectItem, clearSelection]);
 
+  // Compute selection box style relative to the container to avoid
+  // viewport/ancestor-transform issues (sidebar or shifted layouts).
+  const selectionStyle = React.useMemo(() => {
+    if (!selectionBox || !containerRef.current) return undefined;
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const left =
+      selectionBox.left - containerRect.left + containerRef.current.scrollLeft;
+    const top =
+      selectionBox.top - containerRect.top + containerRef.current.scrollTop;
+    return {
+      left,
+      top,
+      width: selectionBox.width,
+      height: selectionBox.height,
+      position: "absolute" as const,
+    };
+  }, [selectionBox]);
+
   return (
     <div ref={containerRef} className={cn("relative", className)}>
       {children}
 
-      {/* Selection Box */}
-      {selectionBox && (
+      {/* Selection Box (positioned relative to the container to avoid shifts) */}
+      {selectionBox && selectionStyle && (
         <div
           className={cn(
-            "fixed pointer-events-none border-2 border-primary bg-primary/10 z-50",
+            "pointer-events-none border-2 border-primary bg-primary/10 z-50",
             selectionClassName
           )}
-          style={{
-            left: selectionBox.left,
-            top: selectionBox.top,
-            width: selectionBox.width,
-            height: selectionBox.height,
-          }}
+          style={selectionStyle}
         />
       )}
 

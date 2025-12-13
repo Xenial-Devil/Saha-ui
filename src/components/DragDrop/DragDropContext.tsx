@@ -96,6 +96,7 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
   // Refs
   const draggables = useRef<Map<string, HTMLElement>>(new Map());
   const droppables = useRef<Map<string, HTMLElement>>(new Map());
+  const pointerUpListenerRef = useRef<((ev: Event) => void) | null>(null);
   const initialPosition = useRef<DragPosition | null>(null);
   const currentSensor = useRef<DragSensor | null>(null);
   const autoScrollInterval = useRef<number | null>(null);
@@ -242,8 +243,21 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
         getDefaultAnnouncement("start", event);
       announce(message, "assertive");
 
-      // Add global cursor
-      document.body.style.cursor = "grabbing";
+      // Add global cursor (set on both <body> and <html> to be robust)
+      try {
+        document.body.style.cursor = "grabbing";
+        document.documentElement.style.cursor = "grabbing";
+      } catch {return;}
+
+      // Safety: attach a pointerup listener to clear the cursor if a
+      // drop/cancel path is missed for any reason.
+      const resetCursor = () => {
+        try {
+          document.body.style.cursor = "";
+        } catch {return;}
+      };
+      pointerUpListenerRef.current = resetCursor;
+      window.addEventListener("pointerup", resetCursor, { once: true });
 
       // Debug
       if (debug) {
@@ -386,8 +400,22 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
       dragStartTime.current = 0;
       dragStartPosition.current = null;
 
-      // Reset cursor
-      document.body.style.cursor = "";
+      // Reset cursor on both <body> and <html>
+      try {
+        document.body.style.cursor = "";
+        document.documentElement.style.cursor = "";
+      } catch {return;}
+
+      // Remove safety pointerup listener if present
+      if (pointerUpListenerRef.current) {
+        try {
+          window.removeEventListener(
+            "pointerup",
+            pointerUpListenerRef.current as any
+          );
+        } catch {return;}
+        pointerUpListenerRef.current = null;
+      }
 
       // Debug
       if (debug) {
@@ -421,8 +449,11 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
       initialPosition.current = null;
       currentSensor.current = null;
 
-      // Reset cursor
-      document.body.style.cursor = "";
+      // Reset cursor on both <body> and <html>
+      try {
+        document.body.style.cursor = "";
+        document.documentElement.style.cursor = "";
+      } catch {return;}
     },
     [announcements]
   );
@@ -469,7 +500,10 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
       if (autoScrollInterval.current) {
         clearInterval(autoScrollInterval.current);
       }
-      document.body.style.cursor = "";
+      try {
+        document.body.style.cursor = "";
+        document.documentElement.style.cursor = "";
+      } catch {return;}
     };
   }, []);
 

@@ -137,6 +137,45 @@ function App() {
 </Select>
 ```
 
+### Component-Based Multi-Select (Composable)
+
+Use the composable pattern with `multiple` to build a multi-select where the
+dropdown stays open by default and items are toggled on click.
+
+```tsx
+import { useState } from "react";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  SelectGroup,
+  SelectLabel,
+} from "@saha-ui/core";
+
+function ComposableMultiSelect() {
+  const [selected, setSelected] = useState<string[]>([]);
+
+  return (
+    <Select value={selected} onValueChange={setSelected} multiple>
+      <SelectTrigger>
+        <SelectValue placeholder="Select fruits" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Fruits</SelectLabel>
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana">Banana</SelectItem>
+          <SelectItem value="orange">Orange</SelectItem>
+          <SelectItem value="grape">Grape</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
 ### With Groups and Labels
 
 ```tsx
@@ -264,6 +303,16 @@ function MultiSelectExample() {
   );
 }
 ```
+
+Note about dropdown behavior:
+
+- When `multiple` is enabled, the Select dropdown stays open after each
+  selection by default. The component automatically disables `closeOnSelect`
+  for multi-select use cases so users can pick several items without the menu
+  closing. If you need the dropdown to close after each selection in a
+  multi-select scenario, let me know and I can add an explicit override prop
+  to allow that pattern (it's intentionally disabled by default to match
+  common UX).
 
 ### With Groups
 
