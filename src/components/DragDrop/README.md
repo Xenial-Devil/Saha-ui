@@ -85,15 +85,6 @@ Wraps the drag-enabled subtree and manages global drag state.
 | `enableMultiDrag` | `boolean`                                           | `false`                       | Enable multi-item dragging        |
 | `debug`           | `boolean`                                           | `false`                       | Enable internal debug state       |
 
----
-
-| Prop            | Type         | Default                     | Description                       |
-| --------------- | ------------ | --------------------------- | --------------------------------- |
-| children        | ReactNode    | —                           | Drag-enabled subtree              |
-| sensors         | DragSensor[] | ['mouse','touch','pointer'] | Enabled input sensors             |
-| dragThreshold   | number       | 5                           | Minimum pixels before drag starts |
-| autoScroll      | boolean      | true                        | Enable auto-scroll near edges     |
-| enableMultiDrag | boolean      | false                       | Enable multi-item drag            |
 
 ---
 
@@ -120,16 +111,6 @@ Children are rendered via a function:
 (item, index) => ReactNode;
 ```
 
----
-
-| Prop      | Type                                   | Default    | Description                      |
-| --------- | -------------------------------------- | ---------- | -------------------------------- |
-| id        | string                                 | —          | Unique container id              |
-| items     | T[]                                    | —          | Items rendered by this container |
-| onDrop    | (event: DropEvent) => void             | —          | Drop handler                     |
-| direction | `'vertical' \| 'horizontal' \| 'grid'` | 'vertical' | Layout direction                 |
-| accepts   | string[]                               | —          | Allowed draggable item types     |
-| disabled  | boolean                                | false      | Disable dropping                 |
 
 Children are rendered via a function:
 
@@ -156,18 +137,6 @@ Wraps an item and makes it draggable.
 | `dragHandle`  | `boolean`   | `false` | Require `DragHandle` to start drag    |
 | `preview`     | `ReactNode` | —       | Custom drag preview                   |
 | `className`   | `string`    | —       | Wrapper styling                       |
-
----
-
-| Prop       | Type      | Default | Description                           |
-| ---------- | --------- | ------- | ------------------------------------- |
-| id         | string    | —       | Unique item id                        |
-| index      | number    | —       | Index within container                |
-| item       | any       | —       | Item payload                          |
-| type       | string    | —       | Optional type for `accepts` filtering |
-| disabled   | boolean   | false   | Disable dragging                      |
-| dragHandle | boolean   | false   | Require `DragHandle` to start drag    |
-| preview    | ReactNode | —       | Custom drag preview                   |
 
 ---
 
@@ -204,16 +173,6 @@ Adds multi-selection support (Ctrl/Cmd, Shift, box selection).
 
 ---
 
-| Prop                    | Type                       | Default | Description                   |
-| ----------------------- | -------------------------- | ------- | ----------------------------- |
-| items                   | any[]                      | —       | Items available for selection |
-| selectedIds             | string[]                   | —       | Controlled selected ids       |
-| onSelectionChange       | (ids: Set<string>) => void | —       | Selection callback            |
-| enableBoxSelection      | boolean                    | true    | Drag-to-select                |
-| enableKeyboardShortcuts | boolean                    | true    | Ctrl/Cmd + A, Esc             |
-
----
-
 ### TreeView
 
 Drag & drop tree with expandable nodes and depth constraints.
@@ -233,15 +192,6 @@ Drag & drop tree with expandable nodes and depth constraints.
 
 ---
 
-| Prop        | Type                        | Default | Description              |
-| ----------- | --------------------------- | ------- | ------------------------ |
-| items       | TreeItem[]                  | —       | Tree data                |
-| onReorder   | (items: TreeItem[]) => void | —       | Called with rebuilt tree |
-| constraints | NestedDragConstraints       | —       | Max depth, nesting rules |
-| indentSize  | number                      | 20      | Indentation per depth    |
-
----
-
 ### VirtualList
 
 Virtualized drag-enabled list for large datasets.
@@ -257,15 +207,6 @@ Virtualized drag-enabled list for large datasets.
 | `onReorder`       | `(items: T[]) => void`                | —       | Reorder callback     |
 | `overscan`        | `number`                              | `3`     | Extra items rendered |
 | `className`       | `string`                              | —       | Container styling    |
-
----
-
-| Prop              | Type                                  | Default | Description      |
-| ----------------- | ------------------------------------- | ------- | ---------------- |
-| `items`           | `T[]`                                 | —       | Items to render  |
-| `itemHeight`      | `number \| (index: number) => number` | —       | Item height      |
-| `containerHeight` | `number`                              | —       | Viewport height  |
-| `onReorder`       | `(items: T[]) => void`                | —       | Reorder callback |
 
 ---
 
