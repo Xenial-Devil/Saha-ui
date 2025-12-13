@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { Select } from "../components/Select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  SelectGroup,
+  SelectLabel,
+  SelectSeparator,
+} from "../components/Select";
 import type { SelectOption } from "../components/Select/Select.types";
 import {
   User,
@@ -23,6 +32,10 @@ export const SelectExample = () => {
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [selectedRole, setSelectedRole] = useState<string>("");
   const [selectedHobbies, setSelectedHobbies] = useState<string[]>([]);
+
+  // For component-based pattern
+  const [selectedFruit, setSelectedFruit] = useState<string>("");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("");
 
   // Sample options
   const countryOptions: SelectOption[] = [
@@ -192,9 +205,109 @@ export const SelectExample = () => {
         </h2>
         <p className="text-muted-foreground mb-8">
           Advanced select dropdown with search, multi-select, icons, avatars,
-          and more.
+          and more. Supports both props-based and component-based patterns.
         </p>
       </div>
+
+      {/* Component-Based Pattern Examples */}
+      <section className="space-y-6">
+        <div>
+          <h3 className="text-2xl font-semibold mb-4 text-foreground">
+            Component-Based Pattern (Composable)
+          </h3>
+          <p className="text-muted-foreground mb-6">
+            Use Select, SelectTrigger, SelectContent, and SelectItem for full
+            control
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Simple Fruit Select */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">
+              Select a Fruit
+            </label>
+            <Select value={selectedFruit} onValueChange={setSelectedFruit}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a fruit" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Fruits</SelectLabel>
+                  <SelectItem value="apple">Apple</SelectItem>
+                  <SelectItem value="banana">Banana</SelectItem>
+                  <SelectItem value="blueberry">Blueberry</SelectItem>
+                  <SelectItem value="grapes">Grapes</SelectItem>
+                  <SelectItem value="pineapple">Pineapple</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {selectedFruit && (
+              <p className="text-sm text-muted-foreground">
+                Selected: {selectedFruit}
+              </p>
+            )}
+          </div>
+
+          {/* Programming Languages with Groups */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">
+              Programming Language
+            </label>
+            <Select
+              value={selectedLanguage}
+              onValueChange={setSelectedLanguage}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a language" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Frontend</SelectLabel>
+                  <SelectItem value="javascript">JavaScript</SelectItem>
+                  <SelectItem value="typescript">TypeScript</SelectItem>
+                  <SelectItem value="html">HTML</SelectItem>
+                  <SelectItem value="css">CSS</SelectItem>
+                </SelectGroup>
+                <SelectSeparator />
+                <SelectGroup>
+                  <SelectLabel>Backend</SelectLabel>
+                  <SelectItem value="python">Python</SelectItem>
+                  <SelectItem value="java">Java</SelectItem>
+                  <SelectItem value="go">Go</SelectItem>
+                  <SelectItem value="rust">Rust</SelectItem>
+                </SelectGroup>
+                <SelectSeparator />
+                <SelectGroup>
+                  <SelectLabel>Mobile</SelectLabel>
+                  <SelectItem value="swift">Swift</SelectItem>
+                  <SelectItem value="kotlin">Kotlin</SelectItem>
+                  <SelectItem value="dart">Dart</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {selectedLanguage && (
+              <p className="text-sm text-muted-foreground">
+                Selected: {selectedLanguage}
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <hr className="border-border" />
+
+      {/* Props-Based Pattern Examples */}
+      <section className="space-y-6">
+        <div>
+          <h3 className="text-2xl font-semibold mb-4 text-foreground">
+            Props-Based Pattern (Options Array)
+          </h3>
+          <p className="text-muted-foreground mb-6">
+            Use the options prop for quick implementation with advanced features
+          </p>
+        </div>
+      </section>
 
       {/* Basic Select */}
       <section className="space-y-4">

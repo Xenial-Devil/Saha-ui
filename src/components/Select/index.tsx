@@ -11,12 +11,108 @@ import {
   selectMenuVariants,
   selectOptionVariants,
 } from "./Select.styles";
+import React, { createContext, useContext } from "react";
+
+// ============================================
+// Context for Composable Pattern
+// ============================================
+
+interface SelectContextValue {
+  value?: string;
+  onValueChange?: (value: string) => void;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  disabled?: boolean;
+  variant?: SelectProps["variant"];
+  size?: SelectProps["size"];
+}
+
+const SelectContext = createContext<SelectContextValue>({});
+
+// Composable Select implementation
+const SelectComposable = ({
+  value: controlledValue,
+  defaultValue,
+  onValueChange,
+  open: controlledOpen,
+  defaultOpen,
+  onOpenChange,
+  disabled = false,
+  variant = "default",
+  size = "md",
+  children,
+  className,
+}: {
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  disabled?: boolean;
+  variant?: SelectProps["variant"];
+  size?: SelectProps["size"];
+  children?: React.ReactNode;
+  className?: string;
+}) => {
+  const [uncontrolledValue, setUncontrolledValue] = useState(
+    defaultValue || ""
+  );
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(
+    defaultOpen || false
+  );
+
+  const value =
+    controlledValue !== undefined ? controlledValue : uncontrolledValue;
+  const open = controlledOpen !== undefined ? controlledOpen : uncontrolledOpen;
+
+  const handleValueChange = (newValue: string) => {
+    if (controlledValue === undefined) {
+      setUncontrolledValue(newValue);
+    }
+    onValueChange?.(newValue);
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (controlledOpen === undefined) {
+      setUncontrolledOpen(newOpen);
+    }
+    onOpenChange?.(newOpen);
+  };
+
+  return (
+    <SelectContext.Provider
+      value={{
+        value,
+        onValueChange: handleValueChange,
+        open,
+        onOpenChange: handleOpenChange,
+        disabled,
+        variant,
+        size,
+      }}
+    >
+      <div className={cn("relative", className)}>{children}</div>
+    </SelectContext.Provider>
+  );
+};
+
+// ============================================
+// Main Select Component
+// ============================================
+
 /**
- * Select Component
+ * Select Component - Works with both props-based and component-based patterns
  */
-export const Select = forwardRef<HTMLDivElement, SelectProps>(
-  (
-    {
+export const Select = forwardRef<HTMLDivElement, SelectProps | any>(
+  (props, ref) => {
+    // If no options prop, this is component-based pattern (composable mode)
+    if (!props.options && props.children) {
+      return <SelectComposable {...props} />;
+    }
+
+    // Otherwise, use props-based pattern
+    const {
       label,
       description,
       placeholder = "Select an option...",
@@ -51,9 +147,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(
       className,
       menuClassName,
       optionClassName,
-    },
-    ref
-  ) => {
+    } = props;
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [uncontrolledValue, setUncontrolledValue] = useState<
@@ -84,7 +178,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(
     // Filter options based on search query
     const filteredOptions = searchQuery
       ? options.filter(
-          (option) =>
+          (option: SelectOption) =>
             option.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
             option.description
               ?.toLowerCase()
@@ -93,12 +187,15 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(
       : options;
 
     // Group options if they have group property
-    const groupedOptions = filteredOptions.reduce((acc, option) => {
-      const group = option.group || "default";
-      if (!acc[group]) acc[group] = [];
-      acc[group].push(option);
-      return acc;
-    }, {} as Record<string, SelectOption[]>);
+    const groupedOptions = filteredOptions.reduce(
+      (acc: Record<string, SelectOption[]>, option: SelectOption) => {
+        const group = option.group || "default";
+        if (!acc[group]) acc[group] = [];
+        acc[group].push(option);
+        return acc;
+      },
+      {} as Record<string, SelectOption[]>
+    );
 
     const handleSelect = useCallback(
       (optionValue: string) => {
@@ -174,7 +271,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(
       }
 
       if (multiple && Array.isArray(value) && value.length > 0) {
-        const selectedOptions = options.filter((opt) =>
+        const selectedOptions = options.filter((opt: SelectOption) =>
           value.includes(opt.value)
         );
         if (selectedOptions.length === 1) {
@@ -184,7 +281,9 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(
       }
 
       if (!multiple && value) {
-        const selectedOption = options.find((opt) => opt.value === value);
+        const selectedOption = options.find(
+          (opt: SelectOption) => opt.value === value
+        );
         return selectedOption?.label || value;
       }
 
@@ -317,40 +416,19 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(
                     )}
                   </div>
                 ) : (
-                  Object.entries(groupedOptions).map(
-                    ([group, groupOptions]) => (
-                      <div key={group}>
-                        {group !== "default" && (
-                          <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider bg-foreground/5">
-                            {group}
-                          </div>
-                        )}
-                        {groupOptions.map((option) => {
-                          const selected = isSelected(option.value);
+                  (
+                    Object.entries(groupedOptions) as [string, SelectOption[]][]
+                  ).map(([group, groupOptions]) => (
+                    <div key={group}>
+                      {group !== "default" && (
+                        <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider bg-foreground/5">
+                          {group}
+                        </div>
+                      )}
+                      {groupOptions.map((option: SelectOption) => {
+                        const selected = isSelected(option.value);
 
-                          if (renderOption) {
-                            return (
-                              <div
-                                key={option.value}
-                                onClick={() =>
-                                  !option.disabled && handleSelect(option.value)
-                                }
-                                className={cn(
-                                  selectOptionVariants({
-                                    variant,
-                                    disabled: option.disabled,
-                                  }),
-                                  optionClassName
-                                )}
-                                data-selected={selected}
-                                role="option"
-                                aria-selected={selected}
-                              >
-                                {renderOption(option)}
-                              </div>
-                            );
-                          }
-
+                        if (renderOption) {
                           return (
                             <div
                               key={option.value}
@@ -368,49 +446,70 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(
                               role="option"
                               aria-selected={selected}
                             >
-                              {/* Checkmark */}
-                              {showCheckmarks && (
-                                <span
-                                  className={cn(
-                                    "shrink-0 w-5 h-5 flex items-center justify-center",
-                                    selected ? "opacity-100" : "opacity-0"
-                                  )}
-                                >
-                                  <Check className="w-4 h-4" />
-                                </span>
-                              )}
-
-                              {/* Avatar */}
-                              {option.avatar && (
-                                <img
-                                  src={option.avatar}
-                                  alt=""
-                                  className="w-8 h-8 rounded-full object-cover shrink-0"
-                                />
-                              )}
-
-                              {/* Icon */}
-                              {option.icon && (
-                                <span className="shrink-0">{option.icon}</span>
-                              )}
-
-                              {/* Label and Description */}
-                              <div className="flex-1 min-w-0">
-                                <div className="font-medium truncate">
-                                  {option.label}
-                                </div>
-                                {option.description && (
-                                  <div className="text-sm text-muted-foreground truncate">
-                                    {option.description}
-                                  </div>
-                                )}
-                              </div>
+                              {renderOption(option)}
                             </div>
                           );
-                        })}
-                      </div>
-                    )
-                  )
+                        }
+
+                        return (
+                          <div
+                            key={option.value}
+                            onClick={() =>
+                              !option.disabled && handleSelect(option.value)
+                            }
+                            className={cn(
+                              selectOptionVariants({
+                                variant,
+                                disabled: option.disabled,
+                              }),
+                              optionClassName
+                            )}
+                            data-selected={selected}
+                            role="option"
+                            aria-selected={selected}
+                          >
+                            {/* Checkmark */}
+                            {showCheckmarks && (
+                              <span
+                                className={cn(
+                                  "shrink-0 w-5 h-5 flex items-center justify-center",
+                                  selected ? "opacity-100" : "opacity-0"
+                                )}
+                              >
+                                <Check className="w-4 h-4" />
+                              </span>
+                            )}
+
+                            {/* Avatar */}
+                            {option.avatar && (
+                              <img
+                                src={option.avatar}
+                                alt=""
+                                className="w-8 h-8 rounded-full object-cover shrink-0"
+                              />
+                            )}
+
+                            {/* Icon */}
+                            {option.icon && (
+                              <span className="shrink-0">{option.icon}</span>
+                            )}
+
+                            {/* Label and Description */}
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium truncate">
+                                {option.label}
+                              </div>
+                              {option.description && (
+                                <div className="text-sm text-muted-foreground truncate">
+                                  {option.description}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ))
                 )}
               </div>
             </div>
@@ -440,4 +539,195 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(
 
 Select.displayName = "Select";
 
+// ============================================
+// Composable Sub-components
+// ============================================
+
+interface SelectTriggerProps extends React.HTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps>(
+  ({ children, className, ...props }, ref) => {
+    const context = useContext(SelectContext);
+
+    return (
+      <button
+        ref={ref}
+        type="button"
+        onClick={() =>
+          !context.disabled && context.onOpenChange?.(!context.open)
+        }
+        disabled={context.disabled}
+        className={cn(
+          selectTriggerVariants({
+            variant: context.variant,
+            size: context.size,
+            fullWidth: true,
+          }),
+          "justify-between",
+          className
+        )}
+        aria-haspopup="listbox"
+        aria-expanded={context.open}
+        {...props}
+      >
+        {children}
+        <ChevronDown
+          className={cn(
+            "h-4 w-4 opacity-50 transition-transform duration-200",
+            context.open && "rotate-180"
+          )}
+        />
+      </button>
+    );
+  }
+);
+SelectTrigger.displayName = "SelectTrigger";
+
+interface SelectValueProps {
+  placeholder?: string;
+  className?: string;
+}
+
+export const SelectValue = ({ placeholder, className }: SelectValueProps) => {
+  const context = useContext(SelectContext);
+  const hasValue = Boolean(context.value);
+
+  return (
+    <span
+      className={cn(
+        "block truncate text-left",
+        !hasValue && "text-muted-foreground",
+        className
+      )}
+    >
+      {hasValue ? context.value : placeholder}
+    </span>
+  );
+};
+SelectValue.displayName = "SelectValue";
+
+interface SelectContentProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const SelectContent = ({ children, className }: SelectContentProps) => {
+  const context = useContext(SelectContext);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useClickOutside(containerRef, () => {
+    if (context.open) {
+      context.onOpenChange?.(false);
+    }
+  });
+
+  if (!context.open) return null;
+
+  return (
+    <div
+      ref={containerRef}
+      className={cn(
+        selectMenuVariants({ variant: context.variant }),
+        className
+      )}
+      role="listbox"
+    >
+      <div className="overflow-y-auto max-h-[300px]">{children}</div>
+    </div>
+  );
+};
+SelectContent.displayName = "SelectContent";
+
+interface SelectItemProps {
+  value: string;
+  children: React.ReactNode;
+  disabled?: boolean;
+  className?: string;
+}
+
+export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
+  ({ value, children, disabled, className }, ref) => {
+    const context = useContext(SelectContext);
+    const isSelected = context.value === value;
+
+    const handleClick = () => {
+      if (!disabled && !context.disabled) {
+        context.onValueChange?.(value);
+        context.onOpenChange?.(false);
+      }
+    };
+
+    return (
+      <div
+        ref={ref}
+        onClick={handleClick}
+        className={cn(
+          selectOptionVariants({
+            variant: context.variant,
+            disabled: disabled || context.disabled,
+          }),
+          "flex items-center gap-2 cursor-pointer",
+          className
+        )}
+        data-selected={isSelected}
+        role="option"
+        aria-selected={isSelected}
+      >
+        <span
+          className={cn(
+            "shrink-0 w-5 h-5 flex items-center justify-center",
+            isSelected ? "opacity-100" : "opacity-0"
+          )}
+        >
+          <Check className="w-4 h-4" />
+        </span>
+        <span className="flex-1">{children}</span>
+      </div>
+    );
+  }
+);
+SelectItem.displayName = "SelectItem";
+
+interface SelectGroupProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const SelectGroup = ({ children, className }: SelectGroupProps) => {
+  return <div className={cn("py-1", className)}>{children}</div>;
+};
+SelectGroup.displayName = "SelectGroup";
+
+interface SelectLabelProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const SelectLabel = ({ children, className }: SelectLabelProps) => {
+  return (
+    <div
+      className={cn(
+        "px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider",
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+};
+SelectLabel.displayName = "SelectLabel";
+
+interface SelectSeparatorProps {
+  className?: string;
+}
+
+export const SelectSeparator = ({ className }: SelectSeparatorProps) => {
+  return <div className={cn("h-px bg-border my-1", className)} />;
+};
+SelectSeparator.displayName = "SelectSeparator";
+
+// Default export for props-based pattern
 export default Select;

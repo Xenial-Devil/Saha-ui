@@ -15,6 +15,7 @@ A fully accessible select dropdown component with beautiful animations and searc
 - 🌗 **Dark Mode** - Automatic dark mode support
 - 🎭 **Placeholder** - Customizable placeholder text
 - 🔄 **Async Loading** - Support for loading states
+- 🧩 **Two Usage Patterns** - Props-based (options array) or Component-based (composable)
 
 ## Installation
 
@@ -22,13 +23,67 @@ A fully accessible select dropdown component with beautiful animations and searc
 npm install @saha-ui/core
 ```
 
-## Basic Usage
+## Usage Patterns
+
+The Select component supports two usage patterns to suit different needs:
+
+### 1. Component-Based Pattern (Composable)
+
+Build your select with composable components for maximum flexibility and control:
 
 ```tsx
-import { Select } from '@saha-ui/core';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  SelectGroup,
+  SelectLabel,
+  SelectSeparator,
+} from "@saha-ui/core";
 
 function App() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
+
+  return (
+    <Select value={value} onValueChange={setValue}>
+      <SelectTrigger>
+        <SelectValue placeholder="Select a fruit" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Fruits</SelectLabel>
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana">Banana</SelectItem>
+          <SelectItem value="orange">Orange</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+**Component-Based Components:**
+
+- `Select` - Root container that manages state and context (when used without options prop)
+- `SelectTrigger` - The button that opens/closes the dropdown
+- `SelectValue` - Displays the selected value or placeholder
+- `SelectContent` - The dropdown menu container
+- `SelectItem` - Individual selectable option
+- `SelectGroup` - Groups related items together
+- `SelectLabel` - Label for a group of items
+- `SelectSeparator` - Visual separator between groups
+
+### 2. Props-Based Pattern (Options Array)
+
+Quick setup with an options array - ideal for simple use cases:
+
+```tsx
+import { Select } from "@saha-ui/core";
+
+function App() {
+  const [value, setValue] = useState("");
 
   return (
     <Select
@@ -37,17 +92,110 @@ function App() {
       value={value}
       onChange={setValue}
       options={[
-        { label: 'United States', value: 'us' },
-        { label: 'United Kingdom', value: 'uk' },
-        { label: 'Canada', value: 'ca' },
-        { label: 'Australia', value: 'au' },
+        { label: "United States", value: "us" },
+        { label: "United Kingdom", value: "uk" },
+        { label: "Canada", value: "ca" },
+        { label: "Australia", value: "au" },
       ]}
     />
   );
 }
 ```
 
-## Examples
+## When to Use Which Pattern
+
+**Use Component-Based when:**
+
+- You need full control over the structure and layout
+- You want to add custom components or complex content inside items
+- You're building a design system or need maximum flexibility
+- You want to create groups with separators and labels
+
+**Use Props-Based when:**
+
+- You have a simple list of options
+- You want quick implementation
+- You need built-in features like search, multi-select, descriptions, icons
+- You prefer configuration over composition
+
+---
+
+## Component-Based Examples
+
+### Basic Select
+
+```tsx
+<Select value={value} onValueChange={setValue}>
+  <SelectTrigger>
+    <SelectValue placeholder="Choose an option" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="option1">Option 1</SelectItem>
+    <SelectItem value="option2">Option 2</SelectItem>
+    <SelectItem value="option3">Option 3</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+### With Groups and Labels
+
+```tsx
+<Select value={language} onValueChange={setLanguage}>
+  <SelectTrigger>
+    <SelectValue placeholder="Select a language" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      <SelectLabel>Frontend</SelectLabel>
+      <SelectItem value="js">JavaScript</SelectItem>
+      <SelectItem value="ts">TypeScript</SelectItem>
+    </SelectGroup>
+
+    <SelectSeparator />
+
+    <SelectGroup>
+      <SelectLabel>Backend</SelectLabel>
+      <SelectItem value="python">Python</SelectItem>
+      <SelectItem value="java">Java</SelectItem>
+    </SelectGroup>
+  </SelectContent>
+</Select>
+```
+
+### With Custom Styling
+
+```tsx
+<Select value={value} onValueChange={setValue}>
+  <SelectTrigger className="w-64 bg-primary text-primary-foreground">
+    <SelectValue placeholder="Custom styled" />
+  </SelectTrigger>
+  <SelectContent className="bg-primary/10">
+    <SelectItem value="1" className="hover:bg-primary/20">
+      Custom Item 1
+    </SelectItem>
+    <SelectItem value="2" className="hover:bg-primary/20">
+      Custom Item 2
+    </SelectItem>
+  </SelectContent>
+</Select>
+```
+
+### Disabled State
+
+```tsx
+<Select value={value} onValueChange={setValue}>
+  <SelectTrigger disabled>
+    <SelectValue placeholder="Disabled select" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="1">Option 1</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+---
+
+## Props-Based Examples
 
 ### Variants
 
@@ -79,12 +227,12 @@ Enable searching/filtering of options:
   placeholder="Type to search..."
   searchable
   options={[
-    { label: 'United States', value: 'us' },
-    { label: 'United Kingdom', value: 'uk' },
-    { label: 'Canada', value: 'ca' },
-    { label: 'Australia', value: 'au' },
-    { label: 'Germany', value: 'de' },
-    { label: 'France', value: 'fr' },
+    { label: "United States", value: "us" },
+    { label: "United Kingdom", value: "uk" },
+    { label: "Canada", value: "ca" },
+    { label: "Australia", value: "au" },
+    { label: "Germany", value: "de" },
+    { label: "France", value: "fr" },
     // ... more options
   ]}
 />
@@ -106,11 +254,11 @@ function MultiSelectExample() {
       value={values}
       onChange={setValues}
       options={[
-        { label: 'JavaScript', value: 'js' },
-        { label: 'TypeScript', value: 'ts' },
-        { label: 'React', value: 'react' },
-        { label: 'Vue', value: 'vue' },
-        { label: 'Angular', value: 'angular' },
+        { label: "JavaScript", value: "js" },
+        { label: "TypeScript", value: "ts" },
+        { label: "React", value: "react" },
+        { label: "Vue", value: "vue" },
+        { label: "Angular", value: "angular" },
       ]}
     />
   );
@@ -126,19 +274,19 @@ Organize options into groups:
   label="Select framework"
   options={[
     {
-      label: 'Frontend',
+      label: "Frontend",
       options: [
-        { label: 'React', value: 'react' },
-        { label: 'Vue', value: 'vue' },
-        { label: 'Angular', value: 'angular' },
+        { label: "React", value: "react" },
+        { label: "Vue", value: "vue" },
+        { label: "Angular", value: "angular" },
       ],
     },
     {
-      label: 'Backend',
+      label: "Backend",
       options: [
-        { label: 'Node.js', value: 'node' },
-        { label: 'Django', value: 'django' },
-        { label: 'Laravel', value: 'laravel' },
+        { label: "Node.js", value: "node" },
+        { label: "Django", value: "django" },
+        { label: "Laravel", value: "laravel" },
       ],
     },
   ]}
@@ -154,19 +302,19 @@ Add descriptive text to options:
   label="Choose plan"
   options={[
     {
-      label: 'Basic',
-      value: 'basic',
-      description: 'Perfect for individuals',
+      label: "Basic",
+      value: "basic",
+      description: "Perfect for individuals",
     },
     {
-      label: 'Pro',
-      value: 'pro',
-      description: 'For professionals and teams',
+      label: "Pro",
+      value: "pro",
+      description: "For professionals and teams",
     },
     {
-      label: 'Enterprise',
-      value: 'enterprise',
-      description: 'Advanced features for large organizations',
+      label: "Enterprise",
+      value: "enterprise",
+      description: "Advanced features for large organizations",
     },
   ]}
 />
@@ -177,28 +325,28 @@ Add descriptive text to options:
 Add icons to options:
 
 ```tsx
-import { User, Users, Building } from 'lucide-react';
+import { User, Users, Building } from "lucide-react";
 
 <Select
   label="Account type"
   options={[
     {
-      label: 'Personal',
-      value: 'personal',
+      label: "Personal",
+      value: "personal",
       icon: <User className="w-4 h-4" />,
     },
     {
-      label: 'Team',
-      value: 'team',
+      label: "Team",
+      value: "team",
       icon: <Users className="w-4 h-4" />,
     },
     {
-      label: 'Enterprise',
-      value: 'enterprise',
+      label: "Enterprise",
+      value: "enterprise",
       icon: <Building className="w-4 h-4" />,
     },
   ]}
-/>
+/>;
 ```
 
 ### With Error State
@@ -251,12 +399,7 @@ import { User, Users, Building } from 'lucide-react';
 ### Loading State
 
 ```tsx
-<Select
-  label="Loading data"
-  placeholder="Loading..."
-  loading
-  options={[]}
-/>
+<Select label="Loading data" placeholder="Loading..." loading options={[]} />
 ```
 
 ### Clearable
@@ -395,10 +538,7 @@ The component provides comprehensive screen reader support:
 For selects without visible labels:
 
 ```tsx
-<Select
-  aria-label="Choose your country"
-  options={options}
-/>
+<Select aria-label="Choose your country" options={options} />
 ```
 
 ### Required Fields
@@ -443,53 +583,53 @@ Errors are automatically announced to screen readers:
 
 ### Select Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - | Label text for the select |
-| `description` | `string` | - | Description text shown below the label |
-| `placeholder` | `string` | `'Select...'` | Placeholder text when no value selected |
-| `helperText` | `string` | - | Helper text shown below the select |
-| `error` | `string` | - | Error message to display |
-| `options` | `SelectOption[] \| SelectGroup[]` | `[]` | Options or grouped options |
-| `value` | `string \| string[]` | - | Selected value(s) (controlled) |
-| `defaultValue` | `string \| string[]` | - | Default value(s) (uncontrolled) |
-| `onChange` | `(value: string \| string[]) => void` | - | Callback when selection changes |
-| `onSearch` | `(term: string) => void` | - | Callback when search term changes |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'` | Color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the select |
-| `multiple` | `boolean` | `false` | Allow multiple selections |
-| `searchable` | `boolean` | `false` | Enable search/filter functionality |
-| `clearable` | `boolean` | `false` | Show clear button |
-| `disabled` | `boolean` | `false` | Whether the select is disabled |
-| `loading` | `boolean` | `false` | Show loading state |
-| `required` | `boolean` | `false` | Whether selection is required |
-| `renderOption` | `(option: SelectOption) => ReactNode` | - | Custom option renderer |
-| `renderValue` | `(option: SelectOption) => ReactNode` | - | Custom value renderer |
-| `maxHeight` | `string \| number` | `300` | Max height of dropdown |
-| `position` | `'top' \| 'bottom' \| 'auto'` | `'auto'` | Dropdown position |
-| `className` | `string` | - | Additional CSS classes |
-| `aria-label` | `string` | - | Accessible label for screen readers |
-| `aria-labelledby` | `string` | - | ID of element that labels this select |
-| `aria-describedby` | `string` | - | IDs of elements that describe this select |
-| `aria-required` | `'true' \| 'false'` | - | Whether the select is required |
-| `aria-invalid` | `'true' \| 'false'` | - | Whether the select has an error |
+| Prop               | Type                                                                                     | Default       | Description                               |
+| ------------------ | ---------------------------------------------------------------------------------------- | ------------- | ----------------------------------------- |
+| `label`            | `string`                                                                                 | -             | Label text for the select                 |
+| `description`      | `string`                                                                                 | -             | Description text shown below the label    |
+| `placeholder`      | `string`                                                                                 | `'Select...'` | Placeholder text when no value selected   |
+| `helperText`       | `string`                                                                                 | -             | Helper text shown below the select        |
+| `error`            | `string`                                                                                 | -             | Error message to display                  |
+| `options`          | `SelectOption[] \| SelectGroup[]`                                                        | `[]`          | Options or grouped options                |
+| `value`            | `string \| string[]`                                                                     | -             | Selected value(s) (controlled)            |
+| `defaultValue`     | `string \| string[]`                                                                     | -             | Default value(s) (uncontrolled)           |
+| `onChange`         | `(value: string \| string[]) => void`                                                    | -             | Callback when selection changes           |
+| `onSearch`         | `(term: string) => void`                                                                 | -             | Callback when search term changes         |
+| `variant`          | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'`   | Color variant                             |
+| `size`             | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`        | Size of the select                        |
+| `multiple`         | `boolean`                                                                                | `false`       | Allow multiple selections                 |
+| `searchable`       | `boolean`                                                                                | `false`       | Enable search/filter functionality        |
+| `clearable`        | `boolean`                                                                                | `false`       | Show clear button                         |
+| `disabled`         | `boolean`                                                                                | `false`       | Whether the select is disabled            |
+| `loading`          | `boolean`                                                                                | `false`       | Show loading state                        |
+| `required`         | `boolean`                                                                                | `false`       | Whether selection is required             |
+| `renderOption`     | `(option: SelectOption) => ReactNode`                                                    | -             | Custom option renderer                    |
+| `renderValue`      | `(option: SelectOption) => ReactNode`                                                    | -             | Custom value renderer                     |
+| `maxHeight`        | `string \| number`                                                                       | `300`         | Max height of dropdown                    |
+| `position`         | `'top' \| 'bottom' \| 'auto'`                                                            | `'auto'`      | Dropdown position                         |
+| `className`        | `string`                                                                                 | -             | Additional CSS classes                    |
+| `aria-label`       | `string`                                                                                 | -             | Accessible label for screen readers       |
+| `aria-labelledby`  | `string`                                                                                 | -             | ID of element that labels this select     |
+| `aria-describedby` | `string`                                                                                 | -             | IDs of elements that describe this select |
+| `aria-required`    | `'true' \| 'false'`                                                                      | -             | Whether the select is required            |
+| `aria-invalid`     | `'true' \| 'false'`                                                                      | -             | Whether the select has an error           |
 
 ### SelectOption
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `label` | `string` | Display label for the option |
-| `value` | `string` | Unique value identifier |
-| `description` | `string` | Optional description text |
-| `icon` | `ReactNode` | Optional icon |
-| `disabled` | `boolean` | Whether the option is disabled |
-| `[key: string]` | `any` | Additional custom properties |
+| Prop            | Type        | Description                    |
+| --------------- | ----------- | ------------------------------ |
+| `label`         | `string`    | Display label for the option   |
+| `value`         | `string`    | Unique value identifier        |
+| `description`   | `string`    | Optional description text      |
+| `icon`          | `ReactNode` | Optional icon                  |
+| `disabled`      | `boolean`   | Whether the option is disabled |
+| `[key: string]` | `any`       | Additional custom properties   |
 
 ### SelectGroup
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `label` | `string` | Group label |
+| Prop      | Type             | Description           |
+| --------- | ---------------- | --------------------- |
+| `label`   | `string`         | Group label           |
 | `options` | `SelectOption[]` | Options in this group |
 
 ## Best Practices
@@ -523,9 +663,9 @@ For many options, use groups:
 ```tsx
 <Select
   options={[
-    { label: 'Americas', options: americaOptions },
-    { label: 'Europe', options: europeOptions },
-    { label: 'Asia', options: asiaOptions },
+    { label: "Americas", options: americaOptions },
+    { label: "Europe", options: europeOptions },
+    { label: "Asia", options: asiaOptions },
   ]}
 />
 ```
@@ -535,10 +675,7 @@ For many options, use groups:
 Enable search when you have more than 10 options:
 
 ```tsx
-<Select
-  searchable
-  options={longListOfOptions}
-/>
+<Select searchable options={longListOfOptions} />
 ```
 
 ### 5. Provide Default Values
@@ -546,11 +683,7 @@ Enable search when you have more than 10 options:
 For better UX, provide sensible defaults:
 
 ```tsx
-<Select
-  label="Country"
-  defaultValue="us"
-  options={countries}
-/>
+<Select label="Country" defaultValue="us" options={countries} />
 ```
 
 ### 6. Show Validation Errors Clearly
@@ -582,8 +715,8 @@ Rather than hiding, disable unavailable options:
 ```tsx
 <Select
   options={[
-    { label: 'Available', value: 'available' },
-    { label: 'Coming Soon', value: 'soon', disabled: true },
+    { label: "Available", value: "available" },
+    { label: "Coming Soon", value: "soon", disabled: true },
   ]}
 />
 ```
@@ -615,7 +748,7 @@ Multi-select can be confusing. Consider alternatives:
 ### With React Hook Form
 
 ```tsx
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 
 function Form() {
   const { control, handleSubmit } = useForm();
@@ -625,7 +758,7 @@ function Form() {
       <Controller
         name="country"
         control={control}
-        rules={{ required: 'Please select a country' }}
+        rules={{ required: "Please select a country" }}
         render={({ field, fieldState }) => (
           <Select
             label="Country"
@@ -645,16 +778,16 @@ function Form() {
 ### With Formik
 
 ```tsx
-import { Formik, Field } from 'formik';
+import { Formik, Field } from "formik";
 
 function Form() {
   return (
     <Formik
-      initialValues={{ country: '' }}
+      initialValues={{ country: "" }}
       validate={(values) => {
         const errors: any = {};
         if (!values.country) {
-          errors.country = 'Required';
+          errors.country = "Required";
         }
         return errors;
       }}
@@ -664,7 +797,7 @@ function Form() {
         <Select
           label="Country"
           value={values.country}
-          onChange={(value) => setFieldValue('country', value)}
+          onChange={(value) => setFieldValue("country", value)}
           options={countryOptions}
           error={touched.country ? errors.country : undefined}
           aria-invalid={touched.country && !!errors.country}
@@ -681,8 +814,8 @@ function Form() {
 
 ```tsx
 function DependentSelects() {
-  const [country, setCountry] = useState('');
-  const [state, setState] = useState('');
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
 
   const stateOptions = country ? getStates(country) : [];
 
@@ -693,11 +826,11 @@ function DependentSelects() {
         value={country}
         onChange={(value) => {
           setCountry(value);
-          setState(''); // Reset state when country changes
+          setState(""); // Reset state when country changes
         }}
         options={countryOptions}
       />
-      
+
       <Select
         label="State"
         value={state}
@@ -718,18 +851,18 @@ function DependentSelects() {
   label="Select status"
   options={[
     {
-      label: 'Active',
-      value: 'active',
+      label: "Active",
+      value: "active",
       badge: <Badge variant="success">Live</Badge>,
     },
     {
-      label: 'Pending',
-      value: 'pending',
+      label: "Pending",
+      value: "pending",
       badge: <Badge variant="warning">Review</Badge>,
     },
     {
-      label: 'Inactive',
-      value: 'inactive',
+      label: "Inactive",
+      value: "inactive",
       badge: <Badge variant="default">Archived</Badge>,
     },
   ]}
@@ -758,28 +891,180 @@ function Tags() {
 }
 ```
 
+## API Reference
+
+### Component-Based Pattern API
+
+#### Select
+
+Root container that manages state and provides context to child components.
+
+**Props:**
+
+| Prop            | Type                      | Default     | Description                      |
+| --------------- | ------------------------- | ----------- | -------------------------------- |
+| `value`         | `string`                  | `undefined` | Controlled value                 |
+| `defaultValue`  | `string`                  | `undefined` | Uncontrolled default value       |
+| `onValueChange` | `(value: string) => void` | `undefined` | Callback when value changes      |
+| `open`          | `boolean`                 | `undefined` | Controlled open state            |
+| `defaultOpen`   | `boolean`                 | `false`     | Uncontrolled default open state  |
+| `onOpenChange`  | `(open: boolean) => void` | `undefined` | Callback when open state changes |
+| `disabled`      | `boolean`                 | `false`     | Disables the entire select       |
+| `children`      | `ReactNode`               | -           | Child components                 |
+| `className`     | `string`                  | `undefined` | Additional CSS classes           |
+
+#### SelectTrigger
+
+The button that opens/closes the dropdown.
+
+**Props:**
+
+| Prop        | Type                                                                                     | Default     | Description                              |
+| ----------- | ---------------------------------------------------------------------------------------- | ----------- | ---------------------------------------- |
+| `variant`   | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'` | Visual variant                           |
+| `size`      | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`      | Size of the trigger button               |
+| `disabled`  | `boolean`                                                                                | `false`     | Disables the trigger                     |
+| `className` | `string`                                                                                 | `undefined` | Additional CSS classes                   |
+| `children`  | `ReactNode`                                                                              | -           | Child components (typically SelectValue) |
+
+#### SelectValue
+
+Displays the currently selected value or a placeholder.
+
+**Props:**
+
+| Prop          | Type     | Default     | Description                            |
+| ------------- | -------- | ----------- | -------------------------------------- |
+| `placeholder` | `string` | `undefined` | Text to show when no value is selected |
+| `className`   | `string` | `undefined` | Additional CSS classes                 |
+
+#### SelectContent
+
+The dropdown menu container that holds the items.
+
+**Props:**
+
+| Prop        | Type                                                                                     | Default     | Description                                      |
+| ----------- | ---------------------------------------------------------------------------------------- | ----------- | ------------------------------------------------ |
+| `variant`   | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'` | Visual variant                                   |
+| `className` | `string`                                                                                 | `undefined` | Additional CSS classes                           |
+| `children`  | `ReactNode`                                                                              | -           | Child components (SelectItem, SelectGroup, etc.) |
+
+#### SelectItem
+
+An individual selectable option.
+
+**Props:**
+
+| Prop        | Type        | Default     | Description                         |
+| ----------- | ----------- | ----------- | ----------------------------------- |
+| `value`     | `string`    | -           | **Required.** The value of the item |
+| `disabled`  | `boolean`   | `false`     | Disables this specific item         |
+| `className` | `string`    | `undefined` | Additional CSS classes              |
+| `children`  | `ReactNode` | -           | Content to display (label text)     |
+
+#### SelectGroup
+
+Groups related items together.
+
+**Props:**
+
+| Prop        | Type        | Default     | Description                                |
+| ----------- | ----------- | ----------- | ------------------------------------------ |
+| `className` | `string`    | `undefined` | Additional CSS classes                     |
+| `children`  | `ReactNode` | -           | Child components (SelectLabel, SelectItem) |
+
+#### SelectLabel
+
+Label for a group of items.
+
+**Props:**
+
+| Prop        | Type        | Default     | Description            |
+| ----------- | ----------- | ----------- | ---------------------- |
+| `className` | `string`    | `undefined` | Additional CSS classes |
+| `children`  | `ReactNode` | -           | Label text             |
+
+#### SelectSeparator
+
+Visual separator between groups or items.
+
+**Props:**
+
+| Prop        | Type     | Default     | Description            |
+| ----------- | -------- | ----------- | ---------------------- |
+| `className` | `string` | `undefined` | Additional CSS classes |
+
+---
+
+### Props-Based Pattern API (Select Component)
+
+**Props:**
+
+| Prop           | Type                                                                                     | Default              | Description                              |
+| -------------- | ---------------------------------------------------------------------------------------- | -------------------- | ---------------------------------------- |
+| `options`      | `SelectOption[] \| SelectGroup[]`                                                        | -                    | **Required.** Array of options or groups |
+| `value`        | `string \| string[]`                                                                     | `undefined`          | Current value(s)                         |
+| `onChange`     | `(value: string \| string[]) => void`                                                    | `undefined`          | Value change callback                    |
+| `label`        | `string`                                                                                 | `undefined`          | Label text                               |
+| `placeholder`  | `string`                                                                                 | `'Select an option'` | Placeholder text                         |
+| `variant`      | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'`          | Visual variant                           |
+| `size`         | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`               | Size                                     |
+| `disabled`     | `boolean`                                                                                | `false`              | Disables the select                      |
+| `error`        | `string`                                                                                 | `undefined`          | Error message                            |
+| `helperText`   | `string`                                                                                 | `undefined`          | Helper text                              |
+| `required`     | `boolean`                                                                                | `false`              | Marks as required                        |
+| `searchable`   | `boolean`                                                                                | `false`              | Enables search/filter                    |
+| `clearable`    | `boolean`                                                                                | `false`              | Shows clear button                       |
+| `multiple`     | `boolean`                                                                                | `false`              | Allows multiple selections               |
+| `loading`      | `boolean`                                                                                | `false`              | Shows loading state                      |
+| `className`    | `string`                                                                                 | `undefined`          | Additional CSS classes                   |
+| `onSearch`     | `(term: string) => void`                                                                 | `undefined`          | Search callback                          |
+| `renderOption` | `(option: SelectOption) => ReactNode`                                                    | `undefined`          | Custom option renderer                   |
+| `renderValue`  | `(option: SelectOption) => ReactNode`                                                    | `undefined`          | Custom value renderer                    |
+
+**SelectOption Type:**
+
+```tsx
+interface SelectOption {
+  label: string;
+  value: string;
+  disabled?: boolean;
+  description?: string;
+  icon?: ReactNode;
+  badge?: ReactNode;
+}
+```
+
+**SelectGroup Type:**
+
+```tsx
+interface SelectGroup {
+  label: string;
+  options: SelectOption[];
+}
+```
+
 ## TypeScript
 
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { SelectProps, SelectOption, SelectGroup } from '@saha-ui/core';
+import type { SelectProps, SelectOption, SelectGroup } from "@saha-ui/core";
 
 const MySelect: React.FC<SelectProps> = (props) => {
   return <Select {...props} />;
 };
 
 const options: SelectOption[] = [
-  { label: 'Option 1', value: 'opt1' },
-  { label: 'Option 2', value: 'opt2' },
+  { label: "Option 1", value: "opt1" },
+  { label: "Option 2", value: "opt2" },
 ];
 
 const groups: SelectGroup[] = [
   {
-    label: 'Group 1',
-    options: [
-      { label: 'Option 1', value: 'opt1' },
-    ],
+    label: "Group 1",
+    options: [{ label: "Option 1", value: "opt1" }],
   },
 ];
 ```
@@ -789,11 +1074,7 @@ const groups: SelectGroup[] = [
 The component uses CVA (Class Variance Authority) for variant management:
 
 ```tsx
-<Select
-  label="Custom styled"
-  className="my-custom-class"
-  options={options}
-/>
+<Select label="Custom styled" className="my-custom-class" options={options} />
 ```
 
 ## Dark Mode
@@ -808,11 +1089,7 @@ For very long lists (1000+ items), consider using virtualization:
 
 ```tsx
 // This component handles virtualization internally
-<Select
-  searchable
-  options={veryLongList}
-  virtualized
-/>
+<Select searchable options={veryLongList} virtualized />
 ```
 
 ### 2. Debounce Search
@@ -820,18 +1097,14 @@ For very long lists (1000+ items), consider using virtualization:
 For async searches, debounce the input:
 
 ```tsx
-import { useDebouncedCallback } from 'use-debounce';
+import { useDebouncedCallback } from "use-debounce";
 
 const debouncedSearch = useDebouncedCallback(
   (term: string) => fetchOptions(term),
   300
 );
 
-<Select
-  searchable
-  onSearch={debouncedSearch}
-  options={options}
-/>
+<Select searchable onSearch={debouncedSearch} options={options} />;
 ```
 
 ### 3. Lazy Load Groups
@@ -839,22 +1112,19 @@ const debouncedSearch = useDebouncedCallback(
 Load group data only when needed:
 
 ```tsx
-<Select
-  options={groups}
-  onGroupExpand={(group) => loadGroupOptions(group)}
-/>
+<Select options={groups} onGroupExpand={(group) => loadGroupOptions(group)} />
 ```
 
 ## Comparison: Select vs Other Components
 
-| Use Case | Component |
-|----------|-----------|
-| 8+ options, single selection | **Select** |
-| 8+ options, multiple selections | **Select** (multi) |
-| 2-7 options, single selection | Radio |
-| 2-7 options, multiple selections | Checkbox |
-| Searchable data | **Select** (searchable) |
-| Binary choice | Switch |
+| Use Case                         | Component               |
+| -------------------------------- | ----------------------- |
+| 8+ options, single selection     | **Select**              |
+| 8+ options, multiple selections  | **Select** (multi)      |
+| 2-7 options, single selection    | Radio                   |
+| 2-7 options, multiple selections | Checkbox                |
+| Searchable data                  | **Select** (searchable) |
+| Binary choice                    | Switch                  |
 
 ## Browser Support
 
