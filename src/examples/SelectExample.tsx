@@ -325,7 +325,7 @@ export const SelectExample = () => {
             placeholder="Select your country"
             options={countryOptions}
             value={selectedCountry}
-            onChange={(value) => setSelectedCountry(value as string)}
+            onChange={(value:string) => setSelectedCountry(value as string)}
           />
           <Select
             label="Priority"
@@ -353,7 +353,7 @@ export const SelectExample = () => {
             placeholder="Choose a role"
             options={roleOptions}
             value={selectedRole}
-            onChange={(value) => setSelectedRole(value as string)}
+            onChange={(value: string) => setSelectedRole(value as string)}
             icon={<User className="w-4 h-4" />}
           />
           <Select
@@ -401,7 +401,7 @@ export const SelectExample = () => {
             placeholder="Choose your skills"
             options={skillOptions}
             value={selectedSkills}
-            onChange={(value) => setSelectedSkills(value as string[])}
+            onChange={(value: string[]) => setSelectedSkills(value as string[])}
             multiple
             clearable
           />
@@ -410,7 +410,7 @@ export const SelectExample = () => {
             placeholder="What do you enjoy?"
             options={hobbyOptions}
             value={selectedHobbies}
-            onChange={(value) => setSelectedHobbies(value as string[])}
+            onChange={(value: string[]) => setSelectedHobbies(value as string[])}
             multiple
             maxSelections={3}
             helperText="Select up to 3 hobbies"

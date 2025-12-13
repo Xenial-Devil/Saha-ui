@@ -47,7 +47,6 @@ export const TreeExample: React.FC = () => {
     },
   ]);
 
-  // Tree drops are handled via TreeView.onReorder
   return (
     <DragDropProvider>
       <div className="p-4">

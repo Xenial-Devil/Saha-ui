@@ -30,88 +30,92 @@ interface SelectContextValue {
 const SelectContext = createContext<SelectContextValue>({});
 
 // Composable Select implementation
-const SelectComposable = ({
-  value: controlledValue,
-  defaultValue,
-  onValueChange,
-  open: controlledOpen,
-  defaultOpen,
-  onOpenChange,
-  disabled = false,
-  variant = "default",
-  size = "md",
-  children,
-  className,
-}: {
-  value?: string;
-  defaultValue?: string;
-  onValueChange?: (value: string) => void;
-  open?: boolean;
-  defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  disabled?: boolean;
-  variant?: SelectProps["variant"];
-  size?: SelectProps["size"];
-  children?: React.ReactNode;
-  className?: string;
-}) => {
-  const [uncontrolledValue, setUncontrolledValue] = useState(
-    defaultValue || ""
-  );
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(
-    defaultOpen || false
-  );
+const SelectComposable = forwardRef<
+  HTMLDivElement,
+  {
+    value?: string;
+    defaultValue?: string;
+    onValueChange?: (value: string) => void;
+    open?: boolean;
+    defaultOpen?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    disabled?: boolean;
+    variant?: SelectProps["variant"];
+    size?: SelectProps["size"];
+    children?: React.ReactNode;
+    className?: string;
+  }
+>(
+  (
+    {
+      value: controlledValue,
+      defaultValue,
+      onValueChange,
+      open: controlledOpen,
+      defaultOpen,
+      onOpenChange,
+      disabled = false,
+      variant = "default",
+      size = "md",
+      children,
+      className,
+    },
+    ref
+  ) => {
+    const [uncontrolledValue, setUncontrolledValue] = useState(
+      defaultValue || ""
+    );
+    const [uncontrolledOpen, setUncontrolledOpen] = useState(
+      defaultOpen || false
+    );
 
-  const value =
-    controlledValue !== undefined ? controlledValue : uncontrolledValue;
-  const open = controlledOpen !== undefined ? controlledOpen : uncontrolledOpen;
+    const value =
+      controlledValue !== undefined ? controlledValue : uncontrolledValue;
+    const open =
+      controlledOpen !== undefined ? controlledOpen : uncontrolledOpen;
 
-  const handleValueChange = (newValue: string) => {
-    if (controlledValue === undefined) {
-      setUncontrolledValue(newValue);
-    }
-    onValueChange?.(newValue);
-  };
+    const handleValueChange = (newValue: string) => {
+      if (controlledValue === undefined) {
+        setUncontrolledValue(newValue);
+      }
+      onValueChange?.(newValue);
+    };
 
-  const handleOpenChange = (newOpen: boolean) => {
-    if (controlledOpen === undefined) {
-      setUncontrolledOpen(newOpen);
-    }
-    onOpenChange?.(newOpen);
-  };
+    const handleOpenChange = (newOpen: boolean) => {
+      if (controlledOpen === undefined) {
+        setUncontrolledOpen(newOpen);
+      }
+      onOpenChange?.(newOpen);
+    };
 
-  return (
-    <SelectContext.Provider
-      value={{
-        value,
-        onValueChange: handleValueChange,
-        open,
-        onOpenChange: handleOpenChange,
-        disabled,
-        variant,
-        size,
-      }}
-    >
-      <div className={cn("relative", className)}>{children}</div>
-    </SelectContext.Provider>
-  );
-};
+    return (
+      <SelectContext.Provider
+        value={{
+          value,
+          onValueChange: handleValueChange,
+          open,
+          onOpenChange: handleOpenChange,
+          disabled,
+          variant,
+          size,
+        }}
+      >
+        <div ref={ref} className={cn("relative", className)}>
+          {children}
+        </div>
+      </SelectContext.Provider>
+    );
+  }
+);
+
+SelectComposable.displayName = "SelectComposable";
 
 // ============================================
-// Main Select Component
+// Props-based Select Component (Internal)
 // ============================================
 
-/**
- * Select Component - Works with both props-based and component-based patterns
- */
-export const Select = forwardRef<HTMLDivElement, SelectProps | any>(
+const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
   (props, ref) => {
-    // If no options prop, this is component-based pattern (composable mode)
-    if (!props.options && props.children) {
-      return <SelectComposable {...props} />;
-    }
-
-    // Otherwise, use props-based pattern
     const {
       label,
       description,
@@ -148,6 +152,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps | any>(
       menuClassName,
       optionClassName,
     } = props;
+
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [uncontrolledValue, setUncontrolledValue] = useState<
@@ -536,6 +541,26 @@ export const Select = forwardRef<HTMLDivElement, SelectProps | any>(
     );
   }
 );
+
+SelectPropsBase.displayName = "SelectPropsBase";
+
+// ============================================
+// Main Select Component (Wrapper)
+// ============================================
+
+/**
+ * Select Component - Works with both props-based and component-based patterns
+ * This wrapper decides which implementation to use without calling hooks conditionally
+ */
+export const Select = forwardRef<HTMLDivElement, any>((props, ref) => {
+  // Pattern detection: if no options prop but has children, use composable mode
+  if (!props.options && props.children) {
+    return <SelectComposable {...props} ref={ref} />;
+  }
+
+  // Otherwise use props-based mode (options prop exists)
+  return <SelectPropsBase {...(props as SelectProps)} ref={ref} />;
+});
 
 Select.displayName = "Select";
 

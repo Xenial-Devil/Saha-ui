@@ -525,6 +525,31 @@ export {
   collapsibleContentVariants,
   collapsibleIconVariants,
 } from "./components/Collapsible/Collapsible.styles";
+
+// DragDrop Components
+export {
+  DragDropProvider,
+  useDragDropContext,
+  DraggableItem,
+  DroppableContainer,
+  DragHandle,
+  DragOverlay,
+  TreeView,
+  VirtualList,
+  useVirtualScroll,
+  SelectionManager,
+  SelectionBadge,
+  DebugOverlay,
+} from "./components/DragDrop";
+export {
+  draggableItemVariants,
+  droppableContainerVariants,
+  dragHandleVariants,
+  dragOverlayVariants,
+  dropIndicatorVariants,
+  placeholderVariants,
+} from "./components/DragDrop/DragDrop.styles";
+
 export {
   DataTable,
   DataTableCompact,
@@ -1074,6 +1099,18 @@ export type {
   CollapsibleVariant,
   CollapsibleAnimation,
 } from "./components/Collapsible/Collapsible.types";
+
+export type {
+  DragDropContextProps,
+  EnhancedDragDropContextProps,
+  DroppableContainerProps,
+  DraggableItemProps,
+  DragHandleProps,
+  DragOverlayProps,
+  DropEvent,
+  DragStartEvent,
+  SelectionState,
+} from "./components/DragDrop";
 
 export type {
   DataTableProps,
