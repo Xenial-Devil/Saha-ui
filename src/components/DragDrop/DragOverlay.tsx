@@ -30,7 +30,11 @@ export const DragOverlay: React.FC<DragOverlayProps> = ({
         // Use requestAnimationFrame for smoother updates
         requestAnimationFrame(() => {
           if (overlayRef.current) {
-            overlayRef.current.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0) scale(1.05)`;
+            // Position via left/top to avoid transform-offset issues when
+            // the app uses shifted layouts or sidebars; keep scale via transform.
+            overlayRef.current.style.left = `${offsetX}px`;
+            overlayRef.current.style.top = `${offsetY}px`;
+            overlayRef.current.style.transform = `scale(1.05)`;
           }
         });
       }
@@ -44,7 +48,9 @@ export const DragOverlay: React.FC<DragOverlayProps> = ({
 
       // Animate to drop target position with smooth spring-like effect
       overlayRef.current.style.transition = `transform ${dropAnimation.duration}ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity ${dropAnimation.duration}ms ease-out, filter ${dropAnimation.duration}ms ease-out`;
-      overlayRef.current.style.transform = `translate3d(${dropTargetRef.current.x}px, ${dropTargetRef.current.y}px, 0) scale(0.95)`;
+      overlayRef.current.style.left = `${dropTargetRef.current.x}px`;
+      overlayRef.current.style.top = `${dropTargetRef.current.y}px`;
+      overlayRef.current.style.transform = `scale(0.95)`;
       overlayRef.current.style.opacity = "0";
       overlayRef.current.style.filter =
         "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05))";
@@ -85,6 +91,7 @@ export const DragOverlay: React.FC<DragOverlayProps> = ({
       style={{
         ...style,
         position: "fixed",
+        // We'll control left/top directly for precise positioning
         left: 0,
         top: 0,
         pointerEvents: "none",
