@@ -50,16 +50,33 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({
   } = context;
 
   // Track drag path
+  // Track drag path using the raw pointer position so visuals are aligned to
+  // the viewport and do not depend on other elements or container offsets.
+  const [pointerPos, setPointerPos] = useState<{
+    x: number;
+    y: number;
+    timestamp: number;
+  } | null>(null);
+
   useEffect(() => {
-    if (isDragging && dragPosition) {
-      setDragPath((prev) => [
-        ...prev.slice(-50), // Keep last 50 points
-        { x: dragPosition.x, y: dragPosition.y, timestamp: Date.now() },
-      ]);
-    } else {
+    if (!isDragging || !showDragPath) {
       setDragPath([]);
+      return;
     }
-  }, [isDragging, dragPosition]);
+
+    const handlePointerMove = (e: PointerEvent) => {
+      const p = { x: e.clientX, y: e.clientY, timestamp: Date.now() };
+      setPointerPos(p);
+      setDragPath((prev) => [...prev.slice(-50), p]);
+    };
+
+    window.addEventListener("pointermove", handlePointerMove);
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      setPointerPos(null);
+      setDragPath([]);
+    };
+  }, [isDragging, showDragPath]);
 
   // Calculate FPS
   useEffect(() => {
@@ -330,15 +347,15 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({
       )}
 
       {/* Cursor marker that follows the pointer to help visual alignment */}
-      {showDragPath && isDragging && dragPosition && (
+      {showDragPath && isDragging && (pointerPos || dragPosition) && (
         <>
           <style>{`@keyframes sahaPulse { 0% { transform: scale(1); opacity: 0.95 } 50% { transform: scale(1.12); opacity: 0.75 } 100% { transform: scale(1); opacity: 0.95 } }`}</style>
           <div
             aria-hidden
             style={{
               position: "fixed",
-              left: dragPosition.x,
-              top: dragPosition.y,
+              left: pointerPos ? pointerPos.x : dragPosition!.x,
+              top: pointerPos ? pointerPos.y : dragPosition!.y,
               transform: "translate(-50%, -50%)",
               pointerEvents: "none",
               zIndex: 10000,
