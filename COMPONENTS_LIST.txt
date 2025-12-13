@@ -150,12 +150,13 @@ Last Updated: 2024-11-17
  92. Resizable          - Resizable panel system
  93. ScrollArea         - Custom scrollbar area
  94. Transfer           - Transfer list with dual panels
+95. DragDrop          - Drag & drop primitives and utilities
 
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                       10. THEME COMPONENTS (2)                           │
 └──────────────────────────────────────────────────────────────────────────┘
- 95. ThemeProvider      - Theme context provider
- 96. ThemeToggle        - Theme switcher component
+ 96. ThemeProvider      - Theme context provider
+ 97. ThemeToggle        - Theme switcher component
 
 
 
@@ -250,7 +251,7 @@ ToggleGroup, Tooltip, Transfer, Tree, Typography, Upload
 └──────────────────────────────────────────────────────────────────────────┘
 Accordion, Autocomplete, Calendar, Carousel, Chart, CodeEditor, ColorPicker,
 Combobox, Command, DataTable, DatePicker, Dialog, Drawer, NavigationMenu,
-Resizable, Sonner, TextEditor, ThemeProvider, ThemeToggle, Tour
+Resizable, Sonner, TextEditor, ThemeProvider, ThemeToggle, Tour, DragDrop
 
 ================================================================================
                          COMPONENTS BY USE CASE
