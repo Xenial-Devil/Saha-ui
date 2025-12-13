@@ -1,3 +1,13 @@
+## [1.22.5](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.4...v1.22.5) (2025-12-13)
+
+
+### Bug Fixes
+
+* **drag-drop:** finalize visuals, positioning, and selection box ([850695a](https://github.com/Xenial-Devil/Saha-ui/commit/850695a9413ae38823c58675b7a90e8f46136270))
+* **select:** add multi-select support and form integration ([e711417](https://github.com/Xenial-Devil/Saha-ui/commit/e71141756c855da18be539af458410329eb4da6a))
+* **select:** add optional clearable prop and clear button ([b293017](https://github.com/Xenial-Devil/Saha-ui/commit/b2930178c8c18ed038251369249b4dbe703682cc))
+* **video-player:** add robustness, PiP, buffering & fetch mode ([0dffc5c](https://github.com/Xenial-Devil/Saha-ui/commit/0dffc5c71cacb485f1d6a7f737422247fe12d67a))
+
 ## [1.22.4](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.3...v1.22.4) (2025-12-13)
 
 
