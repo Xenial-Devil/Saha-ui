@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useDragDropContext } from "./DragDropContext";
 import { cn } from "../../lib/utils";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -57,6 +58,24 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({
     y: number;
     timestamp: number;
   } | null>(null);
+
+  // Portal container mounted on `document.body` so overlay visuals escape
+  // any transformed/stacked ancestor and truly follow viewport coordinates.
+  const portalRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const el = document.createElement("div");
+    el.setAttribute("data-saha-debug-overlay-portal", "");
+    document.body.appendChild(el);
+    portalRef.current = el;
+
+    return () => {
+      if (portalRef.current && portalRef.current.parentNode) {
+        portalRef.current.parentNode.removeChild(portalRef.current);
+      }
+      portalRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     if (!isDragging || !showDragPath) {
@@ -301,101 +320,115 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({
         )}
       </div>
 
-      {/* Drag Path Visualization */}
-      {showDragPath && isDragging && dragPath.length > 1 && (
-        <svg
-          className="fixed inset-0 pointer-events-none z-[9998]"
-          style={{ width: "100vw", height: "100vh" }}
-        >
-          <defs>
-            <linearGradient id="dragPathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#6366f1" stopOpacity="0.6" />
-              <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#6366f1" stopOpacity="1" />
-            </linearGradient>
-            <radialGradient id="dotGrad" cx="30%" cy="30%" r="70%">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
-              <stop offset="30%" stopColor="#6366f1" stopOpacity="1" />
-              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.6" />
-            </radialGradient>
-          </defs>
+      {/* Drag visuals rendered into a body portal so fixed positioning isn't
+          affected by transformed ancestors (sidebars, etc.). */}
+      {portalRef.current &&
+        isDragging &&
+        showDragPath &&
+        createPortal(
+          <>
+            {dragPath.length > 1 && (
+              <svg
+                className="fixed inset-0 pointer-events-none z-[9998]"
+                style={{ width: "100vw", height: "100vh" }}
+              >
+                <defs>
+                  <linearGradient
+                    id="dragPathGrad"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%"
+                  >
+                    <stop offset="0%" stopColor="#6366f1" stopOpacity="0.6" />
+                    <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#6366f1" stopOpacity="1" />
+                  </linearGradient>
+                  <radialGradient id="dotGrad" cx="30%" cy="30%" r="70%">
+                    <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
+                    <stop offset="30%" stopColor="#6366f1" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.6" />
+                  </radialGradient>
+                </defs>
 
-          <polyline
-            points={dragPath.map((p) => `${p.x},${p.y}`).join(" ")}
-            fill="none"
-            stroke="url(#dragPathGrad)"
-            strokeWidth={2}
-            strokeOpacity={0.95}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+                <polyline
+                  points={dragPath.map((p) => `${p.x},${p.y}`).join(" ")}
+                  fill="none"
+                  stroke="url(#dragPathGrad)"
+                  strokeWidth={2}
+                  strokeOpacity={0.95}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
 
-          {dragPath.map((point, i) => {
-            const alpha = 0.18 + (i / dragPath.length) * 0.82;
-            return (
-              <circle
-                key={i}
-                cx={point.x}
-                cy={point.y}
-                r={2.25}
-                fill="url(#dotGrad)"
-                fillOpacity={alpha}
-              />
-            );
-          })}
-        </svg>
-      )}
+                {dragPath.map((point, i) => {
+                  const alpha = 0.18 + (i / dragPath.length) * 0.82;
+                  return (
+                    <circle
+                      key={i}
+                      cx={point.x}
+                      cy={point.y}
+                      r={2.25}
+                      fill="url(#dotGrad)"
+                      fillOpacity={alpha}
+                    />
+                  );
+                })}
+              </svg>
+            )}
 
-      {/* Cursor marker that follows the pointer to help visual alignment */}
-      {showDragPath && isDragging && (pointerPos || dragPosition) && (
-        <>
-          <style>{`@keyframes sahaPulse { 0% { transform: scale(1); opacity: 0.95 } 50% { transform: scale(1.12); opacity: 0.75 } 100% { transform: scale(1); opacity: 0.95 } }`}</style>
-          <div
-            aria-hidden
-            style={{
-              position: "fixed",
-              left: pointerPos ? pointerPos.x : dragPosition!.x,
-              top: pointerPos ? pointerPos.y : dragPosition!.y,
-              transform: "translate(-50%, -50%)",
-              pointerEvents: "none",
-              zIndex: 10000,
-              width: 40,
-              height: 40,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <div
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 9999,
-                background:
-                  "radial-gradient(circle at 35% 30%, rgba(139,92,246,0.20), rgba(99,102,241,0.06))",
-                border: "1px solid rgba(99,102,241,0.18)",
-                boxShadow: "0 8px 22px rgba(15,23,42,0.14)",
-                animation: "sahaPulse 1.6s ease-in-out infinite",
-                transformOrigin: "center",
-              }}
-            />
+            {(pointerPos || dragPosition) && (
+              <>
+                <style>{`@keyframes sahaPulse { 0% { transform: scale(1); opacity: 0.95 } 50% { transform: scale(1.12); opacity: 0.75 } 100% { transform: scale(1); opacity: 0.95 } }`}</style>
+                <div
+                  aria-hidden
+                  style={{
+                    position: "fixed",
+                    left: pointerPos ? pointerPos.x : dragPosition!.x,
+                    top: pointerPos ? pointerPos.y : dragPosition!.y,
+                    transform: "translate(-50%, -50%)",
+                    pointerEvents: "none",
+                    zIndex: 10000,
+                    width: 40,
+                    height: 40,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 9999,
+                      background:
+                        "radial-gradient(circle at 35% 30%, rgba(139,92,246,0.20), rgba(99,102,241,0.06))",
+                      border: "1px solid rgba(99,102,241,0.18)",
+                      boxShadow: "0 8px 22px rgba(15,23,42,0.14)",
+                      animation: "sahaPulse 1.6s ease-in-out infinite",
+                      transformOrigin: "center",
+                    }}
+                  />
 
-            <div
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 10,
-                height: 10,
-                borderRadius: 9999,
-                background: "linear-gradient(135deg,#8b5cf6,#6366f1)",
-                boxShadow: "0 6px 18px rgba(139,92,246,0.24)",
-              }}
-            />
-          </div>
-        </>
-      )}
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: "50%",
+                      top: "50%",
+                      transform: "translate(-50%, -50%)",
+                      width: 10,
+                      height: 10,
+                      borderRadius: 9999,
+                      background: "linear-gradient(135deg,#8b5cf6,#6366f1)",
+                      boxShadow: "0 6px 18px rgba(139,92,246,0.24)",
+                    }}
+                  />
+                </div>
+              </>
+            )}
+          </>,
+          portalRef.current
+        )}
     </>
   );
 };
