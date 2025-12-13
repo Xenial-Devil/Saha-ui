@@ -1,3 +1,11 @@
+## [1.22.4](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.3...v1.22.4) (2025-12-13)
+
+
+### Bug Fixes
+
+* **dragdrop:** add multi-selection and example suite ([28e0340](https://github.com/Xenial-Devil/Saha-ui/commit/28e03403f9d9f049cd61474993ff08923419b514))
+* **select:** add component-based (composable) API and docs ([bc44380](https://github.com/Xenial-Devil/Saha-ui/commit/bc44380a1a4fde5557ebf4003b3927eba930c26d))
+
 ## [1.22.3](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.2...v1.22.3) (2025-12-12)
 
 
