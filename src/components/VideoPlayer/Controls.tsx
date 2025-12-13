@@ -36,6 +36,7 @@ type ControlsProps = {
   fullscreen: boolean;
   onToggleFullscreen: () => void;
   onTogglePip: () => void;
+  pipSupported?: boolean;
 
   playbackRate: number;
   onPlaybackRateChange: (rate: number) => void;
@@ -76,6 +77,7 @@ export default function Controls({
   fullscreen,
   onToggleFullscreen,
   onTogglePip,
+  pipSupported = false,
   playbackRate,
   onPlaybackRateChange,
   qualities,
@@ -440,7 +442,18 @@ export default function Controls({
           {/* PiP */}
           <button
             onClick={onTogglePip}
-            className="hidden sm:flex w-9 h-9 items-center justify-center rounded-full hover:bg-white/20"
+            disabled={!pipSupported}
+            title={
+              !pipSupported
+                ? "Picture-in-Picture not supported"
+                : "Toggle Picture-in-Picture"
+            }
+            className={
+              "hidden sm:flex w-9 h-9 items-center justify-center rounded-full " +
+              (pipSupported
+                ? "hover:bg-white/20"
+                : "opacity-40 cursor-not-allowed")
+            }
           >
             <PictureInPicture2 size={20} />
           </button>

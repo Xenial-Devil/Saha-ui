@@ -4,9 +4,9 @@ import VideoPlayer from "../components/VideoPlayer";
 // Put your video file in the project's `public/` folder (e.g. public/videos/)
 // and reference it by a web path. Example: "/videos/file_example_MP4_1920_18MG.mp4"
 const sample720 =
-  "/videos/Configuring Cloudflare Tunnels for Secure Remote Access (Tutorial).mkv";
+  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 const sample480 =
-  "/videos/Configuring Cloudflare Tunnels for Secure Remote Access (Tutorial).mkv";
+  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 
 const VideoPlayerExample = () => {
   return (
@@ -21,7 +21,11 @@ const VideoPlayerExample = () => {
         <div className="max-w-3xl">
           <VideoPlayer
             sources={[
-              { src: sample720, type: "video/mp4", qualityLabel: "720p" },
+              {
+                src: sample720,
+                type: "video/mp4",
+                qualityLabel: "720p",
+              },
             ]}
             poster="https://via.placeholder.com/1280x720.png?text=Video+Poster"
             autoplay={false}
