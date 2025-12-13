@@ -18,13 +18,15 @@ import React, { createContext, useContext } from "react";
 // ============================================
 
 interface SelectContextValue {
-  value?: string;
-  onValueChange?: (value: string) => void;
+  value?: string | string[];
+  onValueChange?: (value: string | string[]) => void;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   disabled?: boolean;
   variant?: SelectProps["variant"];
   size?: SelectProps["size"];
+  multiple?: boolean;
+  closeOnSelect?: boolean;
 }
 
 const SelectContext = createContext<SelectContextValue>({});
@@ -33,9 +35,9 @@ const SelectContext = createContext<SelectContextValue>({});
 const SelectComposable = forwardRef<
   HTMLDivElement,
   {
-    value?: string;
-    defaultValue?: string;
-    onValueChange?: (value: string) => void;
+    value?: string | string[];
+    defaultValue?: string | string[];
+    onValueChange?: (value: string | string[]) => void;
     open?: boolean;
     defaultOpen?: boolean;
     onOpenChange?: (open: boolean) => void;
@@ -44,6 +46,9 @@ const SelectComposable = forwardRef<
     size?: SelectProps["size"];
     children?: React.ReactNode;
     className?: string;
+    multiple?: boolean;
+    closeOnSelect?: boolean;
+    name?: string;
   }
 >(
   (
@@ -59,12 +64,15 @@ const SelectComposable = forwardRef<
       size = "md",
       children,
       className,
+      multiple = false,
+      closeOnSelect = true,
+      name,
     },
     ref
   ) => {
-    const [uncontrolledValue, setUncontrolledValue] = useState(
-      defaultValue || ""
-    );
+    const [uncontrolledValue, setUncontrolledValue] = useState<
+      string | string[]
+    >(defaultValue || (multiple ? [] : ""));
     const [uncontrolledOpen, setUncontrolledOpen] = useState(
       defaultOpen || false
     );
@@ -74,11 +82,14 @@ const SelectComposable = forwardRef<
     const open =
       controlledOpen !== undefined ? controlledOpen : uncontrolledOpen;
 
-    const handleValueChange = (newValue: string) => {
+    // If multiple selection is enabled, do not close on select by default.
+    const effectiveCloseOnSelect = multiple ? false : closeOnSelect;
+
+    const handleValueChange = (newValue: string | string[]) => {
       if (controlledValue === undefined) {
-        setUncontrolledValue(newValue);
+        setUncontrolledValue(newValue as any);
       }
-      onValueChange?.(newValue);
+      onValueChange?.(newValue as any);
     };
 
     const handleOpenChange = (newOpen: boolean) => {
@@ -98,10 +109,23 @@ const SelectComposable = forwardRef<
           disabled,
           variant,
           size,
+          multiple,
+          closeOnSelect: effectiveCloseOnSelect,
         }}
       >
         <div ref={ref} className={cn("relative", className)}>
           {children}
+
+          {/* Form submission helpers: render hidden inputs when `name` is provided */}
+          {name &&
+            multiple &&
+            Array.isArray(value) &&
+            value.map((v) => (
+              <input key={v} type="hidden" name={name} value={v} />
+            ))}
+          {name && !multiple && value && (
+            <input type="hidden" name={name} value={String(value)} />
+          )}
         </div>
       </SelectContext.Provider>
     );
@@ -158,6 +182,8 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
     const [uncontrolledValue, setUncontrolledValue] = useState<
       string | string[]
     >(defaultValue || (multiple ? [] : ""));
+    // If multiple selection is enabled, closeOnSelect behaves as false.
+    const effectiveCloseOnSelect = multiple ? false : closeOnSelect;
     const isControlled = controlledValue !== undefined;
     const value = isControlled ? controlledValue : uncontrolledValue;
 
@@ -220,7 +246,7 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
           }
         } else {
           newValue = optionValue;
-          if (closeOnSelect) {
+          if (effectiveCloseOnSelect) {
             setIsOpen(false);
           }
         }
@@ -239,7 +265,7 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
         multiple,
         value,
         maxSelections,
-        closeOnSelect,
+        effectiveCloseOnSelect,
         isControlled,
         onChange,
         searchable,
@@ -353,28 +379,31 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
               {loading ? "Loading..." : getDisplayValue()}
             </span>
 
-            {/* Actions */}
-            <div className="flex items-center gap-1 shrink-0">
-              {clearable && hasValue && !disabled && (
-                <button
-                  type="button"
-                  onClick={handleClear}
-                  className="p-1 rounded hover:bg-foreground/10 transition-colors"
-                  aria-label="Clear selection"
-                >
-                  {clearIcon || <X className="w-4 h-4" />}
-                </button>
+            {/* Dropdown icon only inside trigger */}
+            <span
+              className={cn(
+                "transition-transform duration-200",
+                isOpen && "rotate-180"
               )}
-              <span
-                className={cn(
-                  "transition-transform duration-200",
-                  isOpen && "rotate-180"
-                )}
-              >
-                {dropdownIcon || <ChevronDown className="w-5 h-5" />}
-              </span>
-            </div>
+            >
+              {dropdownIcon || <ChevronDown className="w-5 h-5" />}
+            </span>
           </button>
+
+          {/* Clear button rendered as sibling to avoid nested <button> */}
+          {clearable && hasValue && !disabled && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleClear(e as any);
+              }}
+              className="absolute right-10 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-foreground/10 transition-colors"
+              aria-label="Clear selection"
+            >
+              {clearIcon || <X className="w-4 h-4" />}
+            </button>
+          )}
 
           {/* Dropdown Menu */}
           {isOpen && !disabled && (
@@ -618,7 +647,23 @@ interface SelectValueProps {
 
 export const SelectValue = ({ placeholder, className }: SelectValueProps) => {
   const context = useContext(SelectContext);
-  const hasValue = Boolean(context.value);
+  // Determine display for composable value
+  const value = context.value;
+  let display: React.ReactNode = placeholder;
+
+  if (context.multiple && Array.isArray(value)) {
+    if (value.length === 0) {
+      display = placeholder;
+    } else if (value.length === 1) {
+      display = value[0];
+    } else {
+      display = `${value.length} selected`;
+    }
+  } else if (!context.multiple && value) {
+    display = value as string;
+  }
+
+  const hasValue = !(Array.isArray(value) ? value.length === 0 : !value);
 
   return (
     <span
@@ -628,7 +673,7 @@ export const SelectValue = ({ placeholder, className }: SelectValueProps) => {
         className
       )}
     >
-      {hasValue ? context.value : placeholder}
+      {display}
     </span>
   );
 };
@@ -676,12 +721,32 @@ interface SelectItemProps {
 export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
   ({ value, children, disabled, className }, ref) => {
     const context = useContext(SelectContext);
-    const isSelected = context.value === value;
+    const isSelected = context.multiple
+      ? Array.isArray(context.value) && context.value.includes(value)
+      : context.value === value;
 
     const handleClick = () => {
-      if (!disabled && !context.disabled) {
+      if (disabled || context.disabled) return;
+
+      if (context.multiple) {
+        const currentValues = Array.isArray(context.value) ? context.value : [];
+
+        let newValues: string[];
+        if (currentValues.includes(value)) {
+          newValues = currentValues.filter((v) => v !== value);
+        } else {
+          newValues = [...currentValues, value];
+        }
+
+        context.onValueChange?.(newValues);
+        if (context.closeOnSelect) {
+          context.onOpenChange?.(false);
+        }
+      } else {
         context.onValueChange?.(value);
-        context.onOpenChange?.(false);
+        if (context.closeOnSelect) {
+          context.onOpenChange?.(false);
+        }
       }
     };
 

@@ -36,6 +36,7 @@ export const SelectExample = () => {
   // For component-based pattern
   const [selectedFruit, setSelectedFruit] = useState<string>("");
   const [selectedLanguage, setSelectedLanguage] = useState<string>("");
+  const [selectedFruitMulti, setSelectedFruitMulti] = useState<string[]>([]);
 
   // Sample options
   const countryOptions: SelectOption[] = [
@@ -292,6 +293,38 @@ export const SelectExample = () => {
               </p>
             )}
           </div>
+
+          {/* Component-based Multi-Select Example */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">
+              Select Fruits (Component-Based Multi-Select)
+            </label>
+            <Select
+              value={selectedFruitMulti}
+              onValueChange={setSelectedFruitMulti}
+              multiple
+            
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select fruits" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Fruits</SelectLabel>
+                  <SelectItem value="apple">Apple</SelectItem>
+                  <SelectItem value="banana">Banana</SelectItem>
+                  <SelectItem value="blueberry">Blueberry</SelectItem>
+                  <SelectItem value="grapes">Grapes</SelectItem>
+                  <SelectItem value="pineapple">Pineapple</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {selectedFruitMulti.length > 0 && (
+              <p className="text-sm text-muted-foreground">
+                Selected: {selectedFruitMulti.join(", ")}
+              </p>
+            )}
+          </div>
         </div>
       </section>
 
@@ -325,7 +358,7 @@ export const SelectExample = () => {
             placeholder="Select your country"
             options={countryOptions}
             value={selectedCountry}
-            onChange={(value:string) => setSelectedCountry(value as string)}
+            onChange={(value: string) => setSelectedCountry(value as string)}
           />
           <Select
             label="Priority"
@@ -410,7 +443,9 @@ export const SelectExample = () => {
             placeholder="What do you enjoy?"
             options={hobbyOptions}
             value={selectedHobbies}
-            onChange={(value: string[]) => setSelectedHobbies(value as string[])}
+            onChange={(value: string[]) =>
+              setSelectedHobbies(value as string[])
+            }
             multiple
             maxSelections={3}
             helperText="Select up to 3 hobbies"
@@ -709,7 +744,6 @@ export const SelectExample = () => {
           placeholder="Select multiple skills"
           options={skillOptions}
           multiple
-          closeOnSelect={false}
           clearable
         />
       </section>
