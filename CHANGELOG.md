@@ -1,3 +1,10 @@
+## [1.22.8](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.7...v1.22.8) (2025-12-20)
+
+
+### Bug Fixes
+
+* Simplify README with core component overview and quick start ([1f1c196](https://github.com/Xenial-Devil/Saha-ui/commit/1f1c196e9c42b705bb33a2f330f1707c2584ea72))
+
 ## [1.22.7](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.6...v1.22.7) (2025-12-13)
 
 
