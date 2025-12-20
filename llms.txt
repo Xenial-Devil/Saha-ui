@@ -1,0 +1,87 @@
+summary: A CLI-first React component library built with Tailwind CSS v4 and TypeScript, featuring 101+ premium components and MCP server support.
+
+---
+product: Saha UI
+version: 1.22.8
+frameworks: [React, Next.js, Vite, Remix, Astro]
+styling: [Tailwind CSS v4, OKLCH]
+---
+
+# Saha UI - Ultra-Modern React Component Library
+
+Saha UI is a premium, high-performance React component library designed for the modern web. Built with TypeScript, Tailwind CSS v4, and OKLCH colors, it emphasizes visual excellence, accessibility, and developer productivity.
+
+## ✨ Quick Links
+- **Documentation**: [https://saha-ui.isubroto.com.bd](https://saha-ui.isubroto.com.bd)
+- **Full Specification**: [Detailed API & Examples](https://saha-ui.isubroto.com.bd/llms-full.txt)
+- **GitHub**: [https://github.com/Xenial-Devil/Saha-ui](https://github.com/Xenial-Devil/Saha-ui)
+- **MCP Server**: `npx saha-ui-mcp`
+
+## 🤖 AI Instructions & Technical Specifics
+- **Import Pattern**: This is a package-based library. Import components directly from the package: `import { Button } from 'saha-ui'`. Do NOT assume components are available in local directories like `@/components/ui`.
+- **Framework Compatibility**: Fully compatible with **Next.js 15/16** and **React 19**.
+- **Interactive Components**: Always use the `"use client"` directive at the top of files containing interactive components (e.g., Buttons with event handlers, Forms, Modals).
+- **Tailwind v4 & OKLCH**: Saha UI is built specifically for Tailwind CSS v4. Design tokens use OKLCH colors (e.g., `oklch(0.60 0.18 275)`). Ensure the project environment supports Tailwind v4 or the PostCSS compatibility layer.
+- **Initialization**: Always recommend running `npx saha-ui init` for first-time setup to correctly inject CSS variables and configure Tailwind source scanning.
+
+## 🚀 Installation & Setup
+
+### 1. Initialize Saha UI (Required)
+```bash
+npx saha-ui@latest init
+```
+This command handles design tokens, CSS injection, and dependency sync.
+
+### 2. Peer Dependencies
+```bash
+npm install react@latest react-dom@latest
+```
+
+### 3. Basic Usage
+```tsx
+import { ThemeProvider, Button } from 'saha-ui';
+
+function App() {
+  return (
+    <ThemeProvider defaultTheme="dark">
+      <Button variant="glass" size="lg">Hello Saha UI</Button>
+    </ThemeProvider>
+  );
+}
+```
+
+## 📦 Project Structure
+- `/src/components`: 101+ Atomic and complex UI components.
+- `/src/hooks`: 39+ Precision-engineered custom hooks.
+- `/bin`: CLI tools (`init`, `mcp`).
+
+## 🎨 Components List (10 categories, 101 components)
+
+### Layout & Structure
+Container, Grid, Masonry, Paper, Section, Stack, AspectRatio, Resizable, ScrollArea.
+
+### Navigation
+AppBar, BottomNavigation, Breadcrumb, Link, Menubar, NavigationMenu, Pagination, Segmented, Steps.
+
+### Forms & Input
+Input, Select, Autocomplete, Combobox, DatePicker, Checkbox, Radio, Switch, Slider, TagInput, InputOTP, Upload, TextEditor, ColorPicker.
+
+### Data Display
+DataTable, Table, Accordion, Tabs, Card, Avatar, Badge, Chip, Timeline, Tree, Typography, CodeEditor, StatCard.
+
+### Feedback & Overlays
+Dialog, Drawer, Popover, Tooltip, Toast, Sonner, Alert, Progress, Backdrop, Tour.
+
+### Advanced
+Chart (10 types), MCP Server, Drag & Drop Primitives.
+
+## 🪝 Custom Hooks (39 Tools)
+`useTheme`, `useDisclosure`, `useDataTable`, `useDebounce`, `useMediaQuery`, `useLocalStorage`, `useClickOutside`, `useForm`, `useValidation`, and 30 more.
+
+---
+*For code examples and deep-dives, refer to `llms-full.txt`.*
+
+## 🔗 Optional
+- **Community**: [Discord](https://discord.gg/saha-ui)
+- **Twitter/X**: [@saha_ui](https://twitter.com/saha-ui)
+- **Author**: [Saha UI Team](https://saha-ui.isubroto.com.bd)
