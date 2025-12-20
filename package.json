@@ -4,12 +4,15 @@
   "description": "Ultra-modern React component library built with TypeScript, Tailwind CSS v4, and OKLCH colors",
   "type": "module",
   "license": "MIT",
-  "author": "Saha UI Team",
+  "author": {
+    "name": "Saha UI Team",
+    "url": "https://saha-ui.isubroto.com.bd"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Xenial-Devil/Saha-ui.git"
   },
-  "homepage": "https://github.com/Xenial-Devil/Saha-ui#readme",
+  "homepage": "https://saha-ui.isubroto.com.bd",
   "bugs": {
     "url": "https://github.com/Xenial-Devil/Saha-ui/issues"
   },
@@ -65,7 +68,18 @@
     "dark-mode",
     "mcp",
     "model-context-protocol",
-    "ai-assistant"
+    "ai-assistant",
+    "components",
+    "ui",
+    "design-system",
+    "tailwind",
+    "typescript",
+    "nextjs",
+    "accessibility",
+    "a11y",
+    "react-components",
+    "ui-library",
+    "component-library"
   ],
   "scripts": {
     "dev": "vite",
