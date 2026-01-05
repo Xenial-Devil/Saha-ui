@@ -83,5 +83,5 @@ Chart (10 types), MCP Server, Drag & Drop Primitives.
 
 ## 🔗 Optional
 - **Community**: [Discord](https://discord.gg/saha-ui)
-- **Twitter/X**: [@saha_ui](https://twitter.com/saha-ui)
+- **Twitter/X**: [@saha_ui](https://twitter.com/saha_ui)
 - **Author**: [Saha UI Team](https://saha-ui.isubroto.com.bd)
