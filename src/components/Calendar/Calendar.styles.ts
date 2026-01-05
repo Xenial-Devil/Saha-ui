@@ -17,12 +17,14 @@ const calendarVariants = cva(
           "before:absolute before:inset-0 before:bg-gradient-to-br",
           "before:from-primary/5 before:via-transparent before:to-accent/5",
           "before:opacity-50 before:transition-opacity before:duration-500",
+          "before:pointer-events-none",
         ],
         bordered: [
           "bg-card/90 shadow-sm backdrop-blur-sm",
           "before:absolute before:inset-0 before:bg-gradient-to-br",
           "before:from-primary/3 before:to-accent/3",
           "before:opacity-50 before:transition-opacity before:duration-500",
+          "before:pointer-events-none",
         ],
         glass: [
           "glass backdrop-blur-2xl",
@@ -31,6 +33,7 @@ const calendarVariants = cva(
           "before:absolute before:inset-0 before:bg-gradient-to-br",
           "before:from-white/5 before:to-transparent",
           "before:opacity-70 before:transition-opacity before:duration-500",
+          "before:pointer-events-none",
         ],
         "glass-strong": [
           "glass-strong backdrop-blur-3xl",
@@ -39,6 +42,7 @@ const calendarVariants = cva(
           "before:absolute before:inset-0 before:bg-gradient-to-br",
           "before:from-white/10 before:to-transparent",
           "before:opacity-80 before:transition-opacity before:duration-500",
+          "before:pointer-events-none",
         ],
         gradient: [
           "bg-gradient-to-br from-primary/20 via-background to-accent/20",
@@ -46,7 +50,9 @@ const calendarVariants = cva(
           "before:absolute before:inset-0 before:-z-10",
           "before:bg-gradient-to-r before:from-primary before:via-accent before:to-secondary",
           "before:opacity-50 before:blur-xl",
+          "before:pointer-events-none",
           "after:absolute after:inset-[2px] after:bg-background/95 after:rounded-[inherit]",
+          "after:pointer-events-none",
         ],
       },
       color: {

@@ -1,0 +1,739 @@
+# Saha UI - Full Technical Specification & Examples
+
+This document provides detailed API specifics, exhaustive prop definitions, and code examples for every component in the Saha UI library. 
+
+**Standard Import Pattern**: All components should be imported from the core package:
+`import { ComponentName } from 'saha-ui';`
+
+---
+
+## 🏗️ 1. Layout & Structure
+
+### Container
+Responsive page-width wrapper.
+`import { Container } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| 'full'` | `'lg'` | Maximum width of the container. |
+| `padding` | `'none' \| 'sm' \| 'default' \| 'lg' \| number \| string` | `'default'` | Vertical padding (y-axis). |
+| `centered` | `boolean` | `true` | Centers the container horizontally. |
+| `className` | `string` | `''` | Additional CSS classes. |
+| `children` | `ReactNode` | `undefined` | Content to be wrapped. |
+
+### AspectRatio
+`import { AspectRatio } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `ratio` | `number` | `1` | Aspect ratio (width / height). |
+| `children` | `ReactNode` | `undefined` | Content to maintain ratio. |
+
+### Box / Flex / Stack / Grid
+`import { Box, Flex, Stack, Grid } from 'saha-ui';`
+
+**Flex Props**
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `direction` | `'row' \| 'row-reverse' \| 'col' \| 'col-reverse'` | `'row'` | Flexbox direction. |
+| `align` | `'start' \| 'center' \| 'end' \| 'baseline' \| 'stretch'` | `'stretch'` | Align-items property. |
+| `justify` | `'start' \| 'center' \| 'end' \| 'between' \| 'around' \| 'evenly'` | `'start'` | Justify-content property. |
+| `wrap` | `'wrap' \| 'nowrap' \| 'wrap-reverse'` | `'nowrap'` | Flex-wrap property. |
+| `gap` | `number \| string` | `undefined` | Spacing between children. |
+
+**Stack Props**
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `spacing` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| number \| string` | `'md'` | Spacing between items. |
+| `direction` | `'vertical' \| 'horizontal'` | `'vertical'` | Stack orientation. |
+| `align` | `'start' \| 'center' \| 'end' \| 'stretch'` | `'stretch'` | Alignment of items. |
+
+**Grid Props**
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `cols` | `number \| ResponsiveCols` | `1` | Number of columns (can be responsive object). |
+| `gap` | `number \| string` | `undefined` | Gap between grid items. |
+| `rowGap` | `number \| string` | `undefined` | Vertical gap. |
+| `colGap` | `number \| string` | `undefined` | Horizontal gap. |
+
+### Paper
+Elevated surface for content.
+`import { Paper } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `elevation` | `'none' \| 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'none'` | Shadow intensity. |
+| `bordered` | `boolean` | `true` | Show border. |
+| `padding` | `string \| number` | `undefined` | Inner padding. |
+| `rounded` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'lg'` | Border radius. |
+
+### Card
+`import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'default' \| 'outline' \| 'ghost' \| 'glass'` | `'default'` | Visual style variant. |
+| `padding` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Content padding. |
+| `hoverable` | `boolean` | `false` | Enable hover elevations/effects. |
+| `rounded` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'lg'` | Corner radius. |
+
+### Section
+`import { Section } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `title` | `ReactNode` | `undefined` | Section heading. |
+| `description` | `ReactNode` | `undefined` | Summary text. |
+| `variant` | `'solid' \| 'outline' \| 'glass'` | `'solid'` | Background style. |
+| `spacing` | `'sm' \| 'md' \| 'lg'` | `'md'` | Inner vertical spacing. |
+
+### ScrollArea
+`import { ScrollArea } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `orientation` | `'vertical' \| 'horizontal' \| 'both'` | `'vertical'` | Scroll direction. |
+| `autoHide` | `boolean` | `true` | Hide scrollbars when idle. |
+| `autoHideDelay` | `number` | `600` | Delay in ms before hiding. |
+| `scrollbarOrientation` | `'vertical' \| 'horizontal' \| 'both'` | `'inherit'` | Force specific scrollbar render. |
+
+### Masonry
+`import { Masonry } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `columns` | `number \| object` | `3` | Number of columns (responsive). |
+| `gap` | `number` | `16` | Spacing in pixels. |
+
+### Resizable
+`import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from 'saha-ui';`
+
+**ResizablePanel Props**
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `defaultSize` | `number` | `undefined` | Initial percentage size. |
+| `maxSize` | `number` | `undefined` | Maximum percentage. |
+| `minSize` | `number` | `undefined` | Minimum percentage. |
+| `order` | `number` | `undefined` | Layout order. |
+| `collapsible` | `boolean` | `false` | Can the panel be collapsed to 0? |
+
+---
+
+## 🧭 2. Navigation
+
+### AppBar
+`import { AppBar } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'solid' \| 'glass' \| 'ghost'` | `'solid'` | Visual style variant. |
+| `sticky` | `boolean` | `false` | Fix current position to top. |
+| `shadow` | `boolean` | `false` | Show bottom shadow. |
+| `fullWidth` | `boolean` | `true` | Stretch to window width. |
+
+### BottomNavigation
+`import { BottomNavigation, BottomNavigationItem } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `any` | `undefined` | Current selected value. |
+| `onChange` | `(value: any) => void` | `undefined` | Selection change handler. |
+| `variant` | `'solid' \| 'glass'` | `'solid'` | Background style. |
+| `showLabels` | `boolean` | `true` | Always show item labels. |
+
+### Menubar
+`import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem } from 'saha-ui';`
+
+**MenubarItem Props**
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `disabled` | `boolean` | `false` | Disable interactions. |
+| `onSelect` | `() => void` | `undefined` | Selection callback. |
+| `inset` | `boolean` | `false` | Indent item content. |
+
+### NavigationMenu
+`import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuIndicator, NavigationMenuViewport } from 'saha-ui';`
+
+**NavigationMenu Props**
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `string` | `undefined` | Current active menu value. |
+| `onValueChange` | `(value: string) => void` | `undefined` | Value change handler. |
+
+### Pagination
+`import { Pagination } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `total` | `number` | `required` | Total number of items. |
+| `pageSize` | `number` | `10` | Items per page. |
+| `current` | `number` | `1` | Current page number. |
+| `onChange` | `(page: number) => void` | `undefined` | Page change callback. |
+| `variant` | `'simple' \| 'full' \| 'pills'` | `'full'` | Visual style variant. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. |
+
+### Breadcrumb
+`import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from 'saha-ui';`
+
+**Breadcrumb Props**
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `items` | `BreadcrumbItemData[]` | `[]` | Data for rendering items. |
+| `separator` | `ReactNode` | `undefined` | Custom separator icon. |
+
+### Segmented
+`import { Segmented } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `options` | `SegmentedOption[]` | `[]` | Array of labels and values. |
+| `value` | `any` | `undefined` | Controlled value. |
+| `onChange` | `(value: any) => void` | `undefined` | Change callback. |
+| `variant` | `'default' \| 'outline' \| 'glass'` | `'default'` | Visual style. |
+| `fullWidth` | `boolean` | `false` | Stretch to fill container. |
+
+### Stepper
+`import { Stepper } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `steps` | `StepData[]` | `required` | Array of step labels/icons. |
+| `activeStep` | `number` | `0` | Current active index. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction. |
+| `interactive` | `boolean` | `false` | Allow clicking past steps. |
+
+### Tabs
+`import { Tabs, TabsList, TabsTrigger, TabsContent } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `defaultValue` | `string` | `undefined` | Initial tab value. |
+| `value` | `string` | `undefined` | Controlled tab value. |
+| `onValueChange` | `(value: string) => void` | `undefined` | Change handler. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | List orientation. |
+| `variant` | `'default' \| 'outline' \| 'glass' \| 'pills'` | `'default'` | Visual style. |
+
+### Tree
+`import { Tree, TreeItem } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `showLines` | `boolean` | `false` | Show connecting branch lines. |
+| `showIcons` | `boolean` | `false` | Show folder/file icons. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Node density. |
+
+### Command
+Palette-style search and execution.
+`import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `string` | `undefined` | Accessible label. |
+| `shouldFilter` | `boolean` | `true` | Enable internal filtering. |
+| `value` | `string` | `undefined` | Controlled search value. |
+| `onValueChange` | `(v: string) => void` | `undefined` | Search change callback. |
+
+---
+
+## 📝 3. Forms & Input
+
+### Input
+Standard text entry.
+`import { Input } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error' \| 'outline' \| 'ghost' \| 'glass'` | `'default'` | Visual style variant. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Height and text size. |
+| `loading` | `boolean` | `false` | Show loading spinner. |
+| `iconLeft` | `ReactNode` | `undefined` | Icon at start of input. |
+| `iconRight` | `ReactNode` | `undefined` | Icon at end of input. |
+| `error` | `string \| boolean` | `undefined` | Error message or state. |
+| `helperText` | `string` | `undefined` | Supporting text below. |
+| `fullWidth` | `boolean` | `false` | Stretch to container width. |
+
+### TextArea
+`import { TextArea } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `autoResize` | `boolean` | `false` | Dynamically adjust height. |
+| `showCount` | `boolean` | `false` | Show character counter. |
+| `maxLength` | `number` | `undefined` | Maximum characters allowed. |
+| `minRows` | `number` | `3` | Initial row height. |
+| `maxRows` | `number` | `undefined` | Maximum expansion height. |
+| `clearable` | `boolean` | `false` | Show clear button. |
+
+### Select
+Advanced custom dropdown.
+`import { Select } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `options` | `SelectOption[]` | `[]` | Data for dropdown items. |
+| `multiple` | `boolean` | `false` | Enable multi-selection. |
+| `searchable` | `boolean` | `false` | Show search input. |
+| `clearable` | `boolean` | `false` | Allow clearing selection. |
+| `loading` | `boolean` | `false` | Show loading indicator. |
+| `creatable` | `boolean` | `false` | Allow custom entry creation. |
+| `maxSelections` | `number` | `undefined` | Limit for multi-select. |
+
+### Combobox / Autocomplete
+`import { Combobox, Autocomplete } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `options` | `Option[]` | `[]` | Filterable data list. |
+| `onSearch` | `(val: string) => void` | `undefined` | Search change handler. |
+| `loading` | `boolean` | `false` | Sync/async loading state. |
+
+### Checkbox
+`import { Checkbox } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `checked` | `boolean \| 'indeterminate'` | `false` | Controlled state. |
+| `onCheckedChange` | `(val: boolean) => void`| `undefined` | Change callback. |
+| `variant` | `CheckboxVariant` | `'primary'` | Visual style. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Box size. |
+
+### RadioGroup
+`import { Radio, RadioGroup } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `string` | `undefined` | Selected radio value. |
+| `direction` | `'horizontal' \| 'vertical'`| `'vertical'` | Layout orientation. |
+| `card` | `boolean` | `false` | Render children as card items. |
+| `onChange` | `(val: string) => void` | `undefined` | Group change handler. |
+
+### Switch
+`import { Switch } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `checked` | `boolean` | `false` | Controlled state. |
+| `onCheckedChange` | `(val: boolean) => void`| `undefined` | Toggle callback. |
+| `loading` | `boolean` | `false` | Show internal spinner. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Toggle scale. |
+
+### ColorPicker
+`import { ColorPicker } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `string` | `undefined` | Selected color code. |
+| `format` | `'hex' \| 'rgb' \| 'hsl' \| 'oklch'` | `'hex'` | Export color format. |
+| `showAlpha` | `boolean` | `true` | Enable opacity slider. |
+| `presets` | `string[]` | `[]` | Defined color favorites. |
+
+### DatePicker
+`import { DatePicker, Calendar } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `mode` | `'single' \| 'range' \| 'multiple'` | `'single'` | Selection behavior. |
+| `showTime` | `boolean` | `false` | Enable time selection. |
+| `format` | `string` | `undefined` | Display date format pattern. |
+| `disabled` | `boolean` | `false` | Prevent interaction. |
+
+### Slider
+`import { Slider } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `number \| number[]` | `undefined` | Current value(s). |
+| `min` | `number` | `0` | Lower bound. |
+| `max` | `number` | `100` | Upper bound. |
+| `step` | `number` | `1` | Increment value. |
+| `range` | `boolean` | `false` | Enable dual thumb range. |
+| `showTooltip` | `boolean` | `false` | Show value popup on drag. |
+
+### TagInput
+`import { TagInput } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `string[]` | `[]` | Array of active tags. |
+| `onChange` | `(tags: string[]) => void` | `undefined` | Tag list change handler. |
+| `max` | `number` | `undefined` | Maximum allowed tags. |
+| `separators` | `string[]` | `['Enter', ',']` | Trigger keys for creation. |
+| `tagVariant` | `TagVariant` | `'default'` | Individual tag style. |
+
+### Upload
+`import { Upload } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `uploadType` | `'button' \| 'dragger' \| 'avatar' \| 'image'` | `'dragger'` | Layout/behavior mode. |
+| `multiple` | `boolean` | `false` | File batch support. |
+| `maxFiles` | `number` | `undefined` | Quantity limit. |
+| `accept` | `string` | `undefined` | Allowed MIME types/extensions. |
+| `enableImageEdit`| `boolean` | `false` | Enable inline cropping/scaling. |
+
+### Rating
+`import { Rating } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `number` | `0` | Current star count. |
+| `max` | `number` | `5` | Total stars to show. |
+| `precision` | `'full' \| 'half'` | `'full'` | Step increments. |
+| `readOnly` | `boolean` | `false` | Display-only mode. |
+
+### InputOTP
+One-time password field.
+`import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `maxLength` | `number` | `required` | Expected PIN length. |
+| `onComplete` | `(val: string) => void` | `undefined` | Fired when full. |
+| `disabled` | `boolean` | `false` | Prevent entry. |
+| `pattern` | `string` | `undefined` | Regex for validation. |
+
+### Field
+Higher-level wrapper for label/input/error groups.
+`import { Field } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `string` | `undefined` | Field label. |
+| `error` | `string` | `undefined` | Error text. |
+| `helperText` | `string` | `undefined` | Help text. |
+| `required` | `boolean` | `false` | Show required mark. |
+
+### Form
+Standardized form composition.
+`import { Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'default' \| 'outline' \| 'glass'` | `'default'` | Border/shadow style. |
+| `layout` | `'vertical' \| 'horizontal'` | `'vertical'` | Alignment of children. |
+
+---
+
+## 📊 4. Data Display
+
+### DataTable
+Hook-driven grid with high-performance features.
+`import { DataTable, useDataTable } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `columns` | `ColumnDef<TData>[]` | `required` | Column definitions. |
+| `data` | `TData[]` | `required` | Array of row data. |
+| `pagination` | `boolean` | `false` | Enable/disable pagination. |
+| `pageSize` | `number` | `10` | Rows per page. |
+| `enableFiltering` | `boolean` | `false` | Enable global search filter. |
+| `enableSorting` | `boolean` | `false` | Enable column-level sorting. |
+| `enableRowSelection` | `boolean` | `false` | Show checkboxes for rows. |
+| `stickyHeader` | `boolean` | `false` | Fix header to top on scroll. |
+| `loading` | `boolean` | `false` | Display loading skeleton/overlay. |
+| `variant` | `'default' \| 'glass' \| 'outline' \| 'minimal'` | `'default'` | Visual style. |
+
+### Accordion
+`import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `type` | `'single' \| 'multiple'` | `'single'` | Allow one or many open items. |
+| `collapsible` | `boolean` | `true` | Allow closing the only open item. |
+| `variant` | `'default' \| 'outline' \| 'ghost' \| 'glass'` | `'default'` | Visual style. |
+
+### Avatar
+`import { Avatar, AvatarImage, AvatarFallback, AvatarGroup } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `src` | `string` | `undefined` | Image URL. |
+| `alt` | `string` | `''` | Accessible text. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'` | Circle diameter. |
+| `status` | `'online' \| 'offline' \| 'away' \| 'busy'` | `undefined` | Presence indicator dot. |
+| `shape` | `'circle' \| 'square' \| 'rounded'` | `'circle'` | Border shape. |
+
+### Badge
+`import { Badge } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'primary' \| 'secondary' \| 'accent' \| 'success' \| 'error' \| 'warning' \| 'info' \| 'outline' \| 'glass'` | `'primary'` | Visual theme. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Scale. |
+| `dot` | `boolean` | `false` | Render as a small dot only. |
+
+### Chip / Tag
+`import { Chip, Tag } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `string` | `undefined` | Display text. |
+| `variant` | `ChipVariant` | `'default'` | Style variant. |
+| `size` | `'sm' \| 'md'` | `'md'` | Sizing. |
+| `onClose` | `() => void` | `undefined` | Fired when 'x' is clicked. |
+| `avatar` | `ReactNode` | `undefined` | Leading image/icon. |
+
+### Typography
+`import { Typography } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'h1'\|'h2'\|'h3'\|'h4'\|'h5'\|'h6'\|'p'\|'lead'\|'muted'\|'small'\|'code'\|'blockquote'` | `'p'` | Semantic/style choice. |
+| `align` | `'left' \| 'center' \| 'right' \| 'justify'` | `'left'` | Text alignment. |
+| `color` | `string` | `undefined` | Custom OKLCH/Hex color. |
+| `truncate` | `boolean \| number` | `false` | Enable ellipsis (line clamping). |
+
+### Timeline
+`import { Timeline, TimelineItem } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `position` | `'left' \| 'right' \| 'alternate'` | `'left'` | Vertical line alignment. |
+| `variant` | `'default' \| 'outlined' \| 'gradient' \| 'minimal' \| 'glass'` | `'default'` | Visual style. |
+
+### Carousel
+`import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slide direction. |
+| `autoplay` | `boolean` | `false` | Enable auto-play. |
+| `loop` | `boolean` | `true` | Continuous infinite loop. |
+
+### CodeEditor
+`import { CodeEditor } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `string` | `''` | Controllable code block. |
+| `language` | `string` | `'typescript'` | Syntax highlighting. |
+| `theme` | `'vs-dark' \| 'vs-light' \| 'saha-ui-dark'` | `'vs-dark'` | Monaco theme. |
+| `height` | `string` | `'400px'` | Editor height. |
+| `readOnly`| `boolean` | `false` | View-only mode. |
+
+### Empty
+`import { Empty } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `title` | `string` | `undefined` | Main message. |
+| `description`| `string` | `undefined` | Supporting details. |
+| `image` | `ReactNode` | `undefined` | Custom illustration. |
+
+### StatCard
+`import { StatCard } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `string` | `required` | Metric name. |
+| `value` | `string \| number` | `required` | Current value. |
+| `trend` | `{ value: number, direction: 'up'\|'down' }` | `undefined` | Trend indicator. |
+| `variant` | `'default' \| 'glass' \| 'outline'` | `'default'` | Card style. |
+
+---
+
+## 📢 5. Feedback & Overlays
+
+### Alert
+Inline status messaging.
+`import { Alert } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `status` | `'success' \| 'danger' \| 'warning' \| 'info'` | `'info'` | Theme and icon preset. |
+| `title` | `string` | `undefined` | Bold heading text. |
+| `message` | `string` | `undefined` | Supporting message text. |
+| `closeable` | `boolean` | `false` | Show an 'x' to dismiss. |
+| `variant` | `'solid' \| 'outline' \| 'glass' \| 'ghost'` | `'solid'` | Visual style choice. |
+
+### Dialog / Modal
+Focused overlay for critical task flow.
+`import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `open` | `boolean` | `undefined` | Controlled open state. |
+| `onOpenChange`| `(open: boolean) => void` | `undefined` | State change callback. |
+| `variant` | `'default' \| 'glass' \| 'clean'` | `'default'` | Background and border style. |
+| `maxWidth` | `string` | `'md'` | Maximum width constraint. |
+
+### Drawer
+Side-sliding panel.
+`import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `side` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'right'` | Anchored side of screen. |
+| `open` | `boolean` | `undefined` | Controlled state. |
+| `size` | `string` | `'320px'` | Width (or height for top/bottom). |
+
+### Popover
+Floating content anchored to an element.
+`import { Popover, PopoverTrigger, PopoverContent } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `side` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` | Preferred open side. |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment relative to trigger. |
+| `offset` | `number` | `4` | Gap between trigger and content. |
+
+### Tooltip
+Rich hint on hover/focus.
+`import { Tooltip, TooltipTrigger, TooltipContent } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `content` | `ReactNode` | `undefined` | Text or element inside tooltip. |
+| `delay` | `number` | `300` | Open delay in ms. |
+| `side` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'top'` | Preferred side. |
+
+### Toast / Sonner
+Temporary system notifications.
+`import { toast, Sonner } from 'saha-ui';`
+
+**Toast Methods**
+- `toast.success("Message", { description: "..." })`
+- `toast.error("Message")`
+- `toast.loading("Async Task...")`
+- `toast.promise(promise, { loading: '...', success: '...', error: '...' })`
+
+### Skeleton
+Content loading placeholders.
+`import { Skeleton, SkeletonCard, SkeletonList, SkeletonAvatar } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `count` | `number` | `1` | Number of lines/rows. |
+| `variant` | `'rect' \| 'circle' \| 'text'` | `'rect'` | Shape of the placeholder. |
+| `animate` | `boolean` | `true` | Enable pulse animation. |
+
+### Progress
+Horizontal progress bars.
+`import { Progress } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `number` | `0` | Completion percentage (0-100). |
+| `status` | `'primary' \| 'success' \| 'error' \| 'warning'` | `'primary'` | Color theme. |
+| `showValue`| `boolean` | `false` | Show text percentage. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Height of the bar. |
+
+### Spinner
+Dedicated loading animations.
+`import { Spinner } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`| Circular diameter. |
+| `variant` | `'default' \| 'primary' \| 'secondary'` | `'default'` | Color. |
+| `thickness`| `number` | `2` | Stroke width. |
+
+### Result
+Status pages for outcomes like 404/500/Success.
+`import { Result } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `status` | `'success' \| 'error' \| 'info' \| 'warning' \| '404' \| '403' \| '500'`| `'info'` | Icon/title preset. |
+| `title` | `ReactNode`| `undefined` | Header text. |
+| `subTitle`| `ReactNode`| `undefined` | Descriptive text. |
+| `extra` | `ReactNode`| `undefined` | Action buttons area. |
+
+### Collapsible
+Simple toggleable content.
+`import { Collapsible, CollapsibleTrigger, CollapsibleContent } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `open` | `boolean` | `undefined` | Controlled state. |
+| `onOpenChange`| `(open: boolean) => void` | `undefined` | Handler. |
+
+### DropdownMenu
+Standard contextual menu lists.
+`import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from 'saha-ui';`
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `open` | `boolean` | `undefined` | Controlled state. |
+| `side` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` | Open direction. |
+| `align` | `'start' \| 'center' \| 'end'` | `'end'` | Alignment relative to trigger. |
+
+---
+
+## 📈 6. Charting System
+
+### Chart Props
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `type` | `'line' \| 'bar' \| 'area' \| 'pie' \| 'donut' \| 'radar' \| 'radial' \| 'scatter' \| 'bubble' \| 'mixed'` | `required` | Base visualization type. |
+| `config` | `ChartConfig` | `required` | Main data and visual configuration object. |
+| `variant` | `'primary' \| 'secondary' \| 'glass' \| 'outline'` | `'primary'` | Visual theme. |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Height/scaling. |
+| `title` | `string` | `undefined` | Header title. |
+| `description`| `string` | `undefined` | Sub-header text. |
+
+### ChartConfig Object
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `data` | `any[]` | Array of data objects to visualize. |
+| `series` | `SeriesConfig[]` | Configuration for each data line/bar/area. |
+| `xAxis` | `AxisConfig` | Label key and axis display settings. |
+| `yAxis` | `AxisConfig` | Value constraints and axis display. |
+| `tooltip` | `{ show: boolean }` | Hover information display. |
+| `legend` | `{ show: boolean, position: 'top'\|'bottom' }` | Data label legend. |
+
+---
+
+## 🏗️ 7. Advanced: Drag & Drop
+Powerful primitives for interactive builders.
+`import { DragDropProvider, DroppableContainer, DraggableItem, DragOverlay, SortableList, SortableItem } from 'saha-ui';`
+
+### DragDropProvider
+Context wrapper for DND state.
+- **Props**: `onDragStart`, `onDragEnd`, `onDragOver`, `sensors`.
+
+### DroppableContainer
+An area that can accept draggable items.
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `string` | `required` | Unique identifier for the zone. |
+| `items` | `any[]` | `[]` | Sortable/Draggable data items. |
+| `disabled` | `boolean` | `false` | Prevent drops in this zone. |
+
+### DraggableItem
+A component that can be moved.
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `string` | `required` | Unique ID. |
+| `handle` | `boolean` | `false` | Use a specific handle element (use `DragHandle` inside). |
+| `disabled` | `boolean` | `false` | Lock the item. |
+
+### SortableList / SortableItem
+Helpers for reorderable lists.
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `strategy` | `SortingStrategy` | `vertical` | `vertical` \| `horizontal` \| `grid`. |
+| `items` | `(string \| number)[]` | `required` | Unique keys of sortable items. |
+
+---
+
+## 🎨 8. Theming & Design Tokens
+
+### OKLCH Cheat Sheet
+Saha UI uses OKLCH for consistent contrast and saturation across modes.
+- `--primary`: `oklch(48.15% 0.23 269.46)` (Indigo/Purple base)
+- `--secondary`: `oklch(0.65 0.25 340)` (Pink/Magenta accent)
+- `--accent`: `oklch(0.65 0.12 185)` (Teal/Aqua highlight)
+- `--success`: `oklch(0.60 0.15 145)` (Green)
+- `--error`: `oklch(0.60 0.20 25)` (Red)
+- `--glass-bg`: `oklch(1 0 0 / 0.25)` (Low opacity surface)
+
+---
+
+## 🛠️ 9. Common Troubleshooting
+- **Hydration Mismatch**: Always add `"use client"` if your file imports interactive components like `DataTable`, `Tabs`, or anything using `useState`/`useEffect`.
+- **CSS Not Loading**: If components appear unstyled, ensure `node_modules/saha-ui/**/*.{js,ts,jsx,tsx}` is included in your `tailwind.config.ts` content array.
+- **Icon Rendering**: Many components allow `iconLeft` or `iconRight` props; we recommend using `lucide-react` icons for consistency.
+
+---
+*End of exhaustive technical reference (101+ Components covered).*

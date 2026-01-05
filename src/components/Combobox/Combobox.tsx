@@ -29,7 +29,7 @@ import type {
   ComboboxSize,
   ComboboxVariant,
 } from "./Combobox.types";
-import { Check, ChevronDown, X, Search, Plus, Loader2 } from "lucide-react";
+import { Check, ChevronsUpDown, X, Search, Plus, Loader2 } from "lucide-react";
 import {
   triggerVariants,
   contentVariants,
@@ -40,17 +40,33 @@ import {
 /**
  * Combobox Component
  *
- * Advanced combobox with autocomplete, multi-select, creation, and beautiful animations.
- * Supports both props-based (simple) and component-based (flexible) usage patterns.
+ * An autocomplete input that allows users to TYPE directly to search and filter options.
+ * This is the key difference from Select (which is click-only selection).
+ *
+ * KEY FEATURES:
+ * - Type in the input field to search/filter options in real-time
+ * - Supports single and multiple selection
+ * - Can create new options on the fly (creatable)
+ * - Keyboard navigation (Arrow keys, Enter, Escape)
+ *
+ * USE CASES:
+ * - Search-as-you-type dropdowns
+ * - Autocomplete fields
+ * - Tag input with suggestions
+ * - Country/city pickers
+ *
+ * DIFFERENCE FROM OTHER COMPONENTS:
+ * - Select: Click-only selection, no typing (simple form selection)
+ * - Combobox: Type to search + select (autocomplete)
+ * - Dropdown: Menu items/actions (not for form inputs)
  *
  * PROPS-BASED USAGE (Simple):
- * <Combobox options={[...]} value={value} onChange={setValue} placeholder="Select..." />
+ * <Combobox options={[...]} value={value} onChange={setValue} placeholder="Type to search..." />
  *
  * COMPONENT-BASED USAGE (Flexible):
  * <Combobox value={value} onChange={setValue}>
- *   <ComboboxTrigger>Select item...</ComboboxTrigger>
+ *   <ComboboxTrigger>Type to search...</ComboboxTrigger>
  *   <ComboboxContent>
- *     <ComboboxSearch />
  *     <ComboboxItem value="1">Option 1</ComboboxItem>
  *     <ComboboxItem value="2">Option 2</ComboboxItem>
  *   </ComboboxContent>
@@ -159,7 +175,6 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       size = "md",
       multiple = false,
       searchable = true,
-      searchPlaceholder = "Search...",
       clearable = true,
       disabled = false,
       readOnly = false,
@@ -222,11 +237,19 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     );
 
     const [positionReady, setPositionReady] = useState(false);
+    const [triggerWidth, setTriggerWidth] = useState(0);
+
     useEffect(() => {
       if (!isOpen) {
         setPositionReady(false);
         return;
       }
+
+      // Get trigger width
+      if (triggerRef.current) {
+        setTriggerWidth(triggerRef.current.offsetWidth);
+      }
+
       const t = setTimeout(() => setPositionReady(true), 20);
       return () => clearTimeout(t);
     }, [isOpen, portalPos.left, portalPos.top]);
@@ -497,14 +520,16 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
         const insideTrigger = triggerRef.current?.contains(target);
         const insideDropdown = dropdownRef.current?.contains(target);
         const insidePortal = portalRef?.current?.contains(target);
+
+        // Don't close if clicking inside trigger, dropdown, or portal
         if (!insideTrigger && !insideDropdown && !insidePortal) {
           handleOpenChange(false);
         }
       };
 
-      document.addEventListener("mousedown", handleClickOutside);
-      return () =>
-        document.removeEventListener("mousedown", handleClickOutside);
+      // Use mouseup instead of mousedown to allow click events to complete first
+      document.addEventListener("mouseup", handleClickOutside);
+      return () => document.removeEventListener("mouseup", handleClickOutside);
     }, [isOpen, handleOpenChange, portalRef]);
 
     // Context value
@@ -593,45 +618,74 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
 
           {/* Trigger - wrapped in relative container for absolute clear button */}
           <div className="relative">
-            <button
-              ref={triggerRef}
-              type="button"
-              onClick={() => handleOpenChange(!isOpen)}
-              onFocus={onFocus}
-              onBlur={onBlur}
+            {/* Input field that allows typing to search */}
+            <input
+              ref={triggerRef as any}
+              type="text"
+              value={inputValue}
+              onChange={(e) => {
+                handleSearch(e.target.value);
+                if (!isOpen) handleOpenChange(true);
+              }}
+              onClick={() => {
+                // Only open on click, don't toggle
+                // This prevents closing when clicking while typing
+                if (!isOpen) handleOpenChange(true);
+              }}
+              onFocus={(_e) => {
+                onFocus?.();
+                if (!isOpen) handleOpenChange(true);
+              }}
+              onBlur={(_e) => {
+                // Don't close immediately on blur - let click handler manage it
+                // This prevents closing when clicking on dropdown options
+                setTimeout(() => {
+                  // Check if focus moved to dropdown
+                  const activeElement = document.activeElement;
+                  const isDropdownFocused =
+                    dropdownRef.current?.contains(activeElement) ||
+                    portalRef?.current?.contains(activeElement);
+
+                  if (!isDropdownFocused) {
+                    onBlur?.();
+                  }
+                }, 100);
+              }}
               disabled={disabled || readOnly}
+              placeholder={
+                value && (Array.isArray(value) ? value.length > 0 : value)
+                  ? ""
+                  : placeholder
+              }
               className={cn(
                 triggerVariants({ variant, size, hasError: !!error }),
+                "pr-20", // Extra padding for icons
                 triggerClassName
               )}
               aria-label={ariaLabel}
               aria-describedby={ariaDescribedby}
               aria-expanded={isOpen}
               aria-haspopup="listbox"
+              aria-autocomplete="list"
+              role="combobox"
               id={id}
-            >
-              <span className="flex-1 truncate">{renderValueDisplay()}</span>
+            />
 
-              <div className="flex items-center gap-1.5 flex-shrink-0">
-                {loading && (
-                  <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
-                )}
-                {/* Spacer for clear button when it's visible */}
-                {clearable &&
-                  ((Array.isArray(value) && value.length > 0) ||
-                    (!Array.isArray(value) && value)) &&
-                  !disabled &&
-                  !readOnly && <div className="w-5 h-5" />}
-                <ChevronDown
-                  className={cn(
-                    "w-4 h-4 transition-transform duration-300",
-                    isOpen && "rotate-180"
-                  )}
-                />
+            {/* Selected value display (when not focused/typing) */}
+            {!inputValue && value && (
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none flex-1 truncate text-foreground">
+                {renderValueDisplay()}
               </div>
-            </button>
+            )}
 
-            {/* Clear button - positioned absolutely outside trigger button */}
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
+              {loading && (
+                <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+              )}
+              <ChevronsUpDown className="w-4 h-4 text-muted-foreground" />
+            </div>
+
+            {/* Clear button - positioned absolutely with pointer events */}
             {clearable &&
               ((Array.isArray(value) && value.length > 0) ||
                 (!Array.isArray(value) && value)) &&
@@ -644,7 +698,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                     e.stopPropagation();
                     handleClear(e);
                   }}
-                  className="absolute right-9 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-muted/50 transition-colors z-10"
+                  className="absolute right-9 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-muted/50 transition-colors z-10 pointer-events-auto"
                   tabIndex={-1}
                   aria-label="Clear selection"
                 >
@@ -687,25 +741,16 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                           position: "absolute",
                           top: portalPos.top,
                           left: portalPos.left,
+                          width:
+                            triggerWidth > 0 ? `${triggerWidth}px` : "auto",
                           maxHeight,
+                          opacity: positionReady ? 1 : 0,
+                          transition: positionReady
+                            ? "opacity 0.15s ease-out"
+                            : "none",
                         }}
                       >
-                        {/* Search input */}
-                        {searchable && (
-                          <div className="relative">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-                            <input
-                              ref={searchInputRef}
-                              type="text"
-                              value={inputValue}
-                              onChange={(e) => handleSearch(e.target.value)}
-                              placeholder={searchPlaceholder}
-                              className={cn(searchVariants({ size }), "pl-10")}
-                            />
-                          </div>
-                        )}
-
-                        {/* Options list */}
+                        {/* Options list - search now happens in main input */}
                         <div className="overflow-y-auto max-h-[280px] py-1">
                           {loading ? (
                             <div className="flex items-center justify-center py-8">
@@ -788,8 +833,16 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                       </div>
                     );
 
-                    if (!portalContainer || disablePortal) return contentNode;
-                    return createPortal(contentNode, portalContainer);
+                    // Always use portal unless explicitly disabled
+                    if (disablePortal) return contentNode;
+
+                    // Use portalContainer if available, otherwise fallback to document.body
+                    const targetContainer =
+                      portalContainer ||
+                      (typeof window !== "undefined" ? document.body : null);
+                    if (!targetContainer) return contentNode;
+
+                    return createPortal(contentNode, targetContainer);
                   })()}
             </>
           )}
@@ -909,6 +962,7 @@ export const ComboboxTrigger = forwardRef<HTMLDivElement, ComboboxTriggerProps>(
       return React.cloneElement(children, {
         ref: triggerRef,
         onClick: () => setIsOpen(!isOpen),
+        "data-combobox-trigger": "true",
       } as any);
     }
 
@@ -958,18 +1012,101 @@ ComboboxValue.displayName = "ComboboxValue";
  */
 export const ComboboxContent = forwardRef<HTMLDivElement, ComboboxContentProps>(
   ({ children, className, maxHeight = "320px" }, _ref) => {
-    const { isOpen, variant, dropdownRef } = useCombobox();
+    const { isOpen, variant, dropdownRef, triggerRef, setIsOpen } =
+      useCombobox();
+    const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
+    const [positionReady, setPositionReady] = useState(false);
 
-    if (!isOpen) return null;
+    // Handle click outside
+    useEffect(() => {
+      if (!isOpen) return undefined;
 
-    return (
+      const handleClick = (event: MouseEvent) => {
+        const target = event.target as Node;
+
+        // Don't close if clicking inside the dropdown content
+        if (dropdownRef.current?.contains(target)) {
+          return;
+        }
+
+        // Don't close if clicking the trigger (let trigger handle toggle)
+        const trigger = document.querySelector(
+          '[data-combobox-trigger="true"]'
+        );
+        if (trigger?.contains(target)) {
+          return;
+        }
+
+        // Check if clicking on the main trigger (props-based pattern)
+        if (triggerRef.current?.contains(target)) {
+          return;
+        }
+
+        // Click was outside - close the dropdown
+        setIsOpen(false);
+      };
+
+      // Use mouseup instead of mousedown to allow click events to complete first
+      document.addEventListener("mouseup", handleClick);
+      return () => document.removeEventListener("mouseup", handleClick);
+    }, [isOpen, dropdownRef, triggerRef, setIsOpen]);
+
+    // Update position when opened
+    useEffect(() => {
+      if (!isOpen) {
+        setPositionReady(false);
+        return undefined;
+      }
+
+      const updatePosition = () => {
+        // First check for component-based trigger
+        let trigger = document.querySelector('[data-combobox-trigger="true"]');
+
+        // Fallback to props-based trigger
+        if (!trigger && triggerRef.current) {
+          trigger = triggerRef.current;
+        }
+
+        if (trigger) {
+          const rect = trigger.getBoundingClientRect();
+          setPosition({
+            top: rect.bottom + window.scrollY + 8,
+            left: rect.left + window.scrollX,
+            width: rect.width,
+          });
+          setPositionReady(true);
+        }
+      };
+
+      updatePosition();
+      window.addEventListener("scroll", updatePosition, true);
+      window.addEventListener("resize", updatePosition);
+      return () => {
+        window.removeEventListener("scroll", updatePosition, true);
+        window.removeEventListener("resize", updatePosition);
+      };
+    }, [isOpen, triggerRef]);
+
+    if (!isOpen || typeof window === "undefined") return null;
+
+    return createPortal(
       <div
         ref={dropdownRef}
         className={cn(contentVariants({ variant }), "flex flex-col", className)}
-        style={{ maxHeight }}
+        style={{
+          position: "absolute",
+          top: `${position.top}px`,
+          left: `${position.left}px`,
+          width: `${position.width}px`,
+          maxHeight,
+          zIndex: 9999,
+          opacity: positionReady ? 1 : 0,
+          transition: "opacity 0.15s ease-out",
+        }}
       >
         <div className="overflow-y-auto overflow-x-hidden py-1">{children}</div>
-      </div>
+      </div>,
+      document.body
     );
   }
 );

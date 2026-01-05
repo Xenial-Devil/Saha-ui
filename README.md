@@ -350,7 +350,7 @@ We welcome contributions from the community! Whether it's:
 
 <div align="center">
 
-**MIT License** © 2024 [Saha UI](https://saha-ui.isubroto.com.bd)
+**MIT License** ©2025 [Saha UI](https://saha-ui.isubroto.com.bd)
 
 Free to use for personal and commercial projects
 

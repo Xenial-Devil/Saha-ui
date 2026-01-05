@@ -467,6 +467,11 @@ const Calendar = forwardRef<HTMLDivElement, CalendarProps>((props, ref) => {
     const isOutside = !isSameMonth(date, currentMonth);
     const inRange = mode === "range" ? isDateInRange(date, range) : false;
 
+    // Don't render dates from adjacent months
+    if (isOutside) {
+      return <div key={index} className="h-10 w-10" />;
+    }
+
     // Determine the state with proper range handling
     let state: any = "default";
     if (disabled) {
@@ -530,7 +535,7 @@ const Calendar = forwardRef<HTMLDivElement, CalendarProps>((props, ref) => {
     });
 
     return (
-      <div className="grid grid-cols-3 gap-2 p-4">
+      <div className="relative z-10 grid grid-cols-3 gap-2 p-4">
         {months.map((month, index) => (
           <button
             key={index}
@@ -556,7 +561,7 @@ const Calendar = forwardRef<HTMLDivElement, CalendarProps>((props, ref) => {
     const years = Array.from({ length: 12 }, (_, i) => currentYear - 5 + i);
 
     return (
-      <div className="grid grid-cols-3 gap-2 p-4">
+      <div className="relative z-10 grid grid-cols-3 gap-2 p-4">
         {years.map((year) => (
           <button
             key={year}
