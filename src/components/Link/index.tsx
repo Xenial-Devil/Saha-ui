@@ -119,7 +119,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
             )}
 
             {/* Link text */}
-            <span className="relative">{children}</span>
+            <span className="relative w-full">{children}</span>
 
             {/* External link icon */}
             {isExternal && !disabled && (

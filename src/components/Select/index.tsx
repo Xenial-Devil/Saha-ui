@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef, useState, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "../../lib/utils";
 import { useClickOutside } from "../../hooks/useClickOutside";
 // validation removed
@@ -203,12 +204,18 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
     const [uncontrolledValue, setUncontrolledValue] = useState<
       string | string[]
     >(defaultValue || (multiple ? [] : ""));
+    const [dropdownPosition, setDropdownPosition] = useState({
+      top: 0,
+      left: 0,
+      width: 0,
+    });
     // If multiple selection is enabled, closeOnSelect behaves as false.
     const effectiveCloseOnSelect = multiple ? false : closeOnSelect;
     const isControlled = controlledValue !== undefined;
     const value = isControlled ? controlledValue : uncontrolledValue;
 
     const containerRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
 
     // Close dropdown when clicking outside - optimized with useClickOutside hook
@@ -224,6 +231,30 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
         searchInputRef.current.focus();
       }
     }, [isOpen, searchable]);
+
+    // Update dropdown position when opened
+    useEffect(() => {
+      if (isOpen && triggerRef.current) {
+        const updatePosition = () => {
+          const rect = triggerRef.current?.getBoundingClientRect();
+          if (rect) {
+            setDropdownPosition({
+              top: rect.bottom + window.scrollY,
+              left: rect.left + window.scrollX,
+              width: rect.width,
+            });
+          }
+        };
+        updatePosition();
+        window.addEventListener("scroll", updatePosition, true);
+        window.addEventListener("resize", updatePosition);
+        return () => {
+          window.removeEventListener("scroll", updatePosition, true);
+          window.removeEventListener("resize", updatePosition);
+        };
+      }
+      return undefined;
+    }, [isOpen]);
 
     // development-only validation removed
 
@@ -372,6 +403,7 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
         {/* Select Trigger */}
         <div ref={containerRef} className="relative">
           <button
+            ref={triggerRef}
             type="button"
             id={id}
             onClick={() => !disabled && setIsOpen(!isOpen)}
@@ -427,63 +459,100 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
           )}
 
           {/* Dropdown Menu */}
-          {isOpen && !disabled && (
-            <div
-              className={cn(selectMenuVariants({ variant }), menuClassName)}
-              role="listbox"
-              aria-multiselectable={multiple}
-            >
-              {/* Search Input */}
-              {searchable && (
-                <div className="p-2 border-b-2 border-border/50">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <input
-                      ref={searchInputRef}
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search..."
-                      className="w-full pl-10 pr-4 py-2 bg-background/50 rounded-md border-2 border-border/50 focus:border-primary focus:outline-none transition-colors"
-                    />
+          {isOpen &&
+            !disabled &&
+            typeof window !== "undefined" &&
+            createPortal(
+              <div
+                className={cn(selectMenuVariants({ variant }), menuClassName)}
+                style={{
+                  position: "absolute",
+                  top: `${dropdownPosition.top}px`,
+                  left: `${dropdownPosition.left}px`,
+                  width: `${dropdownPosition.width}px`,
+                  zIndex: 9999,
+                  opacity: dropdownPosition.width > 0 ? 1 : 0,
+                  transition: "opacity 0.15s ease-out",
+                }}
+                role="listbox"
+                aria-multiselectable={multiple}
+              >
+                {/* Search Input */}
+                {searchable && (
+                  <div className="p-2 border-b-2 border-border/50">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <input
+                        ref={searchInputRef}
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search..."
+                        className="w-full pl-10 pr-4 py-2 bg-background/50 rounded-md border-2 border-border/50 focus:border-primary focus:outline-none transition-colors"
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Options List */}
-              <div className="overflow-y-auto" style={{ maxHeight }}>
-                {filteredOptions.length === 0 ? (
-                  <div className="px-4 py-8 text-center text-muted-foreground">
-                    {searchQuery ? (
-                      <>
-                        <p>No results found</p>
-                        {creatable && (
-                          <button
-                            onClick={handleCreateOption}
-                            className="mt-2 text-primary hover:underline"
-                          >
-                            Create "{searchQuery}"
-                          </button>
-                        )}
-                      </>
-                    ) : (
-                      "No options available"
-                    )}
-                  </div>
-                ) : (
-                  (
-                    Object.entries(groupedOptions) as [string, SelectOption[]][]
-                  ).map(([group, groupOptions]) => (
-                    <div key={group}>
-                      {group !== "default" && (
-                        <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider bg-foreground/5">
-                          {group}
-                        </div>
+                {/* Options List */}
+                <div className="overflow-y-auto" style={{ maxHeight }}>
+                  {filteredOptions.length === 0 ? (
+                    <div className="px-4 py-8 text-center text-muted-foreground">
+                      {searchQuery ? (
+                        <>
+                          <p>No results found</p>
+                          {creatable && (
+                            <button
+                              onClick={handleCreateOption}
+                              className="mt-2 text-primary hover:underline"
+                            >
+                              Create "{searchQuery}"
+                            </button>
+                          )}
+                        </>
+                      ) : (
+                        "No options available"
                       )}
-                      {groupOptions.map((option: SelectOption) => {
-                        const selected = isSelected(option.value);
+                    </div>
+                  ) : (
+                    (
+                      Object.entries(groupedOptions) as [
+                        string,
+                        SelectOption[]
+                      ][]
+                    ).map(([group, groupOptions]) => (
+                      <div key={group}>
+                        {group !== "default" && (
+                          <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider bg-foreground/5">
+                            {group}
+                          </div>
+                        )}
+                        {groupOptions.map((option: SelectOption) => {
+                          const selected = isSelected(option.value);
 
-                        if (renderOption) {
+                          if (renderOption) {
+                            return (
+                              <div
+                                key={option.value}
+                                onClick={() =>
+                                  !option.disabled && handleSelect(option.value)
+                                }
+                                className={cn(
+                                  selectOptionVariants({
+                                    variant,
+                                    disabled: option.disabled,
+                                  }),
+                                  optionClassName
+                                )}
+                                data-selected={selected}
+                                role="option"
+                                aria-selected={selected}
+                              >
+                                {renderOption(option)}
+                              </div>
+                            );
+                          }
+
                           return (
                             <div
                               key={option.value}
@@ -501,74 +570,53 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
                               role="option"
                               aria-selected={selected}
                             >
-                              {renderOption(option)}
+                              {/* Checkmark */}
+                              {showCheckmarks && (
+                                <span
+                                  className={cn(
+                                    "shrink-0 w-5 h-5 flex items-center justify-center",
+                                    selected ? "opacity-100" : "opacity-0"
+                                  )}
+                                >
+                                  <Check className="w-4 h-4" />
+                                </span>
+                              )}
+
+                              {/* Avatar */}
+                              {option.avatar && (
+                                <img
+                                  src={option.avatar}
+                                  alt=""
+                                  className="w-8 h-8 rounded-full object-cover shrink-0"
+                                />
+                              )}
+
+                              {/* Icon */}
+                              {option.icon && (
+                                <span className="shrink-0">{option.icon}</span>
+                              )}
+
+                              {/* Label and Description */}
+                              <div className="flex-1 min-w-0">
+                                <div className="font-medium truncate">
+                                  {option.label}
+                                </div>
+                                {option.description && (
+                                  <div className="text-sm text-muted-foreground truncate">
+                                    {option.description}
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           );
-                        }
-
-                        return (
-                          <div
-                            key={option.value}
-                            onClick={() =>
-                              !option.disabled && handleSelect(option.value)
-                            }
-                            className={cn(
-                              selectOptionVariants({
-                                variant,
-                                disabled: option.disabled,
-                              }),
-                              optionClassName
-                            )}
-                            data-selected={selected}
-                            role="option"
-                            aria-selected={selected}
-                          >
-                            {/* Checkmark */}
-                            {showCheckmarks && (
-                              <span
-                                className={cn(
-                                  "shrink-0 w-5 h-5 flex items-center justify-center",
-                                  selected ? "opacity-100" : "opacity-0"
-                                )}
-                              >
-                                <Check className="w-4 h-4" />
-                              </span>
-                            )}
-
-                            {/* Avatar */}
-                            {option.avatar && (
-                              <img
-                                src={option.avatar}
-                                alt=""
-                                className="w-8 h-8 rounded-full object-cover shrink-0"
-                              />
-                            )}
-
-                            {/* Icon */}
-                            {option.icon && (
-                              <span className="shrink-0">{option.icon}</span>
-                            )}
-
-                            {/* Label and Description */}
-                            <div className="flex-1 min-w-0">
-                              <div className="font-medium truncate">
-                                {option.label}
-                              </div>
-                              {option.description && (
-                                <div className="text-sm text-muted-foreground truncate">
-                                  {option.description}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-          )}
+                        })}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>,
+              document.body
+            )}
         </div>
 
         {/* Hidden input for form submission */}
@@ -646,6 +694,7 @@ export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps>(
         )}
         aria-haspopup="listbox"
         aria-expanded={context.open}
+        data-select-trigger="true"
         {...props}
       >
         {children}
@@ -708,26 +757,83 @@ interface SelectContentProps {
 export const SelectContent = ({ children, className }: SelectContentProps) => {
   const context = useContext(SelectContext);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
 
-  useClickOutside(containerRef, () => {
-    if (context.open) {
+  // Handle clicks on the document to close dropdown
+  useEffect(() => {
+    if (!context.open) return undefined;
+
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as Node;
+
+      // Don't close if clicking inside the dropdown content
+      if (containerRef.current?.contains(target)) {
+        return;
+      }
+
+      // Don't close if clicking the trigger (let trigger handle toggle)
+      const trigger = document.querySelector('[data-select-trigger="true"]');
+      if (trigger?.contains(target)) {
+        return;
+      }
+
+      // Click was outside - close the dropdown
       context.onOpenChange?.(false);
+    };
+
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [context]);
+
+  useEffect(() => {
+    if (context.open) {
+      const trigger = document.querySelector(
+        '[aria-haspopup="listbox"][aria-expanded="true"]'
+      );
+      if (trigger) {
+        const updatePosition = () => {
+          const rect = trigger.getBoundingClientRect();
+          setPosition({
+            top: rect.bottom + window.scrollY,
+            left: rect.left + window.scrollX,
+            width: rect.width,
+          });
+        };
+        updatePosition();
+        window.addEventListener("scroll", updatePosition, true);
+        window.addEventListener("resize", updatePosition);
+        return () => {
+          window.removeEventListener("scroll", updatePosition, true);
+          window.removeEventListener("resize", updatePosition);
+        };
+      }
     }
-  });
+    return undefined;
+  }, [context.open]);
 
-  if (!context.open) return null;
+  if (!context.open || typeof window === "undefined") return null;
 
-  return (
+  return createPortal(
     <div
       ref={containerRef}
       className={cn(
         selectMenuVariants({ variant: context.variant }),
         className
       )}
+      style={{
+        position: "absolute",
+        top: `${position.top}px`,
+        left: `${position.left}px`,
+        width: `${position.width}px`,
+        zIndex: 9999,
+        opacity: position.width > 0 ? 1 : 0,
+        transition: "opacity 0.15s ease-out",
+      }}
       role="listbox"
     >
       <div className="overflow-y-auto max-h-[300px]">{children}</div>
-    </div>
+    </div>,
+    document.body
   );
 };
 SelectContent.displayName = "SelectContent";
