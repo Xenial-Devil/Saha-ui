@@ -19,24 +19,18 @@ A fully accessible date picker component with calendar interface, range selectio
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { DatePicker } from '@saha-ui/core';
+import { DatePicker } from "saha-ui";
 
 function App() {
   const [date, setDate] = useState<Date | null>(null);
 
-  return (
-    <DatePicker
-      label="Select date"
-      value={date}
-      onChange={setDate}
-    />
-  );
+  return <DatePicker label="Select date" value={date} onChange={setDate} />;
 }
 ```
 
@@ -68,7 +62,10 @@ Select a range of dates:
 
 ```tsx
 function DateRangePicker() {
-  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
+    null,
+    null,
+  ]);
   const [startDate, endDate] = dateRange;
 
   return (
@@ -116,12 +113,12 @@ const isWeekend = (date: Date) => {
   onChange={setDate}
   filterDate={(date) => !isWeekend(date)}
   helperText="Weekends are not available"
-/>
+/>;
 
 // Disable specific dates
 const disabledDates = [
   new Date(2024, 11, 25), // Christmas
-  new Date(2024, 0, 1),   // New Year
+  new Date(2024, 0, 1), // New Year
 ];
 
 <DatePicker
@@ -129,7 +126,7 @@ const disabledDates = [
   value={date}
   onChange={setDate}
   excludeDates={disabledDates}
-/>
+/>;
 ```
 
 ### With Time Selection
@@ -212,12 +209,7 @@ Select year only:
 Show calendar without input:
 
 ```tsx
-<DatePicker
-  label="Select date"
-  value={date}
-  onChange={setDate}
-  inline
-/>
+<DatePicker label="Select date" value={date} onChange={setDate} inline />
 ```
 
 ### Required Field
@@ -285,8 +277,11 @@ Highlight specific dates:
 
 ```tsx
 const highlightDates = [
-  { date: new Date(), className: 'bg-primary text-primary-foreground' },
-  { date: addDays(new Date(), 7), className: 'bg-accent text-accent-foreground' },
+  { date: new Date(), className: "bg-primary text-primary-foreground" },
+  {
+    date: addDays(new Date(), 7),
+    className: "bg-accent text-accent-foreground",
+  },
 ];
 
 <DatePicker
@@ -294,7 +289,7 @@ const highlightDates = [
   value={date}
   onChange={setDate}
   highlightDates={highlightDates}
-/>
+/>;
 ```
 
 ### Custom Day Contents
@@ -305,11 +300,13 @@ const highlightDates = [
   value={date}
   onChange={setDate}
   renderDayContents={(day, date) => {
-    const hasEvent = events.some(e => isSameDay(e.date, date));
+    const hasEvent = events.some((e) => isSameDay(e.date, date));
     return (
       <div className="relative">
         {day}
-        {hasEvent && <div className="absolute bottom-0 w-1 h-1 bg-primary rounded-full" />}
+        {hasEvent && (
+          <div className="absolute bottom-0 w-1 h-1 bg-primary rounded-full" />
+        )}
       </div>
     );
   }}
@@ -335,7 +332,7 @@ function BookingDatePicker() {
         excludeDates={bookedDates}
         placeholderText="Select check-in date"
       />
-      
+
       <DatePicker
         label="Check-out date"
         value={checkOut}
@@ -383,13 +380,15 @@ function AppointmentPicker() {
   const [appointment, setAppointment] = useState<Date | null>(null);
 
   const availableSlots = [
-    { start: 9, end: 12 },  // 9 AM - 12 PM
+    { start: 9, end: 12 }, // 9 AM - 12 PM
     { start: 14, end: 17 }, // 2 PM - 5 PM
   ];
 
   const filterTime = (time: Date) => {
     const hours = time.getHours();
-    return availableSlots.some(slot => hours >= slot.start && hours < slot.end);
+    return availableSlots.some(
+      (slot) => hours >= slot.start && hours < slot.end
+    );
   };
 
   return (
@@ -452,11 +451,7 @@ The component provides comprehensive screen reader support:
 For date pickers without visible labels:
 
 ```tsx
-<DatePicker
-  aria-label="Select date"
-  value={date}
-  onChange={setDate}
-/>
+<DatePicker aria-label="Select date" value={date} onChange={setDate} />
 ```
 
 ### Required Fields
@@ -475,11 +470,7 @@ For date pickers without visible labels:
 Errors are automatically announced to screen readers:
 
 ```tsx
-<DatePicker
-  label="Date"
-  error="Invalid date selected"
-  aria-invalid="true"
-/>
+<DatePicker label="Date" error="Invalid date selected" aria-invalid="true" />
 // Error has role="alert" and aria-live="polite"
 ```
 
@@ -501,50 +492,50 @@ Errors are automatically announced to screen readers:
 
 ### DatePicker Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - | Label text for the date picker |
-| `description` | `string` | - | Description text shown below the label |
-| `placeholder` | `string` | - | Placeholder text |
-| `helperText` | `string` | - | Helper text shown below the picker |
-| `error` | `string` | - | Error message to display |
-| `value` | `Date \| null` | - | Selected date (controlled) |
-| `defaultValue` | `Date` | - | Default date (uncontrolled) |
-| `onChange` | `(date: Date \| null) => void` | - | Callback when date changes |
-| `onBlur` | `(e: FocusEvent) => void` | - | Blur event handler |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'` | Color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the date picker |
-| `dateFormat` | `string` | `'MM/dd/yyyy'` | Date format string |
-| `minDate` | `Date` | - | Minimum selectable date |
-| `maxDate` | `Date` | - | Maximum selectable date |
-| `excludeDates` | `Date[]` | - | Array of dates to exclude |
-| `includeDates` | `Date[]` | - | Array of dates to include (only these) |
-| `filterDate` | `(date: Date) => boolean` | - | Function to filter selectable dates |
-| `selectsRange` | `boolean` | `false` | Enable range selection |
-| `startDate` | `Date \| null` | - | Start date for range |
-| `endDate` | `Date \| null` | - | End date for range |
-| `showTimeSelect` | `boolean` | `false` | Show time picker |
-| `showTimeSelectOnly` | `boolean` | `false` | Show only time picker |
-| `timeIntervals` | `number` | `30` | Time interval in minutes |
-| `timeCaption` | `string` | `'Time'` | Label for time picker |
-| `showMonthYearPicker` | `boolean` | `false` | Show month/year picker |
-| `showYearPicker` | `boolean` | `false` | Show year picker only |
-| `showYearDropdown` | `boolean` | `false` | Show year dropdown |
-| `showMonthDropdown` | `boolean` | `false` | Show month dropdown |
-| `inline` | `boolean` | `false` | Display calendar inline |
-| `disabled` | `boolean` | `false` | Whether the picker is disabled |
-| `readOnly` | `boolean` | `false` | Whether the picker is read-only |
-| `required` | `boolean` | `false` | Whether date selection is required |
-| `isClearable` | `boolean` | `false` | Show clear button |
-| `highlightDates` | `Array<{ date: Date; className: string }>` | - | Dates to highlight |
-| `renderDayContents` | `(day: number, date: Date) => ReactNode` | - | Custom day renderer |
-| `locale` | `Locale` | `en-US` | Date locale |
-| `className` | `string` | - | Additional CSS classes |
-| `aria-label` | `string` | - | Accessible label for screen readers |
-| `aria-labelledby` | `string` | - | ID of element that labels this picker |
-| `aria-describedby` | `string` | - | IDs of elements that describe this picker |
-| `aria-required` | `'true' \| 'false'` | - | Whether the picker is required |
-| `aria-invalid` | `'true' \| 'false'` | - | Whether the picker has an error |
+| Prop                  | Type                                                                                     | Default        | Description                               |
+| --------------------- | ---------------------------------------------------------------------------------------- | -------------- | ----------------------------------------- |
+| `label`               | `string`                                                                                 | -              | Label text for the date picker            |
+| `description`         | `string`                                                                                 | -              | Description text shown below the label    |
+| `placeholder`         | `string`                                                                                 | -              | Placeholder text                          |
+| `helperText`          | `string`                                                                                 | -              | Helper text shown below the picker        |
+| `error`               | `string`                                                                                 | -              | Error message to display                  |
+| `value`               | `Date \| null`                                                                           | -              | Selected date (controlled)                |
+| `defaultValue`        | `Date`                                                                                   | -              | Default date (uncontrolled)               |
+| `onChange`            | `(date: Date \| null) => void`                                                           | -              | Callback when date changes                |
+| `onBlur`              | `(e: FocusEvent) => void`                                                                | -              | Blur event handler                        |
+| `variant`             | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'`    | Color variant                             |
+| `size`                | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`         | Size of the date picker                   |
+| `dateFormat`          | `string`                                                                                 | `'MM/dd/yyyy'` | Date format string                        |
+| `minDate`             | `Date`                                                                                   | -              | Minimum selectable date                   |
+| `maxDate`             | `Date`                                                                                   | -              | Maximum selectable date                   |
+| `excludeDates`        | `Date[]`                                                                                 | -              | Array of dates to exclude                 |
+| `includeDates`        | `Date[]`                                                                                 | -              | Array of dates to include (only these)    |
+| `filterDate`          | `(date: Date) => boolean`                                                                | -              | Function to filter selectable dates       |
+| `selectsRange`        | `boolean`                                                                                | `false`        | Enable range selection                    |
+| `startDate`           | `Date \| null`                                                                           | -              | Start date for range                      |
+| `endDate`             | `Date \| null`                                                                           | -              | End date for range                        |
+| `showTimeSelect`      | `boolean`                                                                                | `false`        | Show time picker                          |
+| `showTimeSelectOnly`  | `boolean`                                                                                | `false`        | Show only time picker                     |
+| `timeIntervals`       | `number`                                                                                 | `30`           | Time interval in minutes                  |
+| `timeCaption`         | `string`                                                                                 | `'Time'`       | Label for time picker                     |
+| `showMonthYearPicker` | `boolean`                                                                                | `false`        | Show month/year picker                    |
+| `showYearPicker`      | `boolean`                                                                                | `false`        | Show year picker only                     |
+| `showYearDropdown`    | `boolean`                                                                                | `false`        | Show year dropdown                        |
+| `showMonthDropdown`   | `boolean`                                                                                | `false`        | Show month dropdown                       |
+| `inline`              | `boolean`                                                                                | `false`        | Display calendar inline                   |
+| `disabled`            | `boolean`                                                                                | `false`        | Whether the picker is disabled            |
+| `readOnly`            | `boolean`                                                                                | `false`        | Whether the picker is read-only           |
+| `required`            | `boolean`                                                                                | `false`        | Whether date selection is required        |
+| `isClearable`         | `boolean`                                                                                | `false`        | Show clear button                         |
+| `highlightDates`      | `Array<{ date: Date; className: string }>`                                               | -              | Dates to highlight                        |
+| `renderDayContents`   | `(day: number, date: Date) => ReactNode`                                                 | -              | Custom day renderer                       |
+| `locale`              | `Locale`                                                                                 | `en-US`        | Date locale                               |
+| `className`           | `string`                                                                                 | -              | Additional CSS classes                    |
+| `aria-label`          | `string`                                                                                 | -              | Accessible label for screen readers       |
+| `aria-labelledby`     | `string`                                                                                 | -              | ID of element that labels this picker     |
+| `aria-describedby`    | `string`                                                                                 | -              | IDs of elements that describe this picker |
+| `aria-required`       | `'true' \| 'false'`                                                                      | -              | Whether the picker is required            |
+| `aria-invalid`        | `'true' \| 'false'`                                                                      | -              | Whether the picker has an error           |
 
 ## Best Practices
 
@@ -608,22 +599,22 @@ Match user expectations:
 function DateRangeForm() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (startDate && endDate && endDate < startDate) {
-      setError('End date must be after start date');
+      setError("End date must be after start date");
     } else {
-      setError('');
+      setError("");
     }
   }, [startDate, endDate]);
 
   return (
     <>
       <DatePicker label="Start" value={startDate} onChange={setStartDate} />
-      <DatePicker 
-        label="End" 
-        value={endDate} 
+      <DatePicker
+        label="End"
+        value={endDate}
         onChange={setEndDate}
         error={error}
       />
@@ -650,9 +641,9 @@ function DateRangeForm() {
 <DatePicker label="Birth date" dateFormat="MM/dd/yyyy" />
 
 // Date and time
-<DatePicker 
-  label="Appointment" 
-  showTimeSelect 
+<DatePicker
+  label="Appointment"
+  showTimeSelect
   dateFormat="MM/dd/yyyy h:mm aa"
 />
 ```
@@ -680,13 +671,9 @@ function DateRangeForm() {
 ### 10. Localize for Your Audience
 
 ```tsx
-import { es } from 'date-fns/locale';
+import { es } from "date-fns/locale";
 
-<DatePicker
-  label="Fecha"
-  locale={es}
-  dateFormat="dd/MM/yyyy"
-/>
+<DatePicker label="Fecha" locale={es} dateFormat="dd/MM/yyyy" />;
 ```
 
 ## Form Integration
@@ -694,7 +681,7 @@ import { es } from 'date-fns/locale';
 ### With React Hook Form
 
 ```tsx
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 
 function Form() {
   const { control, handleSubmit } = useForm();
@@ -704,14 +691,14 @@ function Form() {
       <Controller
         name="appointmentDate"
         control={control}
-        rules={{ 
-          required: 'Date is required',
+        rules={{
+          required: "Date is required",
           validate: (value) => {
             if (value < new Date()) {
-              return 'Date must be in the future';
+              return "Date must be in the future";
             }
             return true;
-          }
+          },
         }}
         render={({ field, fieldState }) => (
           <DatePicker
@@ -733,13 +720,13 @@ function Form() {
 ### With Formik
 
 ```tsx
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 const schema = Yup.object({
   date: Yup.date()
-    .required('Required')
-    .min(new Date(), 'Date must be in the future'),
+    .required("Required")
+    .min(new Date(), "Date must be in the future"),
 });
 
 function Form() {
@@ -753,7 +740,7 @@ function Form() {
         <DatePicker
           label="Select date"
           value={values.date}
-          onChange={(date) => setFieldValue('date', date)}
+          onChange={(date) => setFieldValue("date", date)}
           error={touched.date ? errors.date : undefined}
         />
       )}
@@ -771,9 +758,9 @@ function EventCalendar() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const events = getEvents(); // Get events from API
 
-  const eventDates = events.map(e => ({
+  const eventDates = events.map((e) => ({
     date: e.date,
-    className: 'bg-primary/20 text-primary font-semibold',
+    className: "bg-primary/20 text-primary font-semibold",
   }));
 
   return (
@@ -784,7 +771,7 @@ function EventCalendar() {
       inline
       highlightDates={eventDates}
       renderDayContents={(day, date) => {
-        const event = events.find(e => isSameDay(e.date, date));
+        const event = events.find((e) => isSameDay(e.date, date));
         return (
           <div className="relative">
             {day}
@@ -807,7 +794,7 @@ function EventCalendar() {
 function FlightDatePicker() {
   const [departure, setDeparture] = useState<Date | null>(null);
   const [returnDate, setReturnDate] = useState<Date | null>(null);
-  const [tripType, setTripType] = useState<'oneWay' | 'roundTrip'>('roundTrip');
+  const [tripType, setTripType] = useState<"oneWay" | "roundTrip">("roundTrip");
 
   return (
     <>
@@ -821,8 +808,8 @@ function FlightDatePicker() {
         endDate={returnDate}
         required
       />
-      
-      {tripType === 'roundTrip' && (
+
+      {tripType === "roundTrip" && (
         <DatePicker
           label="Return date"
           value={returnDate}
@@ -843,18 +830,18 @@ function FlightDatePicker() {
 ### Multi-language Support
 
 ```tsx
-import { de, fr, es, ja } from 'date-fns/locale';
+import { de, fr, es, ja } from "date-fns/locale";
 
 function LocalizedDatePicker() {
-  const [locale, setLocale] = useState('en');
-  
+  const [locale, setLocale] = useState("en");
+
   const locales = { en: undefined, de, fr, es, ja };
   const formats = {
-    en: 'MM/dd/yyyy',
-    de: 'dd.MM.yyyy',
-    fr: 'dd/MM/yyyy',
-    es: 'dd/MM/yyyy',
-    ja: 'yyyy年MM月dd日',
+    en: "MM/dd/yyyy",
+    de: "dd.MM.yyyy",
+    fr: "dd/MM/yyyy",
+    es: "dd/MM/yyyy",
+    ja: "yyyy年MM月dd日",
   };
 
   return (
@@ -874,7 +861,7 @@ function LocalizedDatePicker() {
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { DatePickerProps } from '@saha-ui/core';
+import type { DatePickerProps } from "saha-ui";
 
 const MyDatePicker: React.FC<DatePickerProps> = (props) => {
   return <DatePicker {...props} />;
@@ -883,7 +870,7 @@ const MyDatePicker: React.FC<DatePickerProps> = (props) => {
 // Type-safe date handling
 const handleChange = (date: Date | null) => {
   if (date) {
-    console.log(format(date, 'yyyy-MM-dd'));
+    console.log(format(date, "yyyy-MM-dd"));
   }
 };
 ```
@@ -893,10 +880,7 @@ const handleChange = (date: Date | null) => {
 The component uses CVA (Class Variance Authority) for variant management:
 
 ```tsx
-<DatePicker
-  label="Custom styled"
-  className="my-custom-class"
-/>
+<DatePicker label="Custom styled" className="my-custom-class" />
 ```
 
 ## Dark Mode
@@ -911,7 +895,7 @@ Dark mode is automatically supported using CSS variables. No additional configur
 const minDate = useMemo(() => addDays(new Date(), 1), []);
 const maxDate = useMemo(() => addMonths(new Date(), 6), []);
 
-<DatePicker minDate={minDate} maxDate={maxDate} />
+<DatePicker minDate={minDate} maxDate={maxDate} />;
 ```
 
 ### 2. Lazy Load Large Date Ranges
@@ -920,7 +904,7 @@ const maxDate = useMemo(() => addMonths(new Date(), 6), []);
 const [visibleMonth, setVisibleMonth] = useState(new Date());
 const events = useMonthEvents(visibleMonth); // Load only current month
 
-<DatePicker onMonthChange={setVisibleMonth} />
+<DatePicker onMonthChange={setVisibleMonth} />;
 ```
 
 ## Browser Support

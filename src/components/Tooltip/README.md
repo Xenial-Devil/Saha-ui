@@ -17,13 +17,13 @@ A flexible and accessible tooltip component for displaying contextual informatio
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Tooltip, TooltipTrigger, TooltipContent } from '@saha-ui/core';
+import { Tooltip, TooltipTrigger, TooltipContent } from "saha-ui";
 
 function MyComponent() {
   return (
@@ -31,9 +31,7 @@ function MyComponent() {
       <TooltipTrigger>
         <button>Hover me</button>
       </TooltipTrigger>
-      <TooltipContent>
-        This is a tooltip
-      </TooltipContent>
+      <TooltipContent>This is a tooltip</TooltipContent>
     </Tooltip>
   );
 }
@@ -91,7 +89,9 @@ function MyComponent() {
 
 ```tsx
 <Tooltip variant="default">
-  <TooltipTrigger><button>Default</button></TooltipTrigger>
+  <TooltipTrigger>
+    <button>Default</button>
+  </TooltipTrigger>
   <TooltipContent>Default variant</TooltipContent>
 </Tooltip>
 ```
@@ -100,7 +100,9 @@ function MyComponent() {
 
 ```tsx
 <Tooltip variant="dark">
-  <TooltipTrigger><button>Dark</button></TooltipTrigger>
+  <TooltipTrigger>
+    <button>Dark</button>
+  </TooltipTrigger>
   <TooltipContent>Dark variant</TooltipContent>
 </Tooltip>
 ```
@@ -109,7 +111,9 @@ function MyComponent() {
 
 ```tsx
 <Tooltip variant="light">
-  <TooltipTrigger><button>Light</button></TooltipTrigger>
+  <TooltipTrigger>
+    <button>Light</button>
+  </TooltipTrigger>
   <TooltipContent>Light variant</TooltipContent>
 </Tooltip>
 ```
@@ -118,7 +122,9 @@ function MyComponent() {
 
 ```tsx
 <Tooltip variant="glass">
-  <TooltipTrigger><button>Glass</button></TooltipTrigger>
+  <TooltipTrigger>
+    <button>Glass</button>
+  </TooltipTrigger>
   <TooltipContent>Glass effect tooltip</TooltipContent>
 </Tooltip>
 ```
@@ -172,7 +178,9 @@ function MyComponent() {
 
 ```tsx
 <Tooltip trigger="hover">
-  <TooltipTrigger><button>Hover me</button></TooltipTrigger>
+  <TooltipTrigger>
+    <button>Hover me</button>
+  </TooltipTrigger>
   <TooltipContent>Shows on hover</TooltipContent>
 </Tooltip>
 ```
@@ -181,7 +189,9 @@ function MyComponent() {
 
 ```tsx
 <Tooltip trigger="click">
-  <TooltipTrigger><button>Click me</button></TooltipTrigger>
+  <TooltipTrigger>
+    <button>Click me</button>
+  </TooltipTrigger>
   <TooltipContent>Shows on click</TooltipContent>
 </Tooltip>
 ```
@@ -190,7 +200,9 @@ function MyComponent() {
 
 ```tsx
 <Tooltip trigger="focus">
-  <TooltipTrigger><input placeholder="Focus me" /></TooltipTrigger>
+  <TooltipTrigger>
+    <input placeholder="Focus me" />
+  </TooltipTrigger>
   <TooltipContent>Shows on focus</TooltipContent>
 </Tooltip>
 ```
@@ -216,7 +228,9 @@ function ControlledTooltip() {
 
 ```tsx
 <Tooltip delay={500}>
-  <TooltipTrigger><button>Hover</button></TooltipTrigger>
+  <TooltipTrigger>
+    <button>Hover</button>
+  </TooltipTrigger>
   <TooltipContent>Shows after 500ms delay</TooltipContent>
 </Tooltip>
 ```
@@ -225,7 +239,9 @@ function ControlledTooltip() {
 
 ```tsx
 <Tooltip arrow={false}>
-  <TooltipTrigger><button>Hover</button></TooltipTrigger>
+  <TooltipTrigger>
+    <button>Hover</button>
+  </TooltipTrigger>
   <TooltipContent>No arrow pointer</TooltipContent>
 </Tooltip>
 ```
@@ -236,13 +252,13 @@ Allow users to interact with tooltip content:
 
 ```tsx
 <Tooltip interactive>
-  <TooltipTrigger><button>Hover</button></TooltipTrigger>
+  <TooltipTrigger>
+    <button>Hover</button>
+  </TooltipTrigger>
   <TooltipContent>
     <div>
       <p>Interactive content</p>
-      <button onClick={() => console.log('Clicked')}>
-        Click me
-      </button>
+      <button onClick={() => console.log("Clicked")}>Click me</button>
     </div>
   </TooltipContent>
 </Tooltip>
@@ -252,7 +268,9 @@ Allow users to interact with tooltip content:
 
 ```tsx
 <Tooltip maxWidth="400px">
-  <TooltipTrigger><button>Hover</button></TooltipTrigger>
+  <TooltipTrigger>
+    <button>Hover</button>
+  </TooltipTrigger>
   <TooltipContent>
     This is a very long tooltip content that needs more space to display
     properly without being cut off or wrapped awkwardly.
@@ -264,7 +282,9 @@ Allow users to interact with tooltip content:
 
 ```tsx
 <Tooltip disabled>
-  <TooltipTrigger><button>Hover</button></TooltipTrigger>
+  <TooltipTrigger>
+    <button>Hover</button>
+  </TooltipTrigger>
   <TooltipContent>This won't show</TooltipContent>
 </Tooltip>
 ```
@@ -273,36 +293,36 @@ Allow users to interact with tooltip content:
 
 ### Tooltip Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `position` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'top'` | Position relative to trigger |
-| `variant` | `'default' \| 'dark' \| 'light' \| 'glass' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Visual style variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the tooltip |
-| `trigger` | `'hover' \| 'click' \| 'focus' \| 'manual'` | `'hover'` | How tooltip is triggered |
-| `delay` | `number` | `200` | Delay before showing (ms) |
-| `arrow` | `boolean` | `true` | Show arrow pointer |
-| `interactive` | `boolean` | `false` | Allow interaction with content |
-| `maxWidth` | `string` | `'320px'` | Maximum width |
-| `offset` | `number` | `8` | Distance from trigger (px) |
-| `disabled` | `boolean` | `false` | Disable tooltip |
-| `open` | `boolean` | - | Controlled open state |
-| `onOpenChange` | `(open: boolean) => void` | - | Open state change callback |
-| `children` | `ReactNode` | - | Trigger and Content components |
+| Prop           | Type                                                                                                    | Default     | Description                    |
+| -------------- | ------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------ |
+| `position`     | `'top' \| 'bottom' \| 'left' \| 'right'`                                                                | `'top'`     | Position relative to trigger   |
+| `variant`      | `'default' \| 'dark' \| 'light' \| 'glass' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Visual style variant           |
+| `size`         | `'sm' \| 'md' \| 'lg'`                                                                                  | `'md'`      | Size of the tooltip            |
+| `trigger`      | `'hover' \| 'click' \| 'focus' \| 'manual'`                                                             | `'hover'`   | How tooltip is triggered       |
+| `delay`        | `number`                                                                                                | `200`       | Delay before showing (ms)      |
+| `arrow`        | `boolean`                                                                                               | `true`      | Show arrow pointer             |
+| `interactive`  | `boolean`                                                                                               | `false`     | Allow interaction with content |
+| `maxWidth`     | `string`                                                                                                | `'320px'`   | Maximum width                  |
+| `offset`       | `number`                                                                                                | `8`         | Distance from trigger (px)     |
+| `disabled`     | `boolean`                                                                                               | `false`     | Disable tooltip                |
+| `open`         | `boolean`                                                                                               | -           | Controlled open state          |
+| `onOpenChange` | `(open: boolean) => void`                                                                               | -           | Open state change callback     |
+| `children`     | `ReactNode`                                                                                             | -           | Trigger and Content components |
 
 ### TooltipTrigger Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | **Required.** Element that triggers tooltip |
-| `className` | `string` | - | Additional CSS classes |
-| `asChild` | `boolean` | `false` | Merge props with child element |
+| Prop        | Type        | Default | Description                                 |
+| ----------- | ----------- | ------- | ------------------------------------------- |
+| `children`  | `ReactNode` | -       | **Required.** Element that triggers tooltip |
+| `className` | `string`    | -       | Additional CSS classes                      |
+| `asChild`   | `boolean`   | `false` | Merge props with child element              |
 
 ### TooltipContent Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | **Required.** Tooltip content |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default | Description                   |
+| ----------- | ----------- | ------- | ----------------------------- |
+| `children`  | `ReactNode` | -       | **Required.** Tooltip content |
+| `className` | `string`    | -       | Additional CSS classes        |
 
 ## Common Patterns
 
@@ -315,9 +335,7 @@ Allow users to interact with tooltip content:
       <InfoIcon />
     </button>
   </TooltipTrigger>
-  <TooltipContent>
-    Additional information about this feature
-  </TooltipContent>
+  <TooltipContent>Additional information about this feature</TooltipContent>
 </Tooltip>
 ```
 
@@ -363,12 +381,8 @@ Allow users to interact with tooltip content:
     <div className="space-y-2">
       <div className="font-semibold">John Doe</div>
       <div className="text-sm">Senior Developer</div>
-      <div className="text-xs text-muted-foreground">
-        john@example.com
-      </div>
-      <button className="text-sm text-primary">
-        View Profile →
-      </button>
+      <div className="text-xs text-muted-foreground">john@example.com</div>
+      <button className="text-sm text-primary">View Profile →</button>
     </div>
   </TooltipContent>
 </Tooltip>
@@ -384,9 +398,7 @@ Allow users to interact with tooltip content:
   <TooltipContent>
     <div className="flex items-center gap-2">
       <span>Save document</span>
-      <kbd className="px-2 py-1 text-xs bg-gray-100 rounded">
-        Ctrl+S
-      </kbd>
+      <kbd className="px-2 py-1 text-xs bg-gray-100 rounded">Ctrl+S</kbd>
     </div>
   </TooltipContent>
 </Tooltip>
@@ -399,12 +411,10 @@ The Tooltip component follows accessibility best practices:
 - **ARIA Attributes:**
   - Uses `aria-describedby` to associate tooltip with trigger
   - Proper role attributes for screen readers
-  
 - **Keyboard Navigation:**
   - `Esc` key closes tooltip
   - Tooltips appear on focus for keyboard users
   - Tab key moves through interactive content
-  
 - **Screen Readers:**
   - Tooltip content is announced when trigger receives focus
   - Interactive tooltips maintain focus management

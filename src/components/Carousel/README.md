@@ -16,7 +16,13 @@ A powerful carousel/slider component for showcasing images, content, or cards. F
 ## Installation
 
 ```tsx
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@saha-ui/core';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "saha-ui";
 ```
 
 ## Basic Usage
@@ -222,7 +228,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 </Carousel>
 
 // Responsive items per view
-<Carousel 
+<Carousel
   itemsPerView={1}
   breakpoints={{
     640: { itemsPerView: 2 },
@@ -242,19 +248,13 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 ### Hero Carousel
 
 ```tsx
-<Carousel 
-  autoplay 
-  autoplayInterval={5000}
-  effect="fade"
-  loop
-  showIndicators
->
+<Carousel autoplay autoplayInterval={5000} effect="fade" loop showIndicators>
   <CarouselContent>
     {heroes.map((hero) => (
       <CarouselItem key={hero.id}>
         <div className="relative h-[600px]">
-          <img 
-            src={hero.image} 
+          <img
+            src={hero.image}
             alt={hero.title}
             className="w-full h-full object-cover"
           />
@@ -279,7 +279,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 ### Product Carousel
 
 ```tsx
-<Carousel 
+<Carousel
   itemsPerView={4}
   gap={20}
   loop
@@ -287,7 +287,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
     320: { itemsPerView: 1 },
     640: { itemsPerView: 2 },
     1024: { itemsPerView: 3 },
-    1280: { itemsPerView: 4 }
+    1280: { itemsPerView: 4 },
   }}
 >
   <CarouselContent>
@@ -295,8 +295,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
       <CarouselItem key={product.id}>
         <Card className="hover:shadow-lg transition-shadow">
           <CardContent className="p-4">
-            <img 
-              src={product.image} 
+            <img
+              src={product.image}
               alt={product.name}
               className="w-full aspect-square object-cover rounded-lg mb-4"
             />
@@ -321,7 +321,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 ### Testimonial Carousel
 
 ```tsx
-<Carousel 
+<Carousel
   autoplay
   autoplayInterval={6000}
   effect="fade"
@@ -354,29 +354,29 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 
 ### Carousel Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `effect` | `"slide" \| "fade" \| "cube" \| "coverflow"` | `"slide"` | Transition effect |
-| `variant` | `"default" \| "bordered" \| "shadow" \| "glass"` | `"default"` | Visual style |
-| `autoplay` | `boolean` | `false` | Enable autoplay |
-| `autoplayInterval` | `number` | `3000` | Autoplay interval in ms |
-| `pauseOnHover` | `boolean` | `true` | Pause autoplay on hover |
-| `loop` | `boolean` | `false` | Enable infinite loop |
-| `showNavigation` | `boolean` | `true` | Show arrow buttons |
-| `showIndicators` | `boolean` | `false` | Show dot indicators |
-| `itemsPerView` | `number` | `1` | Items visible at once |
-| `gap` | `number` | `0` | Gap between items in pixels |
-| `breakpoints` | `object` | - | Responsive breakpoint config |
-| `defaultIndex` | `number` | `0` | Initial slide index |
-| `onChange` | `(index: number) => void` | - | Slide change callback |
-| `className` | `string` | - | Additional CSS classes |
+| Prop               | Type                                             | Default     | Description                  |
+| ------------------ | ------------------------------------------------ | ----------- | ---------------------------- |
+| `effect`           | `"slide" \| "fade" \| "cube" \| "coverflow"`     | `"slide"`   | Transition effect            |
+| `variant`          | `"default" \| "bordered" \| "shadow" \| "glass"` | `"default"` | Visual style                 |
+| `autoplay`         | `boolean`                                        | `false`     | Enable autoplay              |
+| `autoplayInterval` | `number`                                         | `3000`      | Autoplay interval in ms      |
+| `pauseOnHover`     | `boolean`                                        | `true`      | Pause autoplay on hover      |
+| `loop`             | `boolean`                                        | `false`     | Enable infinite loop         |
+| `showNavigation`   | `boolean`                                        | `true`      | Show arrow buttons           |
+| `showIndicators`   | `boolean`                                        | `false`     | Show dot indicators          |
+| `itemsPerView`     | `number`                                         | `1`         | Items visible at once        |
+| `gap`              | `number`                                         | `0`         | Gap between items in pixels  |
+| `breakpoints`      | `object`                                         | -           | Responsive breakpoint config |
+| `defaultIndex`     | `number`                                         | `0`         | Initial slide index          |
+| `onChange`         | `(index: number) => void`                        | -           | Slide change callback        |
+| `className`        | `string`                                         | -           | Additional CSS classes       |
 
 ### CarouselItem Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | **required** | Item content |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default      | Description            |
+| ----------- | ----------- | ------------ | ---------------------- |
+| `children`  | `ReactNode` | **required** | Item content           |
+| `className` | `string`    | -            | Additional CSS classes |
 
 ## Keyboard Navigation
 
@@ -417,7 +417,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
     // Desktop
     1024: { itemsPerView: 3, gap: 20 },
     // Large Desktop
-    1440: { itemsPerView: 4, gap: 24 }
+    1440: { itemsPerView: 4, gap: 24 },
   }}
 >
   {/* Items */}
@@ -427,6 +427,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 ## Browser Support
 
 Works in all modern browsers that support:
+
 - CSS Transforms
 - Touch Events API
 - Intersection Observer API

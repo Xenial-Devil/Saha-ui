@@ -15,7 +15,7 @@ A mobile-first navigation component that appears at the bottom of the screen, id
 ## Installation
 
 ```tsx
-import { BottomNavigation } from '@saha-ui/core';
+import { BottomNavigation } from "saha-ui";
 ```
 
 ## Basic Usage
@@ -23,12 +23,12 @@ import { BottomNavigation } from '@saha-ui/core';
 ### Simple Navigation
 
 ```tsx
-import { Home, Search, User } from 'lucide-react';
+import { Home, Search, User } from "lucide-react";
 
 const items = [
-  { label: 'Home', icon: <Home /> },
-  { label: 'Search', icon: <Search /> },
-  { label: 'Profile', icon: <User /> }
+  { label: "Home", icon: <Home /> },
+  { label: "Search", icon: <Search /> },
+  { label: "Profile", icon: <User /> },
 ];
 
 function App() {
@@ -48,35 +48,35 @@ function App() {
 
 ```tsx
 const itemsWithBadges = [
-  { label: 'Home', icon: <Home /> },
-  { label: 'Messages', icon: <Mail />, badge: 5 },
-  { label: 'Notifications', icon: <Bell />, badge: '!' },
-  { label: 'Profile', icon: <User />, badge: true } // Dot badge
+  { label: "Home", icon: <Home /> },
+  { label: "Messages", icon: <Mail />, badge: 5 },
+  { label: "Notifications", icon: <Bell />, badge: "!" },
+  { label: "Profile", icon: <User />, badge: true }, // Dot badge
 ];
 
 <BottomNavigation
   items={itemsWithBadges}
   value={active}
   onChange={setActive}
-/>
+/>;
 ```
 
 ### With Custom Values
 
 ```tsx
 const items = [
-  { label: 'Home', icon: <Home />, value: 'home' },
-  { label: 'Explore', icon: <Compass />, value: 'explore' },
-  { label: 'Profile', icon: <User />, value: 'profile' }
+  { label: "Home", icon: <Home />, value: "home" },
+  { label: "Explore", icon: <Compass />, value: "explore" },
+  { label: "Profile", icon: <User />, value: "profile" },
 ];
 
-const [active, setActive] = useState('home');
+const [active, setActive] = useState("home");
 
 <BottomNavigation
   items={items}
   value={active}
   onChange={(value) => setActive(value)}
-/>
+/>;
 ```
 
 ## Variants
@@ -119,11 +119,7 @@ const [active, setActive] = useState('home');
 ### Show Only Active Label
 
 ```tsx
-<BottomNavigation
-  items={items}
-  value={active}
-  showLabels={false}
-/>
+<BottomNavigation items={items} value={active} showLabels={false} />
 ```
 
 ## Color Themes
@@ -170,139 +166,122 @@ const [active, setActive] = useState('home');
 ### Without Border
 
 ```tsx
-<BottomNavigation
-  items={items}
-  value={active}
-  bordered={false}
-/>
+<BottomNavigation items={items} value={active} bordered={false} />
 ```
 
 ### Custom Z-Index
 
 ```tsx
-<BottomNavigation
-  items={items}
-  value={active}
-  zIndex={1200}
-/>
+<BottomNavigation items={items} value={active} zIndex={1200} />
 ```
 
 ## Navigation with Links
 
 ```tsx
 const items = [
-  { 
-    label: 'Home', 
-    icon: <Home />, 
-    href: '/',
-    value: 'home'
+  {
+    label: "Home",
+    icon: <Home />,
+    href: "/",
+    value: "home",
   },
-  { 
-    label: 'Products', 
-    icon: <ShoppingBag />, 
-    href: '/products',
-    value: 'products'
+  {
+    label: "Products",
+    icon: <ShoppingBag />,
+    href: "/products",
+    value: "products",
   },
-  { 
-    label: 'Account', 
-    icon: <User />, 
-    href: '/account',
-    value: 'account'
-  }
+  {
+    label: "Account",
+    icon: <User />,
+    href: "/account",
+    value: "account",
+  },
 ];
 
-<BottomNavigation
-  items={items}
-  value={currentRoute}
-/>
+<BottomNavigation items={items} value={currentRoute} />;
 ```
 
 ## Disabled Items
 
 ```tsx
 const items = [
-  { label: 'Home', icon: <Home /> },
-  { label: 'Premium', icon: <Star />, disabled: true },
-  { label: 'Profile', icon: <User /> }
+  { label: "Home", icon: <Home /> },
+  { label: "Premium", icon: <Star />, disabled: true },
+  { label: "Profile", icon: <User /> },
 ];
 
-<BottomNavigation items={items} value={active} />
+<BottomNavigation items={items} value={active} />;
 ```
 
 ## Item Click Handlers
 
 ```tsx
 const items = [
-  { 
-    label: 'Home', 
+  {
+    label: "Home",
     icon: <Home />,
-    onClick: (value) => console.log('Home clicked:', value)
+    onClick: (value) => console.log("Home clicked:", value),
   },
-  { 
-    label: 'Search', 
+  {
+    label: "Search",
     icon: <Search />,
     onClick: (value) => {
-      console.log('Search clicked:', value);
+      console.log("Search clicked:", value);
       openSearchModal();
-    }
-  }
+    },
+  },
 ];
 
-<BottomNavigation
-  items={items}
-  value={active}
-  onChange={setActive}
-/>
+<BottomNavigation items={items} value={active} onChange={setActive} />;
 ```
 
 ## Complete Example
 
 ```tsx
-import { useState } from 'react';
-import { Home, Search, Heart, ShoppingCart, User } from 'lucide-react';
-import { BottomNavigation } from '@saha-ui/core';
+import { useState } from "react";
+import { Home, Search, Heart, ShoppingCart, User } from "lucide-react";
+import { BottomNavigation } from "saha-ui";
 
 function App() {
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTab] = useState("home");
   const [cartCount, setCartCount] = useState(3);
   const [hasNotifications, setHasNotifications] = useState(true);
 
   const navigationItems = [
     {
-      label: 'Home',
+      label: "Home",
       icon: <Home />,
-      value: 'home'
+      value: "home",
     },
     {
-      label: 'Search',
+      label: "Search",
       icon: <Search />,
-      value: 'search'
+      value: "search",
     },
     {
-      label: 'Favorites',
+      label: "Favorites",
       icon: <Heart />,
-      value: 'favorites',
-      badge: hasNotifications // Dot indicator
+      value: "favorites",
+      badge: hasNotifications, // Dot indicator
     },
     {
-      label: 'Cart',
+      label: "Cart",
       icon: <ShoppingCart />,
-      value: 'cart',
-      badge: cartCount > 0 ? cartCount : undefined
+      value: "cart",
+      badge: cartCount > 0 ? cartCount : undefined,
     },
     {
-      label: 'Account',
+      label: "Account",
       icon: <User />,
-      value: 'account'
-    }
+      value: "account",
+    },
   ];
 
   return (
     <div className="min-h-screen pb-16">
       {/* Your app content */}
-      <main className="p-4">
-        {/* Content based on activeTab */}
-      </main>
+      <main className="p-4">{/* Content based on activeTab */}</main>
 
       {/* Bottom Navigation */}
       <BottomNavigation
@@ -324,33 +303,33 @@ function App() {
 
 ### BottomNavigation Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `items` | `BottomNavigationItem[]` | **required** | Array of navigation items |
-| `value` | `string \| number` | - | Currently selected item value/index |
-| `onChange` | `(value: string \| number) => void` | - | Callback when selection changes |
-| `variant` | `"default" \| "shifting"` | `"default"` | Visual variant |
-| `showLabels` | `boolean` | `true` | Show labels for all items |
-| `color` | `"primary" \| "secondary"` | `"primary"` | Color theme |
-| `hideOnScroll` | `boolean` | `false` | Hide navigation when scrolling down |
-| `elevation` | `0 \| 1 \| 2 \| 3 \| 4 \| 5` | `3` | Shadow elevation level |
-| `bordered` | `boolean` | `true` | Show top border |
-| `zIndex` | `number` | `1000` | CSS z-index value |
-| `className` | `string` | - | Additional CSS classes |
-| `itemClassName` | `string` | - | CSS classes for items |
+| Prop            | Type                                | Default      | Description                         |
+| --------------- | ----------------------------------- | ------------ | ----------------------------------- |
+| `items`         | `BottomNavigationItem[]`            | **required** | Array of navigation items           |
+| `value`         | `string \| number`                  | -            | Currently selected item value/index |
+| `onChange`      | `(value: string \| number) => void` | -            | Callback when selection changes     |
+| `variant`       | `"default" \| "shifting"`           | `"default"`  | Visual variant                      |
+| `showLabels`    | `boolean`                           | `true`       | Show labels for all items           |
+| `color`         | `"primary" \| "secondary"`          | `"primary"`  | Color theme                         |
+| `hideOnScroll`  | `boolean`                           | `false`      | Hide navigation when scrolling down |
+| `elevation`     | `0 \| 1 \| 2 \| 3 \| 4 \| 5`        | `3`          | Shadow elevation level              |
+| `bordered`      | `boolean`                           | `true`       | Show top border                     |
+| `zIndex`        | `number`                            | `1000`       | CSS z-index value                   |
+| `className`     | `string`                            | -            | Additional CSS classes              |
+| `itemClassName` | `string`                            | -            | CSS classes for items               |
 
 ### BottomNavigationItem Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | **required** | Item label text |
-| `icon` | `ReactNode` | **required** | Item icon element |
-| `value` | `string \| number` | index | Custom value for item |
-| `badge` | `string \| number \| boolean` | - | Badge content (true for dot) |
-| `disabled` | `boolean` | `false` | Disable the item |
-| `href` | `string` | - | URL to navigate to |
-| `onClick` | `(value: string \| number) => void` | - | Click handler |
-| `id` | `string` | - | Unique identifier |
+| Prop       | Type                                | Default      | Description                  |
+| ---------- | ----------------------------------- | ------------ | ---------------------------- |
+| `label`    | `string`                            | **required** | Item label text              |
+| `icon`     | `ReactNode`                         | **required** | Item icon element            |
+| `value`    | `string \| number`                  | index        | Custom value for item        |
+| `badge`    | `string \| number \| boolean`       | -            | Badge content (true for dot) |
+| `disabled` | `boolean`                           | `false`      | Disable the item             |
+| `href`     | `string`                            | -            | URL to navigate to           |
+| `onClick`  | `(value: string \| number) => void` | -            | Click handler                |
+| `id`       | `string`                            | -            | Unique identifier            |
 
 ## Badge Types
 
@@ -416,16 +395,16 @@ The component follows accessibility best practices:
 ### With React Router
 
 ```tsx
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Navigation() {
   const location = useLocation();
   const navigate = useNavigate();
 
   const items = [
-    { label: 'Home', icon: <Home />, value: '/' },
-    { label: 'Search', icon: <Search />, value: '/search' },
-    { label: 'Profile', icon: <User />, value: '/profile' }
+    { label: "Home", icon: <Home />, value: "/" },
+    { label: "Search", icon: <Search />, value: "/search" },
+    { label: "Profile", icon: <User />, value: "/profile" },
   ];
 
   return (
@@ -441,18 +420,18 @@ function Navigation() {
 ### With Next.js
 
 ```tsx
-'use client';
+"use client";
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from "next/navigation";
 
 function Navigation() {
   const pathname = usePathname();
   const router = useRouter();
 
   const items = [
-    { label: 'Home', icon: <Home />, value: '/' },
-    { label: 'About', icon: <Info />, value: '/about' },
-    { label: 'Contact', icon: <Mail />, value: '/contact' }
+    { label: "Home", icon: <Home />, value: "/" },
+    { label: "About", icon: <Info />, value: "/about" },
+    { label: "Contact", icon: <Mail />, value: "/contact" },
   ];
 
   return (
@@ -486,6 +465,7 @@ The component uses Tailwind CSS and CVA for styling. You can customize using:
 ## Browser Support
 
 Works in all modern browsers that support:
+
 - CSS Grid and Flexbox
 - CSS Custom Properties
 - Modern JavaScript (ES6+)

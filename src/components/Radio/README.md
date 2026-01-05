@@ -17,16 +17,16 @@ A fully accessible radio button component with beautiful animations and multiple
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Radio, RadioGroup } from '@saha-ui/core';
+import { Radio, RadioGroup } from "saha-ui";
 
 function App() {
-  const [value, setValue] = useState('option1');
+  const [value, setValue] = useState("option1");
 
   return (
     <RadioGroup value={value} onChange={setValue}>
@@ -67,11 +67,7 @@ function App() {
 ### With Descriptions
 
 ```tsx
-<RadioGroup 
-  label="Choose your plan"
-  value={plan}
-  onChange={setPlan}
->
+<RadioGroup label="Choose your plan" value={plan} onChange={setPlan}>
   <Radio
     value="basic"
     label="Basic Plan"
@@ -160,25 +156,13 @@ Beautiful card layout for feature selection:
 ### With Custom Icons
 
 ```tsx
-import { Zap, Shield, Rocket } from 'lucide-react';
+import { Zap, Shield, Rocket } from "lucide-react";
 
 <RadioGroup value={plan} onChange={setPlan}>
-  <Radio
-    value="starter"
-    label="Starter"
-    icon={<Zap />}
-  />
-  <Radio
-    value="professional"
-    label="Professional"
-    icon={<Shield />}
-  />
-  <Radio
-    value="enterprise"
-    label="Enterprise"
-    icon={<Rocket />}
-  />
-</RadioGroup>
+  <Radio value="starter" label="Starter" icon={<Zap />} />
+  <Radio value="professional" label="Professional" icon={<Shield />} />
+  <Radio value="enterprise" label="Enterprise" icon={<Rocket />} />
+</RadioGroup>;
 ```
 
 ### Horizontal Layout
@@ -220,20 +204,20 @@ import { Zap, Shield, Rocket } from 'lucide-react';
 ```tsx
 const options = [
   {
-    value: 'email',
-    label: 'Email',
-    description: 'Receive notifications via email',
+    value: "email",
+    label: "Email",
+    description: "Receive notifications via email",
   },
   {
-    value: 'sms',
-    label: 'SMS',
-    description: 'Get text message alerts',
-    badge: 'Premium',
+    value: "sms",
+    label: "SMS",
+    description: "Get text message alerts",
+    badge: "Premium",
   },
   {
-    value: 'push',
-    label: 'Push Notifications',
-    description: 'In-app notifications',
+    value: "push",
+    label: "Push Notifications",
+    description: "In-app notifications",
     recommended: true,
   },
 ];
@@ -243,7 +227,7 @@ const options = [
   options={options}
   value={notification}
   onChange={setNotification}
-/>
+/>;
 ```
 
 ### Disabled State
@@ -275,9 +259,9 @@ const options = [
   value={value}
   onChange={setValue}
   options={[
-    { label: 'Option 1', value: 'opt1' },
-    { label: 'Option 2', value: 'opt2' },
-    { label: 'Option 3', value: 'opt3' },
+    { label: "Option 1", value: "opt1" },
+    { label: "Option 2", value: "opt2" },
+    { label: "Option 3", value: "opt3" },
   ]}
 />
 ```
@@ -287,23 +271,23 @@ const options = [
 ```tsx
 const fullOptions = [
   {
-    label: 'Basic',
-    value: 'basic',
-    description: 'Essential features',
-    badge: '$9/mo',
+    label: "Basic",
+    value: "basic",
+    description: "Essential features",
+    badge: "$9/mo",
   },
   {
-    label: 'Pro',
-    value: 'pro',
-    description: 'Advanced features',
-    badge: '$29/mo',
+    label: "Pro",
+    value: "pro",
+    description: "Advanced features",
+    badge: "$29/mo",
     recommended: true,
   },
   {
-    label: 'Enterprise',
-    value: 'enterprise',
-    description: 'Full feature set',
-    badge: 'Custom',
+    label: "Enterprise",
+    value: "enterprise",
+    description: "Full feature set",
+    badge: "Custom",
     disabled: true,
   },
 ];
@@ -314,7 +298,7 @@ const fullOptions = [
   options={fullOptions}
   value={plan}
   onChange={setPlan}
-/>
+/>;
 ```
 
 ## Accessibility
@@ -409,64 +393,64 @@ Errors are automatically announced to screen readers:
 
 ### Radio Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | - | Value of the radio button (required) |
-| `label` | `string` | - | Label text for the radio button |
-| `description` | `string` | - | Description text shown below the label |
-| `error` | `string` | - | Error message to display |
-| `helperText` | `string` | - | Helper text shown below the radio |
-| `labelPosition` | `'left' \| 'right'` | `'right'` | Position of the label |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'primary'` | Color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the radio button |
-| `disabled` | `boolean` | `false` | Whether the radio is disabled |
-| `card` | `boolean` | `false` | Show in card style |
-| `icon` | `ReactNode` | - | Custom icon to display when selected |
-| `badge` | `string \| ReactNode` | - | Badge to display |
-| `image` | `string` | - | Image URL for card style |
-| `recommended` | `boolean` | `false` | Show recommended badge |
-| `hoverEffect` | `boolean` | `true` | Card hover effect |
-| `aria-label` | `string` | - | Accessible label for screen readers |
-| `aria-labelledby` | `string` | - | ID of element that labels this radio |
-| `aria-describedby` | `string` | - | IDs of elements that describe this radio |
+| Prop               | Type                                                                                     | Default     | Description                              |
+| ------------------ | ---------------------------------------------------------------------------------------- | ----------- | ---------------------------------------- |
+| `value`            | `string`                                                                                 | -           | Value of the radio button (required)     |
+| `label`            | `string`                                                                                 | -           | Label text for the radio button          |
+| `description`      | `string`                                                                                 | -           | Description text shown below the label   |
+| `error`            | `string`                                                                                 | -           | Error message to display                 |
+| `helperText`       | `string`                                                                                 | -           | Helper text shown below the radio        |
+| `labelPosition`    | `'left' \| 'right'`                                                                      | `'right'`   | Position of the label                    |
+| `variant`          | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'primary'` | Color variant                            |
+| `size`             | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`      | Size of the radio button                 |
+| `disabled`         | `boolean`                                                                                | `false`     | Whether the radio is disabled            |
+| `card`             | `boolean`                                                                                | `false`     | Show in card style                       |
+| `icon`             | `ReactNode`                                                                              | -           | Custom icon to display when selected     |
+| `badge`            | `string \| ReactNode`                                                                    | -           | Badge to display                         |
+| `image`            | `string`                                                                                 | -           | Image URL for card style                 |
+| `recommended`      | `boolean`                                                                                | `false`     | Show recommended badge                   |
+| `hoverEffect`      | `boolean`                                                                                | `true`      | Card hover effect                        |
+| `aria-label`       | `string`                                                                                 | -           | Accessible label for screen readers      |
+| `aria-labelledby`  | `string`                                                                                 | -           | ID of element that labels this radio     |
+| `aria-describedby` | `string`                                                                                 | -           | IDs of elements that describe this radio |
 
 ### RadioGroup Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | auto-generated | Name for the radio group |
-| `label` | `string` | - | Label for the group |
-| `description` | `string` | - | Description for the group |
-| `error` | `string` | - | Error message for the group |
-| `helperText` | `string` | - | Helper text for the group |
-| `value` | `string` | - | Selected value (controlled) |
-| `defaultValue` | `string` | - | Default selected value (uncontrolled) |
-| `onChange` | `(value: string) => void` | - | Callback when selection changes |
-| `direction` | `'horizontal' \| 'vertical'` | `'vertical'` | Layout direction |
-| `variant` | `RadioProps['variant']` | `'primary'` | Variant for all radios |
-| `size` | `RadioProps['size']` | `'md'` | Size for all radios |
-| `card` | `boolean` | `false` | Card mode for all radios |
-| `options` | `RadioOption[]` | - | Options for the radio group |
-| `children` | `ReactNode` | - | Children (Radio components) |
-| `required` | `boolean` | `false` | Whether selection is required |
-| `aria-label` | `string` | - | Accessible label for the group |
-| `aria-labelledby` | `string` | - | ID of element that labels this group |
-| `aria-describedby` | `string` | - | IDs of elements that describe this group |
-| `aria-required` | `'true' \| 'false'` | - | Whether the group is required |
-| `aria-invalid` | `'true' \| 'false'` | - | Whether the group has an error |
+| Prop               | Type                         | Default        | Description                              |
+| ------------------ | ---------------------------- | -------------- | ---------------------------------------- |
+| `name`             | `string`                     | auto-generated | Name for the radio group                 |
+| `label`            | `string`                     | -              | Label for the group                      |
+| `description`      | `string`                     | -              | Description for the group                |
+| `error`            | `string`                     | -              | Error message for the group              |
+| `helperText`       | `string`                     | -              | Helper text for the group                |
+| `value`            | `string`                     | -              | Selected value (controlled)              |
+| `defaultValue`     | `string`                     | -              | Default selected value (uncontrolled)    |
+| `onChange`         | `(value: string) => void`    | -              | Callback when selection changes          |
+| `direction`        | `'horizontal' \| 'vertical'` | `'vertical'`   | Layout direction                         |
+| `variant`          | `RadioProps['variant']`      | `'primary'`    | Variant for all radios                   |
+| `size`             | `RadioProps['size']`         | `'md'`         | Size for all radios                      |
+| `card`             | `boolean`                    | `false`        | Card mode for all radios                 |
+| `options`          | `RadioOption[]`              | -              | Options for the radio group              |
+| `children`         | `ReactNode`                  | -              | Children (Radio components)              |
+| `required`         | `boolean`                    | `false`        | Whether selection is required            |
+| `aria-label`       | `string`                     | -              | Accessible label for the group           |
+| `aria-labelledby`  | `string`                     | -              | ID of element that labels this group     |
+| `aria-describedby` | `string`                     | -              | IDs of elements that describe this group |
+| `aria-required`    | `'true' \| 'false'`          | -              | Whether the group is required            |
+| `aria-invalid`     | `'true' \| 'false'`          | -              | Whether the group has an error           |
 
 ### RadioOption
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `label` | `string` | Display label for the radio |
-| `value` | `string` | Unique value identifier |
-| `description` | `string` | Additional descriptive text |
-| `disabled` | `boolean` | Whether the radio is disabled |
-| `icon` | `ReactNode` | Custom icon to display when selected |
-| `badge` | `string \| ReactNode` | Badge to display |
-| `image` | `string` | Image URL for card-style radios |
-| `recommended` | `boolean` | Mark as recommended option |
+| Prop          | Type                  | Description                          |
+| ------------- | --------------------- | ------------------------------------ |
+| `label`       | `string`              | Display label for the radio          |
+| `value`       | `string`              | Unique value identifier              |
+| `description` | `string`              | Additional descriptive text          |
+| `disabled`    | `boolean`             | Whether the radio is disabled        |
+| `icon`        | `ReactNode`           | Custom icon to display when selected |
+| `badge`       | `string \| ReactNode` | Badge to display                     |
+| `image`       | `string`              | Image URL for card-style radios      |
+| `recommended` | `boolean`             | Mark as recommended option           |
 
 ## Best Practices
 
@@ -510,14 +494,10 @@ Prefer controlled components for form handling:
 
 ```tsx
 function PaymentForm() {
-  const [method, setMethod] = useState('card');
-  
+  const [method, setMethod] = useState("card");
+
   return (
-    <RadioGroup
-      label="Payment method"
-      value={method}
-      onChange={setMethod}
-    >
+    <RadioGroup label="Payment method" value={method} onChange={setMethod}>
       <Radio value="card" label="Credit Card" />
       <Radio value="paypal" label="PayPal" />
     </RadioGroup>
@@ -553,11 +533,7 @@ When options have descriptions or images, use card style:
 Consider providing a sensible default:
 
 ```tsx
-<RadioGroup
-  label="Select size"
-  defaultValue="medium"
-  options={sizeOptions}
-/>
+<RadioGroup label="Select size" defaultValue="medium" options={sizeOptions} />
 ```
 
 ### 7. Limit Options
@@ -584,11 +560,13 @@ Keep the number of radio options manageable (2-7 options). For more options, con
 Help users make decisions:
 
 ```tsx
-<RadioGroup options={[
-  { label: 'Basic', value: 'basic', badge: '$9' },
-  { label: 'Pro', value: 'pro', badge: '$29', recommended: true },
-  { label: 'Enterprise', value: 'enterprise', badge: '$99' },
-]} />
+<RadioGroup
+  options={[
+    { label: "Basic", value: "basic", badge: "$9" },
+    { label: "Pro", value: "pro", badge: "$29", recommended: true },
+    { label: "Enterprise", value: "enterprise", badge: "$99" },
+  ]}
+/>
 ```
 
 ## Form Integration
@@ -596,7 +574,7 @@ Help users make decisions:
 ### With React Hook Form
 
 ```tsx
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 
 function Form() {
   const { control, handleSubmit } = useForm();
@@ -606,7 +584,7 @@ function Form() {
       <Controller
         name="plan"
         control={control}
-        rules={{ required: 'Please select a plan' }}
+        rules={{ required: "Please select a plan" }}
         render={({ field, fieldState }) => (
           <RadioGroup
             label="Choose your plan"
@@ -628,19 +606,16 @@ function Form() {
 ### With Formik
 
 ```tsx
-import { Formik, Field } from 'formik';
+import { Formik, Field } from "formik";
 
 function Form() {
   return (
-    <Formik
-      initialValues={{ plan: '' }}
-      onSubmit={handleSubmit}
-    >
+    <Formik initialValues={{ plan: "" }} onSubmit={handleSubmit}>
       {({ values, setFieldValue, errors }) => (
         <RadioGroup
           label="Select plan"
           value={values.plan}
-          onChange={(value) => setFieldValue('plan', value)}
+          onChange={(value) => setFieldValue("plan", value)}
           error={errors.plan}
         >
           <Radio value="basic" label="Basic" />
@@ -657,15 +632,15 @@ function Form() {
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { RadioProps, RadioGroupProps, RadioOption } from '@saha-ui/core';
+import type { RadioProps, RadioGroupProps, RadioOption } from "saha-ui";
 
 const MyRadio: React.FC<RadioProps> = (props) => {
   return <Radio {...props} />;
 };
 
 const options: RadioOption[] = [
-  { label: 'Option 1', value: 'opt1' },
-  { label: 'Option 2', value: 'opt2' },
+  { label: "Option 1", value: "opt1" },
+  { label: "Option 2", value: "opt2" },
 ];
 ```
 
@@ -695,12 +670,12 @@ Dark mode is automatically supported using CSS variables. No additional configur
 
 ## Comparison: Radio vs Checkbox vs Select
 
-| Use Case | Component |
-|----------|-----------|
+| Use Case                          | Component |
+| --------------------------------- | --------- |
 | Single selection from 2-7 options | **Radio** |
-| Multiple selections | Checkbox |
-| Single selection from 8+ options | Select |
-| Binary choice (on/off) | Switch |
+| Multiple selections               | Checkbox  |
+| Single selection from 8+ options  | Select    |
+| Binary choice (on/off)            | Switch    |
 
 ## Browser Support
 

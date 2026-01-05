@@ -20,13 +20,13 @@ A fully accessible slider component for selecting numeric values. Implements the
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Slider } from '@saha-ui/core';
+import { Slider } from "saha-ui";
 
 function App() {
   const [value, setValue] = useState(50);
@@ -114,9 +114,9 @@ Display marks at specific values:
   max={10}
   step={1}
   marks={[
-    { value: 0, label: '0' },
-    { value: 5, label: '5' },
-    { value: 10, label: '10' },
+    { value: 0, label: "0" },
+    { value: 5, label: "5" },
+    { value: 10, label: "10" },
   ]}
   value={value}
   onChange={setValue}
@@ -131,10 +131,10 @@ Display marks at specific values:
   min={-20}
   max={40}
   marks={[
-    { value: -20, label: 'Cold' },
-    { value: 0, label: 'Freezing' },
-    { value: 20, label: 'Comfortable' },
-    { value: 40, label: 'Hot' },
+    { value: -20, label: "Cold" },
+    { value: 0, label: "Freezing" },
+    { value: 20, label: "Comfortable" },
+    { value: 40, label: "Hot" },
   ]}
   value={temp}
   onChange={setTemp}
@@ -231,9 +231,9 @@ Sync with a number input:
   value={temperature}
   onChange={setTemperature}
   marks={[
-    { value: 60, label: '60°F' },
-    { value: 70, label: '70°F' },
-    { value: 80, label: '80°F' },
+    { value: 60, label: "60°F" },
+    { value: 70, label: "70°F" },
+    { value: 80, label: "80°F" },
   ]}
   showValue
   formatValue={(value) => `${value}°F`}
@@ -251,10 +251,10 @@ Sync with a number input:
   onChange={setVolume}
   showTooltip
   formatTooltip={(value) => {
-    if (value === 0) return 'Muted';
-    if (value < 30) return 'Low';
-    if (value < 70) return 'Medium';
-    return 'High';
+    if (value === 0) return "Muted";
+    if (value < 30) return "Low";
+    if (value < 70) return "Medium";
+    return "High";
   }}
 />
 ```
@@ -275,14 +275,12 @@ function PriceFilter() {
       value={priceRange}
       onChange={setPriceRange}
       marks={[
-        { value: 0, label: '$0' },
-        { value: 500, label: '$500' },
-        { value: 1000, label: '$1000' },
+        { value: 0, label: "$0" },
+        { value: 500, label: "$500" },
+        { value: 1000, label: "$1000" },
       ]}
       showValue
-      formatValue={(values) => 
-        `$${values[0]} - $${values[1]}`
-      }
+      formatValue={(values) => `$${values[0]} - $${values[1]}`}
     />
   );
 }
@@ -359,7 +357,7 @@ Provide readable value descriptions:
   value={priority}
   onChange={setPriority}
   getAriaValueText={(value) => {
-    const labels = ['Very Low', 'Low', 'Medium', 'High', 'Very High'];
+    const labels = ["Very Low", "Low", "Medium", "High", "Very High"];
     return labels[value - 1];
   }}
 />
@@ -393,48 +391,48 @@ Provide readable value descriptions:
 
 ### Slider Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - | Label text for the slider |
-| `description` | `string` | - | Description text shown below the label |
-| `helperText` | `string` | - | Helper text shown below the slider |
-| `error` | `string` | - | Error message to display |
-| `value` | `number \| number[]` | - | Current value(s) (controlled) |
-| `defaultValue` | `number \| number[]` | - | Default value(s) (uncontrolled) |
-| `onChange` | `(value: number \| number[]) => void` | - | Callback when value changes |
-| `onChangeCommitted` | `(value: number \| number[]) => void` | - | Callback when slider interaction ends |
-| `min` | `number` | `0` | Minimum value |
-| `max` | `number` | `100` | Maximum value |
-| `step` | `number` | `1` | Step increment |
-| `marks` | `SliderMark[]` | - | Marks to display on the slider |
-| `range` | `boolean` | `false` | Enable range selection (two thumbs) |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'primary'` | Color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the slider |
-| `disabled` | `boolean` | `false` | Whether the slider is disabled |
-| `showTooltip` | `boolean` | `false` | Show value tooltip on hover/drag |
-| `showValue` | `boolean` | `false` | Show current value below slider |
-| `showInput` | `boolean` | `false` | Show number input next to slider |
-| `formatTooltip` | `(value: number) => string` | - | Format tooltip value |
-| `formatValue` | `(value: number \| number[]) => string` | - | Format display value |
-| `getAriaValueText` | `(value: number \| number[]) => string` | - | Get ARIA value text |
-| `height` | `number \| string` | `200` | Height for vertical sliders |
-| `trackColor` | `string` | - | Custom track color class |
-| `fillColor` | `string` | - | Custom fill color class |
-| `thumbColor` | `string` | - | Custom thumb color class |
-| `required` | `boolean` | `false` | Whether value is required |
-| `className` | `string` | - | Additional CSS classes |
-| `aria-label` | `string` | - | Accessible label for screen readers |
-| `aria-labelledby` | `string` | - | ID of element that labels this slider |
-| `aria-describedby` | `string` | - | IDs of elements that describe this slider |
-| `aria-required` | `'true' \| 'false'` | - | Whether the slider is required |
-| `aria-invalid` | `'true' \| 'false'` | - | Whether the slider has an error |
+| Prop                | Type                                                                                     | Default        | Description                               |
+| ------------------- | ---------------------------------------------------------------------------------------- | -------------- | ----------------------------------------- |
+| `label`             | `string`                                                                                 | -              | Label text for the slider                 |
+| `description`       | `string`                                                                                 | -              | Description text shown below the label    |
+| `helperText`        | `string`                                                                                 | -              | Helper text shown below the slider        |
+| `error`             | `string`                                                                                 | -              | Error message to display                  |
+| `value`             | `number \| number[]`                                                                     | -              | Current value(s) (controlled)             |
+| `defaultValue`      | `number \| number[]`                                                                     | -              | Default value(s) (uncontrolled)           |
+| `onChange`          | `(value: number \| number[]) => void`                                                    | -              | Callback when value changes               |
+| `onChangeCommitted` | `(value: number \| number[]) => void`                                                    | -              | Callback when slider interaction ends     |
+| `min`               | `number`                                                                                 | `0`            | Minimum value                             |
+| `max`               | `number`                                                                                 | `100`          | Maximum value                             |
+| `step`              | `number`                                                                                 | `1`            | Step increment                            |
+| `marks`             | `SliderMark[]`                                                                           | -              | Marks to display on the slider            |
+| `range`             | `boolean`                                                                                | `false`        | Enable range selection (two thumbs)       |
+| `orientation`       | `'horizontal' \| 'vertical'`                                                             | `'horizontal'` | Slider orientation                        |
+| `variant`           | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'primary'`    | Color variant                             |
+| `size`              | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`         | Size of the slider                        |
+| `disabled`          | `boolean`                                                                                | `false`        | Whether the slider is disabled            |
+| `showTooltip`       | `boolean`                                                                                | `false`        | Show value tooltip on hover/drag          |
+| `showValue`         | `boolean`                                                                                | `false`        | Show current value below slider           |
+| `showInput`         | `boolean`                                                                                | `false`        | Show number input next to slider          |
+| `formatTooltip`     | `(value: number) => string`                                                              | -              | Format tooltip value                      |
+| `formatValue`       | `(value: number \| number[]) => string`                                                  | -              | Format display value                      |
+| `getAriaValueText`  | `(value: number \| number[]) => string`                                                  | -              | Get ARIA value text                       |
+| `height`            | `number \| string`                                                                       | `200`          | Height for vertical sliders               |
+| `trackColor`        | `string`                                                                                 | -              | Custom track color class                  |
+| `fillColor`         | `string`                                                                                 | -              | Custom fill color class                   |
+| `thumbColor`        | `string`                                                                                 | -              | Custom thumb color class                  |
+| `required`          | `boolean`                                                                                | `false`        | Whether value is required                 |
+| `className`         | `string`                                                                                 | -              | Additional CSS classes                    |
+| `aria-label`        | `string`                                                                                 | -              | Accessible label for screen readers       |
+| `aria-labelledby`   | `string`                                                                                 | -              | ID of element that labels this slider     |
+| `aria-describedby`  | `string`                                                                                 | -              | IDs of elements that describe this slider |
+| `aria-required`     | `'true' \| 'false'`                                                                      | -              | Whether the slider is required            |
+| `aria-invalid`      | `'true' \| 'false'`                                                                      | -              | Whether the slider has an error           |
 
 ### SliderMark
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `value` | `number` | Value position of the mark |
+| Prop    | Type                  | Description                  |
+| ------- | --------------------- | ---------------------------- |
+| `value` | `number`              | Value position of the mark   |
 | `label` | `string \| ReactNode` | Label to display at the mark |
 
 ## Best Practices
@@ -468,11 +466,7 @@ Choose steps that make sense for your use case:
 Help users understand the current selection:
 
 ```tsx
-<Slider
-  label="Brightness"
-  showValue
-  formatValue={(value) => `${value}%`}
-/>
+<Slider label="Brightness" showValue formatValue={(value) => `${value}%`} />
 ```
 
 ### 4. Use Marks for Important Values
@@ -484,9 +478,9 @@ Help users understand the current selection:
   max={5}
   step={1}
   marks={[
-    { value: 1, label: 'Low' },
-    { value: 3, label: 'Medium' },
-    { value: 5, label: 'High' },
+    { value: 1, label: "Low" },
+    { value: 3, label: "Medium" },
+    { value: 5, label: "High" },
   ]}
 />
 ```
@@ -518,7 +512,7 @@ Give context about the slider's purpose:
 ### 7. Debounce Expensive Operations
 
 ```tsx
-import { useDebouncedCallback } from 'use-debounce';
+import { useDebouncedCallback } from "use-debounce";
 
 const debouncedFilter = useDebouncedCallback(
   (value) => applyFilter(value),
@@ -528,7 +522,7 @@ const debouncedFilter = useDebouncedCallback(
 <Slider
   onChange={debouncedFilter}
   onChangeCommitted={applyFilter} // Final value immediately
-/>
+/>;
 ```
 
 ### 8. Validate Values
@@ -544,21 +538,13 @@ const debouncedFilter = useDebouncedCallback(
 ### 9. Use Tooltips for Precise Values
 
 ```tsx
-<Slider
-  showTooltip
-  step={0.1}
-  formatTooltip={(value) => value.toFixed(1)}
-/>
+<Slider showTooltip step={0.1} formatTooltip={(value) => value.toFixed(1)} />
 ```
 
 ### 10. Consider Vertical for Space-Constrained UIs
 
 ```tsx
-<Slider
-  orientation="vertical"
-  height={150}
-  label="Volume"
-/>
+<Slider orientation="vertical" height={150} label="Volume" />
 ```
 
 ## Form Integration
@@ -566,7 +552,7 @@ const debouncedFilter = useDebouncedCallback(
 ### With React Hook Form
 
 ```tsx
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 
 function Form() {
   const { control, handleSubmit } = useForm();
@@ -576,9 +562,9 @@ function Form() {
       <Controller
         name="volume"
         control={control}
-        rules={{ 
-          required: 'Volume is required',
-          min: { value: 10, message: 'Minimum volume is 10' }
+        rules={{
+          required: "Volume is required",
+          min: { value: 10, message: "Minimum volume is 10" },
         }}
         render={({ field, fieldState }) => (
           <Slider
@@ -600,7 +586,7 @@ function Form() {
 ### With Formik
 
 ```tsx
-import { Formik } from 'formik';
+import { Formik } from "formik";
 
 function Form() {
   return (
@@ -609,7 +595,7 @@ function Form() {
       validate={(values) => {
         const errors: any = {};
         if (values.brightness < 20) {
-          errors.brightness = 'Brightness too low';
+          errors.brightness = "Brightness too low";
         }
         return errors;
       }}
@@ -619,7 +605,7 @@ function Form() {
         <Slider
           label="Brightness"
           value={values.brightness}
-          onChange={(value) => setFieldValue('brightness', value)}
+          onChange={(value) => setFieldValue("brightness", value)}
           error={errors.brightness}
           min={0}
           max={100}
@@ -656,9 +642,7 @@ function AudioPlayer() {
         min={0}
         max={100}
         showTooltip
-        formatTooltip={(value) => 
-          value === 0 ? 'Muted' : `${value}%`
-        }
+        formatTooltip={(value) => (value === 0 ? "Muted" : `${value}%`)}
       />
     </>
   );
@@ -669,8 +653,8 @@ function AudioPlayer() {
 
 ```tsx
 function DateRangeSlider() {
-  const minDate = new Date('2020-01-01').getTime();
-  const maxDate = new Date('2024-12-31').getTime();
+  const minDate = new Date("2020-01-01").getTime();
+  const maxDate = new Date("2024-12-31").getTime();
   const [range, setRange] = useState([minDate, maxDate]);
 
   const formatDate = (timestamp: number) => {
@@ -687,7 +671,7 @@ function DateRangeSlider() {
       value={range}
       onChange={setRange}
       showValue
-      formatValue={([start, end]) => 
+      formatValue={([start, end]) =>
         `${formatDate(start)} - ${formatDate(end)}`
       }
     />
@@ -707,10 +691,7 @@ function ColorPicker() {
 
   return (
     <div>
-      <div 
-        style={{ background: color }} 
-        className="w-full h-20 rounded mb-4"
-      />
+      <div style={{ background: color }} className="w-full h-20 rounded mb-4" />
       <Slider
         label="Red"
         value={r}
@@ -748,16 +729,16 @@ function ColorPicker() {
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { SliderProps, SliderMark } from '@saha-ui/core';
+import type { SliderProps, SliderMark } from "saha-ui";
 
 const MySlider: React.FC<SliderProps> = (props) => {
   return <Slider {...props} />;
 };
 
 const marks: SliderMark[] = [
-  { value: 0, label: 'Min' },
-  { value: 50, label: 'Mid' },
-  { value: 100, label: 'Max' },
+  { value: 0, label: "Min" },
+  { value: 50, label: "Mid" },
+  { value: 100, label: "Max" },
 ];
 ```
 
@@ -791,7 +772,7 @@ const debouncedChange = useDebouncedCallback(
   300
 );
 
-<Slider onChange={debouncedChange} />
+<Slider onChange={debouncedChange} />;
 ```
 
 ### 2. Use onChangeCommitted
@@ -807,13 +788,13 @@ For operations that should only run when dragging ends:
 
 ## Comparison: Slider vs Input
 
-| Use Case | Component |
-|----------|-----------|
-| Numeric range selection | **Slider** |
-| Precise numeric input | Input (number) |
-| Volume/brightness control | **Slider** |
-| Price range filter | **Slider** (range) |
-| Entering specific values | Input |
+| Use Case                  | Component          |
+| ------------------------- | ------------------ |
+| Numeric range selection   | **Slider**         |
+| Precise numeric input     | Input (number)     |
+| Volume/brightness control | **Slider**         |
+| Price range filter        | **Slider** (range) |
+| Entering specific values  | Input              |
 
 ## Browser Support
 

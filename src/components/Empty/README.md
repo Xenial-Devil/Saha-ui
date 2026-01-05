@@ -12,7 +12,7 @@ An empty state component for displaying when there's no content or data. Provide
 ## Installation
 
 \`\`\`tsx
-import { Empty } from '@saha-ui/core';
+import { Empty } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage

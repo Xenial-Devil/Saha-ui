@@ -18,13 +18,22 @@ A slide-out panel component that overlays content from the side, top, or bottom 
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose } from '@saha-ui/core';
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerClose,
+} from "saha-ui";
 
 function MyDrawer() {
   return (
@@ -32,7 +41,7 @@ function MyDrawer() {
       <DrawerTrigger asChild>
         <button>Open Drawer</button>
       </DrawerTrigger>
-      
+
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Drawer Title</DrawerTitle>
@@ -40,11 +49,9 @@ function MyDrawer() {
             This is a description of the drawer content.
           </DrawerDescription>
         </DrawerHeader>
-        
-        <div className="p-4">
-          Main content goes here
-        </div>
-        
+
+        <div className="p-4">Main content goes here</div>
+
         <DrawerFooter>
           <button>Submit</button>
           <DrawerClose asChild>
@@ -94,30 +101,40 @@ function MyDrawer() {
 ## Sizes
 
 ```tsx
-{/* Small */}
+{
+  /* Small */
+}
 <Drawer size="sm">
   <DrawerContent>Small drawer</DrawerContent>
-</Drawer>
+</Drawer>;
 
-{/* Medium (default) */}
+{
+  /* Medium (default) */
+}
 <Drawer size="md">
   <DrawerContent>Medium drawer</DrawerContent>
-</Drawer>
+</Drawer>;
 
-{/* Large */}
+{
+  /* Large */
+}
 <Drawer size="lg">
   <DrawerContent>Large drawer</DrawerContent>
-</Drawer>
+</Drawer>;
 
-{/* Extra Large */}
+{
+  /* Extra Large */
+}
 <Drawer size="xl">
   <DrawerContent>Extra large drawer</DrawerContent>
-</Drawer>
+</Drawer>;
 
-{/* Full Screen */}
+{
+  /* Full Screen */
+}
 <Drawer size="full">
   <DrawerContent>Full screen drawer</DrawerContent>
-</Drawer>
+</Drawer>;
 ```
 
 ## Controlled Mode
@@ -131,13 +148,13 @@ function ControlledDrawer() {
   return (
     <>
       <button onClick={() => setOpen(true)}>Open Drawer</button>
-      
+
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Controlled Drawer</DrawerTitle>
           </DrawerHeader>
-          
+
           <div className="p-4">
             <p>This drawer is controlled by external state</p>
             <button onClick={() => setOpen(false)}>Close</button>
@@ -186,25 +203,33 @@ function ControlledDrawer() {
 ## Animation Options
 
 ```tsx
-{/* Slide (default) */}
+{
+  /* Slide (default) */
+}
 <Drawer animation="slide">
   <DrawerContent>Slides in</DrawerContent>
-</Drawer>
+</Drawer>;
 
-{/* Fade */}
+{
+  /* Fade */
+}
 <Drawer animation="fade">
   <DrawerContent>Fades in</DrawerContent>
-</Drawer>
+</Drawer>;
 
-{/* Scale */}
+{
+  /* Scale */
+}
 <Drawer animation="scale">
   <DrawerContent>Scales in</DrawerContent>
-</Drawer>
+</Drawer>;
 
-{/* No animation */}
+{
+  /* No animation */
+}
 <Drawer animation="none">
   <DrawerContent>Instant</DrawerContent>
-</Drawer>
+</Drawer>;
 ```
 
 ## Disable Overlay Close
@@ -213,9 +238,7 @@ Prevent closing when clicking outside:
 
 ```tsx
 <Drawer closeOnOverlayClick={false}>
-  <DrawerContent>
-    Must use close button to dismiss
-  </DrawerContent>
+  <DrawerContent>Must use close button to dismiss</DrawerContent>
 </Drawer>
 ```
 
@@ -225,9 +248,7 @@ Prevent closing with Escape key:
 
 ```tsx
 <Drawer closeOnEscape={false}>
-  <DrawerContent>
-    Escape key won't close this
-  </DrawerContent>
+  <DrawerContent>Escape key won't close this</DrawerContent>
 </Drawer>
 ```
 
@@ -242,7 +263,7 @@ Open drawers within drawers:
     <DrawerHeader>
       <DrawerTitle>First Drawer</DrawerTitle>
     </DrawerHeader>
-    
+
     <Drawer nested>
       <DrawerTrigger>Open Second</DrawerTrigger>
       <DrawerContent>
@@ -259,52 +280,52 @@ Open drawers within drawers:
 
 ### Drawer Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | **Required.** Drawer components |
-| `open` | `boolean` | - | Controlled open state |
-| `defaultOpen` | `boolean` | `false` | Default open state (uncontrolled) |
-| `onOpenChange` | `(open: boolean) => void` | - | Callback when state changes |
-| `position` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'right'` | Drawer position |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | Drawer size |
-| `backdrop` | `'default' \| 'blur' \| 'transparent' \| 'dark'` | `'default'` | Backdrop variant |
-| `animation` | `'slide' \| 'fade' \| 'scale' \| 'none'` | `'slide'` | Animation type |
-| `showOverlay` | `boolean` | `true` | Show backdrop overlay |
-| `closeOnOverlayClick` | `boolean` | `true` | Close on backdrop click |
-| `closeOnEscape` | `boolean` | `true` | Close on Escape key |
-| `lockScroll` | `boolean` | `true` | Lock body scroll when open |
-| `nested` | `boolean` | `false` | Enable nested drawer support |
-| `zIndex` | `number` | `1000` | Z-index value |
-| `className` | `string` | - | Additional CSS classes |
+| Prop                  | Type                                             | Default     | Description                       |
+| --------------------- | ------------------------------------------------ | ----------- | --------------------------------- |
+| `children`            | `ReactNode`                                      | -           | **Required.** Drawer components   |
+| `open`                | `boolean`                                        | -           | Controlled open state             |
+| `defaultOpen`         | `boolean`                                        | `false`     | Default open state (uncontrolled) |
+| `onOpenChange`        | `(open: boolean) => void`                        | -           | Callback when state changes       |
+| `position`            | `'left' \| 'right' \| 'top' \| 'bottom'`         | `'right'`   | Drawer position                   |
+| `size`                | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'`         | `'md'`      | Drawer size                       |
+| `backdrop`            | `'default' \| 'blur' \| 'transparent' \| 'dark'` | `'default'` | Backdrop variant                  |
+| `animation`           | `'slide' \| 'fade' \| 'scale' \| 'none'`         | `'slide'`   | Animation type                    |
+| `showOverlay`         | `boolean`                                        | `true`      | Show backdrop overlay             |
+| `closeOnOverlayClick` | `boolean`                                        | `true`      | Close on backdrop click           |
+| `closeOnEscape`       | `boolean`                                        | `true`      | Close on Escape key               |
+| `lockScroll`          | `boolean`                                        | `true`      | Lock body scroll when open        |
+| `nested`              | `boolean`                                        | `false`     | Enable nested drawer support      |
+| `zIndex`              | `number`                                         | `1000`      | Z-index value                     |
+| `className`           | `string`                                         | -           | Additional CSS classes            |
 
 ### DrawerTrigger Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | **Required.** Trigger element |
-| `asChild` | `boolean` | `false` | Merge props with child |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default | Description                   |
+| ----------- | ----------- | ------- | ----------------------------- |
+| `children`  | `ReactNode` | -       | **Required.** Trigger element |
+| `asChild`   | `boolean`   | `false` | Merge props with child        |
+| `className` | `string`    | -       | Additional CSS classes        |
 
 ### DrawerContent Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | **Required.** Drawer content |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default | Description                  |
+| ----------- | ----------- | ------- | ---------------------------- |
+| `children`  | `ReactNode` | -       | **Required.** Drawer content |
+| `className` | `string`    | -       | Additional CSS classes       |
 
 ### DrawerHeader Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | **Required.** Header content |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default | Description                  |
+| ----------- | ----------- | ------- | ---------------------------- |
+| `children`  | `ReactNode` | -       | **Required.** Header content |
+| `className` | `string`    | -       | Additional CSS classes       |
 
 ### DrawerFooter Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | **Required.** Footer content |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default | Description                  |
+| ----------- | ----------- | ------- | ---------------------------- |
+| `children`  | `ReactNode` | -       | **Required.** Footer content |
+| `className` | `string`    | -       | Additional CSS classes       |
 
 ## Common Patterns
 
@@ -319,18 +340,26 @@ function NavDrawer() {
           <MenuIcon />
         </button>
       </DrawerTrigger>
-      
+
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Navigation</DrawerTitle>
         </DrawerHeader>
-        
+
         <nav className="p-4">
           <ul className="space-y-2">
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/services">Services</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="/about">About</a>
+            </li>
+            <li>
+              <a href="/services">Services</a>
+            </li>
+            <li>
+              <a href="/contact">Contact</a>
+            </li>
           </ul>
         </nav>
       </DrawerContent>
@@ -348,15 +377,13 @@ function FilterDrawer() {
       <DrawerTrigger asChild>
         <button>Filters</button>
       </DrawerTrigger>
-      
+
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Filter Options</DrawerTitle>
-          <DrawerDescription>
-            Refine your search results
-          </DrawerDescription>
+          <DrawerDescription>Refine your search results</DrawerDescription>
         </DrawerHeader>
-        
+
         <div className="p-4 space-y-4">
           <div>
             <label>Category</label>
@@ -366,13 +393,13 @@ function FilterDrawer() {
               <option>Clothing</option>
             </select>
           </div>
-          
+
           <div>
             <label>Price Range</label>
             <input type="range" className="w-full" />
           </div>
         </div>
-        
+
         <DrawerFooter>
           <button className="btn-primary">Apply Filters</button>
           <DrawerClose asChild>
@@ -394,26 +421,22 @@ function CartDrawer({ items }) {
       <DrawerTrigger asChild>
         <button className="relative">
           <ShoppingCartIcon />
-          <Badge className="absolute -top-2 -right-2">
-            {items.length}
-          </Badge>
+          <Badge className="absolute -top-2 -right-2">{items.length}</Badge>
         </button>
       </DrawerTrigger>
-      
+
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Shopping Cart</DrawerTitle>
-          <DrawerDescription>
-            {items.length} items
-          </DrawerDescription>
+          <DrawerDescription>{items.length} items</DrawerDescription>
         </DrawerHeader>
-        
+
         <div className="flex-1 overflow-auto p-4">
-          {items.map(item => (
+          {items.map((item) => (
             <CartItem key={item.id} {...item} />
           ))}
         </div>
-        
+
         <DrawerFooter>
           <div className="mb-4">
             <div className="flex justify-between text-lg font-bold">
@@ -423,9 +446,7 @@ function CartDrawer({ items }) {
           </div>
           <button className="btn-primary w-full">Checkout</button>
           <DrawerClose asChild>
-            <button className="btn-secondary w-full">
-              Continue Shopping
-            </button>
+            <button className="btn-secondary w-full">Continue Shopping</button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
@@ -448,35 +469,24 @@ function FormDrawer() {
       <DrawerTrigger asChild>
         <button>Add New Item</button>
       </DrawerTrigger>
-      
+
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Add New Item</DrawerTitle>
-          <DrawerDescription>
-            Fill in the details below
-          </DrawerDescription>
+          <DrawerDescription>Fill in the details below</DrawerDescription>
         </DrawerHeader>
-        
+
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
           <div>
             <label htmlFor="name">Name</label>
-            <input
-              id="name"
-              type="text"
-              className="w-full"
-              required
-            />
+            <input id="name" type="text" className="w-full" required />
           </div>
-          
+
           <div>
             <label htmlFor="description">Description</label>
-            <textarea
-              id="description"
-              className="w-full"
-              rows={4}
-            />
+            <textarea id="description" className="w-full" rows={4} />
           </div>
-          
+
           <DrawerFooter>
             <button type="submit" className="btn-primary">
               Save
@@ -499,12 +509,14 @@ function FormDrawer() {
 The Drawer component follows accessibility best practices:
 
 - **ARIA Attributes:**
+
   - `role="dialog"` for drawer content
   - `aria-modal="true"` to indicate modal behavior
   - `aria-labelledby` connects to drawer title
   - `aria-describedby` connects to drawer description
 
 - **Keyboard Navigation:**
+
   - `Escape` closes the drawer (unless disabled)
   - Focus trap keeps focus within drawer
   - Tab cycles through focusable elements

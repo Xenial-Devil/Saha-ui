@@ -15,20 +15,29 @@ A versatile and flexible container component for grouping related content. Featu
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@saha-ui/core';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "saha-ui";
 
 function MyCard() {
   return (
     <Card>
       <CardHeader>
         <CardTitle>Card Title</CardTitle>
-        <CardDescription>This is a description of the card content.</CardDescription>
+        <CardDescription>
+          This is a description of the card content.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <p>Main content goes here.</p>
@@ -98,30 +107,40 @@ Card with prominent border:
 Control internal spacing:
 
 ```tsx
-{/* No padding */}
+{
+  /* No padding */
+}
 <Card padding="none">
   <CardContent>Content with no padding</CardContent>
-</Card>
+</Card>;
 
-{/* Small padding */}
+{
+  /* Small padding */
+}
 <Card padding="sm">
   <CardContent>Small padding</CardContent>
-</Card>
+</Card>;
 
-{/* Medium padding (default) */}
+{
+  /* Medium padding (default) */
+}
 <Card padding="md">
   <CardContent>Medium padding</CardContent>
-</Card>
+</Card>;
 
-{/* Large padding */}
+{
+  /* Large padding */
+}
 <Card padding="lg">
   <CardContent>Large padding</CardContent>
-</Card>
+</Card>;
 
-{/* Extra large padding */}
+{
+  /* Extra large padding */
+}
 <Card padding="xl">
   <CardContent>Extra large padding</CardContent>
-</Card>
+</Card>;
 ```
 
 ## Border Radius
@@ -142,9 +161,7 @@ Add interactive hover effects:
 
 ```tsx
 <Card hoverable>
-  <CardContent>
-    Hover over me for an effect
-  </CardContent>
+  <CardContent>Hover over me for an effect</CardContent>
 </Card>
 ```
 
@@ -154,14 +171,12 @@ Add interactive hover effects:
 <Card variant="glass" hoverable padding="lg">
   <CardHeader>
     <CardTitle>Product Launch</CardTitle>
-    <CardDescription>
-      Announcing our newest feature release
-    </CardDescription>
+    <CardDescription>Announcing our newest feature release</CardDescription>
   </CardHeader>
   <CardContent>
     <p>
-      We're excited to introduce our latest innovation that will
-      transform how you work with our platform.
+      We're excited to introduce our latest innovation that will transform how
+      you work with our platform.
     </p>
     <ul className="mt-4 space-y-2">
       <li>✨ Enhanced performance</li>
@@ -195,54 +210,54 @@ Use `asChild` for custom composition:
 
 ### Card Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'default' \| 'glass' \| 'glass-strong' \| 'glass-subtle' \| 'bordered'` | `'default'` | Visual style variant |
-| `padding` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Internal padding size |
-| `rounded` | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'lg'` | Border radius size |
-| `hoverable` | `boolean` | `false` | Enable hover effects |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | - | Card content |
+| Prop        | Type                                                                     | Default     | Description            |
+| ----------- | ------------------------------------------------------------------------ | ----------- | ---------------------- |
+| `variant`   | `'default' \| 'glass' \| 'glass-strong' \| 'glass-subtle' \| 'bordered'` | `'default'` | Visual style variant   |
+| `padding`   | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                 | `'md'`      | Internal padding size  |
+| `rounded`   | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'`                                  | `'lg'`      | Border radius size     |
+| `hoverable` | `boolean`                                                                | `false`     | Enable hover effects   |
+| `className` | `string`                                                                 | -           | Additional CSS classes |
+| `children`  | `ReactNode`                                                              | -           | Card content           |
 
 ### CardHeader Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Header content |
-| `className` | `string` | - | Additional CSS classes |
-| `asChild` | `boolean` | `false` | Merge props with child element |
+| Prop        | Type        | Default | Description                    |
+| ----------- | ----------- | ------- | ------------------------------ |
+| `children`  | `ReactNode` | -       | Header content                 |
+| `className` | `string`    | -       | Additional CSS classes         |
+| `asChild`   | `boolean`   | `false` | Merge props with child element |
 
 ### CardTitle Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Title text |
-| `className` | `string` | - | Additional CSS classes |
-| `asChild` | `boolean` | `false` | Merge props with child element |
+| Prop        | Type        | Default | Description                    |
+| ----------- | ----------- | ------- | ------------------------------ |
+| `children`  | `ReactNode` | -       | Title text                     |
+| `className` | `string`    | -       | Additional CSS classes         |
+| `asChild`   | `boolean`   | `false` | Merge props with child element |
 
 ### CardDescription Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Description text |
-| `className` | `string` | - | Additional CSS classes |
-| `asChild` | `boolean` | `false` | Merge props with child element |
+| Prop        | Type        | Default | Description                    |
+| ----------- | ----------- | ------- | ------------------------------ |
+| `children`  | `ReactNode` | -       | Description text               |
+| `className` | `string`    | -       | Additional CSS classes         |
+| `asChild`   | `boolean`   | `false` | Merge props with child element |
 
 ### CardContent Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Main content |
-| `className` | `string` | - | Additional CSS classes |
-| `asChild` | `boolean` | `false` | Merge props with child element |
+| Prop        | Type        | Default | Description                    |
+| ----------- | ----------- | ------- | ------------------------------ |
+| `children`  | `ReactNode` | -       | Main content                   |
+| `className` | `string`    | -       | Additional CSS classes         |
+| `asChild`   | `boolean`   | `false` | Merge props with child element |
 
 ### CardFooter Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Footer content |
-| `className` | `string` | - | Additional CSS classes |
-| `asChild` | `boolean` | `false` | Merge props with child element |
+| Prop        | Type        | Default | Description                    |
+| ----------- | ----------- | ------- | ------------------------------ |
+| `children`  | `ReactNode` | -       | Footer content                 |
+| `className` | `string`    | -       | Additional CSS classes         |
+| `asChild`   | `boolean`   | `false` | Merge props with child element |
 
 ## Common Patterns
 
@@ -261,8 +276,8 @@ Use `asChild` for custom composition:
   </CardHeader>
   <CardContent>
     <p className="text-sm">
-      Passionate about building great user experiences and
-      scalable applications.
+      Passionate about building great user experiences and scalable
+      applications.
     </p>
   </CardContent>
   <CardFooter>
@@ -275,9 +290,9 @@ Use `asChild` for custom composition:
 
 ```tsx
 <Card hoverable padding="none">
-  <img 
-    src="/product.jpg" 
-    alt="Product" 
+  <img
+    src="/product.jpg"
+    alt="Product"
     className="w-full h-48 object-cover rounded-t-lg"
   />
   <CardHeader>
@@ -302,9 +317,7 @@ Use `asChild` for custom composition:
   <CardContent className="text-center">
     <div className="text-4xl font-bold text-primary">1,234</div>
     <CardDescription className="mt-2">Total Users</CardDescription>
-    <div className="mt-2 text-sm text-green-600">
-      ↑ 12% from last month
-    </div>
+    <div className="mt-2 text-sm text-green-600">↑ 12% from last month</div>
   </CardContent>
 </Card>
 ```
@@ -319,7 +332,9 @@ Use `asChild` for custom composition:
         <CardTitle>New Message</CardTitle>
         <CardDescription>2 minutes ago</CardDescription>
       </div>
-      <Badge variant="primary" dot>New</Badge>
+      <Badge variant="primary" dot>
+        New
+      </Badge>
     </div>
   </CardHeader>
   <CardContent>
@@ -372,10 +387,7 @@ The Card component follows accessibility best practices:
 ### Custom Styles
 
 ```tsx
-<Card 
-  variant="glass" 
-  className="shadow-2xl border-2 border-primary"
->
+<Card variant="glass" className="shadow-2xl border-2 border-primary">
   <CardContent>Custom styled card</CardContent>
 </Card>
 ```

@@ -16,16 +16,16 @@ A group of toggle buttons that allows users to select one or multiple options. P
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { ToggleGroup, Toggle } from '@saha-ui/core';
+import { ToggleGroup, Toggle } from "saha-ui";
 
 function MyComponent() {
-  const [value, setValue] = useState('left');
+  const [value, setValue] = useState("left");
 
   return (
     <ToggleGroup type="single" value={value} onValueChange={setValue}>
@@ -45,7 +45,7 @@ Only one option can be selected at a time:
 
 ```tsx
 function TextAlignment() {
-  const [align, setAlign] = useState('left');
+  const [align, setAlign] = useState("left");
 
   return (
     <ToggleGroup type="single" value={align} onValueChange={setAlign}>
@@ -148,23 +148,29 @@ function TextFormatting() {
 ## Sizes
 
 ```tsx
-{/* Small */}
+{
+  /* Small */
+}
 <ToggleGroup type="single" size="sm">
   <Toggle value="1">Small</Toggle>
   <Toggle value="2">Small</Toggle>
-</ToggleGroup>
+</ToggleGroup>;
 
-{/* Default */}
+{
+  /* Default */
+}
 <ToggleGroup type="single" size="default">
   <Toggle value="1">Default</Toggle>
   <Toggle value="2">Default</Toggle>
-</ToggleGroup>
+</ToggleGroup>;
 
-{/* Large */}
+{
+  /* Large */
+}
 <ToggleGroup type="single" size="lg">
   <Toggle value="1">Large</Toggle>
   <Toggle value="2">Large</Toggle>
-</ToggleGroup>
+</ToggleGroup>;
 ```
 
 ## Orientations
@@ -219,7 +225,9 @@ function TextFormatting() {
 ```tsx
 <ToggleGroup type="single">
   <Toggle value="1">Enabled</Toggle>
-  <Toggle value="2" disabled>Disabled</Toggle>
+  <Toggle value="2" disabled>
+    Disabled
+  </Toggle>
   <Toggle value="3">Enabled</Toggle>
 </ToggleGroup>
 ```
@@ -228,45 +236,45 @@ function TextFormatting() {
 
 ### ToggleGroup Props (Single)
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `type` | `'single'` | - | **Required.** Selection type |
-| `value` | `string` | - | Controlled selected value |
-| `defaultValue` | `string` | - | Default value (uncontrolled) |
-| `onValueChange` | `(value: string) => void` | - | Callback when value changes |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'outline' \| 'ghost'` | `'default'` | Visual style variant |
-| `size` | `'sm' \| 'default' \| 'lg'` | `'default'` | Size of toggles |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout orientation |
-| `disabled` | `boolean` | `false` | Disable all toggles |
-| `className` | `string` | - | Additional CSS classes |
+| Prop            | Type                                                            | Default        | Description                  |
+| --------------- | --------------------------------------------------------------- | -------------- | ---------------------------- |
+| `type`          | `'single'`                                                      | -              | **Required.** Selection type |
+| `value`         | `string`                                                        | -              | Controlled selected value    |
+| `defaultValue`  | `string`                                                        | -              | Default value (uncontrolled) |
+| `onValueChange` | `(value: string) => void`                                       | -              | Callback when value changes  |
+| `variant`       | `'default' \| 'primary' \| 'secondary' \| 'outline' \| 'ghost'` | `'default'`    | Visual style variant         |
+| `size`          | `'sm' \| 'default' \| 'lg'`                                     | `'default'`    | Size of toggles              |
+| `orientation`   | `'horizontal' \| 'vertical'`                                    | `'horizontal'` | Layout orientation           |
+| `disabled`      | `boolean`                                                       | `false`        | Disable all toggles          |
+| `className`     | `string`                                                        | -              | Additional CSS classes       |
 
 ### ToggleGroup Props (Multiple)
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `type` | `'multiple'` | - | **Required.** Selection type |
-| `value` | `string[]` | - | Controlled selected values |
-| `defaultValue` | `string[]` | - | Default values (uncontrolled) |
-| `onValueChange` | `(value: string[]) => void` | - | Callback when values change |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'outline' \| 'ghost'` | `'default'` | Visual style variant |
-| `size` | `'sm' \| 'default' \| 'lg'` | `'default'` | Size of toggles |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout orientation |
-| `disabled` | `boolean` | `false` | Disable all toggles |
-| `className` | `string` | - | Additional CSS classes |
+| Prop            | Type                                                            | Default        | Description                   |
+| --------------- | --------------------------------------------------------------- | -------------- | ----------------------------- |
+| `type`          | `'multiple'`                                                    | -              | **Required.** Selection type  |
+| `value`         | `string[]`                                                      | -              | Controlled selected values    |
+| `defaultValue`  | `string[]`                                                      | -              | Default values (uncontrolled) |
+| `onValueChange` | `(value: string[]) => void`                                     | -              | Callback when values change   |
+| `variant`       | `'default' \| 'primary' \| 'secondary' \| 'outline' \| 'ghost'` | `'default'`    | Visual style variant          |
+| `size`          | `'sm' \| 'default' \| 'lg'`                                     | `'default'`    | Size of toggles               |
+| `orientation`   | `'horizontal' \| 'vertical'`                                    | `'horizontal'` | Layout orientation            |
+| `disabled`      | `boolean`                                                       | `false`        | Disable all toggles           |
+| `className`     | `string`                                                        | -              | Additional CSS classes        |
 
 ### Toggle Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | - | **Required.** Unique value |
-| `pressed` | `boolean` | - | Controlled pressed state |
-| `defaultPressed` | `boolean` | `false` | Default pressed state |
-| `onPressedChange` | `(pressed: boolean) => void` | - | Pressed state change callback |
-| `disabled` | `boolean` | `false` | Whether toggle is disabled |
-| `variant` | `ToggleVariant` | - | Override group variant |
-| `size` | `ToggleSize` | - | Override group size |
-| `className` | `string` | - | Additional CSS classes |
-| `asChild` | `boolean` | `false` | Merge props with child |
+| Prop              | Type                         | Default | Description                   |
+| ----------------- | ---------------------------- | ------- | ----------------------------- |
+| `value`           | `string`                     | -       | **Required.** Unique value    |
+| `pressed`         | `boolean`                    | -       | Controlled pressed state      |
+| `defaultPressed`  | `boolean`                    | `false` | Default pressed state         |
+| `onPressedChange` | `(pressed: boolean) => void` | -       | Pressed state change callback |
+| `disabled`        | `boolean`                    | `false` | Whether toggle is disabled    |
+| `variant`         | `ToggleVariant`              | -       | Override group variant        |
+| `size`            | `ToggleSize`                 | -       | Override group size           |
+| `className`       | `string`                     | -       | Additional CSS classes        |
+| `asChild`         | `boolean`                    | `false` | Merge props with child        |
 
 ## Common Patterns
 
@@ -274,7 +282,7 @@ function TextFormatting() {
 
 ```tsx
 function ViewModeSelector() {
-  const [view, setView] = useState('grid');
+  const [view, setView] = useState("grid");
 
   return (
     <ToggleGroup type="single" value={view} onValueChange={setView}>
@@ -332,12 +340,12 @@ function EditorToolbar() {
 
 ```tsx
 function ProductFilters() {
-  const [filters, setFilters] = useState<string[]>(['available']);
+  const [filters, setFilters] = useState<string[]>(["available"]);
 
   return (
-    <ToggleGroup 
-      type="multiple" 
-      value={filters} 
+    <ToggleGroup
+      type="multiple"
+      value={filters}
       onValueChange={setFilters}
       variant="outline"
     >
@@ -354,7 +362,7 @@ function ProductFilters() {
 
 ```tsx
 function SortSelector() {
-  const [sort, setSort] = useState('newest');
+  const [sort, setSort] = useState("newest");
 
   return (
     <ToggleGroup type="single" value={sort} onValueChange={setSort}>
@@ -371,12 +379,12 @@ function SortSelector() {
 
 ```tsx
 function SegmentedControl() {
-  const [period, setPeriod] = useState('week');
+  const [period, setPeriod] = useState("week");
 
   return (
-    <ToggleGroup 
-      type="single" 
-      value={period} 
+    <ToggleGroup
+      type="single"
+      value={period}
       onValueChange={setPeriod}
       variant="primary"
     >
@@ -397,13 +405,11 @@ The ToggleGroup component follows WAI-ARIA guidelines:
   - `Tab` - Move focus into/out of group
   - `Arrow Keys` - Navigate between toggles
   - `Space` or `Enter` - Toggle selection
-  
 - **ARIA Attributes:**
   - `role="group"` for the container
   - `aria-pressed` indicates toggle state
   - `aria-label` for icon-only toggles
   - `aria-disabled` for disabled toggles
-  
 - **Focus Management:**
   - Clear focus indicators
   - Roving tabindex for keyboard navigation
@@ -448,10 +454,7 @@ The ToggleGroup component follows WAI-ARIA guidelines:
 ### Custom Styles
 
 ```tsx
-<ToggleGroup 
-  type="single"
-  className="bg-gray-100 p-1 rounded-lg"
->
+<ToggleGroup type="single" className="bg-gray-100 p-1 rounded-lg">
   <Toggle value="1" className="data-[state=on]:bg-white">
     Option 1
   </Toggle>
@@ -467,11 +470,15 @@ The ToggleGroup component follows WAI-ARIA guidelines:
 <ToggleGroup type="single">
   <Toggle value="all">
     All
-    <Badge className="ml-2" size="sm">123</Badge>
+    <Badge className="ml-2" size="sm">
+      123
+    </Badge>
   </Toggle>
   <Toggle value="unread">
     Unread
-    <Badge className="ml-2" size="sm">5</Badge>
+    <Badge className="ml-2" size="sm">
+      5
+    </Badge>
   </Toggle>
 </ToggleGroup>
 ```

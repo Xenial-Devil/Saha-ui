@@ -16,7 +16,7 @@ A component for grouping multiple buttons together with shared styling and behav
 ## Installation
 
 ```tsx
-import { ButtonGroup, Button } from '@saha-ui/core';
+import { ButtonGroup, Button } from "saha-ui";
 ```
 
 ## Basic Usage
@@ -34,7 +34,7 @@ import { ButtonGroup, Button } from '@saha-ui/core';
 ### With Icons
 
 ```tsx
-import { Download, Share, Bookmark } from 'lucide-react';
+import { Download, Share, Bookmark } from "lucide-react";
 
 <ButtonGroup>
   <Button>
@@ -49,7 +49,7 @@ import { Download, Share, Bookmark } from 'lucide-react';
     <Bookmark className="mr-2 h-4 w-4" />
     Save
   </Button>
-</ButtonGroup>
+</ButtonGroup>;
 ```
 
 ## Variants
@@ -212,25 +212,25 @@ import { Download, Share, Bookmark } from 'lucide-react';
 
 ```tsx
 function ToggleButtonGroup() {
-  const [selected, setSelected] = useState('center');
+  const [selected, setSelected] = useState("center");
 
   return (
     <ButtonGroup variant="outline">
-      <Button 
-        variant={selected === 'left' ? 'default' : 'outline'}
-        onClick={() => setSelected('left')}
+      <Button
+        variant={selected === "left" ? "default" : "outline"}
+        onClick={() => setSelected("left")}
       >
         Left
       </Button>
-      <Button 
-        variant={selected === 'center' ? 'default' : 'outline'}
-        onClick={() => setSelected('center')}
+      <Button
+        variant={selected === "center" ? "default" : "outline"}
+        onClick={() => setSelected("center")}
       >
         Center
       </Button>
-      <Button 
-        variant={selected === 'right' ? 'default' : 'outline'}
-        onClick={() => setSelected('right')}
+      <Button
+        variant={selected === "right" ? "default" : "outline"}
+        onClick={() => setSelected("right")}
       >
         Right
       </Button>
@@ -242,7 +242,7 @@ function ToggleButtonGroup() {
 ### Icon Only Buttons
 
 ```tsx
-import { Bold, Italic, Underline } from 'lucide-react';
+import { Bold, Italic, Underline } from "lucide-react";
 
 <ButtonGroup variant="outline" size="sm">
   <Button size="icon">
@@ -254,18 +254,13 @@ import { Bold, Italic, Underline } from 'lucide-react';
   <Button size="icon">
     <Underline className="h-4 w-4" />
   </Button>
-</ButtonGroup>
+</ButtonGroup>;
 ```
 
 ### Text Formatting Toolbar
 
 ```tsx
-import { 
-  AlignLeft, 
-  AlignCenter, 
-  AlignRight, 
-  AlignJustify 
-} from 'lucide-react';
+import { AlignLeft, AlignCenter, AlignRight, AlignJustify } from "lucide-react";
 
 <ButtonGroup variant="outline" size="sm">
   <Button size="icon">
@@ -280,13 +275,13 @@ import {
   <Button size="icon">
     <AlignJustify className="h-4 w-4" />
   </Button>
-</ButtonGroup>
+</ButtonGroup>;
 ```
 
 ### Pagination Controls
 
 ```tsx
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 <ButtonGroup variant="outline">
   <Button>
@@ -298,20 +293,20 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
   <Button>
     <ChevronRight className="h-4 w-4" />
   </Button>
-</ButtonGroup>
+</ButtonGroup>;
 ```
 
 ### Split Button
 
 ```tsx
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from "lucide-react";
 
 <ButtonGroup>
   <Button>Save Changes</Button>
   <Button size="icon">
     <ChevronDown className="h-4 w-4" />
   </Button>
-</ButtonGroup>
+</ButtonGroup>;
 ```
 
 ### Color Picker Toolbar
@@ -329,7 +324,7 @@ import { ChevronDown } from 'lucide-react';
 ### Vertical Action Menu
 
 ```tsx
-import { Edit, Copy, Trash } from 'lucide-react';
+import { Edit, Copy, Trash } from "lucide-react";
 
 <ButtonGroup orientation="vertical" variant="ghost" fullWidth>
   <Button className="justify-start">
@@ -344,32 +339,32 @@ import { Edit, Copy, Trash } from 'lucide-react';
     <Trash className="mr-2 h-4 w-4" />
     Delete
   </Button>
-</ButtonGroup>
+</ButtonGroup>;
 ```
 
 ### Segmented Control
 
 ```tsx
 function ViewSelector() {
-  const [view, setView] = useState('list');
+  const [view, setView] = useState("list");
 
   return (
     <ButtonGroup variant="outline" fullRounded>
-      <Button 
-        variant={view === 'list' ? 'default' : 'outline'}
-        onClick={() => setView('list')}
+      <Button
+        variant={view === "list" ? "default" : "outline"}
+        onClick={() => setView("list")}
       >
         List
       </Button>
-      <Button 
-        variant={view === 'grid' ? 'default' : 'outline'}
-        onClick={() => setView('grid')}
+      <Button
+        variant={view === "grid" ? "default" : "outline"}
+        onClick={() => setView("grid")}
       >
         Grid
       </Button>
-      <Button 
-        variant={view === 'kanban' ? 'default' : 'outline'}
-        onClick={() => setView('kanban')}
+      <Button
+        variant={view === "kanban" ? "default" : "outline"}
+        onClick={() => setView("kanban")}
       >
         Kanban
       </Button>
@@ -380,16 +375,16 @@ function ViewSelector() {
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `"default" \| "outline" \| "ghost" \| "glass"` | `"default"` | Visual style variant |
-| `size` | `"sm" \| "md" \| "lg" \| "xl"` | `"md"` | Size of buttons in group |
-| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction |
-| `fullRounded` | `boolean` | `false` | Use fully rounded corners (pill shape) |
-| `fullWidth` | `boolean` | `false` | Buttons fill full width |
-| `attached` | `boolean` | `true` | Seamless borders between buttons |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | **required** | Button components |
+| Prop          | Type                                           | Default        | Description                            |
+| ------------- | ---------------------------------------------- | -------------- | -------------------------------------- |
+| `variant`     | `"default" \| "outline" \| "ghost" \| "glass"` | `"default"`    | Visual style variant                   |
+| `size`        | `"sm" \| "md" \| "lg" \| "xl"`                 | `"md"`         | Size of buttons in group               |
+| `orientation` | `"horizontal" \| "vertical"`                   | `"horizontal"` | Layout direction                       |
+| `fullRounded` | `boolean`                                      | `false`        | Use fully rounded corners (pill shape) |
+| `fullWidth`   | `boolean`                                      | `false`        | Buttons fill full width                |
+| `attached`    | `boolean`                                      | `true`         | Seamless borders between buttons       |
+| `className`   | `string`                                       | -              | Additional CSS classes                 |
+| `children`    | `ReactNode`                                    | **required**   | Button components                      |
 
 ## Context API
 
@@ -437,19 +432,27 @@ The component follows accessibility best practices:
 ### Text Editor Toolbar
 
 ```tsx
-import { Bold, Italic, Underline, Link } from 'lucide-react';
+import { Bold, Italic, Underline, Link } from "lucide-react";
 
 <div className="flex gap-2">
   <ButtonGroup variant="outline" size="sm">
-    <Button size="icon"><Bold className="h-4 w-4" /></Button>
-    <Button size="icon"><Italic className="h-4 w-4" /></Button>
-    <Button size="icon"><Underline className="h-4 w-4" /></Button>
+    <Button size="icon">
+      <Bold className="h-4 w-4" />
+    </Button>
+    <Button size="icon">
+      <Italic className="h-4 w-4" />
+    </Button>
+    <Button size="icon">
+      <Underline className="h-4 w-4" />
+    </Button>
   </ButtonGroup>
-  
+
   <ButtonGroup variant="outline" size="sm">
-    <Button size="icon"><Link className="h-4 w-4" /></Button>
+    <Button size="icon">
+      <Link className="h-4 w-4" />
+    </Button>
   </ButtonGroup>
-</div>
+</div>;
 ```
 
 ### Filter Actions
@@ -466,7 +469,7 @@ import { Bold, Italic, Underline, Link } from 'lucide-react';
 ### Zoom Controls
 
 ```tsx
-import { ZoomIn, ZoomOut, Maximize } from 'lucide-react';
+import { ZoomIn, ZoomOut, Maximize } from "lucide-react";
 
 <ButtonGroup variant="outline" size="sm">
   <Button size="icon">
@@ -479,14 +482,14 @@ import { ZoomIn, ZoomOut, Maximize } from 'lucide-react';
   <Button size="icon">
     <Maximize className="h-4 w-4" />
   </Button>
-</ButtonGroup>
+</ButtonGroup>;
 ```
 
 ## Responsive Design
 
 ```tsx
 // Horizontal on desktop, vertical on mobile
-<ButtonGroup 
+<ButtonGroup
   orientation={isMobile ? 'vertical' : 'horizontal'}
   fullWidth={isMobile}
 >
@@ -497,7 +500,7 @@ import { ZoomIn, ZoomOut, Maximize } from 'lucide-react';
 
 // Using Tailwind responsive classes
 <div className="flex flex-col md:flex-row">
-  <ButtonGroup 
+  <ButtonGroup
     className="w-full md:w-auto"
     fullWidth
   >
@@ -541,10 +544,10 @@ function FilterButtons() {
 
   return (
     <ButtonGroup variant="outline">
-      {['all', 'active', 'completed'].map((value) => (
+      {["all", "active", "completed"].map((value) => (
         <Button
           key={value}
-          variant={filter === value ? 'default' : 'outline'}
+          variant={filter === value ? "default" : "outline"}
           onClick={() => setFilter(value)}
         >
           {value.charAt(0).toUpperCase() + value.slice(1)}
@@ -577,6 +580,7 @@ function FilterButtons() {
 ## Browser Support
 
 Works in all modern browsers that support:
+
 - CSS Grid and Flexbox
 - CSS Custom Properties
 - Modern JavaScript (ES6+)

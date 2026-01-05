@@ -16,7 +16,7 @@ A full-screen overlay component that creates a dimmed background layer, typicall
 ## Installation
 
 ```tsx
-import { Backdrop } from '@saha-ui/core';
+import { Backdrop } from "saha-ui";
 ```
 
 ## Basic Usage
@@ -26,7 +26,7 @@ import { Backdrop } from '@saha-ui/core';
 ```tsx
 const [open, setOpen] = useState(false);
 
-<Backdrop open={open} onClick={() => setOpen(false)} />
+<Backdrop open={open} onClick={() => setOpen(false)} />;
 ```
 
 ### With Content
@@ -99,11 +99,7 @@ const [open, setOpen] = useState(false);
 
 ```tsx
 // Invisible but clickable (useful for modal click-outside)
-<Backdrop 
-  open 
-  invisible 
-  onClick={handleClose} 
-/>
+<Backdrop open invisible onClick={handleClose} />
 ```
 
 ## Scroll Lock
@@ -166,8 +162,8 @@ const [open, setOpen] = useState(false);
 function Modal({ open, onClose, children }) {
   return (
     <>
-      <Backdrop 
-        open={open} 
+      <Backdrop
+        open={open}
         onClick={onClose}
         variant="blur"
         blur="md"
@@ -186,12 +182,7 @@ function Modal({ open, onClose, children }) {
 ```tsx
 function LoadingOverlay({ isLoading }) {
   return (
-    <Backdrop 
-      open={isLoading}
-      variant="blur"
-      blur="sm"
-      opacity={0.7}
-    >
+    <Backdrop open={isLoading} variant="blur" blur="sm" opacity={0.7}>
       <div className="flex flex-col items-center gap-4">
         <Spinner size="xl" />
         <p className="text-white font-medium">Loading...</p>
@@ -207,16 +198,11 @@ function LoadingOverlay({ isLoading }) {
 function Lightbox({ image, open, onClose }) {
   return (
     <>
-      <Backdrop 
-        open={open}
-        variant="solid"
-        opacity={0.95}
-        onClick={onClose}
-      >
+      <Backdrop open={open} variant="solid" opacity={0.95} onClick={onClose}>
         <div className="flex items-center justify-center h-full p-8">
-          <img 
-            src={image} 
-            alt="Lightbox" 
+          <img
+            src={image}
+            alt="Lightbox"
             className="max-w-full max-h-full rounded-lg shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           />
@@ -233,7 +219,7 @@ function Lightbox({ image, open, onClose }) {
 function DrawerWithBackdrop({ open, onClose, children }) {
   return (
     <>
-      <Backdrop 
+      <Backdrop
         open={open}
         onClick={onClose}
         variant="blur"
@@ -267,9 +253,7 @@ function ConfirmDialog({ open, onConfirm, onCancel }) {
             <Button variant="outline" onClick={onCancel}>
               Cancel
             </Button>
-            <Button onClick={onConfirm}>
-              Confirm
-            </Button>
+            <Button onClick={onConfirm}>Confirm</Button>
           </CardFooter>
         </Card>
       </div>
@@ -288,20 +272,16 @@ function NestedModals() {
   return (
     <>
       {/* First backdrop */}
-      <Backdrop 
-        open={modal1}
-        onClick={() => setModal1(false)}
-        zIndex={1000}
-      />
-      
+      <Backdrop open={modal1} onClick={() => setModal1(false)} zIndex={1000} />
+
       {/* Second backdrop (higher z-index) */}
-      <Backdrop 
+      <Backdrop
         open={modal2}
         onClick={() => setModal2(false)}
         zIndex={1100}
         opacity={0.7}
       />
-      
+
       {/* Modals... */}
     </>
   );
@@ -311,12 +291,12 @@ function NestedModals() {
 ### Custom Styled Backdrop
 
 ```tsx
-<Backdrop 
+<Backdrop
   open
   variant="solid"
   opacity={0.8}
   className="bg-gradient-to-br from-purple-900/90 to-blue-900/90"
-  style={{ backdropFilter: 'blur(8px) saturate(180%)' }}
+  style={{ backdropFilter: "blur(8px) saturate(180%)" }}
 >
   <div className="text-white text-center">
     <h2 className="text-2xl font-bold mb-4">Welcome</h2>
@@ -327,22 +307,22 @@ function NestedModals() {
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `open` | `boolean` | **required** | Controls backdrop visibility |
-| `variant` | `"solid" \| "blur" \| "gradient"` | `"solid"` | Visual style variant |
-| `blur` | `"none" \| "sm" \| "md" \| "lg" \| "xl"` | `"none"` | Blur intensity level |
-| `opacity` | `number` | `0.5` | Backdrop opacity (0-1) |
-| `invisible` | `boolean` | `false` | Make backdrop transparent but clickable |
-| `disablePointerEvents` | `boolean` | `false` | Disable all click interactions |
-| `zIndex` | `number` | `1000` | CSS z-index value |
-| `preventScroll` | `boolean` | `true` | Lock body scroll when open |
-| `transitionDuration` | `number` | `300` | Transition duration in milliseconds |
-| `unmountOnExit` | `boolean` | `false` | Remove from DOM when closed |
-| `onClick` | `(e: MouseEvent) => void` | - | Click handler (only fires on backdrop) |
-| `className` | `string` | - | Additional CSS classes |
-| `style` | `CSSProperties` | - | Inline styles |
-| `children` | `ReactNode` | - | Content to display on backdrop |
+| Prop                   | Type                                     | Default      | Description                             |
+| ---------------------- | ---------------------------------------- | ------------ | --------------------------------------- |
+| `open`                 | `boolean`                                | **required** | Controls backdrop visibility            |
+| `variant`              | `"solid" \| "blur" \| "gradient"`        | `"solid"`    | Visual style variant                    |
+| `blur`                 | `"none" \| "sm" \| "md" \| "lg" \| "xl"` | `"none"`     | Blur intensity level                    |
+| `opacity`              | `number`                                 | `0.5`        | Backdrop opacity (0-1)                  |
+| `invisible`            | `boolean`                                | `false`      | Make backdrop transparent but clickable |
+| `disablePointerEvents` | `boolean`                                | `false`      | Disable all click interactions          |
+| `zIndex`               | `number`                                 | `1000`       | CSS z-index value                       |
+| `preventScroll`        | `boolean`                                | `true`       | Lock body scroll when open              |
+| `transitionDuration`   | `number`                                 | `300`        | Transition duration in milliseconds     |
+| `unmountOnExit`        | `boolean`                                | `false`      | Remove from DOM when closed             |
+| `onClick`              | `(e: MouseEvent) => void`                | -            | Click handler (only fires on backdrop)  |
+| `className`            | `string`                                 | -            | Additional CSS classes                  |
+| `style`                | `CSSProperties`                          | -            | Inline styles                           |
+| `children`             | `ReactNode`                              | -            | Content to display on backdrop          |
 
 ## Behavior Details
 
@@ -351,7 +331,7 @@ function NestedModals() {
 The `onClick` handler only fires when clicking the backdrop itself, not its children:
 
 ```tsx
-<Backdrop open onClick={() => console.log('Backdrop clicked')}>
+<Backdrop open onClick={() => console.log("Backdrop clicked")}>
   <div onClick={(e) => e.stopPropagation()}>
     {/* Clicking here won't trigger backdrop onClick */}
   </div>
@@ -361,6 +341,7 @@ The `onClick` handler only fires when clicking the backdrop itself, not its chil
 ### Scroll Lock
 
 When `preventScroll={true}`:
+
 - Body overflow is set to hidden
 - Scrollbar width is calculated
 - Padding is added to prevent layout shift
@@ -396,7 +377,7 @@ The component follows accessibility best practices:
 // Avoid blur on mobile for better performance
 const isMobile = window.innerWidth < 768;
 
-<Backdrop 
+<Backdrop
   open
   variant={isMobile ? "solid" : "blur"}
   blur={isMobile ? "none" : "md"}
@@ -444,19 +425,19 @@ The component uses Tailwind CSS and CVA for styling:
 
 ```tsx
 // Custom background color
-<Backdrop 
+<Backdrop
   open
   className="bg-blue-900/80"
 />
 
 // Custom blur effect
-<Backdrop 
+<Backdrop
   open
   style={{ backdropFilter: 'blur(12px) brightness(0.8)' }}
 />
 
 // Gradient overlay
-<Backdrop 
+<Backdrop
   open
   className="bg-gradient-to-t from-black/80 via-black/50 to-transparent"
 />
@@ -465,6 +446,7 @@ The component uses Tailwind CSS and CVA for styling:
 ## Browser Support
 
 Works in all modern browsers that support:
+
 - CSS backdrop-filter (for blur effects)
 - CSS transitions and animations
 - Modern JavaScript (ES6+)

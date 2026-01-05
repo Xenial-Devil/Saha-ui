@@ -17,13 +17,13 @@ A flexible typography component for rendering text with consistent styling, sema
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Typography } from '@saha-ui/core';
+import { Typography } from "saha-ui";
 
 function MyComponent() {
   return (
@@ -130,7 +130,8 @@ function MyComponent() {
 
 ```tsx
 <Typography truncate="single" className="max-w-xs">
-  This is a very long text that will be truncated with an ellipsis when it exceeds the container width
+  This is a very long text that will be truncated with an ellipsis when it
+  exceeds the container width
 </Typography>
 ```
 
@@ -138,7 +139,7 @@ function MyComponent() {
 
 ```tsx
 <Typography truncate="2" className="max-w-md">
-  This is a longer text that will be truncated after two lines with an ellipsis. 
+  This is a longer text that will be truncated after two lines with an ellipsis.
   Any content beyond the second line will be hidden and replaced with ...
 </Typography>
 
@@ -169,18 +170,18 @@ Use the `as` prop to render different HTML elements:
 
 ### Typography Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6' \| 'p' \| 'span' \| 'small' \| 'lead' \| 'blockquote' \| 'code' \| 'kbd' \| 'muted' \| 'list'` | `'p'` | Typography variant |
-| `color` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'muted' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Text color |
-| `align` | `'left' \| 'center' \| 'right' \| 'justify'` | `'left'` | Text alignment |
-| `weight` | `'light' \| 'normal' \| 'medium' \| 'semibold' \| 'bold' \| 'extrabold' \| 'black'` | - | Font weight |
-| `transform` | `'uppercase' \| 'lowercase' \| 'capitalize' \| 'normal-case'` | - | Text transform |
-| `decoration` | `'underline' \| 'line-through' \| 'overline' \| 'none'` | - | Text decoration |
-| `truncate` | `'single' \| '2' \| '3' \| '4' \| '5'` | - | Text truncation behavior |
-| `as` | `React.ElementType` | - | HTML element to render |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | - | Content to display |
+| Prop         | Type                                                                                                                                         | Default     | Description              |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------ |
+| `variant`    | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6' \| 'p' \| 'span' \| 'small' \| 'lead' \| 'blockquote' \| 'code' \| 'kbd' \| 'muted' \| 'list'` | `'p'`       | Typography variant       |
+| `color`      | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'muted' \| 'success' \| 'warning' \| 'error' \| 'info'`                                | `'default'` | Text color               |
+| `align`      | `'left' \| 'center' \| 'right' \| 'justify'`                                                                                                 | `'left'`    | Text alignment           |
+| `weight`     | `'light' \| 'normal' \| 'medium' \| 'semibold' \| 'bold' \| 'extrabold' \| 'black'`                                                          | -           | Font weight              |
+| `transform`  | `'uppercase' \| 'lowercase' \| 'capitalize' \| 'normal-case'`                                                                                | -           | Text transform           |
+| `decoration` | `'underline' \| 'line-through' \| 'overline' \| 'none'`                                                                                      | -           | Text decoration          |
+| `truncate`   | `'single' \| '2' \| '3' \| '4' \| '5'`                                                                                                       | -           | Text truncation behavior |
+| `as`         | `React.ElementType`                                                                                                                          | -           | HTML element to render   |
+| `className`  | `string`                                                                                                                                     | -           | Additional CSS classes   |
+| `children`   | `ReactNode`                                                                                                                                  | -           | Content to display       |
 
 ## Common Patterns
 
@@ -204,15 +205,15 @@ Use the `as` prop to render different HTML elements:
   <Typography variant="h2" className="mb-4">
     Article Title
   </Typography>
-  
+
   <Typography variant="p" className="mb-4">
     First paragraph of the article with regular text styling.
   </Typography>
-  
+
   <Typography variant="blockquote" className="my-6">
     "This is an important quote from the article."
   </Typography>
-  
+
   <Typography variant="p">
     Additional paragraph content continues here.
   </Typography>
@@ -273,10 +274,8 @@ Use the `as` prop to render different HTML elements:
   <Typography variant="p">
     Press <Typography variant="kbd">Ctrl+S</Typography> to save your work.
   </Typography>
-  
-  <Typography variant="code">
-    npm install @saha-ui/core
-  </Typography>
+
+  <Typography variant="code">npm install saha-ui</Typography>
 </div>
 ```
 
@@ -284,7 +283,7 @@ Use the `as` prop to render different HTML elements:
 
 ```tsx
 <div className="grid grid-cols-3 gap-4">
-  {products.map(product => (
+  {products.map((product) => (
     <div key={product.id}>
       <Typography variant="h4" truncate="single">
         {product.name}
@@ -329,8 +328,8 @@ The Typography component follows accessibility best practices:
 ### Custom Styles
 
 ```tsx
-<Typography 
-  variant="h1" 
+<Typography
+  variant="h1"
   className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent"
 >
   Gradient Text
@@ -355,10 +354,7 @@ The Typography component follows accessibility best practices:
 ### Responsive Typography
 
 ```tsx
-<Typography 
-  variant="h1"
-  className="text-2xl md:text-4xl lg:text-6xl"
->
+<Typography variant="h1" className="text-2xl md:text-4xl lg:text-6xl">
   Responsive Heading
 </Typography>
 ```

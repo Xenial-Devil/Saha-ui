@@ -17,13 +17,13 @@ A versatile loading spinner component with multiple visual styles, animations, a
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Spinner } from '@saha-ui/core';
+import { Spinner } from "saha-ui";
 
 function LoadingComponent() {
   return <Spinner />;
@@ -211,13 +211,9 @@ Control spinner thickness:
 Display custom logo or icon in center:
 
 ```tsx
-import { Logo } from './Logo';
+import { Logo } from "./Logo";
 
-<Spinner 
-  logo={<Logo />}
-  logoSize="md"
-  type="ring"
-/>
+<Spinner logo={<Logo />} logoSize="md" type="ring" />;
 ```
 
 ## Animation Styles
@@ -250,19 +246,19 @@ import { Logo } from './Logo';
 
 ### Spinner Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'info' \| 'success' \| 'warning' \| 'error' \| 'glass' \| 'gradient'` | `'primary'` | Visual style variant |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'` | Size of the spinner |
-| `type` | `'ring' \| 'dots' \| 'dashed' \| 'bars' \| 'dotRing' \| 'orbit' \| 'pulse' \| 'square' \| 'triangle' \| 'wave' \| 'spiral' \| 'infinity' \| 'flower' \| 'grid' \| 'bounce'` | `'ring'` | Spinner visual structure |
-| `animation` | `'spin' \| 'pulse' \| 'bounce' \| 'ping'` | `'spin'` | Animation style |
-| `label` | `string` | - | Loading text to display |
-| `fullscreen` | `boolean` | `false` | Show with backdrop overlay |
-| `speed` | `number` | `1` | Animation speed multiplier |
-| `thickness` | `'thin' \| 'default' \| 'thick'` | `'default'` | Border thickness |
-| `logo` | `string \| ReactNode` | - | Custom logo or icon |
-| `logoSize` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Size of logo |
-| `className` | `string` | - | Additional CSS classes |
+| Prop         | Type                                                                                                                                                                        | Default     | Description                |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | -------------------------- |
+| `variant`    | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'info' \| 'success' \| 'warning' \| 'error' \| 'glass' \| 'gradient'`                                                 | `'primary'` | Visual style variant       |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'`                                                                                                                             | `'md'`      | Size of the spinner        |
+| `type`       | `'ring' \| 'dots' \| 'dashed' \| 'bars' \| 'dotRing' \| 'orbit' \| 'pulse' \| 'square' \| 'triangle' \| 'wave' \| 'spiral' \| 'infinity' \| 'flower' \| 'grid' \| 'bounce'` | `'ring'`    | Spinner visual structure   |
+| `animation`  | `'spin' \| 'pulse' \| 'bounce' \| 'ping'`                                                                                                                                   | `'spin'`    | Animation style            |
+| `label`      | `string`                                                                                                                                                                    | -           | Loading text to display    |
+| `fullscreen` | `boolean`                                                                                                                                                                   | `false`     | Show with backdrop overlay |
+| `speed`      | `number`                                                                                                                                                                    | `1`         | Animation speed multiplier |
+| `thickness`  | `'thin' \| 'default' \| 'thick'`                                                                                                                                            | `'default'` | Border thickness           |
+| `logo`       | `string \| ReactNode`                                                                                                                                                       | -           | Custom logo or icon        |
+| `logoSize`   | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                                                                                                                      | `'md'`      | Size of logo               |
+| `className`  | `string`                                                                                                                                                                    | -           | Additional CSS classes     |
 
 ## Common Patterns
 
@@ -286,7 +282,7 @@ function SubmitButton() {
           <span>Submitting...</span>
         </div>
       ) : (
-        'Submit'
+        "Submit"
       )}
     </button>
   );
@@ -301,7 +297,7 @@ function PageWithLoading() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetchData().then(result => {
+    fetchData().then((result) => {
       setData(result);
       setLoading(false);
     });
@@ -310,11 +306,7 @@ function PageWithLoading() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Spinner 
-          size="xl" 
-          variant="primary" 
-          label="Loading content..."
-        />
+        <Spinner size="xl" variant="primary" label="Loading content..." />
       </div>
     );
   }
@@ -332,14 +324,14 @@ function App() {
   return (
     <>
       {globalLoading && (
-        <Spinner 
-          fullscreen 
-          variant="primary" 
+        <Spinner
+          fullscreen
+          variant="primary"
           label="Processing..."
           type="orbit"
         />
       )}
-      
+
       {/* App content */}
     </>
   );
@@ -386,11 +378,7 @@ function FileUpload() {
     <div>
       {uploading ? (
         <div className="flex flex-col items-center gap-3">
-          <Spinner 
-            variant="success" 
-            type="ring" 
-            size="lg"
-          />
+          <Spinner variant="success" type="ring" size="lg" />
           <p>Uploading files...</p>
         </div>
       ) : (
@@ -406,6 +394,7 @@ function FileUpload() {
 The Spinner component follows accessibility best practices:
 
 - **ARIA Attributes:**
+
   - Uses `role="status"` for loading indicators
   - Includes `aria-label` for screen readers
   - `aria-live="polite"` announces loading state changes
@@ -417,10 +406,7 @@ The Spinner component follows accessibility best practices:
 ### Example
 
 ```tsx
-<Spinner 
-  label="Loading content" 
-  aria-label="Content is loading"
-/>
+<Spinner label="Loading content" aria-label="Content is loading" />
 ```
 
 ## Best Practices
@@ -438,25 +424,19 @@ The Spinner component follows accessibility best practices:
 ### Custom Colors
 
 ```tsx
-<Spinner 
-  variant="primary" 
-  className="text-blue-600"
-/>
+<Spinner variant="primary" className="text-blue-600" />
 ```
 
 ### Custom Size
 
 ```tsx
-<Spinner 
-  size="lg"
-  className="w-24 h-24"
-/>
+<Spinner size="lg" className="w-24 h-24" />
 ```
 
 ### Combining Props
 
 ```tsx
-<Spinner 
+<Spinner
   variant="gradient"
   type="orbit"
   size="xl"

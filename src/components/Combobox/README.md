@@ -19,13 +19,13 @@ A fully accessible combobox component that combines a text input with a searchab
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Combobox } from '@saha-ui/core';
+import { Combobox } from 'saha-ui';
 
 function App() {
   const [value, setValue] = useState('');
@@ -923,7 +923,7 @@ const translations = {
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { ComboboxProps, ComboboxOption } from '@saha-ui/core';
+import type { ComboboxProps, ComboboxOption } from 'saha-ui';
 
 interface CustomOption {
   label: string;

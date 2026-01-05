@@ -16,7 +16,7 @@ An advanced color picker component with multiple color format support, presets, 
 ## Installation
 
 \`\`\`tsx
-import { ColorPicker } from '@saha-ui/core';
+import { ColorPicker } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage
@@ -29,16 +29,16 @@ const [color, setColor] = useState('#3b82f6');
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| \`value\` | \`string\` | \`"#000000"\` | Current color value |
-| \`onChange\` | \`(color: string) => void\` | - | Callback when color changes |
-| \`format\` | \`"hex" \| "rgb" \| "hsl"\` | \`"hex"\` | Color format |
-| \`presets\` | \`string[]\` | - | Preset color swatches |
-| \`showAlpha\` | \`boolean\` | \`false\` | Show alpha channel |
-| \`showPresets\` | \`boolean\` | \`true\` | Show preset colors |
-| \`disabled\` | \`boolean\` | \`false\` | Disable the picker |
-| \`className\` | \`string\` | - | Additional CSS classes |
+| Prop            | Type                        | Default       | Description                 |
+| --------------- | --------------------------- | ------------- | --------------------------- |
+| \`value\`       | \`string\`                  | \`"#000000"\` | Current color value         |
+| \`onChange\`    | \`(color: string) => void\` | -             | Callback when color changes |
+| \`format\`      | \`"hex" \| "rgb" \| "hsl"\` | \`"hex"\`     | Color format                |
+| \`presets\`     | \`string[]\`                | -             | Preset color swatches       |
+| \`showAlpha\`   | \`boolean\`                 | \`false\`     | Show alpha channel          |
+| \`showPresets\` | \`boolean\`                 | \`true\`      | Show preset colors          |
+| \`disabled\`    | \`boolean\`                 | \`false\`     | Disable the picker          |
+| \`className\`   | \`string\`                  | -             | Additional CSS classes      |
 
 ## Related Components
 

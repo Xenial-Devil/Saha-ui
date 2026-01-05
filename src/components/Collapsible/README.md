@@ -16,7 +16,7 @@ A flexible collapsible/accordion component that expands and collapses content wi
 ## Installation
 
 ```tsx
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@saha-ui/core';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "saha-ui";
 ```
 
 ## Basic Usage
@@ -42,7 +42,7 @@ const [isOpen, setIsOpen] = useState(false);
   <CollapsibleContent>
     Content that can be controlled externally
   </CollapsibleContent>
-</Collapsible>
+</Collapsible>;
 ```
 
 ### Default Open
@@ -50,9 +50,7 @@ const [isOpen, setIsOpen] = useState(false);
 ```tsx
 <Collapsible defaultOpen>
   <CollapsibleTrigger>Already expanded</CollapsibleTrigger>
-  <CollapsibleContent>
-    This content is visible by default
-  </CollapsibleContent>
+  <CollapsibleContent>This content is visible by default</CollapsibleContent>
 </Collapsible>
 ```
 
@@ -139,17 +137,17 @@ const [isOpen, setIsOpen] = useState(false);
 ## Custom Icons
 
 ```tsx
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus } from "lucide-react";
 
 <Collapsible>
-  <CollapsibleTrigger 
+  <CollapsibleTrigger
     icon={<Plus className="h-4 w-4" />}
     iconOpen={<Minus className="h-4 w-4" />}
   >
     Custom Icons
   </CollapsibleTrigger>
   <CollapsibleContent>Content</CollapsibleContent>
-</Collapsible>
+</Collapsible>;
 ```
 
 ## Disabled State
@@ -157,9 +155,7 @@ import { Plus, Minus } from 'lucide-react';
 ```tsx
 <Collapsible disabled>
   <CollapsibleTrigger>Disabled Collapsible</CollapsibleTrigger>
-  <CollapsibleContent>
-    This content cannot be revealed
-  </CollapsibleContent>
+  <CollapsibleContent>This content cannot be revealed</CollapsibleContent>
 </Collapsible>
 ```
 
@@ -172,16 +168,16 @@ function FAQSection() {
   const faqs = [
     {
       question: "What is your return policy?",
-      answer: "We offer a 30-day return policy for all products..."
+      answer: "We offer a 30-day return policy for all products...",
     },
     {
       question: "How long does shipping take?",
-      answer: "Standard shipping takes 5-7 business days..."
+      answer: "Standard shipping takes 5-7 business days...",
     },
     {
       question: "Do you ship internationally?",
-      answer: "Yes, we ship to over 50 countries worldwide..."
-    }
+      answer: "Yes, we ship to over 50 countries worldwide...",
+    },
   ];
 
   return (
@@ -302,7 +298,7 @@ function FilterMenu() {
   <CollapsibleContent>
     <div className="space-y-2 p-4">
       <p>Parent content here</p>
-      
+
       <Collapsible variant="secondary">
         <CollapsibleTrigger>Child Section 1</CollapsibleTrigger>
         <CollapsibleContent>
@@ -325,33 +321,33 @@ function FilterMenu() {
 
 ### Collapsible Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `open` | `boolean` | - | Controlled open state |
-| `defaultOpen` | `boolean` | `false` | Default open state (uncontrolled) |
-| `onOpenChange` | `(open: boolean) => void` | - | Callback when open state changes |
-| `variant` | `"default" \| "primary" \| "secondary" \| "accent" \| "success" \| "warning" \| "error" \| "info" \| "outline" \| "glass"` | `"default"` | Visual variant |
-| `animation` | `"smooth" \| "spring" \| "bounce" \| "instant"` | `"smooth"` | Animation type |
-| `disabled` | `boolean` | `false` | Disable the collapsible |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | **required** | Trigger and content components |
+| Prop           | Type                                                                                                                       | Default      | Description                       |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------------------------- |
+| `open`         | `boolean`                                                                                                                  | -            | Controlled open state             |
+| `defaultOpen`  | `boolean`                                                                                                                  | `false`      | Default open state (uncontrolled) |
+| `onOpenChange` | `(open: boolean) => void`                                                                                                  | -            | Callback when open state changes  |
+| `variant`      | `"default" \| "primary" \| "secondary" \| "accent" \| "success" \| "warning" \| "error" \| "info" \| "outline" \| "glass"` | `"default"`  | Visual variant                    |
+| `animation`    | `"smooth" \| "spring" \| "bounce" \| "instant"`                                                                            | `"smooth"`   | Animation type                    |
+| `disabled`     | `boolean`                                                                                                                  | `false`      | Disable the collapsible           |
+| `className`    | `string`                                                                                                                   | -            | Additional CSS classes            |
+| `children`     | `ReactNode`                                                                                                                | **required** | Trigger and content components    |
 
 ### CollapsibleTrigger Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `icon` | `ReactNode` | `<ChevronDown />` | Icon to display |
-| `iconOpen` | `ReactNode` | - | Icon when open (defaults to rotated icon) |
-| `hideIcon` | `boolean` | `false` | Hide the icon |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | **required** | Trigger content |
+| Prop        | Type        | Default           | Description                               |
+| ----------- | ----------- | ----------------- | ----------------------------------------- |
+| `icon`      | `ReactNode` | `<ChevronDown />` | Icon to display                           |
+| `iconOpen`  | `ReactNode` | -                 | Icon when open (defaults to rotated icon) |
+| `hideIcon`  | `boolean`   | `false`           | Hide the icon                             |
+| `className` | `string`    | -                 | Additional CSS classes                    |
+| `children`  | `ReactNode` | **required**      | Trigger content                           |
 
 ### CollapsibleContent Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | **required** | Content to show/hide |
+| Prop        | Type        | Default      | Description            |
+| ----------- | ----------- | ------------ | ---------------------- |
+| `className` | `string`    | -            | Additional CSS classes |
+| `children`  | `ReactNode` | **required** | Content to show/hide   |
 
 ## Keyboard Navigation
 
@@ -421,13 +417,13 @@ function FormWithCollapsible() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Input {...register('name')} placeholder="Name" />
-      
+      <Input {...register("name")} placeholder="Name" />
+
       <Collapsible>
         <CollapsibleTrigger>Optional Fields</CollapsibleTrigger>
         <CollapsibleContent>
-          <Input {...register('phone')} placeholder="Phone" />
-          <Input {...register('address')} placeholder="Address" />
+          <Input {...register("phone")} placeholder="Phone" />
+          <Input {...register("address")} placeholder="Address" />
         </CollapsibleContent>
       </Collapsible>
 
@@ -440,6 +436,7 @@ function FormWithCollapsible() {
 ## Browser Support
 
 Works in all modern browsers that support:
+
 - CSS Transitions
 - CSS Grid and Flexbox
 - Modern JavaScript (ES6+)

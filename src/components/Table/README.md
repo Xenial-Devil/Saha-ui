@@ -18,7 +18,7 @@ A flexible and feature-rich table component for displaying tabular data. Support
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
@@ -32,8 +32,8 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  TableCaption
-} from '@saha-ui/core';
+  TableCaption,
+} from "saha-ui";
 
 function MyTable() {
   return (
@@ -71,17 +71,13 @@ function MyTable() {
 ### Default
 
 ```tsx
-<Table variant="default">
-  {/* table content */}
-</Table>
+<Table variant="default">{/* table content */}</Table>
 ```
 
 ### Bordered
 
 ```tsx
-<Table variant="bordered">
-  {/* table content */}
-</Table>
+<Table variant="bordered">{/* table content */}</Table>
 ```
 
 ### Striped
@@ -89,9 +85,7 @@ function MyTable() {
 Alternating row colors:
 
 ```tsx
-<Table variant="striped">
-  {/* table content */}
-</Table>
+<Table variant="striped">{/* table content */}</Table>
 ```
 
 ### Glass
@@ -99,9 +93,7 @@ Alternating row colors:
 Modern glassmorphism effect:
 
 ```tsx
-<Table variant="glass">
-  {/* table content */}
-</Table>
+<Table variant="glass">{/* table content */}</Table>
 ```
 
 ### Minimal
@@ -109,9 +101,7 @@ Modern glassmorphism effect:
 Clean, minimal styling:
 
 ```tsx
-<Table variant="minimal">
-  {/* table content */}
-</Table>
+<Table variant="minimal">{/* table content */}</Table>
 ```
 
 ## Sizes
@@ -136,22 +126,22 @@ Control spacing between rows:
 
 ```tsx
 function SortableTable() {
-  const [sortColumn, setSortColumn] = useState<string>('name');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [sortColumn, setSortColumn] = useState<string>("name");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   const handleSort = (column: string) => {
     if (sortColumn === column) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
       setSortColumn(column);
-      setSortDirection('asc');
+      setSortDirection("asc");
     }
   };
 
   const sortedData = [...data].sort((a, b) => {
     const aVal = a[sortColumn];
     const bVal = b[sortColumn];
-    const modifier = sortDirection === 'asc' ? 1 : -1;
+    const modifier = sortDirection === "asc" ? 1 : -1;
     return aVal > bVal ? modifier : -modifier;
   });
 
@@ -159,24 +149,24 @@ function SortableTable() {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead 
-            sortable 
-            onClick={() => handleSort('name')}
-            sortDirection={sortColumn === 'name' ? sortDirection : null}
+          <TableHead
+            sortable
+            onClick={() => handleSort("name")}
+            sortDirection={sortColumn === "name" ? sortDirection : null}
           >
             Name
           </TableHead>
-          <TableHead 
-            sortable 
-            onClick={() => handleSort('email')}
-            sortDirection={sortColumn === 'email' ? sortDirection : null}
+          <TableHead
+            sortable
+            onClick={() => handleSort("email")}
+            sortDirection={sortColumn === "email" ? sortDirection : null}
           >
             Email
           </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {sortedData.map(item => (
+        {sortedData.map((item) => (
           <TableRow key={item.id}>
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.email}</TableCell>
@@ -199,7 +189,7 @@ function SelectableTable() {
   return (
     <Table>
       <TableBody>
-        {data.map(item => (
+        {data.map((item) => (
           <TableRow
             key={item.id}
             selectable
@@ -223,14 +213,12 @@ function MultiSelectTable() {
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
   const handleSelectAll = (checked: boolean) => {
-    setSelectedRows(checked ? data.map(d => d.id) : []);
+    setSelectedRows(checked ? data.map((d) => d.id) : []);
   };
 
   const handleSelectRow = (id: string) => {
-    setSelectedRows(prev =>
-      prev.includes(id)
-        ? prev.filter(rowId => rowId !== id)
-        : [...prev, id]
+    setSelectedRows((prev) =>
+      prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
     );
   };
 
@@ -250,7 +238,7 @@ function MultiSelectTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map(item => (
+        {data.map((item) => (
           <TableRow key={item.id}>
             <TableCell>
               <Checkbox
@@ -324,7 +312,7 @@ function MultiSelectTable() {
 ```tsx
 <Table hoverable>
   <TableBody>
-    {data.map(item => (
+    {data.map((item) => (
       <TableRow key={item.id}>
         <TableCell>{item.name}</TableCell>
       </TableRow>
@@ -350,10 +338,14 @@ function TableWithLoading() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {[1, 2, 3, 4, 5].map(i => (
+          {[1, 2, 3, 4, 5].map((i) => (
             <TableRow key={i}>
-              <TableCell><Skeleton className="h-4 w-32" /></TableCell>
-              <TableCell><Skeleton className="h-4 w-48" /></TableCell>
+              <TableCell>
+                <Skeleton className="h-4 w-32" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-4 w-48" />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -361,11 +353,7 @@ function TableWithLoading() {
     );
   }
 
-  return (
-    <Table>
-      {/* Actual data */}
-    </Table>
-  );
+  return <Table>{/* Actual data */}</Table>;
 }
 ```
 
@@ -390,7 +378,7 @@ function TableWithLoading() {
         </TableCell>
       </TableRow>
     ) : (
-      data.map(item => (
+      data.map((item) => (
         <TableRow key={item.id}>
           <TableCell>{item.name}</TableCell>
           <TableCell>{item.email}</TableCell>
@@ -405,69 +393,69 @@ function TableWithLoading() {
 
 ### Table Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'default' \| 'bordered' \| 'striped' \| 'glass' \| 'minimal'` | `'default'` | Visual style variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the table |
-| `density` | `'compact' \| 'normal' \| 'comfortable'` | `'normal'` | Row spacing |
-| `hoverable` | `boolean` | `false` | Enable row hover effects |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type                                                           | Default     | Description              |
+| ----------- | -------------------------------------------------------------- | ----------- | ------------------------ |
+| `variant`   | `'default' \| 'bordered' \| 'striped' \| 'glass' \| 'minimal'` | `'default'` | Visual style variant     |
+| `size`      | `'sm' \| 'md' \| 'lg'`                                         | `'md'`      | Size of the table        |
+| `density`   | `'compact' \| 'normal' \| 'comfortable'`                       | `'normal'`  | Row spacing              |
+| `hoverable` | `boolean`                                                      | `false`     | Enable row hover effects |
+| `className` | `string`                                                       | -           | Additional CSS classes   |
 
 ### TableHeader Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Header row content |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default | Description            |
+| ----------- | ----------- | ------- | ---------------------- |
+| `children`  | `ReactNode` | -       | Header row content     |
+| `className` | `string`    | -       | Additional CSS classes |
 
 ### TableBody Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Body rows |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default | Description            |
+| ----------- | ----------- | ------- | ---------------------- |
+| `children`  | `ReactNode` | -       | Body rows              |
+| `className` | `string`    | -       | Additional CSS classes |
 
 ### TableFooter Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Footer row content |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default | Description            |
+| ----------- | ----------- | ------- | ---------------------- |
+| `children`  | `ReactNode` | -       | Footer row content     |
+| `className` | `string`    | -       | Additional CSS classes |
 
 ### TableRow Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `selectable` | `boolean` | `false` | Whether row is selectable |
-| `selected` | `boolean` | `false` | Whether row is selected |
-| `onClick` | `() => void` | - | Click handler |
-| `className` | `string` | - | Additional CSS classes |
+| Prop         | Type         | Default | Description               |
+| ------------ | ------------ | ------- | ------------------------- |
+| `selectable` | `boolean`    | `false` | Whether row is selectable |
+| `selected`   | `boolean`    | `false` | Whether row is selected   |
+| `onClick`    | `() => void` | -       | Click handler             |
+| `className`  | `string`     | -       | Additional CSS classes    |
 
 ### TableHead Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `align` | `'left' \| 'center' \| 'right'` | `'left'` | Column alignment |
-| `sortable` | `boolean` | `false` | Whether column is sortable |
-| `sortDirection` | `'asc' \| 'desc' \| null` | `null` | Current sort direction |
-| `onClick` | `() => void` | - | Click handler for sorting |
-| `className` | `string` | - | Additional CSS classes |
+| Prop            | Type                            | Default  | Description                |
+| --------------- | ------------------------------- | -------- | -------------------------- |
+| `align`         | `'left' \| 'center' \| 'right'` | `'left'` | Column alignment           |
+| `sortable`      | `boolean`                       | `false`  | Whether column is sortable |
+| `sortDirection` | `'asc' \| 'desc' \| null`       | `null`   | Current sort direction     |
+| `onClick`       | `() => void`                    | -        | Click handler for sorting  |
+| `className`     | `string`                        | -        | Additional CSS classes     |
 
 ### TableCell Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `align` | `'left' \| 'center' \| 'right'` | `'left'` | Cell alignment |
-| `colSpan` | `number` | - | Number of columns to span |
-| `rowSpan` | `number` | - | Number of rows to span |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type                            | Default  | Description               |
+| ----------- | ------------------------------- | -------- | ------------------------- |
+| `align`     | `'left' \| 'center' \| 'right'` | `'left'` | Cell alignment            |
+| `colSpan`   | `number`                        | -        | Number of columns to span |
+| `rowSpan`   | `number`                        | -        | Number of rows to span    |
+| `className` | `string`                        | -        | Additional CSS classes    |
 
 ### TableCaption Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Caption text |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default | Description            |
+| ----------- | ----------- | ------- | ---------------------- |
+| `children`  | `ReactNode` | -       | Caption text           |
+| `className` | `string`    | -       | Additional CSS classes |
 
 ## Common Patterns
 
@@ -486,7 +474,7 @@ function DataTable({ data }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map(user => (
+        {data.map((user) => (
           <TableRow key={user.id}>
             <TableCell className="font-medium">{user.name}</TableCell>
             <TableCell>{user.email}</TableCell>
@@ -495,8 +483,12 @@ function DataTable({ data }) {
             </TableCell>
             <TableCell className="text-right">
               <div className="flex justify-end gap-2">
-                <Button size="sm" variant="ghost">Edit</Button>
-                <Button size="sm" variant="ghost">Delete</Button>
+                <Button size="sm" variant="ghost">
+                  Edit
+                </Button>
+                <Button size="sm" variant="ghost">
+                  Delete
+                </Button>
               </div>
             </TableCell>
           </TableRow>
@@ -520,9 +512,7 @@ function DataTable({ data }) {
         <TableHead className="min-w-[100px]">Stock</TableHead>
       </TableRow>
     </TableHeader>
-    <TableBody>
-      {/* rows */}
-    </TableBody>
+    <TableBody>{/* rows */}</TableBody>
   </Table>
 </div>
 ```
@@ -547,7 +537,7 @@ function DataTable({ data }) {
       <TableCell>$29</TableCell>
       <TableCell>50</TableCell>
     </TableRow>
-    
+
     <TableRow className="bg-muted">
       <TableCell colSpan={3} className="font-bold">
         Furniture
@@ -599,9 +589,7 @@ The Table component follows accessibility best practices:
 ```tsx
 <Table className="shadow-lg">
   <TableRow className="hover:bg-blue-50">
-    <TableCell className="text-blue-600 font-bold">
-      Custom styled
-    </TableCell>
+    <TableCell className="text-blue-600 font-bold">Custom styled</TableCell>
   </TableRow>
 </Table>
 ```
@@ -616,9 +604,7 @@ The Table component follows accessibility best practices:
         <TableHead>Sticky Header</TableHead>
       </TableRow>
     </TableHeader>
-    <TableBody>
-      {/* Many rows */}
-    </TableBody>
+    <TableBody>{/* Many rows */}</TableBody>
   </Table>
 </div>
 ```

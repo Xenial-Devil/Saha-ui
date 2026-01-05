@@ -14,25 +14,25 @@ A command palette component for quick actions and navigation. Provides fuzzy sea
 ## Installation
 
 \`\`\`tsx
-import { Command, CommandInput, CommandList, CommandItem, CommandGroup } from '@saha-ui/core';
+import { Command, CommandInput, CommandList, CommandItem, CommandGroup } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage
 
 \`\`\`tsx
 <Command>
-  <CommandInput placeholder="Search commands..." />
-  <CommandList>
-    <CommandGroup heading="Actions">
-      <CommandItem>New File</CommandItem>
-      <CommandItem>Open File</CommandItem>
-      <CommandItem>Save</CommandItem>
-    </CommandGroup>
-    <CommandGroup heading="Navigation">
-      <CommandItem>Go to Dashboard</CommandItem>
-      <CommandItem>Go to Settings</CommandItem>
-    </CommandGroup>
-  </CommandList>
+<CommandInput placeholder="Search commands..." />
+<CommandList>
+<CommandGroup heading="Actions">
+<CommandItem>New File</CommandItem>
+<CommandItem>Open File</CommandItem>
+<CommandItem>Save</CommandItem>
+</CommandGroup>
+<CommandGroup heading="Navigation">
+<CommandItem>Go to Dashboard</CommandItem>
+<CommandItem>Go to Settings</CommandItem>
+</CommandGroup>
+</CommandList>
 </Command>
 \`\`\`
 

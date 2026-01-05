@@ -20,13 +20,13 @@ A notification component for displaying temporary messages to users. Toasts appe
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { ToastProvider, useToast } from '@saha-ui/core';
+import { ToastProvider, useToast } from "saha-ui";
 
 // Wrap your app with ToastProvider
 function App() {
@@ -42,7 +42,7 @@ function MyComponent() {
   const toast = useToast();
 
   const showToast = () => {
-    toast.success('Operation completed successfully!');
+    toast.success("Operation completed successfully!");
   };
 
   return <button onClick={showToast}>Show Toast</button>;
@@ -57,49 +57,49 @@ function MyComponent() {
 const toast = useToast();
 
 // Simple message
-toast.success('Changes saved!');
+toast.success("Changes saved!");
 
 // With title
-toast.success('Changes saved!', 'Success');
+toast.success("Changes saved!", "Success");
 
 // With options
-toast.success('Changes saved!', {
+toast.success("Changes saved!", {
   duration: 5000,
-  position: 'top-right'
+  position: "top-right",
 });
 
 // With title and options
-toast.success('Changes saved!', 'Success', {
+toast.success("Changes saved!", "Success", {
   action: {
-    label: 'Undo',
-    onClick: () => console.log('Undo clicked')
-  }
+    label: "Undo",
+    onClick: () => console.log("Undo clicked"),
+  },
 });
 ```
 
 ### Error Toast
 
 ```tsx
-toast.error('Failed to save changes');
-toast.error('Failed to save changes', 'Error');
-toast.error('Failed to save changes', {
+toast.error("Failed to save changes");
+toast.error("Failed to save changes", "Error");
+toast.error("Failed to save changes", {
   duration: 0, // Won't auto-dismiss
-  closable: true
+  closable: true,
 });
 ```
 
 ### Warning Toast
 
 ```tsx
-toast.warning('Your session will expire soon');
-toast.warning('Your session will expire soon', 'Warning');
+toast.warning("Your session will expire soon");
+toast.warning("Your session will expire soon", "Warning");
 ```
 
 ### Info Toast
 
 ```tsx
-toast.info('New features available');
-toast.info('New features available', 'Information');
+toast.info("New features available");
+toast.info("New features available", "Information");
 ```
 
 ## Custom Toast
@@ -110,20 +110,20 @@ Use the base `toast()` method for full customization:
 const toast = useToast();
 
 toast.toast({
-  title: 'Custom Toast',
-  description: 'This is a custom toast message',
-  status: 'success',
-  variant: 'glass',
-  position: 'top-center',
+  title: "Custom Toast",
+  description: "This is a custom toast message",
+  status: "success",
+  variant: "glass",
+  position: "top-center",
   duration: 4000,
-  animation: 'slide',
+  animation: "slide",
   showIcon: true,
   showProgress: true,
   pauseOnHover: true,
   action: {
-    label: 'View',
-    onClick: () => console.log('Action clicked')
-  }
+    label: "View",
+    onClick: () => console.log("Action clicked"),
+  },
 });
 ```
 
@@ -132,12 +132,12 @@ toast.toast({
 Available positions:
 
 ```tsx
-toast.success('Top Left', { position: 'top-left' });
-toast.success('Top Center', { position: 'top-center' });
-toast.success('Top Right', { position: 'top-right' });
-toast.success('Bottom Left', { position: 'bottom-left' });
-toast.success('Bottom Center', { position: 'bottom-center' });
-toast.success('Bottom Right', { position: 'bottom-right' });
+toast.success("Top Left", { position: "top-left" });
+toast.success("Top Center", { position: "top-center" });
+toast.success("Top Right", { position: "top-right" });
+toast.success("Bottom Left", { position: "bottom-left" });
+toast.success("Bottom Center", { position: "bottom-center" });
+toast.success("Bottom Right", { position: "bottom-right" });
 ```
 
 ## Variants
@@ -145,47 +145,47 @@ toast.success('Bottom Right', { position: 'bottom-right' });
 ### Solid (Default)
 
 ```tsx
-toast.success('Solid variant', { variant: 'solid' });
+toast.success("Solid variant", { variant: "solid" });
 ```
 
 ### Subtle
 
 ```tsx
-toast.success('Subtle variant', { variant: 'subtle' });
+toast.success("Subtle variant", { variant: "subtle" });
 ```
 
 ### Outline
 
 ```tsx
-toast.success('Outline variant', { variant: 'outline' });
+toast.success("Outline variant", { variant: "outline" });
 ```
 
 ### Glass
 
 ```tsx
-toast.success('Glass variant', { variant: 'glass' });
+toast.success("Glass variant", { variant: "glass" });
 ```
 
 ## Animations
 
 ```tsx
-toast.success('Slide animation', { animation: 'slide' });
-toast.success('Fade animation', { animation: 'fade' });
-toast.success('Scale animation', { animation: 'scale' });
-toast.success('Bounce animation', { animation: 'bounce' });
+toast.success("Slide animation", { animation: "slide" });
+toast.success("Fade animation", { animation: "fade" });
+toast.success("Scale animation", { animation: "scale" });
+toast.success("Bounce animation", { animation: "bounce" });
 ```
 
 ## Duration
 
 ```tsx
 // 3 seconds (default is usually 3000-5000ms)
-toast.success('Quick message', { duration: 3000 });
+toast.success("Quick message", { duration: 3000 });
 
 // 10 seconds
-toast.success('Longer message', { duration: 10000 });
+toast.success("Longer message", { duration: 10000 });
 
 // Never auto-dismiss
-toast.error('Critical error', { duration: 0 });
+toast.error("Critical error", { duration: 0 });
 ```
 
 ## With Actions
@@ -193,31 +193,31 @@ toast.error('Critical error', { duration: 0 });
 Add interactive buttons to toasts:
 
 ```tsx
-toast.success('File uploaded successfully', {
+toast.success("File uploaded successfully", {
   action: {
-    label: 'View',
+    label: "View",
     onClick: () => {
-      window.location.href = '/files';
-    }
-  }
+      window.location.href = "/files";
+    },
+  },
 });
 
-toast.warning('Unsaved changes', {
+toast.warning("Unsaved changes", {
   duration: 0,
   action: {
-    label: 'Save',
-    onClick: handleSave
-  }
+    label: "Save",
+    onClick: handleSave,
+  },
 });
 ```
 
 ## With Custom Icons
 
 ```tsx
-import { Rocket } from 'lucide-react';
+import { Rocket } from "lucide-react";
 
-toast.success('Deployment started!', {
-  icon: <Rocket className="w-5 h-5" />
+toast.success("Deployment started!", {
+  icon: <Rocket className="w-5 h-5" />,
 });
 ```
 
@@ -226,18 +226,18 @@ toast.success('Deployment started!', {
 Show progress indicator:
 
 ```tsx
-toast.info('Processing...', {
+toast.info("Processing...", {
   showProgress: true,
-  duration: 5000
+  duration: 5000,
 });
 ```
 
 ## Pause on Hover
 
 ```tsx
-toast.success('Hover to pause', {
+toast.success("Hover to pause", {
   pauseOnHover: true,
-  duration: 5000
+  duration: 5000,
 });
 ```
 
@@ -248,7 +248,7 @@ toast.success('Hover to pause', {
 ```tsx
 const toast = useToast();
 
-const toastId = toast.success('This can be closed programmatically');
+const toastId = toast.success("This can be closed programmatically");
 
 // Later...
 toast.close(toastId);
@@ -265,18 +265,18 @@ toast.closeAll();
 ```tsx
 const toast = useToast();
 
-const toastId = toast.info('Loading...', {
+const toastId = toast.info("Loading...", {
   duration: 0,
-  showProgress: true
+  showProgress: true,
 });
 
 // Later, update it
 setTimeout(() => {
   toast.update(toastId, {
-    status: 'success',
-    title: 'Complete!',
-    description: 'Operation finished successfully',
-    duration: 3000
+    status: "success",
+    title: "Complete!",
+    description: "Operation finished successfully",
+    duration: 3000,
   });
 }, 3000);
 ```
@@ -303,49 +303,49 @@ Configure default settings for all toasts:
 
 ### Toast Methods
 
-| Method | Parameters | Description |
-|--------|------------|-------------|
-| `toast()` | `options: ToastProps` | Display custom toast |
-| `success()` | `(description, title?, options?)` | Display success toast |
-| `error()` | `(description, title?, options?)` | Display error toast |
-| `warning()` | `(description, title?, options?)` | Display warning toast |
-| `info()` | `(description, title?, options?)` | Display info toast |
-| `close()` | `id: string` | Close specific toast |
-| `closeAll()` | - | Close all toasts |
-| `update()` | `(id, options)` | Update existing toast |
+| Method       | Parameters                        | Description           |
+| ------------ | --------------------------------- | --------------------- |
+| `toast()`    | `options: ToastProps`             | Display custom toast  |
+| `success()`  | `(description, title?, options?)` | Display success toast |
+| `error()`    | `(description, title?, options?)` | Display error toast   |
+| `warning()`  | `(description, title?, options?)` | Display warning toast |
+| `info()`     | `(description, title?, options?)` | Display info toast    |
+| `close()`    | `id: string`                      | Close specific toast  |
+| `closeAll()` | -                                 | Close all toasts      |
+| `update()`   | `(id, options)`                   | Update existing toast |
 
 ### Toast Options
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | - | Toast title |
-| `description` | `string` | - | Toast message |
-| `status` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Status type |
-| `variant` | `'solid' \| 'subtle' \| 'outline' \| 'glass'` | `'solid'` | Visual variant |
-| `position` | `'top-left' \| 'top-center' \| 'top-right' \| 'bottom-left' \| 'bottom-center' \| 'bottom-right'` | `'top-right'` | Screen position |
-| `animation` | `'slide' \| 'fade' \| 'scale' \| 'bounce'` | `'slide'` | Animation style |
-| `duration` | `number` | `4000` | Auto-dismiss duration (0 to disable) |
-| `closable` | `boolean` | `true` | Show close button |
-| `showIcon` | `boolean` | `true` | Show status icon |
-| `icon` | `ReactNode` | - | Custom icon |
-| `showProgress` | `boolean` | `false` | Show progress bar |
-| `pauseOnHover` | `boolean` | `true` | Pause dismiss on hover |
-| `action` | `{ label: string, onClick: () => void }` | - | Action button |
-| `onClose` | `() => void` | - | Close callback |
-| `playSound` | `boolean` | `false` | Play notification sound |
-| `className` | `string` | - | Additional CSS classes |
+| Prop           | Type                                                                                              | Default       | Description                          |
+| -------------- | ------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------ |
+| `title`        | `string`                                                                                          | -             | Toast title                          |
+| `description`  | `string`                                                                                          | -             | Toast message                        |
+| `status`       | `'info' \| 'success' \| 'warning' \| 'danger'`                                                    | `'info'`      | Status type                          |
+| `variant`      | `'solid' \| 'subtle' \| 'outline' \| 'glass'`                                                     | `'solid'`     | Visual variant                       |
+| `position`     | `'top-left' \| 'top-center' \| 'top-right' \| 'bottom-left' \| 'bottom-center' \| 'bottom-right'` | `'top-right'` | Screen position                      |
+| `animation`    | `'slide' \| 'fade' \| 'scale' \| 'bounce'`                                                        | `'slide'`     | Animation style                      |
+| `duration`     | `number`                                                                                          | `4000`        | Auto-dismiss duration (0 to disable) |
+| `closable`     | `boolean`                                                                                         | `true`        | Show close button                    |
+| `showIcon`     | `boolean`                                                                                         | `true`        | Show status icon                     |
+| `icon`         | `ReactNode`                                                                                       | -             | Custom icon                          |
+| `showProgress` | `boolean`                                                                                         | `false`       | Show progress bar                    |
+| `pauseOnHover` | `boolean`                                                                                         | `true`        | Pause dismiss on hover               |
+| `action`       | `{ label: string, onClick: () => void }`                                                          | -             | Action button                        |
+| `onClose`      | `() => void`                                                                                      | -             | Close callback                       |
+| `playSound`    | `boolean`                                                                                         | `false`       | Play notification sound              |
+| `className`    | `string`                                                                                          | -             | Additional CSS classes               |
 
 ### ToastProvider Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `position` | `ToastPosition` | `'top-right'` | Default position |
-| `duration` | `number` | `4000` | Default duration |
-| `max` | `number` | `5` | Maximum toasts to show |
-| `gap` | `number` | `12` | Gap between toasts (px) |
-| `offset` | `number` | `16` | Offset from edges (px) |
-| `variant` | `ToastVariant` | `'solid'` | Default variant |
-| `animation` | `ToastAnimation` | `'slide'` | Default animation |
+| Prop        | Type             | Default       | Description             |
+| ----------- | ---------------- | ------------- | ----------------------- |
+| `position`  | `ToastPosition`  | `'top-right'` | Default position        |
+| `duration`  | `number`         | `4000`        | Default duration        |
+| `max`       | `number`         | `5`           | Maximum toasts to show  |
+| `gap`       | `number`         | `12`          | Gap between toasts (px) |
+| `offset`    | `number`         | `16`          | Offset from edges (px)  |
+| `variant`   | `ToastVariant`   | `'solid'`     | Default variant         |
+| `animation` | `ToastAnimation` | `'slide'`     | Default animation       |
 
 ## Common Patterns
 
@@ -356,25 +356,25 @@ function UploadFile() {
   const toast = useToast();
 
   const handleUpload = async () => {
-    const toastId = toast.info('Uploading file...', {
+    const toastId = toast.info("Uploading file...", {
       duration: 0,
-      showProgress: true
+      showProgress: true,
     });
 
     try {
       await uploadFile();
       toast.update(toastId, {
-        status: 'success',
-        title: 'Upload Complete',
-        description: 'Your file has been uploaded successfully',
-        duration: 3000
+        status: "success",
+        title: "Upload Complete",
+        description: "Your file has been uploaded successfully",
+        duration: 3000,
       });
     } catch (error) {
       toast.update(toastId, {
-        status: 'danger',
-        title: 'Upload Failed',
+        status: "danger",
+        title: "Upload Failed",
         description: error.message,
-        duration: 5000
+        duration: 5000,
       });
     }
   };
@@ -390,16 +390,16 @@ function DeleteButton({ onDelete }) {
   const toast = useToast();
 
   const handleDelete = () => {
-    toast.warning('Are you sure?', {
+    toast.warning("Are you sure?", {
       duration: 0,
       action: {
-        label: 'Delete',
+        label: "Delete",
         onClick: () => {
           onDelete();
           toast.closeAll();
-          toast.success('Item deleted');
-        }
-      }
+          toast.success("Item deleted");
+        },
+      },
     });
   };
 
@@ -415,13 +415,13 @@ function MyForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
-      toast.error('Please fill in all required fields', 'Validation Error');
+      toast.error("Please fill in all required fields", "Validation Error");
       return;
     }
 
-    toast.success('Form submitted successfully!');
+    toast.success("Form submitted successfully!");
   };
 
   return <form onSubmit={handleSubmit}>...</form>;
@@ -436,21 +436,21 @@ function NetworkStatus() {
 
   useEffect(() => {
     const handleOnline = () => {
-      toast.success('Back online', 'Connection Restored');
+      toast.success("Back online", "Connection Restored");
     };
 
     const handleOffline = () => {
-      toast.error('No internet connection', 'Offline', {
-        duration: 0
+      toast.error("No internet connection", "Offline", {
+        duration: 0,
       });
     };
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, [toast]);
 
@@ -466,17 +466,17 @@ function TodoList() {
   const [todos, setTodos] = useState([]);
 
   const deleteTodo = (id) => {
-    const todo = todos.find(t => t.id === id);
-    setTodos(todos.filter(t => t.id !== id));
+    const todo = todos.find((t) => t.id === id);
+    setTodos(todos.filter((t) => t.id !== id));
 
-    toast.success('Todo deleted', {
+    toast.success("Todo deleted", {
       action: {
-        label: 'Undo',
+        label: "Undo",
         onClick: () => {
           setTodos([...todos, todo]);
-          toast.info('Todo restored');
-        }
-      }
+          toast.info("Todo restored");
+        },
+      },
     });
   };
 
@@ -489,12 +489,14 @@ function TodoList() {
 The Toast component follows accessibility best practices:
 
 - **ARIA Attributes:**
+
   - `role="status"` for informational toasts
   - `role="alert"` for urgent toasts
   - `aria-live="polite"` or `"assertive"` based on status
   - `aria-atomic="true"` for complete announcements
 
 - **Keyboard Navigation:**
+
   - Close button is keyboard accessible
   - Action buttons are focusable
   - Focus management when toast appears
@@ -520,8 +522,8 @@ The Toast component follows accessibility best practices:
 ### Custom Styles
 
 ```tsx
-toast.success('Custom styled toast', {
-  className: 'my-custom-toast shadow-2xl'
+toast.success("Custom styled toast", {
+  className: "my-custom-toast shadow-2xl",
 });
 ```
 
@@ -531,10 +533,10 @@ Toasts use your theme's color tokens, but you can override:
 
 ```tsx
 toast.toast({
-  title: 'Custom Colors',
-  description: 'This toast has custom styling',
-  status: 'info',
-  className: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+  title: "Custom Colors",
+  description: "This toast has custom styling",
+  status: "info",
+  className: "bg-gradient-to-r from-purple-500 to-pink-500 text-white",
 });
 ```
 

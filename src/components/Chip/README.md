@@ -17,13 +17,13 @@ A versatile chip component for displaying compact elements like tags, categories
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Chip } from '@saha-ui/core';
+import { Chip } from "saha-ui";
 
 function MyComponent() {
   return (
@@ -43,7 +43,9 @@ function MyComponent() {
 Solid background with contrasting text:
 
 ```tsx
-<Chip variant="filled" color="primary">Filled</Chip>
+<Chip variant="filled" color="primary">
+  Filled
+</Chip>
 ```
 
 ### Outlined
@@ -51,7 +53,9 @@ Solid background with contrasting text:
 Border style with transparent background:
 
 ```tsx
-<Chip variant="outlined" color="primary">Outlined</Chip>
+<Chip variant="outlined" color="primary">
+  Outlined
+</Chip>
 ```
 
 ### Soft
@@ -59,7 +63,9 @@ Border style with transparent background:
 Subtle background with softer appearance:
 
 ```tsx
-<Chip variant="soft" color="primary">Soft</Chip>
+<Chip variant="soft" color="primary">
+  Soft
+</Chip>
 ```
 
 ### Gradient
@@ -67,7 +73,9 @@ Subtle background with softer appearance:
 Gradient background effect:
 
 ```tsx
-<Chip variant="gradient" color="primary">Gradient</Chip>
+<Chip variant="gradient" color="primary">
+  Gradient
+</Chip>
 ```
 
 ### Glass
@@ -75,7 +83,9 @@ Gradient background effect:
 Glassmorphism effect:
 
 ```tsx
-<Chip variant="glass" color="primary">Glass</Chip>
+<Chip variant="glass" color="primary">
+  Glass
+</Chip>
 ```
 
 ## Colors
@@ -127,10 +137,7 @@ import { Tag, Star, Heart } from 'lucide-react';
 Display user avatars in chips:
 
 ```tsx
-<Chip 
-  avatar={<Avatar src="/user.jpg" size="xs" />}
-  color="primary"
->
+<Chip avatar={<Avatar src="/user.jpg" size="xs" />} color="primary">
   John Doe
 </Chip>
 ```
@@ -141,15 +148,15 @@ Create removable chips:
 
 ```tsx
 function TagList() {
-  const [tags, setTags] = useState(['React', 'TypeScript', 'Tailwind']);
+  const [tags, setTags] = useState(["React", "TypeScript", "Tailwind"]);
 
   const handleDelete = (tag: string) => {
-    setTags(tags.filter(t => t !== tag));
+    setTags(tags.filter((t) => t !== tag));
   };
 
   return (
     <div className="flex flex-wrap gap-2">
-      {tags.map(tag => (
+      {tags.map((tag) => (
         <Chip
           key={tag}
           color="primary"
@@ -173,21 +180,19 @@ function FilterChips() {
   const [selected, setSelected] = useState<string[]>([]);
 
   const toggleChip = (value: string) => {
-    setSelected(prev =>
-      prev.includes(value)
-        ? prev.filter(v => v !== value)
-        : [...prev, value]
+    setSelected((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
     );
   };
 
   return (
     <div className="flex gap-2">
-      {['All', 'Active', 'Pending', 'Completed'].map(filter => (
+      {["All", "Active", "Pending", "Completed"].map((filter) => (
         <Chip
           key={filter}
           clickable
           onClick={() => toggleChip(filter)}
-          color={selected.includes(filter) ? 'primary' : 'default'}
+          color={selected.includes(filter) ? "primary" : "default"}
         >
           {filter}
         </Chip>
@@ -208,19 +213,19 @@ function FilterChips() {
 
 ### Chip Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'filled' \| 'outlined' \| 'soft' \| 'gradient' \| 'glass'` | `'filled'` | Visual style variant |
-| `color` | `'default' \| 'primary' \| 'secondary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Color scheme |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the chip |
-| `icon` | `ReactNode` | - | Icon to display at start |
-| `avatar` | `ReactNode` | - | Avatar to display at start |
-| `deletable` | `boolean` | `false` | Whether chip can be deleted |
-| `onDelete` | `() => void` | - | Callback when delete button clicked |
-| `clickable` | `boolean` | `false` | Whether chip is clickable |
-| `disabled` | `boolean` | `false` | Whether chip is disabled |
-| `className` | `string` | - | Additional CSS classes |
-| `asChild` | `boolean` | `false` | Merge props with child element |
+| Prop        | Type                                                                                   | Default     | Description                         |
+| ----------- | -------------------------------------------------------------------------------------- | ----------- | ----------------------------------- |
+| `variant`   | `'filled' \| 'outlined' \| 'soft' \| 'gradient' \| 'glass'`                            | `'filled'`  | Visual style variant                |
+| `color`     | `'default' \| 'primary' \| 'secondary' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Color scheme                        |
+| `size`      | `'sm' \| 'md' \| 'lg'`                                                                 | `'md'`      | Size of the chip                    |
+| `icon`      | `ReactNode`                                                                            | -           | Icon to display at start            |
+| `avatar`    | `ReactNode`                                                                            | -           | Avatar to display at start          |
+| `deletable` | `boolean`                                                                              | `false`     | Whether chip can be deleted         |
+| `onDelete`  | `() => void`                                                                           | -           | Callback when delete button clicked |
+| `clickable` | `boolean`                                                                              | `false`     | Whether chip is clickable           |
+| `disabled`  | `boolean`                                                                              | `false`     | Whether chip is disabled            |
+| `className` | `string`                                                                               | -           | Additional CSS classes              |
+| `asChild`   | `boolean`                                                                              | `false`     | Merge props with child element      |
 
 ## Common Patterns
 
@@ -230,12 +235,12 @@ function FilterChips() {
 function ProductFilters() {
   const [filters, setFilters] = useState<string[]>([]);
 
-  const categories = ['Electronics', 'Clothing', 'Books', 'Home', 'Sports'];
+  const categories = ["Electronics", "Clothing", "Books", "Home", "Sports"];
 
   const toggleFilter = (category: string) => {
-    setFilters(prev =>
+    setFilters((prev) =>
       prev.includes(category)
-        ? prev.filter(f => f !== category)
+        ? prev.filter((f) => f !== category)
         : [...prev, category]
     );
   };
@@ -244,13 +249,13 @@ function ProductFilters() {
     <div>
       <h3>Filter by Category:</h3>
       <div className="flex flex-wrap gap-2 mt-2">
-        {categories.map(category => (
+        {categories.map((category) => (
           <Chip
             key={category}
             clickable
             onClick={() => toggleFilter(category)}
-            color={filters.includes(category) ? 'primary' : 'default'}
-            variant={filters.includes(category) ? 'filled' : 'outlined'}
+            color={filters.includes(category) ? "primary" : "default"}
+            variant={filters.includes(category) ? "filled" : "outlined"}
           >
             {category}
           </Chip>
@@ -271,15 +276,17 @@ function UserSelector({ users }) {
     <div className="space-y-4">
       <h3>Selected Users:</h3>
       <div className="flex flex-wrap gap-2">
-        {selected.map(userId => {
-          const user = users.find(u => u.id === userId);
+        {selected.map((userId) => {
+          const user = users.find((u) => u.id === userId);
           return (
             <Chip
               key={userId}
               avatar={<Avatar src={user.avatar} size="xs" />}
               color="primary"
               deletable
-              onDelete={() => setSelected(prev => prev.filter(id => id !== userId))}
+              onDelete={() =>
+                setSelected((prev) => prev.filter((id) => id !== userId))
+              }
             >
               {user.name}
             </Chip>
@@ -313,7 +320,7 @@ function UserSelector({ users }) {
 function SkillsTags({ skills, onRemove }) {
   return (
     <div className="flex flex-wrap gap-2">
-      {skills.map(skill => (
+      {skills.map((skill) => (
         <Chip
           key={skill}
           variant="soft"
@@ -335,10 +342,7 @@ function SkillsTags({ skills, onRemove }) {
 ### Custom Styles
 
 ```tsx
-<Chip
-  color="primary"
-  className="shadow-lg hover:shadow-xl transition-shadow"
->
+<Chip color="primary" className="shadow-lg hover:shadow-xl transition-shadow">
   Custom Styled
 </Chip>
 ```
@@ -364,11 +368,9 @@ The Chip component follows accessibility best practices:
 - **Keyboard Navigation:**
   - Clickable chips are keyboard accessible
   - Delete button can be activated with Enter/Space
-  
 - **ARIA Attributes:**
   - Proper role attributes for interactive chips
   - Delete buttons have descriptive labels
-  
 - **Focus Management:**
   - Clear focus indicators
   - Disabled chips are not focusable

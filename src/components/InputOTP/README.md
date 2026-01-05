@@ -13,7 +13,7 @@ A one-time password input component with individual digit boxes and automatic fo
 ## Installation
 
 \`\`\`tsx
-import { InputOTP } from '@saha-ui/core';
+import { InputOTP } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage

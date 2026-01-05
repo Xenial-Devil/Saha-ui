@@ -19,16 +19,16 @@ A fully accessible multi-line text input component with character counting, auto
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { TextArea } from '@saha-ui/core';
+import { TextArea } from "saha-ui";
 
 function App() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   return (
     <TextArea
@@ -174,16 +174,16 @@ Set specific number of rows:
 
 ```tsx
 function ValidatedTextArea() {
-  const [value, setValue] = useState('');
-  const [error, setError] = useState('');
+  const [value, setValue] = useState("");
+  const [error, setError] = useState("");
 
   const validate = (text: string) => {
     if (text.length < 10) {
-      setError('Minimum 10 characters required');
+      setError("Minimum 10 characters required");
     } else if (text.length > 500) {
-      setError('Maximum 500 characters allowed');
+      setError("Maximum 500 characters allowed");
     } else {
-      setError('');
+      setError("");
     }
   };
 
@@ -237,7 +237,7 @@ function ValidatedTextArea() {
 
 ```tsx
 function WordCounter() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const wordCount = value.trim().split(/\s+/).filter(Boolean).length;
 
   return (
@@ -258,11 +258,11 @@ function WordCounter() {
 
 ```tsx
 function EmojiTextArea() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
 
   const addEmoji = (emoji: string) => {
-    setValue(prev => prev + emoji);
+    setValue((prev) => prev + emoji);
     setShowEmoji(false);
   };
 
@@ -282,9 +282,7 @@ function EmojiTextArea() {
       >
         😊
       </button>
-      {showEmoji && (
-        <EmojiPicker onSelect={addEmoji} />
-      )}
+      {showEmoji && <EmojiPicker onSelect={addEmoji} />}
     </div>
   );
 }
@@ -307,7 +305,7 @@ function EmojiTextArea() {
 
 ```tsx
 function CopyableTextArea() {
-  const [value, setValue] = useState('Sample text to copy');
+  const [value, setValue] = useState("Sample text to copy");
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -330,7 +328,7 @@ function CopyableTextArea() {
         className="absolute top-2 right-2"
         aria-label="Copy to clipboard"
       >
-        {copied ? 'Copied!' : 'Copy'}
+        {copied ? "Copied!" : "Copy"}
       </button>
     </div>
   );
@@ -341,13 +339,13 @@ function CopyableTextArea() {
 
 ```tsx
 function AutoSaveDraft() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (value) {
-        localStorage.setItem('draft', value);
+        localStorage.setItem("draft", value);
         setLastSaved(new Date());
       }
     }, 1000);
@@ -361,9 +359,9 @@ function AutoSaveDraft() {
       value={value}
       onChange={(e) => setValue(e.target.value)}
       helperText={
-        lastSaved 
+        lastSaved
           ? `Last saved at ${lastSaved.toLocaleTimeString()}`
-          : 'Changes are auto-saved'
+          : "Changes are auto-saved"
       }
       placeholder="Start writing..."
       autoResize
@@ -456,40 +454,40 @@ Errors are automatically announced to screen readers:
 
 ### TextArea Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - | Label text for the textarea |
-| `description` | `string` | - | Description text shown below the label |
-| `placeholder` | `string` | - | Placeholder text |
-| `helperText` | `string` | - | Helper text shown below the textarea |
-| `error` | `string` | - | Error message to display |
-| `value` | `string` | - | Current value (controlled) |
-| `defaultValue` | `string` | - | Default value (uncontrolled) |
-| `onChange` | `(e: ChangeEvent) => void` | - | Change event handler |
-| `onBlur` | `(e: FocusEvent) => void` | - | Blur event handler |
-| `onFocus` | `(e: FocusEvent) => void` | - | Focus event handler |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'` | Color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the textarea |
-| `rows` | `number` | `4` | Number of visible rows |
-| `minRows` | `number` | - | Minimum rows (with autoResize) |
-| `maxRows` | `number` | - | Maximum rows (with autoResize) |
-| `maxLength` | `number` | - | Maximum character length |
-| `showCount` | `boolean` | `false` | Show character count |
-| `autoResize` | `boolean` | `false` | Auto-resize based on content |
-| `disabled` | `boolean` | `false` | Whether the textarea is disabled |
-| `readOnly` | `boolean` | `false` | Whether the textarea is read-only |
-| `required` | `boolean` | `false` | Whether the textarea is required |
-| `autoFocus` | `boolean` | `false` | Auto-focus on mount |
-| `spellCheck` | `boolean` | `true` | Enable spell checking |
-| `autoComplete` | `string` | - | Autocomplete attribute |
-| `fontFamily` | `string` | - | Custom font family |
-| `resize` | `'none' \| 'both' \| 'horizontal' \| 'vertical'` | `'vertical'` | Resize behavior |
-| `className` | `string` | - | Additional CSS classes |
-| `aria-label` | `string` | - | Accessible label for screen readers |
-| `aria-labelledby` | `string` | - | ID of element that labels this textarea |
-| `aria-describedby` | `string` | - | IDs of elements that describe this textarea |
-| `aria-required` | `'true' \| 'false'` | - | Whether the textarea is required |
-| `aria-invalid` | `'true' \| 'false'` | - | Whether the textarea has an error |
+| Prop               | Type                                                                                     | Default      | Description                                 |
+| ------------------ | ---------------------------------------------------------------------------------------- | ------------ | ------------------------------------------- |
+| `label`            | `string`                                                                                 | -            | Label text for the textarea                 |
+| `description`      | `string`                                                                                 | -            | Description text shown below the label      |
+| `placeholder`      | `string`                                                                                 | -            | Placeholder text                            |
+| `helperText`       | `string`                                                                                 | -            | Helper text shown below the textarea        |
+| `error`            | `string`                                                                                 | -            | Error message to display                    |
+| `value`            | `string`                                                                                 | -            | Current value (controlled)                  |
+| `defaultValue`     | `string`                                                                                 | -            | Default value (uncontrolled)                |
+| `onChange`         | `(e: ChangeEvent) => void`                                                               | -            | Change event handler                        |
+| `onBlur`           | `(e: FocusEvent) => void`                                                                | -            | Blur event handler                          |
+| `onFocus`          | `(e: FocusEvent) => void`                                                                | -            | Focus event handler                         |
+| `variant`          | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'`  | Color variant                               |
+| `size`             | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`       | Size of the textarea                        |
+| `rows`             | `number`                                                                                 | `4`          | Number of visible rows                      |
+| `minRows`          | `number`                                                                                 | -            | Minimum rows (with autoResize)              |
+| `maxRows`          | `number`                                                                                 | -            | Maximum rows (with autoResize)              |
+| `maxLength`        | `number`                                                                                 | -            | Maximum character length                    |
+| `showCount`        | `boolean`                                                                                | `false`      | Show character count                        |
+| `autoResize`       | `boolean`                                                                                | `false`      | Auto-resize based on content                |
+| `disabled`         | `boolean`                                                                                | `false`      | Whether the textarea is disabled            |
+| `readOnly`         | `boolean`                                                                                | `false`      | Whether the textarea is read-only           |
+| `required`         | `boolean`                                                                                | `false`      | Whether the textarea is required            |
+| `autoFocus`        | `boolean`                                                                                | `false`      | Auto-focus on mount                         |
+| `spellCheck`       | `boolean`                                                                                | `true`       | Enable spell checking                       |
+| `autoComplete`     | `string`                                                                                 | -            | Autocomplete attribute                      |
+| `fontFamily`       | `string`                                                                                 | -            | Custom font family                          |
+| `resize`           | `'none' \| 'both' \| 'horizontal' \| 'vertical'`                                         | `'vertical'` | Resize behavior                             |
+| `className`        | `string`                                                                                 | -            | Additional CSS classes                      |
+| `aria-label`       | `string`                                                                                 | -            | Accessible label for screen readers         |
+| `aria-labelledby`  | `string`                                                                                 | -            | ID of element that labels this textarea     |
+| `aria-describedby` | `string`                                                                                 | -            | IDs of elements that describe this textarea |
+| `aria-required`    | `'true' \| 'false'`                                                                      | -            | Whether the textarea is required            |
+| `aria-invalid`     | `'true' \| 'false'`                                                                      | -            | Whether the textarea has an error           |
 
 ## Best Practices
 
@@ -524,12 +522,7 @@ Choose a sensible default height:
 ### 3. Use Auto-resize for Variable Content
 
 ```tsx
-<TextArea
-  label="Comments"
-  autoResize
-  minRows={3}
-  maxRows={15}
-/>
+<TextArea label="Comments" autoResize minRows={3} maxRows={15} />
 ```
 
 ### 4. Show Character Count for Limited Input
@@ -610,7 +603,7 @@ Choose a sensible default height:
 ### With React Hook Form
 
 ```tsx
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 
 function Form() {
   const { control, handleSubmit } = useForm();
@@ -620,16 +613,16 @@ function Form() {
       <Controller
         name="description"
         control={control}
-        rules={{ 
-          required: 'Description is required',
-          minLength: { 
-            value: 10, 
-            message: 'Minimum 10 characters' 
+        rules={{
+          required: "Description is required",
+          minLength: {
+            value: 10,
+            message: "Minimum 10 characters",
           },
           maxLength: {
             value: 500,
-            message: 'Maximum 500 characters'
-          }
+            message: "Maximum 500 characters",
+          },
         }}
         render={({ field, fieldState }) => (
           <TextArea
@@ -653,20 +646,20 @@ function Form() {
 ### With Formik
 
 ```tsx
-import { Formik, Field } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Field } from "formik";
+import * as Yup from "yup";
 
 const schema = Yup.object({
   comments: Yup.string()
-    .min(10, 'Too short')
-    .max(500, 'Too long')
-    .required('Required'),
+    .min(10, "Too short")
+    .max(500, "Too long")
+    .required("Required"),
 });
 
 function Form() {
   return (
     <Formik
-      initialValues={{ comments: '' }}
+      initialValues={{ comments: "" }}
       validationSchema={schema}
       onSubmit={handleSubmit}
     >
@@ -674,7 +667,7 @@ function Form() {
         <TextArea
           label="Comments"
           value={values.comments}
-          onChange={(e) => setFieldValue('comments', e.target.value)}
+          onChange={(e) => setFieldValue("comments", e.target.value)}
           error={touched.comments ? errors.comments : undefined}
           maxLength={500}
           showCount
@@ -691,7 +684,7 @@ function Form() {
 
 ```tsx
 function RichTextEditor() {
-  const [markdown, setMarkdown] = useState('');
+  const [markdown, setMarkdown] = useState("");
 
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -704,9 +697,7 @@ function RichTextEditor() {
         fontFamily="monospace"
       />
       <div>
-        <label className="block text-sm font-semibold mb-2">
-          Preview
-        </label>
+        <label className="block text-sm font-semibold mb-2">Preview</label>
         <div className="prose">
           <ReactMarkdown>{markdown}</ReactMarkdown>
         </div>
@@ -720,7 +711,7 @@ function RichTextEditor() {
 
 ```tsx
 function CommentForm() {
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -730,7 +721,7 @@ function CommentForm() {
     setSubmitting(true);
     try {
       await submitComment(comment);
-      setComment('');
+      setComment("");
     } finally {
       setSubmitting(false);
     }
@@ -751,11 +742,8 @@ function CommentForm() {
         disabled={submitting}
         required
       />
-      <button 
-        type="submit" 
-        disabled={!comment.trim() || submitting}
-      >
-        {submitting ? 'Posting...' : 'Post Comment'}
+      <button type="submit" disabled={!comment.trim() || submitting}>
+        {submitting ? "Posting..." : "Post Comment"}
       </button>
     </form>
   );
@@ -766,7 +754,7 @@ function CommentForm() {
 
 ```tsx
 function SurveyQuestion() {
-  const [answer, setAnswer] = useState('');
+  const [answer, setAnswer] = useState("");
   const minWords = 25;
   const wordCount = answer.trim().split(/\s+/).filter(Boolean).length;
   const isValid = wordCount >= minWords;
@@ -778,11 +766,15 @@ function SurveyQuestion() {
       value={answer}
       onChange={(e) => setAnswer(e.target.value)}
       helperText={
-        isValid 
-          ? `${wordCount} words (requirement met ✓)` 
+        isValid
+          ? `${wordCount} words (requirement met ✓)`
           : `${wordCount} / ${minWords} words (minimum required)`
       }
-      error={!isValid && answer ? `Please write at least ${minWords} words` : undefined}
+      error={
+        !isValid && answer
+          ? `Please write at least ${minWords} words`
+          : undefined
+      }
       rows={6}
       autoResize
       required
@@ -797,9 +789,9 @@ function SurveyQuestion() {
 function MultiStepForm() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    summary: '',
-    details: '',
-    additionalNotes: '',
+    summary: "",
+    details: "",
+    additionalNotes: "",
   });
 
   return (
@@ -809,7 +801,9 @@ function MultiStepForm() {
           label="Summary"
           placeholder="Brief overview..."
           value={formData.summary}
-          onChange={(e) => setFormData({...formData, summary: e.target.value})}
+          onChange={(e) =>
+            setFormData({ ...formData, summary: e.target.value })
+          }
           maxLength={200}
           showCount
           required
@@ -820,7 +814,9 @@ function MultiStepForm() {
           label="Detailed description"
           placeholder="Provide more details..."
           value={formData.details}
-          onChange={(e) => setFormData({...formData, details: e.target.value})}
+          onChange={(e) =>
+            setFormData({ ...formData, details: e.target.value })
+          }
           rows={8}
           required
         />
@@ -830,7 +826,9 @@ function MultiStepForm() {
           label="Additional notes (optional)"
           placeholder="Any other information..."
           value={formData.additionalNotes}
-          onChange={(e) => setFormData({...formData, additionalNotes: e.target.value})}
+          onChange={(e) =>
+            setFormData({ ...formData, additionalNotes: e.target.value })
+          }
           rows={4}
         />
       )}
@@ -844,7 +842,7 @@ function MultiStepForm() {
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { TextAreaProps } from '@saha-ui/core';
+import type { TextAreaProps } from "saha-ui";
 
 const MyTextArea: React.FC<TextAreaProps> = (props) => {
   return <TextArea {...props} />;
@@ -865,7 +863,7 @@ The component uses CVA (Class Variance Authority) for variant management:
 <TextArea
   label="Custom styled"
   className="my-custom-class font-mono"
-  style={{ fontFamily: 'Monaco, monospace' }}
+  style={{ fontFamily: "Monaco, monospace" }}
 />
 ```
 
@@ -878,7 +876,7 @@ Dark mode is automatically supported using CSS variables. No additional configur
 ### 1. Debounce Expensive Operations
 
 ```tsx
-import { useDebouncedCallback } from 'use-debounce';
+import { useDebouncedCallback } from "use-debounce";
 
 const debouncedSave = useDebouncedCallback(
   (value) => saveToServer(value),
@@ -890,7 +888,7 @@ const debouncedSave = useDebouncedCallback(
     setValue(e.target.value);
     debouncedSave(e.target.value);
   }}
-/>
+/>;
 ```
 
 ### 2. Validate on Blur
@@ -914,15 +912,15 @@ const debouncedSave = useDebouncedCallback(
 
 ## Comparison: TextArea vs Input
 
-| Use Case | Component |
-|----------|-----------|
-| Single line text | Input |
-| Multi-line text | **TextArea** |
+| Use Case          | Component    |
+| ----------------- | ------------ |
+| Single line text  | Input        |
+| Multi-line text   | **TextArea** |
 | Long descriptions | **TextArea** |
-| Comments/reviews | **TextArea** |
-| Code snippets | **TextArea** |
-| Short answers | Input |
-| Email/URL | Input |
+| Comments/reviews  | **TextArea** |
+| Code snippets     | **TextArea** |
+| Short answers     | Input        |
+| Email/URL         | Input        |
 
 ## Browser Support
 

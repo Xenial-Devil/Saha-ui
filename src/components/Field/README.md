@@ -13,21 +13,21 @@ A form field wrapper component that combines label, input, error message, and hi
 ## Installation
 
 \`\`\`tsx
-import { Field } from '@saha-ui/core';
+import { Field } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage
 
 \`\`\`tsx
 <Field
-  label="Email"
-  required
-  error="Invalid email address"
-  hint="We'll never share your email"
->
-  <Input type="email" />
-</Field>
-\`\`\`
+label="Email"
+required
+error="Invalid email address"
+hint="We'll never share your email"
+
+>   <Input type="email" />
+> </Field>
+> \`\`\`
 
 ## Related Components
 

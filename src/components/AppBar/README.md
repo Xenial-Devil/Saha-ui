@@ -15,13 +15,13 @@ A flexible application bar component for creating navigation headers, toolbars, 
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { AppBar } from '@saha-ui/core';
+import { AppBar } from "saha-ui";
 
 function MyApp() {
   return (
@@ -95,19 +95,31 @@ function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            <a href="/" className="hover:text-primary">Home</a>
-            <a href="/products" className="hover:text-primary">Products</a>
-            <a href="/about" className="hover:text-primary">About</a>
-            <a href="/contact" className="hover:text-primary">Contact</a>
+            <a href="/" className="hover:text-primary">
+              Home
+            </a>
+            <a href="/products" className="hover:text-primary">
+              Products
+            </a>
+            <a href="/about" className="hover:text-primary">
+              About
+            </a>
+            <a href="/contact" className="hover:text-primary">
+              Contact
+            </a>
           </nav>
 
           {/* Actions */}
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm">Sign In</Button>
-            <Button variant="primary" size="sm">Sign Up</Button>
-            
+            <Button variant="ghost" size="sm">
+              Sign In
+            </Button>
+            <Button variant="primary" size="sm">
+              Sign Up
+            </Button>
+
             {/* Mobile Menu Toggle */}
-            <button 
+            <button
               className="md:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
@@ -119,10 +131,18 @@ function Header() {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <nav className="md:hidden py-4 space-y-2">
-            <a href="/" className="block py-2">Home</a>
-            <a href="/products" className="block py-2">Products</a>
-            <a href="/about" className="block py-2">About</a>
-            <a href="/contact" className="block py-2">Contact</a>
+            <a href="/" className="block py-2">
+              Home
+            </a>
+            <a href="/products" className="block py-2">
+              Products
+            </a>
+            <a href="/about" className="block py-2">
+              About
+            </a>
+            <a href="/contact" className="block py-2">
+              Contact
+            </a>
           </nav>
         )}
       </div>
@@ -137,14 +157,11 @@ function Header() {
 <AppBar position="fixed">
   <div className="container mx-auto px-4 flex items-center gap-4">
     <Logo />
-    
+
     <div className="flex-1 max-w-xl">
-      <Input
-        placeholder="Search..."
-        leftIcon={<SearchIcon />}
-      />
+      <Input placeholder="Search..." leftIcon={<SearchIcon />} />
     </div>
-    
+
     <div className="flex items-center gap-2">
       <IconButton variant="ghost">
         <NotificationIcon />
@@ -180,23 +197,23 @@ function Header() {
 
 ### AppBar Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `position` | `'static' \| 'fixed' \| 'sticky' \| 'absolute'` | `'static'` | Positioning behavior |
-| `variant` | `'default' \| 'glass' \| 'transparent' \| 'elevated'` | `'default'` | Visual style variant |
-| `elevation` | `number` (0-5) | `1` | Shadow depth level |
-| `color` | `'default' \| 'primary' \| 'transparent'` | `'default'` | Background color scheme |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | - | AppBar content |
+| Prop        | Type                                                  | Default     | Description             |
+| ----------- | ----------------------------------------------------- | ----------- | ----------------------- |
+| `position`  | `'static' \| 'fixed' \| 'sticky' \| 'absolute'`       | `'static'`  | Positioning behavior    |
+| `variant`   | `'default' \| 'glass' \| 'transparent' \| 'elevated'` | `'default'` | Visual style variant    |
+| `elevation` | `number` (0-5)                                        | `1`         | Shadow depth level      |
+| `color`     | `'default' \| 'primary' \| 'transparent'`             | `'default'` | Background color scheme |
+| `className` | `string`                                              | -           | Additional CSS classes  |
+| `children`  | `ReactNode`                                           | -           | AppBar content          |
 
 ## Styling
 
 ### Custom Styles
 
 ```tsx
-<AppBar 
+<AppBar
   className="border-b-2 border-primary"
-  style={{ backgroundColor: 'rgba(255,255,255,0.95)' }}
+  style={{ backgroundColor: "rgba(255,255,255,0.95)" }}
 >
   <div>Custom Styled AppBar</div>
 </AppBar>
@@ -223,7 +240,7 @@ function Header() {
       </IconButton>
       <h1 className="text-lg font-semibold">Admin Dashboard</h1>
     </div>
-    
+
     <div className="flex items-center gap-3">
       <IconButton badge={5}>
         <NotificationIcon />
@@ -241,13 +258,13 @@ function Header() {
   <div className="container mx-auto px-4">
     <div className="flex items-center justify-between h-16">
       <Logo />
-      
+
       <nav className="hidden lg:flex gap-6">
         <a href="/shop">Shop</a>
         <a href="/collections">Collections</a>
         <a href="/sale">Sale</a>
       </nav>
-      
+
       <div className="flex items-center gap-3">
         <IconButton variant="ghost">
           <SearchIcon />
@@ -255,7 +272,9 @@ function Header() {
         <IconButton variant="ghost" badge={3}>
           <CartIcon />
         </IconButton>
-        <Button variant="primary" size="sm">Sign In</Button>
+        <Button variant="primary" size="sm">
+          Sign In
+        </Button>
       </div>
     </div>
   </div>
@@ -271,7 +290,7 @@ function Header() {
       <h1 className="text-3xl font-bold mb-2">My Blog</h1>
       <p className="text-muted-foreground">Thoughts, stories, and ideas</p>
     </div>
-    
+
     <nav className="flex justify-center gap-6 mt-6">
       <a href="/">Home</a>
       <a href="/articles">Articles</a>
@@ -321,7 +340,7 @@ function Layout() {
       <AppBar position="fixed">
         <div>Fixed Header</div>
       </AppBar>
-      
+
       {/* Add padding equal to AppBar height */}
       <main className="pt-16">
         <div>Page content...</div>

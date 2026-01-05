@@ -16,22 +16,16 @@ A flexible avatar component for displaying user profile images, initials, and st
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Avatar } from '@saha-ui/core';
+import { Avatar } from "saha-ui";
 
 function UserProfile() {
-  return (
-    <Avatar
-      src="/user-avatar.jpg"
-      alt="John Doe"
-      size="md"
-    />
-  );
+  return <Avatar src="/user-avatar.jpg" alt="John Doe" size="md" />;
 }
 ```
 
@@ -77,41 +71,25 @@ Display user status with colored indicators:
 ### Online
 
 ```tsx
-<Avatar
-  src="/avatar.jpg"
-  alt="User"
-  status="online"
-/>
+<Avatar src="/avatar.jpg" alt="User" status="online" />
 ```
 
 ### Offline
 
 ```tsx
-<Avatar
-  src="/avatar.jpg"
-  alt="User"
-  status="offline"
-/>
+<Avatar src="/avatar.jpg" alt="User" status="offline" />
 ```
 
 ### Away
 
 ```tsx
-<Avatar
-  src="/avatar.jpg"
-  alt="User"
-  status="away"
-/>
+<Avatar src="/avatar.jpg" alt="User" status="away" />
 ```
 
 ### Busy
 
 ```tsx
-<Avatar
-  src="/avatar.jpg"
-  alt="User"
-  status="busy"
-/>
+<Avatar src="/avatar.jpg" alt="User" status="busy" />
 ```
 
 ## Initials Fallback
@@ -119,12 +97,7 @@ Display user status with colored indicators:
 When an image fails to load or isn't provided, display user initials:
 
 ```tsx
-<Avatar
-  src="/invalid-url.jpg"
-  alt="John Doe"
-  initials="JD"
-  size="lg"
-/>
+<Avatar src="/invalid-url.jpg" alt="John Doe" initials="JD" size="lg" />
 ```
 
 ## Border and Ring Effects
@@ -132,50 +105,36 @@ When an image fails to load or isn't provided, display user initials:
 ### With Border
 
 ```tsx
-<Avatar
-  src="/avatar.jpg"
-  alt="User"
-  bordered
-/>
+<Avatar src="/avatar.jpg" alt="User" bordered />
 ```
 
 ### With Ring Effect
 
 ```tsx
-<Avatar
-  src="/avatar.jpg"
-  alt="User"
-  ring
-/>
+<Avatar src="/avatar.jpg" alt="User" ring />
 ```
 
 ### Combined
 
 ```tsx
-<Avatar
-  src="/avatar.jpg"
-  alt="User"
-  bordered
-  ring
-  status="online"
-/>
+<Avatar src="/avatar.jpg" alt="User" bordered ring status="online" />
 ```
 
 ## API Reference
 
 ### Avatar Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `src` | `string` | - | **Required.** Image source URL |
-| `alt` | `string` | `'Avatar'` | Alt text for accessibility |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'` | Size of the avatar |
-| `shape` | `'circle' \| 'square' \| 'rounded'` | `'circle'` | Shape of the avatar |
-| `status` | `'online' \| 'offline' \| 'away' \| 'busy' \| 'none'` | `'none'` | Status indicator |
-| `initials` | `string` | - | Initials to display when image fails |
-| `bordered` | `boolean` | `false` | Whether to show a border |
-| `ring` | `boolean` | `false` | Whether to show a ring/glow effect |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type                                                  | Default    | Description                          |
+| ----------- | ----------------------------------------------------- | ---------- | ------------------------------------ |
+| `src`       | `string`                                              | -          | **Required.** Image source URL       |
+| `alt`       | `string`                                              | `'Avatar'` | Alt text for accessibility           |
+| `size`      | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'`       | `'md'`     | Size of the avatar                   |
+| `shape`     | `'circle' \| 'square' \| 'rounded'`                   | `'circle'` | Shape of the avatar                  |
+| `status`    | `'online' \| 'offline' \| 'away' \| 'busy' \| 'none'` | `'none'`   | Status indicator                     |
+| `initials`  | `string`                                              | -          | Initials to display when image fails |
+| `bordered`  | `boolean`                                             | `false`    | Whether to show a border             |
+| `ring`      | `boolean`                                             | `false`    | Whether to show a ring/glow effect   |
+| `className` | `string`                                              | -          | Additional CSS classes               |
 
 ## Common Patterns
 
@@ -189,7 +148,7 @@ function UserCard({ user }) {
         src={user.avatar}
         alt={user.name}
         size="lg"
-        status={user.isOnline ? 'online' : 'offline'}
+        status={user.isOnline ? "online" : "offline"}
         bordered
       />
       <div>
@@ -245,9 +204,7 @@ function TeamList({ members }) {
               </div>
             </div>
           </div>
-          <span className="text-sm text-muted-foreground">
-            {member.role}
-          </span>
+          <span className="text-sm text-muted-foreground">{member.role}</span>
         </div>
       ))}
     </div>
@@ -323,12 +280,7 @@ The Avatar component follows accessibility best practices:
 ### Custom Size
 
 ```tsx
-<Avatar
-  src="/avatar.jpg"
-  alt="User"
-  className="w-32 h-32"
-  size="lg"
-/>
+<Avatar src="/avatar.jpg" alt="User" className="w-32 h-32" size="lg" />
 ```
 
 ## With AvatarGroup
@@ -336,14 +288,14 @@ The Avatar component follows accessibility best practices:
 Avatars can be grouped together for displaying multiple users:
 
 ```tsx
-import { AvatarGroup, Avatar } from '@saha-ui/core';
+import { AvatarGroup, Avatar } from "saha-ui";
 
 <AvatarGroup max={3}>
   <Avatar src="/user1.jpg" alt="User 1" />
   <Avatar src="/user2.jpg" alt="User 2" />
   <Avatar src="/user3.jpg" alt="User 3" />
   <Avatar src="/user4.jpg" alt="User 4" />
-</AvatarGroup>
+</AvatarGroup>;
 ```
 
 ## Image Loading
@@ -357,7 +309,7 @@ function AvatarWithLoading({ src, alt, initials }) {
 
   return (
     <Avatar
-      src={imageError ? '' : src}
+      src={imageError ? "" : src}
       alt={alt}
       initials={initials}
       onLoad={() => setImageLoaded(true)}

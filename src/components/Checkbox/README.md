@@ -18,13 +18,13 @@ A fully accessible checkbox component with beautiful animations, icons, and mult
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Checkbox } from '@saha-ui/core';
+import { Checkbox } from "saha-ui";
 
 function App() {
   const [checked, setChecked] = useState(false);
@@ -78,10 +78,10 @@ Perfect for "Select All" functionality:
 ```tsx
 function SelectAll() {
   const [items, setItems] = useState([false, false, false]);
-  
+
   const allChecked = items.every(Boolean);
   const someChecked = items.some(Boolean);
-  
+
   return (
     <>
       <Checkbox
@@ -147,12 +147,9 @@ Beautiful card layout for feature selection:
 ### Custom Icon
 
 ```tsx
-import { Heart } from 'lucide-react';
+import { Heart } from "lucide-react";
 
-<Checkbox
-  label="Add to favorites"
-  icon={<Heart className="fill-current" />}
-/>
+<Checkbox label="Add to favorites" icon={<Heart className="fill-current" />} />;
 ```
 
 ### Label Position
@@ -169,10 +166,10 @@ Group multiple checkboxes with coordinated state management:
 ### Basic Group
 
 ```tsx
-import { CheckboxGroup } from '@saha-ui/core';
+import { CheckboxGroup } from "saha-ui";
 
 function Interests() {
-  const [selected, setSelected] = useState(['sports']);
+  const [selected, setSelected] = useState(["sports"]);
 
   return (
     <CheckboxGroup
@@ -181,10 +178,10 @@ function Interests() {
       value={selected}
       onChange={setSelected}
       options={[
-        { label: 'Sports', value: 'sports' },
-        { label: 'Music', value: 'music' },
-        { label: 'Movies', value: 'movies' },
-        { label: 'Reading', value: 'reading' },
+        { label: "Sports", value: "sports" },
+        { label: "Music", value: "music" },
+        { label: "Movies", value: "movies" },
+        { label: "Reading", value: "reading" },
       ]}
     />
   );
@@ -198,9 +195,9 @@ function Interests() {
   label="Preferences"
   direction="horizontal"
   options={[
-    { label: 'Email', value: 'email' },
-    { label: 'SMS', value: 'sms' },
-    { label: 'Push', value: 'push' },
+    { label: "Email", value: "email" },
+    { label: "SMS", value: "sms" },
+    { label: "Push", value: "push" },
   ]}
 />
 ```
@@ -215,23 +212,23 @@ Perfect for pricing plans or feature selection:
   card
   options={[
     {
-      label: 'Extra Storage',
-      value: 'storage',
-      description: '100GB additional cloud storage',
-      badge: '+$5/mo',
+      label: "Extra Storage",
+      value: "storage",
+      description: "100GB additional cloud storage",
+      badge: "+$5/mo",
     },
     {
-      label: 'Priority Support',
-      value: 'support',
-      description: '24/7 priority customer support',
-      badge: '+$10/mo',
+      label: "Priority Support",
+      value: "support",
+      description: "24/7 priority customer support",
+      badge: "+$10/mo",
       recommended: true,
     },
     {
-      label: 'Advanced Analytics',
-      value: 'analytics',
-      description: 'Detailed insights and reports',
-      badge: '+$15/mo',
+      label: "Advanced Analytics",
+      value: "analytics",
+      description: "Detailed insights and reports",
+      badge: "+$15/mo",
     },
   ]}
 />
@@ -242,13 +239,13 @@ Perfect for pricing plans or feature selection:
 ```tsx
 function Form() {
   const [selected, setSelected] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = () => {
     if (selected.length === 0) {
-      setError('Please select at least one option');
+      setError("Please select at least one option");
     } else {
-      setError('');
+      setError("");
       // Submit form
     }
   };
@@ -259,13 +256,13 @@ function Form() {
       value={selected}
       onChange={(values) => {
         setSelected(values);
-        setError('');
+        setError("");
       }}
       error={error}
       aria-required="true"
       options={[
-        { label: 'Option 1', value: 'opt1' },
-        { label: 'Option 2', value: 'opt2' },
+        { label: "Option 1", value: "opt1" },
+        { label: "Option 2", value: "opt2" },
       ]}
     />
   );
@@ -318,10 +315,7 @@ The component provides comprehensive screen reader support:
 For checkboxes without visible labels:
 
 ```tsx
-<Checkbox
-  aria-label="Accept terms and conditions"
-  required
-/>
+<Checkbox aria-label="Accept terms and conditions" required />
 ```
 
 ### Error Announcements
@@ -369,65 +363,65 @@ Properly announced to screen readers with aria-checked="mixed":
 
 ### Checkbox Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - | Label text for the checkbox |
-| `description` | `string` | - | Description text shown below the label |
-| `error` | `string` | - | Error message to display |
-| `helperText` | `string` | - | Helper text shown below the checkbox |
-| `labelPosition` | `'left' \| 'right'` | `'right'` | Position of the label |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'primary'` | Color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the checkbox |
-| `disabled` | `boolean` | `false` | Whether the checkbox is disabled |
-| `checked` | `boolean` | - | Controlled checked state |
-| `defaultChecked` | `boolean` | `false` | Default checked state (uncontrolled) |
-| `indeterminate` | `boolean` | `false` | Indeterminate state (partial selection) |
-| `icon` | `ReactNode` | - | Custom icon to display when checked |
-| `badge` | `string \| ReactNode` | - | Badge to display |
-| `card` | `boolean` | `false` | Show in card style |
-| `hoverEffect` | `boolean` | `true` | Card hover effect |
-| `recommended` | `boolean` | `false` | Show recommended badge |
-| `image` | `string` | - | Image URL for card style |
-| `onChange` | `(e: ChangeEvent) => void` | - | Native change handler |
-| `onCheckedChange` | `(checked: boolean) => void` | - | Callback when checked state changes |
-| `aria-label` | `string` | - | Accessible label for screen readers |
-| `aria-labelledby` | `string` | - | ID of element that labels this checkbox |
-| `aria-describedby` | `string` | - | IDs of elements that describe this checkbox |
+| Prop               | Type                                                                                     | Default     | Description                                 |
+| ------------------ | ---------------------------------------------------------------------------------------- | ----------- | ------------------------------------------- |
+| `label`            | `string`                                                                                 | -           | Label text for the checkbox                 |
+| `description`      | `string`                                                                                 | -           | Description text shown below the label      |
+| `error`            | `string`                                                                                 | -           | Error message to display                    |
+| `helperText`       | `string`                                                                                 | -           | Helper text shown below the checkbox        |
+| `labelPosition`    | `'left' \| 'right'`                                                                      | `'right'`   | Position of the label                       |
+| `variant`          | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'primary'` | Color variant                               |
+| `size`             | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`      | Size of the checkbox                        |
+| `disabled`         | `boolean`                                                                                | `false`     | Whether the checkbox is disabled            |
+| `checked`          | `boolean`                                                                                | -           | Controlled checked state                    |
+| `defaultChecked`   | `boolean`                                                                                | `false`     | Default checked state (uncontrolled)        |
+| `indeterminate`    | `boolean`                                                                                | `false`     | Indeterminate state (partial selection)     |
+| `icon`             | `ReactNode`                                                                              | -           | Custom icon to display when checked         |
+| `badge`            | `string \| ReactNode`                                                                    | -           | Badge to display                            |
+| `card`             | `boolean`                                                                                | `false`     | Show in card style                          |
+| `hoverEffect`      | `boolean`                                                                                | `true`      | Card hover effect                           |
+| `recommended`      | `boolean`                                                                                | `false`     | Show recommended badge                      |
+| `image`            | `string`                                                                                 | -           | Image URL for card style                    |
+| `onChange`         | `(e: ChangeEvent) => void`                                                               | -           | Native change handler                       |
+| `onCheckedChange`  | `(checked: boolean) => void`                                                             | -           | Callback when checked state changes         |
+| `aria-label`       | `string`                                                                                 | -           | Accessible label for screen readers         |
+| `aria-labelledby`  | `string`                                                                                 | -           | ID of element that labels this checkbox     |
+| `aria-describedby` | `string`                                                                                 | -           | IDs of elements that describe this checkbox |
 
 ### CheckboxGroup Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | - | Name for the checkbox group |
-| `label` | `string` | - | Label for the group |
-| `description` | `string` | - | Description for the group |
-| `error` | `string` | - | Error message for the group |
-| `helperText` | `string` | - | Helper text for the group |
-| `value` | `string[]` | - | Selected values (controlled) |
-| `defaultValue` | `string[]` | - | Default selected values (uncontrolled) |
-| `onChange` | `(values: string[]) => void` | - | Callback when selection changes |
-| `direction` | `'horizontal' \| 'vertical'` | `'vertical'` | Layout direction |
-| `variant` | `CheckboxProps['variant']` | `'primary'` | Variant for all checkboxes |
-| `size` | `CheckboxProps['size']` | `'md'` | Size for all checkboxes |
-| `card` | `boolean` | `false` | Card mode for all checkboxes |
-| `options` | `CheckboxOption[]` | - | Options for the checkbox group |
-| `children` | `ReactNode` | - | Children (Checkbox components) |
-| `aria-labelledby` | `string` | - | ID of element that labels this group |
-| `aria-describedby` | `string` | - | IDs of elements that describe this group |
-| `aria-required` | `'true' \| 'false'` | - | Whether the group is required |
+| Prop               | Type                         | Default      | Description                              |
+| ------------------ | ---------------------------- | ------------ | ---------------------------------------- |
+| `name`             | `string`                     | -            | Name for the checkbox group              |
+| `label`            | `string`                     | -            | Label for the group                      |
+| `description`      | `string`                     | -            | Description for the group                |
+| `error`            | `string`                     | -            | Error message for the group              |
+| `helperText`       | `string`                     | -            | Helper text for the group                |
+| `value`            | `string[]`                   | -            | Selected values (controlled)             |
+| `defaultValue`     | `string[]`                   | -            | Default selected values (uncontrolled)   |
+| `onChange`         | `(values: string[]) => void` | -            | Callback when selection changes          |
+| `direction`        | `'horizontal' \| 'vertical'` | `'vertical'` | Layout direction                         |
+| `variant`          | `CheckboxProps['variant']`   | `'primary'`  | Variant for all checkboxes               |
+| `size`             | `CheckboxProps['size']`      | `'md'`       | Size for all checkboxes                  |
+| `card`             | `boolean`                    | `false`      | Card mode for all checkboxes             |
+| `options`          | `CheckboxOption[]`           | -            | Options for the checkbox group           |
+| `children`         | `ReactNode`                  | -            | Children (Checkbox components)           |
+| `aria-labelledby`  | `string`                     | -            | ID of element that labels this group     |
+| `aria-describedby` | `string`                     | -            | IDs of elements that describe this group |
+| `aria-required`    | `'true' \| 'false'`          | -            | Whether the group is required            |
 
 ### CheckboxOption
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `label` | `string` | Display label for the checkbox |
-| `value` | `string` | Unique value identifier |
-| `description` | `string` | Additional descriptive text |
-| `disabled` | `boolean` | Whether the checkbox is disabled |
-| `icon` | `ReactNode` | Custom icon to display when checked |
-| `badge` | `string \| ReactNode` | Badge to display |
-| `image` | `string` | Image URL for card-style checkboxes |
-| `recommended` | `boolean` | Mark as recommended option |
+| Prop          | Type                  | Description                         |
+| ------------- | --------------------- | ----------------------------------- |
+| `label`       | `string`              | Display label for the checkbox      |
+| `value`       | `string`              | Unique value identifier             |
+| `description` | `string`              | Additional descriptive text         |
+| `disabled`    | `boolean`             | Whether the checkbox is disabled    |
+| `icon`        | `ReactNode`           | Custom icon to display when checked |
+| `badge`       | `string \| ReactNode` | Badge to display                    |
+| `image`       | `string`              | Image URL for card-style checkboxes |
+| `recommended` | `boolean`             | Mark as recommended option          |
 
 ## Best Practices
 
@@ -449,7 +443,7 @@ For accessibility, always provide a label (visible or via aria-label):
 ```tsx
 function Form() {
   const [accepted, setAccepted] = useState(false);
-  
+
   return (
     <Checkbox
       label="I accept the terms"
@@ -499,7 +493,7 @@ const someChecked = items.some(Boolean);
   label="Select all"
   checked={allChecked}
   indeterminate={someChecked && !allChecked}
-/>
+/>;
 ```
 
 ### 6. Disable vs Hide
@@ -508,10 +502,12 @@ Prefer disabling over hiding to maintain form structure:
 
 ```tsx
 // Good ✅
-<Checkbox label="Option" disabled />
+<Checkbox label="Option" disabled />;
 
 // Less ideal ❌
-{canShow && <Checkbox label="Option" />}
+{
+  canShow && <Checkbox label="Option" />;
+}
 ```
 
 ### 7. Card Style for Feature Selection
@@ -523,9 +519,9 @@ Use card style when selecting features or plans:
   card
   options={[
     {
-      label: 'Premium',
-      description: 'All features',
-      badge: '$29/mo',
+      label: "Premium",
+      description: "All features",
+      badge: "$29/mo",
       recommended: true,
     },
   ]}
@@ -537,15 +533,19 @@ Use card style when selecting features or plans:
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { CheckboxProps, CheckboxGroupProps, CheckboxOption } from '@saha-ui/core';
+import type {
+  CheckboxProps,
+  CheckboxGroupProps,
+  CheckboxOption,
+} from "saha-ui";
 
 const MyCheckbox: React.FC<CheckboxProps> = (props) => {
   return <Checkbox {...props} />;
 };
 
 const options: CheckboxOption[] = [
-  { label: 'Option 1', value: 'opt1' },
-  { label: 'Option 2', value: 'opt2' },
+  { label: "Option 1", value: "opt1" },
+  { label: "Option 2", value: "opt2" },
 ];
 ```
 
@@ -554,10 +554,7 @@ const options: CheckboxOption[] = [
 The component uses CVA (Class Variance Authority) for variant management and is fully customizable with Tailwind CSS classes:
 
 ```tsx
-<Checkbox
-  label="Custom styled"
-  className="my-custom-class"
-/>
+<Checkbox label="Custom styled" className="my-custom-class" />
 ```
 
 ## Dark Mode

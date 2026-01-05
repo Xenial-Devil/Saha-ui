@@ -18,13 +18,13 @@ A flexible popover component for displaying rich content in a floating panel pos
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Popover, PopoverTrigger, PopoverContent } from '@saha-ui/core';
+import { Popover, PopoverTrigger, PopoverContent } from "saha-ui";
 
 function MyComponent() {
   return (
@@ -100,7 +100,9 @@ function MyComponent() {
 
 ```tsx
 <Popover variant="default">
-  <PopoverTrigger><button>Default</button></PopoverTrigger>
+  <PopoverTrigger>
+    <button>Default</button>
+  </PopoverTrigger>
   <PopoverContent>Default style popover</PopoverContent>
 </Popover>
 ```
@@ -109,7 +111,9 @@ function MyComponent() {
 
 ```tsx
 <Popover variant="primary">
-  <PopoverTrigger><button>Primary</button></PopoverTrigger>
+  <PopoverTrigger>
+    <button>Primary</button>
+  </PopoverTrigger>
   <PopoverContent>Primary themed popover</PopoverContent>
 </Popover>
 ```
@@ -118,7 +122,9 @@ function MyComponent() {
 
 ```tsx
 <Popover variant="glass">
-  <PopoverTrigger><button>Glass</button></PopoverTrigger>
+  <PopoverTrigger>
+    <button>Glass</button>
+  </PopoverTrigger>
   <PopoverContent>Glassmorphism effect</PopoverContent>
 </Popover>
 ```
@@ -172,7 +178,9 @@ function MyComponent() {
 
 ```tsx
 <Popover trigger="click">
-  <PopoverTrigger><button>Click me</button></PopoverTrigger>
+  <PopoverTrigger>
+    <button>Click me</button>
+  </PopoverTrigger>
   <PopoverContent>Opens on click</PopoverContent>
 </Popover>
 ```
@@ -181,7 +189,9 @@ function MyComponent() {
 
 ```tsx
 <Popover trigger="hover">
-  <PopoverTrigger><button>Hover me</button></PopoverTrigger>
+  <PopoverTrigger>
+    <button>Hover me</button>
+  </PopoverTrigger>
   <PopoverContent>Opens on hover</PopoverContent>
 </Popover>
 ```
@@ -190,7 +200,9 @@ function MyComponent() {
 
 ```tsx
 <Popover trigger="focus">
-  <PopoverTrigger><input placeholder="Focus me" /></PopoverTrigger>
+  <PopoverTrigger>
+    <input placeholder="Focus me" />
+  </PopoverTrigger>
   <PopoverContent>Opens on focus</PopoverContent>
 </Popover>
 ```
@@ -216,7 +228,9 @@ function ControlledPopover() {
 
 ```tsx
 <Popover arrow>
-  <PopoverTrigger><button>With Arrow</button></PopoverTrigger>
+  <PopoverTrigger>
+    <button>With Arrow</button>
+  </PopoverTrigger>
   <PopoverContent>This popover has an arrow pointer</PopoverContent>
 </Popover>
 ```
@@ -225,7 +239,9 @@ function ControlledPopover() {
 
 ```tsx
 <Popover arrow={false}>
-  <PopoverTrigger><button>No Arrow</button></PopoverTrigger>
+  <PopoverTrigger>
+    <button>No Arrow</button>
+  </PopoverTrigger>
   <PopoverContent>This popover has no arrow</PopoverContent>
 </Popover>
 ```
@@ -253,8 +269,12 @@ function ControlledPopover() {
         </div>
       </div>
       <div className="flex gap-2">
-        <Button size="sm" variant="primary">Follow</Button>
-        <Button size="sm" variant="outline">Message</Button>
+        <Button size="sm" variant="primary">
+          Follow
+        </Button>
+        <Button size="sm" variant="outline">
+          Message
+        </Button>
       </div>
     </div>
   </PopoverContent>
@@ -280,8 +300,12 @@ function ControlledPopover() {
         />
       </div>
       <div className="flex justify-end gap-2">
-        <Button type="button" variant="outline">Cancel</Button>
-        <Button type="submit" variant="primary">Submit</Button>
+        <Button type="button" variant="outline">
+          Cancel
+        </Button>
+        <Button type="submit" variant="primary">
+          Submit
+        </Button>
       </div>
     </form>
   </PopoverContent>
@@ -292,37 +316,37 @@ function ControlledPopover() {
 
 ### Popover Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `position` | `'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | `'bottom'` | Position relative to trigger |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'glass' \| 'bordered' \| 'elevated' \| 'flat'` | `'default'` | Visual style variant |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Size of the popover |
-| `trigger` | `'click' \| 'hover' \| 'focus' \| 'manual'` | `'click'` | How popover is triggered |
-| `arrow` | `boolean` | `true` | Show arrow pointer |
-| `open` | `boolean` | - | Controlled open state |
-| `defaultOpen` | `boolean` | `false` | Default open state (uncontrolled) |
-| `onOpenChange` | `(open: boolean) => void` | - | Callback when state changes |
-| `closeOnClickOutside` | `boolean` | `true` | Close when clicking outside |
-| `closeOnEscape` | `boolean` | `true` | Close on Escape key |
-| `offset` | `number` | `8` | Distance from trigger (px) |
-| `delay` | `number` | `200` | Hover delay (ms) |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | - | Trigger and Content components |
+| Prop                  | Type                                                                                                                                                                 | Default     | Description                       |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | --------------------------------- |
+| `position`            | `'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | `'bottom'`  | Position relative to trigger      |
+| `variant`             | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'glass' \| 'bordered' \| 'elevated' \| 'flat'`                 | `'default'` | Visual style variant              |
+| `size`                | `'sm' \| 'md' \| 'lg' \| 'xl'`                                                                                                                                       | `'md'`      | Size of the popover               |
+| `trigger`             | `'click' \| 'hover' \| 'focus' \| 'manual'`                                                                                                                          | `'click'`   | How popover is triggered          |
+| `arrow`               | `boolean`                                                                                                                                                            | `true`      | Show arrow pointer                |
+| `open`                | `boolean`                                                                                                                                                            | -           | Controlled open state             |
+| `defaultOpen`         | `boolean`                                                                                                                                                            | `false`     | Default open state (uncontrolled) |
+| `onOpenChange`        | `(open: boolean) => void`                                                                                                                                            | -           | Callback when state changes       |
+| `closeOnClickOutside` | `boolean`                                                                                                                                                            | `true`      | Close when clicking outside       |
+| `closeOnEscape`       | `boolean`                                                                                                                                                            | `true`      | Close on Escape key               |
+| `offset`              | `number`                                                                                                                                                             | `8`         | Distance from trigger (px)        |
+| `delay`               | `number`                                                                                                                                                             | `200`       | Hover delay (ms)                  |
+| `className`           | `string`                                                                                                                                                             | -           | Additional CSS classes            |
+| `children`            | `ReactNode`                                                                                                                                                          | -           | Trigger and Content components    |
 
 ### PopoverTrigger Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | **Required.** Trigger element |
-| `asChild` | `boolean` | `false` | Merge props with child element |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default | Description                    |
+| ----------- | ----------- | ------- | ------------------------------ |
+| `children`  | `ReactNode` | -       | **Required.** Trigger element  |
+| `asChild`   | `boolean`   | `false` | Merge props with child element |
+| `className` | `string`    | -       | Additional CSS classes         |
 
 ### PopoverContent Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | **Required.** Popover content |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default | Description                   |
+| ----------- | ----------- | ------- | ----------------------------- |
+| `children`  | `ReactNode` | -       | **Required.** Popover content |
+| `className` | `string`    | -       | Additional CSS classes        |
 
 ## Common Patterns
 
@@ -364,13 +388,13 @@ function UserMenu({ user }) {
 
 ```tsx
 function ColorPicker() {
-  const [color, setColor] = useState('#3b82f6');
+  const [color, setColor] = useState("#3b82f6");
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <button className="flex items-center gap-2">
-          <div 
+          <div
             className="w-6 h-6 rounded border"
             style={{ backgroundColor: color }}
           />
@@ -378,10 +402,7 @@ function ColorPicker() {
         </button>
       </PopoverTrigger>
       <PopoverContent>
-        <ColorPickerComponent
-          value={color}
-          onChange={setColor}
-        />
+        <ColorPickerComponent value={color} onChange={setColor} />
       </PopoverContent>
     </Popover>
   );
@@ -399,11 +420,7 @@ function ColorPicker() {
     </button>
   </PopoverTrigger>
   <PopoverContent>
-    <Calendar
-      mode="single"
-      selected={date}
-      onSelect={setDate}
-    />
+    <Calendar mode="single" selected={date} onSelect={setDate} />
   </PopoverContent>
 </Popover>
 ```
@@ -456,9 +473,15 @@ function ColorPicker() {
         </Button>
       </div>
       <div className="flex gap-2">
-        <Button variant="outline" size="sm">Twitter</Button>
-        <Button variant="outline" size="sm">Facebook</Button>
-        <Button variant="outline" size="sm">LinkedIn</Button>
+        <Button variant="outline" size="sm">
+          Twitter
+        </Button>
+        <Button variant="outline" size="sm">
+          Facebook
+        </Button>
+        <Button variant="outline" size="sm">
+          LinkedIn
+        </Button>
       </div>
     </div>
   </PopoverContent>
@@ -470,12 +493,14 @@ function ColorPicker() {
 The Popover component follows accessibility best practices:
 
 - **ARIA Attributes:**
+
   - `role="dialog"` or `role="menu"` based on content
   - `aria-haspopup` on trigger
   - `aria-expanded` indicates open state
   - `aria-controls` links trigger to content
 
 - **Keyboard Navigation:**
+
   - `Escape` closes the popover
   - `Tab` navigates through interactive elements
   - Focus trap for menu-style popovers
@@ -524,7 +549,9 @@ The Popover component follows accessibility best practices:
 
 ```tsx
 <Popover>
-  <PopoverTrigger><button>Custom</button></PopoverTrigger>
+  <PopoverTrigger>
+    <button>Custom</button>
+  </PopoverTrigger>
   <PopoverContent className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
     Custom styled popover
   </PopoverContent>
@@ -535,10 +562,10 @@ The Popover component follows accessibility best practices:
 
 ```tsx
 <Popover>
-  <PopoverTrigger><button>Wide</button></PopoverTrigger>
-  <PopoverContent className="w-96">
-    Wide popover content
-  </PopoverContent>
+  <PopoverTrigger>
+    <button>Wide</button>
+  </PopoverTrigger>
+  <PopoverContent className="w-96">Wide popover content</PopoverContent>
 </Popover>
 ```
 

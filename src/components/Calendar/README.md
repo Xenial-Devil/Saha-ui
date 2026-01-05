@@ -16,7 +16,7 @@ A feature-rich calendar component for date selection with support for single dat
 ## Installation
 
 ```tsx
-import { Calendar } from '@saha-ui/core';
+import { Calendar } from "saha-ui";
 ```
 
 ## Basic Usage
@@ -26,11 +26,7 @@ import { Calendar } from '@saha-ui/core';
 ```tsx
 const [date, setDate] = useState<Date | undefined>(new Date());
 
-<Calendar
-  mode="single"
-  selected={date}
-  onSelect={setDate}
-/>
+<Calendar mode="single" selected={date} onSelect={setDate} />;
 ```
 
 ### Date Range Selection
@@ -38,11 +34,7 @@ const [date, setDate] = useState<Date | undefined>(new Date());
 ```tsx
 const [range, setRange] = useState<{ from: Date; to?: Date }>();
 
-<Calendar
-  mode="range"
-  selected={range}
-  onSelect={setRange}
-/>
+<Calendar mode="range" selected={range} onSelect={setRange} />;
 ```
 
 ### Multiple Date Selection
@@ -50,11 +42,7 @@ const [range, setRange] = useState<{ from: Date; to?: Date }>();
 ```tsx
 const [dates, setDates] = useState<Date[]>([]);
 
-<Calendar
-  mode="multiple"
-  selected={dates}
-  onSelect={setDates}
-/>
+<Calendar mode="multiple" selected={dates} onSelect={setDates} />;
 ```
 
 ## Variants
@@ -75,15 +63,9 @@ const [dates, setDates] = useState<Date[]>([]);
 ### Disable Specific Dates
 
 ```tsx
-const disabledDates = [
-  new Date(2024, 0, 15),
-  new Date(2024, 0, 20),
-];
+const disabledDates = [new Date(2024, 0, 15), new Date(2024, 0, 20)];
 
-<Calendar
-  mode="single"
-  disabled={disabledDates}
-/>
+<Calendar mode="single" disabled={disabledDates} />;
 ```
 
 ### Disable Date Range
@@ -93,7 +75,7 @@ const disabledDates = [
   mode="single"
   disabled={{
     from: new Date(2024, 0, 1),
-    to: new Date(2024, 0, 10)
+    to: new Date(2024, 0, 10),
   }}
 />
 ```
@@ -143,30 +125,21 @@ const disabledDates = [
 
 ```tsx
 // Start week on Monday (0 = Sunday, 1 = Monday, etc.)
-<Calendar
-  mode="single"
-  weekStartsOn={1}
-/>
+<Calendar mode="single" weekStartsOn={1} />
 ```
 
 ### Show Outside Days
 
 ```tsx
 // Show days from previous/next months
-<Calendar
-  mode="single"
-  showOutsideDays
-/>
+<Calendar mode="single" showOutsideDays />
 ```
 
 ### Number of Months
 
 ```tsx
 // Show multiple months
-<Calendar
-  mode="range"
-  numberOfMonths={2}
-/>
+<Calendar mode="range" numberOfMonths={2} />
 ```
 
 ## Advanced Examples
@@ -200,18 +173,12 @@ function BookingCalendar() {
 ```tsx
 function HolidayCalendar() {
   const holidays = [
-    new Date(2024, 0, 1),  // New Year
-    new Date(2024, 6, 4),  // Independence Day
+    new Date(2024, 0, 1), // New Year
+    new Date(2024, 6, 4), // Independence Day
     new Date(2024, 11, 25), // Christmas
   ];
 
-  return (
-    <Calendar
-      mode="multiple"
-      selected={holidays}
-      disabled={holidays}
-    />
-  );
+  return <Calendar mode="multiple" selected={holidays} disabled={holidays} />;
 }
 ```
 
@@ -233,16 +200,14 @@ function EventCalendar() {
         selected={selectedDate}
         onSelect={setSelectedDate}
         modifiers={{
-          hasEvent: eventDates
+          hasEvent: eventDates,
         }}
         modifiersClassNames={{
-          hasEvent: 'bg-blue-100 font-bold'
+          hasEvent: "bg-blue-100 font-bold",
         }}
       />
       {selectedDate && (
-        <div className="mt-4">
-          Selected: {selectedDate.toDateString()}
-        </div>
+        <div className="mt-4">Selected: {selectedDate.toDateString()}</div>
       )}
     </div>
   );
@@ -251,23 +216,23 @@ function EventCalendar() {
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `mode` | `"single" \| "range" \| "multiple"` | `"single"` | Selection mode |
-| `selected` | `Date \| {from: Date; to?: Date} \| Date[]` | - | Selected date(s) |
-| `onSelect` | `(date) => void` | - | Callback when date is selected |
-| `variant` | `"default" \| "outline" \| "ghost"` | `"default"` | Visual variant |
-| `disabled` | `Date[] \| {from: Date; to: Date} \| (date: Date) => boolean` | - | Disabled dates |
-| `minDate` | `Date` | - | Minimum selectable date |
-| `maxDate` | `Date` | - | Maximum selectable date |
-| `defaultMonth` | `Date` | `new Date()` | Initial month to display |
-| `weekStartsOn` | `0-6` | `0` | First day of week (0 = Sunday) |
-| `showOutsideDays` | `boolean` | `true` | Show days from adjacent months |
-| `numberOfMonths` | `number` | `1` | Number of months to display |
-| `modifiers` | `object` | - | Custom date modifiers |
-| `modifiersClassNames` | `object` | - | Classes for modifiers |
-| `className` | `string` | - | Additional CSS classes |
-| `locale` | `Locale` | - | Date-fns locale object |
+| Prop                  | Type                                                          | Default      | Description                    |
+| --------------------- | ------------------------------------------------------------- | ------------ | ------------------------------ |
+| `mode`                | `"single" \| "range" \| "multiple"`                           | `"single"`   | Selection mode                 |
+| `selected`            | `Date \| {from: Date; to?: Date} \| Date[]`                   | -            | Selected date(s)               |
+| `onSelect`            | `(date) => void`                                              | -            | Callback when date is selected |
+| `variant`             | `"default" \| "outline" \| "ghost"`                           | `"default"`  | Visual variant                 |
+| `disabled`            | `Date[] \| {from: Date; to: Date} \| (date: Date) => boolean` | -            | Disabled dates                 |
+| `minDate`             | `Date`                                                        | -            | Minimum selectable date        |
+| `maxDate`             | `Date`                                                        | -            | Maximum selectable date        |
+| `defaultMonth`        | `Date`                                                        | `new Date()` | Initial month to display       |
+| `weekStartsOn`        | `0-6`                                                         | `0`          | First day of week (0 = Sunday) |
+| `showOutsideDays`     | `boolean`                                                     | `true`       | Show days from adjacent months |
+| `numberOfMonths`      | `number`                                                      | `1`          | Number of months to display    |
+| `modifiers`           | `object`                                                      | -            | Custom date modifiers          |
+| `modifiersClassNames` | `object`                                                      | -            | Classes for modifiers          |
+| `className`           | `string`                                                      | -            | Additional CSS classes         |
+| `locale`              | `Locale`                                                      | -            | Date-fns locale object         |
 
 ## Keyboard Navigation
 
@@ -295,9 +260,9 @@ The component follows accessibility best practices:
 <Calendar
   className="rounded-xl border-2 shadow-lg"
   modifiersClassNames={{
-    selected: 'bg-primary text-primary-foreground',
-    today: 'border-2 border-primary',
-    disabled: 'opacity-40 cursor-not-allowed'
+    selected: "bg-primary text-primary-foreground",
+    today: "border-2 border-primary",
+    disabled: "opacity-40 cursor-not-allowed",
   }}
 />
 ```
@@ -324,15 +289,11 @@ The component follows accessibility best practices:
 <Popover>
   <PopoverTrigger asChild>
     <Button variant="outline">
-      {date ? format(date, 'PPP') : 'Pick a date'}
+      {date ? format(date, "PPP") : "Pick a date"}
     </Button>
   </PopoverTrigger>
   <PopoverContent className="w-auto p-0">
-    <Calendar
-      mode="single"
-      selected={date}
-      onSelect={setDate}
-    />
+    <Calendar mode="single" selected={date} onSelect={setDate} />
   </PopoverContent>
 </Popover>
 ```
@@ -350,6 +311,7 @@ The component follows accessibility best practices:
 ## Browser Support
 
 Works in all modern browsers that support:
+
 - CSS Grid and Flexbox
 - Modern JavaScript (ES6+)
 - Date API

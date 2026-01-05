@@ -17,13 +17,13 @@ A versatile badge component for displaying status indicators, labels, tags, and 
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Badge } from '@saha-ui/core';
+import { Badge } from "saha-ui";
 
 function MyComponent() {
   return (
@@ -151,15 +151,15 @@ Create badges that can be dismissed:
 
 ```tsx
 function RemovableBadge() {
-  const [tags, setTags] = useState(['React', 'TypeScript', 'Tailwind']);
+  const [tags, setTags] = useState(["React", "TypeScript", "Tailwind"]);
 
   const removeTag = (tag: string) => {
-    setTags(tags.filter(t => t !== tag));
+    setTags(tags.filter((t) => t !== tag));
   };
 
   return (
     <div className="flex gap-2">
-      {tags.map(tag => (
+      {tags.map((tag) => (
         <Badge
           key={tag}
           variant="primary"
@@ -218,23 +218,23 @@ Display notification counts:
 
 ### Badge Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'outline' \| 'glass'` | `'default'` | Visual style variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the badge |
-| `shape` | `'rounded' \| 'pill' \| 'square'` | `'rounded'` | Border radius style |
-| `dot` | `boolean` | `false` | Show status dot indicator |
-| `pulse` | `boolean` | `false` | Add pulse animation |
-| `removable` | `boolean` | `false` | Show close button |
-| `onRemove` | `() => void` | - | Callback when close button is clicked |
-| `icon` | `ReactNode` | - | Custom icon element |
-| `className` | `string` | - | Additional CSS classes |
-| `asChild` | `boolean` | `false` | Merge props with child element |
-| `aria-label` | `string` | - | Accessible label for screen readers |
-| `aria-labelledby` | `string` | - | ID of labeling element |
-| `aria-describedby` | `string` | - | ID of describing element |
-| `aria-live` | `'off' \| 'polite' \| 'assertive'` | - | Live region announcement |
-| `aria-atomic` | `boolean` | - | Whether to announce entire content |
+| Prop               | Type                                                                                                                       | Default     | Description                           |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------------- |
+| `variant`          | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'outline' \| 'glass'` | `'default'` | Visual style variant                  |
+| `size`             | `'sm' \| 'md' \| 'lg'`                                                                                                     | `'md'`      | Size of the badge                     |
+| `shape`            | `'rounded' \| 'pill' \| 'square'`                                                                                          | `'rounded'` | Border radius style                   |
+| `dot`              | `boolean`                                                                                                                  | `false`     | Show status dot indicator             |
+| `pulse`            | `boolean`                                                                                                                  | `false`     | Add pulse animation                   |
+| `removable`        | `boolean`                                                                                                                  | `false`     | Show close button                     |
+| `onRemove`         | `() => void`                                                                                                               | -           | Callback when close button is clicked |
+| `icon`             | `ReactNode`                                                                                                                | -           | Custom icon element                   |
+| `className`        | `string`                                                                                                                   | -           | Additional CSS classes                |
+| `asChild`          | `boolean`                                                                                                                  | `false`     | Merge props with child element        |
+| `aria-label`       | `string`                                                                                                                   | -           | Accessible label for screen readers   |
+| `aria-labelledby`  | `string`                                                                                                                   | -           | ID of labeling element                |
+| `aria-describedby` | `string`                                                                                                                   | -           | ID of describing element              |
+| `aria-live`        | `'off' \| 'polite' \| 'assertive'`                                                                                         | -           | Live region announcement              |
+| `aria-atomic`      | `boolean`                                                                                                                  | -           | Whether to announce entire content    |
 
 ## Styling
 
@@ -269,10 +269,12 @@ Display notification counts:
 The Badge component follows accessibility best practices:
 
 - **ARIA Labels:**
+
   - Use `aria-label` to provide descriptive text for screen readers
   - Especially important for icon-only or number badges
 
 - **Live Regions:**
+
   - Use `aria-live` for dynamically updating badges
   - Use `"polite"` for non-critical updates
   - Use `"assertive"` for important notifications
@@ -329,9 +331,15 @@ The Badge component follows accessibility best practices:
 
 ```tsx
 <div className="flex gap-2">
-  <Badge variant="success" dot>Active</Badge>
-  <Badge variant="error" dot>Inactive</Badge>
-  <Badge variant="warning" dot>Pending</Badge>
+  <Badge variant="success" dot>
+    Active
+  </Badge>
+  <Badge variant="error" dot>
+    Inactive
+  </Badge>
+  <Badge variant="warning" dot>
+    Pending
+  </Badge>
 </div>
 ```
 
@@ -339,17 +347,17 @@ The Badge component follows accessibility best practices:
 
 ```tsx
 function TagInput() {
-  const [tags, setTags] = useState(['React', 'TypeScript', 'Next.js']);
+  const [tags, setTags] = useState(["React", "TypeScript", "Next.js"]);
 
   return (
     <div className="flex flex-wrap gap-2">
-      {tags.map(tag => (
+      {tags.map((tag) => (
         <Badge
           key={tag}
           variant="outline"
           shape="pill"
           removable
-          onRemove={() => setTags(tags.filter(t => t !== tag))}
+          onRemove={() => setTags(tags.filter((t) => t !== tag))}
         >
           {tag}
         </Badge>
@@ -365,8 +373,12 @@ function TagInput() {
 <div className="flex items-center gap-2">
   <Avatar src="/user.jpg" />
   <span>John Doe</span>
-  <Badge variant="accent" size="sm">Admin</Badge>
-  <Badge variant="primary" size="sm">Pro</Badge>
+  <Badge variant="accent" size="sm">
+    Admin
+  </Badge>
+  <Badge variant="primary" size="sm">
+    Pro
+  </Badge>
 </div>
 ```
 
@@ -412,7 +424,7 @@ function TagInput() {
     className="absolute -top-1 -right-1 min-w-[20px] justify-center"
     aria-label={`${count} new notifications`}
   >
-    {count > 99 ? '99+' : count}
+    {count > 99 ? "99+" : count}
   </Badge>
 </div>
 ```
