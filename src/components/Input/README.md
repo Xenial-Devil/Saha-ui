@@ -19,16 +19,16 @@ A fully accessible text input component with various types, validation, and rich
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Input } from '@saha-ui/core';
+import { Input } from "saha-ui";
 
 function App() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   return (
     <Input
@@ -266,17 +266,17 @@ function PasswordInput() {
 
 ```tsx
 function ValidatedInput() {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   const validateEmail = (value: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!value) {
-      setError('Email is required');
+      setError("Email is required");
     } else if (!emailRegex.test(value)) {
-      setError('Please enter a valid email');
+      setError("Please enter a valid email");
     } else {
-      setError('');
+      setError("");
     }
   };
 
@@ -298,7 +298,7 @@ function ValidatedInput() {
 
 ```tsx
 function ClearableInput() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   return (
     <Input
@@ -310,7 +310,7 @@ function ClearableInput() {
         value && (
           <button
             type="button"
-            onClick={() => setValue('')}
+            onClick={() => setValue("")}
             aria-label="Clear input"
           >
             <X className="w-4 h-4" />
@@ -337,11 +337,11 @@ function ClearableInput() {
 
 ```tsx
 function CreditCardInput() {
-  const [cardNumber, setCardNumber] = useState('');
+  const [cardNumber, setCardNumber] = useState("");
 
   const formatCardNumber = (value: string) => {
-    const cleaned = value.replace(/\s/g, '');
-    const formatted = cleaned.match(/.{1,4}/g)?.join(' ') || cleaned;
+    const cleaned = value.replace(/\s/g, "");
+    const formatted = cleaned.match(/.{1,4}/g)?.join(" ") || cleaned;
     return formatted;
   };
 
@@ -365,10 +365,10 @@ function CreditCardInput() {
 
 ```tsx
 function PhoneInput() {
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState("");
 
   const formatPhone = (value: string) => {
-    const cleaned = value.replace(/\D/g, '');
+    const cleaned = value.replace(/\D/g, "");
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
@@ -392,23 +392,20 @@ function PhoneInput() {
 ### Search with Debounce
 
 ```tsx
-import { useDebouncedCallback } from 'use-debounce';
+import { useDebouncedCallback } from "use-debounce";
 
 function SearchInput() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const debouncedSearch = useDebouncedCallback(
-    async (value: string) => {
-      setLoading(true);
-      try {
-        await searchAPI(value);
-      } finally {
-        setLoading(false);
-      }
-    },
-    500
-  );
+  const debouncedSearch = useDebouncedCallback(async (value: string) => {
+    setLoading(true);
+    try {
+      await searchAPI(value);
+    } finally {
+      setLoading(false);
+    }
+  }, 500);
 
   return (
     <Input
@@ -431,7 +428,7 @@ function SearchInput() {
 
 ```tsx
 function OTPInput() {
-  const [otp, setOtp] = useState('');
+  const [otp, setOtp] = useState("");
 
   return (
     <Input
@@ -442,7 +439,7 @@ function OTPInput() {
       maxLength={6}
       placeholder="000000"
       value={otp}
-      onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+      onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
       helperText="Enter the 6-digit code sent to your phone"
     />
   );
@@ -484,11 +481,7 @@ The component provides comprehensive screen reader support:
 For inputs without visible labels:
 
 ```tsx
-<Input
-  aria-label="Search products"
-  type="search"
-  placeholder="Search..."
-/>
+<Input aria-label="Search products" type="search" placeholder="Search..." />
 ```
 
 ### ARIA Descriptions
@@ -521,11 +514,7 @@ For inputs without visible labels:
 Errors are automatically announced to screen readers:
 
 ```tsx
-<Input
-  label="Username"
-  error="Username is already taken"
-  aria-invalid="true"
-/>
+<Input label="Username" error="Username is already taken" aria-invalid="true" />
 // Error has role="alert" and aria-live="polite"
 ```
 
@@ -548,44 +537,44 @@ Errors are automatically announced to screen readers:
 
 ### Input Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - | Label text for the input |
-| `description` | `string` | - | Description text shown below the label |
-| `placeholder` | `string` | - | Placeholder text |
-| `helperText` | `string` | - | Helper text shown below the input |
-| `error` | `string` | - | Error message to display |
-| `type` | `'text' \| 'email' \| 'password' \| 'number' \| 'tel' \| 'url' \| 'search' \| 'date' \| 'time' \| 'datetime-local' \| 'color'` | `'text'` | Input type |
-| `value` | `string \| number` | - | Current value (controlled) |
-| `defaultValue` | `string \| number` | - | Default value (uncontrolled) |
-| `onChange` | `(e: ChangeEvent) => void` | - | Change event handler |
-| `onBlur` | `(e: FocusEvent) => void` | - | Blur event handler |
-| `onFocus` | `(e: FocusEvent) => void` | - | Focus event handler |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'` | Color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the input |
-| `leftIcon` | `ReactNode` | - | Icon on the left side |
-| `rightIcon` | `ReactNode` | - | Icon on the right side |
-| `prefix` | `string` | - | Text prefix inside input |
-| `suffix` | `string` | - | Text suffix inside input |
-| `disabled` | `boolean` | `false` | Whether the input is disabled |
-| `readOnly` | `boolean` | `false` | Whether the input is read-only |
-| `required` | `boolean` | `false` | Whether the input is required |
-| `loading` | `boolean` | `false` | Show loading state |
-| `autoFocus` | `boolean` | `false` | Auto-focus on mount |
-| `autoComplete` | `string` | - | Autocomplete attribute |
-| `pattern` | `string` | - | Validation pattern |
-| `min` | `number` | - | Minimum value (for number/date types) |
-| `max` | `number` | - | Maximum value (for number/date types) |
-| `step` | `number` | - | Step increment (for number type) |
-| `minLength` | `number` | - | Minimum character length |
-| `maxLength` | `number` | - | Maximum character length |
-| `inputMode` | `'text' \| 'numeric' \| 'decimal' \| 'tel' \| 'email' \| 'url'` | - | Input mode for mobile keyboards |
-| `className` | `string` | - | Additional CSS classes |
-| `aria-label` | `string` | - | Accessible label for screen readers |
-| `aria-labelledby` | `string` | - | ID of element that labels this input |
-| `aria-describedby` | `string` | - | IDs of elements that describe this input |
-| `aria-required` | `'true' \| 'false'` | - | Whether the input is required |
-| `aria-invalid` | `'true' \| 'false'` | - | Whether the input has an error |
+| Prop               | Type                                                                                                                           | Default     | Description                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ----------- | ---------------------------------------- |
+| `label`            | `string`                                                                                                                       | -           | Label text for the input                 |
+| `description`      | `string`                                                                                                                       | -           | Description text shown below the label   |
+| `placeholder`      | `string`                                                                                                                       | -           | Placeholder text                         |
+| `helperText`       | `string`                                                                                                                       | -           | Helper text shown below the input        |
+| `error`            | `string`                                                                                                                       | -           | Error message to display                 |
+| `type`             | `'text' \| 'email' \| 'password' \| 'number' \| 'tel' \| 'url' \| 'search' \| 'date' \| 'time' \| 'datetime-local' \| 'color'` | `'text'`    | Input type                               |
+| `value`            | `string \| number`                                                                                                             | -           | Current value (controlled)               |
+| `defaultValue`     | `string \| number`                                                                                                             | -           | Default value (uncontrolled)             |
+| `onChange`         | `(e: ChangeEvent) => void`                                                                                                     | -           | Change event handler                     |
+| `onBlur`           | `(e: FocusEvent) => void`                                                                                                      | -           | Blur event handler                       |
+| `onFocus`          | `(e: FocusEvent) => void`                                                                                                      | -           | Focus event handler                      |
+| `variant`          | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'`                                       | `'default'` | Color variant                            |
+| `size`             | `'sm' \| 'md' \| 'lg'`                                                                                                         | `'md'`      | Size of the input                        |
+| `leftIcon`         | `ReactNode`                                                                                                                    | -           | Icon on the left side                    |
+| `rightIcon`        | `ReactNode`                                                                                                                    | -           | Icon on the right side                   |
+| `prefix`           | `string`                                                                                                                       | -           | Text prefix inside input                 |
+| `suffix`           | `string`                                                                                                                       | -           | Text suffix inside input                 |
+| `disabled`         | `boolean`                                                                                                                      | `false`     | Whether the input is disabled            |
+| `readOnly`         | `boolean`                                                                                                                      | `false`     | Whether the input is read-only           |
+| `required`         | `boolean`                                                                                                                      | `false`     | Whether the input is required            |
+| `loading`          | `boolean`                                                                                                                      | `false`     | Show loading state                       |
+| `autoFocus`        | `boolean`                                                                                                                      | `false`     | Auto-focus on mount                      |
+| `autoComplete`     | `string`                                                                                                                       | -           | Autocomplete attribute                   |
+| `pattern`          | `string`                                                                                                                       | -           | Validation pattern                       |
+| `min`              | `number`                                                                                                                       | -           | Minimum value (for number/date types)    |
+| `max`              | `number`                                                                                                                       | -           | Maximum value (for number/date types)    |
+| `step`             | `number`                                                                                                                       | -           | Step increment (for number type)         |
+| `minLength`        | `number`                                                                                                                       | -           | Minimum character length                 |
+| `maxLength`        | `number`                                                                                                                       | -           | Maximum character length                 |
+| `inputMode`        | `'text' \| 'numeric' \| 'decimal' \| 'tel' \| 'email' \| 'url'`                                                                | -           | Input mode for mobile keyboards          |
+| `className`        | `string`                                                                                                                       | -           | Additional CSS classes                   |
+| `aria-label`       | `string`                                                                                                                       | -           | Accessible label for screen readers      |
+| `aria-labelledby`  | `string`                                                                                                                       | -           | ID of element that labels this input     |
+| `aria-describedby` | `string`                                                                                                                       | -           | IDs of elements that describe this input |
+| `aria-required`    | `'true' \| 'false'`                                                                                                            | -           | Whether the input is required            |
+| `aria-invalid`     | `'true' \| 'false'`                                                                                                            | -           | Whether the input has an error           |
 
 ## Best Practices
 
@@ -729,36 +718,40 @@ Choose the correct type for better UX:
 ### With React Hook Form
 
 ```tsx
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
 function Form() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Input
         label="Email"
         type="email"
-        {...register('email', {
-          required: 'Email is required',
+        {...register("email", {
+          required: "Email is required",
           pattern: {
             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            message: 'Invalid email address'
-          }
+            message: "Invalid email address",
+          },
         })}
         error={errors.email?.message}
         aria-invalid={!!errors.email}
       />
-      
+
       <Input
         label="Password"
         type="password"
-        {...register('password', {
-          required: 'Password is required',
+        {...register("password", {
+          required: "Password is required",
           minLength: {
             value: 8,
-            message: 'Password must be at least 8 characters'
-          }
+            message: "Password must be at least 8 characters",
+          },
         })}
         error={errors.password?.message}
         aria-invalid={!!errors.password}
@@ -771,22 +764,18 @@ function Form() {
 ### With Formik
 
 ```tsx
-import { Formik, Field } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Field } from "formik";
+import * as Yup from "yup";
 
 const schema = Yup.object({
-  email: Yup.string()
-    .email('Invalid email')
-    .required('Required'),
-  password: Yup.string()
-    .min(8, 'Too short')
-    .required('Required'),
+  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string().min(8, "Too short").required("Required"),
 });
 
 function Form() {
   return (
     <Formik
-      initialValues={{ email: '', password: '' }}
+      initialValues={{ email: "", password: "" }}
       validationSchema={schema}
       onSubmit={handleSubmit}
     >
@@ -823,8 +812,8 @@ function Form() {
 
 ```tsx
 function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -849,7 +838,7 @@ function LoginForm() {
         autoComplete="email"
         required
       />
-      
+
       <Input
         label="Password"
         type={showPassword ? "text" : "password"}
@@ -857,19 +846,16 @@ function LoginForm() {
         onChange={(e) => setPassword(e.target.value)}
         leftIcon={<Lock className="w-4 h-4" />}
         rightIcon={
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-          >
+          <button type="button" onClick={() => setShowPassword(!showPassword)}>
             {showPassword ? <EyeOff /> : <Eye />}
           </button>
         }
         autoComplete="current-password"
         required
       />
-      
+
       <button type="submit" disabled={loading}>
-        {loading ? 'Signing in...' : 'Sign in'}
+        {loading ? "Signing in..." : "Sign in"}
       </button>
     </form>
   );
@@ -880,9 +866,9 @@ function LoginForm() {
 
 ```tsx
 function PaymentForm() {
-  const [cardNumber, setCardNumber] = useState('');
-  const [expiry, setExpiry] = useState('');
-  const [cvv, setCvv] = useState('');
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [cvv, setCvv] = useState("");
 
   return (
     <form>
@@ -895,7 +881,7 @@ function PaymentForm() {
         maxLength={19}
         required
       />
-      
+
       <div className="grid grid-cols-2 gap-4">
         <Input
           label="Expiry date"
@@ -905,7 +891,7 @@ function PaymentForm() {
           maxLength={5}
           required
         />
-        
+
         <Input
           label="CVV"
           type="password"
@@ -928,26 +914,14 @@ function PaymentForm() {
 function AddressForm() {
   return (
     <form>
-      <Input
-        label="Street address"
-        autoComplete="street-address"
-        required
-      />
-      
+      <Input label="Street address" autoComplete="street-address" required />
+
       <div className="grid grid-cols-2 gap-4">
-        <Input
-          label="City"
-          autoComplete="address-level2"
-          required
-        />
-        
-        <Input
-          label="State"
-          autoComplete="address-level1"
-          required
-        />
+        <Input label="City" autoComplete="address-level2" required />
+
+        <Input label="State" autoComplete="address-level1" required />
       </div>
-      
+
       <div className="grid grid-cols-2 gap-4">
         <Input
           label="ZIP code"
@@ -955,12 +929,8 @@ function AddressForm() {
           inputMode="numeric"
           required
         />
-        
-        <Input
-          label="Country"
-          autoComplete="country-name"
-          required
-        />
+
+        <Input label="Country" autoComplete="country-name" required />
       </div>
     </form>
   );
@@ -972,7 +942,7 @@ function AddressForm() {
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { InputProps } from '@saha-ui/core';
+import type { InputProps } from "saha-ui";
 
 const MyInput: React.FC<InputProps> = (props) => {
   return <Input {...props} />;
@@ -997,7 +967,7 @@ The component uses CVA (Class Variance Authority) for variant management:
 <Input
   label="Custom styled"
   className="font-mono"
-  style={{ letterSpacing: '0.05em' }}
+  style={{ letterSpacing: "0.05em" }}
 />
 ```
 
@@ -1010,12 +980,9 @@ Dark mode is automatically supported using CSS variables. No additional configur
 ### 1. Debounce for Search/API Calls
 
 ```tsx
-const debouncedSearch = useDebouncedCallback(
-  (value) => searchAPI(value),
-  500
-);
+const debouncedSearch = useDebouncedCallback((value) => searchAPI(value), 500);
 
-<Input onChange={(e) => debouncedSearch(e.target.value)} />
+<Input onChange={(e) => debouncedSearch(e.target.value)} />;
 ```
 
 ### 2. Validate on Blur

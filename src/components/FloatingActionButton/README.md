@@ -13,14 +13,14 @@ A floating action button component that stays fixed on screen for primary action
 ## Installation
 
 \`\`\`tsx
-import { FloatingActionButton } from '@saha-ui/core';
+import { FloatingActionButton } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage
 
 \`\`\`tsx
 <FloatingActionButton onClick={() => console.log('Clicked')}>
-  <Plus className="h-6 w-6" />
+<Plus className="h-6 w-6" />
 </FloatingActionButton>
 \`\`\`
 

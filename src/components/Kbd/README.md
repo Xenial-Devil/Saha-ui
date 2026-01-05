@@ -12,7 +12,7 @@ A keyboard key component for displaying keyboard shortcuts with platform-specifi
 ## Installation
 
 \`\`\`tsx
-import { Kbd } from '@saha-ui/core';
+import { Kbd } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage

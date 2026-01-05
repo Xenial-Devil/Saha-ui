@@ -16,7 +16,7 @@ A flexible and accessible accordion component that allows users to show and hide
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
@@ -27,7 +27,7 @@ import {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from '@saha-ui/core';
+} from "saha-ui";
 
 function MyAccordion() {
   return (
@@ -35,21 +35,24 @@ function MyAccordion() {
       <AccordionItem value="item-1">
         <AccordionTrigger>What is Saha UI?</AccordionTrigger>
         <AccordionContent>
-          Saha UI is a modern, accessible React component library built with TypeScript and Tailwind CSS.
+          Saha UI is a modern, accessible React component library built with
+          TypeScript and Tailwind CSS.
         </AccordionContent>
       </AccordionItem>
 
       <AccordionItem value="item-2">
         <AccordionTrigger>How do I get started?</AccordionTrigger>
         <AccordionContent>
-          Install the package, import the components, and start building amazing UIs!
+          Install the package, import the components, and start building amazing
+          UIs!
         </AccordionContent>
       </AccordionItem>
 
       <AccordionItem value="item-3">
         <AccordionTrigger>Is it customizable?</AccordionTrigger>
         <AccordionContent>
-          Yes! Every component supports custom styling through className props and variants.
+          Yes! Every component supports custom styling through className props
+          and variants.
         </AccordionContent>
       </AccordionItem>
     </Accordion>
@@ -161,14 +164,10 @@ Manage accordion state externally:
 
 ```tsx
 function ControlledAccordion() {
-  const [value, setValue] = useState<string>('item-1');
+  const [value, setValue] = useState<string>("item-1");
 
   return (
-    <Accordion
-      type="single"
-      value={value}
-      onValueChange={setValue}
-    >
+    <Accordion type="single" value={value} onValueChange={setValue}>
       <AccordionItem value="item-1">
         <AccordionTrigger>First Item</AccordionTrigger>
         <AccordionContent>Content 1</AccordionContent>
@@ -186,14 +185,10 @@ For multiple mode:
 
 ```tsx
 function ControlledMultipleAccordion() {
-  const [value, setValue] = useState<string[]>(['item-1']);
+  const [value, setValue] = useState<string[]>(["item-1"]);
 
   return (
-    <Accordion
-      type="multiple"
-      value={value}
-      onValueChange={setValue}
-    >
+    <Accordion type="multiple" value={value} onValueChange={setValue}>
       {/* items */}
     </Accordion>
   );
@@ -205,7 +200,7 @@ function ControlledMultipleAccordion() {
 Replace the default chevron icon:
 
 ```tsx
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus } from "lucide-react";
 
 function CustomIconAccordion() {
   return (
@@ -214,9 +209,7 @@ function CustomIconAccordion() {
         <AccordionTrigger icon={<Plus className="h-5 w-5" />}>
           Click to expand
         </AccordionTrigger>
-        <AccordionContent>
-          Custom icon accordion content
-        </AccordionContent>
+        <AccordionContent>Custom icon accordion content</AccordionContent>
       </AccordionItem>
     </Accordion>
   );
@@ -263,41 +256,41 @@ Use the `asChild` prop for custom trigger composition:
 
 ### Accordion Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `type` | `'single' \| 'multiple'` | `'single'` | Controls how items expand/collapse |
-| `variant` | `'default' \| 'controlled' \| 'allopen' \| 'toggle' \| 'firstopen' \| 'glass'` | `'default'` | Visual style variant |
-| `value` | `string \| string[]` | - | Controlled value(s) for open items |
-| `defaultValue` | `string \| string[]` | - | Default value(s) for uncontrolled mode |
-| `onValueChange` | `(value: string \| string[]) => void` | - | Callback when open items change |
-| `collapsible` | `boolean` | `false` | Allows closing the open item in single mode |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | - | AccordionItem components |
+| Prop            | Type                                                                           | Default     | Description                                 |
+| --------------- | ------------------------------------------------------------------------------ | ----------- | ------------------------------------------- |
+| `type`          | `'single' \| 'multiple'`                                                       | `'single'`  | Controls how items expand/collapse          |
+| `variant`       | `'default' \| 'controlled' \| 'allopen' \| 'toggle' \| 'firstopen' \| 'glass'` | `'default'` | Visual style variant                        |
+| `value`         | `string \| string[]`                                                           | -           | Controlled value(s) for open items          |
+| `defaultValue`  | `string \| string[]`                                                           | -           | Default value(s) for uncontrolled mode      |
+| `onValueChange` | `(value: string \| string[]) => void`                                          | -           | Callback when open items change             |
+| `collapsible`   | `boolean`                                                                      | `false`     | Allows closing the open item in single mode |
+| `className`     | `string`                                                                       | -           | Additional CSS classes                      |
+| `children`      | `ReactNode`                                                                    | -           | AccordionItem components                    |
 
 ### AccordionItem Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | - | **Required.** Unique identifier for this item |
-| `disabled` | `boolean` | `false` | Whether the item is disabled |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | - | Trigger and Content components |
+| Prop        | Type        | Default | Description                                   |
+| ----------- | ----------- | ------- | --------------------------------------------- |
+| `value`     | `string`    | -       | **Required.** Unique identifier for this item |
+| `disabled`  | `boolean`   | `false` | Whether the item is disabled                  |
+| `className` | `string`    | -       | Additional CSS classes                        |
+| `children`  | `ReactNode` | -       | Trigger and Content components                |
 
 ### AccordionTrigger Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | **Required.** Trigger content (title) |
-| `icon` | `ReactNode` | `<ChevronDown />` | Custom icon to display |
-| `asChild` | `boolean` | `false` | Merge props with child element |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default           | Description                           |
+| ----------- | ----------- | ----------------- | ------------------------------------- |
+| `children`  | `ReactNode` | -                 | **Required.** Trigger content (title) |
+| `icon`      | `ReactNode` | `<ChevronDown />` | Custom icon to display                |
+| `asChild`   | `boolean`   | `false`           | Merge props with child element        |
+| `className` | `string`    | -                 | Additional CSS classes                |
 
 ### AccordionContent Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | **Required.** Content to display when expanded |
-| `className` | `string` | - | Additional CSS classes |
+| Prop        | Type        | Default | Description                                    |
+| ----------- | ----------- | ------- | ---------------------------------------------- |
+| `children`  | `ReactNode` | -       | **Required.** Content to display when expanded |
+| `className` | `string`    | -       | Additional CSS classes                         |
 
 ## Styling
 
@@ -325,11 +318,9 @@ The Accordion component follows WAI-ARIA authoring practices:
 - **Keyboard Navigation:**
   - `Enter` or `Space` - Toggle accordion item
   - `Tab` - Move focus between triggers
-  
 - **ARIA Attributes:**
   - `aria-expanded` - Indicates whether item is expanded
   - `data-state` - Provides state information (open/closed)
-  
 - **Focus Management:**
   - Proper focus indicators
   - Disabled items are not focusable
@@ -371,7 +362,7 @@ The Accordion component follows WAI-ARIA authoring practices:
       </div>
     </AccordionContent>
   </AccordionItem>
-  
+
   <AccordionItem value="privacy">
     <AccordionTrigger>Privacy Settings</AccordionTrigger>
     <AccordionContent>

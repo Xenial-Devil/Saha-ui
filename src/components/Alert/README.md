@@ -15,13 +15,13 @@ A flexible and accessible alert component for displaying important messages, not
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Alert } from '@saha-ui/core';
+import { Alert } from "saha-ui";
 
 function MyComponent() {
   return (
@@ -91,11 +91,7 @@ Communicate errors or critical issues:
 Bold, filled background with high contrast:
 
 ```tsx
-<Alert
-  variant="solid"
-  status="info"
-  message="This is a solid alert"
-/>
+<Alert variant="solid" status="info" message="This is a solid alert" />
 ```
 
 ### Subtle
@@ -103,11 +99,7 @@ Bold, filled background with high contrast:
 Light background with softer appearance:
 
 ```tsx
-<Alert
-  variant="subtle"
-  status="success"
-  message="This is a subtle alert"
-/>
+<Alert variant="subtle" status="success" message="This is a subtle alert" />
 ```
 
 ### Left Accent
@@ -139,11 +131,7 @@ Horizontal accent bar on the top:
 Bordered style with transparent background:
 
 ```tsx
-<Alert
-  variant="outline"
-  status="info"
-  message="This is an outline alert"
-/>
+<Alert variant="outline" status="info" message="This is an outline alert" />
 ```
 
 ### Glass
@@ -151,11 +139,7 @@ Bordered style with transparent background:
 Modern glassmorphism effect:
 
 ```tsx
-<Alert
-  variant="glass"
-  status="success"
-  message="This is a glass alert"
-/>
+<Alert variant="glass" status="success" message="This is a glass alert" />
 ```
 
 ## Dismissible Alerts
@@ -180,10 +164,7 @@ function DismissibleAlert() {
 Display alerts with message only:
 
 ```tsx
-<Alert
-  status="success"
-  message="Changes saved successfully!"
-/>
+<Alert status="success" message="Changes saved successfully!" />
 ```
 
 ## Custom Content
@@ -198,9 +179,7 @@ Use children for full customization:
       <p className="text-sm">
         We've added dark mode support. Try it out in settings!
       </p>
-      <button className="mt-2 text-sm underline">
-        Learn more →
-      </button>
+      <button className="mt-2 text-sm underline">Learn more →</button>
     </div>
   </div>
 </Alert>
@@ -228,16 +207,16 @@ Control the rounded corners:
 
 ### Alert Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'solid' \| 'subtle' \| 'left-accent' \| 'top-accent' \| 'outline' \| 'glass'` | `'solid'` | Visual style variant |
-| `status` | `'success' \| 'danger' \| 'warning' \| 'info'` | `'info'` | Semantic status (determines color and icon) |
-| `title` | `string` | - | Optional title displayed above message |
-| `message` | `string` | - | Main message content |
-| `closeable` | `boolean` | `false` | Whether alert can be dismissed |
-| `rounded` | `boolean` | `true` | Whether alert has rounded corners |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | - | Custom content (overrides title/message) |
+| Prop        | Type                                                                           | Default   | Description                                 |
+| ----------- | ------------------------------------------------------------------------------ | --------- | ------------------------------------------- |
+| `variant`   | `'solid' \| 'subtle' \| 'left-accent' \| 'top-accent' \| 'outline' \| 'glass'` | `'solid'` | Visual style variant                        |
+| `status`    | `'success' \| 'danger' \| 'warning' \| 'info'`                                 | `'info'`  | Semantic status (determines color and icon) |
+| `title`     | `string`                                                                       | -         | Optional title displayed above message      |
+| `message`   | `string`                                                                       | -         | Main message content                        |
+| `closeable` | `boolean`                                                                      | `false`   | Whether alert can be dismissed              |
+| `rounded`   | `boolean`                                                                      | `true`    | Whether alert has rounded corners           |
+| `className` | `string`                                                                       | -         | Additional CSS classes                      |
+| `children`  | `ReactNode`                                                                    | -         | Custom content (overrides title/message)    |
 
 ## Styling
 
@@ -272,11 +251,9 @@ The Alert component follows accessibility best practices:
 - **ARIA Roles:**
   - Uses `role="alert"` for important messages
   - Status icons have proper labels
-  
 - **Keyboard Navigation:**
   - Close button is keyboard accessible
   - Proper focus management
-  
 - **Screen Readers:**
   - Alert content is announced to screen readers
   - Status is conveyed through ARIA attributes
@@ -297,7 +274,7 @@ The Alert component follows accessibility best practices:
 
 ```tsx
 function FormWithAlert() {
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -319,9 +296,7 @@ function FormWithAlert() {
           className="mb-4"
         />
       )}
-      <form onSubmit={handleSubmit}>
-        {/* form fields */}
-      </form>
+      <form onSubmit={handleSubmit}>{/* form fields */}</form>
     </div>
   );
 }
@@ -369,11 +344,7 @@ function SaveButton() {
 ### Announcement Banner
 
 ```tsx
-<Alert
-  variant="solid"
-  status="info"
-  closeable
->
+<Alert variant="solid" status="info" closeable>
   <div className="flex items-center justify-between">
     <div>
       <strong>New Version Available!</strong>
@@ -391,18 +362,15 @@ function SaveButton() {
 Alerts support smooth enter/exit animations. Combine with animation libraries for enhanced effects:
 
 ```tsx
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 <motion.div
   initial={{ opacity: 0, y: -20 }}
   animate={{ opacity: 1, y: 0 }}
   exit={{ opacity: 0, y: -20 }}
 >
-  <Alert
-    status="success"
-    message="Animated alert"
-  />
-</motion.div>
+  <Alert status="success" message="Animated alert" />
+</motion.div>;
 ```
 
 ## Related Components

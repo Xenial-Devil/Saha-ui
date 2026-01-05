@@ -15,7 +15,7 @@ A powerful component for maintaining consistent aspect ratios across images, vid
 ## Installation
 
 ```tsx
-import { AspectRatio } from '@saha-ui/core';
+import { AspectRatio } from "saha-ui";
 ```
 
 ## Basic Usage
@@ -151,18 +151,14 @@ import { AspectRatio } from '@saha-ui/core';
 ### Video Player
 
 ```tsx
-<AspectRatio 
-  ratio="16/9" 
-  variant="bordered" 
+<AspectRatio
+  ratio="16/9"
+  variant="bordered"
   rounded="lg"
   overlay
   overlayPosition="bottom"
 >
-  <video 
-    src="/demo.mp4" 
-    controls 
-    className="w-full h-full object-cover"
-  />
+  <video src="/demo.mp4" controls className="w-full h-full object-cover" />
 </AspectRatio>
 ```
 
@@ -191,12 +187,12 @@ import { AspectRatio } from '@saha-ui/core';
   zoomScale={1.15}
   overlay
   overlayPosition="bottom"
-  onClick={() => console.log('Image clicked')}
+  onClick={() => console.log("Image clicked")}
   className="cursor-pointer"
 >
-  <img 
-    src="/gallery-item.jpg" 
-    alt="Gallery Item" 
+  <img
+    src="/gallery-item.jpg"
+    alt="Gallery Item"
     className="object-cover w-full h-full"
   />
 </AspectRatio>
@@ -213,9 +209,9 @@ import { AspectRatio } from '@saha-ui/core';
   className="group"
 >
   <div className="relative w-full h-full">
-    <img 
-      src="/product.jpg" 
-      alt="Product" 
+    <img
+      src="/product.jpg"
+      alt="Product"
       className="object-cover w-full h-full"
     />
     <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
@@ -228,35 +224,35 @@ import { AspectRatio } from '@saha-ui/core';
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `ratio` | `AspectRatioPreset \| "custom"` | `"16/9"` | Aspect ratio preset or "custom" |
-| `customRatio` | `number \| string` | - | Required when ratio is "custom" |
-| `variant` | `"default" \| "bordered" \| "glass" \| "glass-strong" \| "gradient"` | `"default"` | Visual style variant |
-| `rounded` | `"none" \| "sm" \| "md" \| "lg" \| "xl" \| "2xl" \| "full"` | `"md"` | Border radius size |
-| `overlay` | `boolean` | `false` | Show overlay gradient |
-| `overlayPosition` | `"top" \| "bottom" \| "left" \| "right" \| "center"` | `"bottom"` | Overlay gradient position |
-| `zoomOnHover` | `boolean` | `false` | Enable zoom effect on hover |
-| `zoomScale` | `number` | `1.1` | Zoom scale multiplier (1.0-2.0) |
-| `lazy` | `boolean` | `false` | Enable lazy loading for images |
-| `className` | `string` | - | Additional CSS classes for container |
-| `contentClassName` | `string` | - | Additional CSS classes for content wrapper |
-| `onClick` | `(e: MouseEvent) => void` | - | Click event handler |
-| `onMouseEnter` | `(e: MouseEvent) => void` | - | Mouse enter handler |
-| `onMouseLeave` | `(e: MouseEvent) => void` | - | Mouse leave handler |
+| Prop               | Type                                                                 | Default     | Description                                |
+| ------------------ | -------------------------------------------------------------------- | ----------- | ------------------------------------------ |
+| `ratio`            | `AspectRatioPreset \| "custom"`                                      | `"16/9"`    | Aspect ratio preset or "custom"            |
+| `customRatio`      | `number \| string`                                                   | -           | Required when ratio is "custom"            |
+| `variant`          | `"default" \| "bordered" \| "glass" \| "glass-strong" \| "gradient"` | `"default"` | Visual style variant                       |
+| `rounded`          | `"none" \| "sm" \| "md" \| "lg" \| "xl" \| "2xl" \| "full"`          | `"md"`      | Border radius size                         |
+| `overlay`          | `boolean`                                                            | `false`     | Show overlay gradient                      |
+| `overlayPosition`  | `"top" \| "bottom" \| "left" \| "right" \| "center"`                 | `"bottom"`  | Overlay gradient position                  |
+| `zoomOnHover`      | `boolean`                                                            | `false`     | Enable zoom effect on hover                |
+| `zoomScale`        | `number`                                                             | `1.1`       | Zoom scale multiplier (1.0-2.0)            |
+| `lazy`             | `boolean`                                                            | `false`     | Enable lazy loading for images             |
+| `className`        | `string`                                                             | -           | Additional CSS classes for container       |
+| `contentClassName` | `string`                                                             | -           | Additional CSS classes for content wrapper |
+| `onClick`          | `(e: MouseEvent) => void`                                            | -           | Click event handler                        |
+| `onMouseEnter`     | `(e: MouseEvent) => void`                                            | -           | Mouse enter handler                        |
+| `onMouseLeave`     | `(e: MouseEvent) => void`                                            | -           | Mouse leave handler                        |
 
 ## Preset Ratios
 
-| Preset | Ratio | Common Use Case |
-|--------|-------|-----------------|
-| `"1/1"` | Square | Avatars, thumbnails, social media posts |
-| `"4/3"` | Standard | Classic photos, presentations |
-| `"16/9"` | Widescreen | Videos, modern displays, hero images |
-| `"21/9"` | Ultrawide | Cinematic content, wide banners |
-| `"3/2"` | Photo | Photography, DSLR images |
-| `"2/3"` | Portrait Photo | Vertical photography |
-| `"9/16"` | Portrait Video | Mobile videos, stories |
-| `"3/4"` | Portrait Standard | Vertical displays |
+| Preset   | Ratio             | Common Use Case                         |
+| -------- | ----------------- | --------------------------------------- |
+| `"1/1"`  | Square            | Avatars, thumbnails, social media posts |
+| `"4/3"`  | Standard          | Classic photos, presentations           |
+| `"16/9"` | Widescreen        | Videos, modern displays, hero images    |
+| `"21/9"` | Ultrawide         | Cinematic content, wide banners         |
+| `"3/2"`  | Photo             | Photography, DSLR images                |
+| `"2/3"`  | Portrait Photo    | Vertical photography                    |
+| `"9/16"` | Portrait Video    | Mobile videos, stories                  |
+| `"3/4"`  | Portrait Standard | Vertical displays                       |
 
 ## Accessibility
 
@@ -303,16 +299,16 @@ The component uses discriminated unions for type safety:
 
 ```tsx
 <article>
-  <AspectRatio 
-    ratio="21/9" 
+  <AspectRatio
+    ratio="21/9"
     variant="gradient"
     rounded="lg"
     overlay
     overlayPosition="bottom"
   >
-    <img 
-      src="/blog-hero.jpg" 
-      alt="Article" 
+    <img
+      src="/blog-hero.jpg"
+      alt="Article"
       className="object-cover w-full h-full"
     />
   </AspectRatio>
@@ -325,15 +321,10 @@ The component uses discriminated unions for type safety:
 
 ```tsx
 <div className="grid grid-cols-4 gap-4">
-  {users.map(user => (
-    <AspectRatio 
-      key={user.id}
-      ratio="1/1" 
-      rounded="full"
-      variant="bordered"
-    >
-      <img 
-        src={user.avatar} 
+  {users.map((user) => (
+    <AspectRatio key={user.id} ratio="1/1" rounded="full" variant="bordered">
+      <img
+        src={user.avatar}
         alt={user.name}
         className="object-cover w-full h-full"
       />
@@ -345,6 +336,7 @@ The component uses discriminated unions for type safety:
 ## Browser Support
 
 Works in all modern browsers that support:
+
 - CSS Grid and Flexbox
 - CSS Custom Properties
 - CSS Transforms

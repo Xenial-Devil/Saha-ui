@@ -13,12 +13,13 @@ A form component with built-in validation, error handling, and submission manage
 ## Installation
 
 \`\`\`tsx
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@saha-ui/core';
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage
 
 \`\`\`tsx
+
 <Form onSubmit={handleSubmit}>
   <FormField name="email">
     <FormLabel>Email</FormLabel>

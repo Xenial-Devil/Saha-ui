@@ -13,20 +13,20 @@ A card component that appears on hover, perfect for displaying additional inform
 ## Installation
 
 \`\`\`tsx
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@saha-ui/core';
+import { HoverCard, HoverCardTrigger, HoverCardContent } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage
 
 \`\`\`tsx
 <HoverCard>
-  <HoverCardTrigger>@username</HoverCardTrigger>
-  <HoverCardContent>
-    <div>
-      <h4>John Doe</h4>
-      <p>Software Developer</p>
-    </div>
-  </HoverCardContent>
+<HoverCardTrigger>@username</HoverCardTrigger>
+<HoverCardContent>
+<div>
+<h4>John Doe</h4>
+<p>Software Developer</p>
+</div>
+</HoverCardContent>
 </HoverCard>
 \`\`\`
 

@@ -17,10 +17,18 @@ A fully accessible select dropdown component with beautiful animations and searc
 - 🔄 **Async Loading** - Support for loading states
 - 🧩 **Two Usage Patterns** - Props-based (options array) or Component-based (composable)
 
+## When to Use
+
+| Component    | Use Case                         | User Interaction        |
+| ------------ | -------------------------------- | ----------------------- |
+| **Select**   | Simple form selection            | Click to select only    |
+| **Combobox** | Autocomplete, search-as-you-type | Type to filter + select |
+| **Dropdown** | Menu items, actions              | Click for actions       |
+
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Usage Patterns
@@ -41,7 +49,7 @@ import {
   SelectGroup,
   SelectLabel,
   SelectSeparator,
-} from "@saha-ui/core";
+} from "saha-ui";
 
 function App() {
   const [value, setValue] = useState("");
@@ -80,7 +88,7 @@ function App() {
 Quick setup with an options array - ideal for simple use cases:
 
 ```tsx
-import { Select } from "@saha-ui/core";
+import { Select } from "saha-ui";
 
 function App() {
   const [value, setValue] = useState("");
@@ -152,7 +160,7 @@ import {
   SelectItem,
   SelectGroup,
   SelectLabel,
-} from "@saha-ui/core";
+} from "saha-ui";
 
 function ComposableMultiSelect() {
   const [selected, setSelected] = useState<string[]>([]);
@@ -1099,7 +1107,7 @@ interface SelectGroup {
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { SelectProps, SelectOption, SelectGroup } from "@saha-ui/core";
+import type { SelectProps, SelectOption, SelectGroup } from "saha-ui";
 
 const MySelect: React.FC<SelectProps> = (props) => {
   return <Select {...props} />;

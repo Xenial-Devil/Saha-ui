@@ -15,21 +15,21 @@ A powerful data table component with sorting, filtering, pagination, and row sel
 ## Installation
 
 \`\`\`tsx
-import { DataTable } from '@saha-ui/core';
+import { DataTable } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage
 
 \`\`\`tsx
 const columns = [
-  { accessorKey: 'name', header: 'Name' },
-  { accessorKey: 'email', header: 'Email' },
-  { accessorKey: 'role', header: 'Role' }
+{ accessorKey: 'name', header: 'Name' },
+{ accessorKey: 'email', header: 'Email' },
+{ accessorKey: 'role', header: 'Role' }
 ];
 
 const data = [
-  { name: 'John Doe', email: 'john@example.com', role: 'Admin' },
-  { name: 'Jane Smith', email: 'jane@example.com', role: 'User' }
+{ name: 'John Doe', email: 'john@example.com', role: 'Admin' },
+{ name: 'Jane Smith', email: 'jane@example.com', role: 'User' }
 ];
 
 <DataTable columns={columns} data={data} />

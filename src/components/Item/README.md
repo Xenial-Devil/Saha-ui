@@ -13,17 +13,17 @@ A generic list item component with support for icons, actions, and various layou
 ## Installation
 
 \`\`\`tsx
-import { Item } from '@saha-ui/core';
+import { Item } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage
 
 \`\`\`tsx
 <Item
-  startContent={<Avatar src="/user.jpg" />}
-  title="John Doe"
-  description="Software Developer"
-  endContent={<ChevronRight />}
+startContent={<Avatar src="/user.jpg" />}
+title="John Doe"
+description="Software Developer"
+endContent={<ChevronRight />}
 />
 \`\`\`
 

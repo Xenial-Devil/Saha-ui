@@ -17,13 +17,13 @@ A flexible and accessible label component for form fields. Supports multiple var
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Label } from '@saha-ui/core';
+import { Label } from "saha-ui";
 
 function MyForm() {
   return (
@@ -120,7 +120,7 @@ function MyForm() {
 ## With Help Text
 
 ```tsx
-<Label 
+<Label
   htmlFor="password"
   showHelp
   helpText="Must be at least 8 characters long"
@@ -149,16 +149,8 @@ function MyForm() {
 
 ```tsx
 <div className="relative">
-  <input 
-    id="floating"
-    type="text"
-    className="peer"
-    placeholder=" "
-  />
-  <Label 
-    htmlFor="floating"
-    position="floating"
-  >
+  <input id="floating" type="text" className="peer" placeholder=" " />
+  <Label htmlFor="floating" position="floating">
     Floating Label
   </Label>
 </div>
@@ -167,7 +159,7 @@ function MyForm() {
 ## Custom Indicators
 
 ```tsx
-<Label 
+<Label
   htmlFor="field"
   required
   requiredIndicator={<span className="text-red-500">*</span>}
@@ -175,7 +167,7 @@ function MyForm() {
   Custom Required Indicator
 </Label>
 
-<Label 
+<Label
   htmlFor="field"
   optional
   optionalIndicator={<span className="text-gray-400">(opt.)</span>}
@@ -188,22 +180,22 @@ function MyForm() {
 
 ### Label Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `htmlFor` | `string` | - | ID of the form element |
-| `children` | `ReactNode` | - | **Required.** Label text |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'muted' \| 'outline' \| 'glass'` | `'default'` | Visual style variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the label |
-| `position` | `'top' \| 'left' \| 'right' \| 'floating'` | `'top'` | Label position |
-| `required` | `boolean` | `false` | Show required indicator |
-| `optional` | `boolean` | `false` | Show optional indicator |
-| `disabled` | `boolean` | `false` | Disabled state |
-| `error` | `boolean` | `false` | Error state |
-| `showHelp` | `boolean` | `false` | Show help icon |
-| `helpText` | `string` | - | Help text for tooltip |
-| `requiredIndicator` | `ReactNode` | `'*'` | Custom required indicator |
-| `optionalIndicator` | `ReactNode` | `'(optional)'` | Custom optional indicator |
-| `className` | `string` | - | Additional CSS classes |
+| Prop                | Type                                                                                                                                  | Default        | Description               |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ------------------------- |
+| `htmlFor`           | `string`                                                                                                                              | -              | ID of the form element    |
+| `children`          | `ReactNode`                                                                                                                           | -              | **Required.** Label text  |
+| `variant`           | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'muted' \| 'outline' \| 'glass'` | `'default'`    | Visual style variant      |
+| `size`              | `'sm' \| 'md' \| 'lg'`                                                                                                                | `'md'`         | Size of the label         |
+| `position`          | `'top' \| 'left' \| 'right' \| 'floating'`                                                                                            | `'top'`        | Label position            |
+| `required`          | `boolean`                                                                                                                             | `false`        | Show required indicator   |
+| `optional`          | `boolean`                                                                                                                             | `false`        | Show optional indicator   |
+| `disabled`          | `boolean`                                                                                                                             | `false`        | Disabled state            |
+| `error`             | `boolean`                                                                                                                             | `false`        | Error state               |
+| `showHelp`          | `boolean`                                                                                                                             | `false`        | Show help icon            |
+| `helpText`          | `string`                                                                                                                              | -              | Help text for tooltip     |
+| `requiredIndicator` | `ReactNode`                                                                                                                           | `'*'`          | Custom required indicator |
+| `optionalIndicator` | `ReactNode`                                                                                                                           | `'(optional)'` | Custom optional indicator |
+| `className`         | `string`                                                                                                                              | -              | Additional CSS classes    |
 
 ## Common Patterns
 
@@ -211,16 +203,12 @@ function MyForm() {
 
 ```tsx
 function FormField() {
-  const [value, setValue] = useState('');
-  const [error, setError] = useState('');
+  const [value, setValue] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <div className="space-y-1">
-      <Label 
-        htmlFor="username" 
-        required
-        error={!!error}
-      >
+      <Label htmlFor="username" required error={!!error}>
         Username
       </Label>
       <input
@@ -228,11 +216,9 @@ function FormField() {
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className={error ? 'border-red-500' : ''}
+        className={error ? "border-red-500" : ""}
       />
-      {error && (
-        <span className="text-sm text-red-500">{error}</span>
-      )}
+      {error && <span className="text-sm text-red-500">{error}</span>}
     </div>
   );
 }
@@ -280,16 +266,12 @@ function RegistrationForm() {
 
 ```tsx
 function ValidatedField() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const isValid = value.length >= 3;
 
   return (
     <div>
-      <Label 
-        htmlFor="field"
-        variant={isValid ? 'success' : 'error'}
-        required
-      >
+      <Label htmlFor="field" variant={isValid ? "success" : "error"} required>
         Username (min 3 characters)
       </Label>
       <input
@@ -327,13 +309,15 @@ function ValidatedField() {
       Personal Information
     </Label>
   </legend>
-  
+
   <div className="space-y-4 mt-4">
     <div>
-      <Label htmlFor="name" required>Name</Label>
+      <Label htmlFor="name" required>
+        Name
+      </Label>
       <input id="name" type="text" />
     </div>
-    
+
     <div>
       <Label htmlFor="age">Age</Label>
       <input id="age" type="number" />
@@ -345,7 +329,7 @@ function ValidatedField() {
 ### With Tooltip Help
 
 ```tsx
-import { Tooltip, TooltipTrigger, TooltipContent } from '@saha-ui/core';
+import { Tooltip, TooltipTrigger, TooltipContent } from "saha-ui";
 
 <div className="flex items-center gap-2">
   <Label htmlFor="apiKey" required>
@@ -359,7 +343,7 @@ import { Tooltip, TooltipTrigger, TooltipContent } from '@saha-ui/core';
       Your API key can be found in your account settings
     </TooltipContent>
   </Tooltip>
-</div>
+</div>;
 ```
 
 ## Accessibility
@@ -370,12 +354,10 @@ The Label component follows accessibility best practices:
   - Uses native `<label>` element
   - Proper `htmlFor` attribute connects to input
   - Screen readers announce label text
-  
 - **Visual Indicators:**
   - Required and optional states clearly marked
   - Error states have distinct styling
   - Disabled state reduces opacity
-  
 - **ARIA Attributes:**
   - Labels are properly associated with inputs
   - Help text uses `aria-describedby`
@@ -398,7 +380,7 @@ The Label component follows accessibility best practices:
 </Label>
 
 // Good: Help text for complex fields
-<Label 
+<Label
   htmlFor="password"
   showHelp
   helpText="Must include uppercase, lowercase, and numbers"
@@ -412,10 +394,7 @@ The Label component follows accessibility best practices:
 ### Custom Styles
 
 ```tsx
-<Label 
-  htmlFor="field"
-  className="text-lg font-bold text-primary"
->
+<Label htmlFor="field" className="text-lg font-bold text-primary">
   Custom Styled Label
 </Label>
 ```
@@ -423,10 +402,7 @@ The Label component follows accessibility best practices:
 ### Responsive Sizing
 
 ```tsx
-<Label 
-  htmlFor="field"
-  className="text-sm sm:text-base lg:text-lg"
->
+<Label htmlFor="field" className="text-sm sm:text-base lg:text-lg">
   Responsive Label
 </Label>
 ```
@@ -447,29 +423,23 @@ The Label component follows accessibility best practices:
 ### With React Hook Form
 
 ```tsx
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
 function MyForm() {
-  const { register, formState: { errors } } = useForm();
+  const {
+    register,
+    formState: { errors },
+  } = useForm();
 
   return (
     <form>
       <div>
-        <Label 
-          htmlFor="email" 
-          required
-          error={!!errors.email}
-        >
+        <Label htmlFor="email" required error={!!errors.email}>
           Email Address
         </Label>
-        <input
-          id="email"
-          {...register('email', { required: true })}
-        />
+        <input id="email" {...register("email", { required: true })} />
         {errors.email && (
-          <span className="text-sm text-error">
-            Email is required
-          </span>
+          <span className="text-sm text-error">Email is required</span>
         )}
       </div>
     </form>
@@ -480,37 +450,32 @@ function MyForm() {
 ### With Formik
 
 ```tsx
-import { useFormik } from 'formik';
+import { useFormik } from "formik";
 
 function MyForm() {
   const formik = useFormik({
-    initialValues: { email: '' },
-    validate: values => {
+    initialValues: { email: "" },
+    validate: (values) => {
       const errors = {};
-      if (!values.email) errors.email = 'Required';
+      if (!values.email) errors.email = "Required";
       return errors;
     },
-    onSubmit: values => console.log(values),
+    onSubmit: (values) => console.log(values),
   });
 
   return (
     <form onSubmit={formik.handleSubmit}>
       <div>
-        <Label 
+        <Label
           htmlFor="email"
           required
           error={formik.touched.email && !!formik.errors.email}
         >
           Email
         </Label>
-        <input
-          id="email"
-          {...formik.getFieldProps('email')}
-        />
+        <input id="email" {...formik.getFieldProps("email")} />
         {formik.touched.email && formik.errors.email && (
-          <span className="text-sm text-error">
-            {formik.errors.email}
-          </span>
+          <span className="text-sm text-error">{formik.errors.email}</span>
         )}
       </div>
     </form>

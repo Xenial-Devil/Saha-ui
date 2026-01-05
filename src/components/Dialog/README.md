@@ -18,13 +18,13 @@ A fully-featured modal dialog component for displaying content that requires use
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Dialog } from '@saha-ui/core';
+import { Dialog } from "saha-ui";
 
 function MyDialog() {
   const [open, setOpen] = useState(false);
@@ -32,7 +32,7 @@ function MyDialog() {
   return (
     <>
       <button onClick={() => setOpen(true)}>Open Dialog</button>
-      
+
       <Dialog
         open={open}
         onOpenChange={setOpen}
@@ -222,10 +222,8 @@ function NestedDialogs() {
         title="Parent Dialog"
       >
         <p>This is the parent dialog.</p>
-        <button onClick={() => setChildOpen(true)}>
-          Open Nested Dialog
-        </button>
-        
+        <button onClick={() => setChildOpen(true)}>Open Nested Dialog</button>
+
         <Dialog
           nested
           open={childOpen}
@@ -250,8 +248,8 @@ function ControlledDialog() {
     <Dialog
       open={open}
       onOpenChange={setOpen}
-      onOpen={() => console.log('Dialog opened')}
-      onClose={() => console.log('Dialog closed')}
+      onOpen={() => console.log("Dialog opened")}
+      onClose={() => console.log("Dialog closed")}
       title="Controlled Dialog"
     >
       <p>This dialog is fully controlled.</p>
@@ -264,37 +262,37 @@ function ControlledDialog() {
 
 ### Dialog Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `open` | `boolean` | - | Controlled open state |
-| `defaultOpen` | `boolean` | `false` | Default open state (uncontrolled) |
-| `onOpenChange` | `(open: boolean) => void` | - | Callback when open state changes |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'glass'` | `'default'` | Visual style variant |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| '3xl' \| '4xl' \| 'full'` | `'md'` | Dialog size |
-| `title` | `ReactNode` | - | Dialog title |
-| `description` | `ReactNode` | - | Dialog description |
-| `children` | `ReactNode` | - | Dialog body content |
-| `footer` | `ReactNode` | - | Dialog footer content |
-| `showHeader` | `boolean` | `true` | Whether to show header |
-| `showCloseButton` | `boolean` | `true` | Whether to show close button |
-| `closeOnOverlayClick` | `boolean` | `true` | Close when clicking backdrop |
-| `closeOnEscape` | `boolean` | `true` | Close when pressing Escape |
-| `animation` | `'fade' \| 'scale' \| 'slide-up' \| 'slide-down' \| 'slide-left' \| 'slide-right' \| 'zoom' \| 'bounce'` | `'fade'` | Animation style |
-| `centered` | `boolean` | `false` | Vertically center dialog |
-| `scrollBehavior` | `'inside' \| 'outside'` | `'inside'` | Scroll behavior for long content |
-| `fullScreen` | `boolean` | `false` | Make dialog full screen |
-| `backdrop` | `'default' \| 'blur' \| 'transparent' \| 'dark'` | `'default'` | Backdrop style |
-| `preventClose` | `boolean` | `false` | Prevent closing dialog |
-| `lockScroll` | `boolean` | `true` | Lock body scroll when open |
-| `focusTrap` | `boolean` | `true` | Trap focus within dialog |
-| `returnFocus` | `boolean` | `true` | Return focus to trigger on close |
-| `nested` | `boolean` | `false` | Whether dialog is nested |
-| `onOpen` | `() => void` | - | Callback when dialog opens |
-| `onClose` | `() => void` | - | Callback when dialog closes |
-| `className` | `string` | - | Additional CSS classes |
-| `overlayClassName` | `string` | - | Classes for backdrop overlay |
-| `contentClassName` | `string` | - | Classes for content container |
-| `ariaLabel` | `string` | - | ARIA label for accessibility |
+| Prop                  | Type                                                                                                          | Default     | Description                       |
+| --------------------- | ------------------------------------------------------------------------------------------------------------- | ----------- | --------------------------------- |
+| `open`                | `boolean`                                                                                                     | -           | Controlled open state             |
+| `defaultOpen`         | `boolean`                                                                                                     | `false`     | Default open state (uncontrolled) |
+| `onOpenChange`        | `(open: boolean) => void`                                                                                     | -           | Callback when open state changes  |
+| `variant`             | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'glass'` | `'default'` | Visual style variant              |
+| `size`                | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| '3xl' \| '4xl' \| 'full'`                                   | `'md'`      | Dialog size                       |
+| `title`               | `ReactNode`                                                                                                   | -           | Dialog title                      |
+| `description`         | `ReactNode`                                                                                                   | -           | Dialog description                |
+| `children`            | `ReactNode`                                                                                                   | -           | Dialog body content               |
+| `footer`              | `ReactNode`                                                                                                   | -           | Dialog footer content             |
+| `showHeader`          | `boolean`                                                                                                     | `true`      | Whether to show header            |
+| `showCloseButton`     | `boolean`                                                                                                     | `true`      | Whether to show close button      |
+| `closeOnOverlayClick` | `boolean`                                                                                                     | `true`      | Close when clicking backdrop      |
+| `closeOnEscape`       | `boolean`                                                                                                     | `true`      | Close when pressing Escape        |
+| `animation`           | `'fade' \| 'scale' \| 'slide-up' \| 'slide-down' \| 'slide-left' \| 'slide-right' \| 'zoom' \| 'bounce'`      | `'fade'`    | Animation style                   |
+| `centered`            | `boolean`                                                                                                     | `false`     | Vertically center dialog          |
+| `scrollBehavior`      | `'inside' \| 'outside'`                                                                                       | `'inside'`  | Scroll behavior for long content  |
+| `fullScreen`          | `boolean`                                                                                                     | `false`     | Make dialog full screen           |
+| `backdrop`            | `'default' \| 'blur' \| 'transparent' \| 'dark'`                                                              | `'default'` | Backdrop style                    |
+| `preventClose`        | `boolean`                                                                                                     | `false`     | Prevent closing dialog            |
+| `lockScroll`          | `boolean`                                                                                                     | `true`      | Lock body scroll when open        |
+| `focusTrap`           | `boolean`                                                                                                     | `true`      | Trap focus within dialog          |
+| `returnFocus`         | `boolean`                                                                                                     | `true`      | Return focus to trigger on close  |
+| `nested`              | `boolean`                                                                                                     | `false`     | Whether dialog is nested          |
+| `onOpen`              | `() => void`                                                                                                  | -           | Callback when dialog opens        |
+| `onClose`             | `() => void`                                                                                                  | -           | Callback when dialog closes       |
+| `className`           | `string`                                                                                                      | -           | Additional CSS classes            |
+| `overlayClassName`    | `string`                                                                                                      | -           | Classes for backdrop overlay      |
+| `contentClassName`    | `string`                                                                                                      | -           | Classes for content container     |
+| `ariaLabel`           | `string`                                                                                                      | -           | ARIA label for accessibility      |
 
 ## Common Patterns
 
@@ -393,13 +391,11 @@ The Dialog component follows WAI-ARIA Dialog pattern:
   - `Escape` - Close dialog (if enabled)
   - `Tab` - Navigate between focusable elements
   - Focus is trapped within dialog
-  
 - **ARIA Attributes:**
   - `role="dialog"`
   - `aria-modal="true"`
   - `aria-labelledby` for title
   - `aria-describedby` for description
-  
 - **Focus Management:**
   - Focus moves to first focusable element on open
   - Focus returns to trigger element on close

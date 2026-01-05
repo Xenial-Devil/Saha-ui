@@ -13,21 +13,21 @@ A context menu component triggered by right-click. Displays actions and options 
 ## Installation
 
 \`\`\`tsx
-import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem } from '@saha-ui/core';
+import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage
 
 \`\`\`tsx
 <ContextMenu>
-  <ContextMenuTrigger>
-    <div>Right-click me</div>
-  </ContextMenuTrigger>
-  <ContextMenuContent>
-    <ContextMenuItem>Cut</ContextMenuItem>
-    <ContextMenuItem>Copy</ContextMenuItem>
-    <ContextMenuItem>Paste</ContextMenuItem>
-  </ContextMenuContent>
+<ContextMenuTrigger>
+<div>Right-click me</div>
+</ContextMenuTrigger>
+<ContextMenuContent>
+<ContextMenuItem>Cut</ContextMenuItem>
+<ContextMenuItem>Copy</ContextMenuItem>
+<ContextMenuItem>Paste</ContextMenuItem>
+</ContextMenuContent>
 </ContextMenu>
 \`\`\`
 

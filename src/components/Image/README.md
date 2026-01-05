@@ -14,7 +14,7 @@ An enhanced image component with lazy loading, fallbacks, aspect ratio support, 
 ## Installation
 
 \`\`\`tsx
-import { Image } from '@saha-ui/core';
+import { Image } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage

@@ -19,24 +19,18 @@ A fully accessible file upload component with drag-and-drop, preview, validation
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Upload } from '@saha-ui/core';
+import { Upload } from "saha-ui";
 
 function App() {
   const [files, setFiles] = useState<File[]>([]);
 
-  return (
-    <Upload
-      label="Upload file"
-      value={files}
-      onChange={setFiles}
-    />
-  );
+  return <Upload label="Upload file" value={files} onChange={setFiles} />;
 }
 ```
 
@@ -162,14 +156,14 @@ function UploadWithProgress() {
 
   const handleUpload = async (file: File) => {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
-    await axios.post('/api/upload', formData, {
+    await axios.post("/api/upload", formData, {
       onUploadProgress: (progressEvent) => {
         const percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
         );
-        setProgress(prev => ({
+        setProgress((prev) => ({
           ...prev,
           [file.name]: percentCompleted,
         }));
@@ -245,27 +239,27 @@ Validate files before upload:
 ```tsx
 function ValidatedUpload() {
   const [files, setFiles] = useState<File[]>([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const validateFile = (file: File): string | null => {
     if (file.size > 10 * 1024 * 1024) {
-      return 'File size must be less than 10MB';
+      return "File size must be less than 10MB";
     }
-    
-    if (!['image/jpeg', 'image/png'].includes(file.type)) {
-      return 'Only JPEG and PNG files are allowed';
+
+    if (!["image/jpeg", "image/png"].includes(file.type)) {
+      return "Only JPEG and PNG files are allowed";
     }
-    
+
     return null;
   };
 
   const handleChange = (newFiles: File[]) => {
     const errors = newFiles.map(validateFile).filter(Boolean);
-    
+
     if (errors.length > 0) {
       setError(errors[0]);
     } else {
-      setError('');
+      setError("");
       setFiles(newFiles);
     }
   };
@@ -334,9 +328,7 @@ function BatchUpload() {
   const handleBatchUpload = async () => {
     setUploading(true);
     try {
-      await Promise.all(
-        files.map(file => uploadFile(file))
-      );
+      await Promise.all(files.map((file) => uploadFile(file)));
       setFiles([]);
     } finally {
       setUploading(false);
@@ -356,7 +348,7 @@ function BatchUpload() {
         onClick={handleBatchUpload}
         disabled={files.length === 0 || uploading}
       >
-        {uploading ? 'Uploading...' : `Upload ${files.length} files`}
+        {uploading ? "Uploading..." : `Upload ${files.length} files`}
       </button>
     </>
   );
@@ -400,7 +392,7 @@ function ResumableUpload() {
       value={file ? [file] : []}
       onChange={(files) => setFile(files[0])}
       onUpload={handleUpload}
-      progress={{ [file?.name || '']: progress }}
+      progress={{ [file?.name || ""]: progress }}
     />
   );
 }
@@ -429,7 +421,7 @@ Upload and validate CSV files:
 function CSVUpload() {
   const [file, setFile] = useState<File | null>(null);
   const [data, setData] = useState<any[]>([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleFileChange = async (files: File[]) => {
     const csvFile = files[0];
@@ -438,17 +430,17 @@ function CSVUpload() {
     try {
       const text = await csvFile.text();
       const parsed = parseCSV(text);
-      
+
       if (parsed.length === 0) {
-        setError('CSV file is empty');
+        setError("CSV file is empty");
         return;
       }
-      
+
       setData(parsed);
       setFile(csvFile);
-      setError('');
+      setError("");
     } catch (err) {
-      setError('Failed to parse CSV file');
+      setError("Failed to parse CSV file");
     }
   };
 
@@ -462,7 +454,7 @@ function CSVUpload() {
         error={error}
         helperText="Upload a CSV file with your data"
       />
-      
+
       {data.length > 0 && (
         <div className="mt-4">
           <p className="text-sm text-muted-foreground">
@@ -538,7 +530,7 @@ Progress is announced to screen readers:
   value={files}
   onChange={setFiles}
   onUpload={handleUpload}
-  announceProgress={(fileName, percent) => 
+  announceProgress={(fileName, percent) =>
     `Uploading ${fileName}: ${percent}% complete`
   }
 />
@@ -561,41 +553,41 @@ Errors are automatically announced to screen readers:
 
 ### Upload Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - | Label text for the upload |
-| `description` | `string` | - | Description text shown below the label |
-| `helperText` | `string` | - | Helper text shown below the upload |
-| `error` | `string` | - | Error message to display |
-| `value` | `File[]` | `[]` | Array of files (controlled) |
-| `defaultValue` | `File[]` | `[]` | Default files (uncontrolled) |
-| `onChange` | `(files: File[]) => void` | - | Callback when files change |
-| `onUpload` | `(file: File) => Promise<void>` | - | Upload handler for each file |
-| `onRemove` | `(file: File) => void` | - | Callback when file is removed |
-| `onError` | `(error: string) => void` | - | Error callback |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'` | Color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the upload area |
-| `accept` | `string` | - | Accepted file types |
-| `multiple` | `boolean` | `false` | Allow multiple files |
-| `maxFiles` | `number` | - | Maximum number of files |
-| `maxSize` | `number` | - | Maximum file size in bytes |
-| `dragDrop` | `boolean` | `true` | Enable drag-and-drop |
-| `preview` | `boolean` | `false` | Show file previews |
-| `circular` | `boolean` | `false` | Circular preview (for avatars) |
-| `showFileType` | `boolean` | `false` | Show file type icons |
-| `disabled` | `boolean` | `false` | Whether upload is disabled |
-| `readOnly` | `boolean` | `false` | Whether upload is read-only |
-| `loading` | `boolean` | `false` | Show loading state |
-| `required` | `boolean` | `false` | Whether file is required |
-| `capture` | `'user' \| 'environment'` | - | Camera capture mode (mobile) |
-| `onValidate` | `(file: File) => string \| null` | - | Validate file before adding |
-| `renderPreview` | `(file: File) => ReactNode` | - | Custom preview renderer |
-| `progress` | `Record<string, number>` | - | Upload progress per file (0-100) |
-| `announceProgress` | `(fileName: string, percent: number) => string` | - | Custom progress announcement |
-| `className` | `string` | - | Additional CSS classes |
-| `aria-label` | `string` | - | Accessible label for screen readers |
-| `aria-labelledby` | `string` | - | ID of element that labels this upload |
-| `aria-describedby` | `string` | - | IDs of elements that describe this upload |
+| Prop               | Type                                                                                     | Default     | Description                               |
+| ------------------ | ---------------------------------------------------------------------------------------- | ----------- | ----------------------------------------- |
+| `label`            | `string`                                                                                 | -           | Label text for the upload                 |
+| `description`      | `string`                                                                                 | -           | Description text shown below the label    |
+| `helperText`       | `string`                                                                                 | -           | Helper text shown below the upload        |
+| `error`            | `string`                                                                                 | -           | Error message to display                  |
+| `value`            | `File[]`                                                                                 | `[]`        | Array of files (controlled)               |
+| `defaultValue`     | `File[]`                                                                                 | `[]`        | Default files (uncontrolled)              |
+| `onChange`         | `(files: File[]) => void`                                                                | -           | Callback when files change                |
+| `onUpload`         | `(file: File) => Promise<void>`                                                          | -           | Upload handler for each file              |
+| `onRemove`         | `(file: File) => void`                                                                   | -           | Callback when file is removed             |
+| `onError`          | `(error: string) => void`                                                                | -           | Error callback                            |
+| `variant`          | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'` | Color variant                             |
+| `size`             | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`      | Size of the upload area                   |
+| `accept`           | `string`                                                                                 | -           | Accepted file types                       |
+| `multiple`         | `boolean`                                                                                | `false`     | Allow multiple files                      |
+| `maxFiles`         | `number`                                                                                 | -           | Maximum number of files                   |
+| `maxSize`          | `number`                                                                                 | -           | Maximum file size in bytes                |
+| `dragDrop`         | `boolean`                                                                                | `true`      | Enable drag-and-drop                      |
+| `preview`          | `boolean`                                                                                | `false`     | Show file previews                        |
+| `circular`         | `boolean`                                                                                | `false`     | Circular preview (for avatars)            |
+| `showFileType`     | `boolean`                                                                                | `false`     | Show file type icons                      |
+| `disabled`         | `boolean`                                                                                | `false`     | Whether upload is disabled                |
+| `readOnly`         | `boolean`                                                                                | `false`     | Whether upload is read-only               |
+| `loading`          | `boolean`                                                                                | `false`     | Show loading state                        |
+| `required`         | `boolean`                                                                                | `false`     | Whether file is required                  |
+| `capture`          | `'user' \| 'environment'`                                                                | -           | Camera capture mode (mobile)              |
+| `onValidate`       | `(file: File) => string \| null`                                                         | -           | Validate file before adding               |
+| `renderPreview`    | `(file: File) => ReactNode`                                                              | -           | Custom preview renderer                   |
+| `progress`         | `Record<string, number>`                                                                 | -           | Upload progress per file (0-100)          |
+| `announceProgress` | `(fileName: string, percent: number) => string`                                          | -           | Custom progress announcement              |
+| `className`        | `string`                                                                                 | -           | Additional CSS classes                    |
+| `aria-label`       | `string`                                                                                 | -           | Accessible label for screen readers       |
+| `aria-labelledby`  | `string`                                                                                 | -           | ID of element that labels this upload     |
+| `aria-describedby` | `string`                                                                                 | -           | IDs of elements that describe this upload |
 
 ## Best Practices
 
@@ -643,11 +635,7 @@ Prevent large files from being uploaded:
 Show upload status and errors:
 
 ```tsx
-<Upload
-  loading={uploading}
-  error={uploadError}
-  progress={uploadProgress}
-/>
+<Upload loading={uploading} error={uploadError} progress={uploadProgress} />
 ```
 
 ### 5. Use Preview for Images
@@ -655,21 +643,13 @@ Show upload status and errors:
 Show image previews when uploading photos:
 
 ```tsx
-<Upload
-  accept="image/*"
-  preview
-  helperText="Preview will be shown"
-/>
+<Upload accept="image/*" preview helperText="Preview will be shown" />
 ```
 
 ### 6. Limit Number of Files
 
 ```tsx
-<Upload
-  multiple
-  maxFiles={5}
-  helperText="Upload up to 5 files"
-/>
+<Upload multiple maxFiles={5} helperText="Upload up to 5 files" />
 ```
 
 ### 7. Handle Upload Errors
@@ -705,10 +685,7 @@ Display file name, size, and type:
 Improve UX with drag-and-drop:
 
 ```tsx
-<Upload
-  dragDrop
-  helperText="Drag files here or click to browse"
-/>
+<Upload dragDrop helperText="Drag files here or click to browse" />
 ```
 
 ### 10. Provide Helper Text
@@ -728,7 +705,7 @@ Guide users on requirements:
 ### With React Hook Form
 
 ```tsx
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 
 function Form() {
   const { control, handleSubmit } = useForm();
@@ -738,14 +715,14 @@ function Form() {
       <Controller
         name="files"
         control={control}
-        rules={{ 
-          required: 'Please upload at least one file',
+        rules={{
+          required: "Please upload at least one file",
           validate: (files) => {
             if (files.length > 5) {
-              return 'Maximum 5 files allowed';
+              return "Maximum 5 files allowed";
             }
             return true;
-          }
+          },
         }}
         render={({ field, fieldState }) => (
           <Upload
@@ -766,13 +743,13 @@ function Form() {
 ### With Formik
 
 ```tsx
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 const schema = Yup.object({
   files: Yup.array()
-    .min(1, 'Upload at least one file')
-    .max(5, 'Maximum 5 files'),
+    .min(1, "Upload at least one file")
+    .max(5, "Maximum 5 files"),
 });
 
 function Form() {
@@ -786,7 +763,7 @@ function Form() {
         <Upload
           label="Upload files"
           value={values.files}
-          onChange={(files) => setFieldValue('files', files)}
+          onChange={(files) => setFieldValue("files", files)}
           error={touched.files ? errors.files : undefined}
         />
       )}
@@ -809,16 +786,16 @@ function S3Upload() {
   const uploadToS3 = async (file: File) => {
     // Get presigned URL
     const { url, fields } = await getPresignedUrl(file.name);
-    
+
     // Upload to S3
     const formData = new FormData();
     Object.entries(fields).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    formData.append('file', file);
-    
+    formData.append("file", file);
+
     await fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
   };
@@ -840,7 +817,7 @@ function S3Upload() {
 Compress images before upload:
 
 ```tsx
-import imageCompression from 'browser-image-compression';
+import imageCompression from "browser-image-compression";
 
 function CompressedImageUpload() {
   const [files, setFiles] = useState<File[]>([]);
@@ -852,10 +829,8 @@ function CompressedImageUpload() {
     };
 
     const compressed = await Promise.all(
-      newFiles.map(file => 
-        file.type.startsWith('image/')
-          ? imageCompression(file, options)
-          : file
+      newFiles.map((file) =>
+        file.type.startsWith("image/") ? imageCompression(file, options) : file
       )
     );
 
@@ -898,11 +873,11 @@ function MultiStepUpload() {
           }}
         />
       )}
-      
+
       {step === 2 && (
         <div>
           <h3>Step 2: Add metadata</h3>
-          {files.map(file => (
+          {files.map((file) => (
             <Input
               key={file.name}
               label={`Description for ${file.name}`}
@@ -917,7 +892,7 @@ function MultiStepUpload() {
           <button onClick={() => setStep(3)}>Next</button>
         </div>
       )}
-      
+
       {step === 3 && (
         <div>
           <h3>Step 3: Confirm and upload</h3>
@@ -934,7 +909,7 @@ function MultiStepUpload() {
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { UploadProps } from '@saha-ui/core';
+import type { UploadProps } from "saha-ui";
 
 const MyUpload: React.FC<UploadProps> = (props) => {
   return <Upload {...props} />;
@@ -942,12 +917,12 @@ const MyUpload: React.FC<UploadProps> = (props) => {
 
 // Type-safe handlers
 const handleChange = (files: File[]) => {
-  console.log('Files:', files);
+  console.log("Files:", files);
 };
 
 const validateFile = (file: File): string | null => {
   if (file.size > 10 * 1024 * 1024) {
-    return 'File too large';
+    return "File too large";
   }
   return null;
 };
@@ -958,10 +933,7 @@ const validateFile = (file: File): string | null => {
 The component uses CVA (Class Variance Authority) for variant management:
 
 ```tsx
-<Upload
-  label="Custom styled"
-  className="my-custom-class"
-/>
+<Upload label="Custom styled" className="my-custom-class" />
 ```
 
 ## Dark Mode
@@ -989,12 +961,9 @@ For large files, upload in chunks:
 const uploadChunks = async (file: File) => {
   const chunkSize = 1024 * 1024; // 1MB
   const chunks = Math.ceil(file.size / chunkSize);
-  
+
   for (let i = 0; i < chunks; i++) {
-    const chunk = file.slice(
-      i * chunkSize,
-      (i + 1) * chunkSize
-    );
+    const chunk = file.slice(i * chunkSize, (i + 1) * chunkSize);
     await uploadChunk(chunk, i);
   }
 };
@@ -1005,7 +974,7 @@ const uploadChunks = async (file: File) => {
 Offload processing to web workers:
 
 ```tsx
-const worker = new Worker('file-processor.js');
+const worker = new Worker("file-processor.js");
 worker.postMessage(file);
 ```
 
@@ -1015,7 +984,7 @@ worker.postMessage(file);
 <Upload
   onValidate={(file) => {
     // Quick validation before processing
-    if (file.size > maxSize) return 'Too large';
+    if (file.size > maxSize) return "Too large";
     return null;
   }}
 />

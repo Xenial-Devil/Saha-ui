@@ -19,25 +19,25 @@ A fully accessible autocomplete component with search suggestions and keyboard n
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Autocomplete } from '@saha-ui/core';
+import { Autocomplete } from "saha-ui";
 
 function App() {
-  const [value, setValue] = useState('');
-  
+  const [value, setValue] = useState("");
+
   const options = [
-    'Apple',
-    'Banana',
-    'Cherry',
-    'Date',
-    'Elderberry',
-    'Fig',
-    'Grape',
+    "Apple",
+    "Banana",
+    "Cherry",
+    "Date",
+    "Elderberry",
+    "Fig",
+    "Grape",
   ];
 
   return (
@@ -80,10 +80,10 @@ Use objects with label and value:
 
 ```tsx
 const options = [
-  { label: 'United States', value: 'us', code: '+1' },
-  { label: 'United Kingdom', value: 'uk', code: '+44' },
-  { label: 'Canada', value: 'ca', code: '+1' },
-  { label: 'Australia', value: 'au', code: '+61' },
+  { label: "United States", value: "us", code: "+1" },
+  { label: "United Kingdom", value: "uk", code: "+44" },
+  { label: "Canada", value: "ca", code: "+1" },
+  { label: "Australia", value: "au", code: "+61" },
 ];
 
 <Autocomplete
@@ -94,18 +94,18 @@ const options = [
   onChange={setSelectedCountry}
   getOptionLabel={(option) => option.label}
   getOptionValue={(option) => option.value}
-/>
+/>;
 ```
 
 ### With Icons
 
 ```tsx
-import { Search, MapPin, User } from 'lucide-react';
+import { Search, MapPin, User } from "lucide-react";
 
 const cities = [
-  { label: 'New York', value: 'ny', icon: <MapPin /> },
-  { label: 'Los Angeles', value: 'la', icon: <MapPin /> },
-  { label: 'Chicago', value: 'chi', icon: <MapPin /> },
+  { label: "New York", value: "ny", icon: <MapPin /> },
+  { label: "Los Angeles", value: "la", icon: <MapPin /> },
+  { label: "Chicago", value: "chi", icon: <MapPin /> },
 ];
 
 <Autocomplete
@@ -118,7 +118,7 @@ const cities = [
       <span>{option.label}</span>
     </div>
   )}
-/>
+/>;
 ```
 
 ### Async Loading
@@ -129,7 +129,7 @@ Load options from an API:
 function AsyncAutocomplete() {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   const loadOptions = async (searchTerm: string) => {
     if (!searchTerm) {
@@ -170,19 +170,19 @@ Organize options into groups:
 ```tsx
 const groupedOptions = [
   {
-    label: 'Fruits',
+    label: "Fruits",
     options: [
-      { label: 'Apple', value: 'apple' },
-      { label: 'Banana', value: 'banana' },
-      { label: 'Cherry', value: 'cherry' },
+      { label: "Apple", value: "apple" },
+      { label: "Banana", value: "banana" },
+      { label: "Cherry", value: "cherry" },
     ],
   },
   {
-    label: 'Vegetables',
+    label: "Vegetables",
     options: [
-      { label: 'Carrot', value: 'carrot' },
-      { label: 'Broccoli', value: 'broccoli' },
-      { label: 'Spinach', value: 'spinach' },
+      { label: "Carrot", value: "carrot" },
+      { label: "Broccoli", value: "broccoli" },
+      { label: "Spinach", value: "spinach" },
     ],
   },
 ];
@@ -193,7 +193,7 @@ const groupedOptions = [
   grouped
   value={value}
   onChange={setValue}
-/>
+/>;
 ```
 
 ### Multiple Selection
@@ -227,9 +227,10 @@ Implement custom filtering logic:
   label="Search"
   options={options}
   filterOptions={(options, inputValue) => {
-    return options.filter(option =>
-      option.label.toLowerCase().includes(inputValue.toLowerCase()) ||
-      option.description?.toLowerCase().includes(inputValue.toLowerCase())
+    return options.filter(
+      (option) =>
+        option.label.toLowerCase().includes(inputValue.toLowerCase()) ||
+        option.description?.toLowerCase().includes(inputValue.toLowerCase())
     );
   }}
 />
@@ -240,11 +241,11 @@ Implement custom filtering logic:
 Use fuzzy matching for better search:
 
 ```tsx
-import Fuse from 'fuse.js';
+import Fuse from "fuse.js";
 
 function FuzzyAutocomplete() {
   const fuse = new Fuse(options, {
-    keys: ['label', 'description'],
+    keys: ["label", "description"],
     threshold: 0.3,
   });
 
@@ -254,7 +255,7 @@ function FuzzyAutocomplete() {
       options={options}
       filterOptions={(options, inputValue) => {
         if (!inputValue) return options;
-        return fuse.search(inputValue).map(result => result.item);
+        return fuse.search(inputValue).map((result) => result.item);
       }}
     />
   );
@@ -282,14 +283,14 @@ Allow custom values not in the list:
 
 ```tsx
 function ValidatedAutocomplete() {
-  const [value, setValue] = useState('');
-  const [error, setError] = useState('');
+  const [value, setValue] = useState("");
+  const [error, setError] = useState("");
 
   const validate = (val: string) => {
     if (!val) {
-      setError('Selection is required');
+      setError("Selection is required");
     } else {
-      setError('');
+      setError("");
     }
   };
 
@@ -352,8 +353,8 @@ function ValidatedAutocomplete() {
 
 ```tsx
 const users = [
-  { name: 'John Doe', email: 'john@example.com', avatar: '/john.jpg' },
-  { name: 'Jane Smith', email: 'jane@example.com', avatar: '/jane.jpg' },
+  { name: "John Doe", email: "john@example.com", avatar: "/john.jpg" },
+  { name: "Jane Smith", email: "jane@example.com", avatar: "/jane.jpg" },
 ];
 
 <Autocomplete
@@ -371,21 +372,19 @@ const users = [
         <div className="font-medium">
           <Highlight text={option.name} highlight={inputValue} />
         </div>
-        <div className="text-sm text-muted-foreground">
-          {option.email}
-        </div>
+        <div className="text-sm text-muted-foreground">{option.email}</div>
       </div>
     </div>
   )}
-/>
+/>;
 ```
 
 ### With Recent Searches
 
 ```tsx
 function AutocompleteWithHistory() {
-  const [value, setValue] = useState('');
-  const [recentSearches, setRecentSearches] = useLocalStorage('recent', []);
+  const [value, setValue] = useState("");
+  const [recentSearches, setRecentSearches] = useLocalStorage("recent", []);
 
   const handleChange = (newValue: string) => {
     setValue(newValue);
@@ -394,9 +393,9 @@ function AutocompleteWithHistory() {
     }
   };
 
-  const displayOptions = value 
-    ? options 
-    : recentSearches.map(search => ({ label: search, recent: true }));
+  const displayOptions = value
+    ? options
+    : recentSearches.map((search) => ({ label: search, recent: true }));
 
   return (
     <Autocomplete
@@ -419,17 +418,17 @@ function AutocompleteWithHistory() {
 
 ```tsx
 const emailDomains = [
-  '@gmail.com',
-  '@yahoo.com',
-  '@outlook.com',
-  '@hotmail.com',
+  "@gmail.com",
+  "@yahoo.com",
+  "@outlook.com",
+  "@hotmail.com",
 ];
 
 function EmailAutocomplete() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
-  const suggestions = emailDomains.map(domain => {
-    const [localPart] = email.split('@');
+  const suggestions = emailDomains.map((domain) => {
+    const [localPart] = email.split("@");
     return localPart + domain;
   });
 
@@ -439,7 +438,7 @@ function EmailAutocomplete() {
       type="email"
       value={email}
       onChange={setEmail}
-      options={email.includes('@') ? [] : suggestions}
+      options={email.includes("@") ? [] : suggestions}
       freeSolo
       placeholder="you@example.com"
     />
@@ -451,13 +450,13 @@ function EmailAutocomplete() {
 
 ```tsx
 function AddressAutocomplete() {
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const loadAddresses = async (query: string) => {
     if (query.length < 3) return;
-    
+
     setLoading(true);
     try {
       const results = await geocodeAPI(query);
@@ -580,48 +579,48 @@ Errors are automatically announced to screen readers:
 
 ### Autocomplete Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - | Label text for the autocomplete |
-| `description` | `string` | - | Description text shown below the label |
-| `placeholder` | `string` | - | Placeholder text |
-| `helperText` | `string` | - | Helper text shown below the input |
-| `error` | `string` | - | Error message to display |
-| `options` | `T[]` | `[]` | Array of options |
-| `value` | `T \| T[]` | - | Selected value(s) (controlled) |
-| `defaultValue` | `T \| T[]` | - | Default value(s) (uncontrolled) |
-| `onChange` | `(value: T \| T[]) => void` | - | Callback when selection changes |
-| `onInputChange` | `(value: string) => void` | - | Callback when input value changes |
-| `onBlur` | `(e: FocusEvent) => void` | - | Blur event handler |
-| `onFocus` | `(e: FocusEvent) => void` | - | Focus event handler |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'` | Color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the autocomplete |
-| `multiple` | `boolean` | `false` | Allow multiple selections |
-| `freeSolo` | `boolean` | `false` | Allow custom values |
-| `grouped` | `boolean` | `false` | Options are grouped |
-| `clearable` | `boolean` | `false` | Show clear button |
-| `disabled` | `boolean` | `false` | Whether the autocomplete is disabled |
-| `loading` | `boolean` | `false` | Show loading state |
-| `required` | `boolean` | `false` | Whether selection is required |
-| `autoFocus` | `boolean` | `false` | Auto-focus on mount |
-| `leftIcon` | `ReactNode` | - | Icon on the left side |
-| `rightIcon` | `ReactNode` | - | Icon on the right side |
-| `getOptionLabel` | `(option: T) => string` | - | Get display label from option |
-| `getOptionValue` | `(option: T) => string` | - | Get value from option |
-| `filterOptions` | `(options: T[], inputValue: string) => T[]` | - | Custom filter function |
-| `renderOption` | `(option: T, state) => ReactNode` | - | Custom option renderer |
-| `renderInput` | `(params) => ReactNode` | - | Custom input renderer |
-| `isOptionEqualToValue` | `(option: T, value: T) => boolean` | - | Compare option to value |
-| `noOptionsText` | `string` | `'No options'` | Text when no options match |
-| `loadingText` | `string` | `'Loading...'` | Text when loading |
-| `openOnFocus` | `boolean` | `false` | Open dropdown on focus |
-| `selectOnFocus` | `boolean` | `false` | Select text on focus |
-| `clearOnBlur` | `boolean` | `false` | Clear input on blur |
-| `maxHeight` | `number \| string` | `300` | Max height of dropdown |
-| `className` | `string` | - | Additional CSS classes |
-| `aria-label` | `string` | - | Accessible label for screen readers |
-| `aria-labelledby` | `string` | - | ID of element that labels this input |
-| `aria-describedby` | `string` | - | IDs of elements that describe this input |
+| Prop                   | Type                                                                                     | Default        | Description                              |
+| ---------------------- | ---------------------------------------------------------------------------------------- | -------------- | ---------------------------------------- |
+| `label`                | `string`                                                                                 | -              | Label text for the autocomplete          |
+| `description`          | `string`                                                                                 | -              | Description text shown below the label   |
+| `placeholder`          | `string`                                                                                 | -              | Placeholder text                         |
+| `helperText`           | `string`                                                                                 | -              | Helper text shown below the input        |
+| `error`                | `string`                                                                                 | -              | Error message to display                 |
+| `options`              | `T[]`                                                                                    | `[]`           | Array of options                         |
+| `value`                | `T \| T[]`                                                                               | -              | Selected value(s) (controlled)           |
+| `defaultValue`         | `T \| T[]`                                                                               | -              | Default value(s) (uncontrolled)          |
+| `onChange`             | `(value: T \| T[]) => void`                                                              | -              | Callback when selection changes          |
+| `onInputChange`        | `(value: string) => void`                                                                | -              | Callback when input value changes        |
+| `onBlur`               | `(e: FocusEvent) => void`                                                                | -              | Blur event handler                       |
+| `onFocus`              | `(e: FocusEvent) => void`                                                                | -              | Focus event handler                      |
+| `variant`              | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'`    | Color variant                            |
+| `size`                 | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`         | Size of the autocomplete                 |
+| `multiple`             | `boolean`                                                                                | `false`        | Allow multiple selections                |
+| `freeSolo`             | `boolean`                                                                                | `false`        | Allow custom values                      |
+| `grouped`              | `boolean`                                                                                | `false`        | Options are grouped                      |
+| `clearable`            | `boolean`                                                                                | `false`        | Show clear button                        |
+| `disabled`             | `boolean`                                                                                | `false`        | Whether the autocomplete is disabled     |
+| `loading`              | `boolean`                                                                                | `false`        | Show loading state                       |
+| `required`             | `boolean`                                                                                | `false`        | Whether selection is required            |
+| `autoFocus`            | `boolean`                                                                                | `false`        | Auto-focus on mount                      |
+| `leftIcon`             | `ReactNode`                                                                              | -              | Icon on the left side                    |
+| `rightIcon`            | `ReactNode`                                                                              | -              | Icon on the right side                   |
+| `getOptionLabel`       | `(option: T) => string`                                                                  | -              | Get display label from option            |
+| `getOptionValue`       | `(option: T) => string`                                                                  | -              | Get value from option                    |
+| `filterOptions`        | `(options: T[], inputValue: string) => T[]`                                              | -              | Custom filter function                   |
+| `renderOption`         | `(option: T, state) => ReactNode`                                                        | -              | Custom option renderer                   |
+| `renderInput`          | `(params) => ReactNode`                                                                  | -              | Custom input renderer                    |
+| `isOptionEqualToValue` | `(option: T, value: T) => boolean`                                                       | -              | Compare option to value                  |
+| `noOptionsText`        | `string`                                                                                 | `'No options'` | Text when no options match               |
+| `loadingText`          | `string`                                                                                 | `'Loading...'` | Text when loading                        |
+| `openOnFocus`          | `boolean`                                                                                | `false`        | Open dropdown on focus                   |
+| `selectOnFocus`        | `boolean`                                                                                | `false`        | Select text on focus                     |
+| `clearOnBlur`          | `boolean`                                                                                | `false`        | Clear input on blur                      |
+| `maxHeight`            | `number \| string`                                                                       | `300`          | Max height of dropdown                   |
+| `className`            | `string`                                                                                 | -              | Additional CSS classes                   |
+| `aria-label`           | `string`                                                                                 | -              | Accessible label for screen readers      |
+| `aria-labelledby`      | `string`                                                                                 | -              | ID of element that labels this input     |
+| `aria-describedby`     | `string`                                                                                 | -              | IDs of elements that describe this input |
 
 ## Best Practices
 
@@ -643,12 +642,9 @@ For accessibility, always provide a clear label:
 For async data, always debounce:
 
 ```tsx
-const debouncedSearch = useDebouncedCallback(
-  (query) => searchAPI(query),
-  300
-);
+const debouncedSearch = useDebouncedCallback((query) => searchAPI(query), 300);
 
-<Autocomplete onInputChange={debouncedSearch} />
+<Autocomplete onInputChange={debouncedSearch} />;
 ```
 
 ### 3. Provide Clear "No Options" Messages
@@ -679,7 +675,7 @@ const debouncedSearch = useDebouncedCallback(
 // Good ✅ - Case-insensitive, trims whitespace
 filterOptions={(options, input) => {
   const query = input.trim().toLowerCase();
-  return options.filter(opt => 
+  return options.filter(opt =>
     opt.label.toLowerCase().includes(query)
   );
 }}
@@ -700,9 +696,7 @@ filterOptions={(options, input) => {
     }
   }}
   noOptionsText={
-    inputValue.length < 3 
-      ? "Type at least 3 characters" 
-      : "No results"
+    inputValue.length < 3 ? "Type at least 3 characters" : "No results"
   }
 />
 ```
@@ -745,7 +739,7 @@ filterOptions={(options, input) => {
   value={value}
   onChange={(newValue) => {
     addItem(newValue);
-    setValue(''); // Clear after selection
+    setValue(""); // Clear after selection
   }}
   multiple
 />
@@ -756,7 +750,7 @@ filterOptions={(options, input) => {
 ### With React Hook Form
 
 ```tsx
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 
 function Form() {
   const { control, handleSubmit } = useForm();
@@ -766,7 +760,7 @@ function Form() {
       <Controller
         name="country"
         control={control}
-        rules={{ required: 'Country is required' }}
+        rules={{ required: "Country is required" }}
         render={({ field, fieldState }) => (
           <Autocomplete
             label="Country"
@@ -787,16 +781,16 @@ function Form() {
 ### With Formik
 
 ```tsx
-import { Formik } from 'formik';
+import { Formik } from "formik";
 
 function Form() {
   return (
     <Formik
-      initialValues={{ country: '' }}
+      initialValues={{ country: "" }}
       validate={(values) => {
         const errors: any = {};
         if (!values.country) {
-          errors.country = 'Required';
+          errors.country = "Required";
         }
         return errors;
       }}
@@ -807,7 +801,7 @@ function Form() {
           label="Country"
           options={countries}
           value={values.country}
-          onChange={(value) => setFieldValue('country', value)}
+          onChange={(value) => setFieldValue("country", value)}
           error={touched.country ? errors.country : undefined}
         />
       )}
@@ -822,14 +816,20 @@ function Form() {
 
 ```tsx
 function HighlightedAutocomplete() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
-  const Highlight = ({ text, highlight }: { text: string; highlight: string }) => {
+  const Highlight = ({
+    text,
+    highlight,
+  }: {
+    text: string;
+    highlight: string;
+  }) => {
     if (!highlight.trim()) return <>{text}</>;
-    
-    const regex = new RegExp(`(${highlight})`, 'gi');
+
+    const regex = new RegExp(`(${highlight})`, "gi");
     const parts = text.split(regex);
-    
+
     return (
       <>
         {parts.map((part, i) =>
@@ -866,13 +866,13 @@ function CommandPalette() {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setOpen(true);
       }
     };
-    document.addEventListener('keydown', down);
-    return () => document.removeEventListener('keydown', down);
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
   }, []);
 
   return (
@@ -903,7 +903,7 @@ function GitHubSearch() {
 
   const searchRepos = async (query: string) => {
     if (!query) return;
-    
+
     setLoading(true);
     try {
       const res = await fetch(
@@ -946,7 +946,7 @@ function GitHubSearch() {
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { AutocompleteProps, AutocompleteOption } from '@saha-ui/core';
+import type { AutocompleteProps, AutocompleteOption } from "saha-ui";
 
 interface CustomOption {
   label: string;
@@ -964,10 +964,7 @@ const MyAutocomplete: React.FC<AutocompleteProps<CustomOption>> = (props) => {
 The component uses CVA (Class Variance Authority) for variant management:
 
 ```tsx
-<Autocomplete
-  label="Custom styled"
-  className="my-custom-class"
-/>
+<Autocomplete label="Custom styled" className="my-custom-class" />
 ```
 
 ## Dark Mode
@@ -981,44 +978,42 @@ Dark mode is automatically supported using CSS variables. No additional configur
 For very long option lists (1000+ items):
 
 ```tsx
-<Autocomplete
-  options={veryLongList}
-  virtualized
-  itemHeight={40}
-/>
+<Autocomplete options={veryLongList} virtualized itemHeight={40} />
 ```
 
 ### 2. Debounce Input Changes
 
 ```tsx
-const debouncedChange = useDebouncedCallback(
-  (value) => onSearch(value),
-  300
-);
+const debouncedChange = useDebouncedCallback((value) => onSearch(value), 300);
 
-<Autocomplete onInputChange={debouncedChange} />
+<Autocomplete onInputChange={debouncedChange} />;
 ```
 
 ### 3. Memoize Filter Function
 
 ```tsx
-const filterOptions = useMemo(() => {
-  return (options: Option[], input: string) => {
-    // Complex filtering logic
-  };
-}, [/* dependencies */]);
+const filterOptions = useMemo(
+  () => {
+    return (options: Option[], input: string) => {
+      // Complex filtering logic
+    };
+  },
+  [
+    /* dependencies */
+  ]
+);
 
-<Autocomplete filterOptions={filterOptions} />
+<Autocomplete filterOptions={filterOptions} />;
 ```
 
 ### 4. Limit API Calls
 
 ```tsx
-const [lastQuery, setLastQuery] = useState('');
+const [lastQuery, setLastQuery] = useState("");
 
 const search = (query: string) => {
   if (query === lastQuery) return; // Skip duplicate
-  if (query.length < 3) return;   // Minimum length
+  if (query.length < 3) return; // Minimum length
   setLastQuery(query);
   fetchResults(query);
 };

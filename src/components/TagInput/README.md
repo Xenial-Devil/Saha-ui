@@ -19,13 +19,13 @@ A fully accessible tag input component for managing multiple tags with keyboard 
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { TagInput } from '@saha-ui/core';
+import { TagInput } from "saha-ui";
 
 function App() {
   const [tags, setTags] = useState<string[]>([]);
@@ -69,14 +69,14 @@ Provide autocomplete suggestions:
 
 ```tsx
 const suggestions = [
-  'JavaScript',
-  'TypeScript',
-  'React',
-  'Vue',
-  'Angular',
-  'Node.js',
-  'Python',
-  'Java',
+  "JavaScript",
+  "TypeScript",
+  "React",
+  "Vue",
+  "Angular",
+  "Node.js",
+  "Python",
+  "Java",
 ];
 
 <TagInput
@@ -86,7 +86,7 @@ const suggestions = [
   onChange={setSkills}
   suggestions={suggestions}
   helperText="Start typing to see suggestions"
-/>
+/>;
 ```
 
 ### Max Tags Limit
@@ -125,7 +125,7 @@ Use custom separators to split pasted text:
   placeholder="Add tags (comma or space separated)"
   value={tags}
   onChange={setTags}
-  separators={[',', ' ', ';']}
+  separators={[",", " ", ";"]}
   helperText="Paste multiple tags separated by comma, space, or semicolon"
 />
 ```
@@ -137,22 +137,22 @@ Validate tags before adding:
 ```tsx
 function ValidatedTagInput() {
   const [tags, setTags] = useState<string[]>([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const validateTag = (tag: string): boolean => {
     if (tag.length < 2) {
-      setError('Tag must be at least 2 characters');
+      setError("Tag must be at least 2 characters");
       return false;
     }
     if (tag.length > 20) {
-      setError('Tag must be less than 20 characters');
+      setError("Tag must be less than 20 characters");
       return false;
     }
     if (!/^[a-zA-Z0-9-]+$/.test(tag)) {
-      setError('Tag can only contain letters, numbers, and hyphens');
+      setError("Tag can only contain letters, numbers, and hyphens");
       return false;
     }
-    setError('');
+    setError("");
     return true;
   };
 
@@ -199,7 +199,7 @@ Customize tag appearance:
 ### With Icons
 
 ```tsx
-import { Tag as TagIcon } from 'lucide-react';
+import { Tag as TagIcon } from "lucide-react";
 
 <TagInput
   label="Tags"
@@ -207,7 +207,7 @@ import { Tag as TagIcon } from 'lucide-react';
   value={tags}
   onChange={setTags}
   leftIcon={<TagIcon className="w-4 h-4" />}
-/>
+/>;
 ```
 
 ### Clearable
@@ -227,7 +227,7 @@ import { Tag as TagIcon } from 'lucide-react';
 ```tsx
 <TagInput
   label="Disabled tags"
-  value={['tag1', 'tag2', 'tag3']}
+  value={["tag1", "tag2", "tag3"]}
   disabled
   helperText="This field is currently disabled"
 />
@@ -238,7 +238,7 @@ import { Tag as TagIcon } from 'lucide-react';
 ```tsx
 <TagInput
   label="Read-only tags"
-  value={['react', 'typescript', 'tailwind']}
+  value={["react", "typescript", "tailwind"]}
   readOnly
   helperText="These tags cannot be modified"
 />
@@ -249,15 +249,15 @@ import { Tag as TagIcon } from 'lucide-react';
 ```tsx
 function EmailTagInput() {
   const [emails, setEmails] = useState<string[]>([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const validateEmail = (email: string): boolean => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regex.test(email)) {
-      setError('Invalid email address');
+      setError("Invalid email address");
       return false;
     }
-    setError('');
+    setError("");
     return true;
   };
 
@@ -269,7 +269,7 @@ function EmailTagInput() {
       onChange={setEmails}
       onValidate={validateEmail}
       error={error}
-      separators={[',', ';', ' ']}
+      separators={[",", ";", " "]}
       helperText="Separate multiple emails with comma, semicolon, or space"
     />
   );
@@ -284,9 +284,9 @@ function HashtagInput() {
 
   const formatHashtag = (tag: string): string => {
     // Ensure hashtag starts with #
-    const formatted = tag.startsWith('#') ? tag : `#${tag}`;
+    const formatted = tag.startsWith("#") ? tag : `#${tag}`;
     // Remove spaces and special characters
-    return formatted.replace(/[^#a-zA-Z0-9_]/g, '');
+    return formatted.replace(/[^#a-zA-Z0-9_]/g, "");
   };
 
   return (
@@ -306,9 +306,10 @@ function HashtagInput() {
 
 ```tsx
 const categoryColors = {
-  urgent: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-  important: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-  normal: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+  urgent: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
+  important:
+    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
+  normal: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
 };
 
 <TagInput
@@ -317,12 +318,14 @@ const categoryColors = {
   onChange={setCategories}
   suggestions={Object.keys(categoryColors)}
   renderTag={(tag, onRemove) => (
-    <span className={`px-2 py-1 rounded ${categoryColors[tag] || 'bg-gray-100'}`}>
+    <span
+      className={`px-2 py-1 rounded ${categoryColors[tag] || "bg-gray-100"}`}
+    >
       {tag}
       <button onClick={onRemove}>×</button>
     </span>
   )}
-/>
+/>;
 ```
 
 ### With Character Counter
@@ -351,7 +354,7 @@ function TagInputWithCounter() {
 function AsyncValidatedTagInput() {
   const [tags, setTags] = useState<string[]>([]);
   const [validating, setValidating] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const checkTagAvailability = async (tag: string): Promise<boolean> => {
     setValidating(true);
@@ -361,7 +364,7 @@ function AsyncValidatedTagInput() {
         setError(`Tag "${tag}" is already taken`);
         return false;
       }
-      setError('');
+      setError("");
       return true;
     } finally {
       setValidating(false);
@@ -403,7 +406,7 @@ function URLTagInput() {
       value={urls}
       onChange={setUrls}
       onValidate={validateURL}
-      error={!urls.every(validateURL) ? 'Invalid URL format' : undefined}
+      error={!urls.every(validateURL) ? "Invalid URL format" : undefined}
       helperText="Enter valid URLs (e.g., https://example.com)"
     />
   );
@@ -478,7 +481,9 @@ Tags are announced when added or removed:
   label="Required tags"
   required
   aria-required="true"
-  error={tags.length === 0 && submitted ? "At least one tag is required" : undefined}
+  error={
+    tags.length === 0 && submitted ? "At least one tag is required" : undefined
+  }
 />
 ```
 
@@ -487,11 +492,7 @@ Tags are announced when added or removed:
 Errors are automatically announced to screen readers:
 
 ```tsx
-<TagInput
-  label="Tags"
-  error="Invalid tag format"
-  aria-invalid="true"
-/>
+<TagInput label="Tags" error="Invalid tag format" aria-invalid="true" />
 // Error has role="alert" and aria-live="polite"
 ```
 
@@ -499,48 +500,48 @@ Errors are automatically announced to screen readers:
 
 ### TagInput Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - | Label text for the input |
-| `description` | `string` | - | Description text shown below the label |
-| `placeholder` | `string` | - | Placeholder text |
-| `helperText` | `string` | - | Helper text shown below the input |
-| `error` | `string` | - | Error message to display |
-| `value` | `string[]` | `[]` | Array of tags (controlled) |
-| `defaultValue` | `string[]` | `[]` | Default tags (uncontrolled) |
-| `onChange` | `(tags: string[]) => void` | - | Callback when tags change |
-| `onAdd` | `(tag: string) => void` | - | Callback when tag is added |
-| `onRemove` | `(tag: string) => void` | - | Callback when tag is removed |
-| `onBlur` | `(e: FocusEvent) => void` | - | Blur event handler |
-| `onFocus` | `(e: FocusEvent) => void` | - | Focus event handler |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'` | Color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the input |
-| `suggestions` | `string[]` | - | Autocomplete suggestions |
-| `maxTags` | `number` | - | Maximum number of tags |
-| `maxLength` | `number` | - | Maximum length per tag |
-| `allowDuplicates` | `boolean` | `true` | Allow duplicate tags |
-| `separators` | `string[]` | `[',', 'Enter']` | Characters that separate tags |
-| `trimWhitespace` | `boolean` | `true` | Trim whitespace from tags |
-| `caseSensitive` | `boolean` | `true` | Case-sensitive duplicate detection |
-| `clearable` | `boolean` | `false` | Show clear all button |
-| `disabled` | `boolean` | `false` | Whether the input is disabled |
-| `readOnly` | `boolean` | `false` | Whether the input is read-only |
-| `loading` | `boolean` | `false` | Show loading state |
-| `required` | `boolean` | `false` | Whether tags are required |
-| `autoFocus` | `boolean` | `false` | Auto-focus on mount |
-| `leftIcon` | `ReactNode` | - | Icon on the left side |
-| `rightIcon` | `ReactNode` | - | Icon on the right side |
-| `onValidate` | `(tag: string) => boolean` | - | Validate tag before adding |
-| `onValidateAsync` | `(tag: string) => Promise<boolean>` | - | Async validation |
-| `onBeforeAdd` | `(tag: string) => string` | - | Transform tag before adding |
-| `renderTag` | `(tag: string, onRemove: () => void) => ReactNode` | - | Custom tag renderer |
-| `tagVariant` | `'default' \| 'primary' \| 'secondary' \| 'accent'` | - | Variant for tags |
-| `announceAddition` | `(tag: string) => string` | - | Custom addition announcement |
-| `announceRemoval` | `(tag: string) => string` | - | Custom removal announcement |
-| `className` | `string` | - | Additional CSS classes |
-| `aria-label` | `string` | - | Accessible label for screen readers |
-| `aria-labelledby` | `string` | - | ID of element that labels this input |
-| `aria-describedby` | `string` | - | IDs of elements that describe this input |
+| Prop               | Type                                                                                     | Default          | Description                              |
+| ------------------ | ---------------------------------------------------------------------------------------- | ---------------- | ---------------------------------------- |
+| `label`            | `string`                                                                                 | -                | Label text for the input                 |
+| `description`      | `string`                                                                                 | -                | Description text shown below the label   |
+| `placeholder`      | `string`                                                                                 | -                | Placeholder text                         |
+| `helperText`       | `string`                                                                                 | -                | Helper text shown below the input        |
+| `error`            | `string`                                                                                 | -                | Error message to display                 |
+| `value`            | `string[]`                                                                               | `[]`             | Array of tags (controlled)               |
+| `defaultValue`     | `string[]`                                                                               | `[]`             | Default tags (uncontrolled)              |
+| `onChange`         | `(tags: string[]) => void`                                                               | -                | Callback when tags change                |
+| `onAdd`            | `(tag: string) => void`                                                                  | -                | Callback when tag is added               |
+| `onRemove`         | `(tag: string) => void`                                                                  | -                | Callback when tag is removed             |
+| `onBlur`           | `(e: FocusEvent) => void`                                                                | -                | Blur event handler                       |
+| `onFocus`          | `(e: FocusEvent) => void`                                                                | -                | Focus event handler                      |
+| `variant`          | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'default'`      | Color variant                            |
+| `size`             | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`           | Size of the input                        |
+| `suggestions`      | `string[]`                                                                               | -                | Autocomplete suggestions                 |
+| `maxTags`          | `number`                                                                                 | -                | Maximum number of tags                   |
+| `maxLength`        | `number`                                                                                 | -                | Maximum length per tag                   |
+| `allowDuplicates`  | `boolean`                                                                                | `true`           | Allow duplicate tags                     |
+| `separators`       | `string[]`                                                                               | `[',', 'Enter']` | Characters that separate tags            |
+| `trimWhitespace`   | `boolean`                                                                                | `true`           | Trim whitespace from tags                |
+| `caseSensitive`    | `boolean`                                                                                | `true`           | Case-sensitive duplicate detection       |
+| `clearable`        | `boolean`                                                                                | `false`          | Show clear all button                    |
+| `disabled`         | `boolean`                                                                                | `false`          | Whether the input is disabled            |
+| `readOnly`         | `boolean`                                                                                | `false`          | Whether the input is read-only           |
+| `loading`          | `boolean`                                                                                | `false`          | Show loading state                       |
+| `required`         | `boolean`                                                                                | `false`          | Whether tags are required                |
+| `autoFocus`        | `boolean`                                                                                | `false`          | Auto-focus on mount                      |
+| `leftIcon`         | `ReactNode`                                                                              | -                | Icon on the left side                    |
+| `rightIcon`        | `ReactNode`                                                                              | -                | Icon on the right side                   |
+| `onValidate`       | `(tag: string) => boolean`                                                               | -                | Validate tag before adding               |
+| `onValidateAsync`  | `(tag: string) => Promise<boolean>`                                                      | -                | Async validation                         |
+| `onBeforeAdd`      | `(tag: string) => string`                                                                | -                | Transform tag before adding              |
+| `renderTag`        | `(tag: string, onRemove: () => void) => ReactNode`                                       | -                | Custom tag renderer                      |
+| `tagVariant`       | `'default' \| 'primary' \| 'secondary' \| 'accent'`                                      | -                | Variant for tags                         |
+| `announceAddition` | `(tag: string) => string`                                                                | -                | Custom addition announcement             |
+| `announceRemoval`  | `(tag: string) => string`                                                                | -                | Custom removal announcement              |
+| `className`        | `string`                                                                                 | -                | Additional CSS classes                   |
+| `aria-label`       | `string`                                                                                 | -                | Accessible label for screen readers      |
+| `aria-labelledby`  | `string`                                                                                 | -                | ID of element that labels this input     |
+| `aria-describedby` | `string`                                                                                 | -                | IDs of elements that describe this input |
 
 ## Best Practices
 
@@ -562,11 +563,7 @@ For accessibility, always provide a clear label:
 Prevent overwhelming users:
 
 ```tsx
-<TagInput
-  label="Tags"
-  maxTags={10}
-  helperText={`${tags.length}/10 tags`}
-/>
+<TagInput label="Tags" maxTags={10} helperText={`${tags.length}/10 tags`} />
 ```
 
 ### 3. Validate Input
@@ -612,7 +609,7 @@ Support multiple input methods:
 
 ```tsx
 <TagInput
-  separators={[',', ';', ' ', 'Enter']}
+  separators={[",", ";", " ", "Enter"]}
   helperText="Separate tags with comma, semicolon, or space"
 />
 ```
@@ -640,10 +637,7 @@ Guide users on usage:
 ### 9. Show Character Limits
 
 ```tsx
-<TagInput
-  maxLength={20}
-  helperText="Maximum 20 characters per tag"
-/>
+<TagInput maxLength={20} helperText="Maximum 20 characters per tag" />
 ```
 
 ### 10. Handle Empty States
@@ -661,7 +655,7 @@ Guide users on usage:
 ### With React Hook Form
 
 ```tsx
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 
 function Form() {
   const { control, handleSubmit } = useForm();
@@ -671,14 +665,14 @@ function Form() {
       <Controller
         name="tags"
         control={control}
-        rules={{ 
-          required: 'At least one tag is required',
+        rules={{
+          required: "At least one tag is required",
           validate: (value) => {
             if (value.length < 2) {
-              return 'Add at least 2 tags';
+              return "Add at least 2 tags";
             }
             return true;
-          }
+          },
         }}
         render={({ field, fieldState }) => (
           <TagInput
@@ -699,14 +693,14 @@ function Form() {
 ### With Formik
 
 ```tsx
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 const schema = Yup.object({
   tags: Yup.array()
     .of(Yup.string())
-    .min(1, 'Add at least one tag')
-    .max(10, 'Maximum 10 tags'),
+    .min(1, "Add at least one tag")
+    .max(10, "Maximum 10 tags"),
 });
 
 function Form() {
@@ -720,7 +714,7 @@ function Form() {
         <TagInput
           label="Tags"
           value={values.tags}
-          onChange={(tags) => setFieldValue('tags', tags)}
+          onChange={(tags) => setFieldValue("tags", tags)}
           error={touched.tags ? errors.tags : undefined}
         />
       )}
@@ -768,7 +762,7 @@ function CollaborativeTagInput() {
 
   const renderTag = (tag: string, onRemove: () => void) => {
     const user = getTagOwner(tag);
-    const color = userColors.get(user) || 'gray';
+    const color = userColors.get(user) || "gray";
 
     return (
       <span
@@ -776,9 +770,7 @@ function CollaborativeTagInput() {
         title={`Added by ${user}`}
       >
         {tag}
-        {canRemove(user) && (
-          <button onClick={onRemove}>×</button>
-        )}
+        {canRemove(user) && <button onClick={onRemove}>×</button>}
       </span>
     );
   };
@@ -798,7 +790,7 @@ function CollaborativeTagInput() {
 
 ```tsx
 function SmartTagInput() {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
@@ -815,7 +807,7 @@ function SmartTagInput() {
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
-      
+
       <TagInput
         label="Tags"
         value={tags}
@@ -833,7 +825,7 @@ function SmartTagInput() {
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { TagInputProps } from '@saha-ui/core';
+import type { TagInputProps } from "saha-ui";
 
 const MyTagInput: React.FC<TagInputProps> = (props) => {
   return <TagInput {...props} />;
@@ -841,7 +833,7 @@ const MyTagInput: React.FC<TagInputProps> = (props) => {
 
 // Type-safe handlers
 const handleChange = (tags: string[]) => {
-  console.log('Tags:', tags);
+  console.log("Tags:", tags);
 };
 
 const validateTag = (tag: string): boolean => {
@@ -875,15 +867,13 @@ const debouncedFetch = useDebouncedCallback(
   300
 );
 
-<TagInput onInputChange={debouncedFetch} />
+<TagInput onInputChange={debouncedFetch} />;
 ```
 
 ### 2. Limit Suggestions
 
 ```tsx
-<TagInput
-  suggestions={allSuggestions.slice(0, 10)}
-/>
+<TagInput suggestions={allSuggestions.slice(0, 10)} />
 ```
 
 ### 3. Memoize Validation
@@ -895,14 +885,14 @@ const validateTag = useMemo(() => {
   };
 }, []);
 
-<TagInput onValidate={validateTag} />
+<TagInput onValidate={validateTag} />;
 ```
 
 ### 4. Batch Updates
 
 ```tsx
 const handlePaste = (text: string) => {
-  const newTags = text.split(',').map(t => t.trim());
+  const newTags = text.split(",").map((t) => t.trim());
   setTags([...tags, ...newTags]); // Single update
 };
 ```

@@ -16,7 +16,7 @@ A component for displaying multiple avatars in a compact, visually appealing lay
 ## Installation
 
 ```tsx
-import { AvatarGroup, Avatar } from '@saha-ui/core';
+import { AvatarGroup, Avatar } from "saha-ui";
 ```
 
 ## Basic Usage
@@ -88,7 +88,7 @@ import { AvatarGroup, Avatar } from '@saha-ui/core';
 ```tsx
 // Compact grid for more avatars
 <AvatarGroup variant="grid-dense" max={9}>
-  {users.map(user => (
+  {users.map((user) => (
     <Avatar key={user.id} src={user.avatar} alt={user.name} />
   ))}
 </AvatarGroup>
@@ -204,10 +204,7 @@ import { AvatarGroup, Avatar } from '@saha-ui/core';
 ### Click Handler for More
 
 ```tsx
-<AvatarGroup 
-  max={3} 
-  onMoreClick={() => console.log('Show all users')}
->
+<AvatarGroup max={3} onMoreClick={() => console.log("Show all users")}>
   <Avatar src="/user1.jpg" alt="User 1" />
   <Avatar src="/user2.jpg" alt="User 2" />
   <Avatar src="/user3.jpg" alt="User 3" />
@@ -223,11 +220,8 @@ import { AvatarGroup, Avatar } from '@saha-ui/core';
 const [showAll, setShowAll] = useState(false);
 
 <>
-  <AvatarGroup 
-    max={4} 
-    onMoreClick={() => setShowAll(true)}
-  >
-    {users.map(user => (
+  <AvatarGroup max={4} onMoreClick={() => setShowAll(true)}>
+    {users.map((user) => (
       <Avatar key={user.id} src={user.avatar} alt={user.name} />
     ))}
   </AvatarGroup>
@@ -236,7 +230,7 @@ const [showAll, setShowAll] = useState(false);
     <DialogContent>
       <h2>All Members ({users.length})</h2>
       <div className="grid grid-cols-3 gap-4">
-        {users.map(user => (
+        {users.map((user) => (
           <div key={user.id} className="flex flex-col items-center">
             <Avatar src={user.avatar} alt={user.name} size="lg" />
             <p className="mt-2 text-sm">{user.name}</p>
@@ -245,7 +239,7 @@ const [showAll, setShowAll] = useState(false);
       </div>
     </DialogContent>
   </Dialog>
-</>
+</>;
 ```
 
 ## Advanced Examples
@@ -259,7 +253,7 @@ const [showAll, setShowAll] = useState(false);
   </CardHeader>
   <CardContent>
     <AvatarGroup max={5} showCount size="lg" withRing>
-      {team.members.map(member => (
+      {team.members.map((member) => (
         <Avatar
           key={member.id}
           src={member.avatar}
@@ -280,13 +274,13 @@ const [showAll, setShowAll] = useState(false);
     <h3 className="font-semibold">Project Alpha</h3>
     <p className="text-sm text-muted-foreground">Updated 2 hours ago</p>
   </div>
-  <AvatarGroup 
-    max={3} 
-    size="sm" 
+  <AvatarGroup
+    max={3}
+    size="sm"
     variant="stack"
     onMoreClick={handleViewCollaborators}
   >
-    {collaborators.map(user => (
+    {collaborators.map((user) => (
       <Avatar
         key={user.id}
         src={user.avatar}
@@ -303,12 +297,12 @@ const [showAll, setShowAll] = useState(false);
 ```tsx
 <div className="flex items-center gap-3">
   <AvatarGroup max={4} size="sm" variant="stack">
-    {participants.map(user => (
+    {participants.map((user) => (
       <Avatar
         key={user.id}
         src={user.avatar}
         alt={user.name}
-        status={user.online ? 'online' : 'offline'}
+        status={user.online ? "online" : "offline"}
       />
     ))}
   </AvatarGroup>
@@ -321,13 +315,8 @@ const [showAll, setShowAll] = useState(false);
 ### Grid Gallery
 
 ```tsx
-<AvatarGroup 
-  variant="grid" 
-  max={12} 
-  size="xl"
-  onMoreClick={handleViewAll}
->
-  {users.map(user => (
+<AvatarGroup variant="grid" max={12} size="xl" onMoreClick={handleViewAll}>
+  {users.map((user) => (
     <Avatar
       key={user.id}
       src={user.avatar}
@@ -342,19 +331,19 @@ const [showAll, setShowAll] = useState(false);
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `max` | `number` | - | Maximum avatars to display before showing "+X" |
-| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl" \| "2xl"` | `"md"` | Size of avatars |
-| `variant` | `"stack" \| "row" \| "grid" \| "grid-dense"` | `"stack"` | Layout variant |
-| `showCount` | `boolean` | `false` | Show total member count |
-| `reverse` | `boolean` | `false` | Reverse avatar order |
-| `gap` | `boolean` | `false` | Add spacing between avatars |
-| `withRing` | `boolean` | `false` | Add ring border to avatars |
-| `spacing` | `number` | - | Custom spacing in pixels (overrides default) |
-| `onMoreClick` | `() => void` | - | Callback when "+X" indicator clicked |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | **required** | Avatar components |
+| Prop          | Type                                            | Default      | Description                                    |
+| ------------- | ----------------------------------------------- | ------------ | ---------------------------------------------- |
+| `max`         | `number`                                        | -            | Maximum avatars to display before showing "+X" |
+| `size`        | `"xs" \| "sm" \| "md" \| "lg" \| "xl" \| "2xl"` | `"md"`       | Size of avatars                                |
+| `variant`     | `"stack" \| "row" \| "grid" \| "grid-dense"`    | `"stack"`    | Layout variant                                 |
+| `showCount`   | `boolean`                                       | `false`      | Show total member count                        |
+| `reverse`     | `boolean`                                       | `false`      | Reverse avatar order                           |
+| `gap`         | `boolean`                                       | `false`      | Add spacing between avatars                    |
+| `withRing`    | `boolean`                                       | `false`      | Add ring border to avatars                     |
+| `spacing`     | `number`                                        | -            | Custom spacing in pixels (overrides default)   |
+| `onMoreClick` | `() => void`                                    | -            | Callback when "+X" indicator clicked           |
+| `className`   | `string`                                        | -            | Additional CSS classes                         |
+| `children`    | `ReactNode`                                     | **required** | Avatar components                              |
 
 ## Accessibility
 
@@ -381,7 +370,7 @@ The component follows accessibility best practices:
 
 ```tsx
 // Adjust max and size based on screen
-<AvatarGroup 
+<AvatarGroup
   max={window.innerWidth < 768 ? 3 : 5}
   size={window.innerWidth < 768 ? 'sm' : 'md'}
   variant="stack"
@@ -393,7 +382,7 @@ The component follows accessibility best practices:
 
 // Using Tailwind classes
 <div className="w-full">
-  <AvatarGroup 
+  <AvatarGroup
     max={3}
     size="md"
     className="md:max-w-md lg:max-w-lg"
@@ -448,12 +437,15 @@ interface User {
 function TeamMembers({ users }: { users: User[] }) {
   return (
     <AvatarGroup max={5} showCount size="md">
-      {users.map(user => (
+      {users.map((user) => (
         <Avatar
           key={user.id}
           src={user.avatar}
           alt={`${user.name} (${user.role})`}
-          fallback={user.name.split(' ').map(n => n[0]).join('')}
+          fallback={user.name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")}
         />
       ))}
     </AvatarGroup>
@@ -465,7 +457,7 @@ function TeamMembers({ users }: { users: User[] }) {
 
 ```tsx
 function CollaboratorsList({ projectId }: { projectId: string }) {
-  const { data: users, isLoading } = useQuery(['collaborators', projectId]);
+  const { data: users, isLoading } = useQuery(["collaborators", projectId]);
 
   if (isLoading) {
     return (
@@ -478,8 +470,8 @@ function CollaboratorsList({ projectId }: { projectId: string }) {
   }
 
   return (
-    <AvatarGroup max={4} onMoreClick={() => navigate('/collaborators')}>
-      {users?.map(user => (
+    <AvatarGroup max={4} onMoreClick={() => navigate("/collaborators")}>
+      {users?.map((user) => (
         <Avatar key={user.id} src={user.avatar} alt={user.name} />
       ))}
     </AvatarGroup>
@@ -490,6 +482,7 @@ function CollaboratorsList({ projectId }: { projectId: string }) {
 ## Browser Support
 
 Works in all modern browsers that support:
+
 - CSS Grid and Flexbox
 - CSS Custom Properties
 - CSS Transforms

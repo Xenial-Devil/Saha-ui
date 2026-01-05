@@ -15,13 +15,13 @@ A visual divider component for separating content sections. Also known as a divi
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Separator } from '@saha-ui/core';
+import { Separator } from "saha-ui";
 
 function MyComponent() {
   return (
@@ -168,14 +168,14 @@ Purely visual separators not announced to screen readers:
 
 ### Separator Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Orientation of the separator |
-| `variant` | `'default' \| 'dashed' \| 'dotted' \| 'gradient'` | `'default'` | Visual style variant |
-| `decorative` | `boolean` | `false` | Whether separator is decorative only |
-| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment of label text |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | - | Optional label content |
+| Prop          | Type                                              | Default        | Description                          |
+| ------------- | ------------------------------------------------- | -------------- | ------------------------------------ |
+| `orientation` | `'horizontal' \| 'vertical'`                      | `'horizontal'` | Orientation of the separator         |
+| `variant`     | `'default' \| 'dashed' \| 'dotted' \| 'gradient'` | `'default'`    | Visual style variant                 |
+| `decorative`  | `boolean`                                         | `false`        | Whether separator is decorative only |
+| `align`       | `'start' \| 'center' \| 'end'`                    | `'center'`     | Alignment of label text              |
+| `className`   | `string`                                          | -              | Additional CSS classes               |
+| `children`    | `ReactNode`                                       | -              | Optional label content               |
 
 ## Common Patterns
 
@@ -359,6 +359,7 @@ function Sidebar() {
 The Separator component follows accessibility best practices:
 
 - **ARIA Attributes:**
+
   - Uses `role="separator"` for semantic separators
   - Decorative separators use `role="none"` and `aria-hidden="true"`
   - `aria-orientation` indicates horizontal or vertical orientation
@@ -422,6 +423,7 @@ The Separator component follows accessibility best practices:
 ## When to Use
 
 **Use Separator when:**
+
 - Dividing content sections
 - Separating list items
 - Creating visual breaks in forms
@@ -429,6 +431,7 @@ The Separator component follows accessibility best practices:
 - Separating card header/body/footer
 
 **Use alternatives when:**
+
 - Content is already clearly separated by spacing
 - You need interactive dividers (consider Resizable)
 - You're dividing columns (consider Grid or layout components)

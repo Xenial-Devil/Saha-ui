@@ -7,23 +7,23 @@ A flexible list component for displaying collections of items with various layou
 - 📋 **Multiple Layouts** - Vertical, horizontal, grid
 - 🎨 **Variants** - Bordered, divided, plain
 - ✅ **Selectable** - Single and multi-select
-- 🎯 **Actions** - Item actions and  context menus
+- 🎯 **Actions** - Item actions and context menus
 - 📱 **Responsive** - Mobile-optimized
 - ♿ **Accessible** - ARIA list roles
 
 ## Installation
 
 \`\`\`tsx
-import { List, ListItem } from '@saha-ui/core';
+import { List, ListItem } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage
 
 \`\`\`tsx
 <List>
-  <ListItem>Item 1</ListItem>
-  <ListItem>Item 2</ListItem>
-  <ListItem>Item 3</ListItem>
+<ListItem>Item 1</ListItem>
+<ListItem>Item 2</ListItem>
+<ListItem>Item 3</ListItem>
 </List>
 \`\`\`
 

@@ -16,7 +16,7 @@ A powerful and flexible charting component built on top of popular charting libr
 ## Installation
 
 \`\`\`tsx
-import { Chart } from '@saha-ui/core';
+import { Chart } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage
@@ -25,13 +25,13 @@ import { Chart } from '@saha-ui/core';
 
 \`\`\`tsx
 const data = {
-  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-  datasets: [{
-    label: 'Sales',
-    data: [30, 45, 35, 50, 45, 60],
-    borderColor: 'rgb(75, 192, 192)',
-    tension: 0.1
-  }]
+labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+datasets: [{
+label: 'Sales',
+data: [30, 45, 35, 50, 45, 60],
+borderColor: 'rgb(75, 192, 192)',
+tension: 0.1
+}]
 };
 
 <Chart type="line" data={data} />
@@ -41,12 +41,12 @@ const data = {
 
 \`\`\`tsx
 const data = {
-  labels: ['Product A', 'Product B', 'Product C', 'Product D'],
-  datasets: [{
-    label: 'Revenue',
-    data: [12000, 19000, 8000, 15000],
-    backgroundColor: 'rgba(54, 162, 235, 0.5)'
-  }]
+labels: ['Product A', 'Product B', 'Product C', 'Product D'],
+datasets: [{
+label: 'Revenue',
+data: [12000, 19000, 8000, 15000],
+backgroundColor: 'rgba(54, 162, 235, 0.5)'
+}]
 };
 
 <Chart type="bar" data={data} />
@@ -56,11 +56,11 @@ const data = {
 
 \`\`\`tsx
 const data = {
-  labels: ['Red', 'Blue', 'Yellow'],
-  datasets: [{
-    data: [300, 50, 100],
-    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
-  }]
+labels: ['Red', 'Blue', 'Yellow'],
+datasets: [{
+data: [300, 50, 100],
+backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+}]
 };
 
 <Chart type="pie" data={data} />
@@ -68,14 +68,14 @@ const data = {
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| \`type\` | \`"line" \| "bar" \| "pie" \| "doughnut" \| "radar" \| "polarArea"\` | \`"line"\` | Chart type |
-| \`data\` | \`ChartData\` | **required** | Chart data |
-| \`options\` | \`ChartOptions\` | \`{}\` | Chart configuration options |
-| \`width\` | \`number \| string\` | \`"100%"\` | Chart width |
-| \`height\` | \`number \| string\` | \`300\` | Chart height |
-| \`className\` | \`string\` | - | Additional CSS classes |
+| Prop          | Type                                                                 | Default      | Description                 |
+| ------------- | -------------------------------------------------------------------- | ------------ | --------------------------- |
+| \`type\`      | \`"line" \| "bar" \| "pie" \| "doughnut" \| "radar" \| "polarArea"\` | \`"line"\`   | Chart type                  |
+| \`data\`      | \`ChartData\`                                                        | **required** | Chart data                  |
+| \`options\`   | \`ChartOptions\`                                                     | \`{}\`       | Chart configuration options |
+| \`width\`     | \`number \| string\`                                                 | \`"100%"\`   | Chart width                 |
+| \`height\`    | \`number \| string\`                                                 | \`300\`      | Chart height                |
+| \`className\` | \`string\`                                                           | -            | Additional CSS classes      |
 
 ## Related Components
 

@@ -16,13 +16,13 @@ A component that makes an element "stick" to the viewport when scrolling. Useful
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Affix, Button } from '@saha-ui/core';
+import { Affix, Button } from "saha-ui";
 
 function MyComponent() {
   return (
@@ -73,7 +73,9 @@ With offset:
 ```tsx
 <Affix offsetBottom={20}>
   <div className="floating-action-button">
-    <Button variant="primary" size="lg">+</Button>
+    <Button variant="primary" size="lg">
+      +
+    </Button>
   </div>
 </Affix>
 ```
@@ -88,18 +90,11 @@ function ScrollContainer() {
 
   return (
     <div ref={containerRef} className="h-96 overflow-auto">
-      <Affix 
-        offsetTop={0} 
-        target={() => containerRef.current!}
-      >
-        <div className="bg-primary text-white p-4">
-          Sticky within container
-        </div>
+      <Affix offsetTop={0} target={() => containerRef.current!}>
+        <div className="bg-primary text-white p-4">Sticky within container</div>
       </Affix>
-      
-      <div className="h-[1000px]">
-        Long scrollable content...
-      </div>
+
+      <div className="h-[1000px]">Long scrollable content...</div>
     </div>
   );
 }
@@ -115,13 +110,10 @@ function AffixWithCallback() {
 
   return (
     <div>
-      <p>Affixed: {isAffixed ? 'Yes' : 'No'}</p>
-      
-      <Affix 
-        offsetTop={10}
-        onChange={(affixed) => setIsAffixed(affixed)}
-      >
-        <div className={`p-4 ${isAffixed ? 'shadow-lg' : ''}`}>
+      <p>Affixed: {isAffixed ? "Yes" : "No"}</p>
+
+      <Affix offsetTop={10} onChange={(affixed) => setIsAffixed(affixed)}>
+        <div className={`p-4 ${isAffixed ? "shadow-lg" : ""}`}>
           Sticky Content
         </div>
       </Affix>
@@ -154,9 +146,7 @@ Use native CSS `position: sticky` instead of JavaScript:
 
 ```tsx
 <Affix offsetTop={0} useSticky>
-  <div className="bg-white p-4">
-    CSS Sticky Header
-  </div>
+  <div className="bg-white p-4">CSS Sticky Header</div>
 </Affix>
 ```
 
@@ -164,18 +154,18 @@ Use native CSS `position: sticky` instead of JavaScript:
 
 ### Affix Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | **Required.** Content to be affixed |
-| `offsetTop` | `number` | - | Offset from top when affixed (triggers top affixing) |
-| `offsetBottom` | `number` | - | Offset from bottom when affixed (triggers bottom affixing) |
-| `target` | `Window \| HTMLElement \| (() => HTMLElement \| Window)` | `window` | Scroll container target |
-| `onChange` | `(affixed: boolean) => void` | - | Callback when affix state changes |
-| `zIndex` | `number` | `10` | Z-index for affixed element |
-| `useSticky` | `boolean` | `false` | Use CSS sticky instead of fixed positioning |
-| `className` | `string` | - | Additional CSS classes for container |
-| `contentClassName` | `string` | - | Additional CSS classes for content wrapper |
-| `asChild` | `boolean` | `false` | Merge props with child element |
+| Prop               | Type                                                     | Default  | Description                                                |
+| ------------------ | -------------------------------------------------------- | -------- | ---------------------------------------------------------- |
+| `children`         | `ReactNode`                                              | -        | **Required.** Content to be affixed                        |
+| `offsetTop`        | `number`                                                 | -        | Offset from top when affixed (triggers top affixing)       |
+| `offsetBottom`     | `number`                                                 | -        | Offset from bottom when affixed (triggers bottom affixing) |
+| `target`           | `Window \| HTMLElement \| (() => HTMLElement \| Window)` | `window` | Scroll container target                                    |
+| `onChange`         | `(affixed: boolean) => void`                             | -        | Callback when affix state changes                          |
+| `zIndex`           | `number`                                                 | `10`     | Z-index for affixed element                                |
+| `useSticky`        | `boolean`                                                | `false`  | Use CSS sticky instead of fixed positioning                |
+| `className`        | `string`                                                 | -        | Additional CSS classes for container                       |
+| `contentClassName` | `string`                                                 | -        | Additional CSS classes for content wrapper                 |
+| `asChild`          | `boolean`                                                | `false`  | Merge props with child element                             |
 
 ## Styling
 
@@ -184,14 +174,12 @@ Use native CSS `position: sticky` instead of JavaScript:
 Apply custom styles to the affixed element:
 
 ```tsx
-<Affix 
+<Affix
   offsetTop={0}
   className="border-b border-gray-200"
   contentClassName="container mx-auto"
 >
-  <header>
-    Styled sticky header
-  </header>
+  <header>Styled sticky header</header>
 </Affix>
 ```
 
@@ -202,15 +190,17 @@ function DynamicAffix() {
   const [affixed, setAffixed] = useState(false);
 
   return (
-    <Affix 
+    <Affix
       offsetTop={0}
       onChange={setAffixed}
-      className={affixed ? 'shadow-lg' : ''}
+      className={affixed ? "shadow-lg" : ""}
     >
-      <div className={`
+      <div
+        className={`
         transition-all duration-300
-        ${affixed ? 'bg-white' : 'bg-transparent'}
-      `}>
+        ${affixed ? "bg-white" : "bg-transparent"}
+      `}
+      >
         Dynamic header
       </div>
     </Affix>
@@ -241,9 +231,15 @@ function StickyNav() {
           <div className="flex items-center justify-between">
             <Logo />
             <ul className="flex gap-6">
-              <li><Link href="/">Home</Link></li>
-              <li><Link href="/about">About</Link></li>
-              <li><Link href="/contact">Contact</Link></li>
+              <li>
+                <Link href="/">Home</Link>
+              </li>
+              <li>
+                <Link href="/about">About</Link>
+              </li>
+              <li>
+                <Link href="/contact">Contact</Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -264,17 +260,21 @@ function PageWithSidebar() {
           <div className="bg-white p-4 rounded-lg shadow">
             <h3 className="font-bold mb-4">Table of Contents</h3>
             <ul className="space-y-2">
-              <li><a href="#section1">Section 1</a></li>
-              <li><a href="#section2">Section 2</a></li>
-              <li><a href="#section3">Section 3</a></li>
+              <li>
+                <a href="#section1">Section 1</a>
+              </li>
+              <li>
+                <a href="#section2">Section 2</a>
+              </li>
+              <li>
+                <a href="#section3">Section 3</a>
+              </li>
             </ul>
           </div>
         </Affix>
       </aside>
-      
-      <main className="flex-1">
-        {/* Main content */}
-      </main>
+
+      <main className="flex-1">{/* Main content */}</main>
     </div>
   );
 }
@@ -307,31 +307,37 @@ function StickyToolbar() {
 
   return (
     <div>
-      <div className="h-32 bg-gray-100">
-        Header content above toolbar
-      </div>
-      
-      <Affix 
+      <div className="h-32 bg-gray-100">Header content above toolbar</div>
+
+      <Affix
         offsetTop={0}
         onChange={setAffixed}
         className={`
           transition-all duration-300
-          ${affixed ? 'shadow-lg bg-white' : 'bg-gray-50'}
+          ${affixed ? "shadow-lg bg-white" : "bg-gray-50"}
         `}
       >
         <div className="px-4 py-2 flex items-center gap-2">
-          <Button size="sm" variant="outline">Bold</Button>
-          <Button size="sm" variant="outline">Italic</Button>
-          <Button size="sm" variant="outline">Underline</Button>
+          <Button size="sm" variant="outline">
+            Bold
+          </Button>
+          <Button size="sm" variant="outline">
+            Italic
+          </Button>
+          <Button size="sm" variant="outline">
+            Underline
+          </Button>
           <div className="mx-2 h-6 w-px bg-gray-300" />
-          <Button size="sm" variant="outline">Align Left</Button>
-          <Button size="sm" variant="outline">Align Center</Button>
+          <Button size="sm" variant="outline">
+            Align Left
+          </Button>
+          <Button size="sm" variant="outline">
+            Align Center
+          </Button>
         </div>
       </Affix>
-      
-      <div className="p-4">
-        Main content area...
-      </div>
+
+      <div className="p-4">Main content area...</div>
     </div>
   );
 }
@@ -344,14 +350,11 @@ function BackToTop() {
   const [isAffixed, setIsAffixed] = useState(false);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <Affix 
-      offsetBottom={20}
-      onChange={setIsAffixed}
-    >
+    <Affix offsetBottom={20} onChange={setIsAffixed}>
       {isAffixed && (
         <Button
           onClick={scrollToTop}

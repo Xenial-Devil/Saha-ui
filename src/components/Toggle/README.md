@@ -16,13 +16,13 @@ A flexible toggle button component that can be pressed and unpressed, similar to
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Toggle } from '@saha-ui/core';
+import { Toggle } from "saha-ui";
 
 function MyComponent() {
   return (
@@ -115,10 +115,10 @@ Use `ToggleGroup` for related toggle buttons:
 Only one toggle can be active at a time:
 
 ```tsx
-import { ToggleGroup, Toggle } from '@saha-ui/core';
+import { ToggleGroup, Toggle } from "saha-ui";
 
 function TextAlignment() {
-  const [alignment, setAlignment] = useState('left');
+  const [alignment, setAlignment] = useState("left");
 
   return (
     <ToggleGroup type="single" value={alignment} onValueChange={setAlignment}>
@@ -183,48 +183,48 @@ function TextFormatting() {
 
 ### Toggle Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'default' \| 'outline' \| 'ghost'` | `'default'` | Visual style variant |
-| `size` | `'sm' \| 'default' \| 'lg'` | `'default'` | Size of the toggle |
-| `pressed` | `boolean` | - | Controlled pressed state |
-| `defaultPressed` | `boolean` | `false` | Default pressed state (uncontrolled) |
-| `onPressedChange` | `(pressed: boolean) => void` | - | Callback when state changes |
-| `disabled` | `boolean` | `false` | Whether toggle is disabled |
-| `value` | `string` | - | Value for use in ToggleGroup |
-| `className` | `string` | - | Additional CSS classes |
-| `asChild` | `boolean` | `false` | Merge props with child element |
-| `children` | `ReactNode` | - | Toggle content |
+| Prop              | Type                                | Default     | Description                          |
+| ----------------- | ----------------------------------- | ----------- | ------------------------------------ |
+| `variant`         | `'default' \| 'outline' \| 'ghost'` | `'default'` | Visual style variant                 |
+| `size`            | `'sm' \| 'default' \| 'lg'`         | `'default'` | Size of the toggle                   |
+| `pressed`         | `boolean`                           | -           | Controlled pressed state             |
+| `defaultPressed`  | `boolean`                           | `false`     | Default pressed state (uncontrolled) |
+| `onPressedChange` | `(pressed: boolean) => void`        | -           | Callback when state changes          |
+| `disabled`        | `boolean`                           | `false`     | Whether toggle is disabled           |
+| `value`           | `string`                            | -           | Value for use in ToggleGroup         |
+| `className`       | `string`                            | -           | Additional CSS classes               |
+| `asChild`         | `boolean`                           | `false`     | Merge props with child element       |
+| `children`        | `ReactNode`                         | -           | Toggle content                       |
 
 ### ToggleGroup Props (Single)
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `type` | `'single'` | - | **Required.** Single selection mode |
-| `value` | `string` | - | Controlled selected value |
-| `defaultValue` | `string` | - | Default value (uncontrolled) |
-| `onValueChange` | `(value: string) => void` | - | Callback when selection changes |
-| `variant` | `'default' \| 'outline' \| 'ghost'` | `'default'` | Variant for all toggles |
-| `size` | `'sm' \| 'default' \| 'lg'` | `'default'` | Size for all toggles |
-| `disabled` | `boolean` | `false` | Disable all toggles |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Group orientation |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | - | Toggle components |
+| Prop            | Type                                | Default        | Description                         |
+| --------------- | ----------------------------------- | -------------- | ----------------------------------- |
+| `type`          | `'single'`                          | -              | **Required.** Single selection mode |
+| `value`         | `string`                            | -              | Controlled selected value           |
+| `defaultValue`  | `string`                            | -              | Default value (uncontrolled)        |
+| `onValueChange` | `(value: string) => void`           | -              | Callback when selection changes     |
+| `variant`       | `'default' \| 'outline' \| 'ghost'` | `'default'`    | Variant for all toggles             |
+| `size`          | `'sm' \| 'default' \| 'lg'`         | `'default'`    | Size for all toggles                |
+| `disabled`      | `boolean`                           | `false`        | Disable all toggles                 |
+| `orientation`   | `'horizontal' \| 'vertical'`        | `'horizontal'` | Group orientation                   |
+| `className`     | `string`                            | -              | Additional CSS classes              |
+| `children`      | `ReactNode`                         | -              | Toggle components                   |
 
 ### ToggleGroup Props (Multiple)
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `type` | `'multiple'` | - | **Required.** Multiple selection mode |
-| `value` | `string[]` | - | Controlled selected values |
-| `defaultValue` | `string[]` | - | Default values (uncontrolled) |
-| `onValueChange` | `(value: string[]) => void` | - | Callback when selection changes |
-| `variant` | `'default' \| 'outline' \| 'ghost'` | `'default'` | Variant for all toggles |
-| `size` | `'sm' \| 'default' \| 'lg'` | `'default'` | Size for all toggles |
-| `disabled` | `boolean` | `false` | Disable all toggles |
-| `orientation` | `'horizontal' \| 'vertical'` | `'vertical'` | Group orientation |
-| `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode` | - | Toggle components |
+| Prop            | Type                                | Default      | Description                           |
+| --------------- | ----------------------------------- | ------------ | ------------------------------------- |
+| `type`          | `'multiple'`                        | -            | **Required.** Multiple selection mode |
+| `value`         | `string[]`                          | -            | Controlled selected values            |
+| `defaultValue`  | `string[]`                          | -            | Default values (uncontrolled)         |
+| `onValueChange` | `(value: string[]) => void`         | -            | Callback when selection changes       |
+| `variant`       | `'default' \| 'outline' \| 'ghost'` | `'default'`  | Variant for all toggles               |
+| `size`          | `'sm' \| 'default' \| 'lg'`         | `'default'`  | Size for all toggles                  |
+| `disabled`      | `boolean`                           | `false`      | Disable all toggles                   |
+| `orientation`   | `'horizontal' \| 'vertical'`        | `'vertical'` | Group orientation                     |
+| `className`     | `string`                            | -            | Additional CSS classes                |
+| `children`      | `ReactNode`                         | -            | Toggle components                     |
 
 ## Common Patterns
 
@@ -233,7 +233,7 @@ function TextFormatting() {
 ```tsx
 function EditorToolbar() {
   const [formats, setFormats] = useState<string[]>([]);
-  const [alignment, setAlignment] = useState('left');
+  const [alignment, setAlignment] = useState("left");
 
   return (
     <div className="flex gap-2">
@@ -271,7 +271,7 @@ function EditorToolbar() {
 
 ```tsx
 function ViewModeSelector() {
-  const [view, setView] = useState('grid');
+  const [view, setView] = useState("grid");
 
   return (
     <ToggleGroup type="single" value={view} onValueChange={setView}>
@@ -290,12 +290,12 @@ function ViewModeSelector() {
 
 ```tsx
 function FilterToggles() {
-  const [filters, setFilters] = useState<string[]>(['active']);
+  const [filters, setFilters] = useState<string[]>(["active"]);
 
   return (
-    <ToggleGroup 
-      type="multiple" 
-      value={filters} 
+    <ToggleGroup
+      type="multiple"
+      value={filters}
       onValueChange={setFilters}
       variant="outline"
     >
@@ -316,7 +316,7 @@ function MediaControls() {
   return (
     <ToggleGroup type="multiple" value={controls} onValueChange={setControls}>
       <Toggle value="mute" aria-label="Toggle mute">
-        {controls.includes('mute') ? <VolumeX /> : <Volume2 />}
+        {controls.includes("mute") ? <VolumeX /> : <Volume2 />}
       </Toggle>
       <Toggle value="captions" aria-label="Toggle captions">
         <Subtitles />
@@ -344,9 +344,7 @@ function MediaControls() {
 Toggle elements receive a `data-state` attribute:
 
 ```tsx
-<Toggle className="data-[state=on]:bg-primary">
-  Styled Based on State
-</Toggle>
+<Toggle className="data-[state=on]:bg-primary">Styled Based on State</Toggle>
 ```
 
 ## Accessibility
@@ -354,11 +352,13 @@ Toggle elements receive a `data-state` attribute:
 The Toggle component follows accessibility best practices:
 
 - **ARIA Attributes:**
+
   - `role="button"` for toggle elements
   - `aria-pressed` indicates pressed state
   - `aria-label` for icon-only toggles
 
 - **Keyboard Navigation:**
+
   - `Space` or `Enter` - Toggle pressed state
   - `Tab` - Move focus between toggles
   - Arrow keys navigate within ToggleGroup
@@ -405,12 +405,14 @@ The Toggle component follows accessibility best practices:
 ## When to Use
 
 **Use Toggle when:**
+
 - You need a button-like checkbox
 - Building toolbars or formatting controls
 - Creating view mode selectors
 - Implementing filters with on/off states
 
 **Use alternatives when:**
+
 - You need a simple on/off control → Use `Switch`
 - You need radio button behavior → Use `RadioGroup`
 - You need checkbox behavior → Use `Checkbox`

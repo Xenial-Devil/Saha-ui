@@ -18,18 +18,16 @@ A flexible progress bar component for displaying task completion, loading states
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Progress } from '@saha-ui/core';
+import { Progress } from "saha-ui";
 
 function MyComponent() {
-  return (
-    <Progress value={75} variant="primary" />
-  );
+  return <Progress value={75} variant="primary" />;
 }
 ```
 
@@ -184,11 +182,7 @@ Loading state with continuous animation:
 ## Custom Colors
 
 ```tsx
-<Progress 
-  value={60} 
-  color="#8b5cf6" 
-  trackColor="#e9d5ff"
-/>
+<Progress value={60} color="#8b5cf6" trackColor="#e9d5ff" />
 ```
 
 ## Custom Value Formatter
@@ -214,28 +208,28 @@ For unknown progress duration:
 
 ### Progress Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `number` | `0` | Current progress value (0-100) |
-| `max` | `number` | `100` | Maximum value |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'gradient' \| 'striped' \| 'glass'` | `'default'` | Visual style variant |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Height of progress bar |
-| `shape` | `'rounded' \| 'pill' \| 'square'` | `'rounded'` | Border radius style |
-| `animation` | `'none' \| 'pulse' \| 'shimmer' \| 'indeterminate'` | `'none'` | Animation style |
-| `showValue` | `boolean` | `false` | Whether to show percentage |
-| `label` | `string` | - | Custom label text |
-| `labelPosition` | `'inside' \| 'outside' \| 'top'` | `'inside'` | Label position |
-| `color` | `string` | - | Custom progress bar color |
-| `trackColor` | `string` | - | Custom track background color |
-| `striped` | `boolean` | `false` | Show striped pattern |
-| `stripedAnimated` | `boolean` | `false` | Animate stripes |
-| `glow` | `boolean` | `false` | Show glow effect |
-| `indeterminate` | `boolean` | `false` | Indeterminate loading state |
-| `valueFormat` | `(value: number, max: number) => string` | - | Custom value formatter |
-| `className` | `string` | - | Additional CSS classes |
-| `barClassName` | `string` | - | Classes for progress bar |
-| `labelClassName` | `string` | - | Classes for label |
-| `aria-label` | `string` | - | Accessible label |
+| Prop              | Type                                                                                                                                     | Default     | Description                    |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------ |
+| `value`           | `number`                                                                                                                                 | `0`         | Current progress value (0-100) |
+| `max`             | `number`                                                                                                                                 | `100`       | Maximum value                  |
+| `variant`         | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'gradient' \| 'striped' \| 'glass'` | `'default'` | Visual style variant           |
+| `size`            | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                                                                                   | `'md'`      | Height of progress bar         |
+| `shape`           | `'rounded' \| 'pill' \| 'square'`                                                                                                        | `'rounded'` | Border radius style            |
+| `animation`       | `'none' \| 'pulse' \| 'shimmer' \| 'indeterminate'`                                                                                      | `'none'`    | Animation style                |
+| `showValue`       | `boolean`                                                                                                                                | `false`     | Whether to show percentage     |
+| `label`           | `string`                                                                                                                                 | -           | Custom label text              |
+| `labelPosition`   | `'inside' \| 'outside' \| 'top'`                                                                                                         | `'inside'`  | Label position                 |
+| `color`           | `string`                                                                                                                                 | -           | Custom progress bar color      |
+| `trackColor`      | `string`                                                                                                                                 | -           | Custom track background color  |
+| `striped`         | `boolean`                                                                                                                                | `false`     | Show striped pattern           |
+| `stripedAnimated` | `boolean`                                                                                                                                | `false`     | Animate stripes                |
+| `glow`            | `boolean`                                                                                                                                | `false`     | Show glow effect               |
+| `indeterminate`   | `boolean`                                                                                                                                | `false`     | Indeterminate loading state    |
+| `valueFormat`     | `(value: number, max: number) => string`                                                                                                 | -           | Custom value formatter         |
+| `className`       | `string`                                                                                                                                 | -           | Additional CSS classes         |
+| `barClassName`    | `string`                                                                                                                                 | -           | Classes for progress bar       |
+| `labelClassName`  | `string`                                                                                                                                 | -           | Classes for label              |
+| `aria-label`      | `string`                                                                                                                                 | -           | Accessible label               |
 
 ## Common Patterns
 
@@ -249,19 +243,14 @@ function FileUpload() {
     // Simulate upload progress
     for (let i = 0; i <= 100; i += 10) {
       setProgress(i);
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
     }
   };
 
   return (
     <div className="space-y-2">
       <p>Uploading file...</p>
-      <Progress 
-        value={progress} 
-        variant="primary"
-        showValue
-        size="lg"
-      />
+      <Progress value={progress} variant="primary" showValue size="lg" />
     </div>
   );
 }
@@ -276,14 +265,12 @@ function MultiStepForm({ currentStep, totalSteps }) {
   return (
     <div className="space-y-4">
       <div className="flex justify-between text-sm">
-        <span>Step {currentStep} of {totalSteps}</span>
+        <span>
+          Step {currentStep} of {totalSteps}
+        </span>
         <span>{Math.round(progress)}%</span>
       </div>
-      <Progress 
-        value={progress}
-        variant="gradient"
-        size="md"
-      />
+      <Progress value={progress} variant="gradient" size="md" />
     </div>
   );
 }
@@ -293,7 +280,7 @@ function MultiStepForm({ currentStep, totalSteps }) {
 
 ```tsx
 function TaskList({ tasks }) {
-  const completed = tasks.filter(t => t.completed).length;
+  const completed = tasks.filter((t) => t.completed).length;
   const total = tasks.length;
   const progress = (completed / total) * 100;
 
@@ -307,7 +294,7 @@ function TaskList({ tasks }) {
       </div>
       <Progress
         value={progress}
-        variant={progress === 100 ? 'success' : 'primary'}
+        variant={progress === 100 ? "success" : "primary"}
         showValue
         glow
       />
@@ -327,11 +314,7 @@ function LoadingData() {
       {loading ? (
         <div className="space-y-2">
           <p className="text-sm text-muted-foreground">Loading data...</p>
-          <Progress 
-            indeterminate 
-            variant="primary"
-            animation="shimmer"
-          />
+          <Progress indeterminate variant="primary" animation="shimmer" />
         </div>
       ) : (
         <div>Data loaded!</div>
@@ -353,7 +336,7 @@ function SkillLevel({ skill, level }) {
       </div>
       <Progress
         value={level}
-        variant={level >= 80 ? 'success' : level >= 50 ? 'primary' : 'warning'}
+        variant={level >= 80 ? "success" : level >= 50 ? "primary" : "warning"}
         size="sm"
         glow
       />
@@ -373,11 +356,13 @@ function StorageIndicator({ used, total }) {
     <div className="space-y-2">
       <div className="flex justify-between text-sm">
         <span>Storage Used</span>
-        <span>{used} GB / {total} GB</span>
+        <span>
+          {used} GB / {total} GB
+        </span>
       </div>
       <Progress
         value={percentage}
-        variant={isNearLimit ? 'error' : 'primary'}
+        variant={isNearLimit ? "error" : "primary"}
         showValue
         size="lg"
         glow={isNearLimit}
@@ -398,7 +383,7 @@ function StorageIndicator({ used, total }) {
 function DownloadManager({ downloads }) {
   return (
     <div className="space-y-4">
-      {downloads.map(download => (
+      {downloads.map((download) => (
         <div key={download.id} className="space-y-1">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium">{download.name}</span>
@@ -426,6 +411,7 @@ function DownloadManager({ downloads }) {
 The Progress component follows accessibility best practices:
 
 - **ARIA Attributes:**
+
   - `role="progressbar"` automatically applied
   - `aria-valuenow` indicates current value
   - `aria-valuemin` indicates minimum value (0)
@@ -478,10 +464,7 @@ The Progress component follows accessibility best practices:
 ### Responsive Sizing
 
 ```tsx
-<Progress
-  value={50}
-  className="h-2 sm:h-3 md:h-4"
-/>
+<Progress value={50} className="h-2 sm:h-3 md:h-4" />
 ```
 
 ## Related Components

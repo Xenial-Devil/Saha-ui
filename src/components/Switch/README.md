@@ -18,13 +18,13 @@ A fully accessible switch (toggle) component for binary on/off states. Implement
 ## Installation
 
 ```bash
-npm install @saha-ui/core
+npm install saha-ui
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Switch } from '@saha-ui/core';
+import { Switch } from "saha-ui";
 
 function App() {
   const [enabled, setEnabled] = useState(false);
@@ -95,7 +95,7 @@ function App() {
 ### With Icons
 
 ```tsx
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon } from "lucide-react";
 
 <Switch
   label="Dark mode"
@@ -103,7 +103,7 @@ import { Sun, Moon } from 'lucide-react';
   onCheckedChange={setDarkMode}
   checkedIcon={<Moon className="w-3 h-3" />}
   uncheckedIcon={<Sun className="w-3 h-3" />}
-/>
+/>;
 ```
 
 ### Loading State
@@ -205,7 +205,7 @@ function SettingsPanel() {
   });
 
   const updateSetting = (key: string, value: boolean) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
+    setSettings((prev) => ({ ...prev, [key]: value }));
   };
 
   return (
@@ -214,25 +214,25 @@ function SettingsPanel() {
         label="Push notifications"
         description="Receive push notifications on your device"
         checked={settings.notifications}
-        onCheckedChange={(checked) => updateSetting('notifications', checked)}
+        onCheckedChange={(checked) => updateSetting("notifications", checked)}
       />
       <Switch
         label="Auto-save"
         description="Automatically save your work"
         checked={settings.autoSave}
-        onCheckedChange={(checked) => updateSetting('autoSave', checked)}
+        onCheckedChange={(checked) => updateSetting("autoSave", checked)}
       />
       <Switch
         label="Dark mode"
         description="Use dark theme"
         checked={settings.darkMode}
-        onCheckedChange={(checked) => updateSetting('darkMode', checked)}
+        onCheckedChange={(checked) => updateSetting("darkMode", checked)}
       />
       <Switch
         label="Sound effects"
         description="Play sound effects"
         checked={settings.sounds}
-        onCheckedChange={(checked) => updateSetting('sounds', checked)}
+        onCheckedChange={(checked) => updateSetting("sounds", checked)}
       />
     </div>
   );
@@ -387,30 +387,30 @@ Errors are automatically announced to screen readers:
 
 ### Switch Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - | Label text for the switch |
-| `description` | `string` | - | Description text shown below/beside the label |
-| `helperText` | `string` | - | Helper text shown below the switch |
-| `error` | `string` | - | Error message to display |
-| `labelPosition` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'right'` | Position of the label |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'primary'` | Color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the switch |
-| `checked` | `boolean` | - | Checked state (controlled) |
-| `defaultChecked` | `boolean` | `false` | Default checked state (uncontrolled) |
-| `disabled` | `boolean` | `false` | Whether the switch is disabled |
-| `loading` | `boolean` | `false` | Show loading state |
-| `required` | `boolean` | `false` | Whether the switch is required |
-| `checkedIcon` | `ReactNode` | - | Icon to show when checked |
-| `uncheckedIcon` | `ReactNode` | - | Icon to show when unchecked |
-| `onChange` | `(e: ChangeEvent) => void` | - | Native change handler |
-| `onCheckedChange` | `(checked: boolean) => void` | - | Callback when checked state changes |
-| `className` | `string` | - | Additional CSS classes |
-| `aria-label` | `string` | - | Accessible label for screen readers |
-| `aria-labelledby` | `string` | - | ID of element that labels this switch |
-| `aria-describedby` | `string` | - | IDs of elements that describe this switch |
-| `aria-required` | `'true' \| 'false'` | - | Whether the switch is required |
-| `aria-invalid` | `'true' \| 'false'` | - | Whether the switch has an error |
+| Prop               | Type                                                                                     | Default     | Description                                   |
+| ------------------ | ---------------------------------------------------------------------------------------- | ----------- | --------------------------------------------- |
+| `label`            | `string`                                                                                 | -           | Label text for the switch                     |
+| `description`      | `string`                                                                                 | -           | Description text shown below/beside the label |
+| `helperText`       | `string`                                                                                 | -           | Helper text shown below the switch            |
+| `error`            | `string`                                                                                 | -           | Error message to display                      |
+| `labelPosition`    | `'left' \| 'right' \| 'top' \| 'bottom'`                                                 | `'right'`   | Position of the label                         |
+| `variant`          | `'default' \| 'primary' \| 'secondary' \| 'accent' \| 'success' \| 'warning' \| 'error'` | `'primary'` | Color variant                                 |
+| `size`             | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`      | Size of the switch                            |
+| `checked`          | `boolean`                                                                                | -           | Checked state (controlled)                    |
+| `defaultChecked`   | `boolean`                                                                                | `false`     | Default checked state (uncontrolled)          |
+| `disabled`         | `boolean`                                                                                | `false`     | Whether the switch is disabled                |
+| `loading`          | `boolean`                                                                                | `false`     | Show loading state                            |
+| `required`         | `boolean`                                                                                | `false`     | Whether the switch is required                |
+| `checkedIcon`      | `ReactNode`                                                                              | -           | Icon to show when checked                     |
+| `uncheckedIcon`    | `ReactNode`                                                                              | -           | Icon to show when unchecked                   |
+| `onChange`         | `(e: ChangeEvent) => void`                                                               | -           | Native change handler                         |
+| `onCheckedChange`  | `(checked: boolean) => void`                                                             | -           | Callback when checked state changes           |
+| `className`        | `string`                                                                                 | -           | Additional CSS classes                        |
+| `aria-label`       | `string`                                                                                 | -           | Accessible label for screen readers           |
+| `aria-labelledby`  | `string`                                                                                 | -           | ID of element that labels this switch         |
+| `aria-describedby` | `string`                                                                                 | -           | IDs of elements that describe this switch     |
+| `aria-required`    | `'true' \| 'false'`                                                                      | -           | Whether the switch is required                |
+| `aria-invalid`     | `'true' \| 'false'`                                                                      | -           | Whether the switch has an error               |
 
 ## Best Practices
 
@@ -455,11 +455,7 @@ Help users understand what the switch does:
 ### 4. Show Immediate Feedback
 
 ```tsx
-<Switch
-  label="Feature"
-  loading={isSaving}
-  disabled={isSaving}
-/>
+<Switch label="Feature" loading={isSaving} disabled={isSaving} />
 ```
 
 ### 5. Use Controlled Components in Forms
@@ -467,7 +463,7 @@ Help users understand what the switch does:
 ```tsx
 function Form() {
   const [enabled, setEnabled] = useState(false);
-  
+
   return (
     <Switch
       label="Enable feature"
@@ -523,11 +519,7 @@ function Form() {
 Make the state more obvious with icons:
 
 ```tsx
-<Switch
-  label="Dark mode"
-  checkedIcon={<Moon />}
-  uncheckedIcon={<Sun />}
-/>
+<Switch label="Dark mode" checkedIcon={<Moon />} uncheckedIcon={<Sun />} />
 ```
 
 ### 10. Group Related Switches
@@ -546,7 +538,7 @@ Make the state more obvious with icons:
 ### With React Hook Form
 
 ```tsx
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 
 function Form() {
   const { control, handleSubmit } = useForm();
@@ -556,7 +548,7 @@ function Form() {
       <Controller
         name="notifications"
         control={control}
-        rules={{ required: 'You must enable notifications' }}
+        rules={{ required: "You must enable notifications" }}
         render={({ field, fieldState }) => (
           <Switch
             label="Enable notifications"
@@ -575,7 +567,7 @@ function Form() {
 ### With Formik
 
 ```tsx
-import { Formik, Field } from 'formik';
+import { Formik, Field } from "formik";
 
 function Form() {
   return (
@@ -584,7 +576,7 @@ function Form() {
       validate={(values) => {
         const errors: any = {};
         if (!values.enabled) {
-          errors.enabled = 'This must be enabled';
+          errors.enabled = "This must be enabled";
         }
         return errors;
       }}
@@ -594,7 +586,7 @@ function Form() {
         <Switch
           label="Accept terms"
           checked={values.enabled}
-          onCheckedChange={(checked) => setFieldValue('enabled', checked)}
+          onCheckedChange={(checked) => setFieldValue("enabled", checked)}
           error={touched.enabled ? errors.enabled : undefined}
         />
       )}
@@ -612,7 +604,7 @@ function ThemeSwitcher() {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode);
+    document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
   return (
@@ -645,7 +637,7 @@ function NotificationSettings() {
     setSaving(true);
     try {
       await api.updatePreference(key, value);
-      setPreferences(prev => ({ ...prev, [key]: value }));
+      setPreferences((prev) => ({ ...prev, [key]: value }));
     } finally {
       setSaving(false);
     }
@@ -657,28 +649,28 @@ function NotificationSettings() {
         label="Email notifications"
         description="Receive notifications via email"
         checked={preferences.email}
-        onCheckedChange={(checked) => updatePreference('email', checked)}
+        onCheckedChange={(checked) => updatePreference("email", checked)}
         loading={saving}
       />
       <Switch
         label="Push notifications"
         description="Receive push notifications"
         checked={preferences.push}
-        onCheckedChange={(checked) => updatePreference('push', checked)}
+        onCheckedChange={(checked) => updatePreference("push", checked)}
         loading={saving}
       />
       <Switch
         label="SMS notifications"
         description="Receive text messages"
         checked={preferences.sms}
-        onCheckedChange={(checked) => updatePreference('sms', checked)}
+        onCheckedChange={(checked) => updatePreference("sms", checked)}
         loading={saving}
       />
       <Switch
         label="Marketing emails"
         description="Receive promotional content"
         checked={preferences.marketing}
-        onCheckedChange={(checked) => updatePreference('marketing', checked)}
+        onCheckedChange={(checked) => updatePreference("marketing", checked)}
         loading={saving}
       />
     </div>
@@ -728,7 +720,7 @@ function PrivacySettings() {
 The component is fully typed with TypeScript:
 
 ```tsx
-import type { SwitchProps } from '@saha-ui/core';
+import type { SwitchProps } from "saha-ui";
 
 const MySwitch: React.FC<SwitchProps> = (props) => {
   return <Switch {...props} />;
@@ -740,10 +732,7 @@ const MySwitch: React.FC<SwitchProps> = (props) => {
 The component uses CVA (Class Variance Authority) for variant management:
 
 ```tsx
-<Switch
-  label="Custom styled"
-  className="my-custom-class"
-/>
+<Switch label="Custom styled" className="my-custom-class" />
 ```
 
 ## Dark Mode
@@ -752,21 +741,23 @@ Dark mode is automatically supported using CSS variables. No additional configur
 
 ## Comparison: Switch vs Checkbox
 
-| Use Case | Component |
-|----------|-----------|
-| Binary on/off state | **Switch** |
-| Immediate effect | **Switch** |
-| Option in a form | Checkbox |
-| Multiple selections | Checkbox |
-| Submit with form | Checkbox |
+| Use Case             | Component  |
+| -------------------- | ---------- |
+| Binary on/off state  | **Switch** |
+| Immediate effect     | **Switch** |
+| Option in a form     | Checkbox   |
+| Multiple selections  | Checkbox   |
+| Submit with form     | Checkbox   |
 | Settings/preferences | **Switch** |
 
 **Use Switch when:**
+
 - The change takes effect immediately
 - You're toggling a feature on/off
 - You're in a settings context
 
 **Use Checkbox when:**
+
 - The change happens on form submit
 - You need multiple selections
 - You're accepting terms/agreements

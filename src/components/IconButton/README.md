@@ -13,14 +13,14 @@ A button component designed specifically for icons, with proper sizing and acces
 ## Installation
 
 \`\`\`tsx
-import { IconButton } from '@saha-ui/core';
+import { IconButton } from 'saha-ui';
 \`\`\`
 
 ## Basic Usage
 
 \`\`\`tsx
 <IconButton aria-label="Delete">
-  <Trash className="h-4 w-4" />
+<Trash className="h-4 w-4" />
 </IconButton>
 \`\`\`
 
