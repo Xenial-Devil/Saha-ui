@@ -1,3 +1,13 @@
+## [1.22.9](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.8...v1.22.9) (2026-01-05)
+
+
+### Bug Fixes
+
+* **combobox:** Enhance autocomplete input with improved UX and positioning ([b79dde2](https://github.com/Xenial-Devil/Saha-ui/commit/b79dde253efd301c1e10975414523a0e0272c6f9))
+* **components:** Improve Select and Link component positioning ([fb21b1f](https://github.com/Xenial-Devil/Saha-ui/commit/fb21b1f7a2477888f7f1db5a4bd0958591852618))
+* **dropdown:** Refactor dropdown to pure menu component ([7d7fbc3](https://github.com/Xenial-Devil/Saha-ui/commit/7d7fbc3bc9490972a331bac7650b7bbd10c0061e))
+* **ui:** Adjust z-index and Twitter link in components ([7a0eb8b](https://github.com/Xenial-Devil/Saha-ui/commit/7a0eb8bc9ff77c76ceb5e078bbe5878a8bc75f2a))
+
 ## [1.22.8](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.7...v1.22.8) (2025-12-20)
 
 
