@@ -467,6 +467,11 @@ const Calendar = forwardRef<HTMLDivElement, CalendarProps>((props, ref) => {
     const isOutside = !isSameMonth(date, currentMonth);
     const inRange = mode === "range" ? isDateInRange(date, range) : false;
 
+    // Don't render dates from adjacent months
+    if (isOutside) {
+      return <div key={index} className="h-10 w-10" />;
+    }
+
     // Determine the state with proper range handling
     let state: any = "default";
     if (disabled) {
