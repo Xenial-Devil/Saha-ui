@@ -23,7 +23,7 @@ import type {
   DropdownGroupProps,
   DropdownSeparatorProps,
 } from "./Dropdown.types";
-import { ChevronDown, Check, Search, X } from "lucide-react";
+import { ChevronDown, Search, X } from "lucide-react";
 import {
   dropdownTriggerVariants,
   dropdownContentVariants,
@@ -33,11 +33,11 @@ import {
 /**
  * Dropdown Component
  *
- * Advanced dropdown menu with nested menus, search, keyboard navigation,
- * command palette, and beautiful animations.
+ * Advanced dropdown menu for navigation and actions with keyboard navigation,
+ * search, nested menus, and beautiful animations.
  *
  * Supports TWO usage patterns:
- * 1. Props-based (Simple): <Dropdown options={[...]} placeholder="Select..." />
+ * 1. Props-based (Simple): <Dropdown options={[...]} placeholder="Menu" />
  * 2. Component-based (Flexible): <Dropdown><DropdownTrigger>...</DropdownTrigger><DropdownContent>...</DropdownContent></Dropdown>
  *
  * @variant default | primary | secondary | accent | success | warning | error | ghost | glass
@@ -46,11 +46,8 @@ import {
 
 // Dropdown Context
 interface DropdownContextValue {
-  value?: string | string[];
-  onChange?: (value: string) => void;
-  multiple?: boolean;
+  onAction?: (value: string) => void;
   closeOnSelect?: boolean;
-  checkmarks?: boolean;
   onClose?: () => void;
   searchQuery?: string;
   isOpen?: boolean;
@@ -58,6 +55,10 @@ interface DropdownContextValue {
   variant?: DropdownProps["variant"];
   size?: DropdownProps["size"];
   disabled?: boolean;
+  triggerRef?: React.RefObject<HTMLButtonElement | null>;
+  disablePortal?: boolean;
+  align?: DropdownProps["align"];
+  side?: DropdownProps["side"];
 }
 
 const DropdownContext = createContext<DropdownContextValue | undefined>(
@@ -81,14 +82,10 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       trigger: _trigger,
       options,
       children,
-      value: controlledValue,
-      defaultValue,
-      onChange,
       open: controlledOpen,
       defaultOpen = false,
       onOpenChange,
-      multiple = false,
-      closeOnSelect = !multiple,
+      closeOnSelect = true,
       modal = false,
       searchable = false,
       searchPlaceholder = "Search...",
@@ -100,10 +97,9 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       width,
       maxHeight = "320px",
       label,
-      placeholder = "Select...",
+      placeholder = "Menu",
       error,
       helperText,
-      checkmarks = true,
       disabled = false,
       loading = false,
       emptyMessage = "No results found",
@@ -119,16 +115,11 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     const isComponentBased = !options && children;
 
     const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-    const [uncontrolledValue, setUncontrolledValue] = useState<
-      string | string[]
-    >(defaultValue || (multiple ? [] : ""));
     const [searchQuery, setSearchQuery] = useState("");
     const [focusedIndex, setFocusedIndex] = useState(0);
 
     const isControlledOpen = controlledOpen !== undefined;
-    const isControlledValue = controlledValue !== undefined;
     const isOpen = isControlledOpen ? controlledOpen : uncontrolledOpen;
-    const value = isControlledValue ? controlledValue : uncontrolledValue;
 
     const contentRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
@@ -136,7 +127,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
     const position = `${side}${align ? `-${align}` : ""}`;
     const { portalContainer, portalRef, portalPos } = usePortalPosition(
-      triggerRef as React.RefObject<HTMLElement>,
+      triggerRef,
       isOpen,
       { position }
     );
@@ -165,41 +156,13 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       [isControlledOpen, onOpenChange]
     );
 
-    const handleValueChange = useCallback(
-      (newValue: string) => {
-        if (disabled) return;
+    const handleAction = useCallback(() => {
+      if (disabled) return;
 
-        let updatedValue: string | string[];
-        if (multiple) {
-          const currentArray = Array.isArray(value) ? value : [];
-          if (currentArray.includes(newValue)) {
-            updatedValue = currentArray.filter((v) => v !== newValue);
-          } else {
-            updatedValue = [...currentArray, newValue];
-          }
-        } else {
-          updatedValue = newValue;
-        }
-
-        if (!isControlledValue) {
-          setUncontrolledValue(updatedValue);
-        }
-        onChange?.(updatedValue);
-
-        if (closeOnSelect && !multiple) {
-          handleOpenChange(false);
-        }
-      },
-      [
-        disabled,
-        multiple,
-        value,
-        isControlledValue,
-        onChange,
-        closeOnSelect,
-        handleOpenChange,
-      ]
-    );
+      if (closeOnSelect) {
+        handleOpenChange(false);
+      }
+    }, [disabled, closeOnSelect, handleOpenChange]);
 
     const handleClose = useCallback(() => {
       handleOpenChange(false);
@@ -224,14 +187,14 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           e.preventDefault();
           const option = options?.[focusedIndex];
           if (option && !option.disabled) {
-            handleValueChange(option.value);
+            handleAction();
           }
         }
       };
 
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [isOpen, focusedIndex, options, handleClose, handleValueChange]);
+    }, [isOpen, focusedIndex, options, handleClose, handleAction]);
 
     // Focus search input when opened
     useEffect(() => {
@@ -249,24 +212,9 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       );
     });
 
-    // Get display value
-    const getDisplayValue = () => {
-      if (!value) return placeholder;
-      if (multiple && Array.isArray(value)) {
-        if (value.length === 0) return placeholder;
-        const selected = options?.filter((opt) => value.includes(opt.value));
-        return selected?.map((opt) => opt.label).join(", ") || placeholder;
-      }
-      const selected = options?.find((opt) => opt.value === value);
-      return selected?.label || placeholder;
-    };
-
     const contextValue: DropdownContextValue = {
-      value,
-      onChange: handleValueChange,
-      multiple,
+      onAction: handleAction,
       closeOnSelect,
-      checkmarks,
       onClose: handleClose,
       searchQuery,
       isOpen,
@@ -274,6 +222,10 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       variant,
       size,
       disabled,
+      triggerRef,
+      disablePortal,
+      align,
+      side,
     };
 
     // Click outside to close - optimized with useClickOutside hook
@@ -335,7 +287,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           aria-expanded={isOpen}
         >
           <span className="flex-1 truncate text-left">
-            {loading ? "Loading..." : getDisplayValue()}
+            {loading ? "Loading..." : placeholder}
           </span>
           <ChevronDown
             className={cn(
@@ -497,6 +449,8 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
       disabled = false,
       divider = false,
       header = false,
+      href,
+      target = "_self",
       children,
       onSelect,
       className,
@@ -505,13 +459,18 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
     ref
   ) => {
     const context = useDropdownContext();
-    const isSelected = context?.multiple
-      ? Array.isArray(context.value) && context.value.includes(value)
-      : context?.value === value;
 
-    const handleClick = () => {
+    const handleClick = (e: React.MouseEvent) => {
       if (disabled) return;
-      context?.onChange?.(value);
+      if (href) {
+        // Let the link handle navigation
+        if (context?.closeOnSelect !== false) {
+          context?.onClose?.();
+        }
+        return;
+      }
+      e.preventDefault();
+      context?.onAction?.(value);
       onSelect?.(value);
     };
 
@@ -534,28 +493,8 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
       );
     }
 
-    return (
-      <div
-        ref={ref}
-        onClick={handleClick}
-        data-disabled={disabled ? "true" : undefined}
-        data-selected={isSelected ? "true" : "false"}
-        className={cn(
-          dropdownItemVariants({
-            variant: context?.variant || "default",
-            size: context?.size || "md",
-          }),
-          className
-        )}
-        {...props}
-      >
-        {/* Checkmark */}
-        {context?.checkmarks && context.multiple && (
-          <div className="flex h-4 w-4 shrink-0 items-center justify-center">
-            {isSelected && <Check className="h-4 w-4" />}
-          </div>
-        )}
-
+    const itemContent = (
+      <>
         {/* Avatar */}
         {avatar && (
           <img
@@ -602,12 +541,44 @@ export const DropdownItem = forwardRef<HTMLDivElement, DropdownItemProps>(
           </span>
         )}
 
-        {/* Single select checkmark */}
-        {context?.checkmarks && !context.multiple && isSelected && (
-          <Check className="ml-auto h-4 w-4 shrink-0" />
-        )}
-
         {children}
+      </>
+    );
+
+    const itemClassName = cn(
+      dropdownItemVariants({
+        variant: context?.variant || "default",
+        size: context?.size || "md",
+      }),
+      className
+    );
+
+    if (href) {
+      return (
+        <a
+          ref={ref as any}
+          href={href}
+          target={target}
+          rel={target === "_blank" ? "noopener noreferrer" : undefined}
+          onClick={handleClick}
+          data-disabled={disabled ? "true" : undefined}
+          className={itemClassName}
+          {...props}
+        >
+          {itemContent}
+        </a>
+      );
+    }
+
+    return (
+      <div
+        ref={ref}
+        onClick={handleClick}
+        data-disabled={disabled ? "true" : undefined}
+        className={itemClassName}
+        {...props}
+      >
+        {itemContent}
       </div>
     );
   }
@@ -668,12 +639,26 @@ export const DropdownTrigger = forwardRef<
     variant,
     size,
     disabled: contextDisabled,
+    triggerRef,
   } = context;
 
   const isDisabled = disabled || contextDisabled;
 
+  const handleRef = (node: HTMLButtonElement) => {
+    if (triggerRef) {
+      (triggerRef as React.MutableRefObject<HTMLButtonElement | null>).current =
+        node;
+    }
+    if (typeof ref === "function") {
+      ref(node);
+    } else if (ref) {
+      (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
+    }
+  };
+
   if (asChild && isValidElement(children)) {
     return cloneElement(children as React.ReactElement<any>, {
+      ref: handleRef,
       onClick: () => !isDisabled && setIsOpen?.(!isOpen),
       "aria-haspopup": "listbox",
       "aria-expanded": isOpen,
@@ -683,7 +668,7 @@ export const DropdownTrigger = forwardRef<
 
   return (
     <button
-      ref={ref}
+      ref={handleRef}
       type="button"
       onClick={() => !isDisabled && setIsOpen?.(!isOpen)}
       disabled={isDisabled}
@@ -714,8 +699,8 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
     {
       children,
       className,
-      align = "start",
-      side = "bottom",
+      align: propAlign,
+      side: propSide,
       sideOffset: _sideOffset = 4,
       width,
       maxHeight = "320px",
@@ -724,34 +709,100 @@ export const DropdownContent = forwardRef<HTMLDivElement, DropdownContentProps>(
     ref
   ) => {
     const context = useDropdownContext();
-    const { isOpen, variant } = context;
+    const {
+      isOpen,
+      variant,
+      size,
+      triggerRef,
+      disablePortal,
+      align: contextAlign = "start",
+      side: contextSide = "bottom",
+      onClose,
+    } = context;
+
+    const align = propAlign || contextAlign;
+    const side = propSide || contextSide;
+
+    const contentRef = useRef<HTMLDivElement>(null);
+    const position = `${side}${align ? `-${align}` : ""}`;
+    const fallbackRef = useRef<HTMLElement>(null);
+
+    const { portalContainer, portalRef, portalPos } = usePortalPosition(
+      (triggerRef || fallbackRef) as React.RefObject<HTMLElement>,
+      isOpen || false,
+      { position }
+    );
+
+    const [positionReady, setPositionReady] = useState(false);
+    useEffect(() => {
+      if (!isOpen) {
+        setPositionReady(false);
+        return;
+      }
+      const t = setTimeout(() => setPositionReady(true), 20);
+      return () => clearTimeout(t);
+    }, [isOpen, portalPos.left, portalPos.top]);
+
+    // Click outside to close for component-based mode
+    useClickOutside(contentRef, () => {
+      if (isOpen) {
+        onClose?.();
+      }
+    });
 
     if (!isOpen) return null;
 
-    return (
+    // Calculate proper width independent of trigger
+    const sizeMin = size === "sm" ? 180 : size === "lg" ? 320 : 240;
+    const computedWidth = width
+      ? typeof width === "number"
+        ? `${width}px`
+        : String(width)
+      : `${sizeMin}px`; // Default to minimum size, not trigger width
+    const computedMinWidth = `${sizeMin}px`;
+
+    const contentNode = (
       <div
-        ref={ref}
+        ref={(node) => {
+          contentRef.current = node as HTMLDivElement | null;
+          portalRef.current = node as HTMLDivElement | null;
+          if (typeof ref === "function") {
+            ref(node);
+          } else if (ref) {
+            (ref as React.MutableRefObject<HTMLDivElement | null>).current =
+              node;
+          }
+        }}
         className={cn(
           dropdownContentVariants({ variant }),
-          "absolute mt-2 w-full",
+          "absolute mt-2",
           side === "top" && "bottom-full mb-2 mt-0",
           side === "bottom" && "top-full",
           side === "left" && "right-full mr-2 mt-0",
           side === "right" && "left-full ml-2 mt-0",
-          align === "start" && "left-0",
-          align === "center" && "left-1/2 -translate-x-1/2",
-          align === "end" && "right-0",
-          width && `w-[${width}]`,
-          className
+          // Only apply alignment classes when not using portal
+          !portalContainer && align === "start" && "left-0",
+          !portalContainer && align === "center" && "left-1/2 -translate-x-1/2",
+          !portalContainer && align === "end" && "right-0",
+          className,
+          positionReady ? undefined : "transition-none"
         )}
         style={{
           maxHeight,
+          position: "absolute",
+          top: portalPos.top,
+          left: portalPos.left,
+          width: computedWidth,
+          minWidth: computedMinWidth,
         }}
         {...props}
       >
         <div className="max-h-[280px] overflow-y-auto p-1">{children}</div>
       </div>
     );
+
+    if (!portalContainer || disablePortal) return contentNode;
+    return createPortal(contentNode, portalContainer);
   }
 );
 

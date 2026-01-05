@@ -36,32 +36,30 @@ import {
 } from "lucide-react";
 
 export const DropdownExample = () => {
-  const [selectedAction, setSelectedAction] = useState<string | string[]>("");
-  const [selectedFiles, setSelectedFiles] = useState<string | string[]>([]);
-  const [selectedPreferences, setSelectedPreferences] = useState<
-    string | string[]
-  >([]);
-
   const users = [
     {
       value: "john",
       label: "John Doe",
       avatar: "https://i.pravatar.cc/150?img=1",
+      description: "Product Designer",
     },
     {
       value: "jane",
       label: "Jane Smith",
       avatar: "https://i.pravatar.cc/150?img=2",
+      description: "Frontend Developer",
     },
     {
       value: "bob",
       label: "Bob Johnson",
       avatar: "https://i.pravatar.cc/150?img=3",
+      description: "Backend Developer",
     },
     {
       value: "alice",
       label: "Alice Williams",
       avatar: "https://i.pravatar.cc/150?img=4",
+      description: "UX Designer",
     },
   ];
 
@@ -69,52 +67,55 @@ export const DropdownExample = () => {
     <div className="space-y-12 p-8">
       <div>
         <h2 className="text-3xl font-bold mb-2 text-foreground">
-          Dropdown Component
+          Dropdown Menu Component
         </h2>
         <p className="text-muted-foreground mb-8">
-          Advanced dropdown menus with keyboard navigation, search, and
-          beautiful animations.
+          A pure menu component for navigation and actions. Items can link to
+          URLs or trigger actions. No selection state - just clean menu
+          behavior.
         </p>
       </div>
 
-      {/* Basic Dropdown */}
+      {/* Basic Dropdown Menu */}
       <section className="space-y-4">
         <div>
           <h3 className="text-xl font-semibold mb-2 text-foreground">
-            Basic Dropdown
+            Basic Menu
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Simple dropdown with options
+            Simple menu with file actions
           </p>
         </div>
         <div className="flex flex-wrap gap-4">
-          <Dropdown
-            placeholder="Select Action"
-            value={selectedAction}
-            onChange={setSelectedAction}
-            options={[
-              {
-                value: "new",
-                label: "New File",
-                icon: <File className="w-4 h-4" />,
-              },
-              {
-                value: "open",
-                label: "Open",
-                icon: <Folder className="w-4 h-4" />,
-              },
-              {
-                value: "save",
-                label: "Save",
-                icon: <Download className="w-4 h-4" />,
-              },
-              {
-                value: "export",
-                label: "Export",
-                icon: <Upload className="w-4 h-4" />,
-              },
-            ]}
-          />
+          <Dropdown placeholder="File Actions">
+            <DropdownTrigger>File Menu</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem
+                value="new"
+                label="New File"
+                icon={<File className="w-4 h-4" />}
+                onSelect={() => alert("Creating new file...")}
+              />
+              <DropdownItem
+                value="open"
+                label="Open"
+                icon={<Folder className="w-4 h-4" />}
+                onSelect={() => alert("Opening file...")}
+              />
+              <DropdownItem
+                value="save"
+                label="Save"
+                icon={<Download className="w-4 h-4" />}
+                onSelect={() => alert("Saving...")}
+              />
+              <DropdownItem
+                value="export"
+                label="Export"
+                icon={<Upload className="w-4 h-4" />}
+                onSelect={() => alert("Exporting...")}
+              />
+            </DropdownContent>
+          </Dropdown>
         </div>
       </section>
 
@@ -125,82 +126,73 @@ export const DropdownExample = () => {
             Different Variants
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Dropdown with different color variants
+            Menus with different color variants
           </p>
         </div>
         <div className="flex flex-wrap gap-4">
-          <Dropdown
-            variant="default"
-            placeholder="Default"
-            options={[
-              { value: "1", label: "Option 1" },
-              { value: "2", label: "Option 2" },
-            ]}
-          />
-          <Dropdown
-            variant="primary"
-            placeholder="Primary"
-            options={[
-              { value: "1", label: "Option 1" },
-              { value: "2", label: "Option 2" },
-            ]}
-          />
-          <Dropdown
-            variant="secondary"
-            placeholder="Secondary"
-            options={[
-              { value: "1", label: "Option 1" },
-              { value: "2", label: "Option 2" },
-            ]}
-          />
-          <Dropdown
-            variant="accent"
-            placeholder="Accent"
-            options={[
-              { value: "1", label: "Option 1" },
-              { value: "2", label: "Option 2" },
-            ]}
-          />
-          <Dropdown
-            variant="success"
-            placeholder="Success"
-            options={[
-              { value: "1", label: "Option 1" },
-              { value: "2", label: "Option 2" },
-            ]}
-          />
-          <Dropdown
-            variant="warning"
-            placeholder="Warning"
-            options={[
-              { value: "1", label: "Option 1" },
-              { value: "2", label: "Option 2" },
-            ]}
-          />
-          <Dropdown
-            variant="error"
-            placeholder="Error"
-            options={[
-              { value: "1", label: "Option 1" },
-              { value: "2", label: "Option 2" },
-            ]}
-          />
-          <Dropdown
-            variant="ghost"
-            placeholder="Ghost"
-            options={[
-              { value: "1", label: "Option 1" },
-              { value: "2", label: "Option 2" },
-            ]}
-          />
-          <Dropdown
-            variant="glass"
-            placeholder="Glass"
-            options={[
-              { value: "1", label: "Option 1" },
-              { value: "2", label: "Option 2" },
-            ]}
-          />
+          <Dropdown variant="default">
+            <DropdownTrigger>Default</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem href="#" label="Action 1" />
+              <DropdownItem href="#" label="Action 2" />
+            </DropdownContent>
+          </Dropdown>
+          <Dropdown variant="primary">
+            <DropdownTrigger>Primary</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem href="#" label="Action 1" />
+              <DropdownItem href="#" label="Action 2" />
+            </DropdownContent>
+          </Dropdown>
+          <Dropdown variant="secondary">
+            <DropdownTrigger>Secondary</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem href="#" label="Action 1" />
+              <DropdownItem href="#" label="Action 2" />
+            </DropdownContent>
+          </Dropdown>
+          <Dropdown variant="accent">
+            <DropdownTrigger>Accent</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem href="#" label="Action 1" />
+              <DropdownItem href="#" label="Action 2" />
+            </DropdownContent>
+          </Dropdown>
+          <Dropdown variant="success">
+            <DropdownTrigger>Success</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem href="#" label="Action 1" />
+              <DropdownItem href="#" label="Action 2" />
+            </DropdownContent>
+          </Dropdown>
+          <Dropdown variant="warning">
+            <DropdownTrigger>Warning</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem href="#" label="Action 1" />
+              <DropdownItem href="#" label="Action 2" />
+            </DropdownContent>
+          </Dropdown>
+          <Dropdown variant="error">
+            <DropdownTrigger>Error</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem href="#" label="Action 1" />
+              <DropdownItem href="#" label="Action 2" />
+            </DropdownContent>
+          </Dropdown>
+          <Dropdown variant="ghost">
+            <DropdownTrigger>Ghost</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem href="#" label="Action 1" />
+              <DropdownItem href="#" label="Action 2" />
+            </DropdownContent>
+          </Dropdown>
+          <Dropdown variant="glass">
+            <DropdownTrigger>Glass</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem href="#" label="Action 1" />
+              <DropdownItem href="#" label="Action 2" />
+            </DropdownContent>
+          </Dropdown>
         </div>
       </section>
 
@@ -211,34 +203,31 @@ export const DropdownExample = () => {
             Different Sizes
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Small, medium, and large dropdowns
+            Small, medium, and large menus
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-4">
-          <Dropdown
-            size="sm"
-            placeholder="Small"
-            options={[
-              { value: "1", label: "Option 1" },
-              { value: "2", label: "Option 2" },
-            ]}
-          />
-          <Dropdown
-            size="md"
-            placeholder="Medium"
-            options={[
-              { value: "1", label: "Option 1" },
-              { value: "2", label: "Option 2" },
-            ]}
-          />
-          <Dropdown
-            size="lg"
-            placeholder="Large"
-            options={[
-              { value: "1", label: "Option 1" },
-              { value: "2", label: "Option 2" },
-            ]}
-          />
+          <Dropdown size="sm">
+            <DropdownTrigger>Small</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem href="#" label="Action 1" />
+              <DropdownItem href="#" label="Action 2" />
+            </DropdownContent>
+          </Dropdown>
+          <Dropdown size="md">
+            <DropdownTrigger>Medium</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem href="#" label="Action 1" />
+              <DropdownItem href="#" label="Action 2" />
+            </DropdownContent>
+          </Dropdown>
+          <Dropdown size="lg">
+            <DropdownTrigger>Large</DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem href="#" label="Action 1" />
+              <DropdownItem href="#" label="Action 2" />
+            </DropdownContent>
+          </Dropdown>
         </div>
       </section>
 
@@ -246,42 +235,46 @@ export const DropdownExample = () => {
       <section className="space-y-4">
         <div>
           <h3 className="text-xl font-semibold mb-2 text-foreground">
-            With Icons
+            With Icons & Shortcuts
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Dropdown options with custom icons
+            Menu with icons and keyboard shortcuts
           </p>
         </div>
-        <Dropdown
-          placeholder="Select Action"
-          variant="primary"
-          options={[
-            {
-              value: "copy",
-              label: "Copy",
-              icon: <Copy className="w-4 h-4" />,
-              shortcut: "⌘C",
-            },
-            {
-              value: "cut",
-              label: "Cut",
-              icon: <X className="w-4 h-4" />,
-              shortcut: "⌘X",
-            },
-            {
-              value: "paste",
-              label: "Paste",
-              icon: <File className="w-4 h-4" />,
-              shortcut: "⌘V",
-            },
-            {
-              value: "delete",
-              label: "Delete",
-              icon: <Trash2 className="w-4 h-4" />,
-              shortcut: "⌘D",
-            },
-          ]}
-        />
+        <Dropdown variant="primary">
+          <DropdownTrigger>Edit Menu</DropdownTrigger>
+          <DropdownContent>
+            <DropdownItem
+              value="copy"
+              label="Copy"
+              icon={<Copy className="w-4 h-4" />}
+              shortcut="⌘C"
+              onSelect={() => alert("Copy")}
+            />
+            <DropdownItem
+              value="cut"
+              label="Cut"
+              icon={<X className="w-4 h-4" />}
+              shortcut="⌘X"
+              onSelect={() => alert("Cut")}
+            />
+            <DropdownItem
+              value="paste"
+              label="Paste"
+              icon={<File className="w-4 h-4" />}
+              shortcut="⌘V"
+              onSelect={() => alert("Paste")}
+            />
+            <DropdownSeparator />
+            <DropdownItem
+              value="delete"
+              label="Delete"
+              icon={<Trash2 className="w-4 h-4" />}
+              shortcut="⌘D"
+              onSelect={() => alert("Delete")}
+            />
+          </DropdownContent>
+        </Dropdown>
       </section>
 
       {/* With Avatars */}
@@ -290,11 +283,23 @@ export const DropdownExample = () => {
           <h3 className="text-xl font-semibold mb-2 text-foreground">
             With Avatars
           </h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            Dropdown with user avatars
-          </p>
+          <p className="text-sm text-muted-foreground mb-4">Team member menu</p>
         </div>
-        <Dropdown placeholder="Assign to..." variant="accent" options={users} />
+        <Dropdown variant="accent">
+          <DropdownTrigger>Team Menu</DropdownTrigger>
+          <DropdownContent>
+            {users.map((user) => (
+              <DropdownItem
+                key={user.value}
+                value={user.value}
+                label={user.label}
+                description={user.description}
+                avatar={user.avatar}
+                onSelect={() => alert(`Action for ${user.label}`)}
+              />
+            ))}
+          </DropdownContent>
+        </Dropdown>
       </section>
 
       {/* With Descriptions */}
@@ -304,36 +309,35 @@ export const DropdownExample = () => {
             With Descriptions
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Dropdown options with descriptions
+            Menu items with detailed descriptions and navigation
           </p>
         </div>
-        <Dropdown
-          placeholder="Choose Plan"
-          variant="primary"
-          options={[
-            {
-              value: "free",
-              label: "Free",
-              description: "For personal projects",
-              icon: <Star className="w-4 h-4" />,
-              badge: "$0",
-            },
-            {
-              value: "pro",
-              label: "Pro",
-              description: "For professional use",
-              icon: <Crown className="w-4 h-4" />,
-              badge: "$29",
-            },
-            {
-              value: "enterprise",
-              label: "Enterprise",
-              description: "For large organizations",
-              icon: <Shield className="w-4 h-4" />,
-              badge: "$99",
-            },
-          ]}
-        />
+        <Dropdown variant="primary">
+          <DropdownTrigger>Plans Menu</DropdownTrigger>
+          <DropdownContent>
+            <DropdownItem
+              href="/plans/free"
+              label="Free"
+              description="For personal projects"
+              icon={<Star className="w-4 h-4" />}
+              badge="$0"
+            />
+            <DropdownItem
+              href="/plans/pro"
+              label="Pro"
+              description="For professional use"
+              icon={<Crown className="w-4 h-4" />}
+              badge="$29"
+            />
+            <DropdownItem
+              href="/plans/enterprise"
+              label="Enterprise"
+              description="For large organizations"
+              icon={<Shield className="w-4 h-4" />}
+              badge="$99"
+            />
+          </DropdownContent>
+        </Dropdown>
       </section>
 
       {/* With Badges */}
@@ -343,32 +347,32 @@ export const DropdownExample = () => {
             With Badges
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Options with status badges
+            Menu items with status badges
           </p>
         </div>
-        <Dropdown
-          placeholder="Select Feature"
-          options={[
-            {
-              value: "notifications",
-              label: "Notifications",
-              icon: <Bell className="w-4 h-4" />,
-              badge: "New",
-            },
-            {
-              value: "email",
-              label: "Email",
-              icon: <Mail className="w-4 h-4" />,
-              badge: "5",
-            },
-            {
-              value: "messages",
-              label: "Messages",
-              icon: <MessageSquare className="w-4 h-4" />,
-              badge: "Beta",
-            },
-          ]}
-        />
+        <Dropdown>
+          <DropdownTrigger>Notifications</DropdownTrigger>
+          <DropdownContent>
+            <DropdownItem
+              href="/notifications"
+              label="Notifications"
+              icon={<Bell className="w-4 h-4" />}
+              badge="New"
+            />
+            <DropdownItem
+              href="/messages"
+              label="Messages"
+              icon={<Mail className="w-4 h-4" />}
+              badge="5"
+            />
+            <DropdownItem
+              href="/chat"
+              label="Chat"
+              icon={<MessageSquare className="w-4 h-4" />}
+              badge="Beta"
+            />
+          </DropdownContent>
+        </Dropdown>
       </section>
 
       {/* With Shortcuts */}
@@ -378,201 +382,105 @@ export const DropdownExample = () => {
             With Keyboard Shortcuts
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Display keyboard shortcuts
+            Navigation menu with keyboard shortcuts
           </p>
         </div>
-        <Dropdown
-          placeholder="Actions"
-          variant="glass"
-          options={[
-            {
-              value: "save",
-              label: "Save",
-              icon: <Download className="w-4 h-4" />,
-              shortcut: "⌘S",
-            },
-            {
-              value: "open",
-              label: "Open",
-              icon: <Folder className="w-4 h-4" />,
-              shortcut: "⌘O",
-            },
-            {
-              value: "search",
-              label: "Search",
-              icon: <Search className="w-4 h-4" />,
-              shortcut: "⌘K",
-            },
-            {
-              value: "home",
-              label: "Go Home",
-              icon: <Home className="w-4 h-4" />,
-              shortcut: "⌘H",
-            },
-          ]}
-        />
+        <Dropdown variant="glass">
+          <DropdownTrigger>Quick Actions</DropdownTrigger>
+          <DropdownContent>
+            <DropdownItem
+              href="/save"
+              label="Save"
+              icon={<Download className="w-4 h-4" />}
+              shortcut="⌘S"
+            />
+            <DropdownItem
+              href="/open"
+              label="Open"
+              icon={<Folder className="w-4 h-4" />}
+              shortcut="⌘O"
+            />
+            <DropdownItem
+              href="/search"
+              label="Search"
+              icon={<Search className="w-4 h-4" />}
+              shortcut="⌘K"
+            />
+            <DropdownSeparator />
+            <DropdownItem
+              href="/"
+              label="Go Home"
+              icon={<Home className="w-4 h-4" />}
+              shortcut="⌘H"
+            />
+          </DropdownContent>
+        </Dropdown>
       </section>
 
       {/* Searchable Dropdown */}
       <section className="space-y-4">
         <div>
           <h3 className="text-xl font-semibold mb-2 text-foreground">
-            Searchable Dropdown
+            Searchable Menu
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Filter options with search
+            Filter menu items with search
           </p>
         </div>
-        <Dropdown
-          searchable
-          placeholder="Search users..."
-          variant="primary"
-          options={[
-            {
-              value: "john",
-              label: "John Doe",
-              avatar: "https://i.pravatar.cc/150?img=1",
-            },
-            {
-              value: "jane",
-              label: "Jane Smith",
-              avatar: "https://i.pravatar.cc/150?img=2",
-            },
-            {
-              value: "bob",
-              label: "Bob Johnson",
-              avatar: "https://i.pravatar.cc/150?img=3",
-            },
-            {
-              value: "alice",
-              label: "Alice Williams",
-              avatar: "https://i.pravatar.cc/150?img=4",
-            },
-            {
-              value: "charlie",
-              label: "Charlie Brown",
-              avatar: "https://i.pravatar.cc/150?img=5",
-            },
-            {
-              value: "david",
-              label: "David Lee",
-              avatar: "https://i.pravatar.cc/150?img=6",
-            },
-            {
-              value: "emma",
-              label: "Emma Wilson",
-              avatar: "https://i.pravatar.cc/150?img=7",
-            },
-            {
-              value: "frank",
-              label: "Frank Miller",
-              avatar: "https://i.pravatar.cc/150?img=8",
-            },
-          ]}
-        />
-      </section>
-
-      {/* Multi-Select */}
-      <section className="space-y-4">
-        <div>
-          <h3 className="text-xl font-semibold mb-2 text-foreground">
-            Multi-Select
-          </h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            Select multiple options
-          </p>
-        </div>
-        <Dropdown
-          multiple
-          placeholder="Select files..."
-          value={selectedFiles}
-          onChange={setSelectedFiles}
-          variant="accent"
-          options={[
-            {
-              value: "doc1",
-              label: "Document.pdf",
-              icon: <File className="w-4 h-4" />,
-            },
-            {
-              value: "doc2",
-              label: "Report.docx",
-              icon: <File className="w-4 h-4" />,
-            },
-            {
-              value: "img1",
-              label: "Image.png",
-              icon: <File className="w-4 h-4" />,
-            },
-            {
-              value: "video1",
-              label: "Video.mp4",
-              icon: <File className="w-4 h-4" />,
-            },
-          ]}
-        />
-        <p className="text-sm text-muted-foreground">
-          Selected:{" "}
-          {Array.isArray(selectedFiles) ? selectedFiles.join(", ") : "None"}
-        </p>
-      </section>
-
-      {/* Multi-Select with Search */}
-      <section className="space-y-4">
-        <div>
-          <h3 className="text-xl font-semibold mb-2 text-foreground">
-            Multi-Select with Search
-          </h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            Search and select multiple options
-          </p>
-        </div>
-        <Dropdown
-          multiple
-          searchable
-          placeholder="Select preferences..."
-          value={selectedPreferences}
-          onChange={setSelectedPreferences}
-          variant="success"
-          options={[
-            {
-              value: "notifications",
-              label: "Notifications",
-              icon: <Bell className="w-4 h-4" />,
-            },
-            {
-              value: "email",
-              label: "Email Updates",
-              icon: <Mail className="w-4 h-4" />,
-            },
-            {
-              value: "messages",
-              label: "Messages",
-              icon: <MessageSquare className="w-4 h-4" />,
-            },
-            {
-              value: "calendar",
-              label: "Calendar Sync",
-              icon: <Calendar className="w-4 h-4" />,
-            },
-            {
-              value: "dark-mode",
-              label: "Dark Mode",
-              icon: <Star className="w-4 h-4" />,
-            },
-            {
-              value: "analytics",
-              label: "Analytics",
-              icon: <Award className="w-4 h-4" />,
-            },
-          ]}
-        />
-        <p className="text-sm text-muted-foreground">
-          Selected:{" "}
-          {Array.isArray(selectedPreferences)
-            ? selectedPreferences.join(", ")
-            : "None"}
-        </p>
+        <Dropdown variant="primary">
+          <DropdownTrigger>User Directory</DropdownTrigger>
+          <DropdownContent>
+            {[
+              {
+                value: "john",
+                label: "John Doe",
+                avatar: "https://i.pravatar.cc/150?img=1",
+              },
+              {
+                value: "jane",
+                label: "Jane Smith",
+                avatar: "https://i.pravatar.cc/150?img=2",
+              },
+              {
+                value: "bob",
+                label: "Bob Johnson",
+                avatar: "https://i.pravatar.cc/150?img=3",
+              },
+              {
+                value: "alice",
+                label: "Alice Williams",
+                avatar: "https://i.pravatar.cc/150?img=4",
+              },
+              {
+                value: "charlie",
+                label: "Charlie Brown",
+                avatar: "https://i.pravatar.cc/150?img=5",
+              },
+              {
+                value: "david",
+                label: "David Lee",
+                avatar: "https://i.pravatar.cc/150?img=6",
+              },
+              {
+                value: "emma",
+                label: "Emma Wilson",
+                avatar: "https://i.pravatar.cc/150?img=7",
+              },
+              {
+                value: "frank",
+                label: "Frank Miller",
+                avatar: "https://i.pravatar.cc/150?img=8",
+              },
+            ].map((user) => (
+              <DropdownItem
+                key={user.value}
+                href={`/users/${user.value}`}
+                label={user.label}
+                avatar={user.avatar}
+              />
+            ))}
+          </DropdownContent>
+        </Dropdown>
       </section>
 
       {/* With Disabled Options */}
@@ -582,11 +490,11 @@ export const DropdownExample = () => {
             With Disabled Options
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Some options can be disabled
+            Some menu items can be disabled
           </p>
         </div>
         <Dropdown
-          placeholder="Select Option"
+          placeholder="Actions Menu"
           options={[
             {
               value: "1",
@@ -620,40 +528,40 @@ export const DropdownExample = () => {
       <section className="space-y-4">
         <div>
           <h3 className="text-xl font-semibold mb-2 text-foreground">
-            With Validation
+            With Labels & Helper Text
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Dropdown with error and helper text
+            Dropdown menus with labels, error states, and helper text
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Dropdown
-            label="Select Priority"
-            placeholder="Choose priority..."
-            error="Priority is required"
+            label="Priority Actions"
+            placeholder="Priority menu..."
+            error="Please choose an action"
             variant="error"
             options={[
               {
                 value: "low",
-                label: "Low",
+                label: "Low Priority",
                 icon: <Info className="w-4 h-4" />,
               },
               {
                 value: "medium",
-                label: "Medium",
+                label: "Medium Priority",
                 icon: <AlertCircle className="w-4 h-4" />,
               },
               {
                 value: "high",
-                label: "High",
+                label: "High Priority",
                 icon: <AlertCircle className="w-4 h-4" />,
               },
             ]}
           />
           <Dropdown
-            label="Select Category"
-            placeholder="Choose category..."
-            helperText="This will help us organize your content"
+            label="Category Actions"
+            placeholder="Category menu..."
+            helperText="Choose an action for this category"
             options={[
               {
                 value: "work",
@@ -796,18 +704,58 @@ export const DropdownExample = () => {
       <section className="space-y-4">
         <div>
           <h3 className="text-xl font-semibold mb-2 text-foreground">
-            Component-Based Approach - Basic
+            Component-Based Approach - Basic Menu
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Use DropdownTrigger and DropdownContent for maximum flexibility
+            Use DropdownTrigger and DropdownContent for flexible menu creation
           </p>
         </div>
         <Dropdown variant="primary" size="md">
-          <DropdownTrigger>Select an option</DropdownTrigger>
+          <DropdownTrigger>Options Menu</DropdownTrigger>
           <DropdownContent>
             <DropdownItem value="option1" label="Option 1" />
             <DropdownItem value="option2" label="Option 2" />
             <DropdownItem value="option3" label="Option 3" />
+          </DropdownContent>
+        </Dropdown>
+      </section>
+
+      {/* Component-Based - With Links */}
+      <section className="space-y-4">
+        <div>
+          <h3 className="text-xl font-semibold mb-2 text-foreground">
+            Component-Based - Navigation Menu with Links
+          </h3>
+          <p className="text-sm text-muted-foreground mb-4">
+            Dropdown items can contain URLs for navigation
+          </p>
+        </div>
+        <Dropdown variant="accent" size="md">
+          <DropdownTrigger>Navigate</DropdownTrigger>
+          <DropdownContent>
+            <DropdownItem
+              href="/"
+              label="Home"
+              icon={<Home className="w-4 h-4" />}
+            />
+            <DropdownItem
+              href="/dashboard"
+              label="Dashboard"
+              icon={<Folder className="w-4 h-4" />}
+            />
+            <DropdownItem
+              href="/settings"
+              label="Settings"
+              icon={<Settings className="w-4 h-4" />}
+            />
+            <DropdownSeparator />
+            <DropdownItem
+              href="https://github.com"
+              target="_blank"
+              label="GitHub"
+              description="Visit our repository"
+              icon={<Upload className="w-4 h-4" />}
+            />
           </DropdownContent>
         </Dropdown>
       </section>
@@ -901,11 +849,11 @@ export const DropdownExample = () => {
             Component-Based - With Avatars
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            User selection with avatars
+            Team member menu with avatars
           </p>
         </div>
         <Dropdown variant="secondary" size="md">
-          <DropdownTrigger>Assign to...</DropdownTrigger>
+          <DropdownTrigger>Team Menu</DropdownTrigger>
           <DropdownContent>
             <DropdownItem
               value="john"
@@ -940,7 +888,7 @@ export const DropdownExample = () => {
           </p>
         </div>
         <Dropdown variant="success" size="md">
-          <DropdownTrigger>Select Plan</DropdownTrigger>
+          <DropdownTrigger>Plans Menu</DropdownTrigger>
           <DropdownContent>
             <DropdownItem
               value="free"
@@ -971,10 +919,10 @@ export const DropdownExample = () => {
       <section className="space-y-4">
         <div>
           <h3 className="text-xl font-semibold mb-2 text-foreground">
-            Component-Based - Custom Trigger
+            Component-Based - User Account Menu
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Use asChild to render custom trigger elements
+            Use asChild to render custom trigger with menu actions
           </p>
         </div>
         <Dropdown variant="primary" size="md">
@@ -986,20 +934,29 @@ export const DropdownExample = () => {
           </DropdownTrigger>
           <DropdownContent>
             <DropdownItem
-              value="profile"
+              href="/profile"
               label="Profile"
               icon={<User className="w-4 h-4" />}
+              description="View your profile"
             />
             <DropdownItem
-              value="settings"
+              href="/settings"
               label="Settings"
               icon={<Settings className="w-4 h-4" />}
+              description="Manage your account"
+            />
+            <DropdownItem
+              href="/billing"
+              label="Billing"
+              icon={<CreditCard className="w-4 h-4" />}
+              description="Manage billing"
             />
             <DropdownSeparator />
             <DropdownItem
               value="logout"
               label="Log Out"
               icon={<LogOut className="w-4 h-4" />}
+              onSelect={() => alert("Logging out...")}
             />
           </DropdownContent>
         </Dropdown>
@@ -1009,25 +966,25 @@ export const DropdownExample = () => {
       <section className="space-y-4">
         <div>
           <h3 className="text-xl font-semibold mb-2 text-foreground">
-            Component-Based - Complex Menu
+            Component-Based - Complex Menu with Navigation
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Advanced menu with multiple groups and rich content
+            Advanced menu with multiple groups, links, and actions
           </p>
         </div>
-        <Dropdown variant="glass" size="md" checkmarks>
+        <Dropdown variant="glass" size="md">
           <DropdownTrigger>Settings Menu</DropdownTrigger>
           <DropdownContent>
             <DropdownGroup label="Account">
               <DropdownItem
-                value="profile"
+                href="/profile"
                 label="Profile"
                 icon={<User className="w-4 h-4" />}
                 description="Manage your profile"
                 shortcut="⌘P"
               />
               <DropdownItem
-                value="billing"
+                href="/billing"
                 label="Billing"
                 icon={<CreditCard className="w-4 h-4" />}
                 description="View billing information"
@@ -1037,13 +994,13 @@ export const DropdownExample = () => {
             <DropdownSeparator />
             <DropdownGroup label="Notifications">
               <DropdownItem
-                value="email"
+                href="/notifications/email"
                 label="Email Notifications"
                 icon={<Mail className="w-4 h-4" />}
                 badge="3"
               />
               <DropdownItem
-                value="push"
+                href="/notifications/push"
                 label="Push Notifications"
                 icon={<Bell className="w-4 h-4" />}
                 badge="New"
@@ -1056,6 +1013,7 @@ export const DropdownExample = () => {
                 label="Upgrade to Pro"
                 icon={<Zap className="w-4 h-4" />}
                 description="Unlock all features"
+                onSelect={() => alert("Upgrade clicked")}
               />
               <DropdownItem
                 value="premium"
@@ -1076,8 +1034,8 @@ export const DropdownExample = () => {
             Both Methods - Side by Side
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Choose the method that fits your needs: Props-based for simplicity,
-            Component-based for flexibility
+            Props-based for simplicity, Component-based for flexibility with
+            links and custom actions.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1088,7 +1046,7 @@ export const DropdownExample = () => {
             </p>
             <Dropdown
               variant="primary"
-              placeholder="Select Action"
+              placeholder="Actions"
               options={[
                 {
                   value: "edit",
@@ -1115,10 +1073,10 @@ export const DropdownExample = () => {
               Component-Based (Flexible)
             </p>
             <Dropdown variant="primary">
-              <DropdownTrigger>Select Action</DropdownTrigger>
+              <DropdownTrigger>Actions Menu</DropdownTrigger>
               <DropdownContent>
                 <DropdownItem
-                  value="edit"
+                  href="/edit"
                   label="Edit"
                   icon={<File className="w-4 h-4" />}
                 />
@@ -1126,9 +1084,10 @@ export const DropdownExample = () => {
                   value="delete"
                   label="Delete"
                   icon={<Trash2 className="w-4 h-4" />}
+                  onSelect={() => alert("Delete action")}
                 />
                 <DropdownItem
-                  value="share"
+                  href="/share"
                   label="Share"
                   icon={<Upload className="w-4 h-4" />}
                 />

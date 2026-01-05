@@ -25,15 +25,11 @@ export interface DropdownProps {
   children?: React.ReactNode;
 
   // State
-  value?: string | string[];
-  defaultValue?: string | string[];
-  onChange?: (value: string | string[]) => void;
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
 
   // Behavior
-  multiple?: boolean;
   closeOnSelect?: boolean;
   modal?: boolean;
 
@@ -69,7 +65,6 @@ export interface DropdownProps {
   // Advanced
   commandPalette?: boolean;
   grouped?: boolean;
-  checkmarks?: boolean;
   disabled?: boolean;
   loading?: boolean;
   emptyMessage?: string;
@@ -111,6 +106,8 @@ export interface DropdownItemProps {
   disabled?: boolean;
   divider?: boolean;
   header?: boolean;
+  href?: string;
+  target?: "_blank" | "_self" | "_parent" | "_top";
   children?: React.ReactNode;
   onSelect?: (value: string) => void;
   className?: string;
