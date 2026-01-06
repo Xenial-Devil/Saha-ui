@@ -7,6 +7,7 @@ import DragDropAllExamples from "./DragDropAllExamples";
 import VideoPlayerExample from "./VideoPlayerExample";
 import { CalendarExample } from "./CalendarExample";
 import DropdownExample from "./DropdownExample";
+import SelectExample from "./SelectExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -16,7 +17,7 @@ export const AllComponentExamples = () => {
         <h2 className="text-3xl font-bold mb-6 text-text">
           Dropdown Component
         </h2>
-        <DropdownExample />
+        <SelectExample />
       </div>
 
       {/* DragDrop Component */}
@@ -28,10 +29,10 @@ export const AllComponentExamples = () => {
       </div>
 
       {/* Video Player Component */}
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <h2 className="text-3xl font-bold mb-6 text-text">Video Player</h2>
         <VideoPlayerExample />
-      </div>
+      </div> */}
 
       {/* Calendar Component */}
       <div className="mb-16">

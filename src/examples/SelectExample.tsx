@@ -301,7 +301,9 @@ export const SelectExample = () => {
             </label>
             <Select
               value={selectedFruitMulti}
-              onValueChange={setSelectedFruitMulti}
+              onValueChange={(value:string[])=>{setSelectedFruitMulti(value as string[]);
+                console.log(value)
+              }}
               multiple
             clearable
             >
@@ -358,7 +360,9 @@ export const SelectExample = () => {
             placeholder="Select your country"
             options={countryOptions}
             value={selectedCountry}
-            onChange={(value: string) => setSelectedCountry(value as string)}
+            onChange={(value: string) => {setSelectedCountry(value as string);
+              console.log(value)
+            }}
           />
           <Select
             label="Priority"
