@@ -1,3 +1,10 @@
+## [1.22.10](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.9...v1.22.10) (2026-01-06)
+
+
+### Bug Fixes
+
+* **select:** Refactor Select component with improved composability ([3802b7a](https://github.com/Xenial-Devil/Saha-ui/commit/3802b7aa37b8cac2823ddc9463aed22fa065280b))
+
 ## [1.22.9](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.8...v1.22.9) (2026-01-05)
 
 
