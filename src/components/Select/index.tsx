@@ -4,7 +4,6 @@ import { forwardRef, useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../lib/utils";
 import { useClickOutside } from "../../hooks/useClickOutside";
-// validation removed
 import type { SelectProps, SelectOption } from "./Select.types";
 import { ChevronDown, X, Check, Search } from "lucide-react";
 import {
@@ -18,6 +17,12 @@ import React, { createContext, useContext } from "react";
 // Context for Composable Pattern
 // ============================================
 
+interface SelectItemData {
+  value: string;
+  label: React.ReactNode;
+  disabled?: boolean;
+}
+
 interface SelectContextValue {
   value?: string | string[];
   onValueChange?: (value: string | string[]) => void;
@@ -28,11 +33,25 @@ interface SelectContextValue {
   size?: SelectProps["size"];
   multiple?: boolean;
   closeOnSelect?: boolean;
+  // Registry for items to enable label lookup
+  items: Map<string, SelectItemData>;
+  registerItem: (value: string, data: SelectItemData) => void;
+  unregisterItem: (value: string) => void;
+  // Shared trigger ref for positioning - FIX: Allow null in type
+  triggerRef: React.RefObject<HTMLButtonElement | null> | null;
 }
 
-const SelectContext = createContext<SelectContextValue>({});
+const SelectContext = createContext<SelectContextValue>({
+  items: new Map(),
+  registerItem: () => {},
+  unregisterItem: () => {},
+  triggerRef: null,
+});
 
-// Composable Select implementation
+// ============================================
+// Composable Select Implementation
+// ============================================
+
 const SelectComposable = forwardRef<
   HTMLDivElement,
   {
@@ -73,6 +92,7 @@ const SelectComposable = forwardRef<
     },
     ref
   ) => {
+    // State management
     const [uncontrolledValue, setUncontrolledValue] = useState<
       string | string[]
     >(defaultValue || (multiple ? [] : ""));
@@ -80,27 +100,73 @@ const SelectComposable = forwardRef<
       defaultOpen || false
     );
 
+    // Item registry for value-to-label mapping
+    const [items, setItems] = useState<Map<string, SelectItemData>>(new Map());
+
+    // FIX: Properly type the ref to allow null
+    const triggerRef = useRef<HTMLButtonElement | null>(null);
+
     const value =
       controlledValue !== undefined ? controlledValue : uncontrolledValue;
     const open =
       controlledOpen !== undefined ? controlledOpen : uncontrolledOpen;
 
-    // If multiple selection is enabled, do not close on select by default.
+    // For multiple selection, don't close on select by default
     const effectiveCloseOnSelect = multiple ? false : closeOnSelect;
 
-    const handleValueChange = (newValue: string | string[]) => {
-      if (controlledValue === undefined) {
-        setUncontrolledValue(newValue as any);
-      }
-      onValueChange?.(newValue as any);
-    };
+    const handleValueChange = useCallback(
+      (newValue: string | string[]) => {
+        if (controlledValue === undefined) {
+          setUncontrolledValue(newValue);
+        }
+        onValueChange?.(newValue);
+      },
+      [controlledValue, onValueChange]
+    );
 
-    const handleOpenChange = (newOpen: boolean) => {
-      if (controlledOpen === undefined) {
-        setUncontrolledOpen(newOpen);
-      }
-      onOpenChange?.(newOpen);
-    };
+    const handleOpenChange = useCallback(
+      (newOpen: boolean) => {
+        if (controlledOpen === undefined) {
+          setUncontrolledOpen(newOpen);
+        }
+        onOpenChange?.(newOpen);
+      },
+      [controlledOpen, onOpenChange]
+    );
+
+    // Registry functions
+    const registerItem = useCallback(
+      (itemValue: string, data: SelectItemData) => {
+        setItems((prev) => {
+          const next = new Map(prev);
+          next.set(itemValue, data);
+          return next;
+        });
+      },
+      []
+    );
+
+    const unregisterItem = useCallback((itemValue: string) => {
+      setItems((prev) => {
+        const next = new Map(prev);
+        next.delete(itemValue);
+        return next;
+      });
+    }, []);
+
+    // Handle clear
+    const handleClear = useCallback(
+      (e: React.MouseEvent) => {
+        e.stopPropagation();
+        const newValue = multiple ? [] : "";
+        handleValueChange(newValue);
+      },
+      [multiple, handleValueChange]
+    );
+
+    const hasValue = multiple
+      ? Array.isArray(value) && value.length > 0
+      : Boolean(value);
 
     return (
       <SelectContext.Provider
@@ -114,12 +180,16 @@ const SelectComposable = forwardRef<
           size,
           multiple,
           closeOnSelect: effectiveCloseOnSelect,
+          items,
+          registerItem,
+          unregisterItem,
+          triggerRef,
         }}
       >
         <div ref={ref} className={cn("relative", className)}>
           {children}
 
-          {/* Form submission helpers: render hidden inputs when `name` is provided */}
+          {/* Hidden inputs for form submission */}
           {name &&
             multiple &&
             Array.isArray(value) &&
@@ -129,25 +199,18 @@ const SelectComposable = forwardRef<
           {name && !multiple && value && (
             <input type="hidden" name={name} value={String(value)} />
           )}
-          {/* Clear button for composable pattern (positioned over trigger) */}
-          {clearable &&
-            !disabled &&
-            (multiple
-              ? Array.isArray(value) && value.length > 0
-              : Boolean(value)) && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const newValue = multiple ? [] : "";
-                  handleValueChange(newValue as any);
-                }}
-                className="absolute right-10 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-foreground/10 transition-colors"
-                aria-label="Clear selection"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
+
+          {/* Clear button */}
+          {clearable && !disabled && hasValue && (
+            <button
+              type="button"
+              onClick={handleClear}
+              className="absolute right-10 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-foreground/10 transition-colors z-10"
+              aria-label="Clear selection"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </SelectContext.Provider>
     );
@@ -157,7 +220,7 @@ const SelectComposable = forwardRef<
 SelectComposable.displayName = "SelectComposable";
 
 // ============================================
-// Props-based Select Component (Internal)
+// Props-based Select Component
 // ============================================
 
 const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
@@ -171,7 +234,7 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
       value: controlledValue,
       defaultValue,
       onChange,
-      options,
+      options = [],
       multiple = false,
       searchable = false,
       clearable = false,
@@ -209,7 +272,7 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
       left: 0,
       width: 0,
     });
-    // If multiple selection is enabled, closeOnSelect behaves as false.
+
     const effectiveCloseOnSelect = multiple ? false : closeOnSelect;
     const isControlled = controlledValue !== undefined;
     const value = isControlled ? controlledValue : uncontrolledValue;
@@ -217,13 +280,20 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
     const containerRef = useRef<HTMLDivElement>(null);
     const triggerRef = useRef<HTMLButtonElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
+    // FIX: Type the ref properly for useClickOutside
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Close dropdown when clicking outside - optimized with useClickOutside hook
-    useClickOutside(containerRef, () => {
-      if (isOpen) {
-        setIsOpen(false);
-      }
-    });
+    // Close dropdown when clicking outside
+    // FIX: Cast refs to satisfy useClickOutside types if needed
+    useClickOutside(
+      containerRef as React.RefObject<HTMLElement>,
+      () => {
+        if (isOpen) {
+          setIsOpen(false);
+        }
+      },
+      [dropdownRef as React.RefObject<HTMLElement>]
+    );
 
     // Focus search input when dropdown opens
     useEffect(() => {
@@ -232,7 +302,7 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
       }
     }, [isOpen, searchable]);
 
-    // Update dropdown position when opened
+    // Update dropdown position
     useEffect(() => {
       if (isOpen && triggerRef.current) {
         const updatePosition = () => {
@@ -256,8 +326,6 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
       return undefined;
     }, [isOpen]);
 
-    // development-only validation removed
-
     // Filter options based on search query
     const filteredOptions = searchQuery
       ? options.filter(
@@ -269,7 +337,7 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
         )
       : options;
 
-    // Group options if they have group property
+    // Group options
     const groupedOptions = filteredOptions.reduce(
       (acc: Record<string, SelectOption[]>, option: SelectOption) => {
         const group = option.group || "default";
@@ -280,6 +348,7 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
       {} as Record<string, SelectOption[]>
     );
 
+    // Handle option selection
     const handleSelect = useCallback(
       (optionValue: string) => {
         if (disabled) return;
@@ -303,10 +372,15 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
           }
         }
 
+        // Update internal state for uncontrolled mode
         if (!isControlled) {
           setUncontrolledValue(newValue);
         }
-        onChange?.(newValue);
+
+        // Always call onChange callback
+        if (onChange) {
+          onChange(newValue);
+        }
 
         if (searchable) {
           setSearchQuery("");
@@ -324,14 +398,20 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
       ]
     );
 
-    const handleClear = (e: React.MouseEvent) => {
-      e.stopPropagation();
-      const newValue = multiple ? [] : "";
-      if (!isControlled) {
-        setUncontrolledValue(newValue);
-      }
-      onChange?.(newValue);
-    };
+    // Handle clear
+    const handleClear = useCallback(
+      (e: React.MouseEvent) => {
+        e.stopPropagation();
+        const newValue = multiple ? [] : "";
+        if (!isControlled) {
+          setUncontrolledValue(newValue);
+        }
+        if (onChange) {
+          onChange(newValue);
+        }
+      },
+      [multiple, isControlled, onChange]
+    );
 
     const handleCreateOption = () => {
       if (creatable && searchQuery && onCreateOption) {
@@ -419,10 +499,8 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
             aria-haspopup="listbox"
             aria-expanded={isOpen}
           >
-            {/* Icon */}
             {icon && <span className="shrink-0">{icon}</span>}
 
-            {/* Value Display */}
             <span
               className={cn(
                 "flex-1 text-left truncate",
@@ -432,7 +510,6 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
               {loading ? "Loading..." : getDisplayValue()}
             </span>
 
-            {/* Dropdown icon only inside trigger */}
             <span
               className={cn(
                 "transition-transform duration-200",
@@ -443,15 +520,12 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
             </span>
           </button>
 
-          {/* Clear button rendered as sibling to avoid nested <button> */}
+          {/* Clear button */}
           {clearable && hasValue && !disabled && (
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleClear(e as any);
-              }}
-              className="absolute right-10 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-foreground/10 transition-colors"
+              onClick={handleClear}
+              className="absolute right-10 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-foreground/10 transition-colors z-10"
               aria-label="Clear selection"
             >
               {clearIcon || <X className="w-4 h-4" />}
@@ -464,6 +538,7 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
             typeof window !== "undefined" &&
             createPortal(
               <div
+                ref={dropdownRef}
                 className={cn(selectMenuVariants({ variant }), menuClassName)}
                 style={{
                   position: "absolute",
@@ -503,6 +578,7 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
                           <p>No results found</p>
                           {creatable && (
                             <button
+                              type="button"
                               onClick={handleCreateOption}
                               className="mt-2 text-primary hover:underline"
                             >
@@ -570,7 +646,6 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
                               role="option"
                               aria-selected={selected}
                             >
-                              {/* Checkmark */}
                               {showCheckmarks && (
                                 <span
                                   className={cn(
@@ -582,7 +657,6 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
                                 </span>
                               )}
 
-                              {/* Avatar */}
                               {option.avatar && (
                                 <img
                                   src={option.avatar}
@@ -591,12 +665,10 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
                                 />
                               )}
 
-                              {/* Icon */}
                               {option.icon && (
                                 <span className="shrink-0">{option.icon}</span>
                               )}
 
-                              {/* Label and Description */}
                               <div className="flex-1 min-w-0">
                                 <div className="font-medium truncate">
                                   {option.label}
@@ -643,20 +715,13 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
 SelectPropsBase.displayName = "SelectPropsBase";
 
 // ============================================
-// Main Select Component (Wrapper)
+// Main Select Component Wrapper
 // ============================================
 
-/**
- * Select Component - Works with both props-based and component-based patterns
- * This wrapper decides which implementation to use without calling hooks conditionally
- */
 export const Select = forwardRef<HTMLDivElement, any>((props, ref) => {
-  // Pattern detection: if no options prop but has children, use composable mode
   if (!props.options && props.children) {
     return <SelectComposable {...props} ref={ref} />;
   }
-
-  // Otherwise use props-based mode (options prop exists)
   return <SelectPropsBase {...(props as SelectProps)} ref={ref} />;
 });
 
@@ -674,26 +739,47 @@ interface SelectTriggerProps extends React.HTMLAttributes<HTMLButtonElement> {
 export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps>(
   ({ children, className, ...props }, ref) => {
     const context = useContext(SelectContext);
+    const internalRef = useRef<HTMLButtonElement | null>(null);
+
+    // Merge refs
+    const setRefs = useCallback(
+      (node: HTMLButtonElement | null) => {
+        internalRef.current = node;
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+        // Update context's trigger ref
+        if (context.triggerRef) {
+          (
+            context.triggerRef as React.MutableRefObject<HTMLButtonElement | null>
+          ).current = node;
+        }
+      },
+      [ref, context.triggerRef]
+    );
+
+    // FIX: Extract values from context to avoid dependency warning
+    const { disabled, onOpenChange, open, variant, size } = context;
 
     return (
       <button
-        ref={ref}
+        ref={setRefs}
         type="button"
-        onClick={() =>
-          !context.disabled && context.onOpenChange?.(!context.open)
-        }
-        disabled={context.disabled}
+        onClick={() => !disabled && onOpenChange?.(!open)}
+        disabled={disabled}
         className={cn(
           selectTriggerVariants({
-            variant: context.variant,
-            size: context.size,
+            variant,
+            size,
             fullWidth: true,
           }),
           "justify-between",
           className
         )}
         aria-haspopup="listbox"
-        aria-expanded={context.open}
+        aria-expanded={open}
         data-select-trigger="true"
         {...props}
       >
@@ -701,7 +787,7 @@ export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps>(
         <ChevronDown
           className={cn(
             "h-4 w-4 opacity-50 transition-transform duration-200",
-            context.open && "rotate-180"
+            open && "rotate-180"
           )}
         />
       </button>
@@ -717,23 +803,29 @@ interface SelectValueProps {
 
 export const SelectValue = ({ placeholder, className }: SelectValueProps) => {
   const context = useContext(SelectContext);
-  // Determine display for composable value
-  const value = context.value;
+  const { value, multiple, items } = context;
+
+  // Helper to get label from value
+  const getLabel = (val: string): React.ReactNode => {
+    const item = items.get(val);
+    return item?.label || val;
+  };
+
   let display: React.ReactNode = placeholder;
 
-  if (context.multiple && Array.isArray(value)) {
+  if (multiple && Array.isArray(value)) {
     if (value.length === 0) {
       display = placeholder;
     } else if (value.length === 1) {
-      display = value[0];
+      display = getLabel(value[0]);
     } else {
       display = `${value.length} selected`;
     }
-  } else if (!context.multiple && value) {
-    display = value as string;
+  } else if (!multiple && value && typeof value === "string") {
+    display = getLabel(value);
   }
 
-  const hasValue = !(Array.isArray(value) ? value.length === 0 : !value);
+  const hasValue = Array.isArray(value) ? value.length > 0 : Boolean(value);
 
   return (
     <span
@@ -759,67 +851,71 @@ export const SelectContent = ({ children, className }: SelectContentProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
 
-  // Handle clicks on the document to close dropdown
-  useEffect(() => {
-    if (!context.open) return undefined;
+  // FIX: Extract specific values from context to satisfy exhaustive-deps
+  const { open, onOpenChange, triggerRef, variant } = context;
 
-    const handleClick = (event: MouseEvent) => {
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
 
-      // Don't close if clicking inside the dropdown content
+      // Don't close if clicking inside the dropdown
       if (containerRef.current?.contains(target)) {
         return;
       }
 
-      // Don't close if clicking the trigger (let trigger handle toggle)
-      const trigger = document.querySelector('[data-select-trigger="true"]');
-      if (trigger?.contains(target)) {
+      // Don't close if clicking the trigger
+      if (triggerRef?.current?.contains(target)) {
         return;
       }
 
-      // Click was outside - close the dropdown
-      context.onOpenChange?.(false);
+      onOpenChange?.(false);
     };
 
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [context]);
+    // Use setTimeout to avoid immediate trigger
+    const timeoutId = setTimeout(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+    }, 0);
 
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open, onOpenChange, triggerRef]);
+
+  // Position dropdown relative to trigger
   useEffect(() => {
-    if (context.open) {
-      const trigger = document.querySelector(
-        '[aria-haspopup="listbox"][aria-expanded="true"]'
-      );
-      if (trigger) {
-        const updatePosition = () => {
-          const rect = trigger.getBoundingClientRect();
-          setPosition({
-            top: rect.bottom + window.scrollY,
-            left: rect.left + window.scrollX,
-            width: rect.width,
-          });
-        };
-        updatePosition();
-        window.addEventListener("scroll", updatePosition, true);
-        window.addEventListener("resize", updatePosition);
-        return () => {
-          window.removeEventListener("scroll", updatePosition, true);
-          window.removeEventListener("resize", updatePosition);
-        };
-      }
-    }
-    return undefined;
-  }, [context.open]);
+    if (!open || !triggerRef?.current) return undefined;
 
-  if (!context.open || typeof window === "undefined") return null;
+    const updatePosition = () => {
+      const rect = triggerRef?.current?.getBoundingClientRect();
+      if (rect) {
+        setPosition({
+          top: rect.bottom + window.scrollY,
+          left: rect.left + window.scrollX,
+          width: rect.width,
+        });
+      }
+    };
+
+    updatePosition();
+    window.addEventListener("scroll", updatePosition, true);
+    window.addEventListener("resize", updatePosition);
+
+    return () => {
+      window.removeEventListener("scroll", updatePosition, true);
+      window.removeEventListener("resize", updatePosition);
+    };
+  }, [open, triggerRef]);
+
+  if (!open || typeof window === "undefined") return null;
 
   return createPortal(
     <div
       ref={containerRef}
-      className={cn(
-        selectMenuVariants({ variant: context.variant }),
-        className
-      )}
+      className={cn(selectMenuVariants({ variant }), className)}
       style={{
         position: "absolute",
         top: `${position.top}px`,
@@ -848,32 +944,52 @@ interface SelectItemProps {
 export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
   ({ value, children, disabled, className }, ref) => {
     const context = useContext(SelectContext);
-    const isSelected = context.multiple
-      ? Array.isArray(context.value) && context.value.includes(value)
-      : context.value === value;
+
+    const {
+      registerItem,
+      multiple,
+      value: contextValue,
+      onValueChange,
+      closeOnSelect,
+      onOpenChange,
+      disabled: contextDisabled,
+      variant,
+    } = context;
+
+    // Register this item - NO CLEANUP to persist when dropdown closes
+    useEffect(() => {
+      registerItem(value, {
+        value,
+        label: children,
+        disabled,
+      });
+      // Intentionally no cleanup - items persist in registry
+    }, [value, children, disabled, registerItem]);
+
+    const isSelected = multiple
+      ? Array.isArray(contextValue) && contextValue.includes(value)
+      : contextValue === value;
 
     const handleClick = () => {
-      if (disabled || context.disabled) return;
+      if (disabled || contextDisabled) return;
 
-      if (context.multiple) {
-        const currentValues = Array.isArray(context.value) ? context.value : [];
-
+      if (multiple) {
+        const currentValues = Array.isArray(contextValue) ? contextValue : [];
         let newValues: string[];
+
         if (currentValues.includes(value)) {
           newValues = currentValues.filter((v) => v !== value);
         } else {
           newValues = [...currentValues, value];
         }
 
-        context.onValueChange?.(newValues);
-        if (context.closeOnSelect) {
-          context.onOpenChange?.(false);
-        }
+        onValueChange?.(newValues);
       } else {
-        context.onValueChange?.(value);
-        if (context.closeOnSelect) {
-          context.onOpenChange?.(false);
-        }
+        onValueChange?.(value);
+      }
+
+      if (closeOnSelect) {
+        onOpenChange?.(false);
       }
     };
 
@@ -883,8 +999,8 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
         onClick={handleClick}
         className={cn(
           selectOptionVariants({
-            variant: context.variant,
-            disabled: disabled || context.disabled,
+            variant,
+            disabled: disabled || contextDisabled,
           }),
           "flex items-center gap-2 cursor-pointer",
           className
@@ -946,5 +1062,4 @@ export const SelectSeparator = ({ className }: SelectSeparatorProps) => {
 };
 SelectSeparator.displayName = "SelectSeparator";
 
-// Default export for props-based pattern
 export default Select;

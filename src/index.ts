@@ -573,7 +573,7 @@ export {
   loadingOverlayVariants,
 } from "./components/DataTable/DataTable.styles";
 export { useDataTable } from "./hooks/useDataTable";
-export { default as Select } from "./components/Select";
+export{ Select,SelectContent,SelectGroup,SelectItem,SelectLabel,SelectSeparator,SelectTrigger,SelectValue } from "./components/Select/";
 export {
   selectTriggerVariants,
   selectMenuVariants,
