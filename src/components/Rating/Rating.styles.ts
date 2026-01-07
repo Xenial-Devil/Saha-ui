@@ -1,84 +1,118 @@
 import { cva } from "class-variance-authority";
+
 /**
- * Rating variants using CVA for type-safe styling
+ * Rating container variants
  */
-const ratingVariants = cva(
-  // Base styles
-  "inline-flex items-center gap-1",
-  {
-    variants: {
-      variant: {
-        default: "",
-        primary: "",
-        secondary: "",
-        gradient: "",
-        glass: "",
-        outline: "",
-      },
-      size: {
-        xs: "text-xs gap-0.5",
-        sm: "text-sm gap-0.5",
-        md: "text-base gap-1",
-        lg: "text-xl gap-1.5",
-        xl: "text-2xl gap-2",
-        "2xl": "text-3xl gap-2.5",
-        "3xl": "text-4xl gap-3",
-        "4xl": "text-5xl gap-4",
-      },
+const ratingVariants = cva("inline-flex items-center", {
+  variants: {
+    variant: {
+      default: "",
+      primary: "",
+      secondary: "",
+      gradient: "",
+      glass: "bg-white/10 backdrop-blur-sm rounded-lg p-2",
+      outline: "",
+      neon: "",
+      soft: "bg-muted/50 rounded-lg p-2",
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      xs: "text-xs",
+      sm: "text-sm",
+      md: "text-base",
+      lg: "text-xl",
+      xl: "text-2xl",
+      "2xl": "text-3xl",
+      "3xl": "text-4xl",
+      "4xl": "text-5xl",
     },
-  }
-);
+    direction: {
+      horizontal: "flex-row",
+      vertical: "flex-col",
+    },
+    gap: {
+      none: "gap-0",
+      xs: "gap-0.5",
+      sm: "gap-1",
+      md: "gap-1.5",
+      lg: "gap-2",
+      xl: "gap-3",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "md",
+    direction: "horizontal",
+    gap: "sm",
+  },
+});
 
 /**
  * Icon variants for different rating states
  */
-const iconVariants = cva(
-  "transition-all duration-300 cursor-pointer select-none relative drop-shadow-sm",
-  {
-    variants: {
-      variant: {
-        default:
-          "text-yellow-500 dark:text-yellow-400 hover:drop-shadow-[0_0_8px_rgba(234,179,8,0.6)]",
-        primary:
-          "text-primary hover:drop-shadow-[0_0_8px_rgba(var(--primary),0.6)]",
-        secondary:
-          "text-secondary hover:drop-shadow-[0_0_8px_rgba(var(--secondary),0.6)]",
-        gradient:
-          "text-transparent bg-clip-text bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 hover:drop-shadow-[0_0_12px_rgba(249,115,22,0.6)]",
-        glass:
-          "text-white/80 dark:text-white/60 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]",
-        outline: "text-foreground hover:drop-shadow-[0_0_6px_rgba(0,0,0,0.3)]",
-      },
-      size: {
-        xs: "w-3 h-3",
-        sm: "w-4 h-4",
-        md: "w-5 h-5",
-        lg: "w-6 h-6",
-        xl: "w-8 h-8",
-        "2xl": "w-10 h-10",
-        "3xl": "w-12 h-12",
-        "4xl": "w-16 h-16",
-      },
-      state: {
-        empty: "opacity-30",
-        filled: "opacity-100 filter brightness-110",
-        half: "opacity-70",
-      },
-      interactive: {
-        true: "hover:scale-125 hover:rotate-[10deg] active:scale-95 active:rotate-0",
-        false: "",
-      },
+const iconVariants = cva("transition-all duration-300 select-none relative", {
+  variants: {
+    variant: {
+      default: "drop-shadow-sm",
+      primary: "drop-shadow-sm",
+      secondary: "drop-shadow-sm",
+      gradient: "drop-shadow-md",
+      glass: "drop-shadow-lg",
+      outline: "",
+      neon: "",
+      soft: "",
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
-      state: "empty",
-      interactive: false,
+    size: {
+      xs: "w-3 h-3",
+      sm: "w-4 h-4",
+      md: "w-5 h-5",
+      lg: "w-6 h-6",
+      xl: "w-8 h-8",
+      "2xl": "w-10 h-10",
+      "3xl": "w-12 h-12",
+      "4xl": "w-16 h-16",
     },
-  }
-);
+    state: {
+      empty: "",
+      filled: "",
+      half: "",
+    },
+    interactive: {
+      true: "cursor-pointer hover:scale-110 active:scale-95",
+      false: "",
+    },
+  },
+  compoundVariants: [
+    {
+      variant: "neon",
+      state: "filled",
+      className: "filter brightness-110",
+    },
+    {
+      variant: "gradient",
+      state: "filled",
+      className: "filter brightness-110",
+    },
+  ],
+  defaultVariants: {
+    variant: "default",
+    size: "md",
+    state: "empty",
+    interactive: false,
+  },
+});
+
+/**
+ * Size to pixel mapping for custom icons
+ */
+export const sizeMap: Record<string, number> = {
+  xs: 12,
+  sm: 16,
+  md: 20,
+  lg: 24,
+  xl: 32,
+  "2xl": 40,
+  "3xl": 48,
+  "4xl": 64,
+};
+
 export { ratingVariants, iconVariants };

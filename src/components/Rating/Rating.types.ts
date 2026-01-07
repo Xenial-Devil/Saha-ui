@@ -1,6 +1,7 @@
+import type { LucideIcon } from "lucide-react";
+
 /**
  * Rating variant types
- * Determines the visual style of the rating component
  */
 export type RatingVariant =
   | "default"
@@ -8,11 +9,12 @@ export type RatingVariant =
   | "secondary"
   | "gradient"
   | "glass"
-  | "outline";
+  | "outline"
+  | "neon"
+  | "soft";
 
 /**
  * Rating size types
- * Controls the dimensions of the stars
  */
 export type RatingSize =
   | "xs"
@@ -25,16 +27,177 @@ export type RatingSize =
   | "4xl";
 
 /**
- * Rating icon types
- * Defines which icon to use for rating display
+ * Built-in icon types - 80+ icons
  */
-export type RatingIcon = "star" | "heart" | "circle" | "diamond";
+export type RatingIcon =
+  // Basic shapes
+  | "star"
+  | "heart"
+  | "circle"
+  | "square"
+  | "diamond"
+  | "triangle"
+  | "hexagon"
+  | "octagon"
+  | "pentagon"
+  // Expressions & Emotions
+  | "smile"
+  | "frown"
+  | "meh"
+  | "laugh"
+  | "angry"
+  | "thumbsUp"
+  | "thumbsDown"
+  // Nature & Weather
+  | "sun"
+  | "moon"
+  | "cloud"
+  | "snowflake"
+  | "droplet"
+  | "flame"
+  | "leaf"
+  | "flower"
+  | "tree"
+  // Awards & Achievements
+  | "award"
+  | "trophy"
+  | "medal"
+  | "crown"
+  | "gem"
+  | "badge"
+  | "ribbon"
+  // Energy & Power
+  | "zap"
+  | "bolt"
+  | "sparkle"
+  | "sparkles"
+  | "rocket"
+  | "target"
+  // Food & Drinks
+  | "coffee"
+  | "pizza"
+  | "cake"
+  | "cookie"
+  | "apple"
+  | "cherry"
+  | "iceCream"
+  | "beer"
+  | "wine"
+  // Animals
+  | "cat"
+  | "dog"
+  | "bird"
+  | "fish"
+  | "bug"
+  | "rabbit"
+  | "pawPrint"
+  // Entertainment
+  | "music"
+  | "headphones"
+  | "gamepad"
+  | "dice"
+  | "puzzle"
+  | "palette"
+  // Communication
+  | "messageCircle"
+  | "bell"
+  | "mail"
+  | "send"
+  // Objects
+  | "gift"
+  | "bookmark"
+  | "flag"
+  | "key"
+  | "lock"
+  | "lightbulb"
+  | "umbrella"
+  | "glasses"
+  | "watch"
+  | "compass"
+  // Status
+  | "check"
+  | "checkCircle"
+  | "x"
+  | "xCircle"
+  | "alertCircle"
+  | "info"
+  | "help"
+  // Misc
+  | "ghost"
+  | "skull"
+  | "anchor"
+  | "plane"
+  | "car"
+  | "home"
+  | "building"
+  | "mountain"
+  | "waves"
+  | "infinity"
+  | "percent"
+  | "dollarSign"
+  | "euro"
+  | "bitcoin";
+
+/**
+ * Predefined color schemes - 25+ options
+ */
+export type RatingColorScheme =
+  // Warm colors
+  | "yellow"
+  | "amber"
+  | "orange"
+  | "red"
+  | "rose"
+  | "pink"
+  | "fuchsia"
+  // Cool colors
+  | "purple"
+  | "violet"
+  | "indigo"
+  | "blue"
+  | "sky"
+  | "cyan"
+  | "teal"
+  // Nature colors
+  | "green"
+  | "emerald"
+  | "lime"
+  // Neutral colors
+  | "slate"
+  | "gray"
+  | "zinc"
+  | "neutral"
+  | "stone"
+  // Special
+  | "gold"
+  | "bronze"
+  | "silver"
+  | "rainbow";
 
 /**
  * Rating precision types
- * Controls how ratings can be selected
  */
 export type RatingPrecision = "full" | "half";
+
+/**
+ * Icon props interface
+ */
+export interface IconProps {
+  className?: string;
+  style?: React.CSSProperties;
+  size?: number | string;
+}
+
+/**
+ * Custom icon type - supports various icon libraries
+ * Can be:
+ * - A React component (Lucide, custom SVG component)
+ * - A rendered React element (Iconify, emoji span, etc.)
+ */
+export type CustomIconComponent =
+  | LucideIcon
+  | React.ComponentType<IconProps>
+  | React.ReactElement<IconProps>;
 
 /**
  * Rating component props
@@ -66,7 +229,7 @@ export interface RatingProps
   size?: RatingSize;
 
   /**
-   * Icon type to display
+   * Built-in icon type to display (80+ options)
    * @default "star"
    */
   icon?: RatingIcon;
@@ -76,6 +239,12 @@ export interface RatingProps
    * @default "full"
    */
   precision?: RatingPrecision;
+
+  /**
+   * Predefined color scheme (25+ options)
+   * @default "yellow"
+   */
+  colorScheme?: RatingColorScheme;
 
   /**
    * Whether the rating is read-only
@@ -112,12 +281,14 @@ export interface RatingProps
   countLabel?: string;
 
   /**
-   * Color for filled icons
+   * Custom filled color (overrides colorScheme)
+   * Accepts any valid CSS color: hex, rgb, hsl, named colors
    */
   color?: string;
 
   /**
-   * Color for empty icons
+   * Custom empty color (overrides colorScheme)
+   * Accepts any valid CSS color: hex, rgb, hsl, named colors
    */
   emptyColor?: string;
 
@@ -154,14 +325,14 @@ export interface RatingProps
   allowClear?: boolean;
 
   /**
-   * Custom icon component
+   * Custom icon component (Lucide, Iconify, or any React component)
    */
-  customIcon?: React.ReactNode;
+  customIcon?: CustomIconComponent;
 
   /**
    * Custom empty icon component
    */
-  customEmptyIcon?: React.ReactNode;
+  customEmptyIcon?: CustomIconComponent;
 
   /**
    * Additional class names for the container
@@ -178,4 +349,22 @@ export interface RatingProps
    * @default true
    */
   animated?: boolean;
+
+  /**
+   * Highlight effect on hover
+   * @default false
+   */
+  highlightOnHover?: boolean;
+
+  /**
+   * Direction of the rating
+   * @default "horizontal"
+   */
+  direction?: "horizontal" | "vertical";
+
+  /**
+   * Gap between icons
+   * @default "sm"
+   */
+  gap?: "none" | "xs" | "sm" | "md" | "lg" | "xl";
 }
