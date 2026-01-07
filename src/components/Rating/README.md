@@ -79,6 +79,7 @@ The Rating component supports 8 visual variants:
 The Rating component includes 80+ built-in icons organized into categories:
 
 #### Basic Shapes
+
 ```tsx
 <Rating value={4} icon="star" />
 <Rating value={4} icon="heart" />
@@ -92,6 +93,7 @@ The Rating component includes 80+ built-in icons organized into categories:
 ```
 
 #### Emotions & Expressions
+
 ```tsx
 <Rating value={4} icon="smile" />
 <Rating value={4} icon="laugh" />
@@ -103,6 +105,7 @@ The Rating component includes 80+ built-in icons organized into categories:
 ```
 
 #### Nature & Weather
+
 ```tsx
 <Rating value={4} icon="sun" />
 <Rating value={4} icon="moon" />
@@ -115,6 +118,7 @@ The Rating component includes 80+ built-in icons organized into categories:
 ```
 
 #### Awards & Achievements
+
 ```tsx
 <Rating value={4} icon="award" />
 <Rating value={4} icon="trophy" />
@@ -125,6 +129,7 @@ The Rating component includes 80+ built-in icons organized into categories:
 ```
 
 #### Food & Drinks
+
 ```tsx
 <Rating value={4} icon="coffee" />
 <Rating value={4} icon="pizza" />
@@ -134,6 +139,7 @@ The Rating component includes 80+ built-in icons organized into categories:
 ```
 
 #### Animals
+
 ```tsx
 <Rating value={4} icon="cat" />
 <Rating value={4} icon="dog" />
@@ -143,6 +149,7 @@ The Rating component includes 80+ built-in icons organized into categories:
 ```
 
 #### Entertainment
+
 ```tsx
 <Rating value={4} icon="music" />
 <Rating value={4} icon="headphones" />
@@ -212,6 +219,7 @@ Display ratings without interaction:
 The Rating component includes 25+ predefined color schemes:
 
 #### Warm Colors
+
 ```tsx
 <Rating value={4} colorScheme="yellow" />   {/* Default */}
 <Rating value={4} colorScheme="amber" />
@@ -223,6 +231,7 @@ The Rating component includes 25+ predefined color schemes:
 ```
 
 #### Cool Colors
+
 ```tsx
 <Rating value={4} colorScheme="purple" />
 <Rating value={4} colorScheme="violet" />
@@ -234,6 +243,7 @@ The Rating component includes 25+ predefined color schemes:
 ```
 
 #### Nature Colors
+
 ```tsx
 <Rating value={4} colorScheme="green" />
 <Rating value={4} colorScheme="emerald" />
@@ -241,6 +251,7 @@ The Rating component includes 25+ predefined color schemes:
 ```
 
 #### Neutral Colors
+
 ```tsx
 <Rating value={4} colorScheme="slate" />
 <Rating value={4} colorScheme="gray" />
@@ -250,6 +261,7 @@ The Rating component includes 25+ predefined color schemes:
 ```
 
 #### Special Colors
+
 ```tsx
 <Rating value={4} colorScheme="gold" />
 <Rating value={4} colorScheme="bronze" />
@@ -262,17 +274,25 @@ The Rating component includes 25+ predefined color schemes:
 Override color schemes with any CSS color:
 
 ```tsx
-{/* Custom hex colors */}
-<Rating value={4} color="#ff6b6b" emptyColor="#ffe3e3" />
+{
+  /* Custom hex colors */
+}
+<Rating value={4} color="#ff6b6b" emptyColor="#ffe3e3" />;
 
-{/* CSS named colors */}
-<Rating value={4} color="crimson" emptyColor="lightpink" />
+{
+  /* CSS named colors */
+}
+<Rating value={4} color="crimson" emptyColor="lightpink" />;
 
-{/* RGB/HSL values */}
-<Rating value={4} color="rgb(255, 107, 107)" emptyColor="hsl(0, 100%, 95%)" />
+{
+  /* RGB/HSL values */
+}
+<Rating value={4} color="rgb(255, 107, 107)" emptyColor="hsl(0, 100%, 95%)" />;
 
-{/* Combine with color scheme (custom overrides scheme) */}
-<Rating value={4} colorScheme="blue" color="#3b82f6" />
+{
+  /* Combine with color scheme (custom overrides scheme) */
+}
+<Rating value={4} colorScheme="blue" color="#3b82f6" />;
 ```
 
 ## Custom Icons
@@ -295,14 +315,20 @@ import { Zap, Heart, Crown, Flame, Star } from "lucide-react";
 ```tsx
 import { Icon } from "@iconify/react";
 
-{/* Material Design Icons */}
-<Rating value={4} customIcon={<Icon icon="mdi:star" />} />
+{
+  /* Material Design Icons */
+}
+<Rating value={4} customIcon={<Icon icon="mdi:star" />} />;
 
-{/* Font Awesome */}
-<Rating value={4} customIcon={<Icon icon="fa:heart" />} colorScheme="red" />
+{
+  /* Font Awesome */
+}
+<Rating value={4} customIcon={<Icon icon="fa:heart" />} colorScheme="red" />;
 
-{/* Emoji */}
-<Rating value={4} customIcon={<Icon icon="noto:fire" />} />
+{
+  /* Emoji */
+}
+<Rating value={4} customIcon={<Icon icon="noto:fire" />} />;
 ```
 
 ### Separate Empty Icon
@@ -318,7 +344,7 @@ import { Star, StarOff } from "lucide-react";
   customIcon={Star}
   customEmptyIcon={StarOff}
   colorScheme="yellow"
-/>
+/>;
 ```
 
 ### Custom SVG Components
@@ -330,7 +356,7 @@ const CustomIcon = ({ className, style }) => (
   </svg>
 );
 
-<Rating value={4} customIcon={CustomIcon} />
+<Rating value={4} customIcon={CustomIcon} />;
 ```
 
 ## Tooltips
@@ -349,11 +375,15 @@ const CustomIcon = ({ className, style }) => (
 ### Direction
 
 ```tsx
-{/* Horizontal (default) */}
-<Rating value={4} direction="horizontal" />
+{
+  /* Horizontal (default) */
+}
+<Rating value={4} direction="horizontal" />;
 
-{/* Vertical */}
-<Rating value={4} direction="vertical" />
+{
+  /* Vertical */
+}
+<Rating value={4} direction="vertical" />;
 ```
 
 ### Gap Control
@@ -370,14 +400,20 @@ const CustomIcon = ({ className, style }) => (
 ### Animations
 
 ```tsx
-{/* With animations (default) */}
-<Rating value={4} animated={true} />
+{
+  /* With animations (default) */
+}
+<Rating value={4} animated={true} />;
 
-{/* Without animations */}
-<Rating value={4} animated={false} />
+{
+  /* Without animations */
+}
+<Rating value={4} animated={false} />;
 
-{/* Highlight on hover */}
-<Rating value={4} highlightOnHover={true} />
+{
+  /* Highlight on hover */
+}
+<Rating value={4} highlightOnHover={true} />;
 ```
 
 ### Custom Styling
@@ -519,7 +555,7 @@ function RatingCard() {
 ```tsx
 function DynamicRating() {
   const [rating, setRating] = useState(3);
-  
+
   const getIcon = (value: number): RatingIcon => {
     if (value <= 1) return "frown";
     if (value <= 2) return "meh";
@@ -527,7 +563,7 @@ function DynamicRating() {
     if (value <= 4) return "laugh";
     return "sparkles";
   };
-  
+
   return (
     <Rating
       value={rating}
@@ -602,19 +638,15 @@ function IconifyRatings() {
   return (
     <div className="space-y-4">
       {/* Emoji ratings */}
-      <Rating
-        value={4}
-        customIcon={<Icon icon="noto:star" />}
-        max={5}
-      />
-      
+      <Rating value={4} customIcon={<Icon icon="noto:star" />} max={5} />
+
       {/* Material Design */}
       <Rating
         value={4}
         customIcon={<Icon icon="mdi:heart" />}
         colorScheme="rose"
       />
-      
+
       {/* Font Awesome */}
       <Rating
         value={4}
@@ -630,37 +662,37 @@ function IconifyRatings() {
 
 ### Props
 
-| Prop                | Type                                    | Default       | Description                                       |
-| ------------------- | --------------------------------------- | ------------- | ------------------------------------------------- |
-| `value`             | `number`                                | `0`           | Current rating value (0 to max)                   |
-| `max`               | `number`                                | `5`           | Maximum rating value                              |
-| `variant`           | `RatingVariant`                         | `"default"`   | Visual style variant (8 options)                  |
-| `size`              | `RatingSize`                            | `"md"`        | Size of rating icons (xs to 4xl)                  |
-| `icon`              | `RatingIcon`                            | `"star"`      | Built-in icon type (80+ options)                  |
-| `precision`         | `"full"` \| `"half"`                    | `"full"`      | Rating precision                                  |
-| `colorScheme`       | `RatingColorScheme`                     | `"yellow"`    | Predefined color scheme (25+ options)             |
-| `readOnly`          | `boolean`                               | `false`       | Read-only mode                                    |
-| `disabled`          | `boolean`                               | `false`       | Disabled state                                    |
-| `showValue`         | `boolean`                               | `false`       | Show numeric value                                |
-| `valueFormat`       | `(value, max) => string`                | -             | Custom value formatter                            |
-| `count`             | `number`                                | -             | Number of reviews/ratings                         |
-| `countLabel`        | `string`                                | `"reviews"`   | Label for count                                   |
-| `color`             | `string`                                | -             | Custom filled color (overrides colorScheme)       |
-| `emptyColor`        | `string`                                | -             | Custom empty color (overrides colorScheme)        |
-| `hoverable`         | `boolean`                               | `true`        | Enable hover effect                               |
-| `showTooltip`       | `boolean`                               | `false`       | Show tooltips                                     |
-| `tooltipLabels`     | `string[]`                              | -             | Custom tooltip labels                             |
-| `onChange`          | `(value: number) => void`               | -             | Value change callback                             |
-| `onHover`           | `(value: number) => void`               | -             | Hover callback                                    |
-| `allowClear`        | `boolean`                               | `true`        | Allow clearing rating by clicking same value      |
-| `customIcon`        | `CustomIconComponent`                   | -             | Custom icon (Lucide, Iconify, React component)    |
-| `customEmptyIcon`   | `CustomIconComponent`                   | -             | Custom empty icon                                 |
-| `className`         | `string`                                | -             | Additional CSS classes for container              |
-| `iconClassName`     | `string`                                | -             | Additional CSS classes for icons                  |
-| `animated`          | `boolean`                               | `true`        | Enable animations                                 |
-| `highlightOnHover`  | `boolean`                               | `false`       | Highlight effect on hover                         |
-| `direction`         | `"horizontal"` \| `"vertical"`          | `"horizontal"`| Layout direction                                  |
-| `gap`               | `"none"` \| `"xs"` \| `"sm"` \| `"md"` \| `"lg"` \| `"xl"` | `"sm"` | Gap between icons                     |
+| Prop               | Type                                                       | Default        | Description                                    |
+| ------------------ | ---------------------------------------------------------- | -------------- | ---------------------------------------------- |
+| `value`            | `number`                                                   | `0`            | Current rating value (0 to max)                |
+| `max`              | `number`                                                   | `5`            | Maximum rating value                           |
+| `variant`          | `RatingVariant`                                            | `"default"`    | Visual style variant (8 options)               |
+| `size`             | `RatingSize`                                               | `"md"`         | Size of rating icons (xs to 4xl)               |
+| `icon`             | `RatingIcon`                                               | `"star"`       | Built-in icon type (80+ options)               |
+| `precision`        | `"full"` \| `"half"`                                       | `"full"`       | Rating precision                               |
+| `colorScheme`      | `RatingColorScheme`                                        | `"yellow"`     | Predefined color scheme (25+ options)          |
+| `readOnly`         | `boolean`                                                  | `false`        | Read-only mode                                 |
+| `disabled`         | `boolean`                                                  | `false`        | Disabled state                                 |
+| `showValue`        | `boolean`                                                  | `false`        | Show numeric value                             |
+| `valueFormat`      | `(value, max) => string`                                   | -              | Custom value formatter                         |
+| `count`            | `number`                                                   | -              | Number of reviews/ratings                      |
+| `countLabel`       | `string`                                                   | `"reviews"`    | Label for count                                |
+| `color`            | `string`                                                   | -              | Custom filled color (overrides colorScheme)    |
+| `emptyColor`       | `string`                                                   | -              | Custom empty color (overrides colorScheme)     |
+| `hoverable`        | `boolean`                                                  | `true`         | Enable hover effect                            |
+| `showTooltip`      | `boolean`                                                  | `false`        | Show tooltips                                  |
+| `tooltipLabels`    | `string[]`                                                 | -              | Custom tooltip labels                          |
+| `onChange`         | `(value: number) => void`                                  | -              | Value change callback                          |
+| `onHover`          | `(value: number) => void`                                  | -              | Hover callback                                 |
+| `allowClear`       | `boolean`                                                  | `true`         | Allow clearing rating by clicking same value   |
+| `customIcon`       | `CustomIconComponent`                                      | -              | Custom icon (Lucide, Iconify, React component) |
+| `customEmptyIcon`  | `CustomIconComponent`                                      | -              | Custom empty icon                              |
+| `className`        | `string`                                                   | -              | Additional CSS classes for container           |
+| `iconClassName`    | `string`                                                   | -              | Additional CSS classes for icons               |
+| `animated`         | `boolean`                                                  | `true`         | Enable animations                              |
+| `highlightOnHover` | `boolean`                                                  | `false`        | Highlight effect on hover                      |
+| `direction`        | `"horizontal"` \| `"vertical"`                             | `"horizontal"` | Layout direction                               |
+| `gap`              | `"none"` \| `"xs"` \| `"sm"` \| `"md"` \| `"lg"` \| `"xl"` | `"sm"`         | Gap between icons                              |
 
 ## Icon Reference
 
@@ -693,11 +725,11 @@ function IconifyRatings() {
 ### Programmatic Access
 
 ```tsx
-import { 
-  getAllIconNames, 
+import {
+  getAllIconNames,
   iconCategories,
   getAllColorSchemes,
-  colorSchemeCategories 
+  colorSchemeCategories,
 } from "saha-ui";
 
 // Get all available icon names
@@ -782,13 +814,13 @@ Automatically adapts to dark mode with adjusted colors and contrast.
 Full TypeScript support with comprehensive type definitions:
 
 ```typescript
-import type { 
-  RatingProps, 
-  RatingVariant, 
+import type {
+  RatingProps,
+  RatingVariant,
   RatingSize,
   RatingIcon,
   RatingColorScheme,
-  CustomIconComponent 
+  CustomIconComponent,
 } from "saha-ui";
 
 const config: RatingProps = {
