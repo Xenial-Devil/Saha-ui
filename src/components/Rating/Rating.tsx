@@ -12,7 +12,7 @@ import { getColorScheme } from "./Rating.colors";
 import { ratingVariants, iconVariants } from "./Rating.styles";
 
 /**
- * Type guard: Check if value is a valid React element
+ * Type guard: Check if value is a valid React element (already rendered)
  */
 const isReactElement = (
   value: CustomIconComponent
@@ -21,18 +21,39 @@ const isReactElement = (
 };
 
 /**
- * Type guard: Check if value is a component type (function or class)
+ * Type guard: Check if value is a component type
  */
 const isComponentType = (
   value: CustomIconComponent
 ): value is React.ComponentType<IconProps> => {
-  return (
-    typeof value === "function" ||
-    (typeof value === "object" &&
-      value !== null &&
-      "$$typeof" in value === false &&
-      !React.isValidElement(value))
-  );
+  if (React.isValidElement(value)) {
+    return false;
+  }
+
+  if (typeof value === "function") {
+    return true;
+  }
+
+  if (typeof value === "object" && value !== null) {
+    const hasTypeOf = "$$typeof" in value;
+    const hasRender = "render" in value;
+    const hasType = "type" in value;
+
+    if (hasTypeOf && (hasRender || hasType)) {
+      return true;
+    }
+
+    if (hasTypeOf) {
+      const typeString = String((value as { $$typeof: symbol }).$$typeof);
+      return (
+        typeString.includes("forward_ref") ||
+        typeString.includes("memo") ||
+        typeString.includes("react")
+      );
+    }
+  }
+
+  return false;
 };
 
 /**
@@ -48,44 +69,29 @@ const renderCustomIcon = (
     return React.cloneElement(icon, {
       className: cn(existingProps?.className, props.className),
       style: { ...existingProps?.style, ...props.style },
+      // Pass color for Iconify-like libraries
+      color: props.color || existingProps?.color,
     } as IconProps);
   }
 
   // Case 2: Component type (Lucide icons, custom components)
   if (isComponentType(icon)) {
-    const IconComponent = icon;
+    const IconComponent = icon as React.ComponentType<IconProps>;
     return <IconComponent {...props} />;
   }
 
-  // Fallback: return as-is (shouldn't happen with proper typing)
+  if (process.env.NODE_ENV === "development") {
+    console.warn("Rating: Unable to render custom icon", {
+      icon,
+      type: typeof icon,
+    });
+  }
+
   return null;
 };
 
 /**
  * Rating Component
- *
- * A flexible rating component with:
- * - 80+ built-in icons
- * - 25+ predefined color schemes
- * - Custom color and emptyColor support
- * - Support for custom icons (Lucide, Iconify, etc.)
- *
- * @example
- * ```tsx
- * // Using predefined colorScheme
- * <Rating value={4} icon="heart" colorScheme="rose" />
- *
- * // Using custom colors
- * <Rating value={4} icon="star" color="#ff6b6b" emptyColor="#ffe3e3" />
- *
- * // Custom Lucide icon with colors
- * import { Banana } from "lucide-react";
- * <Rating value={4} customIcon={Banana} color="#fbbf24" emptyColor="#fef3c7" />
- *
- * // Iconify with colors
- * import { Icon } from "@iconify/react";
- * <Rating value={4} customIcon={<Icon icon="mdi:star" />} colorScheme="gold" />
- * ```
  */
 const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
   (
@@ -130,6 +136,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
     const IconComponent = getIconComponent(icon);
     const displayValue = hoverValue !== null ? hoverValue : value;
     const isInteractive = !readOnly && !disabled;
+    const hasCustomIcon = Boolean(customIcon || customEmptyIcon);
 
     // Resolve colors: custom props override colorScheme
     const resolvedColors = useMemo(() => {
@@ -274,8 +281,12 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
 
     /**
      * Get icon classes based on state
+     * NOTE: Don't add fill-current for custom icons (they're typically stroke-based)
      */
-    const getIconClasses = (state: "empty" | "filled" | "half") => {
+    const getIconClasses = (
+      state: "empty" | "filled" | "half",
+      isCustom: boolean
+    ) => {
       const isFilled = state === "filled" || state === "half";
 
       return cn(
@@ -285,7 +296,8 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
           state,
           interactive: isInteractive && hoverable,
         }),
-        isFilled && "fill-current",
+        // Only add fill-current for built-in icons, not custom icons
+        isFilled && !isCustom && "fill-current",
         disabled && "opacity-50 cursor-not-allowed",
         animated && "transition-all duration-200",
         highlightOnHover && hoverValue !== null && "filter brightness-110",
@@ -323,6 +335,14 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
     };
 
     /**
+     * Get current color for an icon state
+     */
+    const getIconColor = (state: "empty" | "filled" | "half"): string => {
+      const isFilled = state === "filled" || state === "half";
+      return isFilled ? resolvedColors.filled : resolvedColors.empty;
+    };
+
+    /**
      * Render individual icon
      */
     const renderIcon = (index: number) => {
@@ -330,27 +350,32 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
       const isFilled = iconState === "filled" || iconState === "half";
       const iconValue = index + 1;
 
-      const iconClasses = getIconClasses(iconState);
-      const iconStyle = getIconStyle(iconState);
-
-      const iconProps: IconProps = {
-        className: iconClasses,
-        style: iconStyle,
-      };
-
-      let iconElement: React.ReactNode;
-
       // Determine which custom icon to use (if any)
       const activeCustomIcon = isFilled
         ? customIcon || customEmptyIcon
         : customEmptyIcon || customIcon;
 
+      const isCustom = Boolean(activeCustomIcon);
+      const iconClasses = getIconClasses(iconState, isCustom);
+      const iconStyle = getIconStyle(iconState);
+      const iconColor = getIconColor(iconState);
+
+      let iconElement: React.ReactNode;
+
       if (activeCustomIcon) {
-        // Render custom icon
-        iconElement = renderCustomIcon(activeCustomIcon, iconProps);
+        // Custom icon props - include color prop directly for Lucide icons
+        const customIconProps: IconProps = {
+          className: iconClasses,
+          style: iconStyle,
+          color: iconColor, // Direct color prop for Lucide/similar icons
+        };
+
+        iconElement = renderCustomIcon(activeCustomIcon, customIconProps);
       } else {
-        // Render built-in icon
-        iconElement = <IconComponent {...iconProps} />;
+        // Built-in icon
+        iconElement = (
+          <IconComponent className={iconClasses} style={iconStyle} />
+        );
       }
 
       return (
@@ -379,8 +404,8 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
         >
           {iconElement}
 
-          {/* Half fill overlay for half state */}
-          {iconState === "half" && !customIcon && (
+          {/* Half fill overlay for half state - only for built-in icons */}
+          {iconState === "half" && !hasCustomIcon && (
             <IconComponent
               className={cn(
                 iconVariants({

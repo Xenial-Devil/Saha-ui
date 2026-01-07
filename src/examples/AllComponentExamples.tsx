@@ -8,6 +8,7 @@ import VideoPlayerExample from "./VideoPlayerExample";
 import { CalendarExample } from "./CalendarExample";
 import DropdownExample from "./DropdownExample";
 import SelectExample from "./SelectExample";
+import { RatingExample } from "./RatingExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -36,8 +37,8 @@ export const AllComponentExamples = () => {
 
       {/* Calendar Component */}
       <div className="mb-16">
-        <h2 className="text-3xl font-bold mb-6 text-text">Calendar</h2>
-        <CalendarExample />
+        <h2 className="text-3xl font-bold mb-6 text-text">Rating</h2>
+        <RatingExample />
       </div>
     </div>
   );

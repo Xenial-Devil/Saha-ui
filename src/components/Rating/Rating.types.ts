@@ -186,6 +186,8 @@ export interface IconProps {
   className?: string;
   style?: React.CSSProperties;
   size?: number | string;
+  color?: string; // Direct color prop for Lucide icons
+  strokeWidth?: number;
 }
 
 /**
