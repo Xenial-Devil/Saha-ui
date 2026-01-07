@@ -1,3 +1,11 @@
+## [1.22.11](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.10...v1.22.11) (2026-01-07)
+
+
+### Bug Fixes
+
+* **rating:** Enhance Rating component with extensive customization ([89d6b7b](https://github.com/Xenial-Devil/Saha-ui/commit/89d6b7b66d886b469a98d5724998140a926b7f29))
+* Update README with formatting and code examples ([7a74755](https://github.com/Xenial-Devil/Saha-ui/commit/7a747553b44cbc243824a6d7b61a6346a0f436a9))
+
 ## [1.22.10](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.9...v1.22.10) (2026-01-06)
 
 
