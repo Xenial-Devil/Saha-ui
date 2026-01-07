@@ -514,6 +514,184 @@ const CSS_V4 = `@import "tailwindcss";
       opacity: 0;
     }
   }
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-2px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes jelly {
+  0% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.25, 0.75);
+  }
+  40% {
+    transform: scale(0.75, 1.25);
+  }
+  50% {
+    transform: scale(1.15, 0.85);
+  }
+  65% {
+    transform: scale(0.95, 1.05);
+  }
+  75% {
+    transform: scale(1.05, 0.95);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+@keyframes rubber-band {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.25, 0.75);
+  }
+  40% {
+    transform: scale(0.75, 1.25);
+  }
+  50% {
+    transform: scale(1.15, 0.85);
+  }
+  65% {
+    transform: scale(0.95, 1.05);
+  }
+  75% {
+    transform: scale(1.05, 0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes swing {
+  20% {
+    transform: rotate(15deg);
+  }
+  40% {
+    transform: rotate(-10deg);
+  }
+  60% {
+    transform: rotate(5deg);
+  }
+  80% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes tada {
+  0% {
+    transform: scale(1);
+  }
+  10%, 20% {
+    transform: scale(0.9) rotate(-3deg);
+  }
+  30%, 50%, 70%, 90% {
+    transform: scale(1.1) rotate(3deg);
+  }
+  40%, 60%, 80% {
+    transform: scale(1.1) rotate(-3deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.3);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.3);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+/* Utility classes for animations */
+.animate-bounce-in {
+  animation: bounce-in 0.3s ease-out;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.animate-jelly {
+  animation: jelly 0.5s ease-in-out;
+}
+
+.animate-rubber-band {
+  animation: rubber-band 0.5s ease-in-out;
+}
+
+.animate-swing {
+  animation: swing 0.5s ease-in-out;
+}
+
+.animate-tada {
+  animation: tada 0.5s ease-in-out;
+}
+
+.animate-heartbeat {
+  animation: heartbeat 0.5s ease-in-out;
+}
+
+/* Clip path shapes */
+.clip-path-hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.clip-path-octagon {
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+}
+
+.clip-path-shield {
+  clip-path: polygon(50% 0%, 100% 0%, 100% 75%, 50% 100%, 0% 75%, 0% 0%);
+}
+
+/* Elastic easing */
+.ease-elastic {
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.ease-bounce {
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
   
   .scrollbar-none {
     -ms-overflow-style: none;
@@ -546,6 +724,18 @@ const CSS_V4 = `@import "tailwindcss";
     content: attr(data-placeholder);
     color: hsl(var(--muted-foreground));
     opacity: 0.3;
+  }
+     /* Remove number input spinner arrows */
+  input[type="number"] {
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }`;
 
@@ -768,6 +958,13 @@ keyframes: {
   "progress-glow-pulse": { "0%, 100%": { filter: "brightness(1) saturate(1)" }, "50%": { filter: "brightness(1.15) saturate(1.2)" } },
   "collapsible-down": { from: { height: "0", opacity: "0" }, to: { height: "var(--radix-collapsible-content-height)", opacity: "1" } },
   "collapsible-up": { from: { height: "var(--radix-collapsible-content-height)", opacity: "1" }, to: { height: "0", opacity: "0" } },
+    "bounce-in": { "0%": { transform: "scale(0)", opacity: "0" }, "50%": { transform: "scale(1.2)" }, "100%": { transform: "scale(1)", opacity: "1" } },
+  "shake": { "0%, 100%": { transform: "translateX(0)" }, "10%, 30%, 50%, 70%, 90%": { transform: "translateX(-2px)" }, "20%, 40%, 60%, 80%": { transform: "translateX(2px)" } },
+  "jelly": { "0%": { transform: "scale(1, 1)" }, "30%": { transform: "scale(1.25, 0.75)" }, "40%": { transform: "scale(0.75, 1.25)" }, "50%": { transform: "scale(1.15, 0.85)" }, "65%": { transform: "scale(0.95, 1.05)" }, "75%": { transform: "scale(1.05, 0.95)" }, "100%": { transform: "scale(1, 1)" } },
+  "rubber-band": { "0%": { transform: "scale(1)" }, "30%": { transform: "scale(1.25, 0.75)" }, "40%": { transform: "scale(0.75, 1.25)" }, "50%": { transform: "scale(1.15, 0.85)" }, "65%": { transform: "scale(0.95, 1.05)" }, "75%": { transform: "scale(1.05, 0.95)" }, "100%": { transform: "scale(1)" } },
+  "swing": { "20%": { transform: "rotate(15deg)" }, "40%": { transform: "rotate(-10deg)" }, "60%": { transform: "rotate(5deg)" }, "80%": { transform: "rotate(-5deg)" }, "100%": { transform: "rotate(0deg)" } },
+  "tada": { "0%": { transform: "scale(1)" }, "10%, 20%": { transform: "scale(0.9) rotate(-3deg)" }, "30%, 50%, 70%, 90%": { transform: "scale(1.1) rotate(3deg)" }, "40%, 60%, 80%": { transform: "scale(1.1) rotate(-3deg)" }, "100%": { transform: "scale(1) rotate(0)" } },
+  "heartbeat": { "0%": { transform: "scale(1)" }, "14%": { transform: "scale(1.3)" }, "28%": { transform: "scale(1)" }, "42%": { transform: "scale(1.3)" }, "70%": { transform: "scale(1)" } },
 },
 animation: {
   "progress-stripes": "progress-stripes 1s linear infinite",
@@ -776,6 +973,18 @@ animation: {
   "progress-glow-pulse": "progress-glow-pulse 2s ease-in-out infinite",
   "collapsible-down": "collapsible-down 0.2s ease-out",
   "collapsible-up": "collapsible-up 0.2s ease-out",
+    "bounce-in": "bounce-in 0.3s ease-out",
+  "shake": "shake 0.5s ease-in-out",
+  "jelly": "jelly 0.5s ease-in-out",
+  "rubber-band": "rubber-band 0.5s ease-in-out",
+  "swing": "swing 0.5s ease-in-out",
+  "tada": "tada 0.5s ease-in-out",
+  "heartbeat": "heartbeat 0.5s ease-in-out",
+
+},
+transitionTimingFunction: {
+  'elastic': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+  'bounce': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
 },
     `);
   }

@@ -9,6 +9,8 @@ import { CalendarExample } from "./CalendarExample";
 import DropdownExample from "./DropdownExample";
 import SelectExample from "./SelectExample";
 import { RatingExample } from "./RatingExample";
+import CheckboxExample from "./CheckboxExample";
+import CheckboxGroupExample from "./CheckboxGroupExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -18,7 +20,7 @@ export const AllComponentExamples = () => {
         <h2 className="text-3xl font-bold mb-6 text-text">
           Dropdown Component
         </h2>
-        <SelectExample />
+        <CheckboxGroupExample />
       </div>
 
       {/* DragDrop Component */}
@@ -26,7 +28,7 @@ export const AllComponentExamples = () => {
         <h2 className="text-3xl font-bold mb-6 text-text">
           Drag & Drop Component
         </h2>
-        <DragDropAllExamples />
+        <CheckboxExample />
       </div>
 
       {/* Video Player Component */}
