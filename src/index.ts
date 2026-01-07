@@ -394,7 +394,7 @@ export {
   tableCellVariants,
   tableRowVariants,
 } from "./components/Table/Table.styles";
-export { default as Rating } from "./components/Rating";
+export { Rating } from "./components/Rating";
 export {
   ratingVariants,
   iconVariants as ratingIconVariants,
