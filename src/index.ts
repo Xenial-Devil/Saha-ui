@@ -37,13 +37,21 @@ export {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
+  useAccordion,
 } from "./components/Accordion";
 export {
   accordionVariants,
   accordionItemVariants,
   accordionHeaderVariants,
   accordionContentVariants,
+  accordionContentInnerVariants,
+  accordionIconVariants,
 } from "./components/Accordion/Accordion.styles";
+export type {
+  AccordionSize,
+  AccordionOrientation,
+  HeadingLevel,
+} from "./components/Accordion";
 export { default as Alert } from "./components/Alert";
 export { alertVariants } from "./components/Alert/Alert.styles";
 export { default as AspectRatio } from "./components/AspectRatio";
@@ -573,7 +581,16 @@ export {
   loadingOverlayVariants,
 } from "./components/DataTable/DataTable.styles";
 export { useDataTable } from "./hooks/useDataTable";
-export{ Select,SelectContent,SelectGroup,SelectItem,SelectLabel,SelectSeparator,SelectTrigger,SelectValue } from "./components/Select/";
+export {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "./components/Select/";
 export {
   selectTriggerVariants,
   selectMenuVariants,

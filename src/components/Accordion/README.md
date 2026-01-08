@@ -96,6 +96,33 @@ Multiple items can be open simultaneously:
 </Accordion>
 ```
 
+## Sizes
+
+The Accordion component supports three size variants:
+
+```tsx
+{
+  /* Small */
+}
+<Accordion size="sm" type="single" collapsible>
+  {/* items */}
+</Accordion>;
+
+{
+  /* Medium (default) */
+}
+<Accordion size="md" type="single" collapsible>
+  {/* items */}
+</Accordion>;
+
+{
+  /* Large */
+}
+<Accordion size="lg" type="single" collapsible>
+  {/* items */}
+</Accordion>;
+```
+
 ## Variants
 
 ### Default
@@ -216,6 +243,41 @@ function CustomIconAccordion() {
 }
 ```
 
+## Animation Callbacks
+
+Listen to animation lifecycle events:
+
+```tsx
+function AnimatedAccordion() {
+  return (
+    <Accordion
+      type="single"
+      collapsible
+      animationDuration={500}
+      onOpenStart={(value) => console.log(`Opening ${value}`)}
+      onOpenEnd={(value) => console.log(`Opened ${value}`)}
+      onCloseStart={(value) => console.log(`Closing ${value}`)}
+      onCloseEnd={(value) => console.log(`Closed ${value}`)}
+    >
+      <AccordionItem
+        value="item-1"
+        onOpenChange={(isOpen) =>
+          console.log(`Item 1 is ${isOpen ? "open" : "closed"}`)
+        }
+      >
+        <AccordionTrigger>Animated Item</AccordionTrigger>
+        <AccordionContent
+          onAnimationStart={() => console.log("Content animation started")}
+          onAnimationEnd={() => console.log("Content animation ended")}
+        >
+          Content with animation callbacks
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+```
+
 ## Disabled Items
 
 Disable specific accordion items:
@@ -230,6 +292,56 @@ Disable specific accordion items:
   <AccordionItem value="item-2" disabled>
     <AccordionTrigger>Disabled Item</AccordionTrigger>
     <AccordionContent>This content won't be accessible</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## Performance Optimization
+
+### Lazy Mounting
+
+Load content only when first opened:
+
+```tsx
+<Accordion type="single" collapsible lazyMount>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Heavy Content Item</AccordionTrigger>
+    <AccordionContent>
+      {/* This content only mounts when first opened */}
+      <ExpensiveComponent />
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+### Unmount on Close
+
+Unmount content when closed to free up resources:
+
+```tsx
+<Accordion type="single" collapsible unmountOnClose>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Dynamic Content</AccordionTrigger>
+    <AccordionContent>
+      {/* This content unmounts when closed */}
+      <DynamicComponent />
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+### Force Mount
+
+Keep content mounted for SEO or form state preservation:
+
+```tsx
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Form Content</AccordionTrigger>
+    <AccordionContent forceMount>
+      {/* This content stays mounted even when closed */}
+      <FormComponent />
+    </AccordionContent>
   </AccordionItem>
 </Accordion>
 ```
@@ -256,41 +368,63 @@ Use the `asChild` prop for custom trigger composition:
 
 ### Accordion Props
 
-| Prop            | Type                                                                           | Default     | Description                                 |
-| --------------- | ------------------------------------------------------------------------------ | ----------- | ------------------------------------------- |
-| `type`          | `'single' \| 'multiple'`                                                       | `'single'`  | Controls how items expand/collapse          |
-| `variant`       | `'default' \| 'controlled' \| 'allopen' \| 'toggle' \| 'firstopen' \| 'glass'` | `'default'` | Visual style variant                        |
-| `value`         | `string \| string[]`                                                           | -           | Controlled value(s) for open items          |
-| `defaultValue`  | `string \| string[]`                                                           | -           | Default value(s) for uncontrolled mode      |
-| `onValueChange` | `(value: string \| string[]) => void`                                          | -           | Callback when open items change             |
-| `collapsible`   | `boolean`                                                                      | `false`     | Allows closing the open item in single mode |
-| `className`     | `string`                                                                       | -           | Additional CSS classes                      |
-| `children`      | `ReactNode`                                                                    | -           | AccordionItem components                    |
+| Prop                | Type                                                                           | Default      | Description                                 |
+| ------------------- | ------------------------------------------------------------------------------ | ------------ | ------------------------------------------- |
+| `type`              | `'single' \| 'multiple'`                                                       | `'single'`   | Controls how items expand/collapse          |
+| `variant`           | `'default' \| 'controlled' \| 'allopen' \| 'toggle' \| 'firstopen' \| 'glass'` | `'default'`  | Visual style variant                        |
+| `size`              | `'sm' \| 'md' \| 'lg'`                                                         | `'md'`       | Size variant for the accordion              |
+| `value`             | `string \| string[]`                                                           | -            | Controlled value(s) for open items          |
+| `defaultValue`      | `string \| string[]`                                                           | -            | Default value(s) for uncontrolled mode      |
+| `onValueChange`     | `(value: string \| string[]) => void`                                          | -            | Callback when open items change             |
+| `collapsible`       | `boolean`                                                                      | `false`      | Allows closing the open item in single mode |
+| `orientation`       | `'vertical' \| 'horizontal'`                                                   | `'vertical'` | Orientation for keyboard navigation         |
+| `loop`              | `boolean`                                                                      | `false`      | Loop navigation from last to first item     |
+| `disabled`          | `boolean`                                                                      | `false`      | Disable the entire accordion                |
+| `lazyMount`         | `boolean`                                                                      | `false`      | Lazy load content only when first opened    |
+| `unmountOnClose`    | `boolean`                                                                      | `false`      | Unmount content when closed                 |
+| `animationDuration` | `number`                                                                       | `300`        | Animation duration in milliseconds          |
+| `onOpenStart`       | `(value: string) => void`                                                      | -            | Callback when any item starts opening       |
+| `onOpenEnd`         | `(value: string) => void`                                                      | -            | Callback when any item finishes opening     |
+| `onCloseStart`      | `(value: string) => void`                                                      | -            | Callback when any item starts closing       |
+| `onCloseEnd`        | `(value: string) => void`                                                      | -            | Callback when any item finishes closing     |
+| `className`         | `string`                                                                       | -            | Additional CSS classes                      |
+| `children`          | `ReactNode`                                                                    | -            | AccordionItem components                    |
 
 ### AccordionItem Props
 
-| Prop        | Type        | Default | Description                                   |
-| ----------- | ----------- | ------- | --------------------------------------------- |
-| `value`     | `string`    | -       | **Required.** Unique identifier for this item |
-| `disabled`  | `boolean`   | `false` | Whether the item is disabled                  |
-| `className` | `string`    | -       | Additional CSS classes                        |
-| `children`  | `ReactNode` | -       | Trigger and Content components                |
+| Prop           | Type                         | Default | Description                                   |
+| -------------- | ---------------------------- | ------- | --------------------------------------------- |
+| `value`        | `string`                     | -       | **Required.** Unique identifier for this item |
+| `disabled`     | `boolean`                    | `false` | Whether the item is disabled                  |
+| `headingLevel` | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `3`     | Heading level for accessibility (h1-h6)       |
+| `onOpenChange` | `(isOpen: boolean) => void`  | -       | Callback when this item's open state changes  |
+| `className`    | `string`                     | -       | Additional CSS classes                        |
+| `children`     | `ReactNode`                  | -       | Trigger and Content components                |
 
 ### AccordionTrigger Props
 
-| Prop        | Type        | Default           | Description                           |
-| ----------- | ----------- | ----------------- | ------------------------------------- |
-| `children`  | `ReactNode` | -                 | **Required.** Trigger content (title) |
-| `icon`      | `ReactNode` | `<ChevronDown />` | Custom icon to display                |
-| `asChild`   | `boolean`   | `false`           | Merge props with child element        |
-| `className` | `string`    | -                 | Additional CSS classes                |
+| Prop           | Type                      | Default           | Description                           |
+| -------------- | ------------------------- | ----------------- | ------------------------------------- |
+| `children`     | `ReactNode`               | -                 | **Required.** Trigger content (title) |
+| `icon`         | `ReactNode`               | `<ChevronDown />` | Custom icon to display                |
+| `openIcon`     | `ReactNode`               | -                 | Custom icon for open state            |
+| `closedIcon`   | `ReactNode`               | -                 | Custom icon for closed state          |
+| `iconPosition` | `'left' \| 'right'`       | `'right'`         | Position of the icon                  |
+| `hideIcon`     | `boolean`                 | `false`           | Hide the default icon                 |
+| `asChild`      | `boolean`                 | `false`           | Merge props with child element        |
+| `onFocus`      | `React.FocusEventHandler` | -                 | Callback when trigger receives focus  |
+| `onBlur`       | `React.FocusEventHandler` | -                 | Callback when trigger loses focus     |
+| `className`    | `string`                  | -                 | Additional CSS classes                |
 
 ### AccordionContent Props
 
-| Prop        | Type        | Default | Description                                    |
-| ----------- | ----------- | ------- | ---------------------------------------------- |
-| `children`  | `ReactNode` | -       | **Required.** Content to display when expanded |
-| `className` | `string`    | -       | Additional CSS classes                         |
+| Prop               | Type         | Default | Description                                    |
+| ------------------ | ------------ | ------- | ---------------------------------------------- |
+| `children`         | `ReactNode`  | -       | **Required.** Content to display when expanded |
+| `forceMount`       | `boolean`    | `false` | Force content to stay mounted even when closed |
+| `onAnimationStart` | `() => void` | -       | Callback when content animation starts         |
+| `onAnimationEnd`   | `() => void` | -       | Callback when content animation ends           |
+| `className`        | `string`     | -       | Additional CSS classes                         |
 
 ## Styling
 
