@@ -1,9 +1,10 @@
 #!/usr/bin/env node
- 
+
 import fs from "node:fs";
 import path from "node:path";
 import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import readline from "node:readline";
 
 const R = process.cwd();
 const a = process.argv.slice(2);
@@ -17,6 +18,464 @@ const wr = (f, s) => {
 };
 const fE = (f) => fs.existsSync(f) && fs.statSync(f).isFile();
 const dE = (d) => fs.existsSync(d) && fs.statSync(d).isDirectory();
+
+// ============================================
+// PROMPT UTILITY
+// ============================================
+const prompt = (question) => {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  return new Promise((resolve) => {
+    rl.question(question, (answer) => {
+      rl.close();
+      resolve(answer.trim().toLowerCase());
+    });
+  });
+};
+
+const confirmPrompt = async (question) => {
+  const answer = await prompt(`${question} (y/n): `);
+  return answer === "y" || answer === "yes";
+};
+
+const selectPrompt = async (question, options) => {
+  console.log(`\n${question}`);
+  options.forEach((opt, idx) => {
+    console.log(`  ${idx + 1}) ${opt.label}`);
+  });
+  const answer = await prompt("Enter your choice (1/2/3): ");
+  const idx = parseInt(answer, 10) - 1;
+  return options[ idx ]?.value || options[ 0 ].value;
+};
+
+// ============================================
+// CSS PARSING UTILITIES
+// ============================================
+
+/**
+ * Extract CSS block content (handles nested braces)
+ */
+const extractBlock = (css, startPattern) => {
+  const match = css.match(startPattern);
+  if (!match) return null;
+
+  const startIdx = match.index + match[ 0 ].length;
+  let braceCount = 1;
+  let endIdx = startIdx;
+
+  while (braceCount > 0 && endIdx < css.length) {
+    if (css[ endIdx ] === "{") braceCount++;
+    if (css[ endIdx ] === "}") braceCount--;
+    endIdx++;
+  }
+
+  return {
+    fullMatch: css.substring(match.index, endIdx),
+    content: css.substring(startIdx, endIdx - 1).trim(),
+    startIndex: match.index,
+    endIndex: endIdx,
+  };
+};
+
+/**
+ * Parse CSS variables from a block
+ */
+const parseCSSVariables = (content) => {
+  const variables = {};
+  const varRegex = /--([\w-]+)\s*:\s*([^;]+);/g;
+  let match;
+
+  while ((match = varRegex.exec(content)) !== null) {
+    variables[ `--${match[ 1 ]}` ] = match[ 2 ].trim();
+  }
+
+  return variables;
+};
+
+/**
+ * Parse @keyframes from CSS
+ */
+const parseKeyframes = (css) => {
+  const keyframes = {};
+  const keyframeRegex = /@keyframes\s+([\w-]+)\s*\{/g;
+  let match;
+
+  while ((match = keyframeRegex.exec(css)) !== null) {
+    const name = match[ 1 ];
+    const block = extractBlock(css.substring(match.index), /@keyframes\s+[\w-]+\s*\{/);
+    if (block) {
+      keyframes[ name ] = block.fullMatch;
+    }
+  }
+
+  return keyframes;
+};
+
+/**
+ * Detect existing CSS structures
+ */
+const detectExistingStructures = (css) => {
+  return {
+    hasRoot: /:root\s*\{/.test(css),
+    hasDark: /\.dark\s*\{/.test(css),
+    hasThemeInline: /@theme\s+inline\s*\{/.test(css),
+    hasLayerBase: /@layer\s+base\s*\{/.test(css),
+    hasLayerComponents: /@layer\s+components\s*\{/.test(css),
+    hasLayerUtilities: /@layer\s+utilities\s*\{/.test(css),
+    hasCustomVariant: /@custom-variant\s+dark/.test(css),
+    hasTailwindImport: /@import\s+["']tailwindcss["']/.test(css),
+    hasTailwindDirectives: /@tailwind\s+(base|components|utilities)/.test(css),
+    hasKeyframes: /@keyframes/.test(css),
+    hasGlassClass: /\.glass\s*\{/.test(css),
+  };
+};
+
+/**
+ * Extract :root variables from CSS
+ */
+const extractRootVariables = (css) => {
+  const block = extractBlock(css, /:root\s*\{/);
+  return block ? parseCSSVariables(block.content) : {};
+};
+
+/**
+ * Extract .dark variables from CSS
+ */
+const extractDarkVariables = (css) => {
+  const block = extractBlock(css, /\.dark\s*\{/);
+  return block ? parseCSSVariables(block.content) : {};
+};
+
+/**
+ * Merge CSS variables (add missing from source to target)
+ */
+const mergeVariables = (existing, incoming) => {
+  const merged = { ...existing };
+  let addedCount = 0;
+
+  for (const [ key, value ] of Object.entries(incoming)) {
+    if (!(key in merged)) {
+      merged[ key ] = value;
+      addedCount++;
+    }
+  }
+
+  return { merged, addedCount };
+};
+
+/**
+ * Generate CSS variable block string
+ */
+const generateVariableBlock = (variables, indent = "  ") => {
+  return Object.entries(variables)
+    .map(([ key, value ]) => `${indent}${key}: ${value};`)
+    .join("\n");
+};
+
+/**
+ * Replace or update :root block in CSS
+ */
+const updateRootBlock = (css, newVariables, mode = "merge") => {
+  const block = extractBlock(css, /:root\s*\{/);
+
+  if (!block) {
+    // No existing :root, add new one
+    const newBlock = `:root {\n${generateVariableBlock(newVariables)}\n}`;
+    return { css: `${newBlock}\n\n${css}`, added: Object.keys(newVariables).length };
+  }
+
+  if (mode === "replace") {
+    const newBlock = `:root {\n${generateVariableBlock(newVariables)}\n}`;
+    return {
+      css: css.substring(0, block.startIndex) + newBlock + css.substring(block.endIndex),
+      added: Object.keys(newVariables).length,
+    };
+  }
+
+  // Merge mode
+  const existingVars = parseCSSVariables(block.content);
+  const { merged, addedCount } = mergeVariables(existingVars, newVariables);
+  const newBlock = `:root {\n${generateVariableBlock(merged)}\n}`;
+
+  return {
+    css: css.substring(0, block.startIndex) + newBlock + css.substring(block.endIndex),
+    added: addedCount,
+  };
+};
+
+/**
+ * Replace or update .dark block in CSS
+ */
+const updateDarkBlock = (css, newVariables, mode = "merge") => {
+  const block = extractBlock(css, /\.dark\s*\{/);
+
+  if (!block) {
+    // No existing .dark, add new one
+    const newBlock = `.dark {\n${generateVariableBlock(newVariables)}\n}`;
+    // Insert after :root if exists
+    const rootBlock = extractBlock(css, /:root\s*\{/);
+    if (rootBlock) {
+      return {
+        css: css.substring(0, rootBlock.endIndex) + "\n\n" + newBlock + css.substring(rootBlock.endIndex),
+        added: Object.keys(newVariables).length,
+      };
+    }
+    return { css: `${newBlock}\n\n${css}`, added: Object.keys(newVariables).length };
+  }
+
+  if (mode === "replace") {
+    const newBlock = `.dark {\n${generateVariableBlock(newVariables)}\n}`;
+    return {
+      css: css.substring(0, block.startIndex) + newBlock + css.substring(block.endIndex),
+      added: Object.keys(newVariables).length,
+    };
+  }
+
+  // Merge mode
+  const existingVars = parseCSSVariables(block.content);
+  const { merged, addedCount } = mergeVariables(existingVars, newVariables);
+  const newBlock = `.dark {\n${generateVariableBlock(merged)}\n}`;
+
+  return {
+    css: css.substring(0, block.startIndex) + newBlock + css.substring(block.endIndex),
+    added: addedCount,
+  };
+};
+
+/**
+ * Merge keyframes (add missing)
+ */
+const mergeKeyframes = (css, incomingKeyframes) => {
+  const existingKeyframes = parseKeyframes(css);
+  let updatedCss = css;
+  let addedCount = 0;
+
+  const newKeyframes = [];
+  for (const [ name, keyframe ] of Object.entries(incomingKeyframes)) {
+    if (!(name in existingKeyframes)) {
+      newKeyframes.push(keyframe);
+      addedCount++;
+    }
+  }
+
+  if (newKeyframes.length > 0) {
+    // Add new keyframes at the end of @layer utilities or at the end of file
+    const utilitiesBlock = extractBlock(css, /@layer\s+utilities\s*\{/);
+    if (utilitiesBlock) {
+      const insertPoint = utilitiesBlock.endIndex - 1;
+      const keyframesStr = "\n\n" + newKeyframes.join("\n\n") + "\n";
+      updatedCss = css.substring(0, insertPoint) + keyframesStr + css.substring(insertPoint);
+    } else {
+      updatedCss = css + "\n\n" + newKeyframes.join("\n\n");
+    }
+  }
+
+  return { css: updatedCss, added: addedCount };
+};
+
+// ============================================
+// SAHA-UI CSS VARIABLES (extracted from your CSS)
+// ============================================
+const SAHA_UI_ROOT_VARIABLES = {
+  "--radius": "0.625rem",
+  "--background": "oklch(0.98 0.003 200)",
+  "--foreground": "oklch(0.15 0.01 200)",
+  "--card": "oklch(1 0 0)",
+  "--card-foreground": "oklch(0.15 0.01 200)",
+  "--popover": "oklch(1 0 0)",
+  "--popover-foreground": "oklch(0.15 0.01 200)",
+  "--primary": "oklch(48.151% 0.23085 269.463)",
+  "--primary-foreground": "oklch(1 0 0)",
+  "--secondary": "oklch(0.65 0.25 340)",
+  "--secondary-foreground": "oklch(1 0 0)",
+  "--muted": "oklch(0.96 0.005 200)",
+  "--muted-foreground": "oklch(0.45 0.01 200)",
+  "--accent": "oklch(0.65 0.12 185)",
+  "--accent-foreground": "oklch(1 0 0)",
+  "--success": "oklch(0.60 0.15 145)",
+  "--success-foreground": "oklch(1 0 0)",
+  "--warning": "oklch(0.70 0.15 65)",
+  "--warning-foreground": "oklch(0.15 0.01 200)",
+  "--error": "oklch(0.60 0.20 25)",
+  "--error-foreground": "oklch(1 0 0)",
+  "--destructive": "oklch(0.60 0.20 25)",
+  "--destructive-foreground": "oklch(1 0 0)",
+  "--info": "oklch(0.60 0.15 250)",
+  "--info-foreground": "oklch(1 0 0)",
+  "--border": "oklch(0.92 0.005 200)",
+  "--input": "oklch(0.96 0.005 200)",
+  "--ring": "oklch(0.60 0.18 275)",
+  "--chart-1": "oklch(0.60 0.18 275)",
+  "--chart-2": "oklch(0.60 0.15 145)",
+  "--chart-3": "oklch(0.60 0.15 250)",
+  "--chart-4": "oklch(0.65 0.25 340)",
+  "--chart-5": "oklch(0.65 0.12 185)",
+  "--glass-bg": "oklch(1 0 0 / 0.25)",
+  "--glass-bg-hover": "oklch(1 0 0 / 0.35)",
+  "--glass-border": "oklch(0.60 0.18 275 / 0.15)",
+  "--glass-shadow": "0 8px 32px 0 oklch(0.60 0.18 275 / 0.12)",
+  "--glass-blur": "16px",
+};
+
+const SAHA_UI_DARK_VARIABLES = {
+  "--background": "oklch(0.08 0.005 200)",
+  "--foreground": "oklch(0.95 0.005 200)",
+  "--card": "oklch(0.12 0.01 200)",
+  "--card-foreground": "oklch(0.95 0.005 200)",
+  "--popover": "oklch(0.12 0.01 200)",
+  "--popover-foreground": "oklch(0.95 0.005 200)",
+  "--primary": "oklch(41.145% 0.14945 272.396)",
+  "--primary-foreground": "oklch(0.98 0.003 200)",
+  "--secondary": "oklch(0.70 0.25 340)",
+  "--secondary-foreground": "oklch(0.98 0.003 200)",
+  "--muted": "oklch(0.15 0.01 200)",
+  "--muted-foreground": "oklch(0.65 0.005 200)",
+  "--accent": "oklch(0.70 0.15 185)",
+  "--accent-foreground": "oklch(0.98 0.003 200)",
+  "--success": "oklch(0.65 0.18 145)",
+  "--success-foreground": "oklch(0.98 0.003 200)",
+  "--warning": "oklch(0.75 0.18 65)",
+  "--warning-foreground": "oklch(0.98 0.003 200)",
+  "--error": "oklch(0.65 0.22 25)",
+  "--error-foreground": "oklch(0.98 0.003 200)",
+  "--destructive": "oklch(0.65 0.22 25)",
+  "--destructive-foreground": "oklch(0.98 0.003 200)",
+  "--info": "oklch(0.65 0.18 250)",
+  "--info-foreground": "oklch(0.98 0.003 200)",
+  "--border": "oklch(0.20 0.01 200)",
+  "--input": "oklch(0.15 0.01 200)",
+  "--ring": "oklch(0.68 0.20 275)",
+  "--chart-1": "oklch(0.68 0.20 275)",
+  "--chart-2": "oklch(0.65 0.18 145)",
+  "--chart-3": "oklch(0.65 0.18 250)",
+  "--chart-4": "oklch(0.70 0.25 340)",
+  "--chart-5": "oklch(0.70 0.15 185)",
+  "--glass-bg": "oklch(0.12 0.01 200 / 0.5)",
+  "--glass-bg-hover": "oklch(0.12 0.01 200 / 0.7)",
+  "--glass-border": "oklch(0.68 0.20 275 / 0.2)",
+  "--glass-shadow": "0 8px 32px 0 oklch(0 0 0 / 0.6)",
+  "--glass-blur": "16px",
+};
+
+const SAHA_UI_KEYFRAMES = {
+  "gradient-x": `@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}`,
+  "draw-circle": `@keyframes draw-circle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}`,
+  "draw-check": `@keyframes draw-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}`,
+  "draw-x": `@keyframes draw-x {
+  to {
+    stroke-dashoffset: 0;
+  }
+}`,
+  "shake": `@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}`,
+  "bounce-in": `@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}`,
+  "jelly": `@keyframes jelly {
+  0% { transform: scale(1, 1); }
+  30% { transform: scale(1.25, 0.75); }
+  40% { transform: scale(0.75, 1.25); }
+  50% { transform: scale(1.15, 0.85); }
+  65% { transform: scale(0.95, 1.05); }
+  75% { transform: scale(1.05, 0.95); }
+  100% { transform: scale(1, 1); }
+}`,
+  "rubber-band": `@keyframes rubber-band {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.25, 0.75); }
+  40% { transform: scale(0.75, 1.25); }
+  50% { transform: scale(1.15, 0.85); }
+  65% { transform: scale(0.95, 1.05); }
+  75% { transform: scale(1.05, 0.95); }
+  100% { transform: scale(1); }
+}`,
+  "swing": `@keyframes swing {
+  20% { transform: rotate(15deg); }
+  40% { transform: rotate(-10deg); }
+  60% { transform: rotate(5deg); }
+  80% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}`,
+  "tada": `@keyframes tada {
+  0% { transform: scale(1); }
+  10%, 20% { transform: scale(0.9) rotate(-3deg); }
+  30%, 50%, 70%, 90% { transform: scale(1.1) rotate(3deg); }
+  40%, 60%, 80% { transform: scale(1.1) rotate(-3deg); }
+  100% { transform: scale(1) rotate(0); }
+}`,
+  "heartbeat": `@keyframes heartbeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.3); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.3); }
+  70% { transform: scale(1); }
+}`,
+  "progress-stripes": `@keyframes progress-stripes {
+  0% { background-position: 0 0; }
+  100% { background-position: 1.5rem 0; }
+}`,
+  "progress-indeterminate": `@keyframes progress-indeterminate {
+  0% { left: -40%; transform: scaleX(0.6); }
+  50% { transform: scaleX(1); }
+  100% { left: 100%; transform: scaleX(0.6); }
+}`,
+  "progress-shimmer": `@keyframes progress-shimmer {
+  0% { transform: translateX(-100%) scaleX(0); opacity: 0; }
+  10% { opacity: 1; }
+  50% { transform: translateX(0%) scaleX(1); }
+  90% { opacity: 1; }
+  100% { transform: translateX(100%) scaleX(0); opacity: 0; }
+}`,
+  "progress-glow-pulse": `@keyframes progress-glow-pulse {
+  0%, 100% { filter: brightness(1) saturate(1); }
+  50% { filter: brightness(1.15) saturate(1.2); }
+}`,
+  "collapsible-down": `@keyframes collapsible-down {
+  from { height: 0; opacity: 0; }
+  to { height: var(--radix-collapsible-content-height); opacity: 1; }
+}`,
+  "collapsible-up": `@keyframes collapsible-up {
+  from { height: var(--radix-collapsible-content-height); opacity: 1; }
+  to { height: 0; opacity: 0; }
+}`,
+};
 
 // package.json
 const P = (() => {
@@ -206,7 +665,7 @@ const pick = () => {
 const M = "/* saha-ui */";
 const TW = /@import\s+["']tailwindcss["'];?/;
 
-// CSS for Tailwind v4+
+// Full CSS for Tailwind v4 (when doing full replace or fresh install)
 const CSS_V4 = `@import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
@@ -441,301 +900,171 @@ const CSS_V4 = `@import "tailwindcss";
 }
 
 @layer utilities {
+  @keyframes gradient-x {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes draw-circle {
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes draw-check {
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes draw-x {
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+  }
+
+  @keyframes bounce-in {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes jelly {
+    0% { transform: scale(1, 1); }
+    30% { transform: scale(1.25, 0.75); }
+    40% { transform: scale(0.75, 1.25); }
+    50% { transform: scale(1.15, 0.85); }
+    65% { transform: scale(0.95, 1.05); }
+    75% { transform: scale(1.05, 0.95); }
+    100% { transform: scale(1, 1); }
+  }
+
+  @keyframes rubber-band {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.25, 0.75); }
+    40% { transform: scale(0.75, 1.25); }
+    50% { transform: scale(1.15, 0.85); }
+    65% { transform: scale(0.95, 1.05); }
+    75% { transform: scale(1.05, 0.95); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes swing {
+    20% { transform: rotate(15deg); }
+    40% { transform: rotate(-10deg); }
+    60% { transform: rotate(5deg); }
+    80% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  @keyframes tada {
+    0% { transform: scale(1); }
+    10%, 20% { transform: scale(0.9) rotate(-3deg); }
+    30%, 50%, 70%, 90% { transform: scale(1.1) rotate(3deg); }
+    40%, 60%, 80% { transform: scale(1.1) rotate(-3deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  @keyframes heartbeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.3); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.3); }
+    70% { transform: scale(1); }
+  }
+
   @keyframes progress-stripes {
-    0% {
-      background-position: 0 0;
-    }
-    100% {
-      background-position: 1.5rem 0;
-    }
+    0% { background-position: 0 0; }
+    100% { background-position: 1.5rem 0; }
   }
-  
+
   @keyframes progress-indeterminate {
-    0% {
-      left: -40%;
-      transform: scaleX(0.6);
-    }
-    50% {
-      transform: scaleX(1);
-    }
-    100% {
-      left: 100%;
-      transform: scaleX(0.6);
-    }
+    0% { left: -40%; transform: scaleX(0.6); }
+    50% { transform: scaleX(1); }
+    100% { left: 100%; transform: scaleX(0.6); }
   }
-  
+
   @keyframes progress-shimmer {
-    0% {
-      transform: translateX(-100%) scaleX(0);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    50% {
-      transform: translateX(0%) scaleX(1);
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(100%) scaleX(0);
-      opacity: 0;
-    }
+    0% { transform: translateX(-100%) scaleX(0); opacity: 0; }
+    10% { opacity: 1; }
+    50% { transform: translateX(0%) scaleX(1); }
+    90% { opacity: 1; }
+    100% { transform: translateX(100%) scaleX(0); opacity: 0; }
   }
-  
+
   @keyframes progress-glow-pulse {
-    0%, 100% {
-      filter: brightness(1) saturate(1);
-    }
-    50% {
-      filter: brightness(1.15) saturate(1.2);
-    }
+    0%, 100% { filter: brightness(1) saturate(1); }
+    50% { filter: brightness(1.15) saturate(1.2); }
   }
-  
+
   @keyframes collapsible-down {
-    from {
-      height: 0;
-      opacity: 0;
-    }
-    to {
-      height: var(--radix-collapsible-content-height);
-      opacity: 1;
-    }
+    from { height: 0; opacity: 0; }
+    to { height: var(--radix-collapsible-content-height); opacity: 1; }
   }
-  
+
   @keyframes collapsible-up {
-    from {
-      height: var(--radix-collapsible-content-height);
-      opacity: 1;
-    }
-    to {
-      height: 0;
-      opacity: 0;
-    }
+    from { height: var(--radix-collapsible-content-height); opacity: 1; }
+    to { height: 0; opacity: 0; }
   }
-@keyframes bounce-in {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
 
-@keyframes shake {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  10%, 30%, 50%, 70%, 90% {
-    transform: translateX(-2px);
-  }
-  20%, 40%, 60%, 80% {
-    transform: translateX(2px);
-  }
-}
+  /* Utility classes */
+  .animate-bounce-in { animation: bounce-in 0.3s ease-out; }
+  .animate-shake { animation: shake 0.5s ease-in-out; }
+  .animate-jelly { animation: jelly 0.5s ease-in-out; }
+  .animate-rubber-band { animation: rubber-band 0.5s ease-in-out; }
+  .animate-swing { animation: swing 0.5s ease-in-out; }
+  .animate-tada { animation: tada 0.5s ease-in-out; }
+  .animate-heartbeat { animation: heartbeat 0.5s ease-in-out; }
 
-@keyframes jelly {
-  0% {
-    transform: scale(1, 1);
-  }
-  30% {
-    transform: scale(1.25, 0.75);
-  }
-  40% {
-    transform: scale(0.75, 1.25);
-  }
-  50% {
-    transform: scale(1.15, 0.85);
-  }
-  65% {
-    transform: scale(0.95, 1.05);
-  }
-  75% {
-    transform: scale(1.05, 0.95);
-  }
-  100% {
-    transform: scale(1, 1);
-  }
-}
+  .clip-path-hexagon { clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
+  .clip-path-octagon { clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); }
+  .clip-path-shield { clip-path: polygon(50% 0%, 100% 0%, 100% 75%, 50% 100%, 0% 75%, 0% 0%); }
 
-@keyframes rubber-band {
-  0% {
-    transform: scale(1);
-  }
-  30% {
-    transform: scale(1.25, 0.75);
-  }
-  40% {
-    transform: scale(0.75, 1.25);
-  }
-  50% {
-    transform: scale(1.15, 0.85);
-  }
-  65% {
-    transform: scale(0.95, 1.05);
-  }
-  75% {
-    transform: scale(1.05, 0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
+  .ease-elastic { transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+  .ease-bounce { transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55); }
 
-@keyframes swing {
-  20% {
-    transform: rotate(15deg);
-  }
-  40% {
-    transform: rotate(-10deg);
-  }
-  60% {
-    transform: rotate(5deg);
-  }
-  80% {
-    transform: rotate(-5deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes tada {
-  0% {
-    transform: scale(1);
-  }
-  10%, 20% {
-    transform: scale(0.9) rotate(-3deg);
-  }
-  30%, 50%, 70%, 90% {
-    transform: scale(1.1) rotate(3deg);
-  }
-  40%, 60%, 80% {
-    transform: scale(1.1) rotate(-3deg);
-  }
-  100% {
-    transform: scale(1) rotate(0);
-  }
-}
-
-@keyframes heartbeat {
-  0% {
-    transform: scale(1);
-  }
-  14% {
-    transform: scale(1.3);
-  }
-  28% {
-    transform: scale(1);
-  }
-  42% {
-    transform: scale(1.3);
-  }
-  70% {
-    transform: scale(1);
-  }
-}
-
-/* Utility classes for animations */
-.animate-bounce-in {
-  animation: bounce-in 0.3s ease-out;
-}
-
-.animate-shake {
-  animation: shake 0.5s ease-in-out;
-}
-
-.animate-jelly {
-  animation: jelly 0.5s ease-in-out;
-}
-
-.animate-rubber-band {
-  animation: rubber-band 0.5s ease-in-out;
-}
-
-.animate-swing {
-  animation: swing 0.5s ease-in-out;
-}
-
-.animate-tada {
-  animation: tada 0.5s ease-in-out;
-}
-
-.animate-heartbeat {
-  animation: heartbeat 0.5s ease-in-out;
-}
-
-/* Clip path shapes */
-.clip-path-hexagon {
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-
-.clip-path-octagon {
-  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-}
-
-.clip-path-shield {
-  clip-path: polygon(50% 0%, 100% 0%, 100% 75%, 50% 100%, 0% 75%, 0% 0%);
-}
-
-/* Elastic easing */
-.ease-elastic {
-  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.ease-bounce {
-  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-  
   .scrollbar-none {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
-  .scrollbar-none::-webkit-scrollbar {
-    display: none;
-  }
-  
-  [role="menu"],
-  [role="listbox"] {
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+
+  [role="menu"], [role="listbox"] {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
   [role="menu"]::-webkit-scrollbar,
-  [role="listbox"]::-webkit-scrollbar {
-    display: none;
-  }
-  
+  [role="listbox"]::-webkit-scrollbar { display: none; }
+
   [contenteditable][data-placeholder]:empty:before {
     content: attr(data-placeholder);
     color: hsl(var(--muted-foreground));
     opacity: 0.5;
     pointer-events: none;
   }
-  
+
   [contenteditable]:focus:empty:before {
     content: attr(data-placeholder);
     color: hsl(var(--muted-foreground));
     opacity: 0.3;
   }
-     /* Remove number input spinner arrows */
+
   input[type="number"] {
     -moz-appearance: textfield;
     -webkit-appearance: none;
     appearance: none;
   }
-
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }`;
 
@@ -841,10 +1170,8 @@ const getRelativePathToNodeModules = (fromFile) => {
   const nodeModulesPath = path.join(R, "node_modules");
   let relativePath = path.relative(fromDir, nodeModulesPath);
 
-  // Convert Windows backslashes to forward slashes for consistency
   relativePath = relativePath.replace(/\\/g, '/');
 
-  // If in same directory, use ./
   if (!relativePath) {
     relativePath = '.';
   } else if (!relativePath.startsWith('.')) {
@@ -855,7 +1182,7 @@ const getRelativePathToNodeModules = (fromFile) => {
 };
 
 // ----------------------------------------------
-// Update Tailwind config for v3 (auto-update content + manual hints for theme)
+// Update Tailwind config for v3
 // ----------------------------------------------
 const updateTailwindConfig = (cssFilePath) => {
   const configFiles = [
@@ -876,190 +1203,325 @@ const updateTailwindConfig = (cssFilePath) => {
 
   if (!configPath) {
     console.warn("⚠️  Warning: Could not find Tailwind config file");
-    console.log("\n📝 Please manually create tailwind.config.js and add:");
-    console.log(`
-export default {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/saha-ui/dist/**/*.js", // ← Required for saha-ui
-  ],
-  // ... rest of your config
-};
-    `);
+    console.log("\n📝 Please manually create tailwind.config.js and add saha-ui content path.");
     return;
   }
 
-  // Calculate relative path from config file to node_modules
   const relativePathToNodeModules = getRelativePathToNodeModules(configPath);
   const sahaUIContentPath = `${relativePathToNodeModules}/saha-ui/dist/**/*.js`;
 
   let config = rd(configPath);
   const contentPattern = /node_modules\/saha-ui\/dist\/\*\*\/\*\.js/;
 
-  // Check if saha-ui content path already exists
   if (contentPattern.test(config)) {
     console.log("✅ Tailwind config already includes saha-ui content path");
   } else {
-    // Try to automatically add the content path
     const contentArrayRegex = /content\s*:\s*\[([\s\S]*?)\]/;
     const match = config.match(contentArrayRegex);
 
     if (match) {
       const currentContent = match[ 1 ];
       const newContentPath = `\n    "${sahaUIContentPath}",`;
-
-      // Add before the closing bracket
       const updatedContent = currentContent.trimEnd() + newContentPath;
       config = config.replace(contentArrayRegex, `content: [${updatedContent}\n  ]`);
 
       wr(configPath, config);
       console.log(`✅ Added saha-ui content path to ${path.relative(R, configPath)}`);
-      console.log(`   Path: "${sahaUIContentPath}"`);
     } else {
       console.warn("⚠️  Could not automatically update content array");
-      console.log("\n📝 Please manually add this to your tailwind.config content array:");
-      console.log(`  "${sahaUIContentPath}"`);
+      console.log(`\n📝 Please manually add: "${sahaUIContentPath}"`);
     }
-  }
-
-  // Theme extension hints (manual for now to avoid breaking existing configs)
-  if (config.includes("theme:") && config.includes("extend:")) {
-    console.log("\nℹ️  Tailwind config already has theme.extend");
-    console.log("📝 If you haven't already, add these to your tailwind.config theme.extend:");
-    console.log(`
-colors: {
-  border: "hsl(var(--border))",
-  input: "hsl(var(--input))",
-  ring: "hsl(var(--ring))",
-  background: "hsl(var(--background))",
-  foreground: "hsl(var(--foreground))",
-  primary: { DEFAULT: "hsl(var(--primary))", foreground: "hsl(var(--primary-foreground))" },
-  secondary: { DEFAULT: "hsl(var(--secondary))", foreground: "hsl(var(--secondary-foreground))" },
-  muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
-  accent: { DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
-  destructive: { DEFAULT: "hsl(var(--destructive))", foreground: "hsl(var(--destructive-foreground))" },
-  success: { DEFAULT: "hsl(var(--success))", foreground: "hsl(var(--success-foreground))" },
-  warning: { DEFAULT: "hsl(var(--warning))", foreground: "hsl(var(--warning-foreground))" },
-  error: { DEFAULT: "hsl(var(--error))", foreground: "hsl(var(--error-foreground))" },
-  info: { DEFAULT: "hsl(var(--info))", foreground: "hsl(var(--info-foreground))" },
-  card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
-  popover: { DEFAULT: "hsl(var(--popover))", foreground: "hsl(var(--popover-foreground))" },
-  chart: { 1: "hsl(var(--chart-1))", 2: "hsl(var(--chart-2))", 3: "hsl(var(--chart-3))", 4: "hsl(var(--chart-4))", 5: "hsl(var(--chart-5))" },
-},
-borderRadius: {
-  lg: "var(--radius)",
-  md: "calc(var(--radius) - 2px)",
-  sm: "calc(var(--radius) - 4px)",
-},
-keyframes: {
-  "progress-stripes": { "0%": { backgroundPosition: "0 0" }, "100%": { backgroundPosition: "1.5rem 0" } },
-  "progress-indeterminate": { "0%": { left: "-40%", transform: "scaleX(0.6)" }, "50%": { transform: "scaleX(1)" }, "100%": { left: "100%", transform: "scaleX(0.6)" } },
-  "progress-shimmer": { "0%": { transform: "translateX(-100%) scaleX(0)", opacity: "0" }, "10%": { opacity: "1" }, "50%": { transform: "translateX(0%) scaleX(1)" }, "90%": { opacity: "1" }, "100%": { transform: "translateX(100%) scaleX(0)", opacity: "0" } },
-  "progress-glow-pulse": { "0%, 100%": { filter: "brightness(1) saturate(1)" }, "50%": { filter: "brightness(1.15) saturate(1.2)" } },
-  "collapsible-down": { from: { height: "0", opacity: "0" }, to: { height: "var(--radix-collapsible-content-height)", opacity: "1" } },
-  "collapsible-up": { from: { height: "var(--radix-collapsible-content-height)", opacity: "1" }, to: { height: "0", opacity: "0" } },
-    "bounce-in": { "0%": { transform: "scale(0)", opacity: "0" }, "50%": { transform: "scale(1.2)" }, "100%": { transform: "scale(1)", opacity: "1" } },
-  "shake": { "0%, 100%": { transform: "translateX(0)" }, "10%, 30%, 50%, 70%, 90%": { transform: "translateX(-2px)" }, "20%, 40%, 60%, 80%": { transform: "translateX(2px)" } },
-  "jelly": { "0%": { transform: "scale(1, 1)" }, "30%": { transform: "scale(1.25, 0.75)" }, "40%": { transform: "scale(0.75, 1.25)" }, "50%": { transform: "scale(1.15, 0.85)" }, "65%": { transform: "scale(0.95, 1.05)" }, "75%": { transform: "scale(1.05, 0.95)" }, "100%": { transform: "scale(1, 1)" } },
-  "rubber-band": { "0%": { transform: "scale(1)" }, "30%": { transform: "scale(1.25, 0.75)" }, "40%": { transform: "scale(0.75, 1.25)" }, "50%": { transform: "scale(1.15, 0.85)" }, "65%": { transform: "scale(0.95, 1.05)" }, "75%": { transform: "scale(1.05, 0.95)" }, "100%": { transform: "scale(1)" } },
-  "swing": { "20%": { transform: "rotate(15deg)" }, "40%": { transform: "rotate(-10deg)" }, "60%": { transform: "rotate(5deg)" }, "80%": { transform: "rotate(-5deg)" }, "100%": { transform: "rotate(0deg)" } },
-  "tada": { "0%": { transform: "scale(1)" }, "10%, 20%": { transform: "scale(0.9) rotate(-3deg)" }, "30%, 50%, 70%, 90%": { transform: "scale(1.1) rotate(3deg)" }, "40%, 60%, 80%": { transform: "scale(1.1) rotate(-3deg)" }, "100%": { transform: "scale(1) rotate(0)" } },
-  "heartbeat": { "0%": { transform: "scale(1)" }, "14%": { transform: "scale(1.3)" }, "28%": { transform: "scale(1)" }, "42%": { transform: "scale(1.3)" }, "70%": { transform: "scale(1)" } },
-},
-animation: {
-  "progress-stripes": "progress-stripes 1s linear infinite",
-  "progress-indeterminate": "progress-indeterminate 1.5s ease-in-out infinite",
-  "progress-shimmer": "progress-shimmer 2s ease-in-out infinite",
-  "progress-glow-pulse": "progress-glow-pulse 2s ease-in-out infinite",
-  "collapsible-down": "collapsible-down 0.2s ease-out",
-  "collapsible-up": "collapsible-up 0.2s ease-out",
-    "bounce-in": "bounce-in 0.3s ease-out",
-  "shake": "shake 0.5s ease-in-out",
-  "jelly": "jelly 0.5s ease-in-out",
-  "rubber-band": "rubber-band 0.5s ease-in-out",
-  "swing": "swing 0.5s ease-in-out",
-  "tada": "tada 0.5s ease-in-out",
-  "heartbeat": "heartbeat 0.5s ease-in-out",
-
-},
-transitionTimingFunction: {
-  'elastic': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-  'bounce': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-},
-    `);
   }
 };
 
 // ----------------------------------------------
-// Inject
+// Smart Inject with Merge/Replace Options
 // ----------------------------------------------
-const inject = (f, tailwindInfo) => {
+const inject = async (f, tailwindInfo) => {
   const ex = fE(f);
   const cur = ex ? rd(f) : "";
 
-  const hasTailwindV4Import = /@import\s+["']tailwindcss["'];?/.test(cur);
-  const hasTailwindV3Import = cur.includes("@tailwind");
-  const hasTailwindImport = hasTailwindV4Import || hasTailwindV3Import;
+  // Detect existing structures
+  const structures = detectExistingStructures(cur);
+  const hasExistingSetup = structures.hasRoot || structures.hasDark || structures.hasLayerBase;
 
-  // For Tailwind v4, always check and add @source if missing
-  if (hasTailwindV4Import) {
-    const relativePathToNodeModules = getRelativePathToNodeModules(f);
-    const sahaUISourcePath = `${relativePathToNodeModules}/saha-ui/dist/**/*.js`;
-    const sourcePattern = /source\s+["'][^"']*saha-ui[^"']*["']/;
-
-    if (!sourcePattern.test(cur)) {
-      // Add @source to the @import line
-      const updatedContent = cur.replace(
-        /@import\s+["']tailwindcss["'];?/,
-        `@import "tailwindcss";
-        @source "${sahaUISourcePath}";`
-      );
-      wr(f, updatedContent);
-      console.log(`\n✅ Added @source "${sahaUISourcePath}" to Tailwind v4 import`);
-    } else {
-      console.log("✅ Tailwind v4 @source already includes saha-ui");
-    }
-  }
-
-  // Now check if CSS content is already injected
+  // Check if already injected
   if (cur.includes(M)) {
     console.log(`✅ saha-ui: CSS already injected in ${path.relative(R, f)}`);
     return;
   }
 
+  let mode = "fresh"; // fresh, replace, merge
+
+  // If existing setup detected, ask user what to do
+  if (hasExistingSetup) {
+    console.log("\n⚠️  Existing CSS setup detected in your file:");
+    if (structures.hasRoot) console.log("   • :root variables found");
+    if (structures.hasDark) console.log("   • .dark variables found");
+    if (structures.hasLayerBase) console.log("   • @layer base found");
+    if (structures.hasLayerComponents) console.log("   • @layer components found");
+    if (structures.hasLayerUtilities) console.log("   • @layer utilities found");
+    if (structures.hasKeyframes) console.log("   • @keyframes found");
+    if (structures.hasGlassClass) console.log("   • .glass class found");
+
+    mode = await selectPrompt(
+      "\nHow would you like to handle existing styles?",
+      [
+        { label: "Replace all - Overwrite existing styles with saha-ui defaults", value: "replace" },
+        { label: "Merge - Keep your values, add missing saha-ui variables", value: "merge" },
+        { label: "Skip - Don't modify existing styles, only add new sections", value: "skip" },
+      ]
+    );
+
+    console.log(`\n📝 Selected mode: ${mode}\n`);
+  }
+
   const CSS = tailwindInfo.major >= 4 ? CSS_V4 : CSS_V3;
 
-  let cssToInject = CSS;
-  if (hasTailwindImport) {
-    if (hasTailwindV4Import) {
-      cssToInject = CSS.replace(/^@import\s+["']tailwindcss["'][^;]*;?\n*/, "").trim();
-    } else if (hasTailwindV3Import) {
-      cssToInject = CSS.replace(/@tailwind\s+(base|components|utilities);?\n*/g, "").trim();
-    }
-  }
+  // Handle based on mode
+  if (mode === "fresh" || mode === "replace") {
+    // Full replacement or fresh install
+    let out = "";
 
-  let out;
-  if (hasTailwindV4Import) {
-    // Re-read file in case @source was just added
-    const currentContent = rd(f);
-    out = currentContent.replace(/@import\s+["']tailwindcss["'][^;]*;/, (m) => `${m}\n${M}\n${cssToInject}`);
-  } else if (hasTailwindV3Import) {
-    const tailwindDirectives = cur.match(/@tailwind\s+(base|components|utilities);?\n*/g);
-    if (tailwindDirectives) {
-      const lastDirective = tailwindDirectives[ tailwindDirectives.length - 1 ];
-      const lastIndex = cur.lastIndexOf(lastDirective);
-      const beforeDirective = cur.substring(0, lastIndex + lastDirective.length);
-      const afterDirective = cur.substring(lastIndex + lastDirective.length);
-      out = `${beforeDirective}\n${M}\n${cssToInject}\n${afterDirective}`;
+    if (mode === "replace") {
+      // Remove existing blocks that we'll replace
+      let cleanedCss = cur;
+
+      // Remove :root block
+      const rootBlock = extractBlock(cleanedCss, /:root\s*\{/);
+      if (rootBlock) {
+        cleanedCss = cleanedCss.substring(0, rootBlock.startIndex) + cleanedCss.substring(rootBlock.endIndex);
+      }
+
+      // Remove .dark block
+      const darkBlock = extractBlock(cleanedCss, /\.dark\s*\{/);
+      if (darkBlock) {
+        cleanedCss = cleanedCss.substring(0, darkBlock.startIndex) + cleanedCss.substring(darkBlock.endIndex);
+      }
+
+      // Remove @theme inline block (v4)
+      const themeBlock = extractBlock(cleanedCss, /@theme\s+inline\s*\{/);
+      if (themeBlock) {
+        cleanedCss = cleanedCss.substring(0, themeBlock.startIndex) + cleanedCss.substring(themeBlock.endIndex);
+      }
+
+      // Remove @layer base block
+      const baseBlock = extractBlock(cleanedCss, /@layer\s+base\s*\{/);
+      if (baseBlock) {
+        cleanedCss = cleanedCss.substring(0, baseBlock.startIndex) + cleanedCss.substring(baseBlock.endIndex);
+      }
+
+      // Remove @layer components block
+      const componentsBlock = extractBlock(cleanedCss, /@layer\s+components\s*\{/);
+      if (componentsBlock) {
+        cleanedCss = cleanedCss.substring(0, componentsBlock.startIndex) + cleanedCss.substring(componentsBlock.endIndex);
+      }
+
+      // Remove @layer utilities block
+      const utilitiesBlock = extractBlock(cleanedCss, /@layer\s+utilities\s*\{/);
+      if (utilitiesBlock) {
+        cleanedCss = cleanedCss.substring(0, utilitiesBlock.startIndex) + cleanedCss.substring(utilitiesBlock.endIndex);
+      }
+
+      // Remove @custom-variant dark
+      cleanedCss = cleanedCss.replace(/@custom-variant\s+dark\s*\([^)]*\)\s*;?\n*/g, "");
+
+      // Clean up multiple empty lines
+      cleanedCss = cleanedCss.replace(/\n{3,}/g, "\n\n").trim();
+
+      // Now inject the CSS
+      let cssToInject = CSS;
+
+      // Check if tailwind import/directives exist
+      if (structures.hasTailwindImport) {
+        cssToInject = CSS.replace(/^@import\s+["']tailwindcss["'][^;]*;?\n*/, "").trim();
+        out = cleanedCss.replace(/@import\s+["']tailwindcss["'][^;]*;/, (m) => `${m}\n${M}\n${cssToInject}`);
+      } else if (structures.hasTailwindDirectives) {
+        cssToInject = CSS.replace(/@tailwind\s+(base|components|utilities);?\n*/g, "").trim();
+        const tailwindDirectives = cleanedCss.match(/@tailwind\s+(base|components|utilities);?\n*/g);
+        if (tailwindDirectives) {
+          const lastDirective = tailwindDirectives[ tailwindDirectives.length - 1 ];
+          const lastIndex = cleanedCss.lastIndexOf(lastDirective);
+          const beforeDirective = cleanedCss.substring(0, lastIndex + lastDirective.length);
+          const afterDirective = cleanedCss.substring(lastIndex + lastDirective.length);
+          out = `${beforeDirective}\n${M}\n${cssToInject}\n${afterDirective}`;
+        } else {
+          out = `${M}\n${cssToInject}\n\n${cleanedCss}`;
+        }
+      } else {
+        out = cleanedCss ? `${cleanedCss}\n\n${M}\n${CSS}` : `${M}\n${CSS}`;
+      }
+
+      console.log("✅ Replaced existing styles with saha-ui defaults");
     } else {
-      out = `${M}\n${cssToInject}\n\n${cur}`;
+      // Fresh install
+      if (structures.hasTailwindImport) {
+        const cssToInject = CSS.replace(/^@import\s+["']tailwindcss["'][^;]*;?\n*/, "").trim();
+        out = cur.replace(/@import\s+["']tailwindcss["'][^;]*;/, (m) => `${m}\n${M}\n${cssToInject}`);
+      } else if (structures.hasTailwindDirectives) {
+        const cssToInject = CSS.replace(/@tailwind\s+(base|components|utilities);?\n*/g, "").trim();
+        const tailwindDirectives = cur.match(/@tailwind\s+(base|components|utilities);?\n*/g);
+        if (tailwindDirectives) {
+          const lastDirective = tailwindDirectives[ tailwindDirectives.length - 1 ];
+          const lastIndex = cur.lastIndexOf(lastDirective);
+          out = `${cur.substring(0, lastIndex + lastDirective.length)}\n${M}\n${cssToInject}\n${cur.substring(lastIndex + lastDirective.length)}`;
+        } else {
+          out = `${M}\n${CSS}\n\n${cur}`;
+        }
+      } else {
+        out = `${M}\n${CSS}\n\n${cur}`;
+      }
     }
-  } else {
-    out = `${M}\n${CSS}\n\n${cur}`;
+
+    wr(f, out);
+  } else if (mode === "merge") {
+    // Merge mode - add missing variables
+    let updatedCss = cur;
+    let totalAdded = 0;
+
+    // Merge :root variables
+    const rootResult = updateRootBlock(updatedCss, SAHA_UI_ROOT_VARIABLES, "merge");
+    updatedCss = rootResult.css;
+    if (rootResult.added > 0) {
+      console.log(`   ✅ Added ${rootResult.added} missing :root variables`);
+      totalAdded += rootResult.added;
+    }
+
+    // Merge .dark variables
+    const darkResult = updateDarkBlock(updatedCss, SAHA_UI_DARK_VARIABLES, "merge");
+    updatedCss = darkResult.css;
+    if (darkResult.added > 0) {
+      console.log(`   ✅ Added ${darkResult.added} missing .dark variables`);
+      totalAdded += darkResult.added;
+    }
+
+    // Merge keyframes
+    const keyframeResult = mergeKeyframes(updatedCss, SAHA_UI_KEYFRAMES);
+    updatedCss = keyframeResult.css;
+    if (keyframeResult.added > 0) {
+      console.log(`   ✅ Added ${keyframeResult.added} missing @keyframes`);
+      totalAdded += keyframeResult.added;
+    }
+
+    // Add @custom-variant dark if missing (v4)
+    if (tailwindInfo.major >= 4 && !structures.hasCustomVariant) {
+      if (structures.hasTailwindImport) {
+        updatedCss = updatedCss.replace(
+          /@import\s+["']tailwindcss["'][^;]*;/,
+          (m) => `${m}\n\n@custom-variant dark (&:is(.dark *));`
+        );
+        console.log(`   ✅ Added @custom-variant dark`);
+      }
+    }
+
+    // Add @theme inline if missing (v4)
+    if (tailwindInfo.major >= 4 && !structures.hasThemeInline) {
+      const themeInline = `
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-error: var(--error);
+  --color-error-foreground: var(--error-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+}`;
+
+      // Insert after @custom-variant or @import
+      if (updatedCss.includes("@custom-variant dark")) {
+        updatedCss = updatedCss.replace(
+          /@custom-variant\s+dark\s*\([^)]*\)\s*;?/,
+          (m) => `${m}\n${themeInline}`
+        );
+      } else if (structures.hasTailwindImport) {
+        updatedCss = updatedCss.replace(
+          /@import\s+["']tailwindcss["'][^;]*;/,
+          (m) => `${m}\n${themeInline}`
+        );
+      }
+      console.log(`   ✅ Added @theme inline block`);
+    }
+
+    // Add marker if not present
+    if (!updatedCss.includes(M)) {
+      if (structures.hasTailwindImport) {
+        updatedCss = updatedCss.replace(/@import\s+["']tailwindcss["'][^;]*;/, (m) => `${m}\n${M}`);
+      } else {
+        updatedCss = `${M}\n${updatedCss}`;
+      }
+    }
+
+    if (totalAdded > 0) {
+      console.log(`\n✅ Merged ${totalAdded} total items into your CSS`);
+    } else {
+      console.log("\n✅ Your CSS already has all required saha-ui variables");
+    }
+
+    wr(f, updatedCss);
+  } else if (mode === "skip") {
+    // Skip mode - only add marker and @source for v4
+    let updatedCss = cur;
+
+    if (!updatedCss.includes(M)) {
+      if (structures.hasTailwindImport) {
+        updatedCss = updatedCss.replace(/@import\s+["']tailwindcss["'][^;]*;/, (m) => `${m}\n${M}`);
+      } else {
+        updatedCss = `${M}\n${updatedCss}`;
+      }
+    }
+
+    console.log("✅ Skipped style modifications, only added saha-ui marker");
+    wr(f, updatedCss);
   }
 
-  wr(f, out);
-  console.log(`\n✅ saha-ui: Injected CSS into ${path.relative(R, f)} (${F})`);
+  // Add @source for Tailwind v4
+  const updatedContent = rd(f);
+  if (tailwindInfo.major >= 4 && structures.hasTailwindImport) {
+    const relativePathToNodeModules = getRelativePathToNodeModules(f);
+    const sahaUISourcePath = `${relativePathToNodeModules}/saha-ui/dist/**/*.js`;
+    const sourcePattern = /source\s+["'][^"']*saha-ui[^"']*["']/;
+
+    if (!sourcePattern.test(updatedContent)) {
+      const withSource = updatedContent.replace(
+        /@import\s+["']tailwindcss["'];?/,
+        `@import "tailwindcss";\n@source "${sahaUISourcePath}";`
+      );
+      wr(f, withSource);
+      console.log(`✅ Added @source "${sahaUISourcePath}" for Tailwind v4`);
+    }
+  }
+
+  console.log(`\n✅ saha-ui: CSS processed in ${path.relative(R, f)} (${F})`);
   console.log(`📦 Using Tailwind v${tailwindInfo.major} configuration`);
 
   if (tailwindInfo.major < 4) {
@@ -1082,7 +1544,7 @@ const inject = (f, tailwindInfo) => {
 // ----------------------------------------------
 // Main
 // ----------------------------------------------
-const run = () => {
+const run = async () => {
   if (c !== "init") {
     console.log("Usage: npx saha-ui init");
     return;
@@ -1107,8 +1569,8 @@ const run = () => {
   ensureSahaUIInstalled();
   installSahaUIDeps();
 
-  // 5) Inject CSS (v4: just CSS; v3: CSS + config hints)
-  inject(pick(), tailwindInfo);
+  // 5) Inject CSS with smart merge/replace options
+  await inject(pick(), tailwindInfo);
 
   console.log("\n✨ Done!\n");
 };

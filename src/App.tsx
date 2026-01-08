@@ -17,7 +17,7 @@ function App() {
         variant="solid"
         animation="slide"
       >
-        <div className="min-h-screen transition-colors duration-300">
+        <div className="min-h-screen transition-colors duration-300 box-border">
           {/* Header */}
           <header className="glass sticky top-0 z-50 border-b border-border/50">
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">

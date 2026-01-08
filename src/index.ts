@@ -52,8 +52,40 @@ export type {
   AccordionOrientation,
   HeadingLevel,
 } from "./components/Accordion";
-export { default as Alert } from "./components/Alert";
-export { alertVariants } from "./components/Alert/Alert.styles";
+// Alert Component
+export { Alert, AlertProvider } from "./components/Alert";
+export { useAlert } from "./hooks/useAlert";
+export {
+  alertVariants,
+  getAnimationClasses,
+  getIconAnimationClass,
+  positionClasses,
+  progressBarColors,
+  progressTrackColors,
+} from "./components/Alert/Alert.styles";
+export {
+  StatusIcon,
+  Icon,
+  Spinner as AlertSpinner,
+  AnimatedCheck,
+  AnimatedX,
+  extraIcons,
+} from "./components/Alert/Alert.icons";
+export type {
+  AlertProps,
+  AlertVariant,
+  AlertStatus,
+  AlertPosition,
+  AlertAnimation,
+  AlertAction,
+  AlertSize,
+  AlertRounded,
+  AlertShadow,
+  IconAnimation,
+  AlertProviderProps,
+  AlertContextType,
+  AlertItem,
+} from "./components/Alert/Alert.types";
 export { default as AspectRatio } from "./components/AspectRatio";
 export {
   aspectRatioVariants,
@@ -867,11 +899,7 @@ export type {
   AccordionTriggerProps,
   AccordionContentProps,
 } from "./components/Accordion/Accordion.types";
-export type {
-  AlertProps,
-  AlertVariant,
-  AlertStatus,
-} from "./components/Alert/Alert.types";
+
 export type {
   AspectRatioProps,
   AspectRatioPreset,

@@ -1,4 +1,4 @@
-import AffixExample from "./AffixExample";
+import { AlertExample } from "./AlertExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -8,7 +8,7 @@ export const AllComponentExamples = () => {
         <h2 className="text-3xl font-bold mb-6 text-text">
           Dropdown Component
         </h2>
-        <AffixExample />
+        <AlertExample />
       </div>
 
     </div>

@@ -207,16 +207,403 @@ Control the rounded corners:
 
 ### Alert Props
 
-| Prop        | Type                                                                           | Default   | Description                                 |
-| ----------- | ------------------------------------------------------------------------------ | --------- | ------------------------------------------- |
-| `variant`   | `'solid' \| 'subtle' \| 'left-accent' \| 'top-accent' \| 'outline' \| 'glass'` | `'solid'` | Visual style variant                        |
-| `status`    | `'success' \| 'danger' \| 'warning' \| 'info'`                                 | `'info'`  | Semantic status (determines color and icon) |
-| `title`     | `string`                                                                       | -         | Optional title displayed above message      |
-| `message`   | `string`                                                                       | -         | Main message content                        |
-| `closeable` | `boolean`                                                                      | `false`   | Whether alert can be dismissed              |
-| `rounded`   | `boolean`                                                                      | `true`    | Whether alert has rounded corners           |
-| `className` | `string`                                                                       | -         | Additional CSS classes                      |
-| `children`  | `ReactNode`                                                                    | -         | Custom content (overrides title/message)    |
+#### Basic Properties
+
+| Prop        | Type        | Default | Description                          |
+| ----------- | ----------- | ------- | ------------------------------------ |
+| `id`        | `string`    | -       | Unique identifier                    |
+| `title`     | `string`    | -       | Title text                           |
+| `message`   | `ReactNode` | -       | Message content                      |
+| `children`  | `ReactNode` | -       | Custom content (overrides title/msg) |
+| `className` | `string`    | -       | Additional CSS classes               |
+
+#### Visual Styling
+
+| Prop      | Type                                                                                                      | Default    | Description           |
+| --------- | --------------------------------------------------------------------------------------------------------- | ---------- | --------------------- |
+| `variant` | `'solid' \| 'subtle' \| 'outline' \| 'left-accent' \| 'top-accent' \| 'glass' \| 'gradient' \| 'minimal'` | `'subtle'` | Visual variant        |
+| `status`  | `'info' \| 'success' \| 'warning' \| 'danger' \| 'neutral'`                                               | `'info'`   | Status/semantic color |
+| `size`    | `'sm' \| 'md' \| 'lg'`                                                                                    | `'md'`     | Size variant          |
+| `rounded` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'`                                                        | `'lg'`     | Border radius         |
+| `shadow`  | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                                                  | `'sm'`     | Shadow depth          |
+
+#### Icon Configuration
+
+| Prop            | Type                                                 | Default  | Description             |
+| --------------- | ---------------------------------------------------- | -------- | ----------------------- |
+| `icon`          | `ReactNode \| null`                                  | -        | Custom icon (null=hide) |
+| `iconAnimation` | `'none' \| 'pulse' \| 'spin' \| 'bounce' \| 'shake'` | `'none'` | Icon animation          |
+
+#### Dismissible & Interaction
+
+| Prop            | Type      | Default | Description             |
+| --------------- | --------- | ------- | ----------------------- |
+| `closeable`     | `boolean` | `false` | Show close button       |
+| `closeOnEscape` | `boolean` | `true`  | Close on Escape key     |
+| `closeOnSwipe`  | `boolean` | `true`  | Close on swipe (mobile) |
+
+#### Auto-dismiss & Progress
+
+| Prop           | Type      | Default | Description                |
+| -------------- | --------- | ------- | -------------------------- |
+| `duration`     | `number`  | -       | Auto dismiss duration (ms) |
+| `showProgress` | `boolean` | `false` | Show progress bar          |
+| `pauseOnHover` | `boolean` | `true`  | Pause timer on hover       |
+| `pauseOnFocus` | `boolean` | `true`  | Pause timer on focus       |
+
+#### Actions
+
+| Prop              | Type          | Description           |
+| ----------------- | ------------- | --------------------- |
+| `action`          | `AlertAction` | Primary action button |
+| `secondaryAction` | `AlertAction` | Secondary action      |
+
+**AlertAction Interface:**
+
+```typescript
+interface AlertAction {
+  label: string;
+  onClick: () => void;
+  variant?: "link" | "button";
+}
+```
+
+#### Animation
+
+| Prop        | Type                                                                                                     | Default  | Description          |
+| ----------- | -------------------------------------------------------------------------------------------------------- | -------- | -------------------- |
+| `animation` | `'fade' \| 'slide-up' \| 'slide-down' \| 'slide-left' \| 'slide-right' \| 'scale' \| 'bounce' \| 'none'` | `'fade'` | Enter/exit animation |
+
+#### Callbacks
+
+| Prop      | Type         | Description          |
+| --------- | ------------ | -------------------- |
+| `onClose` | `() => void` | Callback when closed |
+| `onOpen`  | `() => void` | Callback when opened |
+
+#### Accessibility
+
+| Prop   | Type                           | Default   | Description |
+| ------ | ------------------------------ | --------- | ----------- |
+| `role` | `'alert' \| 'status' \| 'log'` | `'alert'` | ARIA role   |
+
+#### Controlled State
+
+| Prop           | Type                      | Description               |
+| -------------- | ------------------------- | ------------------------- |
+| `isOpen`       | `boolean`                 | Controlled open state     |
+| `onOpenChange` | `(open: boolean) => void` | Open state change handler |
+
+### AlertProvider Props
+
+| Prop                 | Type             | Default        | Description                 |
+| -------------------- | ---------------- | -------------- | --------------------------- |
+| `children`           | `ReactNode`      | -              | **Required.** App content   |
+| `position`           | `AlertPosition`  | `'top-right'`  | Toast position              |
+| `maxAlerts`          | `number`         | `5`            | Maximum concurrent alerts   |
+| `spacing`            | `number`         | `12`           | Spacing between alerts (px) |
+| `reverseOrder`       | `boolean`        | `false`        | Reverse alert order         |
+| `containerClassName` | `string`         | -              | Container CSS classes       |
+| `defaultDuration`    | `number`         | `5000`         | Default duration (ms)       |
+| `defaultAnimation`   | `AlertAnimation` | `'slide-left'` | Default animation           |
+
+**AlertPosition Options:**
+
+- `'top-left'`, `'top-center'`, `'top-right'`
+- `'middle-left'`, `'middle-center'`, `'middle-right'`
+- `'bottom-left'`, `'bottom-center'`, `'bottom-right'`
+
+## Toast System (AlertProvider)
+
+The AlertProvider enables a toast notification system:
+
+### Setup
+
+```tsx
+import { AlertProvider } from "saha-ui";
+
+function App() {
+  return (
+    <AlertProvider position="top-right" maxAlerts={3}>
+      {/* Your app */}
+    </AlertProvider>
+  );
+}
+```
+
+### Using the useAlert Hook
+
+```tsx
+import { useAlert } from "saha-ui";
+
+function MyComponent() {
+  const alert = useAlert();
+
+  const handleClick = () => {
+    // Show alert
+    alert.success("Operation completed!");
+
+    // Or with options
+    alert.error("Failed to save", {
+      duration: 8000,
+      action: {
+        label: "Retry",
+        onClick: () => console.log("Retry"),
+      },
+    });
+  };
+
+  return <button onClick={handleClick}>Show Alert</button>;
+}
+```
+
+### Toast API Methods
+
+#### show(props)
+
+Show a custom alert:
+
+```tsx
+const id = alert.show({
+  status: "info",
+  message: "Custom alert",
+  duration: 5000,
+});
+```
+
+#### success(message, options?)
+
+Show success toast:
+
+```tsx
+alert.success("Data saved successfully!");
+```
+
+#### error(message, options?)
+
+Show error toast (8s duration by default):
+
+```tsx
+alert.error("Failed to delete item");
+```
+
+#### warning(message, options?)
+
+Show warning toast (6s duration by default):
+
+```tsx
+alert.warning("Storage almost full");
+```
+
+#### info(message, options?)
+
+Show info toast:
+
+```tsx
+alert.info("New update available");
+```
+
+#### promise(promise, messages, options?)
+
+Show loading state during async operations:
+
+```tsx
+alert.promise(fetchData(), {
+  loading: "Loading data...",
+  success: "Data loaded!",
+  error: "Failed to load",
+});
+```
+
+#### update(id, props)
+
+Update an existing alert:
+
+```tsx
+const id = alert.show({ message: "Processing..." });
+alert.update(id, { message: "Almost done..." });
+```
+
+#### dismiss(id)
+
+Dismiss a specific alert:
+
+```tsx
+const id = alert.show({ message: "Hello" });
+alert.dismiss(id);
+```
+
+#### dismissAll()
+
+Dismiss all alerts:
+
+```tsx
+alert.dismissAll();
+```
+
+## Advanced Features
+
+### Sizes
+
+Three size variants available:
+
+```tsx
+<Alert size="sm" status="info" message="Small alert" />
+<Alert size="md" status="info" message="Medium alert" />
+<Alert size="lg" status="info" message="Large alert" />
+```
+
+### All Variants
+
+```tsx
+// Solid - Bold filled background
+<Alert variant="solid" status="success" message="Solid variant" />
+
+// Subtle - Light background (default)
+<Alert variant="subtle" status="info" message="Subtle variant" />
+
+// Outline - Bordered with transparent background
+<Alert variant="outline" status="warning" message="Outline variant" />
+
+// Left Accent - Vertical accent bar
+<Alert variant="left-accent" status="danger" message="Left accent" />
+
+// Top Accent - Horizontal accent bar
+<Alert variant="top-accent" status="success" message="Top accent" />
+
+// Glass - Glassmorphism effect
+<Alert variant="glass" status="info" message="Glass variant" />
+
+// Gradient - Gradient background
+<Alert variant="gradient" status="success" message="Gradient variant" />
+
+// Minimal - Clean minimal design
+<Alert variant="minimal" status="info" message="Minimal variant" />
+```
+
+### With Actions
+
+Add action buttons to alerts:
+
+```tsx
+<Alert
+  status="warning"
+  title="Unsaved Changes"
+  message="You have unsaved changes. Would you like to save?"
+  action={{
+    label: "Save",
+    onClick: () => console.log("Saving..."),
+    variant: "button",
+  }}
+  secondaryAction={{
+    label: "Discard",
+    onClick: () => console.log("Discarding..."),
+    variant: "link",
+  }}
+/>
+```
+
+### Auto-dismiss with Progress
+
+Show a progress bar for auto-dismissing alerts:
+
+```tsx
+<Alert
+  status="info"
+  message="This will auto-dismiss in 5 seconds"
+  duration={5000}
+  showProgress
+  pauseOnHover
+/>
+```
+
+### Custom Icons
+
+Use custom icons or animated icons:
+
+```tsx
+import { Icon, Spinner, AnimatedCheck } from "saha-ui";
+
+// Custom icon
+<Alert
+  status="info"
+  message="Custom icon"
+  icon={<Icon name="star" />}
+/>
+
+// Loading spinner
+<Alert
+  status="info"
+  message="Processing..."
+  icon={<Spinner />}
+/>
+
+// Animated check
+<Alert
+  status="success"
+  message="Completed!"
+  icon={<AnimatedCheck />}
+/>
+
+// Icon animations
+<Alert
+  status="warning"
+  message="Warning!"
+  iconAnimation="shake"
+/>
+```
+
+### Controlled State
+
+Manage alert visibility programmatically:
+
+```tsx
+function ControlledAlert() {
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <div>
+      <button onClick={() => setIsOpen(!isOpen)}>Toggle Alert</button>
+
+      <Alert
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+        status="info"
+        message="Controlled alert"
+        closeable
+      />
+    </div>
+  );
+}
+```
+
+### Animation Options
+
+Choose from multiple animation styles:
+
+```tsx
+<Alert animation="fade" message="Fade animation" />
+<Alert animation="slide-up" message="Slide up" />
+<Alert animation="slide-down" message="Slide down" />
+<Alert animation="slide-left" message="Slide left" />
+<Alert animation="slide-right" message="Slide right" />
+<Alert animation="scale" message="Scale animation" />
+<Alert animation="bounce" message="Bounce animation" />
+<Alert animation="none" message="No animation" />
+```
+
+### Mobile Gestures
+
+Alerts support swipe-to-dismiss on mobile:
+
+```tsx
+<Alert
+  status="info"
+  message="Swipe left or right to dismiss"
+  closeOnSwipe
+  closeable
+/>
+```
 
 ## Styling
 
