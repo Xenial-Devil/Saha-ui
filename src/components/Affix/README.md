@@ -154,18 +154,144 @@ Use native CSS `position: sticky` instead of JavaScript:
 
 ### Affix Props
 
-| Prop               | Type                                                     | Default  | Description                                                |
-| ------------------ | -------------------------------------------------------- | -------- | ---------------------------------------------------------- |
-| `children`         | `ReactNode`                                              | -        | **Required.** Content to be affixed                        |
-| `offsetTop`        | `number`                                                 | -        | Offset from top when affixed (triggers top affixing)       |
-| `offsetBottom`     | `number`                                                 | -        | Offset from bottom when affixed (triggers bottom affixing) |
-| `target`           | `Window \| HTMLElement \| (() => HTMLElement \| Window)` | `window` | Scroll container target                                    |
-| `onChange`         | `(affixed: boolean) => void`                             | -        | Callback when affix state changes                          |
-| `zIndex`           | `number`                                                 | `10`     | Z-index for affixed element                                |
-| `useSticky`        | `boolean`                                                | `false`  | Use CSS sticky instead of fixed positioning                |
-| `className`        | `string`                                                 | -        | Additional CSS classes for container                       |
-| `contentClassName` | `string`                                                 | -        | Additional CSS classes for content wrapper                 |
-| `asChild`          | `boolean`                                                | `false`  | Merge props with child element                             |
+#### Basic Positioning
+
+| Prop            | Type                                                     | Default  | Description                                                |
+| --------------- | -------------------------------------------------------- | -------- | ---------------------------------------------------------- |
+| `children`      | `ReactNode`                                              | -        | **Required.** Content to be affixed                        |
+| `offsetTop`     | `OffsetValue`                                            | -        | Offset from top when affixed (triggers top affixing)       |
+| `offsetBottom`  | `OffsetValue`                                            | -        | Offset from bottom when affixed (triggers bottom affixing) |
+| `offsetLeft`    | `OffsetValue`                                            | -        | Offset from left (horizontal mode)                         |
+| `offsetRight`   | `OffsetValue`                                            | -        | Offset from right (horizontal mode)                        |
+| `target`        | `Window \| HTMLElement \| (() => HTMLElement \| Window)` | `window` | Scroll container target                                    |
+
+**Note:** `OffsetValue` can be a `number`, `ResponsiveValue<number>`, or `(scrollInfo: ScrollInfo) => number`
+
+#### Boundaries & Constraints
+
+| Prop                     | Type                                             | Default | Description                                       |
+| ------------------------ | ------------------------------------------------ | ------- | ------------------------------------------------- |
+| `boundaryElement`        | `HTMLElement \| string \| (() => HTMLElement)`   | -       | Element that acts as bottom boundary              |
+| `containerBounds`        | `HTMLElement \| string \| (() => HTMLElement)`   | -       | Container bounds to constrain affixing            |
+| `minScrollPosition`      | `number`                                         | -       | Minimum scroll position to activate affix         |
+| `maxScrollPosition`      | `number`                                         | -       | Maximum scroll position to activate affix         |
+| `respectViewportHeight`  | `boolean`                                        | `true`  | Don't affix if content taller than viewport      |
+| `respectViewportWidth`   | `boolean`                                        | `true`  | Don't affix if content wider than viewport       |
+
+#### Directional Behavior
+
+| Prop               | Type      | Default | Description                           |
+| ------------------ | --------- | ------- | ------------------------------------- |
+| `affixOnScrollUp`  | `boolean` | `false` | Only show when scrolling up           |
+| `affixOnScrollDown`| `boolean` | `false` | Only show when scrolling down         |
+| `biDirectional`    | `boolean` | `false` | Enable bi-directional affixing        |
+| `minVelocity`      | `number`  | -       | Minimum scroll velocity to activate   |
+| `maxVelocity`      | `number`  | -       | Maximum scroll velocity to activate   |
+
+#### Responsive & Breakpoints
+
+| Prop                   | Type              | Default | Description                              |
+| ---------------------- | ----------------- | ------- | ---------------------------------------- |
+| `disabledBreakpoints`  | `BreakpointKey[]` | -       | Breakpoints where affix is disabled      |
+| `enabledBreakpoints`   | `BreakpointKey[]` | -       | Breakpoints where affix is enabled       |
+| `disableInLandscape`   | `boolean`         | `false` | Disable in landscape orientation         |
+| `disableInPortrait`    | `boolean`         | `false` | Disable in portrait orientation          |
+
+#### Performance & Optimization
+
+| Prop                      | Type      | Default | Description                                |
+| ------------------------- | --------- | ------- | ------------------------------------------ |
+| `throttle`                | `number`  | -       | Throttle scroll events (ms)                |
+| `debounce`                | `number`  | -       | Debounce scroll events (ms)                |
+| `useIntersectionObserver` | `boolean` | `false` | Use IntersectionObserver API               |
+| `intersectionThreshold`   | `number \| number[]` | `[0, 1]` | Intersection threshold     |
+| `intersectionRootMargin`  | `string`  | -       | Root margin for IntersectionObserver       |
+| `useResizeObserver`       | `boolean` | `true`  | Use ResizeObserver API                     |
+| `useRAF`                  | `boolean` | `true`  | Use requestAnimationFrame                  |
+| `passive`                 | `boolean` | `true`  | Use passive event listeners                |
+
+#### Styling & Animation
+
+| Prop                   | Type                             | Default | Description                           |
+| ---------------------- | -------------------------------- | ------- | ------------------------------------- |
+| `transition`           | `TransitionConfig \| false`       | -       | Transition configuration              |
+| `shadow`               | `boolean \| ShadowConfig`         | -       | Shadow configuration when affixed     |
+| `backdrop`             | `boolean \| BackdropConfig`       | -       | Backdrop blur configuration           |
+| `indicator`            | `ReactNode \| ((visible: boolean) => ReactNode)` | - | Custom indicator element |
+| `useTransform`         | `boolean`                        | `false` | Use transform for positioning         |
+| `physics`              | `boolean \| PhysicsConfig`        | -       | Spring physics animation              |
+| `widthMode`            | `WidthMode`                      | `'inherit'` | Width calculation mode            |
+| `maxHeight`            | `number \| string`                | -       | Maximum height when affixed           |
+| `preserveAspectRatio`  | `boolean`                        | `false` | Maintain aspect ratio                 |
+| `zIndex`               | `number`                         | `10`    | Z-index for affixed element           |
+
+#### Stacking & Groups
+
+| Prop            | Type      | Default | Description                           |
+| --------------- | --------- | ------- | ------------------------------------- |
+| `stackId`       | `string`  | -       | ID for stacking context               |
+| `stackPriority` | `number`  | `0`     | Priority in stack (lower = higher)    |
+| `autoStack`     | `boolean` | `false` | Auto-calculate stack offset           |
+| `groupId`       | `string`  | -       | Group ID for coordinated affixing     |
+
+#### State & Control
+
+| Prop             | Type      | Default | Description                           |
+| ---------------- | --------- | ------- | ------------------------------------- |
+| `disabled`       | `boolean` | `false` | Disable affixing                      |
+| `affixed`        | `boolean` | -       | Controlled affix state                |
+| `useSticky`      | `boolean` | `false` | Use CSS sticky positioning            |
+| `stickyWithFallback` | `boolean` | `false` | Use sticky with fallback         |
+| `portal`         | `boolean \| string \| HTMLElement` | - | Portal target for affixed content |
+| `customPosition` | `(scrollInfo, rect, boundary) => PositionResult` | - | Custom position calculation |
+
+#### SSR & Hydration
+
+| Prop               | Type        | Default | Description                         |
+| ------------------ | ----------- | ------- | ----------------------------------- |
+| `ssr`              | `SSRConfig` | -       | SSR configuration                   |
+| `hydrateOnMount`   | `boolean`   | `true`  | Hydrate on component mount          |
+
+#### Accessibility
+
+| Prop                      | Type      | Default | Description                              |
+| ------------------------- | --------- | ------- | ---------------------------------------- |
+| `announceStateChange`     | `boolean` | `false` | Announce state changes to screen readers |
+| `stateChangeAnnouncement` | `string \| ((affixed: boolean) => string)` | - | Custom announcement |
+| `respectReducedMotion`    | `boolean` | `true`  | Respect prefers-reduced-motion           |
+| `preserveFocus`           | `boolean` | `true`  | Preserve focus on affix state change     |
+| `affixedTabIndex`         | `number`  | -       | Tab index when affixed                   |
+
+#### Debug & Metrics
+
+| Prop              | Type                      | Default | Description                        |
+| ----------------- | ------------------------- | ------- | ---------------------------------- |
+| `debug`           | `boolean \| DebugConfig`   | -       | Enable debug mode                  |
+| `exposeMetrics`   | `boolean`                 | `false` | Expose performance metrics         |
+
+#### Callbacks
+
+| Prop                 | Type                                        | Description                              |
+| -------------------- | ------------------------------------------- | ---------------------------------------- |
+| `onChange`           | `(affixed: boolean, position: AffixPosition) => void` | Affix state change |
+| `onScroll`           | `(scrollInfo: ScrollInfo) => void`          | Scroll event                            |
+| `onPositionChange`   | `(position: PositionInfo) => void`          | Position change                         |
+| `onBoundaryReached`  | `(boundary: BoundaryInfo) => void`          | Boundary reached                        |
+| `onDirectionChange`  | `(direction: ScrollDirection, prev: ScrollDirection) => void` | Direction change |
+| `onEnterViewport`    | `() => void`                                | Element enters viewport                 |
+| `onLeaveViewport`    | `() => void`                                | Element leaves viewport                 |
+| `onMetricsUpdate`    | `(metrics: PerformanceMetrics) => void`     | Performance metrics update              |
+
+#### Other Props
+
+| Prop                  | Type      | Default | Description                           |
+| --------------------- | --------- | ------- | ------------------------------------- |
+| `className`           | `string`  | -       | Container CSS classes                 |
+| `contentClassName`    | `string`  | -       | Content wrapper CSS classes           |
+| `placeholderClassName`| `string`  | -       | Placeholder CSS classes               |
+| `affixedClassName`    | `string`  | -       | CSS classes when affixed              |
+| `affixedStyle`        | `CSSProperties` | -   | Inline styles when affixed            |
+| `asChild`             | `boolean` | `false` | Merge props with child element        |
 
 ## Styling
 
@@ -370,13 +496,310 @@ function BackToTop() {
 }
 ```
 
+### AffixHandle (Imperative API)
+
+Access imperative methods via ref:
+
+```tsx
+const affixRef = useRef<AffixHandle>(null);
+
+// Force update position
+affixRef.current?.updatePosition();
+
+// Force affix state
+affixRef.current?.forceAffix(true);
+
+// Reset to initial state
+affixRef.current?.reset();
+
+// Get current state
+const state = affixRef.current?.getState();
+
+// Check if affixed
+const isAffixed = affixRef.current?.isAffixed();
+
+// Get scroll info
+const scrollInfo = affixRef.current?.getScrollInfo();
+
+// Get performance metrics
+const metrics = affixRef.current?.getMetrics();
+```
+
+### AffixGroup Component
+
+Coordinate multiple Affix components:
+
+```tsx
+import { AffixGroup, Affix } from "saha-ui";
+
+function App() {
+  return (
+    <AffixGroup
+      direction="vertical"
+      gap={0}
+      onGroupChange={(affixedIds) => console.log(affixedIds)}
+    >
+      <Affix offsetTop={0} autoStack stackPriority={1}>
+        <header>Header</header>
+      </Affix>
+      <Affix offsetTop={60} autoStack stackPriority={2}>
+        <nav>Navigation</nav>
+      </Affix>
+    </AffixGroup>
+  );
+}
+```
+
+## Advanced Features
+
+### Responsive Offsets
+
+Use responsive values for different breakpoints:
+
+```tsx
+<Affix
+  offsetTop={{
+    xs: 0,
+    sm: 10,
+    md: 20,
+    lg: 30,
+  }}
+>
+  <header>Responsive offset header</header>
+</Affix>
+```
+
+### Dynamic Offsets
+
+Calculate offset based on scroll position:
+
+```tsx
+<Affix
+  offsetTop={(scrollInfo) => {
+    return scrollInfo.scrollProgress * 50;
+  }}
+>
+  <div>Dynamic offset element</div>
+</Affix>
+```
+
+### Direction-Based Visibility
+
+Show/hide based on scroll direction:
+
+```tsx
+<Affix offsetTop={0} affixOnScrollUp>
+  <header>Shows only when scrolling up</header>
+</Affix>
+
+<Affix offsetBottom={0} affixOnScrollDown>
+  <div>Shows only when scrolling down</div>
+</Affix>
+```
+
+### Spring Physics Animation
+
+Add elastic/spring animation:
+
+```tsx
+<Affix
+  offsetTop={0}
+  physics={{
+    stiffness: 100,
+    damping: 10,
+    mass: 1,
+  }}
+>
+  <header>Elastic header</header>
+</Affix>
+```
+
+### Custom Position Calculation
+
+Implement custom positioning logic:
+
+```tsx
+<Affix
+  customPosition={(scrollInfo, rect, boundary) => {
+    if (scrollInfo.scrollProgress > 0.5) {
+      return {
+        affixed: true,
+        position: "top",
+        offset: 20,
+      };
+    }
+    return { affixed: false };
+  }}
+>
+  <div>Custom position element</div>
+</Affix>
+```
+
+### Boundary Element
+
+Stop affixing when reaching a boundary:
+
+```tsx
+function BoundedAffix() {
+  const boundaryRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div>
+      <Affix offsetTop={0} boundaryElement={boundaryRef}>
+        <nav>Stops at boundary</nav>
+      </Affix>
+      <main>{/* content */}</main>
+      <footer ref={boundaryRef}>Boundary</footer>
+    </div>
+  );
+}
+```
+
+### Debug Mode
+
+Visualize affix behavior during development:
+
+```tsx
+<Affix
+  offsetTop={0}
+  debug={{
+    enabled: true,
+    showScrollInfo: true,
+    showPositionInfo: true,
+    logStateChanges: true,
+  }}
+>
+  <header>Debug mode enabled</header>
+</Affix>
+```
+
+### Performance Metrics
+
+Track performance metrics:
+
+```tsx
+function MetricsExample() {
+  const handleMetrics = (metrics: PerformanceMetrics) => {
+    console.log("Update count:", metrics.updateCount);
+    console.log("Average update time:", metrics.averageUpdateTime);
+  };
+
+  return (
+    <Affix
+      offsetTop={0}
+      exposeMetrics
+      onMetricsUpdate={handleMetrics}
+    >
+      <header>Tracked header</header>
+    </Affix>
+  );
+}
+```
+
+## Hooks
+
+### useAffixGroup
+
+Access the AffixGroup context:
+
+```tsx
+import { useAffixGroup } from "saha-ui";
+
+function CustomAffix() {
+  const group = useAffixGroup();
+  
+  if (group) {
+    const offset = group.getStackOffset("my-affix-id");
+    // Use offset
+  }
+  
+  return <div>Custom affix content</div>;
+}
+```
+
+### Available Hooks
+
+- `useBreakpoint()` - Get current responsive breakpoint
+- `useOffsetValue(offset, scrollInfo)` - Resolve responsive/dynamic offset
+- `useScrollInfo(target)` - Get comprehensive scroll information
+- `useThrottle(callback, delay)` - Throttle function calls
+- `useDebounce(callback, delay)` - Debounce function calls
+- `usePerformanceMetrics(enabled)` - Track performance metrics
+- `useReducedMotion()` - Check for reduced motion preference
+- `useOrientation()` - Get device orientation
+- `useIntersectionObserver(ref, options)` - Intersection observer hook
+- `useResizeObserver(ref, callback)` - Resize observer hook
+- `useStickySupport()` - Check CSS sticky support
+- `useHydration()` - Track hydration state
+
+## Type Definitions
+
+### ScrollInfo
+
+```typescript
+interface ScrollInfo {
+  scrollTop: number;
+  scrollLeft: number;
+  scrollHeight: number;
+  scrollWidth: number;
+  clientHeight: number;
+  clientWidth: number;
+  scrollProgress: number;  // 0-1
+  scrollProgressX: number; // 0-1
+  direction: ScrollDirection;
+  directionX: ScrollDirection;
+  velocity: number;
+  velocityX: number;
+  isAtTop: boolean;
+  isAtBottom: boolean;
+  isAtLeft: boolean;
+  isAtRight: boolean;
+}
+```
+
+### AffixState
+
+```typescript
+interface AffixState {
+  affixed: boolean;
+  position: AffixPosition;
+  placeholderHeight: number;
+  placeholderWidth: number;
+  scrollDirection: ScrollDirection;
+  scrollProgress: number;
+  scrollVelocity: number;
+  boundaryReached: boolean;
+  boundaryElement: HTMLElement | null;
+  isInitialized: boolean;
+  isHydrated: boolean;
+}
+```
+
 ## Accessibility
+
+### Screen Reader Announcements
+
+```tsx
+<Affix
+  offsetTop={0}
+  announceStateChange
+  stateChangeAnnouncement={(affixed) =>
+    affixed ? "Navigation is now fixed" : "Navigation is inline"
+  }
+>
+  <nav>Accessible navigation</nav>
+</Affix>
+```
+
+### Best Practices
 
 - Ensure affixed content doesn't obscure important content
 - Maintain proper focus management when elements become affixed
 - Provide skip links to bypass sticky navigation
 - Test with keyboard navigation
-- Consider screen reader announcements for state changes
+- Use `announceStateChange` for screen reader users
+- Set appropriate `affixedTabIndex` if needed
+- Respect `prefers-reduced-motion` (enabled by default)
 
 ## Performance Tips
 

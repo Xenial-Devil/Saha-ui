@@ -1481,16 +1481,40 @@ export type {
 } from "./components/Segmented/Segmented.types";
 
 // Affix Component
-export { Affix } from "./components/Affix";
+export {
+  Affix,
+  AffixGroup,
+  useAffixGroup,
+  AffixGroupContext,
+} from "./components/Affix";
 export {
   affixVariants,
   affixPlaceholderVariants,
   affixContentVariants,
+  affixIndicatorVariants,
+  affixDebugVariants,
 } from "./components/Affix/Affix.styles";
 export type {
   AffixProps,
   AffixState,
   AffixTarget,
+  AffixHandle,
+  AffixPosition,
+  AffixGroupProps,
+  AffixGroupContextValue,
+  ScrollDirection,
+  ScrollInfo,
+  PositionInfo,
+  BoundaryInfo,
+  ResponsiveValue,
+  OffsetValue,
+  TransitionConfig,
+  ShadowConfig,
+  BackdropConfig,
+  PhysicsConfig,
+  PerformanceMetrics,
+  SSRConfig,
+  WidthMode,
 } from "./components/Affix/Affix.types";
 
 // Tour Component
