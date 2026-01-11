@@ -107,13 +107,49 @@ export {
   avatarWrapperVariants,
   moreIndicatorVariants,
 } from "./components/AvatarGroup/AvatarGroup.styles";
-export { AppBar } from "./components/AppBar";
+export {
+  AppBar,
+  AppBarProgress,
+  AppBarSearch,
+  AppBarAnnouncement,
+  AppBarTitle,
+  AppBarBreadcrumbs,
+  SkipToContent,
+  AppBarSlot,
+  AppBarBackButton,
+  AppBarMenuButton,
+} from "./components/AppBar";
 export {
   appBarVariants,
   appBarContentVariants,
   appBarScrollVariants,
+  appBarProgressVariants,
+  appBarAnnouncementVariants,
+  appBarSearchVariants,
+  appBarTitleVariants,
+  appBarSlotVariants,
+  skipToContentVariants,
+  appBarEntranceVariants,
 } from "./components/AppBar/AppBar.styles";
-export type { AppBarProps } from "./components/AppBar";
+export type {
+  AppBarProps,
+  AppBarContextValue,
+  AppBarPosition,
+  AppBarVariant,
+  AppBarColor,
+  AppBarAnimation,
+  AppBarEntrance,
+  AppBarEasing,
+  BreadcrumbItem as AppBarBreadcrumbItem,
+  ResponsiveAppBarProps,
+  KeyboardShortcut,
+  AppBarProgressProps,
+  AppBarSearchProps,
+  AppBarAnnouncementProps,
+  AppBarTitleProps,
+  AppBarBreadcrumbsProps,
+  SkipToContentProps,
+} from "./components/AppBar";
 export { default as Badge } from "./components/Badge";
 export { badgeVariants } from "./components/Badge/Badge.styles";
 export { Backdrop } from "./components/Backdrop";

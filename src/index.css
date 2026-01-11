@@ -633,7 +633,458 @@
         animation-iteration-count: 1 !important;
     }
 }
+/* Progress bar animation */
+@keyframes progress-indeterminate {
+    0% {
+        transform: translateX(-100%);
+    }
 
+    100% {
+        transform: translateX(400%);
+    }
+}
+
+.animate-progress-indeterminate {
+    animation: progress-indeterminate 1.5s ease-in-out infinite;
+}
+
+/* Tailwind animate-in classes (if not using tailwindcss-animate) */
+@keyframes enter {
+    from {
+        opacity: var(--tw-enter-opacity, 1);
+        transform: translate3d(var(--tw-enter-translate-x, 0),
+                var(--tw-enter-translate-y, 0),
+                0) scale3d(var(--tw-enter-scale, 1),
+                var(--tw-enter-scale, 1),
+                var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0));
+    }
+}
+
+.animate-in {
+    animation-name: enter;
+    animation-duration: 150ms;
+    --tw-enter-opacity: initial;
+    --tw-enter-scale: initial;
+    --tw-enter-rotate: initial;
+    --tw-enter-translate-x: initial;
+    --tw-enter-translate-y: initial;
+}
+
+.fade-in {
+    --tw-enter-opacity: 0;
+}
+
+.slide-in-from-top {
+    --tw-enter-translate-y: -100%;
+}
+
+.slide-in-from-bottom {
+    --tw-enter-translate-y: 100%;
+}
+
+.duration-300 {
+    animation-duration: 300ms;
+}
+/* AppBar Progress Animation */
+@keyframes progress-indeterminate {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(400%);
+    }
+}
+
+/* Tailwind CSS Animations (if not using tailwindcss-animate) */
+@keyframes enter {
+    from {
+        opacity: var(--tw-enter-opacity, 1);
+        transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0) scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0));
+    }
+}
+
+@keyframes exit {
+    to {
+        opacity: var(--tw-exit-opacity, 1);
+        transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0));
+    }
+}
+
+.animate-in {
+    animation-name: enter;
+    animation-duration: 300ms;
+    --tw-enter-opacity: initial;
+    --tw-enter-scale: initial;
+    --tw-enter-rotate: initial;
+    --tw-enter-translate-x: initial;
+    --tw-enter-translate-y: initial;
+}
+
+.animate-out {
+    animation-name: exit;
+    animation-duration: 200ms;
+    --tw-exit-opacity: initial;
+    --tw-exit-scale: initial;
+    --tw-exit-rotate: initial;
+    --tw-exit-translate-x: initial;
+    --tw-exit-translate-y: initial;
+}
+
+.fade-in {
+    --tw-enter-opacity: 0;
+}
+
+.fade-out {
+    --tw-exit-opacity: 0;
+}
+
+.slide-in-from-top {
+    --tw-enter-translate-y: -100%;
+}
+
+.slide-out-to-top {
+    --tw-exit-translate-y: -100%;
+}
+
+.slide-in-from-bottom {
+    --tw-enter-translate-y: 100%;
+}
+
+.duration-200 {
+    animation-duration: 200ms;
+}
+
+.duration-300 {
+    animation-duration: 300ms;
+}
+
+.duration-500 {
+    animation-duration: 500ms;
+}
+
+.fill-mode-both {
+    animation-fill-mode: both;
+}
+/* ============================================================================
+   AppBar Custom Animations
+   ============================================================================ */
+
+/* Shimmer effect for indeterminate progress */
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(350%);
+    }
+}
+
+/* Subtle bounce for icons */
+@keyframes bounce-subtle {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+.animate-bounce-subtle {
+    animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+/* Progress bar indeterminate animation */
+@keyframes progress-indeterminate {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(350%);
+    }
+}
+
+/* Pulse animation for notifications */
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.95);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(0.95);
+        opacity: 1;
+    }
+}
+
+/* ============================================================================
+   Tailwind Animation Extensions
+   ============================================================================ */
+
+/* Enter animations */
+@keyframes enter {
+    from {
+        opacity: var(--tw-enter-opacity, 1);
+        transform: translate3d(var(--tw-enter-translate-x, 0),
+                var(--tw-enter-translate-y, 0),
+                0) scale3d(var(--tw-enter-scale, 1),
+                var(--tw-enter-scale, 1),
+                var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0));
+    }
+}
+
+/* Exit animations */
+@keyframes exit {
+    to {
+        opacity: var(--tw-exit-opacity, 1);
+        transform: translate3d(var(--tw-exit-translate-x, 0),
+                var(--tw-exit-translate-y, 0),
+                0) scale3d(var(--tw-exit-scale, 1),
+                var(--tw-exit-scale, 1),
+                var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0));
+    }
+}
+
+.animate-in {
+    animation-name: enter;
+    animation-duration: 300ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    --tw-enter-opacity: initial;
+    --tw-enter-scale: initial;
+    --tw-enter-rotate: initial;
+    --tw-enter-translate-x: initial;
+    --tw-enter-translate-y: initial;
+}
+
+.animate-out {
+    animation-name: exit;
+    animation-duration: 200ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    --tw-exit-opacity: initial;
+    --tw-exit-scale: initial;
+    --tw-exit-rotate: initial;
+    --tw-exit-translate-x: initial;
+    --tw-exit-translate-y: initial;
+}
+
+/* Opacity */
+.fade-in {
+    --tw-enter-opacity: 0;
+}
+
+.fade-out {
+    --tw-exit-opacity: 0;
+}
+
+/* Scale */
+.zoom-in-50 {
+    --tw-enter-scale: 0.5;
+}
+
+.zoom-in-95 {
+    --tw-enter-scale: 0.95;
+}
+
+.zoom-out-95 {
+    --tw-exit-scale: 0.95;
+}
+
+/* Slide */
+.slide-in-from-top-full {
+    --tw-enter-translate-y: -100%;
+}
+
+.slide-in-from-top-2 {
+    --tw-enter-translate-y: -0.5rem;
+}
+
+.slide-in-from-bottom-4 {
+    --tw-enter-translate-y: 1rem;
+}
+
+.slide-in-from-left-2 {
+    --tw-enter-translate-x: -0.5rem;
+}
+
+.slide-out-to-top-2 {
+    --tw-exit-translate-y: -0.5rem;
+}
+
+/* Duration */
+.duration-200 {
+    animation-duration: 200ms;
+}
+
+.duration-300 {
+    animation-duration: 300ms;
+}
+
+.duration-400 {
+    animation-duration: 400ms;
+}
+
+.duration-500 {
+    animation-duration: 500ms;
+}
+
+.duration-700 {
+    animation-duration: 700ms;
+}
+
+/* Fill mode */
+.fill-mode-both {
+    animation-fill-mode: both;
+}
+
+/* ============================================================================
+   Glass Morphism Enhancements
+   ============================================================================ */
+
+@supports (backdrop-filter: blur(1px)) {
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+
+    .dark .glass-effect {
+        background: rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* ============================================================================
+   Smooth Scrollbar Transition
+   ============================================================================ */
+
+.appbar-scroll-padding {
+    scroll-padding-top: 5rem;
+}
+
+/* Hide scrollbar during menu transitions */
+.menu-open {
+    overflow: hidden;
+    padding-right: var(--scrollbar-width, 0px);
+}
+
+/* ============================================================================
+   Focus Visible Styles
+   ============================================================================ */
+
+.focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+}
+/* Add to global.css */
+
+/* ============================================================================
+   Mobile Menu Animations
+   ============================================================================ */
+
+/* Smooth cubic-bezier for menu slide */
+.menu-slide-enter {
+    transition: transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.menu-slide-exit {
+    transition: transform 250ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Backdrop fade */
+.backdrop-fade-enter {
+    transition: opacity 300ms ease-out;
+}
+
+.backdrop-fade-exit {
+    transition: opacity 200ms ease-out;
+}
+
+/* Staggered menu items */
+@keyframes menu-item-enter {
+    from {
+        opacity: 0;
+        transform: translateX(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.menu-item-animate {
+    animation: menu-item-enter 400ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Hamburger to X animation */
+.hamburger-line {
+    transition: all 300ms cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+/* Bounce animation for hamburger */
+@keyframes hamburger-bounce {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.95);
+    }
+}
+
+.hamburger-press {
+    animation: hamburger-bounce 200ms ease-out;
+}
+
+/* Menu panel shadow animation */
+@keyframes menu-shadow {
+    from {
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+
+    to {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+}
+
+.menu-panel-shadow {
+    animation: menu-shadow 300ms ease-out forwards;
+}
+
+/* Active indicator animation */
+@keyframes active-dot {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.active-indicator {
+    animation: active-dot 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
 /* Utility classes for animations */
 .animate-bounce-in {
     animation: bounce-in 0.3s ease-out;
