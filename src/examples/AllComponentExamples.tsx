@@ -1,4 +1,4 @@
-import { AppBarExample } from "./AppBarExample";
+import { AspectRatioExample } from "./AspectRatioExample";
 
 export const AllComponentExamples = () => {
   return (
@@ -8,7 +8,7 @@ export const AllComponentExamples = () => {
         <h2 className="text-3xl font-bold mb-6 text-text">
           Dropdown Component
         </h2>
-        <AppBarExample />
+        <AspectRatioExample />
       </div>
     </div>
   );

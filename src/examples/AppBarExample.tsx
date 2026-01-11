@@ -25,7 +25,6 @@ import {
   Sun,
   Moon,
   Home,
-  Command,
   Loader2,
   Package,
   BarChart3,
