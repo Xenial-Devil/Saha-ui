@@ -7,11 +7,10 @@ A comprehensive form component system with built-in validation, error handling, 
 - ✅ **Validation** - Built-in and custom validation with React Hook Form integration
 - ❌ **Error Handling** - Field-level and form-level error messages
 - 🎯 **Submission** - Loading states, success/error callbacks, and async support
-- 📋 **Field Management** - Automatic field registration and state tracking
+- 📋 **Field Management** - Automatic field registration and state tracking with FormFieldProvider
 - 🎨 **Multiple Variants** - 11+ visual styles (default, primary, accent, glass, etc.)
 - 📐 **Flexible Layouts** - Vertical, horizontal, and inline layouts
 - 📊 **Progress Tracking** - Built-in form progress indicator
-- 🔄 **Compact Mode** - Simplified form creation with FormCompact
 - 📑 **Form Sections** - Collapsible sections with dividers
 - ♿ **Accessible** - ARIA labels, error announcements, keyboard navigation
 
@@ -20,7 +19,7 @@ A comprehensive form component system with built-in validation, error handling, 
 ```tsx
 import {
   Form,
-  FormField,
+  FormFieldProvider,
   FormItem,
   FormLabel,
   FormControl,
@@ -30,7 +29,6 @@ import {
   FormActions,
   FormProgress,
   FormError,
-  FormCompact,
   useFormConfig,
   useFormField,
 } from "saha-ui";
@@ -41,16 +39,8 @@ import {
 ### Simple Form (without React Hook Form)
 
 ```tsx
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "saha-ui";
-import { Input } from "saha-ui";
-import { Button } from "saha-ui";
+import { Form, FormItem, FormLabel, FormControl, FormMessage } from "saha-ui";
+import { Input, Button } from "saha-ui";
 
 function SimpleForm() {
   const handleSubmit = (e: React.FormEvent) => {
@@ -76,15 +66,16 @@ function SimpleForm() {
 ### With React Hook Form
 
 ```tsx
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import {
   Form,
-  FormField,
+  FormFieldProvider,
   FormItem,
   FormLabel,
   FormControl,
   FormMessage,
 } from "saha-ui";
+import { Input, Button } from "saha-ui";
 
 function RHFForm() {
   const form = useForm({
@@ -99,19 +90,21 @@ function RHFForm() {
   };
 
   return (
-    <Form form={form} onSubmit={onSubmit}>
-      <FormField
+    <Form {...form} onSubmit={form.handleSubmit(onSubmit)}>
+      <Controller
         control={form.control}
         name="email"
         rules={{ required: "Email is required" }}
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Email</FormLabel>
-            <FormControl>
-              <Input {...field} type="email" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
+        render={({ field, fieldState }) => (
+          <FormFieldProvider name={field.name} error={fieldState.error}>
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input {...field} type="email" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormFieldProvider>
         )}
       />
       <Button type="submit">Submit</Button>
@@ -140,18 +133,17 @@ The main form wrapper component.
 | `loadingText` | `string`                                        | `"Processing..."` | Text displayed during loading state                  |
 | `className`   | `string`                                        | -                 | Additional CSS classes                               |
 
-### FormField
+### FormFieldProvider
 
-Integrates with React Hook Form's Controller for field management.
+Provides field context for error display when using React Hook Form. Use with Controller from RHF.
 
-| Prop               | Type                   | Default | Description                                |
-| ------------------ | ---------------------- | ------- | ------------------------------------------ |
-| `control`          | `Control`              | -       | React Hook Form control object             |
-| `name`             | `string`               | -       | Field name for form state                  |
-| `rules`            | `ValidationRules`      | -       | Validation rules (required, pattern, etc.) |
-| `defaultValue`     | `any`                  | -       | Default field value                        |
-| `shouldUnregister` | `boolean`              | -       | Whether to unregister field on unmount     |
-| `render`           | `(props) => ReactNode` | -       | Render function with field props           |
+| Prop        | Type         | Default | Description                                     |
+| ----------- | ------------ | ------- | ----------------------------------------------- |
+| `name`      | `string`     | -       | Field name for form state                       |
+| `error`     | `FieldError` | -       | Field error object from React Hook Form         |
+| `isDirty`   | `boolean`    | -       | Whether field has been modified                 |
+| `isTouched` | `boolean`    | -       | Whether field has been focused and then blurred |
+| `children`  | `ReactNode`  | -       | Form field components (FormItem, etc.)          |
 
 ### FormItem
 
@@ -267,29 +259,6 @@ Form-level error summary displaying multiple errors.
 | `variant`     | `MessageVariant` | `"error"`                                  | Visual style                |
 | `className`   | `string`         | -                                          | Additional CSS classes      |
 
-### FormCompact
-
-Simplified form creation using configuration object.
-
-| Prop           | Type                                            | Default     | Description                         |
-| -------------- | ----------------------------------------------- | ----------- | ----------------------------------- |
-| `form`         | `UseFormReturn`                                 | -           | React Hook Form instance (required) |
-| `title`        | `string \| ReactNode`                           | -           | Form title                          |
-| `description`  | `string \| ReactNode`                           | -           | Form description                    |
-| `fields`       | `FormFieldConfig[]`                             | -           | Field configuration array           |
-| `columns`      | `1 \| 2 \| 3 \| 4`                              | `1`         | Number of grid columns              |
-| `submitText`   | `string`                                        | `"Submit"`  | Submit button text                  |
-| `showCancel`   | `boolean`                                       | `false`     | Shows cancel button                 |
-| `cancelText`   | `string`                                        | `"Cancel"`  | Cancel button text                  |
-| `onCancel`     | `() => void`                                    | -           | Cancel callback                     |
-| `showReset`    | `boolean`                                       | `false`     | Shows reset button                  |
-| `resetText`    | `string`                                        | `"Reset"`   | Reset button text                   |
-| `showProgress` | `boolean`                                       | `false`     | Shows progress bar                  |
-| `footer`       | `ReactNode`                                     | -           | Custom footer content               |
-| `onSubmit`     | `(data: TFieldValues) => void \| Promise<void>` | -           | Form submission handler             |
-| `variant`      | `FormVariant`                                   | `"default"` | Visual style                        |
-| `disabled`     | `boolean`                                       | `false`     | Disables entire form                |
-
 ## Examples
 
 ### Form with Variants
@@ -331,36 +300,6 @@ const steps = [
   <FormProgress value={currentStep} steps={steps} showPercentage />
   {/* Form fields */}
 </Form>;
-```
-
-### Compact Form
-
-```tsx
-const fields: FormFieldConfig[] = [
-  {
-    name: "email",
-    label: "Email",
-    type: "input",
-    inputType: "email",
-    validation: { required: "Email is required" },
-  },
-  {
-    name: "password",
-    label: "Password",
-    type: "input",
-    inputType: "password",
-    validation: { required: "Password is required" },
-  },
-];
-
-<FormCompact
-  form={form}
-  title="Login"
-  fields={fields}
-  columns={1}
-  submitText="Sign In"
-  onSubmit={onSubmit}
-/>;
 ```
 
 ## Hooks

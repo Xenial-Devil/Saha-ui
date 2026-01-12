@@ -4,10 +4,12 @@ import type {
   HTMLAttributes,
   LabelHTMLAttributes,
   ReactNode,
+  BaseSyntheticEvent,
+  FormEvent,
 } from "react";
 
 // ===========================
-// Base Types (No RHF dependency)
+// Base Types
 // ===========================
 
 export type FormVariant =
@@ -28,17 +30,14 @@ export type FormSpacing = "none" | "sm" | "md" | "lg" | number | string;
 export type MessageVariant = "error" | "success" | "warning" | "info";
 
 // ===========================
-// Fallback Types (when RHF not installed)
+// Loose Types for RHF Compatibility
 // ===========================
 
-export type FieldValues = Record<string, unknown>;
-
 export interface FieldError {
-  type: string;
+  type?: string | number;
   message?: string;
+  [key: string]: unknown;
 }
-
-export type FieldErrors<T = FieldValues> = Partial<Record<keyof T, FieldError>>;
 
 // ===========================
 // Context Types
@@ -70,70 +69,106 @@ export interface FormItemContextValue {
 // Form Component Props
 // ===========================
 
-export interface FormProps<TFieldValues extends FieldValues = FieldValues>
-  extends Omit<FormHTMLAttributes<HTMLFormElement>, "onSubmit" | "onError"> {
-  form?: {
-    handleSubmit: (
-      onValid: (data: TFieldValues) => void | Promise<void>,
-      onInvalid?: (errors: FieldErrors<TFieldValues>) => void
-    ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
-    formState: {
-      isSubmitting: boolean;
-      errors: FieldErrors<TFieldValues>;
-      isDirty: boolean;
-    };
-    reset: () => void;
-    watch: () => TFieldValues;
-    getValues: () => TFieldValues;
+/**
+ * Form submit handler type - accepts both standalone and RHF patterns
+ */
+export type FormSubmitHandler =
+  | ((e: FormEvent<HTMLFormElement>) => void)
+  | ((e: FormEvent<HTMLFormElement>) => Promise<void>)
+  | ((e?: BaseSyntheticEvent) => void)
+  | ((e?: BaseSyntheticEvent) => Promise<void>);
+
+export interface FormProps
+  extends Omit<FormHTMLAttributes<HTMLFormElement>, "onSubmit"> {
+  /**
+   * Form submission handler
+   *
+   * @example Standalone
+   * ```tsx
+   * onSubmit={(e) => { e.preventDefault(); console.log('submitted'); }}
+   * ```
+   *
+   * @example React Hook Form
+   * ```tsx
+   * onSubmit={form.handleSubmit(onSubmit)}
+   * ```
+   */
+  onSubmit?: FormSubmitHandler;
+
+  // ===========================
+  // RHF Spread Props (typed as unknown for maximum compatibility)
+  // ===========================
+
+  /** @internal RHF handleSubmit - ignored, use onSubmit instead */
+  handleSubmit?: unknown;
+  /** @internal RHF control */
+  control?: unknown;
+  /** @internal RHF formState - used for auto loading detection */
+  formState?: {
+    isSubmitting?: boolean;
+    isLoading?: boolean;
+    isDirty?: boolean;
+    isValid?: boolean;
+    errors?: unknown;
     [key: string]: unknown;
   };
-  onSubmit?:
-    | ((data: TFieldValues) => void | Promise<void>)
-    | ((e: React.FormEvent<HTMLFormElement>) => void);
-  onError?: (errors: FieldErrors<TFieldValues>) => void;
+  /** @internal RHF reset */
+  reset?: unknown;
+  /** @internal RHF watch */
+  watch?: unknown;
+  /** @internal RHF getValues */
+  getValues?: unknown;
+  /** @internal RHF setValue */
+  setValue?: unknown;
+  /** @internal RHF trigger */
+  trigger?: unknown;
+  /** @internal RHF clearErrors */
+  clearErrors?: unknown;
+  /** @internal RHF setError */
+  setError?: unknown;
+  /** @internal RHF register */
+  register?: unknown;
+  /** @internal RHF unregister */
+  unregister?: unknown;
+  /** @internal RHF getFieldState */
+  getFieldState?: unknown;
+  /** @internal RHF setFocus */
+  setFocus?: unknown;
+  /** @internal RHF resetField */
+  resetField?: unknown;
+
+  // ===========================
+  // Form Component Props
+  // ===========================
+
+  /** Visual variant */
   variant?: FormVariant;
+  /** Size variant */
   size?: FormSize;
+  /** Layout orientation */
   layout?: FormLayout;
+  /** Show loading state with overlay (auto-detected from formState.isSubmitting if not provided) */
   loading?: boolean;
+  /** Disable all form fields */
   disabled?: boolean;
+  /** Spacing between form items */
   spacing?: FormSpacing;
+  /** Loading text shown in overlay */
   loadingText?: string;
+  /** Children elements */
   children?: ReactNode;
 }
 
 // ===========================
-// FormField Component Props (RHF Integration)
+// FormFieldContext Props
 // ===========================
 
-export interface FormFieldRenderProps {
-  field: {
-    name: string;
-    value: unknown;
-    onChange: (value: unknown) => void;
-    onBlur: () => void;
-    disabled?: boolean;
-  };
-  fieldState: {
-    invalid: boolean;
-    isTouched: boolean;
-    isDirty: boolean;
-    error?: FieldError;
-  };
-  formState: {
-    isSubmitting: boolean;
-    isSubmitted: boolean;
-    isDirty: boolean;
-    errors: FieldErrors;
-  };
-}
-
-export interface FormFieldProps {
-  control: unknown;
+export interface FormFieldContextProps {
   name: string;
-  defaultValue?: unknown;
-  rules?: Record<string, unknown>;
-  shouldUnregister?: boolean;
-  render: (props: FormFieldRenderProps) => ReactNode;
+  error?: FieldError;
+  isDirty?: boolean;
+  isTouched?: boolean;
+  children: ReactNode;
 }
 
 // ===========================
@@ -244,72 +279,4 @@ export interface FormProgressProps extends HTMLAttributes<HTMLDivElement> {
   showPercentage?: boolean;
   variant?: FormVariant;
   size?: "sm" | "md" | "lg";
-}
-
-// ===========================
-// FormCompact Component Props
-// ===========================
-
-export interface FormFieldConfig<
-  TFieldValues extends FieldValues = FieldValues
-> {
-  name: keyof TFieldValues & string;
-  label?: string;
-  description?: string;
-  placeholder?: string;
-  type?:
-    | "text"
-    | "email"
-    | "password"
-    | "number"
-    | "tel"
-    | "url"
-    | "textarea"
-    | "select"
-    | "checkbox"
-    | "radio"
-    | "switch"
-    | "date"
-    | "time"
-    | "datetime-local"
-    | "file"
-    | "color"
-    | "range"
-    | "hidden"
-    | "custom";
-  required?: boolean;
-  optional?: boolean;
-  defaultValue?: unknown;
-  options?: Array<{
-    label: string;
-    value: string | number | boolean;
-    disabled?: boolean;
-  }>;
-  rules?: Record<string, unknown>;
-  render?: (props: FormFieldRenderProps) => ReactNode;
-  disabled?: boolean;
-  hidden?: boolean | ((values: TFieldValues) => boolean);
-  colSpan?: 1 | 2 | 3 | 4;
-  className?: string;
-  inputProps?: Record<string, unknown>;
-}
-
-export interface FormCompactProps<
-  TFieldValues extends FieldValues = FieldValues
-> extends Omit<FormProps<TFieldValues>, "children"> {
-  form: NonNullable<FormProps<TFieldValues>["form"]> & {
-    control: unknown;
-  };
-  title?: string;
-  description?: string;
-  fields: FormFieldConfig<TFieldValues>[];
-  columns?: 1 | 2 | 3 | 4;
-  submitText?: string;
-  showCancel?: boolean;
-  cancelText?: string;
-  onCancel?: () => void;
-  showReset?: boolean;
-  resetText?: string;
-  showProgress?: boolean;
-  footer?: ReactNode;
 }

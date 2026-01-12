@@ -1,6 +1,6 @@
 export {
   Form,
-  FormField,
+  FormFieldProvider,
   FormItem,
   FormLabel,
   FormControl,
@@ -10,7 +10,6 @@ export {
   FormActions,
   FormProgress,
   FormError,
-  FormCompact,
   useFormConfig,
   useFormField,
   FormContext,
@@ -20,8 +19,7 @@ export {
 
 export type {
   FormProps,
-  FormFieldProps,
-  FormFieldRenderProps,
+  FormFieldContextProps,
   FormItemProps,
   FormLabelProps,
   FormControlProps,
@@ -31,8 +29,6 @@ export type {
   FormActionsProps,
   FormErrorProps,
   FormProgressProps,
-  FormCompactProps,
-  FormFieldConfig,
   FormContextValue,
   FormFieldContextValue,
   FormItemContextValue,
@@ -40,7 +36,6 @@ export type {
   FormSize,
   FormLayout,
   FormSpacing,
-  FieldValues,
   FieldError,
+  MessageVariant,
 } from "./Form.types";
-

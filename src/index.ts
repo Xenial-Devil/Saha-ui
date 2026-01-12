@@ -736,8 +736,7 @@ export { ToastProvider, useToast, ToastItem } from "./components/Toast";
 export { toastVariants } from "./components/Toast/Toast.styles";
 export {
   Form,
-  FormCompact,
-  FormField,
+  FormFieldProvider,
   FormItem,
   FormLabel,
   FormControl,
@@ -755,8 +754,7 @@ export {
 } from "./components/Form";
 export type {
   FormProps,
-  FormFieldProps,
-  FormFieldRenderProps,
+  FormFieldContextProps,
   FormItemProps,
   FormLabelProps,
   FormControlProps,
@@ -766,8 +764,6 @@ export type {
   FormActionsProps,
   FormErrorProps,
   FormProgressProps,
-  FormCompactProps,
-  FormFieldConfig,
   FormContextValue,
   FormFieldContextValue,
   FormItemContextValue,
@@ -775,8 +771,8 @@ export type {
   FormSize,
   FormLayout,
   FormSpacing,
-  FieldValues,
   FieldError as FormFieldError,
+  MessageVariant,
 } from "./components/Form";
 export {
   formVariants,
@@ -1269,7 +1265,6 @@ export type {
   Cell,
   SortDirection as DataTableSortDirection,
 } from "./components/DataTable/DataTable.types";
-
 
 export type {
   SelectProps,

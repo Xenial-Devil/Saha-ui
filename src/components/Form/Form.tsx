@@ -11,9 +11,6 @@ import React, {
   useCallback,
   useEffect,
   useRef,
-  type ReactElement,
-  type ForwardedRef,
-  type ChangeEvent,
 } from "react";
 import { cn } from "../../lib/utils";
 import {
@@ -33,8 +30,7 @@ import {
 } from "./Form.styles";
 import type {
   FormProps,
-  FormFieldProps,
-  FormFieldRenderProps,
+  FormFieldContextProps,
   FormItemProps,
   FormLabelProps,
   FormControlProps,
@@ -44,8 +40,6 @@ import type {
   FormActionsProps,
   FormErrorProps,
   FormProgressProps,
-  FormCompactProps,
-  FormFieldConfig,
   FormContextValue,
   FormFieldContextValue,
   FormItemContextValue,
@@ -53,12 +47,11 @@ import type {
   FormSize,
   FormLayout,
   FormSpacing,
-  FieldValues,
   FieldError,
 } from "./Form.types";
 
 // ===========================
-// Icons (Inline SVG Components)
+// Icons
 // ===========================
 
 const IconAlertCircle = ({ className }: { className?: string }) => (
@@ -210,14 +203,8 @@ const FormItemContext = createContext<FormItemContextValue | null>(null);
 // Hooks
 // ===========================
 
-/**
- * Hook to access form configuration from context
- */
 export const useFormConfig = () => useContext(FormContext);
 
-/**
- * Hook to access current form field information
- */
 export const useFormField = () => {
   const fieldContext = useContext(FormFieldContext);
   const itemContext = useContext(FormItemContext);
@@ -265,199 +252,192 @@ const getSpacingClass = (spacing: FormSpacing): string => {
   return "space-y-4";
 };
 
-const getGridClass = (columns: 1 | 2 | 3 | 4): string => {
-  const gridMap: Record<number, string> = {
-    1: "grid-cols-1",
-    2: "grid-cols-1 sm:grid-cols-2",
-    3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
-    4: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
-  };
-  return gridMap[columns] ?? "grid-cols-1";
-};
-
-const getColSpanClass = (span?: 1 | 2 | 3 | 4): string => {
-  if (!span || span === 1) return "";
-  const spanMap: Record<number, string> = {
-    2: "sm:col-span-2",
-    3: "sm:col-span-2 lg:col-span-3",
-    4: "sm:col-span-2 lg:col-span-4",
-  };
-  return spanMap[span] ?? "";
-};
-
 // ===========================
 // Form Component
 // ===========================
 
-function FormInner<TFieldValues extends FieldValues = FieldValues>(
-  {
-    form,
-    children,
-    onSubmit,
-    onError,
-    variant = "default",
-    size = "md",
-    layout = "vertical",
-    loading = false,
-    disabled = false,
-    spacing = "md",
-    loadingText = "Processing...",
-    className,
-    ...props
-  }: FormProps<TFieldValues>,
-  ref: ForwardedRef<HTMLFormElement>
-) {
-  const isDisabled = disabled || loading;
-
-  const contextValue = useMemo<FormContextValue>(
-    () => ({
-      variant,
-      size,
-      layout,
-      disabled: isDisabled,
+/**
+ * Form - Root form component
+ *
+ * Supports both standalone and React Hook Form modes via spread pattern.
+ *
+ * @example Standalone
+ * ```tsx
+ * <Form onSubmit={(e) => { e.preventDefault(); console.log('submitted'); }} variant="outline">
+ *   <FormItem>
+ *     <FormLabel>Email</FormLabel>
+ *     <FormControl>
+ *       <input name="email" type="email" />
+ *     </FormControl>
+ *   </FormItem>
+ * </Form>
+ * ```
+ *
+ * @example With React Hook Form
+ * ```tsx
+ * const form = useForm<MyData>();
+ *
+ * <Form {...form} onSubmit={form.handleSubmit(onSubmit)} variant="primary">
+ *   <Controller ... />
+ * </Form>
+ * ```
+ */
+export const Form = forwardRef<HTMLFormElement, FormProps>(
+  (
+    {
+      // RHF spread props (destructured to prevent passing to DOM)
+      handleSubmit: _handleSubmit,
+      control: _control,
+      formState,
+      reset: _reset,
+      watch: _watch,
+      getValues: _getValues,
+      setValue: _setValue,
+      trigger: _trigger,
+      clearErrors: _clearErrors,
+      setError: _setError,
+      register: _register,
+      unregister: _unregister,
+      getFieldState: _getFieldState,
+      setFocus: _setFocus,
+      resetField: _resetField,
+      // Our props
+      children,
+      onSubmit,
+      variant = "default",
+      size = "md",
+      layout = "vertical",
       loading,
-    }),
-    [variant, size, layout, isDisabled, loading]
-  );
-
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-
-      if (isDisabled) return;
-
-      if (form && onSubmit) {
-        form.handleSubmit(
-          (data) => (onSubmit as (data: TFieldValues) => void)(data),
-          (errors) => onError?.(errors)
-        )(e);
-        return;
-      }
-
-      if (onSubmit) {
-        (onSubmit as (e: React.FormEvent<HTMLFormElement>) => void)(e);
-      }
+      disabled = false,
+      spacing = "md",
+      loadingText = "Processing...",
+      className,
+      ...props
     },
-    [form, onSubmit, onError, isDisabled]
-  );
+    ref
+  ) => {
+    // Auto-detect loading from formState.isSubmitting if loading prop not explicitly set
+    const isLoading = loading ?? formState?.isSubmitting ?? false;
+    const isDisabled = disabled || isLoading;
 
-  return (
-    <FormContext.Provider value={contextValue}>
-      <form
-        ref={ref}
-        onSubmit={handleSubmit}
-        className={cn(
-          formVariants({ variant, layout }),
-          getSpacingClass(spacing),
-          className
-        )}
-        aria-busy={loading}
-        aria-disabled={isDisabled}
-        {...props}
-      >
-        <div
-          className={loadingOverlayVariants({ visible: loading })}
-          aria-hidden={!loading}
-        >
-          <IconLoader className="size-8 text-primary" />
-          <span className="text-sm font-medium text-muted-foreground">
-            {loadingText}
-          </span>
-        </div>
+    const contextValue = useMemo<FormContextValue>(
+      () => ({
+        variant,
+        size,
+        layout,
+        disabled: isDisabled,
+        loading: isLoading,
+      }),
+      [variant, size, layout, isDisabled, isLoading]
+    );
 
-        {children}
-      </form>
-    </FormContext.Provider>
-  );
-}
+    const handleFormSubmit = useCallback(
+      (e: React.FormEvent<HTMLFormElement>) => {
+        // Don't prevent default here - let the handler decide
+        // RHF's handleSubmit will call preventDefault internally
+        // Standalone handlers should call it themselves
 
-export const Form = forwardRef(FormInner) as <
-  TFieldValues extends FieldValues = FieldValues
->(
-  props: FormProps<TFieldValues> & { ref?: ForwardedRef<HTMLFormElement> }
-) => ReactElement;
+        if (isDisabled) {
+          e.preventDefault();
+          return;
+        }
 
-(Form as React.FC).displayName = "Form";
+        if (onSubmit) {
+          // Cast to any to allow both standalone and RHF handlers
+          (onSubmit as (e: React.FormEvent<HTMLFormElement>) => void)(e);
+        }
+      },
+      [onSubmit, isDisabled]
+    );
 
-// ===========================
-// FormField Component (RHF Integration)
-// ===========================
-
-// FormField Component - Fixed
-export function FormField({
-  control,
-  name,
-  defaultValue,
-  rules,
-  shouldUnregister,
-  render,
-}: FormFieldProps) {
-  const id = useId();
-
-  // Fix: Use 'any' type for Controller to avoid complex generic type issues
-  const [Controller, setController] = useState<React.ComponentType<any> | null>(
-    null
-  );
-  const [loadError, setLoadError] = useState<string | null>(null);
-
-  useEffect(() => {
-    import("react-hook-form")
-      .then((module) => {
-        // Fix: Cast to any to resolve type incompatibility
-        setController(() => module.Controller as React.ComponentType<any>);
-      })
-      .catch(() => {
-        setLoadError(
-          "react-hook-form is required for FormField. Install: npm install react-hook-form"
-        );
-      });
-  }, []);
-
-  if (loadError) {
     return (
-      <div className="text-destructive text-sm p-2 border border-destructive/20 rounded bg-destructive/10">
-        {loadError}
-      </div>
+      <FormContext.Provider value={contextValue}>
+        <form
+          ref={ref}
+          onSubmit={handleFormSubmit}
+          className={cn(
+            formVariants({ variant, layout }),
+            getSpacingClass(spacing),
+            className
+          )}
+          aria-busy={isLoading}
+          aria-disabled={isDisabled}
+          {...props}
+        >
+          {/* Loading Overlay */}
+          <div
+            className={loadingOverlayVariants({ visible: isLoading })}
+            aria-hidden={!isLoading}
+          >
+            <IconLoader className="size-8 text-primary" />
+            <span className="text-sm font-medium text-muted-foreground">
+              {loadingText}
+            </span>
+          </div>
+
+          {children}
+        </form>
+      </FormContext.Provider>
     );
   }
+);
 
-  if (!Controller) {
-    return null;
-  }
+Form.displayName = "Form";
+
+// ===========================
+// FormFieldProvider Component
+// ===========================
+
+/**
+ * FormFieldProvider - Provides field context for error display
+ *
+ * @example
+ * ```tsx
+ * <Controller
+ *   control={form.control}
+ *   name="email"
+ *   render={({ field, fieldState }) => (
+ *     <FormFieldProvider name={field.name} error={fieldState.error}>
+ *       <FormItem>
+ *         <FormLabel>Email</FormLabel>
+ *         <FormControl>
+ *           <input {...field} />
+ *         </FormControl>
+ *         <FormMessage />
+ *       </FormItem>
+ *     </FormFieldProvider>
+ *   )}
+ * />
+ * ```
+ */
+export function FormFieldProvider({
+  name,
+  error,
+  isDirty,
+  isTouched,
+  children,
+}: FormFieldContextProps) {
+  const id = useId();
+
+  const contextValue = useMemo<FormFieldContextValue>(
+    () => ({
+      name,
+      id,
+      error,
+      isDirty,
+      isTouched,
+    }),
+    [name, id, error, isDirty, isTouched]
+  );
 
   return (
-    <Controller
-      control={control}
-      name={name}
-      defaultValue={defaultValue}
-      rules={rules}
-      shouldUnregister={shouldUnregister}
-      render={({
-        field,
-        fieldState,
-        formState,
-      }: {
-        field: FormFieldRenderProps["field"];
-        fieldState: FormFieldRenderProps["fieldState"];
-        formState: FormFieldRenderProps["formState"];
-      }) => (
-        <FormFieldContext.Provider
-          value={{
-            name,
-            id,
-            error: fieldState.error,
-            isDirty: fieldState.isDirty,
-            isTouched: fieldState.isTouched,
-          }}
-        >
-          {render({ field, fieldState, formState })}
-        </FormFieldContext.Provider>
-      )}
-    />
+    <FormFieldContext.Provider value={contextValue}>
+      {children}
+    </FormFieldContext.Provider>
   );
 }
 
-FormField.displayName = "FormField";
+FormFieldProvider.displayName = "FormFieldProvider";
 
 // ===========================
 // FormItem Component
@@ -466,7 +446,7 @@ FormField.displayName = "FormField";
 export const FormItem = forwardRef<HTMLDivElement, FormItemProps>(
   (
     {
-      variant,
+      variant: _variant,
       layout,
       disableAnimation = false,
       className,
@@ -583,10 +563,8 @@ FormLabel.displayName = "FormLabel";
 // FormControl Component
 // ===========================
 
-// FormControl Component - Fixed (removed unused variable)
 export const FormControl = forwardRef<HTMLDivElement, FormControlProps>(
   ({ className, children, ...props }, ref) => {
-    // Removed: const formConfig = useFormConfig();
     const { formItemId, formDescriptionId, formMessageId, error, isDisabled } =
       useFormField();
 
@@ -596,7 +574,7 @@ export const FormControl = forwardRef<HTMLDivElement, FormControlProps>(
       const childProps = child.props as Record<string, unknown>;
 
       return React.cloneElement(
-        child as ReactElement<Record<string, unknown>>,
+        child as React.ReactElement<Record<string, unknown>>,
         {
           id: formItemId,
           "aria-describedby": error
@@ -682,12 +660,19 @@ export const FormMessage = forwardRef<HTMLParagraphElement, FormMessageProps>(
   ) => {
     const { formMessageId, error: contextError } = useFormField();
 
-    const errorFromProp =
-      typeof errorProp === "string"
-        ? errorProp
-        : (errorProp as FieldError)?.message;
+    // Extract message from various error formats
+    const getMessage = (): string | undefined => {
+      if (children) return String(children);
 
-    const message = children ?? errorFromProp ?? contextError?.message;
+      if (typeof errorProp === "string") return errorProp;
+      if (errorProp?.message) return String(errorProp.message);
+
+      if (contextError?.message) return String(contextError.message);
+
+      return undefined;
+    };
+
+    const message = getMessage();
 
     if (!message) return null;
 
@@ -712,7 +697,7 @@ export const FormMessage = forwardRef<HTMLParagraphElement, FormMessageProps>(
         {...props}
       >
         {showIcon && <Icon />}
-        <span>{String(message)}</span>
+        <span>{message}</span>
       </p>
     );
   }
@@ -1032,410 +1017,6 @@ export const FormError = forwardRef<HTMLDivElement, FormErrorProps>(
 FormError.displayName = "FormError";
 
 // ===========================
-// FormCompact Component (Requires RHF)
-// ===========================
-
-export function FormCompact<TFieldValues extends FieldValues = FieldValues>({
-  form,
-  title,
-  description,
-  fields,
-  columns = 1,
-  submitText = "Submit",
-  showCancel = false,
-  cancelText = "Cancel",
-  onCancel,
-  showReset = false,
-  resetText = "Reset",
-  showProgress = false,
-  footer,
-  onSubmit,
-  variant = "default",
-  disabled,
-  ...formProps
-}: FormCompactProps<TFieldValues>) {
-  const { formState, watch, reset } = form;
-  const { isSubmitting, errors } = formState;
-
-  const watchedValues = watch();
-
-  const visibleFields = useMemo(() => {
-    return fields.filter((field) => {
-      if (typeof field.hidden === "function") {
-        return !field.hidden(watchedValues as TFieldValues);
-      }
-      return !field.hidden;
-    });
-  }, [fields, watchedValues]);
-
-  const filledFields = useMemo(() => {
-    return visibleFields.filter((field) => {
-      const value = watchedValues[field.name];
-      return value !== undefined && value !== "" && value !== null;
-    }).length;
-  }, [visibleFields, watchedValues]);
-
-  const baseInputClasses = cn(
-    "w-full px-3 py-2 rounded-md border border-input bg-background",
-    "placeholder:text-muted-foreground",
-    "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-    "disabled:cursor-not-allowed disabled:opacity-50",
-    "transition-colors"
-  );
-
-  const renderFieldInput = useCallback(
-    (
-      fieldConfig: FormFieldConfig<TFieldValues>,
-      field: FormFieldRenderProps["field"]
-    ) => {
-      const isFieldDisabled = fieldConfig.disabled || disabled;
-      const fieldValue = field.value;
-
-      switch (fieldConfig.type) {
-        case "textarea":
-          return (
-            <textarea
-              name={field.name}
-              value={String(fieldValue ?? "")}
-              onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-                field.onChange(e.target.value)
-              }
-              onBlur={field.onBlur}
-              placeholder={fieldConfig.placeholder}
-              disabled={isFieldDisabled}
-              rows={4}
-              className={cn(baseInputClasses, "resize-none min-h-[100px]")}
-            />
-          );
-
-        case "select":
-          return (
-            <select
-              name={field.name}
-              value={String(fieldValue ?? "")}
-              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                field.onChange(e.target.value)
-              }
-              onBlur={field.onBlur}
-              disabled={isFieldDisabled}
-              className={baseInputClasses}
-            >
-              <option value="">Select...</option>
-              {fieldConfig.options?.map((opt) => (
-                <option
-                  key={String(opt.value)}
-                  value={String(opt.value)}
-                  disabled={opt.disabled}
-                >
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          );
-
-        case "checkbox":
-          return (
-            <input
-              type="checkbox"
-              name={field.name}
-              checked={Boolean(fieldValue)}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                field.onChange(e.target.checked)
-              }
-              onBlur={field.onBlur}
-              disabled={isFieldDisabled}
-              className="size-4 rounded border-input accent-primary"
-            />
-          );
-
-        case "switch":
-          return (
-            <button
-              type="button"
-              role="switch"
-              aria-checked={Boolean(fieldValue)}
-              onClick={() => field.onChange(!fieldValue)}
-              disabled={isFieldDisabled}
-              className={cn(
-                "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full",
-                "border-2 border-transparent transition-colors",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                "disabled:cursor-not-allowed disabled:opacity-50",
-                fieldValue ? "bg-primary" : "bg-input"
-              )}
-            >
-              <span
-                className={cn(
-                  "pointer-events-none block size-5 rounded-full bg-background shadow-lg ring-0 transition-transform",
-                  fieldValue ? "translate-x-5" : "translate-x-0"
-                )}
-              />
-            </button>
-          );
-
-        case "radio":
-          return (
-            <div className="space-y-2">
-              {fieldConfig.options?.map((opt) => (
-                <label
-                  key={String(opt.value)}
-                  className={cn(
-                    "flex items-center gap-2 cursor-pointer",
-                    opt.disabled && "opacity-50 cursor-not-allowed"
-                  )}
-                >
-                  <input
-                    type="radio"
-                    name={field.name}
-                    value={String(opt.value)}
-                    checked={fieldValue === opt.value}
-                    onChange={() => field.onChange(opt.value)}
-                    disabled={isFieldDisabled || opt.disabled}
-                    className="size-4 border-input accent-primary"
-                  />
-                  <span className="text-sm">{opt.label}</span>
-                </label>
-              ))}
-            </div>
-          );
-
-        case "hidden":
-          return (
-            <input
-              type="hidden"
-              name={field.name}
-              value={String(fieldValue ?? "")}
-            />
-          );
-
-        case "custom":
-          return null;
-
-        default:
-          return (
-            <input
-              type={fieldConfig.type ?? "text"}
-              name={field.name}
-              value={String(fieldValue ?? "")}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                field.onChange(e.target.value)
-              }
-              onBlur={field.onBlur}
-              placeholder={fieldConfig.placeholder}
-              disabled={isFieldDisabled}
-              className={baseInputClasses}
-            />
-          );
-      }
-    },
-    [baseInputClasses, disabled]
-  );
-
-  const renderField = useCallback(
-    (fieldConfig: FormFieldConfig<TFieldValues>) => {
-      if (typeof fieldConfig.hidden === "function") {
-        if (fieldConfig.hidden(watchedValues as TFieldValues)) return null;
-      } else if (fieldConfig.hidden) {
-        return null;
-      }
-
-      return (
-        <FormField
-          key={fieldConfig.name}
-          control={form.control}
-          name={fieldConfig.name}
-          rules={fieldConfig.rules}
-          defaultValue={fieldConfig.defaultValue}
-          render={({ field, fieldState, formState: fieldFormState }) => {
-            if (fieldConfig.render) {
-              return (
-                <FormItem
-                  className={cn(
-                    getColSpanClass(fieldConfig.colSpan),
-                    fieldConfig.className
-                  )}
-                >
-                  {fieldConfig.label && fieldConfig.type !== "checkbox" && (
-                    <FormLabel
-                      required={fieldConfig.required}
-                      optional={fieldConfig.optional}
-                    >
-                      {fieldConfig.label}
-                    </FormLabel>
-                  )}
-                  <FormControl>
-                    {
-                      fieldConfig.render({
-                        field,
-                        fieldState,
-                        formState: fieldFormState,
-                      }) as ReactElement
-                    }
-                  </FormControl>
-                  {fieldConfig.description && (
-                    <FormDescription>{fieldConfig.description}</FormDescription>
-                  )}
-                  <FormMessage />
-                </FormItem>
-              );
-            }
-
-            if (fieldConfig.type === "checkbox") {
-              return (
-                <FormItem
-                  layout="inline"
-                  className={cn(
-                    getColSpanClass(fieldConfig.colSpan),
-                    fieldConfig.className
-                  )}
-                >
-                  <FormControl>
-                    {renderFieldInput(fieldConfig, field)}
-                  </FormControl>
-                  {fieldConfig.label && (
-                    <FormLabel>{fieldConfig.label}</FormLabel>
-                  )}
-                  <FormMessage />
-                </FormItem>
-              );
-            }
-
-            return (
-              <FormItem
-                className={cn(
-                  getColSpanClass(fieldConfig.colSpan),
-                  fieldConfig.className
-                )}
-              >
-                {fieldConfig.label && (
-                  <FormLabel
-                    required={fieldConfig.required}
-                    optional={fieldConfig.optional}
-                  >
-                    {fieldConfig.label}
-                  </FormLabel>
-                )}
-                <FormControl>
-                  {renderFieldInput(fieldConfig, field)}
-                </FormControl>
-                {fieldConfig.description && (
-                  <FormDescription>{fieldConfig.description}</FormDescription>
-                )}
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
-      );
-    },
-    [form.control, watchedValues, renderFieldInput]
-  );
-
-  const formErrors = useMemo((): Record<string, string> | undefined => {
-    const errorEntries = Object.entries(errors);
-    if (errorEntries.length === 0) return undefined;
-
-    const result: Record<string, string> = {};
-    for (const [key, value] of errorEntries) {
-      const errorMessage = (value as FieldError)?.message;
-      if (errorMessage) {
-        result[key] = errorMessage;
-      }
-    }
-    return Object.keys(result).length > 0 ? result : undefined;
-  }, [errors]);
-
-  return (
-    <Form
-      form={form}
-      onSubmit={onSubmit}
-      variant={variant}
-      disabled={disabled}
-      {...formProps}
-    >
-      {(title || description) && (
-        <header className="mb-6">
-          {title && (
-            <h2 className="text-2xl font-bold tracking-tight">{title}</h2>
-          )}
-          {description && (
-            <p className="text-muted-foreground mt-1">{description}</p>
-          )}
-        </header>
-      )}
-
-      {showProgress && (
-        <FormProgress
-          value={filledFields}
-          max={visibleFields.length}
-          variant={variant}
-          showPercentage
-        />
-      )}
-
-      {formErrors && <FormError errors={formErrors} className="mb-4" />}
-
-      <div className={cn("grid gap-4", getGridClass(columns))}>
-        {fields.map(renderField)}
-      </div>
-
-      {footer ?? (
-        <FormActions>
-          {showReset && (
-            <button
-              type="button"
-              onClick={() => reset()}
-              disabled={isSubmitting}
-              className={cn(
-                "px-4 py-2 text-sm font-medium rounded-md",
-                "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-                "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-                "disabled:pointer-events-none disabled:opacity-50",
-                "transition-colors"
-              )}
-            >
-              {resetText}
-            </button>
-          )}
-          {showCancel && (
-            <button
-              type="button"
-              onClick={onCancel}
-              disabled={isSubmitting}
-              className={cn(
-                "px-4 py-2 text-sm font-medium rounded-md",
-                "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-                "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-                "disabled:pointer-events-none disabled:opacity-50",
-                "transition-colors"
-              )}
-            >
-              {cancelText}
-            </button>
-          )}
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className={cn(
-              "px-4 py-2 text-sm font-medium rounded-md inline-flex items-center gap-2",
-              "bg-primary text-primary-foreground hover:bg-primary/90",
-              "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-              "disabled:pointer-events-none disabled:opacity-50",
-              "transition-colors"
-            )}
-          >
-            {isSubmitting && <IconLoader className="size-4" />}
-            {submitText}
-          </button>
-        </FormActions>
-      )}
-    </Form>
-  );
-}
-
-FormCompact.displayName = "FormCompact";
-
-// ===========================
 // Exports
 // ===========================
 
@@ -1443,8 +1024,7 @@ export { FormContext, FormFieldContext, FormItemContext };
 
 export type {
   FormProps,
-  FormFieldProps,
-  FormFieldRenderProps,
+  FormFieldContextProps,
   FormItemProps,
   FormLabelProps,
   FormControlProps,
@@ -1454,8 +1034,6 @@ export type {
   FormActionsProps,
   FormErrorProps,
   FormProgressProps,
-  FormCompactProps,
-  FormFieldConfig,
   FormContextValue,
   FormFieldContextValue,
   FormItemContextValue,
@@ -1463,6 +1041,5 @@ export type {
   FormSize,
   FormLayout,
   FormSpacing,
-  FieldValues,
   FieldError,
 };
