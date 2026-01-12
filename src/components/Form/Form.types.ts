@@ -1,25 +1,13 @@
-import React from "react";
+// Form.types.ts
+import type {
+  FormHTMLAttributes,
+  HTMLAttributes,
+  LabelHTMLAttributes,
+  ReactNode,
+} from "react";
 
 // ===========================
-// Optional React Hook Form Types
-// ===========================
-
-// Define fallback types when react-hook-form is not installed
-export type FieldValues = Record<string, any>;
-export type FieldPath<TFieldValues extends FieldValues> = keyof TFieldValues &
-  string;
-export type UseFormReturn<TFieldValues extends FieldValues = FieldValues> = {
-  handleSubmit?: (
-    onValid: (data: TFieldValues) => void,
-    onInvalid?: (errors: any) => void
-  ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
-  control?: any;
-  reset?: () => void;
-  [key: string]: any;
-};
-
-// ===========================
-// Base Types
+// Base Types (No RHF dependency)
 // ===========================
 
 export type FormVariant =
@@ -35,131 +23,150 @@ export type FormVariant =
   | "glass";
 
 export type FormSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
-
 export type FormLayout = "vertical" | "horizontal" | "inline";
+export type FormSpacing = "none" | "sm" | "md" | "lg" | number | string;
+export type MessageVariant = "error" | "success" | "warning" | "info";
+
+// ===========================
+// Fallback Types (when RHF not installed)
+// ===========================
+
+export type FieldValues = Record<string, unknown>;
+
+export interface FieldError {
+  type: string;
+  message?: string;
+}
+
+export type FieldErrors<T = FieldValues> = Partial<Record<keyof T, FieldError>>;
+
+// ===========================
+// Context Types
+// ===========================
+
+export interface FormContextValue {
+  variant: FormVariant;
+  size: FormSize;
+  layout: FormLayout;
+  disabled: boolean;
+  loading: boolean;
+}
+
+export interface FormFieldContextValue {
+  name: string;
+  id: string;
+  error?: FieldError;
+  isDirty?: boolean;
+  isTouched?: boolean;
+}
+
+export interface FormItemContextValue {
+  id: string;
+  hasError: boolean;
+  isDisabled: boolean;
+}
 
 // ===========================
 // Form Component Props
 // ===========================
 
 export interface FormProps<TFieldValues extends FieldValues = FieldValues>
-  extends Omit<React.FormHTMLAttributes<HTMLFormElement>, "onSubmit"> {
-  /** React Hook Form instance */
-  form?: UseFormReturn<TFieldValues>;
-  /** Form submission handler - accepts either FormData (standalone) or typed data (React Hook Form) */
+  extends Omit<FormHTMLAttributes<HTMLFormElement>, "onSubmit" | "onError"> {
+  form?: {
+    handleSubmit: (
+      onValid: (data: TFieldValues) => void | Promise<void>,
+      onInvalid?: (errors: FieldErrors<TFieldValues>) => void
+    ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
+    formState: {
+      isSubmitting: boolean;
+      errors: FieldErrors<TFieldValues>;
+      isDirty: boolean;
+    };
+    reset: () => void;
+    watch: () => TFieldValues;
+    getValues: () => TFieldValues;
+    [key: string]: unknown;
+  };
   onSubmit?:
     | ((data: TFieldValues) => void | Promise<void>)
     | ((e: React.FormEvent<HTMLFormElement>) => void);
-  /** Form error handler */
-  onError?: (errors: any) => void;
-  /** Visual variant */
+  onError?: (errors: FieldErrors<TFieldValues>) => void;
   variant?: FormVariant;
-  /** Size variant */
   size?: FormSize;
-  /** Layout orientation */
   layout?: FormLayout;
-  /** Show loading state */
   loading?: boolean;
-  /** Disable all fields */
   disabled?: boolean;
-  /**
-   * Add spacing between fields
-   * Accepts predefined tokens, numbers (px), or string with units
-   * @example
-   * <Form spacing="md">Token spacing</Form>
-   * <Form spacing={16}>16px spacing</Form>
-   * <Form spacing="1.5rem">Custom spacing</Form>
-   */
-  spacing?: "none" | "sm" | "md" | "lg" | number | string;
-  /** Additional class names */
-  className?: string;
-  /** Form children */
-  children?: React.ReactNode;
+  spacing?: FormSpacing;
+  loadingText?: string;
+  children?: ReactNode;
 }
 
 // ===========================
-// FormField Component Props
+// FormField Component Props (RHF Integration)
 // ===========================
 
-export interface FormFieldProps<TFieldValues extends FieldValues = FieldValues>
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
-  /** React Hook Form instance */
-  form: UseFormReturn<TFieldValues>;
-  /** Field name */
-  name: FieldPath<TFieldValues>;
-  /** Render function for the field */
-  children: (props: FormFieldRenderProps<TFieldValues>) => React.ReactNode;
-  /** Additional class names */
-  className?: string;
+export interface FormFieldRenderProps {
+  field: {
+    name: string;
+    value: unknown;
+    onChange: (value: unknown) => void;
+    onBlur: () => void;
+    disabled?: boolean;
+  };
+  fieldState: {
+    invalid: boolean;
+    isTouched: boolean;
+    isDirty: boolean;
+    error?: FieldError;
+  };
+  formState: {
+    isSubmitting: boolean;
+    isSubmitted: boolean;
+    isDirty: boolean;
+    errors: FieldErrors;
+  };
 }
 
-export interface FormFieldRenderProps<
-  TFieldValues extends FieldValues = FieldValues
-> {
-  /** Field value */
-  value: any;
-  /** Field onChange handler */
-  onChange: (...event: any[]) => void;
-  /** Field onBlur handler */
-  onBlur: () => void;
-  /** Field name */
-  name: FieldPath<TFieldValues>;
-  /** Field error */
-  error?: string;
-  /** Is field invalid */
-  invalid?: boolean;
-  /** Is field touched */
-  touched?: boolean;
-  /** Is field dirty */
-  dirty?: boolean;
-  /** Field ref */
-  ref: React.Ref<any>;
+export interface FormFieldProps {
+  control: unknown;
+  name: string;
+  defaultValue?: unknown;
+  rules?: Record<string, unknown>;
+  shouldUnregister?: boolean;
+  render: (props: FormFieldRenderProps) => ReactNode;
 }
 
 // ===========================
 // FormItem Component Props
 // ===========================
 
-export interface FormItemProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Visual variant */
+export interface FormItemProps extends HTMLAttributes<HTMLDivElement> {
   variant?: FormVariant;
-  /** Layout orientation */
   layout?: FormLayout;
-  /** Additional class names */
-  className?: string;
-  /** Form item children */
-  children?: React.ReactNode;
+  disableAnimation?: boolean;
+  children?: ReactNode;
 }
 
 // ===========================
 // FormLabel Component Props
 // ===========================
 
-export interface FormLabelProps
-  extends React.LabelHTMLAttributes<HTMLLabelElement> {
-  /** Show required indicator */
+export interface FormLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
   required?: boolean;
-  /** Show optional indicator */
   optional?: boolean;
-  /** Visual variant */
   variant?: FormVariant;
-  /** Size variant */
   size?: FormSize;
-  /** Additional class names */
-  className?: string;
-  /** Label children */
-  children?: React.ReactNode;
+  tooltip?: ReactNode;
+  srOnly?: boolean;
+  children?: ReactNode;
 }
 
 // ===========================
 // FormControl Component Props
 // ===========================
 
-export interface FormControlProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Additional class names */
-  className?: string;
-  /** Control children */
-  children?: React.ReactNode;
+export interface FormControlProps extends HTMLAttributes<HTMLDivElement> {
+  children?: ReactNode;
 }
 
 // ===========================
@@ -167,74 +174,89 @@ export interface FormControlProps extends React.HTMLAttributes<HTMLDivElement> {
 // ===========================
 
 export interface FormDescriptionProps
-  extends React.HTMLAttributes<HTMLParagraphElement> {
-  /** Visual variant */
+  extends HTMLAttributes<HTMLParagraphElement> {
   variant?: FormVariant;
-  /** Size variant */
   size?: FormSize;
-  /** Additional class names */
-  className?: string;
-  /** Description children */
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 // ===========================
 // FormMessage Component Props
 // ===========================
 
-export interface FormMessageProps
-  extends React.HTMLAttributes<HTMLParagraphElement> {
-  /** Error message variant */
-  variant?: "error" | "success" | "warning" | "info";
-  /** Size variant */
+export interface FormMessageProps extends HTMLAttributes<HTMLParagraphElement> {
+  variant?: MessageVariant;
   size?: FormSize;
-  /** Show icon */
   showIcon?: boolean;
-  /** Additional class names */
-  className?: string;
-  /** Message children */
-  children?: React.ReactNode;
+  disableAnimation?: boolean;
+  error?: string | FieldError;
+  children?: ReactNode;
+}
+
+// ===========================
+// FormSection Component Props
+// ===========================
+
+export interface FormSectionProps extends HTMLAttributes<HTMLDivElement> {
+  title?: string;
+  description?: string;
+  variant?: FormVariant;
+  divider?: boolean;
+  collapsible?: boolean;
+  defaultCollapsed?: boolean;
+  collapsed?: boolean;
+  onCollapsedChange?: (collapsed: boolean) => void;
+  icon?: ReactNode;
+  children?: ReactNode;
+}
+
+// ===========================
+// FormActions Component Props
+// ===========================
+
+export interface FormActionsProps extends HTMLAttributes<HTMLDivElement> {
+  align?: "left" | "center" | "right" | "between" | "around";
+  sticky?: boolean;
+  bordered?: boolean;
+  children?: ReactNode;
+}
+
+// ===========================
+// FormError Component Props
+// ===========================
+
+export interface FormErrorProps extends HTMLAttributes<HTMLDivElement> {
+  title?: string;
+  errors?: string[] | Record<string, string | undefined>;
+  dismissible?: boolean;
+  onDismiss?: () => void;
+  variant?: "error" | "warning";
+}
+
+// ===========================
+// FormProgress Component Props
+// ===========================
+
+export interface FormProgressProps extends HTMLAttributes<HTMLDivElement> {
+  value: number;
+  max: number;
+  steps?: string[];
+  showPercentage?: boolean;
+  variant?: FormVariant;
+  size?: "sm" | "md" | "lg";
 }
 
 // ===========================
 // FormCompact Component Props
 // ===========================
 
-export interface FormCompactProps<
-  TFieldValues extends FieldValues = FieldValues
-> extends Omit<FormProps<TFieldValues>, "children"> {
-  /** Form title */
-  title?: string;
-  /** Form description */
-  description?: string;
-  /** Form fields configuration */
-  fields: FormFieldConfig<TFieldValues>[];
-  /** Submit button text */
-  submitText?: string;
-  /** Cancel button text */
-  cancelText?: string;
-  /** Show cancel button */
-  showCancel?: boolean;
-  /** Cancel handler */
-  onCancel?: () => void;
-  /** Show reset button */
-  showReset?: boolean;
-  /** Custom footer */
-  footer?: React.ReactNode;
-}
-
 export interface FormFieldConfig<
   TFieldValues extends FieldValues = FieldValues
 > {
-  /** Field name */
-  name: FieldPath<TFieldValues>;
-  /** Field label */
+  name: keyof TFieldValues & string;
   label?: string;
-  /** Field description */
   description?: string;
-  /** Field placeholder */
   placeholder?: string;
-  /** Field type */
   type?:
     | "text"
     | "email"
@@ -246,59 +268,48 @@ export interface FormFieldConfig<
     | "select"
     | "checkbox"
     | "radio"
+    | "switch"
     | "date"
     | "time"
     | "datetime-local"
     | "file"
+    | "color"
+    | "range"
+    | "hidden"
     | "custom";
-  /** Is required field */
   required?: boolean;
-  /** Is optional field */
   optional?: boolean;
-  /** Default value */
-  defaultValue?: any;
-  /** Options for select/radio */
-  options?: { label: string; value: any }[];
-  /** Custom render function */
-  render?: (props: FormFieldRenderProps<TFieldValues>) => React.ReactNode;
-  /** Field variant */
-  variant?: FormVariant;
-  /** Field size */
-  size?: FormSize;
-  /** Additional class names */
+  defaultValue?: unknown;
+  options?: Array<{
+    label: string;
+    value: string | number | boolean;
+    disabled?: boolean;
+  }>;
+  rules?: Record<string, unknown>;
+  render?: (props: FormFieldRenderProps) => ReactNode;
+  disabled?: boolean;
+  hidden?: boolean | ((values: TFieldValues) => boolean);
+  colSpan?: 1 | 2 | 3 | 4;
   className?: string;
+  inputProps?: Record<string, unknown>;
 }
 
-// ===========================
-// FormSection Component Props
-// ===========================
-
-export interface FormSectionProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Section title */
+export interface FormCompactProps<
+  TFieldValues extends FieldValues = FieldValues
+> extends Omit<FormProps<TFieldValues>, "children"> {
+  form: NonNullable<FormProps<TFieldValues>["form"]> & {
+    control: unknown;
+  };
   title?: string;
-  /** Section description */
   description?: string;
-  /** Visual variant */
-  variant?: FormVariant;
-  /** Show divider */
-  divider?: boolean;
-  /** Additional class names */
-  className?: string;
-  /** Section children */
-  children?: React.ReactNode;
-}
-
-// ===========================
-// FormActions Component Props
-// ===========================
-
-export interface FormActionsProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Actions alignment */
-  align?: "left" | "center" | "right" | "between";
-  /** Visual variant */
-  variant?: FormVariant;
-  /** Additional class names */
-  className?: string;
-  /** Actions children */
-  children?: React.ReactNode;
+  fields: FormFieldConfig<TFieldValues>[];
+  columns?: 1 | 2 | 3 | 4;
+  submitText?: string;
+  showCancel?: boolean;
+  cancelText?: string;
+  onCancel?: () => void;
+  showReset?: boolean;
+  resetText?: string;
+  showProgress?: boolean;
+  footer?: ReactNode;
 }

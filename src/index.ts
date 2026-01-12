@@ -745,6 +745,38 @@ export {
   FormMessage,
   FormSection,
   FormActions,
+  FormProgress,
+  FormError,
+  useFormConfig,
+  useFormField,
+  FormContext,
+  FormFieldContext,
+  FormItemContext,
+} from "./components/Form";
+export type {
+  FormProps,
+  FormFieldProps,
+  FormFieldRenderProps,
+  FormItemProps,
+  FormLabelProps,
+  FormControlProps,
+  FormDescriptionProps,
+  FormMessageProps,
+  FormSectionProps,
+  FormActionsProps,
+  FormErrorProps,
+  FormProgressProps,
+  FormCompactProps,
+  FormFieldConfig,
+  FormContextValue,
+  FormFieldContextValue,
+  FormItemContextValue,
+  FormVariant,
+  FormSize,
+  FormLayout,
+  FormSpacing,
+  FieldValues,
+  FieldError as FormFieldError,
 } from "./components/Form";
 export {
   formVariants,
@@ -1238,22 +1270,6 @@ export type {
   SortDirection as DataTableSortDirection,
 } from "./components/DataTable/DataTable.types";
 
-export type {
-  FormProps,
-  FormCompactProps,
-  FormFieldProps,
-  FormItemProps,
-  FormLabelProps,
-  FormControlProps,
-  FormDescriptionProps,
-  FormMessageProps,
-  FormSectionProps,
-  FormActionsProps,
-  FormVariant,
-  FormSize,
-  FormLayout,
-  FormFieldConfig,
-} from "./components/Form/Form.types";
 
 export type {
   SelectProps,
