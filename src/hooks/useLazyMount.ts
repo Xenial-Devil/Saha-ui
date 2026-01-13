@@ -93,6 +93,7 @@ export function useLazyMount({
 
       return () => clearTimeout(timer);
     }
+    return;
   }, [isOpen, unmountOnClose, unmountDelay, isMounted]);
 
   // Calculate if should mount

@@ -410,7 +410,6 @@ export const positionClasses: Record<AlertPosition, string> = {
 // ============================================
 // ANIMATIONS
 // ============================================
-const EASING = "ease-[cubic-bezier(0.25,0.1,0.25,1)]";
 const EASING_OUT = "ease-[cubic-bezier(0.22,1,0.36,1)]";
 const DURATION_IN = "duration-400";
 const DURATION_OUT = "duration-300";

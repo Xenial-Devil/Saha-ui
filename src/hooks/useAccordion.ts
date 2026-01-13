@@ -172,9 +172,7 @@ export function useAccordion({
   loop = false,
   disabled = false,
   onOpenStart,
-  onOpenEnd,
   onCloseStart,
-  onCloseEnd,
 }: UseAccordionProps = {}): UseAccordionReturn {
   const baseId = useId();
 

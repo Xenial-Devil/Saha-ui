@@ -182,6 +182,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
 
         return () => cancelAnimationFrame(timer);
       }
+      return;
     }, [isOpen, onOpen, duration]);
 
     // Auto dismiss timer

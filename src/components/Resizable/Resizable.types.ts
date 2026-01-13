@@ -1,8 +1,8 @@
 import type { CSSProperties, ReactNode } from "react";
 import type {
-  PanelGroupProps,
+  GroupProps,
   PanelProps,
-  PanelResizeHandleProps,
+  SeparatorProps,
 } from "react-resizable-panels";
 
 /**
@@ -32,15 +32,15 @@ export type ResizableHandlePosition = "start" | "center" | "end";
 
 /**
  * ResizablePanelGroup Props
- * Extends react-resizable-panels PanelGroupProps with variant styling
+ * Extends react-resizable-panels GroupProps with variant styling
  */
 export interface ResizablePanelGroupProps
-  extends Omit<PanelGroupProps, "direction"> {
+  extends Omit<GroupProps, "orientation"> {
   /**
-   * Direction of the panel group
+   * Orientation of the panel group
    * @default "horizontal"
    */
-  direction?: ResizableDirection;
+  orientation?: ResizableDirection;
 
   /**
    * Visual variant
@@ -89,10 +89,10 @@ export interface ResizablePanelProps
 
 /**
  * ResizableHandle Props
- * Extends react-resizable-panels PanelResizeHandleProps with variant styling
+ * Extends react-resizable-panels SeparatorProps with variant styling
  */
 export interface ResizableHandleProps
-  extends Omit<PanelResizeHandleProps, "className" | "style"> {
+  extends Omit<SeparatorProps, "className" | "style"> {
   /**
    * Visual variant (inherits from group if not set)
    */
