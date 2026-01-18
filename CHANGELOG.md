@@ -1,3 +1,21 @@
+## [1.22.12](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.11...v1.22.12) (2026-01-18)
+
+
+### Bug Fixes
+
+* **accordion:** implement comprehensive accordion component ([1b12484](https://github.com/Xenial-Devil/Saha-ui/commit/1b12484fbc505c34a0f94cd121ac148a702bb5be))
+* **Affix:** Enhance component with comprehensive type definitions and advanced features ([c853b65](https://github.com/Xenial-Devil/Saha-ui/commit/c853b65689b1dc5d3790c02ef2c77a907506722f))
+* **alert:** Enhance CSS injection with smart merge strategy ([7d4ced8](https://github.com/Xenial-Devil/Saha-ui/commit/7d4ced8fc78b8e459863f4407ff73dc4d60e8d84))
+* **AppBar:** Implement comprehensive AppBar component with advanced features ([d1a9548](https://github.com/Xenial-Devil/Saha-ui/commit/d1a9548ea0785750501a267ad07779809881b7eb))
+* **AspectRatio :** enhance component with advanced features and loading states ([cab2a86](https://github.com/Xenial-Devil/Saha-ui/commit/cab2a867223c7ec1e0e380d16d5bff089bcad87b))
+* bump dependencies to latest versions ([6e2b545](https://github.com/Xenial-Devil/Saha-ui/commit/6e2b545c9ac0da7b095715d39a4e06749ce4410f))
+* **components:** Improve type safety and prop handling in Slot ([9d91db5](https://github.com/Xenial-Devil/Saha-ui/commit/9d91db530e43468d44672ee4671aec4cfc18fb94))
+* **components:** update resizable and input components ([76e13a5](https://github.com/Xenial-Devil/Saha-ui/commit/76e13a5eb17b0f084eeb5141f3c058b81c1b7765))
+* **form:** refactor form styles and add new variants ([2ee0578](https://github.com/Xenial-Devil/Saha-ui/commit/2ee0578a01eadefed010a787161115a6e2284639))
+* **icons:** Remove unused icons from checkbox examples ([2a9ce1f](https://github.com/Xenial-Devil/Saha-ui/commit/2a9ce1ffdab69f6078c23ba41563510e9db3c68d))
+* **rating:** enhance icon rendering and styling options ([d56ba7a](https://github.com/Xenial-Devil/Saha-ui/commit/d56ba7a3939f4d7ee17a8e279fc7713f3039a2de))
+* **rating:** enhance Rating component with extensive customization ([aa5d1f7](https://github.com/Xenial-Devil/Saha-ui/commit/aa5d1f7735a304e3037d35d2b4575b5bf71c2267))
+
 ## [1.22.11](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.10...v1.22.11) (2026-01-07)
 
 
