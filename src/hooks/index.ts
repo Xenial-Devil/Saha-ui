@@ -69,7 +69,7 @@ export type {
 export type { UseDisclosureReturn } from "./useDisclosure";
 export type { UseAccordionProps, UseAccordionReturn } from "./useAccordion";
 export type {
-  AspectRatioType,
-  UseAspectRatioProps,
+  UseAspectRatioConfig,
   UseAspectRatioReturn,
-} from "./useAspectRatio";
+} from "../components/AspectRatio/AspectRatio.types";
+

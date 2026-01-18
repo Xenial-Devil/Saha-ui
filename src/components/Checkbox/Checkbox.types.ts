@@ -2,225 +2,503 @@ import { VariantProps } from "class-variance-authority";
 import { checkboxVariants } from "./Checkbox.styles";
 
 /**
- * Checkbox component props with full accessibility support.
- * Extends native input props with custom variants and ARIA attributes.
+ * Checkbox check/tick style variants
+ */
+export type CheckboxCheckStyle =
+  | "check"
+  | "cross"
+  | "dot"
+  | "dash"
+  | "plus"
+  | "star"
+  | "heart"
+  // New check styles
+  | "diamond"
+  | "square"
+  | "ring"
+  | "shield"
+  | "thumbsUp"
+  | "lightning"
+  | "fire"
+  | "leaf"
+  | "eye"
+  | "lock"
+  | "unlock"
+  | "bookmark"
+  | "flag"
+  | "bell"
+  | "crown"
+  | "zap"
+  | "target"
+  | "award"
+  | "checkCircle"
+  | "checkDouble";
+
+/**
+ * Checkbox shape variants
+ */
+export type CheckboxShape =
+  | "square"
+  | "rounded"
+  | "circle"
+  | "pill"
+  // New shapes
+  | "roundedSm"
+  | "roundedLg"
+  | "roundedXl"
+  | "diamond"
+  | "hexagon"
+  | "octagon"
+  | "shield"
+  | "leaf"
+  | "blob"
+  | "squircle";
+
+/**
+ * Checkbox animation variants
+ */
+export type CheckboxAnimation =
+  | "none"
+  | "scale"
+  | "bounce"
+  | "slide"
+  | "fade"
+  | "spin"
+  // New animations
+  | "pulse"
+  | "shake"
+  | "flip"
+  | "jelly"
+  | "rubberBand"
+  | "swing"
+  | "tada"
+  | "heartbeat";
+
+/**
+ * Checkbox fill style
+ */
+export type CheckboxFillStyle =
+  | "filled"
+  | "outline"
+  | "soft"
+  | "ghost"
+  // New fill styles
+  | "gradient"
+  | "striped"
+  | "glass"
+  | "neon"
+  | "glow"
+  | "shadow"
+  | "dotted"
+  | "dashed"
+  | "double"
+  | "3d"
+  | "inset"
+  | "raised";
+
+/**
+ * Predefined color schemes
+ */
+export type CheckboxColorScheme =
+  | "default"
+  | "primary"
+  | "secondary"
+  | "accent"
+  | "success"
+  | "warning"
+  | "error"
+  | "info"
+  // Extended colors
+  | "red"
+  | "orange"
+  | "amber"
+  | "yellow"
+  | "lime"
+  | "green"
+  | "emerald"
+  | "teal"
+  | "cyan"
+  | "sky"
+  | "blue"
+  | "indigo"
+  | "violet"
+  | "purple"
+  | "fuchsia"
+  | "pink"
+  | "rose"
+  | "slate"
+  | "gray"
+  | "zinc"
+  | "neutral"
+  | "stone"
+  // New gradient schemes
+  | "gradientSunset"
+  | "gradientOcean"
+  | "gradientForest"
+  | "gradientFire"
+  | "gradientNight"
+  | "gradientRainbow"
+  | "gradientNeon"
+  | "gradientPastel"
+  | "gradientMetallic"
+  | "gradientAurora";
+
+/**
+ * Checkbox component props
  */
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,
     VariantProps<typeof checkboxVariants> {
   /**
    * Label text for the checkbox
-   * @example "Accept terms and conditions"
    */
-  label?: string;
+  label?: React.ReactNode;
+
   /**
    * Description text shown below the label
-   * Automatically linked via aria-describedby
-   * @example "You must accept to continue"
    */
-  description?: string;
+  description?: React.ReactNode;
+
   /**
    * Error message to display
-   * Automatically announced to screen readers with role="alert"
-   * @example "This field is required"
    */
   error?: string;
+
   /**
    * Helper text shown below the checkbox
-   * Automatically linked via aria-describedby
-   * @example "Select this option to receive updates"
    */
   helperText?: string;
+
   /**
    * Position of the label relative to the checkbox
    * @default "right"
    */
-  labelPosition?: "left" | "right";
+  labelPosition?: "left" | "right" | "top" | "bottom";
+
   /**
-   * Icon to display when checked
+   * Custom icon to display when checked
    */
   icon?: React.ReactNode;
+
+  /**
+   * Predefined check style
+   * @default "check"
+   */
+  checkStyle?: CheckboxCheckStyle;
+
+  /**
+   * Shape of the checkbox
+   * @default "rounded"
+   */
+  shape?: CheckboxShape;
+
+  /**
+   * Animation when toggling
+   * @default "scale"
+   */
+  animation?: CheckboxAnimation;
+
+  /**
+   * Fill style of the checkbox
+   * @default "filled"
+   */
+  fillStyle?: CheckboxFillStyle;
+
+  /**
+   * Predefined color scheme
+   * @default "primary"
+   */
+  colorScheme?: CheckboxColorScheme;
+
+  /**
+   * Custom checked background color (overrides colorScheme)
+   */
+  checkedColor?: string;
+
+  /**
+   * Custom border color
+   */
+  borderColor?: string;
+
+  /**
+   * Custom check icon color
+   */
+  checkColor?: string;
+
+  /**
+   * Custom unchecked background color
+   */
+  uncheckedColor?: string;
+
+  /**
+   * Custom hover color
+   */
+  hoverColor?: string;
+
+  /**
+   * Custom focus ring color
+   */
+  focusColor?: string;
+
   /**
    * Indeterminate state (partial selection)
    */
   indeterminate?: boolean;
+
   /**
    * Badge to display
    */
   badge?: string | React.ReactNode;
+
   /**
    * Show in card style
    */
   card?: boolean;
+
   /**
    * Card hover effect
    * @default true
    */
   hoverEffect?: boolean;
+
   /**
-   * Recommended flag
+   * Recommended flag (shows indicator)
    */
   recommended?: boolean;
+
   /**
    * Image URL for card style
    */
   image?: string;
+
+  /**
+   * Loading state
+   */
+  loading?: boolean;
+
+  /**
+   * Read-only state (non-interactive but visible)
+   */
+  readOnly?: boolean;
+
+  /**
+   * Required indicator
+   */
+  required?: boolean;
+
+  /**
+   * Show required asterisk
+   * @default true when required
+   */
+  showRequiredIndicator?: boolean;
+
+  /**
+   * Tooltip text
+   */
+  tooltip?: string;
+
+  /**
+   * Ring/glow effect on focus
+   * @default true
+   */
+  ringEffect?: boolean;
+
   /**
    * Callback when checkbox state changes
    */
   onCheckedChange?: (checked: boolean) => void;
+
   /**
-   * Accessible label for screen readers when visual label is not present
-   * @example "Accept terms"
+   * Additional class for the wrapper
    */
-  "aria-label"?: string;
+  wrapperClassName?: string;
+
   /**
-   * ID of element that labels this checkbox
-   * @example "terms-label"
+   * Additional class for the label
    */
-  "aria-labelledby"?: string;
+  labelClassName?: string;
+
   /**
-   * IDs of elements that describe this checkbox
-   * Multiple IDs separated by spaces
-   * @example "terms-description terms-helper"
+   * Additional class for the checkbox box
    */
-  "aria-describedby"?: string;
+  boxClassName?: string;
+
+  /**
+   * Custom gradient for gradient fill styles
+   */
+  gradient?: string;
+
+  /**
+   * Shadow intensity for shadow/3d fill styles
+   */
+  shadowIntensity?: "sm" | "md" | "lg" | "xl";
+
+  /**
+   * Glow intensity for neon/glow fill styles
+   */
+  glowIntensity?: "sm" | "md" | "lg" | "xl";
 }
 
 /**
- * CheckboxGroup component props with coordinated state management.
- * Manages multiple checkboxes as a single form control.
+ * CheckboxGroup component props
  */
 export interface CheckboxGroupProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   /**
    * Name for the checkbox group
-   * Applied to all child checkboxes
-   * @example "interests"
    */
   name?: string;
+
   /**
    * Label for the group
-   * Automatically linked to group via aria-labelledby
-   * @example "Select your interests"
    */
-  label?: string;
+  label?: React.ReactNode;
+
   /**
    * Description for the group
-   * Automatically linked via aria-describedby
-   * @example "Choose all that apply"
    */
-  description?: string;
+  description?: React.ReactNode;
+
   /**
    * Error message for the group
-   * Automatically announced to screen readers with role="alert"
-   * @example "Please select at least one option"
    */
   error?: string;
+
   /**
    * Helper text for the group
-   * Automatically linked via aria-describedby
-   * @example "You can select multiple options"
    */
   helperText?: string;
+
   /**
    * Selected values (controlled)
-   * @example ["sports", "music"]
    */
   value?: string[];
+
   /**
    * Default selected values (uncontrolled)
-   * @example ["sports"]
    */
   defaultValue?: string[];
+
   /**
    * Callback when selection changes
-   * @param values - Array of selected checkbox values
-   * @example (values) => console.log("Selected:", values)
    */
   onChange?: (values: string[]) => void;
+
   /**
    * Layout direction
    * @default "vertical"
    */
   direction?: "horizontal" | "vertical";
+
+  /**
+   * Number of columns (for grid layout)
+   */
+  columns?: 1 | 2 | 3 | 4 | 5 | 6;
+
   /**
    * Variant to apply to all checkboxes
    */
   variant?: CheckboxProps["variant"];
+
   /**
    * Size to apply to all checkboxes
    */
   size?: CheckboxProps["size"];
+
+  /**
+   * Color scheme for all checkboxes
+   */
+  colorScheme?: CheckboxColorScheme;
+
+  /**
+   * Shape for all checkboxes
+   */
+  shape?: CheckboxShape;
+
+  /**
+   * Check style for all checkboxes
+   */
+  checkStyle?: CheckboxCheckStyle;
+
+  /**
+   * Fill style for all checkboxes
+   */
+  fillStyle?: CheckboxFillStyle;
+
+  /**
+   * Animation for all checkboxes
+   */
+  animation?: CheckboxAnimation;
+
   /**
    * Card mode
    */
   card?: boolean;
+
   /**
    * Options for the checkbox group
    */
   options?: CheckboxOption[];
+
   /**
    * Children (Checkbox components)
    */
   children?: React.ReactNode;
+
   /**
-   * ID of element that labels this group
-   * @example "interests-label"
+   * Show select all checkbox
    */
-  "aria-labelledby"?: string;
+  showSelectAll?: boolean;
+
   /**
-   * IDs of elements that describe this group
-   * Multiple IDs separated by spaces
-   * @example "interests-description interests-helper"
+   * Select all label
+   * @default "Select All"
    */
-  "aria-describedby"?: string;
+  selectAllLabel?: string;
+
   /**
-   * Indicates whether the group is required
-   * @example "true"
+   * Minimum required selections
    */
-  "aria-required"?: "true" | "false";
+  minSelection?: number;
+
+  /**
+   * Maximum allowed selections
+   */
+  maxSelection?: number;
+
+  /**
+   * Show selection count
+   */
+  showCount?: boolean;
+
+  /**
+   * Required field
+   */
+  required?: boolean;
+
+  /**
+   * Gap between items
+   * @default "md"
+   */
+  gap?: "none" | "xs" | "sm" | "md" | "lg" | "xl";
+
+  /**
+   * Disabled state for entire group
+   */
+  disabled?: boolean;
 }
 
 /**
  * Options for individual checkbox in a CheckboxGroup
  */
 export interface CheckboxOption {
-  /**
-   * Display label for the checkbox
-   * @example "Premium Plan"
-   */
-  label: string;
-  /**
-   * Unique value identifier
-   * @example "premium"
-   */
+  label: React.ReactNode;
   value: string;
-  /**
-   * Additional descriptive text
-   * @example "Includes all premium features"
-   */
-  description?: string;
-  /**
-   * Whether the checkbox is disabled
-   */
+  description?: React.ReactNode;
   disabled?: boolean;
-  /**
-   * Custom icon to display when checked
-   */
   icon?: React.ReactNode;
-  /**
-   * Badge to display on the checkbox
-   * @example "Popular"
-   */
   badge?: string | React.ReactNode;
-  /**
-   * Image URL for card-style checkboxes
-   * @example "/images/premium.jpg"
-   */
   image?: string;
-  /**
-   * Mark as recommended option
-   */
   recommended?: boolean;
+  tooltip?: string;
 }

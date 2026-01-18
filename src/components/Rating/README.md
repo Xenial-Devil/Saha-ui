@@ -662,37 +662,39 @@ function IconifyRatings() {
 
 ### Props
 
-| Prop               | Type                                                       | Default        | Description                                    |
-| ------------------ | ---------------------------------------------------------- | -------------- | ---------------------------------------------- |
-| `value`            | `number`                                                   | `0`            | Current rating value (0 to max)                |
-| `max`              | `number`                                                   | `5`            | Maximum rating value                           |
-| `variant`          | `RatingVariant`                                            | `"default"`    | Visual style variant (8 options)               |
-| `size`             | `RatingSize`                                               | `"md"`         | Size of rating icons (xs to 4xl)               |
-| `icon`             | `RatingIcon`                                               | `"star"`       | Built-in icon type (80+ options)               |
-| `precision`        | `"full"` \| `"half"`                                       | `"full"`       | Rating precision                               |
-| `colorScheme`      | `RatingColorScheme`                                        | `"yellow"`     | Predefined color scheme (25+ options)          |
-| `readOnly`         | `boolean`                                                  | `false`        | Read-only mode                                 |
-| `disabled`         | `boolean`                                                  | `false`        | Disabled state                                 |
-| `showValue`        | `boolean`                                                  | `false`        | Show numeric value                             |
-| `valueFormat`      | `(value, max) => string`                                   | -              | Custom value formatter                         |
-| `count`            | `number`                                                   | -              | Number of reviews/ratings                      |
-| `countLabel`       | `string`                                                   | `"reviews"`    | Label for count                                |
-| `color`            | `string`                                                   | -              | Custom filled color (overrides colorScheme)    |
-| `emptyColor`       | `string`                                                   | -              | Custom empty color (overrides colorScheme)     |
-| `hoverable`        | `boolean`                                                  | `true`         | Enable hover effect                            |
-| `showTooltip`      | `boolean`                                                  | `false`        | Show tooltips                                  |
-| `tooltipLabels`    | `string[]`                                                 | -              | Custom tooltip labels                          |
-| `onChange`         | `(value: number) => void`                                  | -              | Value change callback                          |
-| `onHover`          | `(value: number) => void`                                  | -              | Hover callback                                 |
-| `allowClear`       | `boolean`                                                  | `true`         | Allow clearing rating by clicking same value   |
-| `customIcon`       | `CustomIconComponent`                                      | -              | Custom icon (Lucide, Iconify, React component) |
-| `customEmptyIcon`  | `CustomIconComponent`                                      | -              | Custom empty icon                              |
-| `className`        | `string`                                                   | -              | Additional CSS classes for container           |
-| `iconClassName`    | `string`                                                   | -              | Additional CSS classes for icons               |
-| `animated`         | `boolean`                                                  | `true`         | Enable animations                              |
-| `highlightOnHover` | `boolean`                                                  | `false`        | Highlight effect on hover                      |
-| `direction`        | `"horizontal"` \| `"vertical"`                             | `"horizontal"` | Layout direction                               |
-| `gap`              | `"none"` \| `"xs"` \| `"sm"` \| `"md"` \| `"lg"` \| `"xl"` | `"sm"`         | Gap between icons                              |
+| Prop               | Type                                                          | Default         | Description                                    |
+| ------------------ | ------------------------------------------------------------- | --------------- | ---------------------------------------------- |
+| `value`            | `number`                                                      | `0`             | Current rating value (0 to max)                |
+| `max`              | `number`                                                      | `5`             | Maximum rating value                           |
+| `variant`          | `RatingVariant`                                               | `"default"`     | Visual style variant (8 options)               |
+| `size`             | `RatingSize`                                                  | `"md"`          | Size of rating icons (xs to 4xl)               |
+| `icon`             | `RatingIcon`                                                  | `"star"`        | Built-in icon type (80+ options)               |
+| `iconStyle`        | `"stroke"` \| `"fill"` \| `"duotone"` \| `"bold"` \| `"thin"` | `"stroke"`      | Controls how icons are rendered                |
+| `strokeWidth`      | `number`                                                      | Varies by style | Custom stroke width for the icons              |
+| `precision`        | `"full"` \| `"half"`                                          | `"full"`        | Rating precision                               |
+| `colorScheme`      | `RatingColorScheme`                                           | `"yellow"`      | Predefined color scheme (25+ options)          |
+| `readOnly`         | `boolean`                                                     | `false`         | Read-only mode                                 |
+| `disabled`         | `boolean`                                                     | `false`         | Disabled state                                 |
+| `showValue`        | `boolean`                                                     | `false`         | Show numeric value                             |
+| `valueFormat`      | `(value, max) => string`                                      | -               | Custom value formatter                         |
+| `count`            | `number`                                                      | -               | Number of reviews/ratings                      |
+| `countLabel`       | `string`                                                      | `"reviews"`     | Label for count                                |
+| `color`            | `string`                                                      | -               | Custom filled color (overrides colorScheme)    |
+| `emptyColor`       | `string`                                                      | -               | Custom empty color (overrides colorScheme)     |
+| `hoverable`        | `boolean`                                                     | `true`          | Enable hover effect                            |
+| `showTooltip`      | `boolean`                                                     | `false`         | Show tooltips                                  |
+| `tooltipLabels`    | `string[]`                                                    | -               | Custom tooltip labels                          |
+| `onChange`         | `(value: number) => void`                                     | -               | Value change callback                          |
+| `onHover`          | `(value: number) => void`                                     | -               | Hover callback                                 |
+| `allowClear`       | `boolean`                                                     | `true`          | Allow clearing rating by clicking same value   |
+| `customIcon`       | `CustomIconComponent`                                         | -               | Custom icon (Lucide, Iconify, React component) |
+| `customEmptyIcon`  | `CustomIconComponent`                                         | -               | Custom empty icon                              |
+| `className`        | `string`                                                      | -               | Additional CSS classes for container           |
+| `iconClassName`    | `string`                                                      | -               | Additional CSS classes for icons               |
+| `animated`         | `boolean`                                                     | `true`          | Enable animations                              |
+| `highlightOnHover` | `boolean`                                                     | `false`         | Highlight effect on hover                      |
+| `direction`        | `"horizontal"` \| `"vertical"`                                | `"horizontal"`  | Layout direction                               |
+| `gap`              | `"none"` \| `"xs"` \| `"sm"` \| `"md"` \| `"lg"` \| `"xl"`    | `"sm"`          | Gap between icons                              |
 
 ## Icon Reference
 

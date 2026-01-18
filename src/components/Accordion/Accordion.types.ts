@@ -11,11 +11,18 @@ export type AccordionVariant =
 
 export type AccordionType = "single" | "multiple";
 
+export type AccordionSize = "sm" | "md" | "lg";
+
+export type AccordionOrientation = "vertical" | "horizontal";
+
+export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+
 export interface AccordionProps {
   /**
    * Behavior type that controls how accordion items expand/collapse
    * - single: Only one item can be open at a time
    * - multiple: Multiple items can be toggled independently
+   * @default "single"
    */
   type?: AccordionType;
 
@@ -38,8 +45,15 @@ export interface AccordionProps {
 
   /**
    * Visual variant for styling
+   * @default "default"
    */
   variant?: AccordionVariant;
+
+  /**
+   * Size variant for the accordion
+   * @default "md"
+   */
+  size?: AccordionSize;
 
   /**
    * Custom className for the accordion container
@@ -48,8 +62,65 @@ export interface AccordionProps {
 
   /**
    * Whether collapsible when type="single" (allows closing the open item)
+   * @default false
    */
   collapsible?: boolean;
+
+  /**
+   * Orientation for keyboard navigation
+   * @default "vertical"
+   */
+  orientation?: AccordionOrientation;
+
+  /**
+   * Loop navigation from last to first item
+   * @default false
+   */
+  loop?: boolean;
+
+  /**
+   * Disable the entire accordion
+   * @default false
+   */
+  disabled?: boolean;
+
+  /**
+   * Lazy load content only when first opened
+   * @default false
+   */
+  lazyMount?: boolean;
+
+  /**
+   * Unmount content when closed
+   * @default false
+   */
+  unmountOnClose?: boolean;
+
+  /**
+   * Animation duration in milliseconds
+   * @default 300
+   */
+  animationDuration?: number;
+
+  /**
+   * Callback when any item starts opening
+   */
+  onOpenStart?: (value: string) => void;
+
+  /**
+   * Callback when any item finishes opening
+   */
+  onOpenEnd?: (value: string) => void;
+
+  /**
+   * Callback when any item starts closing
+   */
+  onCloseStart?: (value: string) => void;
+
+  /**
+   * Callback when any item finishes closing
+   */
+  onCloseEnd?: (value: string) => void;
 
   /**
    * Child AccordionItem components
@@ -70,8 +141,20 @@ export interface AccordionItemProps {
 
   /**
    * Whether this item is disabled
+   * @default false
    */
   disabled?: boolean;
+
+  /**
+   * Heading level for accessibility (h1-h6)
+   * @default 3
+   */
+  headingLevel?: HeadingLevel;
+
+  /**
+   * Callback when this specific item's open state changes
+   */
+  onOpenChange?: (isOpen: boolean) => void;
 
   /**
    * Child components (AccordionTrigger and AccordionContent)
@@ -91,9 +174,31 @@ export interface AccordionTriggerProps {
   className?: string;
 
   /**
-   * Custom icon to display (default: ChevronDown)
+   * Custom icon to display (overrides default)
    */
   icon?: ReactNode;
+
+  /**
+   * Custom icon for open state
+   */
+  openIcon?: ReactNode;
+
+  /**
+   * Custom icon for closed state
+   */
+  closedIcon?: ReactNode;
+
+  /**
+   * Position of the icon
+   * @default "right"
+   */
+  iconPosition?: "left" | "right";
+
+  /**
+   * Hide the default icon
+   * @default false
+   */
+  hideIcon?: boolean;
 
   /**
    * When true, the AccordionTrigger will render its child element and merge props
@@ -101,6 +206,16 @@ export interface AccordionTriggerProps {
    * @default false
    */
   asChild?: boolean;
+
+  /**
+   * Callback when trigger receives focus
+   */
+  onFocus?: React.FocusEventHandler<HTMLButtonElement>;
+
+  /**
+   * Callback when trigger loses focus
+   */
+  onBlur?: React.FocusEventHandler<HTMLButtonElement>;
 }
 
 export interface AccordionContentProps {
@@ -113,4 +228,21 @@ export interface AccordionContentProps {
    * Custom className for the content
    */
   className?: string;
+
+  /**
+   * Force content to stay mounted in DOM even when closed
+   * Useful for SEO or preserving form state
+   * @default false
+   */
+  forceMount?: boolean;
+
+  /**
+   * Callback when content animation starts
+   */
+  onAnimationStart?: () => void;
+
+  /**
+   * Callback when content animation ends
+   */
+  onAnimationEnd?: () => void;
 }

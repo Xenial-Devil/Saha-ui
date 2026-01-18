@@ -1,3 +1,4 @@
+// Rating.types.ts
 import type { LucideIcon } from "lucide-react";
 
 /**
@@ -25,6 +26,16 @@ export type RatingSize =
   | "2xl"
   | "3xl"
   | "4xl";
+
+/**
+ * Icon style types - controls how icons are rendered
+ */
+export type RatingIconStyle =
+  | "stroke" // Outline only (default - works for all icons)
+  | "fill" // Solid fill (best for star, heart, etc.)
+  | "duotone" // Semi-transparent fill with stroke
+  | "bold" // Thicker stroke
+  | "thin"; // Thinner stroke
 
 /**
  * Built-in icon types - 80+ icons
@@ -186,6 +197,9 @@ export interface IconProps {
   className?: string;
   style?: React.CSSProperties;
   size?: number | string;
+  color?: string;
+  strokeWidth?: number;
+  fill?: string;
 }
 
 /**
@@ -233,6 +247,18 @@ export interface RatingProps
    * @default "star"
    */
   icon?: RatingIcon;
+
+  /**
+   * Icon rendering style - stroke (outline) or fill (solid)
+   * @default "stroke"
+   */
+  iconStyle?: RatingIconStyle;
+
+  /**
+   * Custom stroke width (only applies when iconStyle is "stroke", "bold", or "thin")
+   * @default 2 for stroke, 2.5 for bold, 1.5 for thin
+   */
+  strokeWidth?: number;
 
   /**
    * Rating precision (full or half stars)
@@ -368,3 +394,31 @@ export interface RatingProps
    */
   gap?: "none" | "xs" | "sm" | "md" | "lg" | "xl";
 }
+
+/**
+ * Icons that look better with fill style by default
+ */
+export const fillPreferredIcons: RatingIcon[] = [
+  "star",
+  "heart",
+  "circle",
+  "square",
+  "diamond",
+  "triangle",
+  "hexagon",
+  "octagon",
+  "pentagon",
+  "flame",
+  "leaf",
+  "droplet",
+  "gem",
+  "bookmark",
+  "flag",
+];
+
+/**
+ * Check if an icon prefers fill style
+ */
+export const iconPrefersFill = (icon: RatingIcon): boolean => {
+  return fillPreferredIcons.includes(icon);
+};

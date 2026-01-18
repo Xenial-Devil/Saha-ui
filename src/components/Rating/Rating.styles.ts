@@ -1,4 +1,6 @@
+// Rating.styles.ts
 import { cva } from "class-variance-authority";
+import type { RatingIconStyle } from "./Rating.types";
 
 /**
  * Rating container variants
@@ -113,6 +115,27 @@ export const sizeMap: Record<string, number> = {
   "2xl": 40,
   "3xl": 48,
   "4xl": 64,
+};
+
+/**
+ * Default stroke widths for different icon styles
+ */
+export const defaultStrokeWidths: Record<RatingIconStyle, number> = {
+  stroke: 2,
+  fill: 2,
+  duotone: 1.5,
+  bold: 2.5,
+  thin: 1.5,
+};
+
+/**
+ * Get stroke width for icon style
+ */
+export const getStrokeWidth = (
+  iconStyle: RatingIconStyle,
+  customStrokeWidth?: number
+): number => {
+  return customStrokeWidth ?? defaultStrokeWidths[iconStyle];
 };
 
 export { ratingVariants, iconVariants };

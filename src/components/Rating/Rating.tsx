@@ -1,3 +1,4 @@
+// Rating.tsx
 "use client";
 
 import React, { useState, useRef, useMemo } from "react";
@@ -6,13 +7,14 @@ import type {
   RatingProps,
   CustomIconComponent,
   IconProps,
+  RatingIconStyle,
 } from "./Rating.types";
 import { getIconComponent } from "./Rating.icons";
 import { getColorScheme } from "./Rating.colors";
-import { ratingVariants, iconVariants } from "./Rating.styles";
+import { ratingVariants, iconVariants, getStrokeWidth } from "./Rating.styles";
 
 /**
- * Type guard: Check if value is a valid React element
+ * Type guard: Check if value is a valid React element (already rendered)
  */
 const isReactElement = (
   value: CustomIconComponent
@@ -21,18 +23,39 @@ const isReactElement = (
 };
 
 /**
- * Type guard: Check if value is a component type (function or class)
+ * Type guard: Check if value is a component type
  */
 const isComponentType = (
   value: CustomIconComponent
 ): value is React.ComponentType<IconProps> => {
-  return (
-    typeof value === "function" ||
-    (typeof value === "object" &&
-      value !== null &&
-      "$$typeof" in value === false &&
-      !React.isValidElement(value))
-  );
+  if (React.isValidElement(value)) {
+    return false;
+  }
+
+  if (typeof value === "function") {
+    return true;
+  }
+
+  if (typeof value === "object" && value !== null) {
+    const hasTypeOf = "$$typeof" in value;
+    const hasRender = "render" in value;
+    const hasType = "type" in value;
+
+    if (hasTypeOf && (hasRender || hasType)) {
+      return true;
+    }
+
+    if (hasTypeOf) {
+      const typeString = String((value as { $$typeof: symbol }).$$typeof);
+      return (
+        typeString.includes("forward_ref") ||
+        typeString.includes("memo") ||
+        typeString.includes("react")
+      );
+    }
+  }
+
+  return false;
 };
 
 /**
@@ -48,44 +71,57 @@ const renderCustomIcon = (
     return React.cloneElement(icon, {
       className: cn(existingProps?.className, props.className),
       style: { ...existingProps?.style, ...props.style },
+      color: props.color || existingProps?.color,
+      strokeWidth: props.strokeWidth || existingProps?.strokeWidth,
+      fill: props.fill || existingProps?.fill,
     } as IconProps);
   }
 
   // Case 2: Component type (Lucide icons, custom components)
   if (isComponentType(icon)) {
-    const IconComponent = icon;
+    const IconComponent = icon as React.ComponentType<IconProps>;
     return <IconComponent {...props} />;
   }
 
-  // Fallback: return as-is (shouldn't happen with proper typing)
+  if (process.env.NODE_ENV === "development") {
+    console.warn("Rating: Unable to render custom icon", {
+      icon,
+      type: typeof icon,
+    });
+  }
+
   return null;
 };
 
 /**
+ * Get fill value based on icon style and state
+ */
+const getFillValue = (
+  style: RatingIconStyle,
+  isFilled: boolean,
+  color: string
+): string => {
+  if (!isFilled) {
+    // Empty state - no fill for all styles
+    return "none";
+  }
+
+  switch (style) {
+    case "fill":
+      return color;
+    case "duotone":
+      // Semi-transparent fill
+      return `${color}33`; // 20% opacity
+    case "stroke":
+    case "bold":
+    case "thin":
+    default:
+      return "none";
+  }
+};
+
+/**
  * Rating Component
- *
- * A flexible rating component with:
- * - 80+ built-in icons
- * - 25+ predefined color schemes
- * - Custom color and emptyColor support
- * - Support for custom icons (Lucide, Iconify, etc.)
- *
- * @example
- * ```tsx
- * // Using predefined colorScheme
- * <Rating value={4} icon="heart" colorScheme="rose" />
- *
- * // Using custom colors
- * <Rating value={4} icon="star" color="#ff6b6b" emptyColor="#ffe3e3" />
- *
- * // Custom Lucide icon with colors
- * import { Banana } from "lucide-react";
- * <Rating value={4} customIcon={Banana} color="#fbbf24" emptyColor="#fef3c7" />
- *
- * // Iconify with colors
- * import { Icon } from "@iconify/react";
- * <Rating value={4} customIcon={<Icon icon="mdi:star" />} colorScheme="gold" />
- * ```
  */
 const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
   (
@@ -95,6 +131,8 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
       variant = "default",
       size = "md",
       icon = "star",
+      iconStyle = "stroke",
+      strokeWidth: customStrokeWidth,
       precision = "full",
       colorScheme = "yellow",
       readOnly = false,
@@ -130,6 +168,10 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
     const IconComponent = getIconComponent(icon);
     const displayValue = hoverValue !== null ? hoverValue : value;
     const isInteractive = !readOnly && !disabled;
+    const hasCustomIcon = Boolean(customIcon || customEmptyIcon);
+
+    // Get resolved stroke width based on icon style
+    const resolvedStrokeWidth = getStrokeWidth(iconStyle, customStrokeWidth);
 
     // Resolve colors: custom props override colorScheme
     const resolvedColors = useMemo(() => {
@@ -273,9 +315,12 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
     };
 
     /**
-     * Get icon classes based on state
+     * Get icon classes based on state and icon style
      */
-    const getIconClasses = (state: "empty" | "filled" | "half") => {
+    const getIconClasses = (
+      state: "empty" | "filled" | "half",
+      isCustom: boolean
+    ) => {
       const isFilled = state === "filled" || state === "half";
 
       return cn(
@@ -285,7 +330,8 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
           state,
           interactive: isInteractive && hoverable,
         }),
-        isFilled && "fill-current",
+        // Only add fill-current for fill/duotone styles with built-in icons
+        isFilled && !isCustom && iconStyle === "fill" && "fill-current",
         disabled && "opacity-50 cursor-not-allowed",
         animated && "transition-all duration-200",
         highlightOnHover && hoverValue !== null && "filter brightness-110",
@@ -295,31 +341,48 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
     };
 
     /**
-     * Get icon style based on state
+     * Get icon CSS styles based on state and iconStyle prop
      */
-    const getIconStyle = (
+    const getIconCssStyle = (
       state: "empty" | "filled" | "half"
     ): React.CSSProperties => {
       const isFilled = state === "filled" || state === "half";
-      const isGradient = resolvedColors.filled.includes("gradient");
+      const currentColor = isFilled
+        ? resolvedColors.filled
+        : resolvedColors.empty;
+      const isGradient = currentColor.includes("gradient");
+
+      // Gradient handling
+      if (isGradient && isFilled) {
+        return {
+          background: currentColor,
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+          ...(state === "half" && {
+            clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)",
+          }),
+        };
+      }
+
+      // Regular color handling based on iconStyle
+      const fillValue = getFillValue(iconStyle, isFilled, currentColor);
 
       return {
-        color: isFilled
-          ? isGradient
-            ? undefined
-            : resolvedColors.filled
-          : resolvedColors.empty,
-        ...(isGradient &&
-          isFilled && {
-            background: resolvedColors.filled,
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }),
+        color: currentColor,
+        fill: fillValue,
         ...(state === "half" && {
           clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)",
         }),
       };
+    };
+
+    /**
+     * Get current color for an icon state
+     */
+    const getIconColor = (state: "empty" | "filled" | "half"): string => {
+      const isFilled = state === "filled" || state === "half";
+      return isFilled ? resolvedColors.filled : resolvedColors.empty;
     };
 
     /**
@@ -330,27 +393,39 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
       const isFilled = iconState === "filled" || iconState === "half";
       const iconValue = index + 1;
 
-      const iconClasses = getIconClasses(iconState);
-      const iconStyle = getIconStyle(iconState);
-
-      const iconProps: IconProps = {
-        className: iconClasses,
-        style: iconStyle,
-      };
-
-      let iconElement: React.ReactNode;
-
       // Determine which custom icon to use (if any)
       const activeCustomIcon = isFilled
         ? customIcon || customEmptyIcon
         : customEmptyIcon || customIcon;
 
+      const isCustom = Boolean(activeCustomIcon);
+      const iconClasses = getIconClasses(iconState, isCustom);
+      const iconCssStyle = getIconCssStyle(iconState);
+      const iconColor = getIconColor(iconState);
+      const fillValue = getFillValue(iconStyle, isFilled, iconColor);
+
+      let iconElement: React.ReactNode;
+
       if (activeCustomIcon) {
-        // Render custom icon
-        iconElement = renderCustomIcon(activeCustomIcon, iconProps);
+        // Custom icon props
+        const customIconProps: IconProps = {
+          className: iconClasses,
+          style: iconCssStyle,
+          color: iconColor,
+          strokeWidth: resolvedStrokeWidth,
+          fill: fillValue,
+        };
+
+        iconElement = renderCustomIcon(activeCustomIcon, customIconProps);
       } else {
-        // Render built-in icon
-        iconElement = <IconComponent {...iconProps} />;
+        // Built-in icon with proper stroke width and fill
+        iconElement = (
+          <IconComponent
+            className={iconClasses}
+            style={iconCssStyle}
+            strokeWidth={resolvedStrokeWidth}
+          />
+        );
       }
 
       return (
@@ -380,7 +455,7 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
           {iconElement}
 
           {/* Half fill overlay for half state */}
-          {iconState === "half" && !customIcon && (
+          {iconState === "half" && !hasCustomIcon && (
             <IconComponent
               className={cn(
                 iconVariants({
@@ -389,13 +464,16 @@ const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
                   state: "filled",
                   interactive: false,
                 }),
-                "fill-current absolute top-0 left-0 pointer-events-none",
+                iconStyle === "fill" && "fill-current",
+                "absolute top-0 left-0 pointer-events-none",
                 animated && "transition-all duration-200"
               )}
               style={{
                 color: resolvedColors.filled,
+                fill: getFillValue(iconStyle, true, resolvedColors.filled),
                 clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)",
               }}
+              strokeWidth={resolvedStrokeWidth}
             />
           )}
         </span>

@@ -753,7 +753,7 @@ export const AutocompleteDropdown = React.forwardRef<
 
   const node = (
     <Comp
-      ref={(node) => {
+      ref={(node: HTMLDivElement | null) => {
         if (typeof ref === "function") ref(node as HTMLDivElement);
         else if (ref)
           (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;

@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import { GripVertical } from "lucide-react";
-import * as ResizablePrimitive from "react-resizable-panels";
+import { Group, Panel, Separator } from "react-resizable-panels";
 import { cn } from "../../lib/utils";
 function ResizablePanelGroup({
   className,
   variant = "default",
   ...props
-}: React.ComponentProps<typeof ResizablePrimitive.PanelGroup> & {
+}: React.ComponentProps<typeof Group> & {
   variant?:
     | "default"
     | "primary"
@@ -35,10 +35,10 @@ function ResizablePanelGroup({
   };
 
   return (
-    <ResizablePrimitive.PanelGroup
+    <Group
       data-slot="resizable-panel-group"
       className={cn(
-        "flex h-full w-full data-[panel-group-direction=vertical]:flex-col",
+        "flex h-full w-full data-[orientation=vertical]:flex-col",
         variantClasses[variant],
         className
       )}
@@ -50,7 +50,7 @@ function ResizablePanel({
   className,
   variant = "default",
   ...props
-}: React.ComponentProps<typeof ResizablePrimitive.Panel> & {
+}: React.ComponentProps<typeof Panel> & {
   variant?:
     | "default"
     | "primary"
@@ -77,7 +77,7 @@ function ResizablePanel({
   };
 
   return (
-    <ResizablePrimitive.Panel
+    <Panel
       data-slot="resizable-panel"
       className={cn(variantClasses[variant], className)}
       {...props}
@@ -89,7 +89,7 @@ function ResizableHandle({
   className,
   variant = "default",
   ...props
-}: React.ComponentProps<typeof ResizablePrimitive.PanelResizeHandle> & {
+}: React.ComponentProps<typeof Separator> & {
   withHandle?: boolean;
   variant?:
     | "default"
@@ -117,13 +117,13 @@ function ResizableHandle({
   };
 
   return (
-    <ResizablePrimitive.PanelResizeHandle
+    <Separator
       data-slot="resizable-handle"
       className={cn(
-        "focus-visible:ring-ring relative flex w-2 items-center justify-center focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:outline-hidden data-[panel-group-direction=vertical]:h-2 data-[panel-group-direction=vertical]:w-full [&[data-panel-group-direction=vertical]>div]:rotate-90 group hover:bg-accent/10 transition-colors",
+        "focus-visible:ring-ring relative flex w-2 items-center justify-center focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:outline-hidden data-[orientation=vertical]:h-2 data-[orientation=vertical]:w-full [&[data-orientation=vertical]>div]:rotate-90 group hover:bg-accent/10 transition-colors",
         "before:absolute before:inset-y-0 before:left-1/2 before:w-px before:-translate-x-1/2 before:transition-all",
-        "hover:before:w-1 data-[panel-group-direction=vertical]:hover:before:h-1",
-        "data-[panel-group-direction=vertical]:before:inset-x-0 data-[panel-group-direction=vertical]:before:top-1/2 data-[panel-group-direction=vertical]:before:h-px data-[panel-group-direction=vertical]:before:w-full data-[panel-group-direction=vertical]:before:-translate-y-1/2 data-[panel-group-direction=vertical]:before:translate-x-0",
+        "hover:before:w-1 data-[orientation=vertical]:hover:before:h-1",
+        "data-[orientation=vertical]:before:inset-x-0 data-[orientation=vertical]:before:top-1/2 data-[orientation=vertical]:before:h-px data-[orientation=vertical]:before:w-full data-[orientation=vertical]:before:-translate-y-1/2 data-[orientation=vertical]:before:translate-x-0",
         `before:${variantClasses[variant].replace("bg-", "bg-")}`,
         className
       )}
@@ -139,7 +139,7 @@ function ResizableHandle({
           <GripVertical className="size-2.5" />
         </div>
       )}
-    </ResizablePrimitive.PanelResizeHandle>
+    </Separator>
   );
 }
 export { ResizablePanelGroup, ResizablePanel, ResizableHandle };
