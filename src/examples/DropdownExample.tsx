@@ -1,4 +1,5 @@
-import { useState } from "react";
+// `useState` not used in this example
+// import { useState } from "react";
 import {
   Dropdown,
   DropdownTrigger,
@@ -26,7 +27,6 @@ import {
   Bell,
   Mail,
   MessageSquare,
-  Calendar,
   Home,
   Search,
   Check,

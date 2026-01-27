@@ -533,6 +533,17 @@ export {
   datePickerVariants,
   calendarVariants as datePickerCalendarVariants,
 } from "./components/DatePicker/DatePicker.styles";
+export { default as TimePicker } from "./components/TimePicker";
+export {
+  timePickerVariants,
+  timeDropdownVariants,
+} from "./components/TimePicker/TimePicker.styles";
+export type {
+  TimePickerProps,
+  TimeFormat,
+  TimeValue,
+  TimeRange,
+} from "./components/TimePicker/TimePicker.types";
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/Tab";
 export {
   tabsListVariants,

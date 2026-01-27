@@ -1,5 +1,4 @@
-import DatePickerExample from "./DatePickerExample";
-
+import {TimePickerExample} from "./TimePickerExample";
 export const AllComponentExamples = () => {
   return (
     <div className="space-y-8">
@@ -8,7 +7,7 @@ export const AllComponentExamples = () => {
         <h2 className="text-3xl font-bold mb-6 text-text">
           Dropdown Component
         </h2>
-        <DatePickerExample />
+        <TimePickerExample />
       </div>
     </div>
   );
