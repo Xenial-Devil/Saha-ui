@@ -39,6 +39,18 @@
     --color-error-foreground: var(--error-foreground);
     --color-info: var(--info);
     --color-info-foreground: var(--info-foreground);
+    --animate-slide-left: slide-left 0.2s ease-out;
+        --animate-slide-right: slide-right 0.2s ease-out;
+        --animate-fade-in: fade-in 0.2s ease-out;
+        --animate-fade-out: fade-out 0.15s ease-in;
+        --animate-scale-in: scale-in 0.2s ease-out;
+        --animate-scale-out: scale-out 0.15s ease-in;
+        --animate-slide-in-from-top: slide-in-from-top 0.2s ease-out;
+        --animate-slide-out-to-top: slide-out-to-top 0.15s ease-in;
+        --animate-slide-in-from-bottom: slide-in-from-bottom 0.2s ease-out;
+        --animate-slide-out-to-bottom: slide-out-to-bottom 0.15s ease-in;
+        --animate-zoom-in: zoom-in 0.2s ease-out;
+        --animate-zoom-out: zoom-out 0.15s ease-in;
 }
 
 :root {
@@ -1080,6 +1092,513 @@
         transform: scale(1);
         opacity: 1;
     }
+}
+@keyframes slide-left {
+    0% {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide Right */
+@keyframes slide-right {
+    0% {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Fade In */
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Fade Out */
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Scale In */
+@keyframes scale-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Scale Out */
+@keyframes scale-out {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* Slide In From Top */
+@keyframes slide-in-from-top {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide Out To Top */
+@keyframes slide-out-to-top {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* Slide In From Bottom */
+@keyframes slide-in-from-bottom {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide Out To Bottom */
+@keyframes slide-out-to-bottom {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+/* Zoom In */
+@keyframes zoom-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Zoom Out */
+@keyframes zoom-out {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+/* Animation utility classes */
+.animate-slide-left {
+    animation: slide-left 0.2s ease-out forwards;
+}
+
+.animate-slide-right {
+    animation: slide-right 0.2s ease-out forwards;
+}
+
+.animate-fade-in {
+    animation: fade-in 0.2s ease-out forwards;
+}
+
+.animate-fade-out {
+    animation: fade-out 0.15s ease-in forwards;
+}
+
+.animate-scale-in {
+    animation: scale-in 0.2s ease-out forwards;
+}
+
+.animate-scale-out {
+    animation: scale-out 0.15s ease-in forwards;
+}
+
+.animate-slide-in-from-top {
+    animation: slide-in-from-top 0.2s ease-out forwards;
+}
+
+.animate-slide-out-to-top {
+    animation: slide-out-to-top 0.15s ease-in forwards;
+}
+
+.animate-slide-in-from-bottom {
+    animation: slide-in-from-bottom 0.2s ease-out forwards;
+}
+
+.animate-slide-out-to-bottom {
+    animation: slide-out-to-bottom 0.15s ease-in forwards;
+}
+
+.animate-zoom-in {
+    animation: zoom-in 0.2s ease-out forwards;
+}
+
+.animate-zoom-out {
+    animation: zoom-out 0.15s ease-in forwards;
+}
+
+/* Dropdown enter animations */
+.dropdown-enter-fade {
+    animation: fade-in 0.2s ease-out forwards;
+}
+
+.dropdown-enter-slide {
+    animation: slide-in-from-top 0.2s ease-out forwards;
+}
+
+.dropdown-enter-scale {
+    animation: scale-in 0.2s ease-out forwards;
+}
+
+.dropdown-enter-zoom {
+    animation: zoom-in 0.2s ease-out forwards;
+}
+
+/* Dropdown leave animations */
+.dropdown-leave-fade {
+    animation: fade-out 0.15s ease-in forwards;
+}
+
+.dropdown-leave-slide {
+    animation: slide-out-to-top 0.15s ease-in forwards;
+}
+
+.dropdown-leave-scale {
+    animation: scale-out 0.15s ease-in forwards;
+}
+
+.dropdown-leave-zoom {
+    animation: zoom-out 0.15s ease-in forwards;
+}
+
+/* View transition animations */
+.view-transition-fade {
+    animation: fade-in 0.2s ease-out forwards;
+}
+
+.view-transition-slide-left {
+    animation: slide-left 0.2s ease-out forwards;
+}
+
+.view-transition-slide-right {
+    animation: slide-right 0.2s ease-out forwards;
+}
+
+/* Month transition animations */
+.month-slide-left {
+    animation: slide-left 0.25s ease-out forwards;
+}
+
+.month-slide-right {
+    animation: slide-right 0.25s ease-out forwards;
+}
+
+.month-fade {
+    animation: fade-in 0.2s ease-out forwards;
+}
+
+/* RTL Support */
+[dir="rtl"] .animate-slide-left {
+    animation: slide-right 0.2s ease-out forwards;
+}
+
+[dir="rtl"] .animate-slide-right {
+    animation: slide-left 0.2s ease-out forwards;
+}
+
+[dir="rtl"] .month-slide-left {
+    animation: slide-right 0.25s ease-out forwards;
+}
+
+[dir="rtl"] .month-slide-right {
+    animation: slide-left 0.25s ease-out forwards;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+
+    .animate-slide-left,
+    .animate-slide-right,
+    .animate-fade-in,
+    .animate-fade-out,
+    .animate-scale-in,
+    .animate-scale-out,
+    .animate-slide-in-from-top,
+    .animate-slide-out-to-top,
+    .animate-slide-in-from-bottom,
+    .animate-slide-out-to-bottom,
+    .animate-zoom-in,
+    .animate-zoom-out,
+    .dropdown-enter-fade,
+    .dropdown-enter-slide,
+    .dropdown-enter-scale,
+    .dropdown-enter-zoom,
+    .dropdown-leave-fade,
+    .dropdown-leave-slide,
+    .dropdown-leave-scale,
+    .dropdown-leave-zoom,
+    .view-transition-fade,
+    .view-transition-slide-left,
+    .view-transition-slide-right,
+    .month-slide-left,
+    .month-slide-right,
+    .month-fade {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Focus ring styles for keyboard navigation */
+.datepicker-focus-ring {
+    outline: 2px solid var(--color-primary, #3b82f6);
+    outline-offset: 2px;
+}
+
+/* Calendar grid transitions */
+.calendar-grid {
+    transition: opacity 0.15s ease-in-out;
+}
+
+.calendar-grid-transitioning {
+    opacity: 0.6;
+}
+
+/* Day cell hover transition */
+.day-cell-transition {
+    transition: background-color 0.15s ease-in-out,
+        color 0.15s ease-in-out,
+        transform 0.1s ease-in-out;
+}
+
+.day-cell-transition:hover:not(:disabled) {
+    transform: scale(1.05);
+}
+
+.day-cell-transition:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+/* Month/Year cell transitions */
+.month-year-cell-transition {
+    transition: background-color 0.15s ease-in-out,
+        color 0.15s ease-in-out,
+        transform 0.1s ease-in-out,
+        box-shadow 0.15s ease-in-out;
+}
+
+.month-year-cell-transition:hover:not(:disabled) {
+    transform: scale(1.02);
+}
+
+.month-year-cell-transition:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+/* Navigation button transitions */
+.nav-button-transition {
+    transition: background-color 0.15s ease-in-out,
+        color 0.15s ease-in-out,
+        transform 0.1s ease-in-out;
+}
+
+.nav-button-transition:hover {
+    transform: scale(1.1);
+}
+
+.nav-button-transition:active {
+    transform: scale(0.95);
+}
+
+/* Shortcut button transitions */
+.shortcut-button-transition {
+    transition: background-color 0.15s ease-in-out,
+        color 0.15s ease-in-out,
+        padding-left 0.15s ease-in-out;
+}
+
+.shortcut-button-transition:hover {
+    padding-left: 12px;
+}
+
+/* Footer button transitions */
+.footer-button-transition {
+    transition: background-color 0.15s ease-in-out,
+        color 0.15s ease-in-out,
+        transform 0.1s ease-in-out,
+        box-shadow 0.15s ease-in-out;
+}
+
+.footer-button-transition:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footer-button-transition:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Arrow pointer transition */
+.arrow-transition {
+    transition: opacity 0.15s ease-in-out;
+}
+
+/* Input focus transition */
+.input-focus-transition {
+    transition: border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out,
+        background-color 0.15s ease-in-out;
+}
+
+/* Dropdown shadow animation */
+.dropdown-shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.dropdown-shadow:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Range selection highlight animation */
+.range-highlight {
+    position: relative;
+}
+
+.range-highlight::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+    border-radius: inherit;
+    z-index: -1;
+}
+
+.range-highlight:hover::before {
+    opacity: 0.1;
+}
+
+/* Today indicator pulse */
+.today-pulse {
+    position: relative;
+}
+
+.today-pulse::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: currentColor;
+    border-radius: 50%;
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: translateX(-50%) scale(1.2);
+    }
+}
+
+/* Loading state animation */
+.loading-shimmer {
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Skeleton loading for calendar */
+.calendar-skeleton {
+    background: linear-gradient(90deg,
+            var(--color-base-200, #e5e7eb) 25%,
+            var(--color-base-300, #d1d5db) 50%,
+            var(--color-base-200, #e5e7eb) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 0.375rem;
 }
 
 .active-indicator {

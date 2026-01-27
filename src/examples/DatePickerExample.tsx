@@ -93,9 +93,9 @@ export const DatePickerExample: React.FC = () => {
             <p className="text-sm font-medium mb-2">Primary</p>
             <DatePicker
               value={{ startDate: null, endDate: null }}
+              i18n="bn"
               onChange={() => {}}
               variant="primary"
-              placeholder="Select date"
               asSingle
             />
           </div>
