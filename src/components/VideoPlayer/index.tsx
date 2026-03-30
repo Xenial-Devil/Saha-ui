@@ -172,7 +172,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         v.src = createdObjectUrl;
         v.load();
       } catch (err) {
-        // eslint-disable-next-line no-console
+         
         console.error("fetch+attach video failed:", err);
       }
     };
@@ -314,7 +314,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       const hasSrc = Boolean(v.currentSrc || v.src || v.srcObject);
       if (!hasSrc) {
         // Log helpful diagnostics for debugging
-        // eslint-disable-next-line no-console
+         
         console.warn("No video source available for Picture-in-Picture", {
           currentSrc: v.currentSrc,
           src: v.src,
@@ -324,7 +324,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       }
 
       if ((v.readyState ?? 0) < 1) {
-        // eslint-disable-next-line no-console
+         
         console.warn(
           "Video not ready for Picture-in-Picture (readyState < HAVE_METADATA)",
           { readyState: v.readyState }
@@ -368,7 +368,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       console.warn("Picture-in-Picture is not supported in this environment");
     } catch (err) {
       // Log full error for debugging (CORS, format, user gesture restrictions, etc.)
-      // eslint-disable-next-line no-console
+       
       console.error("requestPictureInPicture failed:", err);
     }
   };

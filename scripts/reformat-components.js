@@ -98,7 +98,7 @@ function formatProps(propsText) {
     for (const line of lines) {
         const propMatch = line.match(/- ([a-zA-Z]+[?]?):\s*(.+?)\s*\|\s*default:\s*(.+?)\s*\|\s*required:\s*(\w+)\s*—\s*(.+)/);
         if (propMatch) {
-            const [ , propName, propType, defaultVal, required, description ] = propMatch;
+            const [ , propName, propType, defaultVal, _required, description ] = propMatch;
             formatted.push(`${propName}: ${propType}`);
             formatted.push(`  - Default: ${defaultVal}`);
             formatted.push(`  - ${description}`);

@@ -51,7 +51,7 @@ export default function ResizableExample() {
 
           <div className="bg-card/30 border border-border/50 rounded-2xl p-8">
             <ResizablePanelGroup
-              direction="horizontal"
+              orientation="horizontal"
               variant="outline"
               className="rounded-lg border border-border min-h-[600px] bg-background"
             >
@@ -94,7 +94,7 @@ export default function ResizableExample() {
 
               {/* Editor & Terminal */}
               <ResizablePanel defaultSize={80}>
-                <ResizablePanelGroup direction="vertical">
+                <ResizablePanelGroup orientation="vertical">
                   {/* Code Editor */}
                   <ResizablePanel defaultSize={70} minSize={30}>
                     <div className="h-full flex flex-col">
@@ -111,7 +111,7 @@ import { ResizablePanel } from './Resizable';
 
 export function MyComponent() {
   return (
-    <ResizablePanelGroup direction="horizontal">
+    <ResizablePanelGroup orientation="horizontal">
       <ResizablePanel defaultSize={50}>
         <div>Left Panel</div>
       </ResizablePanel>
@@ -164,7 +164,7 @@ export function MyComponent() {
 
           <div className="bg-card/30 border border-border/50 rounded-2xl p-8">
             <ResizablePanelGroup
-              direction="horizontal"
+              orientation="horizontal"
               variant="glass"
               className="rounded-lg border border-border min-h-[500px] bg-background"
             >
@@ -313,7 +313,7 @@ export function MyComponent() {
 
           <div className="bg-card/30 border border-border/50 rounded-2xl p-8">
             <ResizablePanelGroup
-              direction="horizontal"
+              orientation="horizontal"
               variant="outline"
               className="rounded-lg border border-border min-h-[500px] bg-background"
             >
@@ -347,7 +347,7 @@ export function MyComponent() {
 
               {/* Main Content */}
               <ResizablePanel defaultSize={80}>
-                <ResizablePanelGroup direction="vertical">
+                <ResizablePanelGroup orientation="vertical">
                   {/* Top Stats */}
                   <ResizablePanel defaultSize={40} minSize={10}>
                     <div className="h-full p-6">
@@ -422,7 +422,7 @@ export function MyComponent() {
 
           <div className="bg-card/30 border border-border/50 rounded-2xl p-8">
             <ResizablePanelGroup
-              direction="horizontal"
+              orientation="horizontal"
               variant="success"
               className="rounded-lg border border-border min-h-[400px] bg-background"
             >
@@ -559,7 +559,7 @@ export function MyComponent() {
                   <h3 className="font-semibold">{label}</h3>
                 </div>
                 <ResizablePanelGroup
-                  direction="horizontal"
+                  orientation="horizontal"
                   variant={variant}
                   className="rounded-lg border border-border min-h-[120px]"
                 >

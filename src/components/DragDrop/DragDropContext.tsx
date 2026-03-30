@@ -75,7 +75,7 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
   const [activeItem, setActiveItem] = useState<DraggableItem | null>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [sourceContainerId, setSourceContainerId] = useState<string | null>(
-    null
+    null,
   );
   const [dragPosition, setDragPosition] = useState<DragPosition | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -137,7 +137,7 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
           const itemsInRange = getItemsBetween(
             anchorIndex,
             currentIndex,
-            items.map((id) => ({ id }))
+            items.map((id) => ({ id })),
           );
           itemsInRange.forEach((itemId) => newSelectedIds.add(itemId));
         } else if (options?.ctrlKey) {
@@ -160,7 +160,7 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
         };
       });
     },
-    [enableMultiDrag]
+    [enableMultiDrag],
   );
 
   const clearSelection = useCallback(() => {
@@ -181,7 +181,7 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
         future: [],
       }));
     },
-    [enableUndo, maxHistory]
+    [enableUndo, maxHistory],
   );
 
   const undo = useCallback(() => {
@@ -219,6 +219,11 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
   }, []);
 
   // Drag Start
+  // Drag Start
+  /**
+   * Handle the drag start event
+   * @private
+   */
   const handleDragStart = useCallback(
     (event: DragStartEvent) => {
       // Plugin hook
@@ -247,14 +252,18 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
       try {
         document.body.style.cursor = "grabbing";
         document.documentElement.style.cursor = "grabbing";
-      } catch {return;}
+      } catch {
+        return;
+      }
 
       // Safety: attach a pointerup listener to clear the cursor if a
       // drop/cancel path is missed for any reason.
       const resetCursor = () => {
         try {
           document.body.style.cursor = "";
-        } catch {return;}
+        } catch {
+          return;
+        }
       };
       pointerUpListenerRef.current = resetCursor;
       window.addEventListener("pointerup", resetCursor, { once: true });
@@ -264,10 +273,14 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
         console.log("[DragDrop] Drag Start:", event);
       }
     },
-    [announcements, executePluginHook, debug]
+    [announcements, executePluginHook, debug],
   );
 
   // Drag Move
+  /**
+   * Handle the drag move event
+   * @private
+   */
   const handleDragMove = useCallback(
     (event: DragMoveEvent) => {
       if (!initialPosition.current) return;
@@ -278,7 +291,7 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
         !exceedsThreshold(
           event.currentPosition,
           initialPosition.current,
-          dragThreshold
+          dragThreshold,
         )
       ) {
         return;
@@ -289,7 +302,7 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
       // Auto scroll
       if (autoScroll && autoScrollInterval.current === null) {
         const scrollableElements = getScrollableAncestors(
-          draggables.current.get(activeId!) || document.body
+          draggables.current.get(activeId!) || document.body,
         );
 
         autoScrollInterval.current = window.setInterval(() => {
@@ -300,7 +313,7 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
               dragPosition,
               rect,
               autoScrollThreshold,
-              autoScrollSpeed
+              autoScrollSpeed,
             );
 
             if (velocity.x !== 0 || velocity.y !== 0) {
@@ -318,10 +331,14 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
       autoScrollThreshold,
       activeId,
       dragPosition,
-    ]
+    ],
   );
 
   // Drag Over
+  /**
+   * Handle the drag over container event
+   * @private
+   */
   const handleDragOver = useCallback(
     (event: DragOverEvent) => {
       const message =
@@ -329,10 +346,14 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
         getDefaultAnnouncement("move", event);
       announce(message, "polite");
     },
-    [announcements]
+    [announcements],
   );
 
   // Drop
+  /**
+   * Handle the drop completion event
+   * @private
+   */
   const handleDrop = useCallback(
     (event: DropEvent) => {
       // Clear auto scroll
@@ -351,7 +372,7 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
         const duration = Date.now() - dragStartTime.current;
         const distance = calculateDragDistance(
           dragStartPosition.current,
-          event.position
+          event.position,
         );
 
         onAnalytics({
@@ -404,16 +425,20 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
       try {
         document.body.style.cursor = "";
         document.documentElement.style.cursor = "";
-      } catch {return;}
+      } catch {
+        return;
+      }
 
       // Remove safety pointerup listener if present
       if (pointerUpListenerRef.current) {
         try {
           window.removeEventListener(
             "pointerup",
-            pointerUpListenerRef.current as any
+            pointerUpListenerRef.current as any,
           );
-        } catch {return;}
+        } catch {
+          return;
+        }
         pointerUpListenerRef.current = null;
       }
 
@@ -422,10 +447,14 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
         console.log("[DragDrop] Drop:", event);
       }
     },
-    [announcements, onAnalytics, executePluginHook, saveToHistory, debug]
+    [announcements, onAnalytics, executePluginHook, saveToHistory, debug],
   );
 
   // Drag Cancel
+  /**
+   * Handle the manual or implicit drag cancellation
+   * @private
+   */
   const handleDragCancel = useCallback(
     (event: DragCancelEvent) => {
       // Clear auto scroll
@@ -453,9 +482,11 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
       try {
         document.body.style.cursor = "";
         document.documentElement.style.cursor = "";
-      } catch {return;}
+      } catch {
+        return;
+      }
     },
-    [announcements]
+    [announcements],
   );
 
   // Escape key handler
@@ -492,8 +523,7 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
 
     document.addEventListener("mouseup", handleGlobalMouseUp);
     return () => document.removeEventListener("mouseup", handleGlobalMouseUp);
-  }, [isDragging, handleDragCancel]);
-
+  }, [isDragging, handleDragCancel, activeItem]);
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -503,7 +533,9 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
       try {
         document.body.style.cursor = "";
         document.documentElement.style.cursor = "";
-      } catch {return;}
+      } catch {
+        return;
+      }
     };
   }, []);
 
@@ -522,7 +554,7 @@ export const DragDropProvider: React.FC<EnhancedDragDropContextProps> = ({
         y: Math.round((position.y - offset.y) / gridSize) * gridSize + offset.y,
       };
     },
-    [snapToGrid]
+    [snapToGrid],
   );
 
   const value: DragDropContextValue = {

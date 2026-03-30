@@ -91,7 +91,7 @@ const Skeleton = ({ config }: { config: SkeletonConfig | boolean }) => {
     <div
       className={cn(
         skeletonVariants({ animation: skeletonConfig.animation }),
-        "z-5"
+        "z-5",
       )}
       style={{
         backgroundColor: skeletonConfig.color,
@@ -194,7 +194,9 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
       controlledLoadingState ?? hookLoadingState;
 
     // Expose ref using useImperativeHandle
-    useImperativeHandle(ref, () => containerRef.current as HTMLDivElement, []);
+    useImperativeHandle(ref, () => containerRef.current as HTMLDivElement, [
+      containerRef,
+    ]);
 
     // Combined event handlers
     const handleCombinedMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -253,7 +255,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
         // Clone with proper typing
         return cloneElement(
           child as React.ReactElement<MediaElementProps>,
-          newProps
+          newProps,
         );
       });
     }, [children, handleLoad, handleError, lazy, objectFit, objectPosition]);
@@ -271,7 +273,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
         ref={containerRef}
         className={cn(
           aspectRatioVariants({ variant, rounded, interactive }),
-          className
+          className,
         )}
         style={{
           paddingBottom,
@@ -284,7 +286,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
         onMouseMove={handleMouseMove}
         aria-label={ariaLabel}
         role={role || (interactive ? "button" : undefined)}
-        tabIndex={interactive ? tabIndex ?? 0 : tabIndex}
+        tabIndex={interactive ? (tabIndex ?? 0) : tabIndex}
         onKeyDown={
           interactive
             ? (e) => {
@@ -317,7 +319,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
             className={cn(
               contentWrapperStyles({ objectFit }),
               "z-10",
-              contentClassName
+              contentClassName,
             )}
             style={{
               ...contentStyle,
@@ -346,7 +348,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
             className={cn(
               overlayVariants({ position: overlayPosition }),
               "group-hover:opacity-80",
-              overlayClassName
+              overlayClassName,
             )}
             style={{
               ...(overlayColor && { background: overlayColor }),
@@ -357,7 +359,7 @@ const AspectRatio = forwardRef<HTMLDivElement, AspectRatioProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 AspectRatio.displayName = "AspectRatio";

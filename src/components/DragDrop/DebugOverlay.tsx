@@ -108,8 +108,8 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({
       if (now >= fpsRef.current.lastTime + 1000) {
         setFps(
           Math.round(
-            (fpsRef.current.frames * 1000) / (now - fpsRef.current.lastTime)
-          )
+            (fpsRef.current.frames * 1000) / (now - fpsRef.current.lastTime),
+          ),
         );
         fpsRef.current.frames = 0;
         fpsRef.current.lastTime = now;
@@ -129,7 +129,7 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({
 
   useEffect(() => {
     setRenderTime(performance.now() - renderStartRef.current);
-  });
+  }, []);
 
   if (!enabled) return null;
 
@@ -148,7 +148,7 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({
           "fixed z-[9999] bg-background border rounded-lg shadow-lg",
           "max-w-md transition-all duration-200",
           positionClasses[position],
-          !isExpanded && "w-auto"
+          !isExpanded && "w-auto",
         )}
       >
         {/* Header */}
@@ -189,8 +189,8 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({
                         fps >= 50
                           ? "text-green-500"
                           : fps >= 30
-                          ? "text-yellow-500"
-                          : "text-red-500"
+                            ? "text-yellow-500"
+                            : "text-red-500",
                       )}
                     >
                       {fps}
@@ -427,7 +427,7 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({
               </>
             )}
           </>,
-          portalRef.current
+          portalRef.current,
         )}
     </>
   );

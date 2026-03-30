@@ -88,7 +88,7 @@ export const DraggableItem = <T extends { id: string }>({
           // Check drag threshold
           const distance = Math.sqrt(
             Math.pow(moveCoords.x - startPosition.x, 2) +
-              Math.pow(moveCoords.y - startPosition.y, 2)
+              Math.pow(moveCoords.y - startPosition.y, 2),
           );
 
           if (distance > context.dragThreshold) {
@@ -131,7 +131,7 @@ export const DraggableItem = <T extends { id: string }>({
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
     },
-    [disabled, dragHandle, isDragHandleActive, item, index, type, context]
+    [disabled, dragHandle, isDragHandleActive, item, index, type, context, id],
   );
 
   // Touch sensor
@@ -210,7 +210,7 @@ export const DraggableItem = <T extends { id: string }>({
       });
       document.addEventListener("touchend", handleTouchEnd);
     },
-    [disabled, dragHandle, isDragHandleActive, item, index, type, context]
+    [disabled, dragHandle, isDragHandleActive, item, index, type, context],
   );
 
   // Keyboard sensor
@@ -248,7 +248,7 @@ export const DraggableItem = <T extends { id: string }>({
       // Arrow keys to move
       if (context.isDragging && context.activeId === id) {
         const step = 10;
-        let newPosition = { ...context.dragPosition! };
+        const newPosition = { ...context.dragPosition! };
 
         switch (e.key) {
           case "ArrowUp":
@@ -283,7 +283,7 @@ export const DraggableItem = <T extends { id: string }>({
         });
       }
     },
-    [disabled, item, index, type, id, context]
+    [disabled, item, index, type, id, context],
   );
 
   // Provide drag handle activation
@@ -300,7 +300,7 @@ export const DraggableItem = <T extends { id: string }>({
       className={cn(
         draggableItemVariants({ isDragging, disabled }),
         isDragging && draggingClassName,
-        className
+        className,
       )}
       style={{
         ...style,

@@ -54,7 +54,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       id,
       ...props
     },
-    ref
+    ref,
   ) => {
     // =========================================================================
     // CONTROLLED VS UNCONTROLLED MODE DETECTION
@@ -125,7 +125,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         // Both register() and Controller's field.onChange accept the event object
         onChange?.(e);
       },
-      [isControlled, onChange]
+      [isControlled, onChange],
     );
 
     /**
@@ -140,14 +140,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       (e: React.FocusEvent<HTMLInputElement>) => {
         onBlur?.(e);
       },
-      [onBlur]
+      [onBlur],
     );
 
     // =========================================================================
     // ACCESSIBILITY
     // =========================================================================
-    const inputId =
-      id || `input-${React?.useId?.() || Math.random().toString(36).slice(2)}`;
+    const fallbackId = React.useId();
+    const inputId = id || `input-${fallbackId}`;
     const helperId = helperText || error ? `${inputId}-helper` : undefined;
     const errorId = error ? `${inputId}-error` : undefined;
 
@@ -194,7 +194,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       <div
         className={cn(
           inputContainerVariants({ fullWidth }),
-          containerClassName
+          containerClassName,
         )}
       >
         {/* Label */}
@@ -203,7 +203,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             htmlFor={inputId}
             className={cn(
               inputLabelVariants({ disabled: !!disabled }),
-              labelClassName
+              labelClassName,
             )}
           >
             {label}
@@ -224,7 +224,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 inputIconVariants({
                   position: "start",
                   size,
-                })
+                }),
               )}
               aria-hidden="true"
             >
@@ -247,15 +247,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               ariaInvalid !== undefined
                 ? ariaInvalid
                 : error
-                ? "true"
-                : undefined
+                  ? "true"
+                  : undefined
             }
             aria-required={
               ariaRequired !== undefined
                 ? ariaRequired
                 : required
-                ? "true"
-                : undefined
+                  ? "true"
+                  : undefined
             }
             aria-errormessage={ariaErrorMessage || errorId}
             className={cn(
@@ -265,7 +265,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 hasStartIcon: !!startIcon,
                 hasEndIcon: !!endIcon || showCounter,
               }),
-              className
+              className,
             )}
             // Spread value props conditionally based on mode
             {...valueProps}
@@ -284,7 +284,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 inputIconVariants({
                   position: "end",
                   size,
-                })
+                }),
               )}
               aria-hidden={!showCounter}
             >
@@ -321,7 +321,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = "Input";
