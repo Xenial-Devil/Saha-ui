@@ -1,0 +1,704 @@
+[
+  {
+    "id": "TC001",
+    "title": "Switch to Dark theme and verify immediate UI update",
+    "description": "Verifies that selecting Dark theme updates visible UI styling immediately on the showcase page.",
+    "category": "Theme Switching",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Theme toggle\" is visible in the header"
+      },
+      {
+        "type": "action",
+        "description": "Click the theme toggle control in the header"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Dark\" in the theme options"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Dark\" is visible as the active/selected theme"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Toast\" (or a visible component example card/button) is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Switch to Light theme and verify immediate UI update",
+    "description": "Verifies that selecting Light theme updates visible UI styling immediately on the showcase page.",
+    "category": "Theme Switching",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the theme toggle control in the header"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Light\" in the theme options"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Light\" is visible as the active/selected theme"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Theme toggle\" is visible in the header"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Component\" examples section is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Switch to System theme and verify it is selected",
+    "description": "Verifies that selecting System mode is reflected as the active theme selection in the UI.",
+    "category": "Theme Switching",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the theme toggle control in the header"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"System\" in the theme options"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"System\" is visible as the active/selected theme"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Theme toggle\" is visible in the header"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Showcase\" content area is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Persist selected theme after page refresh (Dark)",
+    "description": "Verifies that a chosen theme (Dark) persists after a browser refresh when persistence is available.",
+    "category": "Theme Switching",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the theme toggle control in the header"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Dark\" in the theme options"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Dark\" is visible as the active/selected theme"
+      },
+      {
+        "type": "action",
+        "description": "Refresh the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Dark\" is visible as the active/selected theme"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Persist selected theme after page refresh (Light)",
+    "description": "Verifies that a chosen theme (Light) persists after a browser refresh when persistence is available.",
+    "category": "Theme Switching",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the theme toggle control in the header"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Light\" in the theme options"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Light\" is visible as the active/selected theme"
+      },
+      {
+        "type": "action",
+        "description": "Refresh the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Light\" is visible as the active/selected theme"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Theme toggle options open and close behavior",
+    "description": "Verifies that the theme menu can be opened and dismissed without changing selection unexpectedly.",
+    "category": "Theme Switching",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the theme toggle control in the header"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Light\" is visible in the theme options"
+      },
+      {
+        "type": "action",
+        "description": "Press Escape"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Theme options\" is not visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Theme toggle\" is visible in the header"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Switch themes repeatedly and verify the last selection is reflected",
+    "description": "Verifies that multiple theme changes in one session result in the final selected theme being shown as active.",
+    "category": "Theme Switching",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the theme toggle control in the header"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Dark\" in the theme options"
+      },
+      {
+        "type": "action",
+        "description": "Click the theme toggle control in the header"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Light\" in the theme options"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Light\" is visible as the active/selected theme"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Explore component gallery and confirm key sections render",
+    "description": "Verifies the main showcase loads and users can scroll to see component sections and example areas.",
+    "category": "Component Gallery Exploration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify page title contains \"Saha\""
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the middle of the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Components\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the bottom of the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Toast\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Button interaction shows visible state change or feedback",
+    "description": "Verifies that clicking a button example produces visible feedback (state change, message, or UI reaction).",
+    "category": "Component Gallery Exploration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the section that contains button examples"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Button\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the primary button example"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Clicked\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the same primary button example again"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Toast\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Text input accepts typing and reflects typed value",
+    "description": "Verifies an input example accepts user text and shows the updated value in the UI.",
+    "category": "Component Gallery Exploration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the section that contains input examples"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Input\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the text input field in the input example"
+      },
+      {
+        "type": "action",
+        "description": "Type \"Hello Saha\" into the text input field"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Hello Saha\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Dialog opens and closes via close control",
+    "description": "Verifies dialog example opens from its trigger and can be closed to return to the underlying page.",
+    "category": "Component Gallery Exploration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the section that contains dialog examples"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Dialog\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the dialog trigger button (for example, \"Open\" or \"Open Dialog\")"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Dialog\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the dialog close button (for example, \"Close\" or an \"X\" icon)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Dialog content\" is not visible"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Dropdown/select opens and allows selecting an option",
+    "description": "Verifies a select/dropdown example opens and selecting an option results in visible selection feedback.",
+    "category": "Component Gallery Exploration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the section that contains select or dropdown examples"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Select\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the select control to open the dropdown"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Choose\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on a visible option in the dropdown list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected option text is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Theme switching updates visible theme indicator",
+    "description": "Verifies users can toggle theme and see a visible change or indicator reflecting the current theme.",
+    "category": "Component Gallery Exploration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Theme\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the theme toggle control"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Dark\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the theme toggle control again"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Light\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Toast notification appears and then dismisses",
+    "description": "Verifies toast example can be triggered and becomes visible to the user, then is dismissed.",
+    "category": "Component Gallery Exploration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the section that contains toast examples"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Toast\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the button that triggers a toast (for example, \"Show toast\")"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Toast\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Wait for 3 seconds"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Toast\" is not visible"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Negative: Ensure no console-only debugging flow is required",
+    "description": "Validates the demo gallery does not require console access for normal interaction and no error state blocks the UI.",
+    "category": "Component Gallery Exploration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the middle of the page"
+      },
+      {
+        "type": "action",
+        "description": "Click on a representative interactive example control (for example, a button trigger)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Error\" is not visible"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the bottom of the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Toast\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Toast appears after triggering a toast example",
+    "description": "Verifies that triggering a toast example renders a visible toast notification on the page.",
+    "category": "Toast Notification Experience",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Toast\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the toast trigger control in the Toast example section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"toast notification\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"success\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Toast is positioned on-screen and not clipped",
+    "description": "Verifies the toast renders fully within the viewport at its configured position (e.g., corner) and is readable.",
+    "category": "Toast Notification Experience",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click on the toast trigger control in the Toast example section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"toast notification\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"toast container\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Toast\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "Toast shows an animation state on appearance",
+    "description": "Verifies that a toast visually transitions in (animation) rather than appearing as static content only.",
+    "category": "Toast Notification Experience",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click on the toast trigger control in the Toast example section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"toast notification\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Animating\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC019",
+    "title": "Multiple toasts can be triggered sequentially",
+    "description": "Verifies triggering the toast multiple times results in multiple toast instances or updated toast behavior without breaking the UI.",
+    "category": "Toast Notification Experience",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click on the toast trigger control in the Toast example section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"toast notification\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the toast trigger control in the Toast example section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"toast notification\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC020",
+    "title": "Toast remains visible while interacting elsewhere on the page",
+    "description": "Verifies the toast is not immediately dismissed or blocked when the user scrolls the showcase content.",
+    "category": "Toast Notification Experience",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click on the toast trigger control in the Toast example section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"toast notification\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the bottom of the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"toast notification\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC021",
+    "title": "Toast provider presence is reflected by toast rendering (provider mounted)",
+    "description": "Verifies that the ToastProvider is effectively mounted by confirming a toast can render globally on the page when triggered.",
+    "category": "Toast Notification Experience",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"ToastProvider\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the toast trigger control in the Toast example section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"toast notification\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC022",
+    "title": "Negative check: no-toast scenario is not applicable in the demo (skip console validation)",
+    "description": "Validates that the demo does not support console-based provider-missing verification; focuses on UI-only confirmation instead.",
+    "category": "Toast Notification Experience",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Toast\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click on the toast trigger control in the Toast example section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"toast notification\" is visible"
+      }
+    ]
+  }
+]
