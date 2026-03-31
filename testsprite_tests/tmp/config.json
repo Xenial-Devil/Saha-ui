@@ -1,0 +1,17 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:7877",
+  "executionArgs": {
+    "projectName": "Saha-ui",
+    "projectPath": "d:\\Github\\Saha-ui",
+    "testIds": [],
+    "additionalInstruction": "",
+    "envs": {
+      "API_KEY": "sk-user-EezNn_m3dXBtLJX0jweCWFDN2ys_MSaQKy_RvDtBTdU-FsmwITB8Ru63KzlM2zVG4A_D_WQKV1uz4lNYE4ufyPYIFO4-9S_ehVtHx8yOGWWv0WdIzHimL1i4e_HEqxsMZNU"
+    }
+  },
+  "serverPort": 49904,
+  "proxy": "http://706c6b38-dbb4-4842-b26f-332911804769:TOpAKzCWviUs8BL1PHwTmW7otIzypcB8@tun.testsprite.com:8080"
+}

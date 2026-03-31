@@ -24,7 +24,7 @@ function getImplementedComponents() {
     return folders.filter((f) => {
         try {
             return hasIndexFile(f);
-        } catch (e) {
+        } catch (_e) {
             return false;
         }
     });

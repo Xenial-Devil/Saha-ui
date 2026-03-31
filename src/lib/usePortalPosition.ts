@@ -9,15 +9,24 @@ export interface UsePortalPositionOptions {
   position?: string;
 }
 
+/**
+ * Custom hook to calculate and manage the position of a portal relative to an anchor element.
+ * Useful for Tooltips, Popovers, and Dropdowns.
+ *
+ * @param {React.RefObject<HTMLElement | null>} anchorRef - Reference to the element the portal anchors to.
+ * @param {boolean} isOpen - Whether the portal is currently open/visible.
+ * @param {UsePortalPositionOptions} [opts={}] - Configuration options for position, offset, and margin.
+ * @returns An object containing the generated portal container, a ref to assign to the portal content, the current position, and a state setter for manual overrides.
+ */
 export function usePortalPosition(
   anchorRef: React.RefObject<HTMLElement | null>,
   isOpen: boolean,
-  opts: UsePortalPositionOptions = {}
+  opts: UsePortalPositionOptions = {},
 ) {
   const { offset = 8, margin = 8, position = "bottom" } = opts;
   const portalRef = useRef<HTMLDivElement | null>(null);
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(
-    null
+    null,
   );
   const [portalPos, setPortalPos] = useState<Pos>({ top: 0, left: 0 });
 
@@ -112,8 +121,8 @@ export function usePortalPosition(
     }
   }, [
     isOpen,
-    portalRef.current,
-    anchorRef.current,
+    portalRef,
+    anchorRef,
     portalPos.left,
     portalPos.top,
     margin,

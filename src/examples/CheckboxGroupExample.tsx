@@ -1,6 +1,6 @@
 // CheckboxGroupExample.tsx
 import { useState } from "react";
-import { CheckboxGroup} from "../components/Checkbox";
+import { CheckboxGroup } from "../components/Checkbox";
 import {
   Star,
   Crown,
@@ -70,12 +70,12 @@ import {
 export const CheckboxGroupExample = () => {
   // Basic states
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([
+  const [_selectedFeatures, _setSelectedFeatures] = useState<string[]>([
     "notifications",
   ]);
   const [selectedPlan, setSelectedPlan] = useState<string[]>([]);
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
-  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
+  const [_selectedThemes, _setSelectedThemes] = useState<string[]>([]);
   const [selectedNotifications, setSelectedNotifications] = useState<string[]>(
     []
   );

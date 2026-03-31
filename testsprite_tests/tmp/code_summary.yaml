@@ -1,0 +1,59 @@
+version: "2"
+type: frontend
+tech_stack:
+  - TypeScript
+  - React 19
+  - Vite
+  - Tailwind CSS v4
+  - class-variance-authority
+  - lucide-react
+routes:
+  - path: /
+    file: src/App.tsx
+    auth_required: false
+    description: Main component showcase page rendering Saha UI examples
+features:
+  - name: Theme Switching
+    description: Users can switch between light and dark themes using the header toggle
+    files:
+      - src/App.tsx
+      - src/components/ThemeProvider/ThemeProvider.tsx
+      - src/components/ThemeToggle/index.tsx
+    entry_route: /
+    user_interactions:
+      - Click the theme toggle control in the header
+      - Observe UI colors and component styles update to active theme
+    api_calls: []
+    auth_required: false
+  - name: Component Gallery Exploration
+    description: Users browse and interact with comprehensive Saha UI component examples
+    files:
+      - src/App.tsx
+      - src/examples/AllComponentExamples.tsx
+      - src/examples/index.tsx
+    entry_route: /
+    user_interactions:
+      - Scroll through component sections
+      - Interact with example controls (buttons, inputs, dialogs, etc.)
+      - Verify rendered behavior and visual states
+    api_calls: []
+    auth_required: false
+  - name: Toast Notification Experience
+    description: Application-level toast provider supports notification rendering and display behavior
+    files:
+      - src/App.tsx
+      - src/components/Toast/ToastProvider.tsx
+      - src/components/Toast/index.tsx
+    entry_route: /
+    user_interactions:
+      - Trigger components that emit toast notifications
+      - Validate toast position, animation, and auto-dismiss behavior
+    api_calls: []
+    auth_required: false
+known_limitations:
+  - issue: No multi-page routing; app is a single showcase route
+    location: src/App.tsx
+    impact: Route-level navigation and auth-flow scenarios are out of scope
+  - issue: No backend API integration in default demo flow
+    location: src/App.tsx
+    impact: API contract and backend integration tests are not applicable for core demo path

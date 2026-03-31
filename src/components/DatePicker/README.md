@@ -877,10 +877,64 @@ const handleChange = (date: Date | null) => {
 
 ## Styling
 
-The component uses CVA (Class Variance Authority) for variant management:
+The component uses CVA (Class Variance Authority) for variant management.
+
+- **File:** [src/components/DatePicker/DatePicker.styles.ts](src/components/DatePicker/DatePicker.styles.ts)
+- **Exports:** `datePickerVariants`, `calendarVariants`, `calendarContainerVariants`, `calendarHeaderVariants`, `calendarHeaderButtonVariants`, `calendarNavButtonVariants`, `weekDayLabelVariants`, `dayCellVariants`, `dayCellColorVariants`, `monthYearCellVariants`, `monthYearCellColorVariants`, `gridContentHeightClass`, `shortcutsSidebarVariants`, `shortcutButtonVariants`, `footerVariants`, `footerCancelButtonVariants`, `footerApplyButtonVariants`, `arrowVariants`, `toggleButtonVariants`
+
+Use the exported CVA helpers with the component `className` or a `cn()` utility. Example:
 
 ```tsx
-<DatePicker label="Custom styled" className="my-custom-class" />
+import { datePickerVariants } from "./DatePicker.styles";
+import { cn } from "../../lib/utils";
+
+<input
+  className={cn(datePickerVariants({ variant: "primary", size: "md" }))}
+/>;
+```
+
+## Locales
+
+This DatePicker uses its own built-in locale dictionary and exposes the `i18n` prop (a language code string) to pick a locale. Do not pass `date-fns` locale objects — instead set `i18n` to one of the supported codes.
+
+Example:
+
+```tsx
+// Use German locale
+<DatePicker label="Select date" value={date} onChange={setDate} i18n="de" />
+
+// Use Japanese locale
+<DatePicker label="Select date" value={date} onChange={setDate} i18n="ja" />
+```
+
+Supported locale codes (built-in):
+
+- `en` (English)
+- `es` (Spanish)
+- `fr` (French)
+- `de` (German)
+- `ja` (Japanese)
+- `zh` (Chinese)
+- `ko` (Korean)
+- `ar` (Arabic)
+- `hi` (Hindi)
+- `pt` (Portuguese)
+- `ru` (Russian)
+- `it` (Italian)
+- `nl` (Dutch)
+- `tr` (Turkish)
+- `bn` (Bengali)
+
+If you need to override specific labels or shortcuts without changing the built-in locale, pass the `configs` prop with `shortcuts` and/or `footer` overrides. Example:
+
+```tsx
+<DatePicker
+  i18n="en"
+  configs={{
+    shortcuts: { today: "Today (local)" },
+    footer: { cancel: "Abort", apply: "Confirm" },
+  }}
+/>
 ```
 
 ## Dark Mode

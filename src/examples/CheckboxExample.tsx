@@ -42,7 +42,7 @@ export function CheckboxExample() {
   const [selectedServices, setSelectedServices] = React.useState<string[]>([
     "hosting",
   ]);
-  const [selectedAddons, setSelectedAddons] = React.useState<string[]>([]);
+  const [selectedAddons, _setSelectedAddons] = React.useState<string[]>([]);
   const [selectAll, setSelectAll] = React.useState(false);
   const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
 

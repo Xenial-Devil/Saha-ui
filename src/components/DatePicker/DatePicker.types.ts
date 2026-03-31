@@ -286,3 +286,49 @@ export interface DatePickerProps
    */
   inputName?: string;
 }
+/**
+ * Locale configuration for internationalization
+ */
+export interface DatePickerLocale {
+  /** Language code (e.g., 'en', 'es', 'fr', 'de', 'ja', 'zh', 'ar') */
+  code: string;
+  /** Month names (full) */
+  months: string[];
+  /** Month names (short) */
+  monthsShort: string[];
+  /** Weekday names (full) */
+  weekdays: string[];
+  /** Weekday names (short, 2 chars) */
+  weekdaysShort: string[];
+  /** Weekday names (min, 1-2 chars) */
+  weekdaysMin: string[];
+  /** First day of week (0 = Sunday, 1 = Monday) */
+  firstDayOfWeek: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  /** Date format string */
+  dateFormat: string;
+  /** Today button text */
+  today: string;
+  /** Clear button text */
+  clear: string;
+  /** Cancel button text */
+  cancel: string;
+  /** Apply button text */
+  apply: string;
+  /** Placeholder text */
+  placeholder: string;
+  /** Range separator */
+  separator: string;
+  /** RTL direction */
+  rtl?: boolean;
+
+  shortcuts: ShortcutsLocale;
+}
+
+interface ShortcutsLocale {
+  today: string;
+  yesterday: string;
+  last7Days: string;
+  last30Days: string;
+  thisMonth: string;
+  lastMonth: string;
+}

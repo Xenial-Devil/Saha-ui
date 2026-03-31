@@ -7,7 +7,7 @@ const examplesDir = path.resolve(__dirname, '../src/examples');
 function isDir(p) {
     try {
         return fs.statSync(p).isDirectory();
-    } catch (e) {
+    } catch (_e) {
         return false;
     }
 }

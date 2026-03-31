@@ -9,7 +9,6 @@ import {
 import type {
   AccordionVariant,
   AccordionSize,
-  AccordionOrientation,
   HeadingLevel,
 } from "../components/Accordion";
 import Card from "../components/Card";

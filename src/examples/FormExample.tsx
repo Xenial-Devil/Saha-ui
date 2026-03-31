@@ -1,6 +1,5 @@
 import {
   Form,
-  FormCompact,
   FormItem,
   FormLabel,
   FormControl,
@@ -72,6 +71,27 @@ export const FormExample = () => {
     };
     console.log("Profile form submitted:", data);
     alert(`Profile updated for ${data.firstName} ${data.lastName}`);
+  };
+
+  const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget as HTMLFormElement);
+    const data = {
+      name: fd.get("name"),
+      email: fd.get("email"),
+      subject: fd.get("subject"),
+      message: fd.get("message"),
+    };
+    console.log("Contact form:", data);
+    alert("Message sent");
+  };
+
+  const handleNewsletterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget as HTMLFormElement);
+    const email = fd.get("email");
+    console.log("Newsletter:", email);
+    alert(`Subscribed: ${email}`);
   };
 
   return (
@@ -274,46 +294,75 @@ export const FormExample = () => {
               Contact Form (Compact)
             </h3>
             <div className="max-w-md mx-auto">
-              <FormCompact
-                title="Get in Touch"
-                description="Fill out this form and we'll get back to you soon"
+              <Form
+                onSubmit={handleContactSubmit}
                 variant="accent"
-                onSubmit={(data: any) => console.log("Contact form:", data)}
-                fields={[
-                  {
-                    name: "name",
-                    label: "Name",
-                    type: "text",
-                    placeholder: "Your name",
-                    required: true,
-                  },
-                  {
-                    name: "email",
-                    label: "Email",
-                    type: "email",
-                    placeholder: "your@email.com",
-                    required: true,
-                  },
-                  {
-                    name: "subject",
-                    label: "Subject",
-                    type: "text",
-                    placeholder: "What is this about?",
-                    required: true,
-                  },
-                  {
-                    name: "message",
-                    label: "Message",
-                    type: "textarea",
-                    placeholder: "Your message here...",
-                    required: true,
-                    description: "Please be as detailed as possible",
-                  },
-                ]}
-                submitText="Send Message"
-                showCancel
-                onCancel={() => alert("Cancelled")}
-              />
+                className="p-4"
+              >
+                <FormItem>
+                  <FormLabel htmlFor="contact-name">Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="contact-name"
+                      name="name"
+                      placeholder="Your name"
+                      required
+                    />
+                  </FormControl>
+                </FormItem>
+
+                <FormItem>
+                  <FormLabel htmlFor="contact-email">Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="contact-email"
+                      name="email"
+                      type="email"
+                      placeholder="you@email.com"
+                      required
+                    />
+                  </FormControl>
+                </FormItem>
+
+                <FormItem>
+                  <FormLabel htmlFor="contact-subject">Subject</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="contact-subject"
+                      name="subject"
+                      placeholder="What is this about?"
+                    />
+                  </FormControl>
+                </FormItem>
+
+                <FormItem>
+                  <FormLabel htmlFor="contact-message">Message</FormLabel>
+                  <FormControl>
+                    <TextArea
+                      id="contact-message"
+                      name="message"
+                      placeholder="Your message here..."
+                      rows={4}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Please be as detailed as possible
+                  </FormDescription>
+                </FormItem>
+
+                <FormActions>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => alert("Cancelled")}
+                  >
+                    Cancel
+                  </Button>
+                  <Button type="submit" variant="primary">
+                    Send Message
+                  </Button>
+                </FormActions>
+              </Form>
             </div>
           </div>
 
@@ -324,20 +373,29 @@ export const FormExample = () => {
               Newsletter Signup (Inline)
             </h3>
             <div className="max-w-2xl mx-auto">
-              <FormCompact
+              <Form
+                onSubmit={handleNewsletterSubmit}
                 variant="success"
                 layout="inline"
-                onSubmit={(data: any) => console.log("Newsletter:", data)}
-                fields={[
-                  {
-                    name: "email",
-                    type: "email",
-                    placeholder: "Enter your email",
-                    required: true,
-                  },
-                ]}
-                submitText="Subscribe"
-              />
+                className="max-w-full"
+              >
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      id="newsletter-email"
+                      name="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </FormControl>
+                </FormItem>
+                <FormActions>
+                  <Button type="submit" variant="primary">
+                    Subscribe
+                  </Button>
+                </FormActions>
+              </Form>
             </div>
           </div>
         </section>
