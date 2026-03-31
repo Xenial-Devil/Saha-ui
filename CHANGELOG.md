@@ -1,3 +1,17 @@
+# [1.23.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.12...v1.23.0) (2026-03-31)
+
+
+### Bug Fixes
+
+* **cli:** enhance CSS processing with safe write and validation ([abcdc67](https://github.com/Xenial-Devil/Saha-ui/commit/abcdc67f7d6af19dee76db131f910ac24cb44ef4))
+* **datepicker:** Add internationalization support with locales ([1a50ef5](https://github.com/Xenial-Devil/Saha-ui/commit/1a50ef5861d5fb0a0d460337c241a0fa534316b7))
+* **timepicker:** implement comprehensive time picker component ([48cb153](https://github.com/Xenial-Devil/Saha-ui/commit/48cb15305b8163eeb87979c92ddee87933d14c24))
+
+
+### Features
+
+* **tests:** add Playwright test project summary for UI demoAdd new asynchronous Playwright test that navigates the demowaits for load states, and to toggle the theme. The testlaunches Chromium in headless single-process mode with stability flags, ([3053f4b](https://github.com/Xenial-Devil/Saha-ui/commit/3053f4b7358a4c09be900d1e1caa7afadaf1447e))
+
 ## [1.22.12](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.11...v1.22.12) (2026-01-18)
 
 
