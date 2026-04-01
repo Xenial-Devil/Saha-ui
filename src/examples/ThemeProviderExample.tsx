@@ -28,12 +28,19 @@
  */
 
 import { ThemeToggle } from "../components/ThemeToggle";
+import { ThemeProvider } from "../components/ThemeProvider";
 import { Card, CardHeader, CardTitle, CardContent } from "../components/Card";
 import Button from "../components/Button";
 import Badge from "../components/Badge";
-import Alert from "../components/Alert";
+import { Alert } from "../components/Alert";
+
+const themeProviderReference = ThemeProvider;
 
 export default function ThemeProviderExample() {
+  const providerName =
+    (themeProviderReference as { displayName?: string }).displayName ??
+    "ThemeProvider";
+
   return (
     <div className="p-8 space-y-8">
       <div>
@@ -41,6 +48,9 @@ export default function ThemeProviderExample() {
         <p className="text-muted-foreground mb-4">
           Theme context provider with dark mode support, system preference
           detection, and localStorage persistence.
+        </p>
+        <p className="text-xs text-muted-foreground">
+          Imported: {providerName}
         </p>
       </div>
 
