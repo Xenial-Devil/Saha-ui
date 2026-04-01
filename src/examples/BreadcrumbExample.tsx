@@ -2,12 +2,14 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbSeparator,
+} from "../components/Breadcrumb";
+import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from "../index";
+} from "../components/Card";
 import { ShoppingCart, FileText, Settings } from "lucide-react";
 
 export const BreadcrumbExample = () => {

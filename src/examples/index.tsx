@@ -108,6 +108,7 @@ export { default as IconButtonExample } from "./IconButtonExample";
 
 // Typography
 export { TypographyExample } from "./TypographyExample";
+export { TypewriterTextExample } from "./TypewriterTextExample";
 
 // Advanced Components
 export { default as TextEditorExample } from "./TextEditorExample";
@@ -116,6 +117,37 @@ export { default as ChartExamples } from "./ChartExamples";
 export { default as CodeEditorExample } from "./CodeEditorExample";
 export { default as StatCardExample } from "./StatCardExample";
 export { default as TransferExample } from "./TransferExample";
+
+// Missing Component Examples (Added)
+export { AnnouncementBarExample } from "./AnnouncementBarExample";
+export { ChatBubbleExample } from "./ChatBubbleExample";
+export { ConfettiExample } from "./ConfettiExample";
+export { CookieConsentExample } from "./CookieConsentExample";
+export { CountdownTimerExample } from "./CountdownTimerExample";
+export { DateRangePickerExample } from "./DateRangePickerExample";
+export { DateTimePickerExample } from "./DateTimePickerExample";
+export { DockExample } from "./DockExample";
+export { DragDropExample } from "./DragDropExample";
+export { FileInputExample } from "./FileInputExample";
+export { FloatingToolbarExample } from "./FloatingToolbarExample";
+export { GanttChartExample } from "./GanttChartExample";
+export { ImageCropperExample } from "./ImageCropperExample";
+export { ImageGalleryExample } from "./ImageGalleryExample";
+export { InfiniteScrollExample } from "./InfiniteScrollExample";
+export { KanbanBoardExample } from "./KanbanBoardExample";
+export { MultiSelectExample } from "./MultiSelectExample";
+export { NotificationExample } from "./NotificationExample";
+export { NotificationCenterExample } from "./NotificationCenterExample";
+export { NumberInputExample } from "./NumberInputExample";
+export { OTPDisplayBlockExample } from "./OTPDisplayBlockExample";
+export { PasswordInputExample } from "./PasswordInputExample";
+export { PhoneInputExample } from "./PhoneInputExample";
+export { QRCodeExample } from "./QRCodeExample";
+export { SearchInputExample } from "./SearchInputExample";
+export { SidebarExample } from "./SidebarExample";
+export { SplitButtonExample } from "./SplitButtonExample";
+export { SpotlightSearchExample } from "./SpotlightSearchExample";
+export { WatermarkExample } from "./WatermarkExample";
 
 // Aggregate component that includes all examples
 export { AllComponentExamples } from "./AllComponentExamples";
