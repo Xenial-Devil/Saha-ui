@@ -1,3 +1,10 @@
+# [1.24.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.23.0...v1.24.0) (2026-04-13)
+
+
+### Features
+
+* **t:** add comprehensive TypeScript types for carouselIntroduce a new TickerCarousel.types.ts file with a complete setof Type definitions for the ticker carousel components andAPI surface. The changes add: ([9760733](https://github.com/Xenial-Devil/Saha-ui/commit/9760733f74de24c359b0dce0a25ad4e31567aebd))
+
 # [1.23.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.22.12...v1.23.0) (2026-03-31)
 
 
