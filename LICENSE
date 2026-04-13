@@ -1,21 +1,275 @@
-MIT License
+# CONTRIBUTIVE SOURCE LICENSE (CSL) Version 1.0
 
-Copyright (c) 2023 Subroto Saha
+---
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+## PREAMBLE
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This License Agreement ("Agreement") is a legally binding contract between
+the original author/owner ("Licensor") and any individual or entity
+("Contributor") who wishes to access, view, or contribute to the covered
+work ("Software"). By accessing, cloning, forking, or otherwise interacting
+with this Software, you agree to be fully bound by the terms of this
+Agreement.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+---
+
+## ARTICLE 1 — DEFINITIONS
+
+**1.1 "Licensor"**
+means the original creator and sole owner of the Software,
+who retains all intellectual property rights.
+
+**1.2 "Contributor"**
+means any individual or legal entity that accesses, forks,
+or submits contributions to the Software under this License.
+
+**1.3 "Software"**
+means the source code, documentation, assets, scripts,
+configurations, and any related materials covered under this License.
+
+**1.4 "Fork"**
+means a personal copy of the Software repository created by a
+Contributor for the sole and exclusive purpose of preparing a Merge Request.
+
+**1.5 "Merge Request"**
+(also referred to as a "Pull Request") means a formal submission
+by a Contributor proposing specific changes to be reviewed and potentially
+integrated into the Software by the Licensor.
+
+**1.6 "Contribution"**
+means any modification, addition, deletion, bug fix, documentation
+update, or improvement submitted by a Contributor through a Merge Request.
+
+**1.7 "Unauthorized Use"**
+means any use of the Software or its derivatives outside the
+permissions explicitly granted under this License.
+
+---
+
+## ARTICLE 2 — GRANT OF LIMITED RIGHTS
+
+**2.1 Permitted Actions**
+
+Subject to full compliance with this Agreement, the Licensor hereby grants
+the Contributor a **limited, non-exclusive, non-transferable, revocable**
+right to:
+
+- ✅ **View** the source code of the Software
+- ✅ **Fork** the Software solely for the purpose of preparing a Merge Request
+- ✅ **Modify** the forked copy solely for the purpose of submitting a Merge Request
+- ✅ **Submit** a Merge Request to the Licensor for review and approval
+
+**2.2** These rights are **strictly conditional** upon compliance with all
+terms of this License.
+
+---
+
+## ARTICLE 3 — STRICT PROHIBITIONS
+
+**3.1 The Contributor is explicitly PROHIBITED from:**
+
+- ❌ **Distributing** the Software or any modified version thereof
+- ❌ **Publishing** the Software or derivatives on any platform, website,
+  or repository other than the official repository
+- ❌ **Selling**, licensing, sublicensing, or commercially exploiting
+  the Software or any part thereof
+- ❌ **Merging**, deploying, or integrating changes into any production
+  or personal project without explicit written permission from the Licensor
+- ❌ **Using** the forked copy or any derived version for any purpose
+  other than submitting a Merge Request
+- ❌ **Sharing** the forked copy publicly as an independent project
+- ❌ **Claiming ownership** or co-ownership of the Software or any
+  portion thereof
+- ❌ **Removing or altering** any copyright notices, license headers,
+  or attribution present in the Software
+- ❌ **Reverse engineering**, decompiling, or using the Software
+  for competing purposes
+- ❌ **Keeping** a fork active beyond a reasonable period after a
+  Merge Request has been accepted, rejected, or closed
+
+---
+
+## ARTICLE 4 — MERGE REQUEST PROTOCOL
+
+**4.1 Submission Requirements**
+
+All Merge Requests submitted by a Contributor must:
+
+- Be submitted through the official and designated repository platform
+  (e.g., GitHub, GitLab, Bitbucket) as specified by the Licensor
+- Clearly describe the nature and purpose of the proposed changes
+- Be limited in scope to a single feature, fix, or improvement per request
+  unless otherwise agreed in writing by the Licensor
+- Not include any third-party code, libraries, or assets without prior
+  written consent from the Licensor
+
+**4.2 Review and Discretion**
+
+The Licensor retains **absolute and sole discretion** to:
+
+- Accept, reject, modify, or ignore any Merge Request for any reason
+  or no reason at all
+- Request revisions from the Contributor before any consideration
+  of acceptance
+- Close any Merge Request deemed inconsistent with the goals or
+  standards of the Software
+
+**4.3 No Obligation**
+
+The Licensor is under **no obligation** to:
+
+- Review any Merge Request within a specific timeframe
+- Provide feedback or justification for rejection
+- Accept any Contribution regardless of quality or effort
+
+**4.4 Transfer of Rights Upon Acceptance**
+
+By submitting a Merge Request, the Contributor **irrevocably assigns
+and transfers** to the Licensor all intellectual property rights,
+including but not limited to copyright, in and to the Contribution,
+effective upon submission. The Contributor waives any and all moral
+rights to the Contribution to the fullest extent permitted by
+applicable law.
+
+---
+
+## ARTICLE 5 — CONTRIBUTOR REPRESENTATIONS AND WARRANTIES
+
+**5.1 By submitting a Merge Request, the Contributor represents
+and warrants that:**
+
+- The Contribution is the original work of the Contributor
+- The Contributor has full legal authority to submit the Contribution
+  and assign rights therein
+- The Contribution does not infringe upon any third-party intellectual
+  property rights, patents, trademarks, or trade secrets
+- The Contribution does not contain any malicious code, backdoors,
+  or harmful components
+- The Contribution complies with all applicable laws and regulations
+
+---
+
+## ARTICLE 6 — INTELLECTUAL PROPERTY AND OWNERSHIP
+
+**6.1** The Licensor retains **full, exclusive, and perpetual ownership**
+of the Software, including all accepted Contributions.
+
+**6.2** Nothing in this License shall be construed as transferring any
+ownership rights to the Contributor.
+
+**6.3** The Contributor shall receive **no compensation, royalty, or
+payment** of any kind for any Contribution unless a separate written
+agreement expressly provides otherwise.
+
+**6.4** The Licensor may credit the Contributor at the Licensor's sole
+discretion but is under no obligation to do so.
+
+---
+
+## ARTICLE 7 — TERMINATION
+
+**7.1** This License and all rights granted hereunder shall **automatically
+terminate**, with immediate effect, if the Contributor:
+
+- Violates any term or condition of this License
+- Distributes, publishes, or misuses the Software or any fork thereof
+- Engages in any conduct that the Licensor reasonably determines to be
+  harmful to the Software or its reputation
+
+**7.2** Upon termination, the Contributor must:
+
+- Immediately **delete and destroy** all copies, forks, and derivatives
+  of the Software in their possession
+- **Cease all use** of the Software without exception
+
+**7.3** Termination of this License does not limit any other remedies
+available to the Licensor at law or in equity.
+
+---
+
+## ARTICLE 8 — DISCLAIMER OF WARRANTIES
+
+**8.1** THE SOFTWARE IS PROVIDED **"AS IS"** WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+
+**8.2** THE LICENSOR DOES NOT WARRANT THAT THE SOFTWARE WILL BE
+ERROR-FREE OR UNINTERRUPTED.
+
+---
+
+## ARTICLE 9 — LIMITATION OF LIABILITY
+
+**9.1** TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSOR
+SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF OR RELATED TO THIS
+LICENSE OR THE USE OF THE SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+OF SUCH DAMAGES.
+
+---
+
+## ARTICLE 10 — GOVERNING LAW AND DISPUTE RESOLUTION
+
+**10.1** This License shall be governed by and construed in accordance
+with the laws of **[YOUR JURISDICTION/COUNTRY]**, without regard to
+conflict of law principles.
+
+**10.2** Any dispute arising out of or in connection with this License
+shall be subject to the **exclusive jurisdiction** of the courts located
+in **[YOUR CITY/COUNTRY]**.
+
+**10.3** In the event of any dispute, the prevailing party shall be
+entitled to recover reasonable **attorney's fees and legal costs**.
+
+---
+
+## ARTICLE 11 — GENERAL PROVISIONS
+
+**11.1 Entire Agreement**
+This License constitutes the entire agreement between the Licensor
+and Contributor with respect to the Software and supersedes all
+prior understandings.
+
+**11.2 Severability**
+If any provision of this License is found to be unenforceable,
+the remaining provisions shall continue in full force and effect.
+
+**11.3 No Waiver**
+Failure by the Licensor to enforce any provision of this License
+shall not constitute a waiver of the Licensor's right to enforce
+such provision in the future.
+
+**11.4 Amendments**
+The Licensor reserves the right to modify this License at any time.
+Continued use of or contribution to the Software after such
+modification constitutes acceptance of the updated License.
+
+**11.5 No Partnership**
+Nothing in this License creates a partnership, employment
+relationship, or agency between the Licensor and any Contributor.
+
+---
+
+## ACCEPTANCE
+
+> **By forking, cloning, accessing, or submitting a Merge Request to
+> the Software, you acknowledge that you have read, understood, and
+> agree to be legally bound by all terms and conditions of this
+> Contributive Source License (CSL) Version 1.0.**
+
+---
+
+**Copyright © 2026 Xenial-Devil**
+**All Rights Reserved.**
+
+---
+
+### How To Apply This License
+
+Place this file in the root of your repository as `LICENSE.md`
+and add the following header to your source files:
+
+> Copyright (c) 2026 Xenial-Devil. All Rights Reserved.  
+> Licensed under the Contributive Source License (CSL) v1.0.  
+> Forking permitted for Merge Request purposes ONLY.  
+> See LICENSE.md for full terms.

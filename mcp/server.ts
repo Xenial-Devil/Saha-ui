@@ -1,19 +1,15 @@
 #!/usr/bin/env node
 
 /**
- * Saha UI MCP Server - Enhanced Dynamic Version
+ * Saha UI MCP Server - Enhanced Dynamic Version (v2.1.0 - Bug Fixed)
  *
- * A Model Context Protocol server that provides AI assistants with intelligent,
- * context-aware access to the Saha UI component library.
- *
- * Features:
- * - Context-aware responses that remember session history
- * - Intent detection for natural language queries
- * - Fuzzy matching for typo tolerance
- * - Progressive disclosure (summaries first, details on request)
- * - Proactive suggestions and related content
- * - Smart dependency tracking
- * - Interactive examples with live code
+ * Fixes from v2.0:
+ * - Fixed regex `g` flag bug in searchInFiles (lastIndex persistence)
+ * - Fixed detail_level enum mismatch ("brief" → "summary")
+ * - Fixed fuzzy-matched component/hook name not propagated to callers
+ * - Fixed HOOKS.find / COMPONENTS.find using unresolved original name
+ * - Replaced `any[]` with proper generics in findBestMatch
+ * - Added glob error handling for missing directories
  */
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
@@ -35,13 +31,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Root directory of the Saha UI package
-// When built: dist/mcp/server.js -> need to go up 2 levels to reach project root
-// When in source: mcp/server.ts -> need to go up 1 level
 const SAHA_UI_ROOT = __dirname.includes("dist")
   ? path.resolve(__dirname, "..", "..")
   : path.resolve(__dirname, "..");
 
-// Session context to track interaction history
+// ─── Types ────────────────────────────────────────────────────────────────────
+
 interface SessionContext {
   recentComponents: string[];
   recentHooks: string[];
@@ -51,6 +46,28 @@ interface SessionContext {
   queryCount: number;
   timestamp: number;
 }
+
+interface ComponentMeta {
+  name: string;
+  category: string;
+  complexity: "simple" | "medium" | "complex";
+  tags: string[];
+}
+
+interface HookMeta {
+  name: string;
+  category: string;
+  complexity: "simple" | "medium" | "complex";
+  tags: string[];
+}
+
+interface UtilityMeta {
+  name: string;
+  file: string;
+  description: string;
+}
+
+// ─── Session ──────────────────────────────────────────────────────────────────
 
 const sessionContext: SessionContext = {
   recentComponents: [],
@@ -62,140 +79,350 @@ const sessionContext: SessionContext = {
   timestamp: Date.now(),
 };
 
-// Component and hook definitions with metadata
-const COMPONENTS = [
-  {
-    name: "Accordion",
-    category: "Data Display",
-    complexity: "medium",
-    tags: ["collapsible", "expandable", "faq"],
-  },
-  {
-    name: "Alert",
-    category: "Feedback",
-    complexity: "simple",
-    tags: ["notification", "message", "status"],
-  },
-  {
-    name: "Avatar",
-    category: "Data Display",
-    complexity: "simple",
-    tags: ["profile", "user", "image"],
-  },
-  {
-    name: "Badge",
-    category: "Data Display",
-    complexity: "simple",
-    tags: ["label", "tag", "status"],
-  },
-  {
-    name: "Button",
-    category: "Form Controls",
-    complexity: "simple",
-    tags: ["action", "click", "submit"],
-  },
-  {
-    name: "Card",
-    category: "Data Display",
-    complexity: "simple",
-    tags: ["container", "panel", "content"],
-  },
-  {
-    name: "Checkbox",
-    category: "Form Controls",
-    complexity: "simple",
-    tags: ["input", "form", "selection"],
-  },
-  {
-    name: "Dialog",
-    category: "Overlay",
-    complexity: "medium",
-    tags: ["modal", "popup", "overlay"],
-  },
-  {
-    name: "Dropdown",
-    category: "Navigation",
-    complexity: "medium",
-    tags: ["menu", "select", "options"],
-  },
-  {
-    name: "Input",
-    category: "Form Controls",
-    complexity: "simple",
-    tags: ["text", "form", "field"],
-  },
-  {
-    name: "Modal",
-    category: "Overlay",
-    complexity: "medium",
-    tags: ["dialog", "popup", "overlay"],
-  },
-  {
-    name: "Select",
-    category: "Form Controls",
-    complexity: "medium",
-    tags: ["dropdown", "form", "options"],
-  },
-  {
-    name: "Tabs",
-    category: "Navigation",
-    complexity: "medium",
-    tags: ["navigation", "switch", "panel"],
-  },
-  {
-    name: "Toast",
-    category: "Feedback",
-    complexity: "medium",
-    tags: ["notification", "snackbar", "message"],
-  },
-  {
-    name: "Tooltip",
-    category: "Overlay",
-    complexity: "simple",
-    tags: ["hint", "help", "info"],
-  },
-];
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
-const HOOKS = [
-  {
-    name: "useDebounce",
-    category: "Performance",
-    complexity: "medium",
-    tags: ["delay", "optimization", "input"],
-  },
-  {
-    name: "useLocalStorage",
-    category: "State",
-    complexity: "simple",
-    tags: ["persistence", "storage", "state"],
-  },
-  {
-    name: "useMediaQuery",
-    category: "Responsive",
-    complexity: "simple",
-    tags: ["responsive", "breakpoint", "screen"],
-  },
-  {
-    name: "useTheme",
-    category: "Theming",
-    complexity: "simple",
-    tags: ["theme", "dark-mode", "styling"],
-  },
-  {
-    name: "useClickOutside",
-    category: "Interaction",
-    complexity: "simple",
-    tags: ["click", "outside", "event"],
-  },
-  {
-    name: "useToggle",
-    category: "State",
-    complexity: "simple",
-    tags: ["boolean", "state", "switch"],
-  },
-];
+type ComplexityLevel = ComponentMeta["complexity"];
 
-const UTILITIES = [
+const SIMPLE_COMPONENTS = new Set<string>([
+  "Affix",
+  "AspectRatio",
+  "Avatar",
+  "Backdrop",
+  "Badge",
+  "Button",
+  "Checkbox",
+  "Chip",
+  "Container",
+  "Empty",
+  "IconButton",
+  "Image",
+  "Kbd",
+  "Label",
+  "Link",
+  "Paper",
+  "PlayButton",
+  "Progress",
+  "QRCode",
+  "Radio",
+  "Rating",
+  "Separator",
+  "Skeleton",
+  "Spinner",
+  "Switch",
+  "Tag",
+  "Typography",
+  "Watermark",
+]);
+
+const COMPLEX_COMPONENTS = new Set<string>([
+  "Accordion",
+  "Autocomplete",
+  "Calendar",
+  "Carousel",
+  "Chart",
+  "CodeEditor",
+  "ColorPicker",
+  "Combobox",
+  "Command",
+  "DataTable",
+  "DatePicker",
+  "DateRangePicker",
+  "DateTimePicker",
+  "Dialog",
+  "DragDrop",
+  "Drawer",
+  "FileInput",
+  "GanttChart",
+  "ImageCropper",
+  "KanbanBoard",
+  "MultiSelect",
+  "NavigationMenu",
+  "NotificationCenter",
+  "NumberInput",
+  "PasswordInput",
+  "PhoneInput",
+  "Resizable",
+  "Sidebar",
+  "Sonner",
+  "SpotlightSearch",
+  "TextEditor",
+  "ThemeProvider",
+  "ThemeToggle",
+  "TimePicker",
+  "Tour",
+  "Transfer",
+  "Upload",
+  "VirtualList",
+]);
+
+const MEDIUM_HOOKS = new Set<string>([
+  "useAccordion",
+  "useAlert",
+  "useAnimatedHeight",
+  "useAnimation",
+  "useAspectRatio",
+  "useAsync",
+  "useAvatar",
+  "useChartColors",
+  "useChartData",
+  "useColorMode",
+  "useControllableState",
+  "useDataTable",
+  "useDebounce",
+  "useDOM",
+  "useEventListener",
+  "useFetch",
+  "useFocusTrap",
+  "useForm",
+  "useIntersectionObserver",
+  "useLazyMount",
+  "useMediaQuery",
+  "useMergedRef",
+  "useMergedRefs",
+  "usePagination",
+  "useSearchFilter",
+  "useThrottle",
+  "useUpdateEffect",
+  "useValidation",
+]);
+
+function extractNameTokens(name: string): string[] {
+  return name
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+}
+
+function unique(items: string[]): string[] {
+  return Array.from(new Set(items));
+}
+
+function categoryTagSeeds(category: string): string[] {
+  const seeds: Record<string, string[]> = {
+    Layout: ["layout", "container", "structure"],
+    Navigation: ["navigation", "menu", "flow"],
+    "Form Controls": ["form", "input", "field"],
+    Actions: ["action", "interaction", "trigger"],
+    "Data Display": ["display", "content", "visual"],
+    Feedback: ["feedback", "status", "message"],
+    Overlay: ["overlay", "popup", "layer"],
+    Media: ["media", "visual", "interactive"],
+    Utility: ["utility", "helper", "behavior"],
+    Theming: ["theme", "appearance", "style"],
+    Component: ["component", "logic", "state"],
+    State: ["state", "management", "logic"],
+    Interaction: ["dom", "events", "interaction"],
+    Form: ["form", "validation", "input"],
+    Performance: ["performance", "optimization", "timing"],
+  };
+
+  return seeds[category] ?? ["ui", "component", "react"];
+}
+
+function inferComponentCategory(name: string): string {
+  if (name === "ThemeProvider" || name === "ThemeToggle") return "Theming";
+
+  if (
+    /^(Container|Grid|Stack|Section|Masonry|Paper|Resizable|ScrollArea|Affix|VirtualList)$/i.test(
+      name,
+    )
+  ) {
+    return "Layout";
+  }
+
+  if (
+    [
+      "AppBar",
+      "BottomNavigation",
+      "Breadcrumb",
+      "Dock",
+      "Link",
+      "Menubar",
+      "NavigationMenu",
+      "Pagination",
+      "Segmented",
+      "Sidebar",
+      "Steps",
+      "Tab",
+    ].includes(name)
+  ) {
+    return "Navigation";
+  }
+
+  if (
+    /(Button|Toggle|FloatingActionButton|IconButton|PlayButton|SpeedDial|SplitButton|FloatingToolbar|ButtonGroup)/i.test(
+      name,
+    )
+  ) {
+    return "Actions";
+  }
+
+  if (
+    /(Input|Select|Picker|Form|Field|Checkbox|Radio|Switch|Slider|Upload|TextArea|TextEditor|TagInput|Autocomplete|Combobox|MultiSelect|Date|OTP|Password|Phone|Number)/i.test(
+      name,
+    )
+  ) {
+    return "Form Controls";
+  }
+
+  if (
+    /(Dialog|Drawer|Dropdown|Popover|HoverCard|ContextMenu|Command|SpotlightSearch)/i.test(
+      name,
+    )
+  ) {
+    return "Overlay";
+  }
+
+  if (
+    /(Alert|Backdrop|Progress|Result|Snackbar|Sonner|Spinner|Toast|Tooltip|Tour|NotificationCenter|CookieConsent|Confetti|AnnouncementBar)/i.test(
+      name,
+    )
+  ) {
+    return "Feedback";
+  }
+
+  if (
+    /(AspectRatio|Calendar|Carousel|VideoPlayer|Image|ImageCropper|ImageGallery|TickerCarousel|ChatBubble|QRCode)/i.test(
+      name,
+    )
+  ) {
+    return "Media";
+  }
+
+  if (
+    /(DragDrop|Collapsible|InfiniteScroll|Transfer|Watermark|CountdownTimer|TypewriterText)/i.test(
+      name,
+    )
+  ) {
+    return "Utility";
+  }
+
+  return "Data Display";
+}
+
+function inferComponentComplexity(name: string): ComplexityLevel {
+  if (COMPLEX_COMPONENTS.has(name)) return "complex";
+  if (SIMPLE_COMPONENTS.has(name)) return "simple";
+  return "medium";
+}
+
+function inferHookCategory(name: string): string {
+  if (/(Accordion|AspectRatio|Avatar|Chart|DataTable|Alert)/.test(name)) {
+    return "Component";
+  }
+
+  if (
+    /(Array|ControllableState|Counter|Disclosure|LocalStorage|SessionStorage|Toggle|Previous)/.test(
+      name,
+    )
+  ) {
+    return "State";
+  }
+
+  if (
+    /(ClickOutside|DOM|EventListener|FocusTrap|Hover|IntersectionObserver|ScrollLock|WindowSize|MergedRef|MergedRefs)/.test(
+      name,
+    )
+  ) {
+    return "Interaction";
+  }
+
+  if (/(Form|Validation)/.test(name)) {
+    return "Form";
+  }
+
+  if (
+    /(Debounce|Throttle|MediaQuery|Interval|Timeout|Async|Fetch|Animation|ReducedMotion|LazyMount|UpdateEffect|Clipboard|ColorMode|Pagination|SearchFilter|AnimatedHeight)/.test(
+      name,
+    )
+  ) {
+    return "Performance";
+  }
+
+  return "Utility";
+}
+
+function inferHookComplexity(name: string): ComplexityLevel {
+  if (name === "useDataTable") return "complex";
+  if (MEDIUM_HOOKS.has(name)) return "medium";
+  return "simple";
+}
+
+function buildTags(
+  name: string,
+  category: string,
+  extra: string[] = [],
+): string[] {
+  const tags = unique([
+    ...extractNameTokens(name).slice(0, 3),
+    ...extra,
+    ...categoryTagSeeds(category),
+  ]);
+
+  return tags.filter((tag) => tag.length > 1).slice(0, 5);
+}
+
+function listComponentNames(): string[] {
+  const componentsDir = path.join(SAHA_UI_ROOT, "src", "components");
+
+  try {
+    return fs
+      .readdirSync(componentsDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .filter((name) => {
+        const componentPath = path.join(componentsDir, name);
+        return (
+          fs.existsSync(path.join(componentPath, "index.tsx")) ||
+          fs.existsSync(path.join(componentPath, "index.ts"))
+        );
+      })
+      .sort((a, b) => a.localeCompare(b));
+  } catch {
+    return [];
+  }
+}
+
+function listHookNames(): string[] {
+  const hooksDir = path.join(SAHA_UI_ROOT, "src", "hooks");
+
+  try {
+    return fs
+      .readdirSync(hooksDir, { withFileTypes: true })
+      .filter(
+        (entry) => entry.isFile() && /^use[A-Za-z0-9]+\.ts$/.test(entry.name),
+      )
+      .map((entry) => entry.name.replace(/\.ts$/, ""))
+      .sort((a, b) => a.localeCompare(b));
+  } catch {
+    return [];
+  }
+}
+
+const COMPONENTS: ComponentMeta[] = listComponentNames().map((name) => {
+  const category = inferComponentCategory(name);
+
+  return {
+    name,
+    category,
+    complexity: inferComponentComplexity(name),
+    tags: buildTags(name, category),
+  };
+});
+
+const HOOKS: HookMeta[] = listHookNames().map((name) => {
+  const category = inferHookCategory(name);
+
+  return {
+    name,
+    category,
+    complexity: inferHookComplexity(name),
+    tags: buildTags(name, category, ["hook"]),
+  };
+});
+
+const UTILITIES: UtilityMeta[] = [
   {
     name: "cn",
     file: "lib/utils.ts",
@@ -204,147 +431,148 @@ const UTILITIES = [
   {
     name: "formatters",
     file: "lib/formatters.ts",
-    description: "Common formatting utilities",
+    description: "Number, currency, date, and bytes formatting helpers",
+  },
+  {
+    name: "createChartConfig",
+    file: "lib/chartConfig.ts",
+    description: "Factory helper for building typed chart configurations",
+  },
+  {
+    name: "validation",
+    file: "lib/validation.ts",
+    description: "Runtime prop-validation helpers and shared validators",
+  },
+  {
+    name: "modernDesign",
+    file: "lib/modernDesign.ts",
+    description: "Modern effect tokens for transitions, shadows, and UI polish",
+  },
+  {
+    name: "usePortalPosition",
+    file: "lib/usePortalPosition.ts",
+    description:
+      "Portal positioning helper for popovers, dropdowns, and tooltips",
   },
 ];
 
-// Fuzzy string matching using Levenshtein distance
-function fuzzyMatch(str1: string, str2: string): number {
-  const s1 = str1.toLowerCase();
-  const s2 = str2.toLowerCase();
+// ─── Fuzzy Matching ───────────────────────────────────────────────────────────
 
-  if (s1 === s2) return 1.0;
-  if (s2.includes(s1) || s1.includes(s2)) return 0.8;
-
-  const distance = levenshteinDistance(s1, s2);
-  const maxLen = Math.max(s1.length, s2.length);
-  return 1 - distance / maxLen;
-}
-
-function levenshteinDistance(str1: string, str2: string): number {
-  const matrix: number[][] = [];
-
-  for (let i = 0; i <= str2.length; i++) {
-    matrix[i] = [i];
-  }
-
-  for (let j = 0; j <= str1.length; j++) {
-    matrix[0][j] = j;
-  }
-
-  for (let i = 1; i <= str2.length; i++) {
-    for (let j = 1; j <= str1.length; j++) {
-      if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
-        matrix[i][j] = matrix[i - 1][j - 1];
+function levenshteinDistance(a: string, b: string): number {
+  const m = b.length;
+  const n = a.length;
+  const dp: number[][] = Array.from({ length: m + 1 }, (_, i) =>
+    Array.from({ length: n + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)),
+  );
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (b[i - 1] === a[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
       } else {
-        matrix[i][j] = Math.min(
-          matrix[i - 1][j - 1] + 1,
-          matrix[i][j - 1] + 1,
-          matrix[i - 1][j] + 1,
-        );
+        dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], dp[i][j - 1], dp[i - 1][j]);
       }
     }
   }
-
-  return matrix[str2.length][str1.length];
+  return dp[m][n];
 }
 
-// Find best match for a component/hook name
-function findBestMatch(
+function fuzzyScore(query: string, target: string): number {
+  const q = query.toLowerCase();
+  const t = target.toLowerCase();
+  if (q === t) return 1.0;
+  if (t.includes(q) || q.includes(t)) return 0.8;
+  const dist = levenshteinDistance(q, t);
+  return 1 - dist / Math.max(q.length, t.length);
+}
+
+// FIX: generic constraint instead of any[]
+function findBestMatch<T extends { name: string }>(
   query: string,
-  items: any[],
-  threshold: number = 0.6,
-): any[] {
-  const matches = items
-    .map((item) => ({
-      item,
-      score: fuzzyMatch(query, item.name),
-    }))
-    .filter((match) => match.score >= threshold)
-    .sort((a, b) => b.score - a.score);
-
-  return matches.map((m) => m.item);
+  items: T[],
+  threshold = 0.6,
+): T[] {
+  return items
+    .map((item) => ({ item, score: fuzzyScore(query, item.name) }))
+    .filter(({ score }) => score >= threshold)
+    .sort((a, b) => b.score - a.score)
+    .map(({ item }) => item);
 }
 
-// Detect user intent from query patterns
+/** Resolve a possibly-misspelled name to the best match, or return null. */
+function resolveItem<T extends { name: string }>(
+  query: string,
+  items: T[],
+): T | null {
+  const exact = items.find((i) => i.name.toLowerCase() === query.toLowerCase());
+  if (exact) return exact;
+  return findBestMatch(query, items)[0] ?? null;
+}
+
+// ─── Intent Detection ─────────────────────────────────────────────────────────
+
 function detectIntent(query: string): string {
   const q = query.toLowerCase();
-
-  if (q.includes("how to") || q.includes("how do i") || q.includes("guide")) {
+  if (q.includes("how to") || q.includes("how do i") || q.includes("guide"))
     return "tutorial";
-  }
-  if (q.includes("example") || q.includes("demo") || q.includes("sample")) {
+  if (q.includes("example") || q.includes("demo") || q.includes("sample"))
     return "example";
-  }
-  if (q.includes("style") || q.includes("customize") || q.includes("theme")) {
+  if (q.includes("style") || q.includes("customize") || q.includes("theme"))
     return "styling";
-  }
-  if (q.includes("props") || q.includes("api") || q.includes("parameters")) {
+  if (q.includes("props") || q.includes("api") || q.includes("parameters"))
     return "api";
-  }
   if (
     q.includes("similar") ||
     q.includes("alternative") ||
     q.includes("related")
-  ) {
+  )
     return "discovery";
-  }
-  if (
-    q.includes("error") ||
-    q.includes("fix") ||
-    q.includes("problem") ||
-    q.includes("not working")
-  ) {
+  if (q.includes("error") || q.includes("fix") || q.includes("not working"))
     return "troubleshooting";
-  }
-  if (q.includes("best") || q.includes("recommend") || q.includes("should i")) {
+  if (q.includes("best") || q.includes("recommend") || q.includes("should i"))
     return "recommendation";
-  }
-
   return "information";
 }
 
-// Update session context
-function updateContext(type: "component" | "hook" | "query", value: string) {
+// ─── Session Context ──────────────────────────────────────────────────────────
+
+function updateContext(
+  type: "component" | "hook" | "query",
+  value: string,
+): void {
   sessionContext.queryCount++;
   sessionContext.timestamp = Date.now();
   sessionContext.lastQuery = value;
 
   if (type === "component") {
-    sessionContext.recentComponents.unshift(value);
-    sessionContext.recentComponents = sessionContext.recentComponents.slice(
+    sessionContext.recentComponents = [
+      value,
+      ...sessionContext.recentComponents,
+    ].slice(0, 5);
+  } else if (type === "hook") {
+    sessionContext.recentHooks = [value, ...sessionContext.recentHooks].slice(
       0,
       5,
     );
-  } else if (type === "hook") {
-    sessionContext.recentHooks.unshift(value);
-    sessionContext.recentHooks = sessionContext.recentHooks.slice(0, 5);
-  } else if (type === "query") {
+  } else {
     sessionContext.userIntent = detectIntent(value);
   }
 }
 
-// Generate contextual suggestions
-function getContextualSuggestions(componentName: string): string[] {
-  const component = COMPONENTS.find((c) => c.name === componentName);
-  if (!component) return [];
+// ─── Contextual Suggestions ───────────────────────────────────────────────────
 
+function getContextualSuggestions(component: ComponentMeta): string[] {
   const suggestions: string[] = [];
 
-  // Suggest related components by category
-  const relatedByCategory = COMPONENTS.filter(
-    (c) => c.category === component.category && c.name !== componentName,
-  )
-    .slice(0, 2)
-    .map((c) => c.name);
+  const related = COMPONENTS.filter(
+    (c) => c.category === component.category && c.name !== component.name,
+  ).slice(0, 2);
 
-  if (relatedByCategory.length > 0) {
+  if (related.length > 0) {
     suggestions.push(
-      `Related ${component.category} components: ${relatedByCategory.join(", ")}`,
+      `Related ${component.category} components: ${related.map((c) => c.name).join(", ")}`,
     );
   }
 
-  // Suggest relevant hooks
   if (component.name === "Input") {
     suggestions.push("Useful hooks: useDebounce, useLocalStorage");
   } else if (component.name === "Modal" || component.name === "Dialog") {
@@ -353,7 +581,6 @@ function getContextualSuggestions(componentName: string): string[] {
     suggestions.push("Useful hooks: useClickOutside");
   }
 
-  // Suggest based on intent
   if (sessionContext.userIntent === "styling") {
     suggestions.push("Check out: get_component_variants, get_theme_config");
   } else if (sessionContext.userIntent === "example") {
@@ -363,58 +590,60 @@ function getContextualSuggestions(componentName: string): string[] {
   return suggestions;
 }
 
-// Generate smart response with context
-function generateSmartResponse(content: string, metadata: any = {}): string {
-  const { type, name, suggestions = [], nextSteps = [], tips = [] } = metadata;
+// ─── Smart Response Builder ───────────────────────────────────────────────────
 
+interface ResponseMeta {
+  type?: string;
+  name?: string;
+  suggestions?: string[];
+  nextSteps?: string[];
+  tips?: string[];
+}
+
+function generateSmartResponse(
+  content: string,
+  meta: ResponseMeta = {},
+): string {
+  const { type, name, suggestions = [], nextSteps = [], tips = [] } = meta;
   let response = content;
 
-  // Add component name if available
   if (name && type === "component") {
     response = `# ${name} Component\n\n${response}`;
   }
 
-  // Add contextual information
-  if (sessionContext.userIntent) {
-    const intentMessages: Record<string, string> = {
-      tutorial: "\n\n💡 **Tutorial Mode**: I'll provide step-by-step guidance.",
-      example: "\n\n📋 **Example Mode**: Here's a working code sample.",
-      styling: "\n\n🎨 **Styling Mode**: Focus on customization and theming.",
-      api: "\n\n📖 **API Mode**: Here's the technical reference.",
-      troubleshooting:
-        "\n\n🔧 **Troubleshooting Mode**: Let's solve this issue.",
-    };
+  const intentMessages: Record<string, string> = {
+    tutorial: "\n\n💡 **Tutorial Mode**: I'll provide step-by-step guidance.",
+    example: "\n\n📋 **Example Mode**: Here's a working code sample.",
+    styling: "\n\n🎨 **Styling Mode**: Focus on customization and theming.",
+    api: "\n\n📖 **API Mode**: Here's the technical reference.",
+    troubleshooting: "\n\n🔧 **Troubleshooting Mode**: Let's solve this issue.",
+  };
 
-    if (intentMessages[sessionContext.userIntent]) {
-      response = intentMessages[sessionContext.userIntent] + "\n\n" + response;
-    }
+  if (sessionContext.userIntent && intentMessages[sessionContext.userIntent]) {
+    response = intentMessages[sessionContext.userIntent] + "\n\n" + response;
   }
 
-  // Add suggestions
   if (suggestions.length > 0) {
     response += "\n\n---\n\n### 💡 Suggestions\n\n";
-    suggestions.forEach((s: string) => {
+    suggestions.forEach((s) => {
       response += `- ${s}\n`;
     });
   }
 
-  // Add next steps
   if (nextSteps.length > 0) {
     response += "\n\n### 🎯 Next Steps\n\n";
-    nextSteps.forEach((step: string) => {
-      response += `- ${step}\n`;
+    nextSteps.forEach((s) => {
+      response += `- ${s}\n`;
     });
   }
 
-  // Add tips
   if (tips.length > 0) {
     response += "\n\n### 📌 Pro Tips\n\n";
-    tips.forEach((tip: string) => {
-      response += `- ${tip}\n`;
+    tips.forEach((t) => {
+      response += `- ${t}\n`;
     });
   }
 
-  // Add session context
   if (sessionContext.recentComponents.length > 0 && type === "component") {
     response += `\n\n---\n\n*Recently viewed: ${sessionContext.recentComponents.slice(0, 3).join(", ")}*`;
   }
@@ -422,205 +651,151 @@ function generateSmartResponse(content: string, metadata: any = {}): string {
   return response;
 }
 
-// Read file content safely
+// ─── File Helpers ─────────────────────────────────────────────────────────────
+
 function readFileContent(filePath: string): string {
   try {
-    const fullPath = path.join(SAHA_UI_ROOT, filePath);
-    return fs.readFileSync(fullPath, "utf-8");
+    return fs.readFileSync(path.join(SAHA_UI_ROOT, filePath), "utf-8");
   } catch {
     return "";
   }
 }
 
-// Check if file exists
 function fileExists(filePath: string): boolean {
   try {
-    const fullPath = path.join(SAHA_UI_ROOT, filePath);
-    return fs.existsSync(fullPath);
+    return fs.existsSync(path.join(SAHA_UI_ROOT, filePath));
   } catch {
     return false;
   }
 }
 
-// Search in files with context
+// FIX: removed global `g` flag from RegExp.
+// With the `g` flag, RegExp.prototype.test() advances `lastIndex` after each
+// match. When reused across different strings inside a loop, every other call
+// returns false (because lastIndex points past the end of the previous string).
+// Using only the `i` flag is sufficient for case-insensitive line matching.
+// A fresh RegExp is created per line so there is no shared state.
 function searchInFiles(
   pattern: string,
-  directory: string = "src",
+  directory = "src",
 ): Array<{ file: string; matches: string[] }> {
   const searchPath = path.join(SAHA_UI_ROOT, directory);
-  const files = glob.sync("**/*.{ts,tsx,js,jsx,css}", {
-    cwd: searchPath,
-    ignore: ["**/node_modules/**", "**/dist/**", "**/*.test.*", "**/*.spec.*"],
-  });
+
+  if (!fs.existsSync(searchPath)) return [];
+
+  let files: string[] = [];
+  try {
+    files = glob.sync("**/*.{ts,tsx,js,jsx,css}", {
+      cwd: searchPath,
+      ignore: [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/*.test.*",
+        "**/*.spec.*",
+      ],
+    });
+  } catch {
+    return [];
+  }
 
   const results: Array<{ file: string; matches: string[] }> = [];
-  const regex = new RegExp(pattern, "gi");
 
-  files.forEach((file) => {
+  for (const file of files) {
     const content = readFileContent(path.join(directory, file));
     const lines = content.split("\n");
     const matches: string[] = [];
 
-    lines.forEach((line, index) => {
-      if (regex.test(line)) {
-        const lineNumber = index + 1;
-        matches.push(`Line ${lineNumber}: ${line.trim()}`);
+    for (let i = 0; i < lines.length; i++) {
+      // FIX: new RegExp per line — no shared lastIndex
+      if (new RegExp(pattern, "i").test(lines[i])) {
+        matches.push(`Line ${i + 1}: ${lines[i].trim()}`);
       }
-    });
+    }
 
     if (matches.length > 0) {
-      const relativePath = path.join(directory, file).replace(/\\/g, "/");
-      results.push({ file: relativePath, matches });
+      results.push({
+        file: path.join(directory, file).replace(/\\/g, "/"),
+        matches,
+      });
     }
-  });
+  }
 
   return results;
 }
 
-// Extract props with better parsing
 function extractPropsFromTypes(content: string): string {
-  const propsMatch =
+  const match =
     content.match(/interface\s+\w+Props\s*\{([^}]+)\}/s) ||
     content.match(/type\s+\w+Props\s*=\s*\{([^}]+)\}/s);
-
-  if (propsMatch) {
-    return propsMatch[1].trim();
-  }
-
-  return "No props interface found";
+  return match ? match[1].trim() : "No props interface found";
 }
 
-// Get component documentation with intelligence
-function getComponentDocumentation(componentName: string): string {
-  // First, try to find exact match (case-insensitive)
-  let actualComponentName = componentName;
-  const exactMatch = COMPONENTS.find(
-    (c) => c.name.toLowerCase() === componentName.toLowerCase(),
-  );
+// ─── Documentation Builders ───────────────────────────────────────────────────
 
-  if (exactMatch) {
-    actualComponentName = exactMatch.name;
-  } else {
-    // Try fuzzy matching
-    const matches = findBestMatch(componentName, COMPONENTS);
-    if (matches.length > 0 && matches[0]) {
-      actualComponentName = matches[0].name;
-    }
-  }
+/**
+ * Returns { resolvedName, docs } so callers always work with the correct name.
+ * FIX v2.0 returned only a string, forcing callers to re-guess the resolved name,
+ * causing getContextualSuggestions() and COMPONENTS.find() to use the raw query.
+ */
+function getComponentDocumentation(
+  query: string,
+): { resolvedName: string; docs: string } | null {
+  const component = resolveItem(query, COMPONENTS);
+  if (!component) return null;
 
-  // Check if component directory exists
   const componentDir = path.join(
     SAHA_UI_ROOT,
     "src",
     "components",
-    actualComponentName,
+    component.name,
   );
+  if (!fs.existsSync(componentDir)) return null;
 
-  if (!fs.existsSync(componentDir)) {
-    // Component directory doesn't exist, suggest alternatives
-    const matches = findBestMatch(componentName, COMPONENTS);
-    if (matches.length > 0) {
-      return `Hey! I couldn't find "${componentName}" but I found these similar components:\n\n${matches
-        .slice(0, 3)
-        .map((m) => `- **${m.name}** (${m.category})`)
-        .join("\n")}\n\nWant me to show you one of these instead?`;
-    }
-    return `I couldn't find a component called "${componentName}". Try asking "list complexity=simple" to see all available components!`;
-  }
+  let docs = `**Category**: ${component.category}\n`;
+  docs += `**Complexity**: ${component.complexity}\n`;
+  docs += `**Tags**: ${component.tags.join(", ")}\n\n`;
 
-  let documentation = `# ${actualComponentName} Component\n\n`;
-
-  const component = COMPONENTS.find((c) => c.name === actualComponentName);
-  if (component) {
-    documentation += `**Category**: ${component.category}\n`;
-    documentation += `**Complexity**: ${component.complexity}\n`;
-    documentation += `**Tags**: ${component.tags.join(", ")}\n\n`;
-  }
-
-  // Read actual component files from the directory
   try {
-    // Try index.tsx first (most common)
     const indexPath = path.join(componentDir, "index.tsx");
     if (fs.existsSync(indexPath)) {
-      const content = fs.readFileSync(indexPath, "utf-8");
-      documentation += `## Component Implementation\n\n\`\`\`typescript\n${content}\n\`\`\`\n\n`;
+      docs += `## Component Implementation\n\n\`\`\`typescript\n${fs.readFileSync(indexPath, "utf-8")}\n\`\`\`\n\n`;
     }
 
-    // Try to read types file
-    const typesPath = path.join(
-      componentDir,
-      `${actualComponentName}.types.ts`,
-    );
+    const typesPath = path.join(componentDir, `${component.name}.types.ts`);
     if (fs.existsSync(typesPath)) {
-      const typesContent = fs.readFileSync(typesPath, "utf-8");
-      const props = extractPropsFromTypes(typesContent);
-      documentation += `## Props\n\n\`\`\`typescript\n${props}\n\`\`\`\n\n`;
+      docs += `## Props\n\n\`\`\`typescript\n${extractPropsFromTypes(fs.readFileSync(typesPath, "utf-8"))}\n\`\`\`\n\n`;
     }
 
-    // Try to read styles file
-    const stylesPath = path.join(
-      componentDir,
-      `${actualComponentName}.styles.ts`,
-    );
+    const stylesPath = path.join(componentDir, `${component.name}.styles.ts`);
     if (fs.existsSync(stylesPath)) {
-      const stylesContent = fs.readFileSync(stylesPath, "utf-8");
-      documentation += `## Styles\n\n\`\`\`typescript\n${stylesContent}\n\`\`\`\n\n`;
+      docs += `## Styles\n\n\`\`\`typescript\n${fs.readFileSync(stylesPath, "utf-8")}\n\`\`\`\n\n`;
     }
-  } catch (_error) {
-    documentation += `\n*Note: Some files couldn't be read, but the component exists in the library.*\n`;
+  } catch {
+    docs += `\n*Note: Some files couldn't be read, but the component exists in the library.*\n`;
   }
 
-  return documentation;
+  return { resolvedName: component.name, docs };
 }
 
-// Get hook documentation with intelligence
-function getHookDocumentation(hookName: string): string {
-  // First, try to find exact match (case-insensitive)
-  let actualHookName = hookName;
-  const exactMatch = HOOKS.find(
-    (h) => h.name.toLowerCase() === hookName.toLowerCase(),
-  );
+/** Same pattern for hooks — returns resolvedName alongside docs. */
+function getHookDocumentation(
+  query: string,
+): { resolvedName: string; docs: string } | null {
+  const hook = resolveItem(query, HOOKS);
+  if (!hook) return null;
 
-  if (exactMatch) {
-    actualHookName = exactMatch.name;
-  } else {
-    // Try fuzzy matching
-    const matches = findBestMatch(hookName, HOOKS);
-    if (matches.length > 0 && matches[0]) {
-      actualHookName = matches[0].name;
-    }
-  }
-
-  const hookPath = `src/hooks/${actualHookName}.ts`;
-
-  if (!fileExists(hookPath)) {
-    const matches = findBestMatch(hookName, HOOKS);
-    if (matches.length > 0) {
-      return `Hook "${hookName}" not found. Did you mean:\n\n${matches
-        .slice(0, 3)
-        .map((m) => `- ${m.name}`)
-        .join("\n")}`;
-    }
-    return `Hook "${hookName}" not found in the library.`;
-  }
+  const hookPath = `src/hooks/${hook.name}.ts`;
+  if (!fileExists(hookPath)) return null;
 
   const content = readFileContent(hookPath);
-  const hook = HOOKS.find((h) => h.name === actualHookName);
+  let docs = `**Category**: ${hook.category}\n`;
+  docs += `**Complexity**: ${hook.complexity}\n`;
+  docs += `**Tags**: ${hook.tags.join(", ")}\n\n`;
+  docs += `## Implementation\n\n\`\`\`typescript\n${content}\n\`\`\`\n\n`;
 
-  let doc = `# ${actualHookName} Hook\n\n`;
-
-  if (hook) {
-    doc += `**Category**: ${hook.category}\n`;
-    doc += `**Complexity**: ${hook.complexity}\n`;
-    doc += `**Tags**: ${hook.tags.join(", ")}\n\n`;
-  }
-
-  doc += `## Implementation\n\n\`\`\`typescript\n${content}\n\`\`\`\n\n`;
-
-  return doc;
+  return { resolvedName: hook.name, docs };
 }
 
-// Quick start guide
 function getQuickStartGuide(): string {
   return `# Saha UI Quick Start Guide
 
@@ -634,9 +809,9 @@ yarn add saha-ui
 
 ## Basic Setup
 
-### 1. Import Styles
-\`\`\`typescript
-import 'saha-ui/dist/index.css'
+### 1. Initialize Saha UI
+\`\`\`bash
+npx saha-ui@latest init
 \`\`\`
 
 ### 2. Use Components
@@ -678,129 +853,110 @@ module.exports = {
 `;
 }
 
-// Initialize MCP Server
+// ─── MCP Server ───────────────────────────────────────────────────────────────
+
 const server = new Server(
-  {
-    name: "saha-ui-mcp",
-    version: "2.0.0",
-  },
-  {
-    capabilities: {
-      resources: {},
-      tools: {},
-      prompts: {},
-    },
-  },
+  { name: "saha-ui-mcp", version: "2.1.0" },
+  { capabilities: { resources: {}, tools: {}, prompts: {} } },
 );
 
-// Resource handlers - Provide access to documentation
-server.setRequestHandler(ListResourcesRequestSchema, async () => {
-  return {
-    resources: [
-      {
-        uri: "saha-ui://docs/quick-start",
-        name: "Quick Start Guide",
-        description: "Get started with Saha UI in minutes",
-        mimeType: "text/markdown",
-      },
-      {
-        uri: "saha-ui://docs/components",
-        name: "Components Overview",
-        description: "Complete list of all available components",
-        mimeType: "text/markdown",
-      },
-      {
-        uri: "saha-ui://docs/hooks",
-        name: "Hooks Overview",
-        description: "Custom React hooks for enhanced functionality",
-        mimeType: "text/markdown",
-      },
-      {
-        uri: "saha-ui://docs/theming",
-        name: "Theming Guide",
-        description: "Customize colors, spacing, and styles",
-        mimeType: "text/markdown",
-      },
-      {
-        uri: "saha-ui://docs/readme",
-        name: "README",
-        description: "Main project documentation",
-        mimeType: "text/markdown",
-      },
-      {
-        uri: "saha-ui://package",
-        name: "package.json",
-        description: "Package configuration and dependencies",
-        mimeType: "application/json",
-      },
-      {
-        uri: "saha-ui://session/context",
-        name: "Session Context",
-        description: "Current interaction context and history",
-        mimeType: "application/json",
-      },
-    ],
-  };
-});
+// ─── Resources ────────────────────────────────────────────────────────────────
+
+server.setRequestHandler(ListResourcesRequestSchema, async () => ({
+  resources: [
+    {
+      uri: "saha-ui://docs/quick-start",
+      name: "Quick Start Guide",
+      description: "Get started with Saha UI in minutes",
+      mimeType: "text/markdown",
+    },
+    {
+      uri: "saha-ui://docs/components",
+      name: "Components Overview",
+      description: "Complete list of all available components",
+      mimeType: "text/markdown",
+    },
+    {
+      uri: "saha-ui://docs/hooks",
+      name: "Hooks Overview",
+      description: "Custom React hooks for enhanced functionality",
+      mimeType: "text/markdown",
+    },
+    {
+      uri: "saha-ui://docs/theming",
+      name: "Theming Guide",
+      description: "Customize colors, spacing, and styles",
+      mimeType: "text/markdown",
+    },
+    {
+      uri: "saha-ui://docs/readme",
+      name: "README",
+      description: "Main project documentation",
+      mimeType: "text/markdown",
+    },
+    {
+      uri: "saha-ui://package",
+      name: "package.json",
+      description: "Package configuration and dependencies",
+      mimeType: "application/json",
+    },
+    {
+      uri: "saha-ui://session/context",
+      name: "Session Context",
+      description: "Current interaction context and history",
+      mimeType: "application/json",
+    },
+  ],
+}));
 
 server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
-  const uri = request.params.uri;
+  const { uri } = request.params;
 
   if (uri === "saha-ui://docs/quick-start") {
     return {
       contents: [
-        {
-          uri,
-          mimeType: "text/markdown",
-          text: getQuickStartGuide(),
-        },
+        { uri, mimeType: "text/markdown", text: getQuickStartGuide() },
       ],
     };
   }
 
   if (uri === "saha-ui://docs/components") {
-    const componentsList = COMPONENTS.map(
+    const list = COMPONENTS.map(
       (c) =>
         `### ${c.name}\n- **Category**: ${c.category}\n- **Complexity**: ${c.complexity}\n- **Tags**: ${c.tags.join(", ")}\n`,
     ).join("\n");
-
     return {
       contents: [
         {
           uri,
           mimeType: "text/markdown",
-          text: `# Saha UI Components\n\n${componentsList}`,
+          text: `# Saha UI Components\n\n${list}`,
         },
       ],
     };
   }
 
   if (uri === "saha-ui://docs/hooks") {
-    const hooksList = HOOKS.map(
+    const list = HOOKS.map(
       (h) =>
         `### ${h.name}\n- **Category**: ${h.category}\n- **Complexity**: ${h.complexity}\n- **Tags**: ${h.tags.join(", ")}\n`,
     ).join("\n");
-
     return {
       contents: [
-        {
-          uri,
-          mimeType: "text/markdown",
-          text: `# Saha UI Hooks\n\n${hooksList}`,
-        },
+        { uri, mimeType: "text/markdown", text: `# Saha UI Hooks\n\n${list}` },
       ],
     };
   }
 
   if (uri === "saha-ui://docs/theming") {
-    const themeContent =
+    const css =
       readFileContent("src/index.css") || "Theming documentation coming soon";
     return {
       contents: [
         {
           uri,
           mimeType: "text/markdown",
-          text: `# Theming Guide\n\n\`\`\`css\n${themeContent}\n\`\`\``,
+          text: `# Theming Guide\n\n\`\`\`css\n${css}\n\`\`\``,
         },
       ],
     };
@@ -808,28 +964,12 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
 
   if (uri === "saha-ui://docs/readme") {
     const readme = readFileContent("README.md") || "README not found";
-    return {
-      contents: [
-        {
-          uri,
-          mimeType: "text/markdown",
-          text: readme,
-        },
-      ],
-    };
+    return { contents: [{ uri, mimeType: "text/markdown", text: readme }] };
   }
 
   if (uri === "saha-ui://package") {
-    const packageJson = readFileContent("package.json") || "{}";
-    return {
-      contents: [
-        {
-          uri,
-          mimeType: "application/json",
-          text: packageJson,
-        },
-      ],
-    };
+    const pkg = readFileContent("package.json") || "{}";
+    return { contents: [{ uri, mimeType: "application/json", text: pkg }] };
   }
 
   if (uri === "saha-ui://session/context") {
@@ -847,278 +987,273 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
   throw new Error(`Unknown resource: ${uri}`);
 });
 
-// Tool handlers - Provide intelligent search and retrieval
-server.setRequestHandler(ListToolsRequestSchema, async () => {
-  return {
-    tools: [
-      {
-        name: "get_component",
-        description:
-          "Get detailed information about a component with smart suggestions and context",
-        inputSchema: {
-          type: "object",
-          properties: {
-            name: {
-              type: "string",
-              description: "Component name (fuzzy matching supported)",
-            },
-            detail_level: {
-              type: "string",
-              enum: ["summary", "full", "code_only"],
-              description: "Level of detail to return",
-              default: "full",
-            },
+// ─── Tools ────────────────────────────────────────────────────────────────────
+
+server.setRequestHandler(ListToolsRequestSchema, async () => ({
+  tools: [
+    {
+      name: "get_component",
+      description:
+        "Get detailed information about a component with smart suggestions and context",
+      inputSchema: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+            description: "Component name (fuzzy matching supported)",
           },
-          required: ["name"],
-        },
-      },
-      {
-        name: "get_hook",
-        description:
-          "Get detailed information about a custom React hook with usage examples",
-        inputSchema: {
-          type: "object",
-          properties: {
-            name: {
-              type: "string",
-              description: "Hook name (fuzzy matching supported)",
-            },
-            include_example: {
-              type: "boolean",
-              description: "Include usage example",
-              default: true,
-            },
+          // FIX: was "brief" in the handler but "summary" in the enum — now consistent
+          detail_level: {
+            type: "string",
+            enum: ["summary", "full", "code_only"],
+            description: "Level of detail to return",
+            default: "full",
           },
-          required: ["name"],
         },
+        required: ["name"],
       },
-      {
-        name: "search_code",
-        description:
-          "Search codebase with smart filtering and context-aware results",
-        inputSchema: {
-          type: "object",
-          properties: {
-            pattern: {
-              type: "string",
-              description: "Search pattern (regex supported)",
-            },
-            directory: {
-              type: "string",
-              description: "Directory to search in",
-              default: "src",
-            },
-            context_lines: {
-              type: "number",
-              description: "Number of context lines around matches",
-              default: 2,
-            },
+    },
+    {
+      name: "get_hook",
+      description:
+        "Get detailed information about a custom React hook with usage examples",
+      inputSchema: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+            description: "Hook name (fuzzy matching supported)",
           },
-          required: ["pattern"],
-        },
-      },
-      {
-        name: "get_component_variants",
-        description:
-          "Get all style variants and customization options for a component",
-        inputSchema: {
-          type: "object",
-          properties: {
-            name: {
-              type: "string",
-              description: "Component name",
-            },
+          include_example: {
+            type: "boolean",
+            description: "Include usage example",
+            default: true,
           },
-          required: ["name"],
         },
+        required: ["name"],
       },
-      {
-        name: "get_utility",
-        description: "Get information about utility functions with examples",
-        inputSchema: {
-          type: "object",
-          properties: {
-            name: {
-              type: "string",
-              description: "Utility name",
-            },
+    },
+    {
+      name: "search_code",
+      description:
+        "Search codebase with smart filtering and context-aware results",
+      inputSchema: {
+        type: "object",
+        properties: {
+          pattern: {
+            type: "string",
+            description: "Search pattern (regex supported)",
           },
-          required: ["name"],
+          directory: {
+            type: "string",
+            description: "Directory to search in",
+            default: "src",
+          },
+          context_lines: {
+            type: "number",
+            description: "Number of context lines around matches",
+            default: 2,
+          },
         },
+        required: ["pattern"],
       },
-      {
-        name: "list_components_by_category",
-        description: "List components grouped by category with smart filtering",
-        inputSchema: {
-          type: "object",
-          properties: {
-            category: {
-              type: "string",
-              description: "Filter by category (optional)",
-            },
-            complexity: {
-              type: "string",
-              enum: ["simple", "medium", "complex"],
-              description: "Filter by complexity (optional)",
-            },
-            tags: {
-              type: "string",
-              description: "Filter by tags (comma-separated)",
-            },
+    },
+    {
+      name: "get_component_variants",
+      description:
+        "Get all style variants and customization options for a component",
+      inputSchema: {
+        type: "object",
+        properties: { name: { type: "string", description: "Component name" } },
+        required: ["name"],
+      },
+    },
+    {
+      name: "get_utility",
+      description: "Get information about utility functions with examples",
+      inputSchema: {
+        type: "object",
+        properties: { name: { type: "string", description: "Utility name" } },
+        required: ["name"],
+      },
+    },
+    {
+      name: "list_components_by_category",
+      description: "List components grouped by category with smart filtering",
+      inputSchema: {
+        type: "object",
+        properties: {
+          category: {
+            type: "string",
+            description: "Filter by category (optional)",
+          },
+          complexity: {
+            type: "string",
+            enum: ["simple", "medium", "complex"],
+            description: "Filter by complexity (optional)",
+          },
+          tags: {
+            type: "string",
+            description: "Filter by tags (comma-separated)",
           },
         },
       },
-      {
-        name: "get_usage_example",
-        description:
-          "Get complete, runnable usage examples with best practices",
-        inputSchema: {
-          type: "object",
-          properties: {
-            name: {
-              type: "string",
-              description: "Component or hook name",
-            },
-            scenario: {
-              type: "string",
-              description:
-                'Specific use case (e.g., "form validation", "dark mode")',
-            },
+    },
+    {
+      name: "get_usage_example",
+      description: "Get complete, runnable usage examples with best practices",
+      inputSchema: {
+        type: "object",
+        properties: {
+          name: { type: "string", description: "Component or hook name" },
+          scenario: {
+            type: "string",
+            description:
+              'Specific use case (e.g., "form validation", "dark mode")',
           },
-          required: ["name"],
         },
+        required: ["name"],
       },
-      {
-        name: "get_theme_config",
-        description: "Get theming configuration and customization guide",
-        inputSchema: {
-          type: "object",
-          properties: {
-            aspect: {
-              type: "string",
-              enum: ["colors", "spacing", "typography", "all"],
-              description: "Theme aspect to focus on",
-              default: "all",
-            },
+    },
+    {
+      name: "get_theme_config",
+      description: "Get theming configuration and customization guide",
+      inputSchema: {
+        type: "object",
+        properties: {
+          aspect: {
+            type: "string",
+            enum: ["colors", "spacing", "typography", "all"],
+            description: "Theme aspect to focus on",
+            default: "all",
           },
         },
       },
-      {
-        name: "ask_question",
-        description:
-          "Ask natural language questions about Saha UI with intelligent responses",
-        inputSchema: {
-          type: "object",
-          properties: {
-            question: {
-              type: "string",
-              description: "Your question about Saha UI",
-            },
+    },
+    {
+      name: "ask_question",
+      description:
+        "Ask natural language questions about Saha UI with intelligent responses",
+      inputSchema: {
+        type: "object",
+        properties: {
+          question: {
+            type: "string",
+            description: "Your question about Saha UI",
           },
-          required: ["question"],
         },
+        required: ["question"],
       },
-      {
-        name: "get_recommendations",
-        description: "Get smart recommendations based on your current context",
-        inputSchema: {
-          type: "object",
-          properties: {
-            scenario: {
-              type: "string",
-              description:
-                'What are you building? (e.g., "dashboard", "form", "landing page")',
-            },
+    },
+    {
+      name: "get_recommendations",
+      description: "Get smart recommendations based on your current context",
+      inputSchema: {
+        type: "object",
+        properties: {
+          scenario: {
+            type: "string",
+            description:
+              'What are you building? (e.g., "dashboard", "form", "landing page")',
           },
-          required: ["scenario"],
         },
+        required: ["scenario"],
       },
-    ],
-  };
-});
+    },
+  ],
+}));
+
+// ─── Tool Handlers ────────────────────────────────────────────────────────────
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
   try {
-    // get_component - Enhanced with fuzzy matching and smart suggestions
+    // ── get_component ────────────────────────────────────────────────────────
     if (name === "get_component") {
-      if (!args) {
-        throw new Error("Missing arguments for get_component");
-      }
-      const componentName = args.name as string;
+      if (!args) throw new Error("Missing arguments for get_component");
+
+      const query = args.name as string;
       const detailLevel = (args.detail_level as string) || "full";
 
-      updateContext("component", componentName);
-      updateContext("query", componentName);
+      updateContext("query", query);
 
-      const docs = getComponentDocumentation(componentName);
-      const suggestions = getContextualSuggestions(componentName);
+      const result = getComponentDocumentation(query);
 
-      const component = COMPONENTS.find((c) => c.name === componentName);
+      if (!result) {
+        const matches = findBestMatch(query, COMPONENTS).slice(0, 3);
+        const text =
+          matches.length > 0
+            ? `I couldn't find "${query}". Did you mean:\n\n${matches.map((c) => `- **${c.name}** (${c.category})`).join("\n")}\n\nWant me to show you one of these instead?`
+            : `I couldn't find "${query}". Use \`list_components_by_category()\` to browse all components.`;
+        return { content: [{ type: "text", text }] };
+      }
+
+      // FIX: use resolvedName — v2.0 used raw query here, breaking suggestions
+      const { resolvedName, docs } = result;
+      updateContext("component", resolvedName);
+
+      const component = COMPONENTS.find((c) => c.name === resolvedName)!;
+      const contextSuggestions = getContextualSuggestions(component);
+
       const nextSteps = [
-        `Try: get_usage_example("${componentName}") for complete code samples`,
-        `Check: get_component_variants("${componentName}") for styling options`,
+        `Try: get_usage_example("${resolvedName}") for complete code samples`,
+        `Check: get_component_variants("${resolvedName}") for styling options`,
       ];
-
-      const tips = component
-        ? [
-            `Complexity: ${component.complexity} - ${component.complexity === "simple" ? "Great for beginners!" : "May require additional setup"}`,
-            `Common use cases: ${component.tags.slice(0, 2).join(", ")}`,
-          ]
-        : [];
+      const tips = [
+        `Complexity: ${component.complexity} — ${component.complexity === "simple" ? "Great for beginners!" : "May require additional setup"}`,
+        `Common use cases: ${component.tags.slice(0, 2).join(", ")}`,
+      ];
 
       let response = generateSmartResponse(docs, {
         type: "component",
-        name: componentName,
-        suggestions,
+        name: resolvedName,
+        suggestions: contextSuggestions,
         nextSteps,
         tips,
       });
 
-      // Adjust content based on detail level
-      if (detailLevel === "brief") {
-        // For brief mode, show only the main component code without styles
+      // FIX: "brief" renamed to "summary" to match the schema enum
+      if (detailLevel === "summary") {
         const lines = response.split("\n");
-        const mainSectionEnd = lines.findIndex(
-          (line) => line.includes("## Styles") || line.includes("## Props"),
+        const cutoff = lines.findIndex(
+          (l) => l.includes("## Styles") || l.includes("## Props"),
         );
-        if (mainSectionEnd > 0) {
-          response = lines.slice(0, mainSectionEnd).join("\n");
-        }
+        if (cutoff > 0) response = lines.slice(0, cutoff).join("\n");
       }
 
-      return {
-        content: [
-          {
-            type: "text",
-            text: response,
-          },
-        ],
-      };
+      return { content: [{ type: "text", text: response }] };
     }
 
-    // get_hook - Enhanced with examples
+    // ── get_hook ─────────────────────────────────────────────────────────────
     if (name === "get_hook") {
-      if (!args) {
-        throw new Error("Missing arguments for get_hook");
-      }
-      const hookName = args.name as string;
+      if (!args) throw new Error("Missing arguments for get_hook");
+
+      const query = args.name as string;
       const includeExample = args.include_example !== false;
 
-      updateContext("hook", hookName);
-      updateContext("query", hookName);
+      updateContext("query", query);
 
-      const docs = getHookDocumentation(hookName);
+      const result = getHookDocumentation(query);
 
-      const hook = HOOKS.find((h) => h.name === hookName);
-      const suggestions = hook
-        ? [
-            `Category: ${hook.category}`,
-            `Use this when: ${hook.tags.join(", ")}`,
-          ]
-        : [];
+      if (!result) {
+        const matches = findBestMatch(query, HOOKS).slice(0, 3);
+        const text =
+          matches.length > 0
+            ? `Hook "${query}" not found. Did you mean:\n\n${matches.map((h) => `- ${h.name}`).join("\n")}`
+            : `Hook "${query}" not found in the library.`;
+        return { content: [{ type: "text", text }] };
+      }
 
+      // FIX: use resolvedName; v2.0 used raw query which missed fuzzy-matched hooks
+      const { resolvedName, docs } = result;
+      updateContext("hook", resolvedName);
+
+      const hook = HOOKS.find((h) => h.name === resolvedName)!;
+      const suggestions = [
+        `Category: ${hook.category}`,
+        `Use this when: ${hook.tags.join(", ")}`,
+      ];
       const nextSteps = [
         "Combine with components for enhanced functionality",
         "Check TypeScript types for full API",
@@ -1126,33 +1261,27 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       let response = generateSmartResponse(docs, {
         type: "hook",
-        name: hookName,
+        name: resolvedName,
         suggestions,
         nextSteps,
       });
 
-      // Filter examples based on includeExample flag
-      if (!includeExample && response.includes("```")) {
-        // Remove code examples if not requested
-        const sections = response.split("```");
-        response = sections.filter((_, index) => index % 2 === 0).join("\n\n");
+      // Remove code blocks when examples not requested
+      if (!includeExample) {
+        response = response
+          .split(/```[\s\S]*?```/g)
+          .join("")
+          .replace(/\n{3,}/g, "\n\n")
+          .trim();
       }
 
-      return {
-        content: [
-          {
-            type: "text",
-            text: response,
-          },
-        ],
-      };
+      return { content: [{ type: "text", text: response }] };
     }
 
-    // search_code - Enhanced with context
+    // ── search_code ──────────────────────────────────────────────────────────
     if (name === "search_code") {
-      if (!args) {
-        throw new Error("Missing arguments for search_code");
-      }
+      if (!args) throw new Error("Missing arguments for search_code");
+
       const pattern = args.pattern as string;
       const directory = (args.directory as string) || "src";
 
@@ -1161,18 +1290,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const results = searchInFiles(pattern, directory);
 
       if (results.length === 0) {
-        const suggestions = [
-          "Try a broader search pattern",
-          "Check spelling or try fuzzy matching",
-          "Search in different directory (components, hooks, lib)",
-        ];
-
         return {
           content: [
             {
               type: "text",
               text: generateSmartResponse(`No results found for "${pattern}"`, {
-                suggestions,
+                suggestions: [
+                  "Try a broader search pattern",
+                  "Check spelling or try a simpler term",
+                  "Search in a different directory (components, hooks, lib)",
+                ],
               }),
             },
           ],
@@ -1180,56 +1307,56 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       let output = `# Search Results for "${pattern}"\n\nFound ${results.length} file(s)\n\n`;
-
       results.forEach(({ file, matches }) => {
         output += `## ${file}\n\n`;
-        matches.slice(0, 10).forEach((match) => {
-          output += `- ${match}\n`;
+        matches.slice(0, 10).forEach((m) => {
+          output += `- ${m}\n`;
         });
         output += "\n";
       });
-
-      const nextSteps = [
-        "Use get_component or get_hook for detailed information",
-        "Narrow search with more specific patterns",
-      ];
 
       return {
         content: [
           {
             type: "text",
-            text: generateSmartResponse(output, { nextSteps }),
+            text: generateSmartResponse(output, {
+              nextSteps: [
+                "Use get_component or get_hook for detailed information",
+                "Narrow search with more specific patterns",
+              ],
+            }),
           },
         ],
       };
     }
 
-    // get_component_variants - Enhanced styling info
+    // ── get_component_variants ───────────────────────────────────────────────
     if (name === "get_component_variants") {
-      if (!args) {
+      if (!args)
         throw new Error("Missing arguments for get_component_variants");
-      }
-      const componentName = args.name as string;
-      const stylesPath = `src/components/${componentName}/styles.ts`;
 
-      updateContext("query", `variants: ${componentName}`);
+      const query = args.name as string;
+      updateContext("query", `variants: ${query}`);
+
+      // FIX: resolve name before building file path
+      const component = resolveItem(query, COMPONENTS);
+      const resolvedName = component?.name ?? query;
+      const stylesPath = `src/components/${resolvedName}/styles.ts`;
 
       if (fileExists(stylesPath)) {
-        const content = readFileContent(stylesPath);
-
-        const tips = [
-          "Use Tailwind classes for custom styling",
-          "Combine variants for unique designs",
-          "Check className prop for overrides",
-        ];
-
         return {
           content: [
             {
               type: "text",
               text: generateSmartResponse(
-                `# ${componentName} Style Variants\n\n\`\`\`typescript\n${content}\n\`\`\``,
-                { tips },
+                `# ${resolvedName} Style Variants\n\n\`\`\`typescript\n${readFileContent(stylesPath)}\n\`\`\``,
+                {
+                  tips: [
+                    "Use Tailwind classes for custom styling",
+                    "Combine variants for unique designs",
+                    "Check className prop for overrides",
+                  ],
+                },
               ),
             },
           ],
@@ -1240,20 +1367,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         content: [
           {
             type: "text",
-            text: `No separate styles file found for ${componentName}. Styles may be inline in the component file.`,
+            text: `No separate styles file found for ${resolvedName}. Styles may be inline in the component file.`,
           },
         ],
       };
     }
 
-    // get_utility
+    // ── get_utility ──────────────────────────────────────────────────────────
     if (name === "get_utility") {
-      if (!args) {
-        throw new Error("Missing arguments for get_utility");
-      }
+      if (!args) throw new Error("Missing arguments for get_utility");
+
       const utilityName = args.name as string;
       const utility = UTILITIES.find((u) => u.name === utilityName);
-
       updateContext("query", `utility: ${utilityName}`);
 
       if (!utility) {
@@ -1271,35 +1396,30 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       if (!fileExists(utilityPath)) {
         return {
           content: [
-            {
-              type: "text",
-              text: `Utility file not found: ${utilityPath}`,
-            },
+            { type: "text", text: `Utility file not found: ${utilityPath}` },
           ],
         };
       }
-
-      const content = readFileContent(utilityPath);
-
-      const tips = [
-        'Import utilities from "saha-ui/lib"',
-        "Utilities are tree-shakeable",
-      ];
 
       return {
         content: [
           {
             type: "text",
             text: generateSmartResponse(
-              `# ${utilityName}\n\n${utility.description}\n\n\`\`\`typescript\n${content}\n\`\`\``,
-              { tips },
+              `# ${utilityName}\n\n${utility.description}\n\n\`\`\`typescript\n${readFileContent(utilityPath)}\n\`\`\``,
+              {
+                tips: [
+                  'Import utilities from "saha-ui/lib"',
+                  "Utilities are tree-shakeable",
+                ],
+              },
             ),
           },
         ],
       };
     }
 
-    // list_components_by_category - Enhanced with filtering
+    // ── list_components_by_category ──────────────────────────────────────────
     if (name === "list_components_by_category") {
       const categoryFilter = args?.category as string | undefined;
       const complexityFilter = args?.complexity as string | undefined;
@@ -1308,129 +1428,114 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       updateContext("query", "list components");
 
       let filtered = [...COMPONENTS];
-
-      if (categoryFilter) {
+      if (categoryFilter)
         filtered = filtered.filter((c) =>
           c.category.toLowerCase().includes(categoryFilter.toLowerCase()),
         );
-      }
-
-      if (complexityFilter) {
+      if (complexityFilter)
         filtered = filtered.filter((c) => c.complexity === complexityFilter);
-      }
-
       if (tagsFilter) {
-        const tags = tagsFilter.split(",").map((t) => t.trim().toLowerCase());
+        const tagList = tagsFilter
+          .split(",")
+          .map((t) => t.trim().toLowerCase());
         filtered = filtered.filter((c) =>
-          c.tags.some((tag) => tags.includes(tag.toLowerCase())),
+          c.tags.some((t) => tagList.includes(t.toLowerCase())),
         );
       }
 
-      const categories: Record<string, typeof COMPONENTS> = {};
-      filtered.forEach((component) => {
-        if (!categories[component.category]) {
-          categories[component.category] = [];
-        }
-        categories[component.category].push(component);
+      const categories: Record<string, ComponentMeta[]> = {};
+      filtered.forEach((c) => {
+        (categories[c.category] ??= []).push(c);
       });
 
       let output = "# Saha UI Components\n\n";
-
       if (categoryFilter || complexityFilter || tagsFilter) {
-        output += `**Filtered by**: `;
-        const filters: string[] = [];
-        if (categoryFilter) filters.push(`category="${categoryFilter}"`);
-        if (complexityFilter) filters.push(`complexity="${complexityFilter}"`);
-        if (tagsFilter) filters.push(`tags="${tagsFilter}"`);
-        output += filters.join(", ") + "\n\n";
+        const parts: string[] = [];
+        if (categoryFilter) parts.push(`category="${categoryFilter}"`);
+        if (complexityFilter) parts.push(`complexity="${complexityFilter}"`);
+        if (tagsFilter) parts.push(`tags="${tagsFilter}"`);
+        output += `**Filtered by**: ${parts.join(", ")}\n\n`;
       }
 
-      Object.entries(categories).forEach(([category, components]) => {
-        output += `## ${category}\n\n`;
-        components.forEach((component) => {
-          output += `### ${component.name}\n`;
-          output += `- **Complexity**: ${component.complexity}\n`;
-          output += `- **Tags**: ${component.tags.join(", ")}\n`;
-          output += `- **Quick access**: \`get_component("${component.name}")\`\n\n`;
+      Object.entries(categories).forEach(([cat, comps]) => {
+        output += `## ${cat}\n\n`;
+        comps.forEach((c) => {
+          output += `### ${c.name}\n- **Complexity**: ${c.complexity}\n- **Tags**: ${c.tags.join(", ")}\n- **Quick access**: \`get_component("${c.name}")\`\n\n`;
         });
       });
-
-      const nextSteps = [
-        "Click on any component name to view details",
-        "Use filters to narrow down options",
-        "Try get_recommendations for personalized suggestions",
-      ];
 
       return {
         content: [
           {
             type: "text",
-            text: generateSmartResponse(output, { nextSteps }),
+            text: generateSmartResponse(output, {
+              nextSteps: [
+                "Use filters to narrow down options",
+                "Try get_recommendations for personalized suggestions",
+              ],
+            }),
           },
         ],
       };
     }
 
-    // get_usage_example - Enhanced examples
+    // ── get_usage_example ────────────────────────────────────────────────────
     if (name === "get_usage_example") {
-      if (!args) {
-        throw new Error("Missing arguments for get_usage_example");
-      }
-      const componentName = args.name as string;
+      if (!args) throw new Error("Missing arguments for get_usage_example");
 
-      updateContext("query", `example: ${componentName}`);
+      const query = args.name as string;
+      updateContext("query", `example: ${query}`);
 
-      const examplePath = `examples/${componentName}.tsx`;
+      // FIX: resolve before using the name
+      const component = resolveItem(query, COMPONENTS);
+      const resolvedName = component?.name ?? query;
+      const examplePath = `examples/${resolvedName}.tsx`;
 
       if (fileExists(examplePath)) {
-        const content = readFileContent(examplePath);
-
-        const tips = [
-          "Copy this example and modify for your needs",
-          "Check props documentation for more options",
-          "Combine with hooks for enhanced functionality",
-        ];
-
         return {
           content: [
             {
               type: "text",
               text: generateSmartResponse(
-                `# ${componentName} Usage Example\n\n\`\`\`typescript\n${content}\n\`\`\``,
-                { tips },
+                `# ${resolvedName} Usage Example\n\n\`\`\`typescript\n${readFileContent(examplePath)}\n\`\`\``,
+                {
+                  tips: [
+                    "Copy this example and modify for your needs",
+                    "Check props documentation for more options",
+                    "Combine with hooks for enhanced functionality",
+                  ],
+                },
               ),
             },
           ],
         };
       }
 
-      // Generate basic example if no file exists
-      const component = COMPONENTS.find((c) => c.name === componentName);
       if (component) {
-        const basicExample = `import { ${componentName} } from 'saha-ui'
+        const basicExample = `import { ${resolvedName} } from 'saha-ui'
 
 function Example() {
   return (
-    <${componentName}>
-      ${component.name} content here
-    </${componentName}>
+    <${resolvedName}>
+      ${resolvedName} content here
+    </${resolvedName}>
   )
 }
 
 export default Example`;
 
-        const suggestions = [
-          "This is a basic example - check component docs for more props",
-          `Category: ${component.category} - explore similar components`,
-        ];
-
         return {
           content: [
             {
               type: "text",
               text: generateSmartResponse(
-                `# ${componentName} Usage Example\n\n\`\`\`typescript\n${basicExample}\n\`\`\``,
-                { suggestions },
+                `# ${resolvedName} Usage Example\n\n\`\`\`typescript\n${basicExample}\n\`\`\``,
+                {
+                  suggestions: [
+                    "This is a basic example — check component docs for more props",
+                    `Category: ${component.category} — explore similar components`,
+                  ],
+                },
               ),
             },
           ],
@@ -1441,68 +1546,58 @@ export default Example`;
         content: [
           {
             type: "text",
-            text: `Example not found for "${componentName}". Use get_component to see implementation.`,
+            text: `Example not found for "${query}". Use get_component to see implementation.`,
           },
         ],
       };
     }
 
-    // get_theme_config
+    // ── get_theme_config ─────────────────────────────────────────────────────
     if (name === "get_theme_config") {
       updateContext("query", "theme config");
-
-      let output = "# Saha UI Theme Configuration\n\n";
 
       const tailwindConfig =
         readFileContent("tailwind.config.js") ||
         readFileContent("tailwind.config.ts") ||
         "No Tailwind config found";
+      const indexCSS = readFileContent("src/index.css");
 
-      output +=
-        "## Tailwind Configuration\n\n```javascript\n" +
-        tailwindConfig +
-        "\n```\n\n";
-
-      const indexCSS = readFileContent("src/index.css") || "";
-      if (indexCSS) {
-        output += "## CSS Variables\n\n```css\n" + indexCSS + "\n```\n\n";
-      }
-
-      const tips = [
-        "Use CSS variables for dynamic theming",
-        "Extend Tailwind config for custom colors",
-        "Components respect theme configuration automatically",
-      ];
-
-      const nextSteps = [
-        "Create a custom theme by extending the config",
-        "Use useTheme hook for runtime theme switching",
-        "Check component variants for styling options",
-      ];
+      let output = "# Saha UI Theme Configuration\n\n";
+      output += `## Tailwind Configuration\n\n\`\`\`javascript\n${tailwindConfig}\n\`\`\`\n\n`;
+      if (indexCSS)
+        output += `## CSS Variables\n\n\`\`\`css\n${indexCSS}\n\`\`\`\n\n`;
 
       return {
         content: [
           {
             type: "text",
-            text: generateSmartResponse(output, { tips, nextSteps }),
+            text: generateSmartResponse(output, {
+              tips: [
+                "Use CSS variables for dynamic theming",
+                "Extend Tailwind config for custom colors",
+                "Components respect theme configuration automatically",
+              ],
+              nextSteps: [
+                "Create a custom theme by extending the config",
+                "Use useTheme hook for runtime theme switching",
+                "Check component variants for styling options",
+              ],
+            }),
           },
         ],
       };
     }
 
-    // ask_question - Natural language Q&A
+    // ── ask_question ─────────────────────────────────────────────────────────
     if (name === "ask_question") {
-      if (!args) {
-        throw new Error("Missing arguments for ask_question");
-      }
-      const question = args.question as string;
+      if (!args) throw new Error("Missing arguments for ask_question");
 
+      const question = args.question as string;
       updateContext("query", question);
 
       const intent = detectIntent(question);
       const q = question.toLowerCase();
 
-      // Use intent to customize the answer format
       const intentPrefixes: Record<string, string> = {
         tutorial: "📚 **Tutorial Answer**:\n\n",
         example: "💻 **Code Example**:\n\n",
@@ -1511,112 +1606,81 @@ export default Example`;
         troubleshooting: "🔧 **Solution**:\n\n",
       };
 
-      const intentPrefix = intentPrefixes[intent] || "";
+      let answer = intentPrefixes[intent] ?? "";
 
-      let answer = intentPrefix;
-
-      // Smart question routing
       if (
         q.includes("install") ||
         q.includes("setup") ||
         q.includes("get started")
       ) {
-        answer = getQuickStartGuide();
+        answer += getQuickStartGuide();
       } else if (q.includes("component") || q.includes("what components")) {
-        const componentsList = COMPONENTS.map(
-          (c) => `- ${c.name} (${c.category})`,
-        ).join("\n");
-        answer = `# Available Components\n\n${componentsList}\n\nUse \`get_component("ComponentName")\` for details.`;
+        answer += `# Available Components\n\n${COMPONENTS.map((c) => `- ${c.name} (${c.category})`).join("\n")}\n\nUse \`get_component("ComponentName")\` for details.`;
       } else if (q.includes("hook") || q.includes("what hooks")) {
-        const hooksList = HOOKS.map((h) => `- ${h.name} (${h.category})`).join(
-          "\n",
-        );
-        answer = `# Available Hooks\n\n${hooksList}\n\nUse \`get_hook("hookName")\` for details.`;
+        answer += `# Available Hooks\n\n${HOOKS.map((h) => `- ${h.name} (${h.category})`).join("\n")}\n\nUse \`get_hook("hookName")\` for details.`;
       } else if (
         q.includes("theme") ||
         q.includes("style") ||
         q.includes("color")
       ) {
-        answer =
+        answer +=
           "For theming information, use `get_theme_config()`. You can customize colors, spacing, typography, and more through Tailwind configuration.";
       } else if (q.includes("example") || q.includes("how to use")) {
-        answer =
+        answer +=
           'Use `get_usage_example("ComponentName")` to see complete, runnable examples for any component or hook.';
       } else {
-        answer = `I understand you're asking about: "${question}"\n\nHere are some helpful tools:\n\n- \`list_components_by_category()\` - Browse all components\n- \`get_component("Name")\` - Get component details\n- \`search_code("pattern")\` - Search the codebase\n- \`get_recommendations({scenario: "your use case"})\` - Get personalized suggestions`;
+        answer += `I understand you're asking about: "${question}"\n\nHere are some helpful tools:\n\n- \`list_components_by_category()\` — Browse all components\n- \`get_component("Name")\` — Get component details\n- \`search_code("pattern")\` — Search the codebase\n- \`get_recommendations({scenario: "your use case"})\` — Get personalized suggestions`;
       }
-
-      const suggestions = [
-        "Be specific about component names or features",
-        "Use tool commands for detailed information",
-        "Check examples for real-world usage",
-      ];
 
       return {
         content: [
           {
             type: "text",
-            text: generateSmartResponse(answer, { suggestions }),
+            text: generateSmartResponse(answer, {
+              suggestions: [
+                "Be specific about component names or features",
+                "Use tool commands for detailed information",
+                "Check examples for real-world usage",
+              ],
+            }),
           },
         ],
       };
     }
 
-    // get_recommendations - Smart suggestions
+    // ── get_recommendations ──────────────────────────────────────────────────
     if (name === "get_recommendations") {
-      if (!args) {
-        throw new Error("Missing arguments for get_recommendations");
-      }
-      const scenario = args.scenario as string;
+      if (!args) throw new Error("Missing arguments for get_recommendations");
 
+      const scenario = args.scenario as string;
       updateContext("query", `recommendations: ${scenario}`);
 
       const s = scenario.toLowerCase();
-      let recommendations = `# Recommendations for: ${scenario}\n\n`;
+      let recs = `# Recommendations for: ${scenario}\n\n`;
 
       if (s.includes("dashboard") || s.includes("admin")) {
-        recommendations += `## Suggested Components\n\n`;
-        recommendations += `- **Card** - For metrics and data panels\n`;
-        recommendations += `- **Tabs** - For navigation between sections\n`;
-        recommendations += `- **Badge** - For status indicators\n`;
-        recommendations += `- **Avatar** - For user profiles\n\n`;
-        recommendations += `## Useful Hooks\n\n`;
-        recommendations += `- **useMediaQuery** - Responsive layouts\n`;
-        recommendations += `- **useLocalStorage** - Persist user preferences\n`;
+        recs += `## Suggested Components\n\n- **Card** — For metrics and data panels\n- **Tabs** — For navigation between sections\n- **Badge** — For status indicators\n- **Avatar** — For user profiles\n\n`;
+        recs += `## Useful Hooks\n\n- **useMediaQuery** — Responsive layouts\n- **useLocalStorage** — Persist user preferences\n`;
       } else if (s.includes("form")) {
-        recommendations += `## Suggested Components\n\n`;
-        recommendations += `- **Input** - Text fields\n`;
-        recommendations += `- **Select** - Dropdowns\n`;
-        recommendations += `- **Checkbox** - Boolean inputs\n`;
-        recommendations += `- **Button** - Form actions\n\n`;
-        recommendations += `## Useful Hooks\n\n`;
-        recommendations += `- **useDebounce** - Optimize input handling\n`;
-        recommendations += `- **useToggle** - Manage boolean states\n`;
+        recs += `## Suggested Components\n\n- **Input** — Text fields\n- **Select** — Dropdowns\n- **Checkbox** — Boolean inputs\n- **Button** — Form actions\n\n`;
+        recs += `## Useful Hooks\n\n- **useDebounce** — Optimize input handling\n- **useToggle** — Manage boolean states\n`;
       } else if (s.includes("landing") || s.includes("marketing")) {
-        recommendations += `## Suggested Components\n\n`;
-        recommendations += `- **Button** - Call-to-action buttons\n`;
-        recommendations += `- **Card** - Feature showcases\n`;
-        recommendations += `- **Modal** - Sign-up forms\n`;
-        recommendations += `- **Accordion** - FAQ sections\n`;
+        recs += `## Suggested Components\n\n- **Button** — Call-to-action buttons\n- **Card** — Feature showcases\n- **Modal** — Sign-up forms\n- **Accordion** — FAQ sections\n`;
       } else {
-        recommendations += `## General Recommendations\n\n`;
-        recommendations += `Based on your needs, start with:\n\n`;
-        recommendations += `1. Browse \`list_components_by_category()\`\n`;
-        recommendations += `2. Check examples for similar projects\n`;
-        recommendations += `3. Start with simple components and build up\n`;
+        recs += `## General Recommendations\n\n1. Browse \`list_components_by_category()\`\n2. Check examples for similar projects\n3. Start with simple components and build up\n`;
       }
-
-      const nextSteps = [
-        "Get detailed info for each recommended component",
-        "Check usage examples to see them in action",
-        "Combine components for complex UIs",
-      ];
 
       return {
         content: [
           {
             type: "text",
-            text: generateSmartResponse(recommendations, { nextSteps }),
+            text: generateSmartResponse(recs, {
+              nextSteps: [
+                "Get detailed info for each recommended component",
+                "Check usage examples to see them in action",
+                "Combine components for complex UIs",
+              ],
+            }),
           },
         ],
       };
@@ -1636,68 +1700,67 @@ export default Example`;
   }
 });
 
-// Prompt handlers - Pre-built conversation starters
-server.setRequestHandler(ListPromptsRequestSchema, async () => {
-  return {
-    prompts: [
-      {
-        name: "component_integration",
-        description:
-          "Help integrate a Saha UI component into an existing project",
-        arguments: [
-          {
-            name: "component",
-            description: "Component to integrate",
-            required: true,
-          },
-          {
-            name: "framework",
-            description: "Target framework (Next.js, Vite, etc.)",
-            required: false,
-          },
-        ],
-      },
-      {
-        name: "build_ui",
-        description: "Get step-by-step guidance to build a specific UI",
-        arguments: [
-          {
-            name: "description",
-            description: "Describe the UI you want to build",
-            required: true,
-          },
-        ],
-      },
-      {
-        name: "customize_theme",
-        description: "Get help customizing the Saha UI theme",
-        arguments: [
-          {
-            name: "requirements",
-            description: "Theme customization requirements",
-            required: true,
-          },
-        ],
-      },
-      {
-        name: "debug_issue",
-        description: "Debug a Saha UI component issue",
-        arguments: [
-          {
-            name: "problem",
-            description: "Describe the problem",
-            required: true,
-          },
-          {
-            name: "component",
-            description: "Component having issues",
-            required: false,
-          },
-        ],
-      },
-    ],
-  };
-});
+// ─── Prompts ──────────────────────────────────────────────────────────────────
+
+server.setRequestHandler(ListPromptsRequestSchema, async () => ({
+  prompts: [
+    {
+      name: "component_integration",
+      description:
+        "Help integrate a Saha UI component into an existing project",
+      arguments: [
+        {
+          name: "component",
+          description: "Component to integrate",
+          required: true,
+        },
+        {
+          name: "framework",
+          description: "Target framework (Next.js, Vite, etc.)",
+          required: false,
+        },
+      ],
+    },
+    {
+      name: "build_ui",
+      description: "Get step-by-step guidance to build a specific UI",
+      arguments: [
+        {
+          name: "description",
+          description: "Describe the UI you want to build",
+          required: true,
+        },
+      ],
+    },
+    {
+      name: "customize_theme",
+      description: "Get help customizing the Saha UI theme",
+      arguments: [
+        {
+          name: "requirements",
+          description: "Theme customization requirements",
+          required: true,
+        },
+      ],
+    },
+    {
+      name: "debug_issue",
+      description: "Debug a Saha UI component issue",
+      arguments: [
+        {
+          name: "problem",
+          description: "Describe the problem",
+          required: true,
+        },
+        {
+          name: "component",
+          description: "Component having issues",
+          required: false,
+        },
+      ],
+    },
+  ],
+}));
 
 server.setRequestHandler(GetPromptRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
@@ -1705,9 +1768,7 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
   if (name === "component_integration") {
     const component = args?.component as string;
     const framework = (args?.framework as string) || "React";
-
     updateContext("query", `integrate: ${component}`);
-
     return {
       messages: [
         {
@@ -1723,9 +1784,7 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
 
   if (name === "build_ui") {
     const description = args?.description as string;
-
     updateContext("query", `build: ${description}`);
-
     return {
       messages: [
         {
@@ -1741,9 +1800,7 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
 
   if (name === "customize_theme") {
     const requirements = args?.requirements as string;
-
     updateContext("query", `theme: ${requirements}`);
-
     return {
       messages: [
         {
@@ -1759,38 +1816,24 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
 
   if (name === "debug_issue") {
     const problem = args?.problem as string;
-    const component = args?.component as string;
-
+    const component = args?.component as string | undefined;
     updateContext("query", `debug: ${problem}`);
-
-    let text = `I'm having an issue with Saha UI: ${problem}.`;
-    if (component) {
-      text += ` This is related to the ${component} component.`;
-    }
-    text += ` Please help me troubleshoot and fix this issue.`;
-
-    return {
-      messages: [
-        {
-          role: "user",
-          content: {
-            type: "text",
-            text,
-          },
-        },
-      ],
-    };
+    const text = component
+      ? `I'm having an issue with Saha UI: ${problem}. This is related to the ${component} component. Please help me troubleshoot and fix this issue.`
+      : `I'm having an issue with Saha UI: ${problem}. Please help me troubleshoot and fix this issue.`;
+    return { messages: [{ role: "user", content: { type: "text", text } }] };
   }
 
   throw new Error(`Unknown prompt: ${name}`);
 });
 
-// Start the server
+// ─── Start ────────────────────────────────────────────────────────────────────
+
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
   console.error(
-    "Saha UI MCP Server v2.0 running on stdio (Enhanced Dynamic Mode)",
+    "Saha UI MCP Server v2.1.0 running on stdio (Enhanced Dynamic Mode)",
   );
 }
 
