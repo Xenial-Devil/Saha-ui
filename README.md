@@ -350,7 +350,7 @@ We welcome contributions from the community! Whether it's:
 
 <div align="center">
 
-**MIT License** ©2025 [Saha UI](https://saha-ui.isubroto.com.bd)
+**CSL License** ©2026 [Saha UI](https://saha-ui.isubroto.com.bd)
 
 Free to use for personal and commercial projects
 
@@ -358,6 +358,7 @@ Free to use for personal and commercial projects
 
 <sub>Built with ❤️ by the Saha UI Team</sub>
 
-**[⭐ Star on GitHub](https://github.com/Xenial-Devil/Saha-ui)** • **[🐦 Follow on Twitter](https://twitter.com/saha-ui)** • **[💬 Join Discord](https://discord.gg/saha-ui)**
+**[⭐ Star on GitHub](https://github.com/Xenial-Devil/Saha-ui)**
+<!-- **[⭐ Star on GitHub](https://github.com/Xenial-Devil/Saha-ui)** • **[🐦 Follow on Twitter](https://twitter.com/saha-ui)** • **[💬 Join Discord](https://discord.gg/saha-ui)** -->
 
 </div>
