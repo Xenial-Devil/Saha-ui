@@ -1,3 +1,10 @@
+# [1.25.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.24.0...v1.25.0) (2026-04-15)
+
+
+### Features
+
+* **notification, tests:** add accessibility attributes testsUpdate Notification container to include ARIA attributes (aria-liveariaatomic role="region", aria-label) improve screen readerannouncements and accessibility for dynamic notifications. ([675f194](https://github.com/Xenial-Devil/Saha-ui/commit/675f19467af9c6e1e62584b970a2c8f160ba3924))
+
 # [1.24.0](https://github.com/Xenial-Devil/Saha-ui/compare/v1.23.0...v1.24.0) (2026-04-13)
 
 
