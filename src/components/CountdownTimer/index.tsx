@@ -3,6 +3,12 @@
 import { forwardRef, useState, useEffect, useMemo } from "react";
 import { cn } from "../../lib/utils";
 import type { CountdownTimerProps } from "./CountdownTimer.types";
+import {
+  countdownTimerVariants,
+  countdownDigitVariants,
+  countdownLabelVariants,
+  countdownSeparatorVariants,
+} from "./CountdownTimer.styles";
 
 /**
  * CountdownTimer Component
@@ -92,46 +98,23 @@ export const CountdownTimer = forwardRef<HTMLDivElement, CountdownTimerProps>(
       return () => clearInterval(intervalId);
     }, [target, onComplete]);
 
-    // Tailwind Mapping for size and variant
-    const wrapperClass = {
-      default: "text-foreground",
-      primary: "text-primary",
-      secondary: "text-secondary",
-      glass: "bg-white/10 dark:bg-black/10 backdrop-blur-md border border-white/20 p-4 rounded-xl",
-      outline: "border-2 border-border p-4 rounded-xl",
-    }[variant];
-
-    const digitClass = {
-      sm: "text-xl font-bold font-mono",
-      md: "text-3xl font-bold font-mono tracking-tight",
-      lg: "text-5xl font-black font-mono tracking-tighter",
-      xl: "text-7xl font-black font-mono tracking-tighter",
-    }[size];
-
-    const labelClass = {
-      sm: "text-[10px] uppercase font-semibold text-muted-foreground tracking-wider mt-1",
-      md: "text-xs uppercase font-semibold text-muted-foreground tracking-wider mt-1",
-      lg: "text-sm uppercase font-semibold text-muted-foreground tracking-wider mt-2",
-      xl: "text-base uppercase font-semibold text-muted-foreground tracking-widest mt-3",
-    }[size];
-
     const Box = ({ value, label }: { value: number; label: string }) => (
       <div className="flex flex-col items-center justify-center min-w-[50px]">
-        <span className={cn(digitClass, "tabular-nums leading-none")}>
+        <span className={countdownDigitVariants({ size })}>
           {String(value).padStart(2, '0')}
         </span>
-        {showLabels && <span className={labelClass}>{label}</span>}
+        {showLabels && <span className={countdownLabelVariants({ size })}>{label}</span>}
       </div>
     );
 
     const Separator = () => (
-      <div className={cn(digitClass, "mt-[-2px] sm:mt-[-4px] opacity-50")}>:</div>
+      <div className={countdownSeparatorVariants({ size })}>:</div>
     );
 
     return (
       <div 
         ref={ref} 
-        className={cn("inline-flex items-start gap-2", wrapperClass, className)} 
+        className={cn(countdownTimerVariants({ variant }), className)} 
         {...props}
       >
         {timeLeft.days > 0 && (

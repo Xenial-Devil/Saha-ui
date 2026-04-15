@@ -9,6 +9,11 @@ import {
   SelectItem
 } from "../Select";
 import type { MultiSelectProps } from "./MultiSelect.types";
+import {
+  multiSelectContentVariants,
+  multiSelectAllItemVariants,
+  multiSelectSeparatorVariants,
+} from "./MultiSelect.styles";
 
 /**
  * MultiSelect Component
@@ -72,13 +77,13 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-          <div className="flex flex-col w-full">
+          <div className={multiSelectContentVariants()}>
             {showSelectAll && (
               <>
-                <SelectItem value="_all" className="font-semibold text-primary">
+                <SelectItem value="_all" className={multiSelectAllItemVariants()}>
                   Select All
                 </SelectItem>
-                <div className="h-px w-full bg-border/50 my-1" />
+                <div className={multiSelectSeparatorVariants()} />
               </>
             )}
             {children}

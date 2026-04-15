@@ -6,7 +6,7 @@ import {
   editorSelectVariants,
   editorIconButtonVariants,
   editorActionVariants,
-} from "./variants";
+} from "./CodeEditor.styles";
 import type { CodeEditorSize, CodeEditorTheme } from "./CodeEditor.types";
 import type { LanguageOption } from "./constants";
 

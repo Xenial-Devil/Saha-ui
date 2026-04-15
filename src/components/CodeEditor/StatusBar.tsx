@@ -1,6 +1,6 @@
 "use client";
 
-import { editorStatusBarVariants } from "./variants";
+import { editorStatusBarVariants } from "./CodeEditor.styles";
 import type {
   CodeEditorTheme,
   CursorInfo,

@@ -7,6 +7,12 @@ import Button from "../Button";
 import { ButtonGroup } from "../ButtonGroup";
 // Ensure Dropdown is exported from Dropdown
 import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from "../Dropdown";
+import {
+  splitButtonMainVariants,
+  splitButtonToggleVariants,
+  splitButtonDropdownContentVariants,
+  splitButtonDropdownItemVariants,
+} from "./SplitButton.styles";
 
 const ChevronDownIcon = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -47,7 +53,7 @@ export const SplitButton = forwardRef<HTMLDivElement, SplitButtonProps>(
     },
     ref
   ) => {
-    const { className: propsClassName, ...restProps } = props as any;
+    const restProps = props;
     
     return (
       <ButtonGroup ref={ref} className={className}>
@@ -58,7 +64,7 @@ export const SplitButton = forwardRef<HTMLDivElement, SplitButtonProps>(
           onClick={onClick}
           disabled={disabled}
           {...restProps}
-          className={cn("rounded-r-none border-r-0 focus:z-10", className, propsClassName)}
+          className={cn(splitButtonMainVariants(), className)}
         >
           {children}
         </Button>
@@ -70,20 +76,20 @@ export const SplitButton = forwardRef<HTMLDivElement, SplitButtonProps>(
               variant={variant}
               size={size}
               disabled={disabled}
-              className="rounded-l-none px-2 focus:z-10 bg-black/10 hover:bg-black/20 dark:bg-white/10 dark:hover:bg-white/20 border-l border-white/20 dark:border-black/20"
+              className={splitButtonToggleVariants()}
               aria-label="More options"
               aria-haspopup="true"
             >
               {dropdownIcon || <ChevronDownIcon className="h-4 w-4" />}
             </Button>
           </DropdownTrigger>
-          <DropdownContent align="end" className="min-w-[160px]">
+          <DropdownContent align="end" className={splitButtonDropdownContentVariants()}>
             {actions.map((action, index) => (
               <DropdownItem
                 key={`split-btn-action-${index}`}
                 onSelect={action.onClick}
                 disabled={action.disabled}
-                className="flex items-center gap-2 cursor-pointer"
+                className={splitButtonDropdownItemVariants()}
               >
                 {action.icon && <span className="h-4 w-4 shrink-0">{action.icon}</span>}
                 <span>{action.label}</span>

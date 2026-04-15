@@ -217,6 +217,23 @@ export {
   navigationVariants,
   indicatorVariants,
 } from "./components/Carousel/Carousel.styles";
+export { TickerCarousel } from "./components/TickerCarousel";
+export {
+  tickerCarouselVariants,
+  tickerViewportVariants,
+  tickerRowsVariants,
+  tickerRowVariants,
+  tickerTrackVariants,
+  tickerItemVariants,
+  tickerCardVariants,
+  edgeFadeVariants,
+} from "./components/TickerCarousel/TickerCarousel.styles";
+export type {
+  TickerCarouselProps,
+  TickerDirection,
+  TickerMetrics,
+  TickerCarouselRef,
+} from "./components/TickerCarousel/TickerCarousel.types";
 export { Chip } from "./components/Chip";
 export { chipVariants } from "./components/Chip/Chip.styles";
 export { IconButton } from "./components/IconButton";
@@ -1710,3 +1727,18 @@ export type { TypewriterTextProps } from "./components/TypewriterText/Typewriter
 export { Watermark } from "./components/Watermark";
 export type { WatermarkProps } from "./components/Watermark/Watermark.types";
 export * from './components/VirtualList';
+export { 
+  Notification, 
+  NotificationProvider, 
+  useNotifications 
+} from "./components/Notification";
+export { 
+  notificationVariants, 
+  notificationContainerVariants 
+} from "./components/Notification/Notification.styles";
+export type { 
+  NotificationItemType, 
+  NotificationProps, 
+  NotificationProviderProps, 
+  NotificationContextType 
+} from "./components/Notification/Notification.types";

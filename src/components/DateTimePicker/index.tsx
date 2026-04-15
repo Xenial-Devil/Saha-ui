@@ -7,6 +7,14 @@ import { TimePicker } from "../TimePicker";
 import type { DateRange } from "../DatePicker/DatePicker.types";
 import type { TimeValue } from "../TimePicker/TimePicker.types";
 import type { DateTimePickerProps } from "./DateTimePicker.types";
+import {
+  dateTimePickerVariants,
+  dateTimeLabelVariants,
+  dateTimeWrapperVariants,
+  dateTimeDateGroupVariants,
+  dateTimeTimeGroupVariants,
+  dateTimeHelperTextVariants,
+} from "./DateTimePicker.styles";
 
 /**
  * DateTimePicker Component
@@ -112,12 +120,12 @@ export const DateTimePicker = forwardRef<HTMLDivElement, DateTimePickerProps>(
     return (
       <div
         ref={ref}
-        className={cn("flex flex-col gap-1.5 w-full", className)}
+        className={cn(dateTimePickerVariants(), className)}
         {...props}
       >
         {label && (
           <label
-            className={cn("text-sm font-medium", disabled && "opacity-50")}
+            className={dateTimeLabelVariants({ disabled: !!disabled })}
           >
             {label}
             {datePickerProps?.required && (
@@ -126,8 +134,8 @@ export const DateTimePicker = forwardRef<HTMLDivElement, DateTimePickerProps>(
           </label>
         )}
 
-        <div className="flex items-center gap-2 relative">
-          <div className="flex-1 min-w-[200px]">
+        <div className={dateTimeWrapperVariants()}>
+          <div className={dateTimeDateGroupVariants()}>
             <DatePicker
               value={dateValue}
               onChange={handleDateChange}
@@ -140,7 +148,7 @@ export const DateTimePicker = forwardRef<HTMLDivElement, DateTimePickerProps>(
             />
           </div>
 
-          <div className="w-[140px] shrink-0">
+          <div className={dateTimeTimeGroupVariants()}>
             <TimePicker
               value={timeValue}
               onChange={handleTimeChange}
@@ -155,10 +163,7 @@ export const DateTimePicker = forwardRef<HTMLDivElement, DateTimePickerProps>(
 
         {(helperText || error) && (
           <p
-            className={cn(
-              "text-xs transition-colors",
-              error ? "text-destructive" : "text-muted-foreground",
-            )}
+            className={dateTimeHelperTextVariants({ error: !!error })}
           >
             {helperText || "Invalid selection"}
           </p>

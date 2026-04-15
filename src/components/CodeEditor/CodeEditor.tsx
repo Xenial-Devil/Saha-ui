@@ -4,7 +4,7 @@
 import * as React from "react";
 import Editor, { OnMount, useMonaco } from "@monaco-editor/react";
 import type { editor as MonacoNS } from "monaco-editor";
-import { codeEditorVariants } from "./variants";
+import { codeEditorVariants } from "./CodeEditor.styles";
 import { Toolbar } from "./Toolbar";
 import { StatusBar } from "./StatusBar";
 import { TabBar } from "./TabBar";

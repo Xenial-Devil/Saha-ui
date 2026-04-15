@@ -3,6 +3,19 @@
 import { forwardRef } from "react";
 import { cn } from "../../lib/utils";
 import type { KanbanBoardProps, KanbanCard } from "./KanbanBoard.types";
+import {
+  kanbanBoardVariants,
+  kanbanColumnVariants,
+  kanbanColumnHeaderVariants,
+  kanbanColumnCountVariants,
+  kanbanColumnDropVariants,
+  kanbanColumnFooterVariants,
+  kanbanAddButtonVariants,
+  kanbanCardVariants,
+  kanbanCardHeaderVariants,
+  kanbanCardTitleVariants,
+  kanbanCardContentVariants,
+} from "./KanbanBoard.styles";
 import { DragDropProvider } from "../DragDrop/DragDropContext";
 import { DroppableContainer } from "../DragDrop/DroppableContainer";
 import { DraggableItem } from "../DragDrop/DraggableItem";
@@ -73,12 +86,12 @@ export const KanbanBoard = forwardRef<HTMLDivElement, KanbanBoardProps>(
     };
 
     const defaultRenderCard = (card: KanbanCard) => (
-      <Card className="mb-2 shadow-sm border border-border/50 hover:border-primary/50 transition-colors w-full bg-card">
-        <CardHeader className="p-3 pb-1">
-          <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
+      <Card className={kanbanCardVariants()}>
+        <CardHeader className={kanbanCardHeaderVariants()}>
+          <CardTitle className={kanbanCardTitleVariants()}>{card.title}</CardTitle>
         </CardHeader>
         {card.description && (
-          <CardContent className="p-3 pt-1 text-xs text-muted-foreground line-clamp-2">
+          <CardContent className={kanbanCardContentVariants()}>
             {card.description}
           </CardContent>
         )}
@@ -88,21 +101,18 @@ export const KanbanBoard = forwardRef<HTMLDivElement, KanbanBoardProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          "flex flex-1 items-start gap-4 overflow-x-auto overflow-y-hidden pb-4 w-full h-full",
-          className,
-        )}
+        className={cn(kanbanBoardVariants(), className)}
         {...props}
       >
         <DragDropProvider>
           {columns.map((column) => (
             <div
               key={String(column.id)}
-              className="flex flex-col flex-shrink-0 w-80 bg-muted/30 rounded-xl max-h-full border border-border/50"
+              className={kanbanColumnVariants()}
             >
-              <div className="flex items-center justify-between p-3 border-b border-border/50 font-semibold bg-muted/40 rounded-t-xl select-none">
+              <div className={kanbanColumnHeaderVariants()}>
                 <span className="truncate">{column.title}</span>
-                <span className="text-xs text-muted-foreground font-medium bg-background px-2 py-0.5 rounded-full shadow-sm">
+                <span className={kanbanColumnCountVariants()}>
                   {column.cards.length}
                 </span>
               </div>
@@ -111,7 +121,7 @@ export const KanbanBoard = forwardRef<HTMLDivElement, KanbanBoardProps>(
                 id={column.id}
                 items={column.cards}
                 onDrop={handleDrop}
-                className="flex-1 p-2 overflow-y-auto min-h-[150px]"
+                className={kanbanColumnDropVariants()}
               >
                 {(card, index) => (
                   <DraggableItem
@@ -127,10 +137,10 @@ export const KanbanBoard = forwardRef<HTMLDivElement, KanbanBoardProps>(
               </DroppableContainer>
 
               {onAddCard && (
-                <div className="p-2 border-t border-border/50 bg-muted/20 rounded-b-xl">
+                <div className={kanbanColumnFooterVariants()}>
                   <button
                     onClick={() => onAddCard(column.id)}
-                    className="w-full flex items-center justify-center gap-2 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-background/50 rounded-md transition-colors"
+                    className={kanbanAddButtonVariants()}
                   >
                     <span>+</span> Add Card
                   </button>

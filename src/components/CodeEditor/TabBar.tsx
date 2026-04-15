@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { editorTabBarVariants, editorTabVariants } from "./variants";
+import { editorTabBarVariants, editorTabVariants } from "./CodeEditor.styles";
 import type { CodeEditorTheme } from "./CodeEditor.types";
 
 type Props = {
