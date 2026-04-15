@@ -639,8 +639,6 @@ export {
   DragHandle,
   DragOverlay,
   TreeView,
-  VirtualList,
-  useVirtualScroll,
   SelectionManager,
   SelectionBadge,
   DebugOverlay,
@@ -1726,7 +1724,15 @@ export { TypewriterText } from "./components/TypewriterText";
 export type { TypewriterTextProps } from "./components/TypewriterText/TypewriterText.types";
 export { Watermark } from "./components/Watermark";
 export type { WatermarkProps } from "./components/Watermark/Watermark.types";
-export * from './components/VirtualList';
+export { 
+  VirtualList, 
+  useVirtualScroll 
+} from "./components/VirtualList";
+export { virtualListVariants } from "./components/VirtualList/VirtualList.styles";
+export type { 
+  VirtualListProps, 
+  UseVirtualScrollOptions 
+} from "./components/VirtualList/VirtualList.types";
 export { 
   Notification, 
   NotificationProvider, 

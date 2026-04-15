@@ -133,6 +133,10 @@ export const NotificationProvider = ({
       <div 
         className={notificationContainerVariants({ position })}
         style={{ gap: `${gap}px` }}
+        aria-live="polite"
+        aria-atomic="true"
+        role="region"
+        aria-label="Notifications"
       >
         {notifications.map((n) => (
           <Notification key={n.id} {...n} onDismiss={removeNotification} />

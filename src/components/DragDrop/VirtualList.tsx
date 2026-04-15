@@ -9,28 +9,14 @@ import React, {
 } from "react";
 import { DraggableItem } from "./DraggableItem";
 import { DroppableContainer } from "./DroppableContainer";
-import type { VirtualItem } from "./DragDrop.types";
 import { cn } from "../../lib/utils";
+import { virtualListVariants } from "../VirtualList/VirtualList.styles";
+import type { 
+  VirtualListProps, 
+  VirtualItem, 
+  UseVirtualScrollOptions 
+} from "../VirtualList/VirtualList.types";
 
-// ============================================
-// VirtualList Component Props
-// ============================================
-
-export interface VirtualListProps<T = any> {
-  items: T[];
-  itemHeight: number | ((index: number) => number);
-  containerHeight: number;
-  onReorder?: (items: T[]) => void;
-  renderItem: (
-    item: T,
-    index: number,
-    virtualItem: VirtualItem
-  ) => React.ReactNode;
-  overscan?: number;
-  className?: string;
-  estimatedItemSize?: number;
-  onScroll?: (scrollTop: number, scrollHeight: number) => void;
-}
 
 // ============================================
 // VirtualList Component
@@ -156,7 +142,7 @@ export const VirtualList = <T extends { id: string } = any>({
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className={cn("overflow-auto relative", className)}
+      className={cn(virtualListVariants(), "overflow-auto", className)}
       style={{ height: containerHeight }}
     >
       <DroppableContainer
@@ -205,13 +191,6 @@ VirtualList.displayName = "VirtualList";
 // ============================================
 // Utility Hook: useVirtualScroll
 // ============================================
-
-export interface UseVirtualScrollOptions {
-  itemCount: number;
-  itemHeight: number | ((index: number) => number);
-  containerHeight: number;
-  overscan?: number;
-}
 
 export const useVirtualScroll = ({
   itemCount,
