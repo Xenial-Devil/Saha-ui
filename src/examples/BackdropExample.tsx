@@ -4,72 +4,74 @@ import { useState } from "react";
 import Backdrop from "../components/Backdrop";
 
 export default function BackdropExample() {
-  const [open, setOpen] = useState(false);
-
   const [basicOpen, setBasicOpen] = useState(false);
   const [blurOpen, setBlurOpen] = useState(false);
   const [loadingOpen, setLoadingOpen] = useState(false);
   const [auditOpen, setAuditOpen] = useState(false);
-    <div className="space-y-6 p-8">
-      <div>
+
+  return (
     <div className="space-y-12 p-8">
-        <p className="text-muted-foreground">
+      <div>
         <h2 className="text-3xl font-bold text-foreground">Backdrop Component</h2>
+        <p className="text-muted-foreground">
+          A flexible overlay surface for modals, loading states, and attention-blocking flows.
         </p>
       </div>
 
-      {/* Basic Use */}
+      {/* Basic Usage */}
       <section className="space-y-4">
-        <div className="bg-muted/30 p-6 rounded-lg">
         <h3 className="text-2xl font-semibold text-foreground">Basic Usage</h3>
         <p className="text-sm text-muted-foreground">
           Show a simple modal surface over the page.
         </p>
-        <div className="grid gap-5 lg:grid-cols-[2fr,1fr]">
-          <div className="rounded-xl border border-border bg-card p-5">
-            <button
-              onClick={() => setBasicOpen(true)}
-              className="rounded bg-primary px-4 py-2 text-primary-foreground"
-            >
-              Show Basic Backdrop
-            </button>
+        <div className="bg-muted/30 p-6 rounded-lg">
+          <div className="grid gap-5 lg:grid-cols-[2fr,1fr]">
+            <div className="rounded-xl border border-border bg-card p-5">
+              <button
+                onClick={() => setBasicOpen(true)}
+                className="rounded bg-primary px-4 py-2 text-primary-foreground"
+              >
+                Show Basic Backdrop
+              </button>
 
-            <Backdrop open={basicOpen} onClick={() => setBasicOpen(false)}>
-              <div className="w-full max-w-md rounded-xl border border-border bg-background p-6 shadow-xl">
-                <h4 className="text-lg font-semibold text-foreground">Archive Draft</h4>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  This action hides the draft from your active queue.
-                </p>
-                <div className="mt-4 flex justify-end gap-2">
-                  <button
-                    type="button"
-                    className="rounded border border-border bg-card px-3 py-1.5 text-sm"
-                    onClick={() => setBasicOpen(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="rounded bg-primary px-3 py-1.5 text-sm text-primary-foreground"
-                    onClick={() => setBasicOpen(false)}
-                  >
-                    Confirm
-                  </button>
+              <Backdrop open={basicOpen} onClick={() => setBasicOpen(false)}>
+                <div className="w-full max-w-md rounded-xl border border-border bg-background p-6 shadow-xl">
+                  <h4 className="text-lg font-semibold text-foreground">Archive Draft</h4>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    This action hides the draft from your active queue.
+                  </p>
+                  <div className="mt-4 flex justify-end gap-2">
+                    <button
+                      type="button"
+                      className="rounded border border-border bg-card px-3 py-1.5 text-sm"
+                      onClick={() => setBasicOpen(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded bg-primary px-3 py-1.5 text-sm text-primary-foreground"
+                      onClick={() => setBasicOpen(false)}
+                    >
+                      Confirm
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </Backdrop>
-          </div>
-          <div className="rounded-xl border border-border/70 bg-muted/30 p-4">
-            <h4 className="text-sm font-semibold text-foreground">Implementation Notes</h4>
-            <ul className="mt-3 space-y-1 text-sm text-muted-foreground">
-              <li>• Keep close behavior predictable on backdrop click.</li>
-              <li>• Pair with clear primary and secondary actions.</li>
-              <li>• Lock scroll for modal contexts when appropriate.</li>
-            </ul>
+              </Backdrop>
+            </div>
+            <div className="rounded-xl border border-border/70 bg-muted/30 p-4">
+              <h4 className="text-sm font-semibold text-foreground">Implementation Notes</h4>
+              <ul className="mt-3 space-y-1 text-sm text-muted-foreground">
+                <li>• Keep close behavior predictable on backdrop click.</li>
+                <li>• Pair with clear primary and secondary actions.</li>
+                <li>• Lock scroll for modal contexts when appropriate.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* Blur / Gradient Variants */}
       <section className="space-y-4">
         <h3 className="text-2xl font-semibold text-foreground">Normal Usage</h3>
         <p className="text-sm text-muted-foreground">
@@ -127,6 +129,7 @@ export default function BackdropExample() {
         </div>
       </section>
 
+      {/* Advanced Usage */}
       <section className="space-y-4">
         <h3 className="text-2xl font-semibold text-foreground">Advanced Usage</h3>
         <p className="text-sm text-muted-foreground">
@@ -176,6 +179,7 @@ export default function BackdropExample() {
         </div>
       </section>
 
+      {/* Real-Life Use Cases */}
       <section className="space-y-4">
         <h3 className="text-2xl font-semibold text-foreground">Real-Life Use Cases</h3>
         <p className="text-sm text-muted-foreground">
@@ -205,5 +209,8 @@ export default function BackdropExample() {
               <li>• Log overlay opens for accountability when needed.</li>
             </ul>
           </div>
-            className="px-4 py-2 bg-primary text-primary-foreground rounded"
-          >
+        </div>
+      </section>
+    </div>
+  );
+}

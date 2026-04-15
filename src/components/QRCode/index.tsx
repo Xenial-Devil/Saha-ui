@@ -4,6 +4,7 @@ import { forwardRef } from "react";
 import { cn } from "../../lib/utils";
 import type { QRCodeProps } from "./QRCode.types";
 import { QRCodeSVG, QRCodeCanvas } from "qrcode.react";
+import { qrCodeVariants } from "./QRCode.styles";
 
 /**
  * QRCode Component
@@ -49,7 +50,7 @@ export const QRCode = forwardRef<HTMLDivElement, QRCodeProps>(
     return (
       <div 
         ref={ref} 
-        className={cn("inline-flex items-center justify-center p-2 rounded-xl bg-white shadow-sm border border-border/50", className)}
+        className={cn(qrCodeVariants(), className)}
       >
         <Component
           value={value}

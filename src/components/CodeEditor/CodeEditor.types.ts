@@ -3,7 +3,7 @@ import type {
   CodeEditorVariant,
   CodeEditorSize,
   CodeEditorTheme,
-} from "./variants";
+} from "./CodeEditor.styles";
 
 export type { CodeEditorVariant, CodeEditorSize, CodeEditorTheme };
 

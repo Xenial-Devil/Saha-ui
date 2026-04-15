@@ -4,6 +4,8 @@ import { forwardRef } from "react";
 import { DatePicker } from "../DatePicker";
 import type { DateRangePickerProps } from "./DateRangePicker.types";
 import type { DateRange } from "../DatePicker/DatePicker.types";
+import { dateRangePickerVariants } from "./DateRangePicker.styles";
+import { cn } from "../../lib/utils";
 
 /**
  * DateRangePicker Component
@@ -40,6 +42,7 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
         asSingle={false}
         value={combinedValue}
         onChange={handleRangeChange}
+        className={cn(dateRangePickerVariants(), props.className)}
         {...props}
       />
     );

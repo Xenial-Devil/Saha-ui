@@ -1,2 +1,1 @@
-src/components/SplitButton/index.tsx(6,10): error TS2614: Module '"../Button"' has no exported member 'Button'. Did you mean to use 'import Button from "../Button"' instead?
-src/components/SplitButton/index.tsx(59,82): error TS2339: Property 'className' does not exist on type '{ value?: string | number | readonly string[] | undefined; color?: string | undefined; suppressHydrationWarning?: boolean | undefined; id?: string | undefined; lang?: string | undefined; name?: string | undefined; ... 279 more ...; formTarget?: string | undefined; }'.
+

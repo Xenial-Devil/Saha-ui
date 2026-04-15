@@ -3,6 +3,7 @@
 import { forwardRef, useMemo } from "react";
 import { cn } from "../../lib/utils";
 import type { GanttChartProps } from "./GanttChart.types";
+import { ganttChartVariants, ganttTooltipVariants } from "./GanttChart.styles";
 import {
   BarChart,
   Bar,
@@ -84,7 +85,7 @@ export const GanttChart = forwardRef<HTMLDivElement, GanttChartProps>(
         const end = new Date(item.timeRange[1]).toLocaleDateString();
 
         return (
-          <div className="bg-popover text-popover-foreground border border-border/50 p-3 rounded-lg shadow-xl">
+          <div className={ganttTooltipVariants()}>
             <p className="font-semibold text-sm mb-1">{item.name}</p>
             <p className="text-xs text-muted-foreground">Start: {start}</p>
             <p className="text-xs text-muted-foreground">End: {end}</p>
@@ -98,7 +99,7 @@ export const GanttChart = forwardRef<HTMLDivElement, GanttChartProps>(
     return (
       <div 
         ref={ref} 
-        className={cn("w-full bg-card border border-border/50 rounded-xl p-4 shadow-sm", className)} 
+        className={cn(ganttChartVariants(), className)} 
         style={{ height }}
         {...props}
       >

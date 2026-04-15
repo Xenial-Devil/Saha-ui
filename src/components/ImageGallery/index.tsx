@@ -3,6 +3,20 @@
 import React, { forwardRef, useState, useMemo } from "react";
 import { cn } from "../../lib/utils";
 import type { ImageGalleryProps } from "./ImageGallery.types";
+import {
+  imageGalleryVariants,
+  imageGalleryItemVariants,
+  imageGalleryImageVariants,
+  imageGalleryCaptionVariants,
+  imageGalleryCaptionTextVariants,
+  lightboxDialogContentVariants,
+  lightboxContainerVariants,
+  lightboxImageVariants,
+  lightboxCaptionVariants,
+  lightboxNavButtonVariants,
+  lightboxThumbstripVariants,
+  lightboxThumbBtnVariants,
+} from "./ImageGallery.styles";
 import Image from "../Image";
 import { Dialog, DialogContent } from "../Dialog";
 
@@ -49,13 +63,6 @@ export const ImageGallery = forwardRef<HTMLDivElement, ImageGalleryProps>(
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const gapClass = {
-      sm: "gap-2",
-      md: "gap-4",
-      lg: "gap-6",
-      xl: "gap-8",
-    }[gap];
-
     // Basic tailwind classes for grid responsive columns
     const gridColsClass = useMemo(() => {
       if (typeof columns === "number") {
@@ -88,23 +95,23 @@ export const ImageGallery = forwardRef<HTMLDivElement, ImageGalleryProps>(
     return (
       <>
         {/* Grid View */}
-        <div ref={ref} className={cn("grid", gridColsClass, gapClass, className)} {...props}>
+        <div ref={ref} className={cn(imageGalleryVariants({ gap }), gridColsClass, className)} {...props}>
           {images.map((img, i) => (
             <div 
               key={img.id || i} 
-              className={cn("relative overflow-hidden group", enableLightbox && "cursor-pointer")}
+              className={cn(imageGalleryItemVariants({ enableLightbox }))}
               onClick={() => openLightbox(i)}
             >
               <Image
                 src={img.thumbnailSrc || img.src}
                 alt={img.alt}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className={imageGalleryImageVariants()}
                 aspectRatio="square"
                 onClick={img.onClick as any}
               />
               {img.caption && (
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity flex items-end">
-                  <span className="text-white text-sm line-clamp-2">{img.caption}</span>
+                <div className={imageGalleryCaptionVariants()}>
+                  <span className={imageGalleryCaptionTextVariants()}>{img.caption}</span>
                 </div>
               )}
             </div>
@@ -115,20 +122,20 @@ export const ImageGallery = forwardRef<HTMLDivElement, ImageGalleryProps>(
         {enableLightbox && (
           <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
             <DialogContent 
-              className="max-w-[90vw] max-h-[90vh] p-1 bg-black/95 border-border/10 overflow-hidden flex flex-col justify-center hide-close"
+              className={lightboxDialogContentVariants()}
               aria-label="Image lightbox"
               state={lightboxOpen ? "open" : "closed"}
             >
               {images.length > 0 && (
-                <div className="relative flex-1 flex items-center justify-center p-4">
+                <div className={lightboxContainerVariants()}>
                   <Image
                     src={images[currentIndex].src}
                     alt={images[currentIndex].alt}
-                    className="max-h-[75vh] w-auto object-contain mx-auto"
+                    className={lightboxImageVariants()}
                   />
                   
                   {images[currentIndex].caption && (
-                    <div className="absolute bottom-6 bg-black/50 backdrop-blur-md text-white/90 px-4 py-2 rounded-full text-sm shadow-xl">
+                    <div className={lightboxCaptionVariants()}>
                       {images[currentIndex].caption}
                     </div>
                   )}
@@ -138,7 +145,7 @@ export const ImageGallery = forwardRef<HTMLDivElement, ImageGalleryProps>(
                       <button
                         type="button"
                         onClick={handlePrev}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-xl p-3 rounded-full text-white transition-all shadow-lg border border-white/10"
+                        className={lightboxNavButtonVariants({ dir: "left" })}
                         aria-label="Previous image"
                       >
                         <ChevronLeftIcon className="w-6 h-6" />
@@ -146,7 +153,7 @@ export const ImageGallery = forwardRef<HTMLDivElement, ImageGalleryProps>(
                       <button
                         type="button"
                         onClick={handleNext}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-xl p-3 rounded-full text-white transition-all shadow-lg border border-white/10"
+                        className={lightboxNavButtonVariants({ dir: "right" })}
                         aria-label="Next image"
                       >
                         <ChevronRightIcon className="w-6 h-6" />
@@ -158,16 +165,13 @@ export const ImageGallery = forwardRef<HTMLDivElement, ImageGalleryProps>(
 
               {/* Thumbnails strip */}
               {showThumbnails && images.length > 1 && (
-                <div className="h-20 w-full overflow-x-auto flex gap-2 p-2 border-t border-white/10 snap-x justify-center">
+                <div className={lightboxThumbstripVariants()}>
                   {images.map((img, i) => (
                     <button
                       key={`thumb-${img.id || i}`}
                       type="button"
                       onClick={() => setCurrentIndex(i)}
-                      className={cn(
-                        "relative shrink-0 w-16 h-16 rounded-md overflow-hidden snap-center transition-all opacity-50 hover:opacity-100",
-                        currentIndex === i && "ring-2 ring-primary opacity-100 scale-105"
-                      )}
+                      className={cn(lightboxThumbBtnVariants({ active: currentIndex === i }))}
                     >
                       <Image
                         src={img.thumbnailSrc || img.src}

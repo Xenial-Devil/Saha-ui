@@ -3,6 +3,12 @@
 import { forwardRef, useEffect, useRef, useCallback } from "react";
 import { cn } from "../../lib/utils";
 import type { InfiniteScrollProps } from "./InfiniteScroll.types";
+import {
+  infiniteScrollVariants,
+  infiniteTargetVariants,
+  infiniteMessageContainerVariants,
+  infiniteEndMessageVariants,
+} from "./InfiniteScroll.styles";
 import  Spinner  from "../Spinner";
 
 /**
@@ -70,22 +76,22 @@ export const InfiniteScroll = forwardRef<HTMLDivElement, InfiniteScrollProps>(
     return (
       <div 
         ref={externalRef} 
-        className={cn("flex flex-col w-full", className)} 
+        className={cn(infiniteScrollVariants(), className)} 
         {...props}
       >
         {children}
         
         {/* Intersection Target */}
-        <div ref={observerTarget} className="h-4 w-full shrink-0" />
+        <div ref={observerTarget} className={infiniteTargetVariants()} />
         
         {/* Loading / End Messages */}
-        <div className="flex w-full justify-center py-4">
+        <div className={infiniteMessageContainerVariants()}>
           {isLoading && (
             loader || <Spinner size="md" variant="primary" />
           )}
           
           {!hasMore && !isLoading && endMessage && (
-            <div className="text-sm text-muted-foreground">
+            <div className={infiniteEndMessageVariants()}>
               {endMessage}
             </div>
           )}

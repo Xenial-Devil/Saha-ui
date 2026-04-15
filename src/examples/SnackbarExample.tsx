@@ -228,7 +228,6 @@ export default function SnackbarExample() {
                     severity: "success",
                     variant: "filled",
                     position: "bottom-center",
-                    action: undefined,
                   })
                 }
               >

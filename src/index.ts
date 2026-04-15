@@ -217,6 +217,23 @@ export {
   navigationVariants,
   indicatorVariants,
 } from "./components/Carousel/Carousel.styles";
+export { TickerCarousel } from "./components/TickerCarousel";
+export {
+  tickerCarouselVariants,
+  tickerViewportVariants,
+  tickerRowsVariants,
+  tickerRowVariants,
+  tickerTrackVariants,
+  tickerItemVariants,
+  tickerCardVariants,
+  edgeFadeVariants,
+} from "./components/TickerCarousel/TickerCarousel.styles";
+export type {
+  TickerCarouselProps,
+  TickerDirection,
+  TickerMetrics,
+  TickerCarouselRef,
+} from "./components/TickerCarousel/TickerCarousel.types";
 export { Chip } from "./components/Chip";
 export { chipVariants } from "./components/Chip/Chip.styles";
 export { IconButton } from "./components/IconButton";
@@ -622,8 +639,6 @@ export {
   DragHandle,
   DragOverlay,
   TreeView,
-  VirtualList,
-  useVirtualScroll,
   SelectionManager,
   SelectionBadge,
   DebugOverlay,
@@ -1709,4 +1724,27 @@ export { TypewriterText } from "./components/TypewriterText";
 export type { TypewriterTextProps } from "./components/TypewriterText/TypewriterText.types";
 export { Watermark } from "./components/Watermark";
 export type { WatermarkProps } from "./components/Watermark/Watermark.types";
-export * from './components/VirtualList';
+export { 
+  VirtualList, 
+  useVirtualScroll 
+} from "./components/VirtualList";
+export { virtualListVariants } from "./components/VirtualList/VirtualList.styles";
+export type { 
+  VirtualListProps, 
+  UseVirtualScrollOptions 
+} from "./components/VirtualList/VirtualList.types";
+export { 
+  Notification, 
+  NotificationProvider, 
+  useNotifications 
+} from "./components/Notification";
+export { 
+  notificationVariants, 
+  notificationContainerVariants 
+} from "./components/Notification/Notification.styles";
+export type { 
+  NotificationItemType, 
+  NotificationProps, 
+  NotificationProviderProps, 
+  NotificationContextType 
+} from "./components/Notification/Notification.types";

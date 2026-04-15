@@ -692,10 +692,11 @@ const TickerCarousel = forwardRef<TickerCarouselRef, TickerCarouselProps<any>>(
           className={cn(
             tickerCarouselVariants({ variant }),
             className,
-            classNames?.root,
+            classNames?.root
           )}
           style={resolvedRootStyle}
           role="region"
+          aria-roledescription="carousel"
           aria-label={ariaLabel}
           aria-labelledby={ariaLabelledBy}
           aria-describedby={ariaDescribedBy}
@@ -721,6 +722,7 @@ const TickerCarousel = forwardRef<TickerCarouselRef, TickerCarouselProps<any>>(
         )}
         style={resolvedRootStyle}
         role="region"
+        aria-roledescription="carousel"
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
         aria-describedby={ariaDescribedBy}

@@ -3,6 +3,7 @@ src/
 public/
 dist/node_modules/
 markdown/
+
 # Development files
 .vscode/
 .github/
@@ -12,12 +13,16 @@ node_modules/
 # Config files
 tsconfig.json
 tsconfig.node.json
+tsconfig.app.json
 vite.config.ts
+vite.mcp.config.ts
 postcss.config.js
 tailwind.config.js
 .gitignore
 .eslintrc.*
 .prettierrc.*
+eslint.config.js
+build.config.js
 
 # Documentation (except README)
 CHANGELOG.md
@@ -30,8 +35,36 @@ PROPS_SEPARATION_SUMMARY.md
 TYPE_SAFETY_GUIDE.md
 ULTRA_MODERN_SUMMARY.md
 
-# Demo files
+# AI working documentation files
+AI_QUICK_REFERENCE.md
+HOW_TO_SHARE_WITH_AI.md
+SPACING_QUICK_REFERENCE.md
+FORMATTING_STATUS.md
+COMPONENT_REFORMAT_GUIDE.md
+DOCUMENTATION_IMPROVEMENTS.md
+NUMERIC_SPACING_UPDATE.md
+UI_DESIGN_PATTERN_ANALYSIS.md
+REFORMATTING_COMPLETE.md
+COMPONENTS_LIST.txt
+ComponentAi list.txt
+
+# Debug / stray artifact files
+tsc-errors.txt
+typescript-check.log
+eslint-report.json
+out.json
+
+# Demo and test scripts
 index.html
+test-button.js
+test-client.js
+demo-mcp.js
+update_list.cjs
+update_readme.cjs
+
+# Test infrastructure
+testsprite_tests/
+scripts/
 
 # Git
 .git/

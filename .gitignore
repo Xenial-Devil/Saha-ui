@@ -132,3 +132,12 @@ dist
 
 # Component status tracking file
 COMPONENTS_STATUS.txt
+
+# Debug / artifact files — should never be committed
+tsc-errors.txt
+typescript-check.log
+eslint-report.json
+out.json
+
+# Internal AI working files
+ComponentAi\ list.txt
