@@ -3,6 +3,7 @@ import React, {
   useState,
   useEffect,
   useRef,
+  useId,
   createContext,
   useContext,
 } from "react";
@@ -97,6 +98,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     const [internalOpen, setInternalOpen] = useState(false);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
+    const contentId = useId();
 
     // Use controlled or uncontrolled state
     const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
@@ -144,6 +146,12 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       setOpen(false);
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        setOpen(false);
+      }
+    };
+
     // Close on outside click for interactive tooltips
     useEffect(() => {
       if (!interactive || !isOpen || trigger !== "click") return;
@@ -184,6 +192,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       disabled,
       anchorRef: wrapperRef,
       timeoutRef,
+      contentId,
     };
 
     return (
@@ -196,6 +205,8 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
           onClick={handleClick}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
+          aria-describedby={isOpen ? contentId : undefined}
           {...props}
         >
           {children}
@@ -244,7 +255,8 @@ export const TooltipContent = React.forwardRef<
     offset,
     disabled,
   } = useTooltip();
-  const { anchorRef, timeoutRef, trigger, setOpen } = useTooltip() as any;
+  const { anchorRef, timeoutRef, trigger, setOpen, contentId } =
+    useTooltip() as any;
 
   // do not early-return here because hooks must be called in same order
 
@@ -353,6 +365,7 @@ export const TooltipContent = React.forwardRef<
         top: portalPos.top,
         left: portalPos.left,
       }}
+      id={contentId}
       role="tooltip"
       aria-hidden={!isOpen}
       {...props}

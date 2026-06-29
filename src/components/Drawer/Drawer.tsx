@@ -10,6 +10,7 @@ import { createPortal } from "react-dom";
 import { DrawerContext } from "./DrawerComponents";
 import { DrawerOverlay, DrawerContent } from "./DrawerOverlay";
 import type { DrawerProps } from "./Drawer.types";
+import { useFocusTrap } from "../../hooks/useFocusTrap";
 
 /**
  * Drawer - Side panel component with advanced features
@@ -48,6 +49,8 @@ export const Drawer = ({
   animation = "slide",
   zIndex = 50,
   nested = false,
+  focusTrap = true,
+  returnFocus = true,
 }: DrawerProps) => {
   // State management
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
@@ -62,6 +65,18 @@ export const Drawer = ({
   const drawerRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
 
+  // Store trigger on open
+  useEffect(() => {
+    if (open && typeof document !== "undefined") {
+      previousActiveElement.current = document.activeElement as HTMLElement;
+    }
+  }, [open]);
+
+  // Focus trap
+  useFocusTrap(drawerRef, {
+    enabled: open && focusTrap,
+    returnFocus: returnFocus ? previousActiveElement : undefined,
+  });
 
   // Handle open state changes
   const setOpen = useCallback(
@@ -152,42 +167,6 @@ export const Drawer = ({
       }
     };
   }, [open, lockScroll, nested]);
-
-  // Focus management
-  useEffect(() => {
-    let focusTimeout: ReturnType<typeof setTimeout> | undefined;
-    let isCancelled = false;
-
-    if (open) {
-      previousActiveElement.current = document.activeElement as HTMLElement;
-      // Focus drawer content
-      focusTimeout = setTimeout(() => {
-        if (!isCancelled) {
-          drawerRef.current?.focus();
-        }
-      }, 100);
-    } else if (previousActiveElement.current) {
-      // Restore focus
-      try {
-        previousActiveElement.current.focus();
-        previousActiveElement.current = null;
-      } catch {
-        console.debug("Drawer focus restore suppressed");
-        previousActiveElement.current = null;
-      }
-    }
-
-    return () => {
-      isCancelled = true;
-      if (focusTimeout) {
-        try {
-          clearTimeout(focusTimeout);
-        } catch {
-          console.debug("Drawer focus timeout cancellation suppressed");
-        }
-      }
-    };
-  }, [open]);
 
   // Keyboard navigation
   useEffect(() => {

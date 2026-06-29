@@ -36,6 +36,10 @@ export interface DrawerProps {
   zIndex?: number;
   /** Whether drawer is nested (for multiple drawers) */
   nested?: boolean;
+  /** Whether to trap focus within drawer */
+  focusTrap?: boolean;
+  /** Whether to return focus to trigger on close */
+  returnFocus?: boolean;
 }
 
 /**

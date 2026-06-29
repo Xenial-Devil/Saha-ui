@@ -124,6 +124,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     const contentRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
     const triggerRef = useRef<HTMLButtonElement>(null);
+    const itemRefs = useRef<(HTMLElement | null)[]>([]);
 
     const position = `${side}${align ? `-${align}` : ""}`;
     const { portalContainer, portalRef, portalPos } = usePortalPosition(
@@ -168,7 +169,16 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       handleOpenChange(false);
     }, [handleOpenChange]);
 
-    // Keyboard navigation
+    // Filter options by search
+    const filteredOptions = options?.filter((option) => {
+      if (!searchQuery) return true;
+      return (
+        option.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        option.description?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
+
+    // Keyboard navigation (operates on filtered options so search + nav agree)
     useEffect(() => {
       if (!isOpen) return;
 
@@ -178,14 +188,14 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         } else if (e.key === "ArrowDown") {
           e.preventDefault();
           setFocusedIndex((prev) =>
-            Math.min(prev + 1, (options?.length || 1) - 1)
+            Math.min(prev + 1, (filteredOptions?.length || 1) - 1)
           );
         } else if (e.key === "ArrowUp") {
           e.preventDefault();
           setFocusedIndex((prev) => Math.max(prev - 1, 0));
         } else if (e.key === "Enter") {
           e.preventDefault();
-          const option = options?.[focusedIndex];
+          const option = filteredOptions?.[focusedIndex];
           if (option && !option.disabled) {
             handleAction();
           }
@@ -194,7 +204,14 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
 
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [isOpen, focusedIndex, options, handleClose, handleAction]);
+    }, [isOpen, focusedIndex, filteredOptions, handleClose, handleAction]);
+
+    // Move DOM focus to the highlighted item
+    useEffect(() => {
+      if (isOpen && focusedIndex >= 0 && itemRefs.current[focusedIndex]) {
+        itemRefs.current[focusedIndex]?.focus();
+      }
+    }, [isOpen, focusedIndex]);
 
     // Focus search input when opened
     useEffect(() => {
@@ -202,15 +219,6 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         setTimeout(() => searchInputRef.current?.focus(), 100);
       }
     }, [isOpen, searchable]);
-
-    // Filter options by search
-    const filteredOptions = options?.filter((option) => {
-      if (!searchQuery) return true;
-      return (
-        option.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        option.description?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    });
 
     const contextValue: DropdownContextValue = {
       onAction: handleAction,

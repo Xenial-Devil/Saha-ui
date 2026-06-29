@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>useFocusTrap Test</title>
+  <style>
+    body { font-family: system-ui; padding: 2rem; }
+    .dialog {
+      border: 2px solid #333;
+      padding: 2rem;
+      margin: 2rem 0;
+      max-width: 400px;
+    }
+    button { margin: 0.5rem; padding: 0.5rem 1rem; }
+    input { margin: 0.5rem; padding: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>useFocusTrap Test</h1>
+
+  <button id="openBtn">Open Dialog (Focus should return here)</button>
+
+  <div id="root"></div>
+
+  <script type="module">
+    import { useEffect, useRef, useState } from 'https://esm.sh/react@18.3.1';
+    import { createRoot } from 'https://esm.sh/react-dom@18.3.1/client';
+
+    // Inline useFocusTrap for testing
+    const FOCUSABLE_ELEMENTS = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+    function useFocusTrap(containerRef, options = {}) {
+      const { enabled = true, returnFocus, initialFocus } = options;
+
+      useEffect(() => {
+        if (!enabled || !containerRef.current) return;
+
+        const element = containerRef.current;
+        const focusableElements = element.querySelectorAll(FOCUSABLE_ELEMENTS);
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        const handleKeyDown = (e) => {
+          if (e.key !== "Tab") return;
+
+          if (e.shiftKey) {
+            if (document.activeElement === firstElement) {
+              e.preventDefault();
+              lastElement?.focus();
+            }
+          } else {
+            if (document.activeElement === lastElement) {
+              e.preventDefault();
+              firstElement?.focus();
+            }
+          }
+        };
+
+        element.addEventListener("keydown", handleKeyDown);
+
+        const focusTimer = setTimeout(() => {
+          if (initialFocus) {
+            const target = element.querySelector(initialFocus);
+            target?.focus();
+          } else {
+            firstElement?.focus();
+          }
+        }, 100);
+
+        return () => {
+          element.removeEventListener("keydown", handleKeyDown);
+          clearTimeout(focusTimer);
+          if (returnFocus?.current) {
+            returnFocus.current.focus();
+          }
+        };
+      }, [enabled, containerRef, returnFocus, initialFocus]);
+    }
+
+    function TestDialog() {
+      const [open, setOpen] = useState(false);
+      const dialogRef = useRef(null);
+      const triggerRef = useRef(null);
+
+      useFocusTrap(dialogRef, {
+        enabled: open,
+        returnFocus: triggerRef
+      });
+
+      return (
+        <>
+          <button ref={triggerRef} onClick={() => setOpen(true)}>
+            Open Dialog
+          </button>
+
+          {open && (
+            <div ref={dialogRef} className="dialog">
+              <h2>Test Dialog</h2>
+              <p>Tab should cycle within these elements:</p>
+              <input placeholder="First input" />
+              <input placeholder="Second input" />
+              <button onClick={() => setOpen(false)}>Close (focus returns to trigger)</button>
+              <button>Another button</button>
+            </div>
+          )}
+        </>
+      );
+    }
+
+    createRoot(document.getElementById('root')).render(<TestDialog />);
+  </script>
+
+  <h2>Test Instructions</h2>
+  <ol>
+    <li>Click "Open Dialog"</li>
+    <li>Focus should move to first input after 100ms</li>
+    <li>Press Tab repeatedly — focus cycles within dialog only</li>
+    <li>Press Shift+Tab — cycles backward</li>
+    <li>Click "Close" — focus returns to "Open Dialog" button</li>
+  </ol>
+</body>
+</html>

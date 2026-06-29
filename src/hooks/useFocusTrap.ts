@@ -1,23 +1,33 @@
-import { useEffect, useRef, RefObject } from "react";
+import { useEffect, RefObject } from "react";
 
 /**
  * useFocusTrap - Trap focus within an element
- * @param active - Whether the focus trap is active
- * @returns Ref to attach to the container element
+ * @param containerRef - Ref to the container element
+ * @param options - Configuration options
+ * @param options.enabled - Whether the focus trap is active
+ * @param options.returnFocus - Ref to element that should receive focus on unmount
+ * @param options.initialFocus - CSS selector for element to focus initially (default: first focusable)
  */
 
 const FOCUSABLE_ELEMENTS =
   'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
+interface UseFocusTrapOptions {
+  enabled?: boolean;
+  returnFocus?: RefObject<HTMLElement | null>;
+  initialFocus?: string;
+}
+
 export function useFocusTrap<T extends HTMLElement = HTMLElement>(
-  active = true
-): RefObject<T | null> {
-  const ref = useRef<T>(null);
+  containerRef: RefObject<T | null>,
+  options: UseFocusTrapOptions = {}
+): void {
+  const { enabled = true, returnFocus, initialFocus } = options;
 
   useEffect(() => {
-    if (!active || !ref.current) return;
+    if (!enabled || !containerRef.current) return;
 
-    const element = ref.current;
+    const element = containerRef.current;
     const focusableElements = element.querySelectorAll(FOCUSABLE_ELEMENTS);
     const firstElement = focusableElements[0] as HTMLElement;
     const lastElement = focusableElements[
@@ -44,13 +54,24 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>(
 
     element.addEventListener("keydown", handleKeyDown);
 
-    // Focus first element on mount
-    firstElement?.focus();
+    // Focus initial element after short delay (animation)
+    const focusTimer = setTimeout(() => {
+      if (initialFocus) {
+        const target = element.querySelector(initialFocus) as HTMLElement;
+        target?.focus();
+      } else {
+        firstElement?.focus();
+      }
+    }, 100);
 
     return () => {
       element.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [active]);
+      clearTimeout(focusTimer);
 
-  return ref;
+      // Return focus to trigger if specified
+      if (returnFocus?.current) {
+        returnFocus.current.focus();
+      }
+    };
+  }, [enabled, containerRef, returnFocus, initialFocus]);
 }

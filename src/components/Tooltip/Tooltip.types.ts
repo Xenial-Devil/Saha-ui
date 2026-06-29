@@ -41,6 +41,8 @@ export interface TooltipContextValue {
   anchorRef?: React.RefObject<HTMLElement | null>;
   // shared hover timeout ref used by trigger + content
   timeoutRef?: React.MutableRefObject<NodeJS.Timeout | null>;
+  // id linking trigger (aria-describedby) to content (id)
+  contentId?: string;
 }
 
 export interface TooltipProps extends React.HTMLAttributes<HTMLDivElement> {
