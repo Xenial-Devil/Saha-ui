@@ -1,5 +1,18 @@
 import React from "react";
 
+/**
+ * Slot-styling map for the Dropdown component.
+ *
+ * Individual `className` props (`triggerClassName`, `contentClassName`) always
+ * win over the matching `classNames` key.
+ */
+export interface DropdownClassNames {
+  /** The trigger button. */
+  trigger?: string;
+  /** The dropdown content / listbox container. */
+  content?: string;
+}
+
 export interface DropdownOption {
   value: string;
   label: string;
@@ -73,6 +86,11 @@ export interface DropdownProps {
   className?: string;
   triggerClassName?: string;
   contentClassName?: string;
+  /**
+   * Slot-Styling API: merge a class into each internal part.
+   * Individual props (`triggerClassName`, `contentClassName`) still win if both are set.
+   */
+  classNames?: DropdownClassNames;
   /** Disable portaling and render content inline */
   disablePortal?: boolean;
 }

@@ -103,7 +103,7 @@ export interface CommandPropsBase {
   ariaLabel?: string;
 
   /** Additional props */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // Props-based API

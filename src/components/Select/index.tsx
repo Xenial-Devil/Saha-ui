@@ -39,6 +39,11 @@ interface SelectContextValue {
   unregisterItem: (value: string) => void;
   // Shared trigger ref for positioning - FIX: Allow null in type
   triggerRef: React.RefObject<HTMLButtonElement | null> | null;
+  // Roving keyboard navigation (composable path)
+  focusedIndex: number;
+  setFocusedIndex: React.Dispatch<React.SetStateAction<number>>;
+  // Options container ref for DOM-scoped focus queries
+  contentRef: React.RefObject<HTMLDivElement | null> | null;
 }
 
 const SelectContext = createContext<SelectContextValue>({
@@ -46,6 +51,9 @@ const SelectContext = createContext<SelectContextValue>({
   registerItem: () => {},
   unregisterItem: () => {},
   triggerRef: null,
+  focusedIndex: -1,
+  setFocusedIndex: () => {},
+  contentRef: null,
 });
 
 // ============================================
@@ -102,6 +110,10 @@ const SelectComposable = forwardRef<
 
     // Item registry for value-to-label mapping
     const [items, setItems] = useState<Map<string, SelectItemData>>(new Map());
+
+    // Roving keyboard navigation state
+    const [focusedIndex, setFocusedIndex] = useState(-1);
+    const contentRef = useRef<HTMLDivElement | null>(null);
 
     // FIX: Properly type the ref to allow null
     const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -168,6 +180,84 @@ const SelectComposable = forwardRef<
       ? Array.isArray(value) && value.length > 0
       : Boolean(value);
 
+    // Enabled, focusable options inside the content (DOM order = render order)
+    const getEnabledItems = useCallback(() => {
+      if (!contentRef.current) return [];
+      return Array.from(
+        contentRef.current.querySelectorAll<HTMLElement>(
+          '[role="option"]:not([aria-disabled="true"])'
+        )
+      );
+    }, []);
+
+    // Reset highlight when opening/closing
+    useEffect(() => {
+      setFocusedIndex(open ? 0 : -1);
+    }, [open]);
+
+    // Move DOM focus to the highlighted option
+    useEffect(() => {
+      if (open && focusedIndex >= 0) {
+        getEnabledItems()[focusedIndex]?.focus();
+      }
+    }, [open, focusedIndex, getEnabledItems]);
+
+    // Keyboard nav — wired on wrapper; portaled content events bubble via React tree
+    const handleKeyDown = useCallback(
+      (e: React.KeyboardEvent) => {
+        if (disabled) return;
+        switch (e.key) {
+          case "ArrowDown":
+            e.preventDefault();
+            if (!open) {
+              handleOpenChange(true);
+              return;
+            }
+            setFocusedIndex((prev) =>
+              Math.min(prev + 1, getEnabledItems().length - 1)
+            );
+            break;
+          case "ArrowUp":
+            e.preventDefault();
+            if (!open) {
+              handleOpenChange(true);
+              return;
+            }
+            setFocusedIndex((prev) => Math.max(prev - 1, 0));
+            break;
+          case "Enter":
+          case " ":
+            e.preventDefault();
+            if (!open) {
+              handleOpenChange(true);
+              return;
+            }
+            getEnabledItems()[focusedIndex]?.click();
+            break;
+          case "Escape":
+            if (open) {
+              e.preventDefault();
+              handleOpenChange(false);
+              triggerRef.current?.focus();
+            }
+            break;
+          case "Home":
+            if (open) {
+              e.preventDefault();
+              setFocusedIndex(0);
+            }
+            break;
+          case "End":
+            if (open) {
+              e.preventDefault();
+              setFocusedIndex(getEnabledItems().length - 1);
+            }
+            break;
+        }
+      },
+      [disabled, open, focusedIndex, handleOpenChange, getEnabledItems]
+    );
+
     return (
       <SelectContext.Provider
         value={{
@@ -184,9 +274,16 @@ const SelectComposable = forwardRef<
           registerItem,
           unregisterItem,
           triggerRef,
+          focusedIndex,
+          setFocusedIndex,
+          contentRef,
         }}
       >
-        <div ref={ref} className={cn("relative", className)}>
+        <div
+          ref={ref}
+          className={cn("relative", className)}
+          onKeyDown={handleKeyDown}
+        >
           {children}
 
           {/* Hidden inputs for form submission */}
@@ -260,10 +357,14 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
       className,
       menuClassName,
       optionClassName,
+      classNames,
+      ...rest
     } = props;
 
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [focusedIndex, setFocusedIndex] = useState(0);
+    const itemRefs = useRef<(HTMLElement | null)[]>([]);
     const [uncontrolledValue, setUncontrolledValue] = useState<
       string | string[]
     >(defaultValue || (multiple ? [] : ""));
@@ -428,6 +529,81 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
       return value === optionValue;
     };
 
+    // Reset focus to top when opening or filtering
+    useEffect(() => {
+      setFocusedIndex(0);
+    }, [isOpen, searchQuery]);
+
+    // Move DOM focus to the highlighted option
+    useEffect(() => {
+      if (isOpen && focusedIndex >= 0 && itemRefs.current[focusedIndex]) {
+        itemRefs.current[focusedIndex]?.focus();
+      }
+    }, [isOpen, focusedIndex]);
+
+    // Keyboard navigation (operates on filteredOptions so search + nav agree)
+    const handleKeyDown = useCallback(
+      (e: React.KeyboardEvent) => {
+        if (disabled) return;
+
+        switch (e.key) {
+          case "ArrowDown":
+            e.preventDefault();
+            if (!isOpen) {
+              setIsOpen(true);
+              return;
+            }
+            setFocusedIndex((prev) =>
+              Math.min(prev + 1, filteredOptions.length - 1)
+            );
+            break;
+          case "ArrowUp":
+            e.preventDefault();
+            if (!isOpen) {
+              setIsOpen(true);
+              return;
+            }
+            setFocusedIndex((prev) => Math.max(prev - 1, 0));
+            break;
+          case "Enter":
+          case " ":
+            if (!isOpen) {
+              e.preventDefault();
+              setIsOpen(true);
+              return;
+            }
+            e.preventDefault();
+            {
+              const option = filteredOptions[focusedIndex];
+              if (option && !option.disabled) {
+                handleSelect(option.value);
+              }
+            }
+            break;
+          case "Escape":
+            if (isOpen) {
+              e.preventDefault();
+              setIsOpen(false);
+              triggerRef.current?.focus();
+            }
+            break;
+          case "Home":
+            if (isOpen) {
+              e.preventDefault();
+              setFocusedIndex(0);
+            }
+            break;
+          case "End":
+            if (isOpen) {
+              e.preventDefault();
+              setFocusedIndex(filteredOptions.length - 1);
+            }
+            break;
+        }
+      },
+      [disabled, isOpen, filteredOptions, focusedIndex, handleSelect]
+    );
+
     const getDisplayValue = () => {
       if (renderValue) {
         return renderValue(value);
@@ -458,7 +634,7 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
       : Boolean(value);
 
     return (
-      <div ref={ref} className={cn("flex flex-col gap-2", className)}>
+      <div ref={ref} className={cn("flex flex-col gap-2", className)} {...rest}>
         {/* Label */}
         {(label || description) && (
           <div className="flex flex-col gap-1">
@@ -481,7 +657,7 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
         )}
 
         {/* Select Trigger */}
-        <div ref={containerRef} className="relative">
+        <div ref={containerRef} className="relative" onKeyDown={handleKeyDown}>
           <button
             ref={triggerRef}
             type="button"
@@ -493,7 +669,8 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
                 size,
                 error: Boolean(error),
                 fullWidth,
-              })
+              }),
+              classNames?.trigger
             )}
             disabled={disabled}
             aria-haspopup="listbox"
@@ -539,7 +716,11 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
             createPortal(
               <div
                 ref={dropdownRef}
-                className={cn(selectMenuVariants({ variant }), menuClassName)}
+                className={cn(
+                  selectMenuVariants({ variant }),
+                  classNames?.content,
+                  menuClassName
+                )}
                 style={{
                   position: "absolute",
                   top: `${dropdownPosition.top}px`,
@@ -563,7 +744,10 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search..."
-                        className="w-full pl-10 pr-4 py-2 bg-background/50 rounded-md border-2 border-border/50 focus:border-primary focus:outline-none transition-colors"
+                        className={cn(
+                          "w-full pl-10 pr-4 py-2 bg-background/50 rounded-md border-2 border-border/50 focus:border-primary focus:outline-none transition-colors",
+                          classNames?.searchInput
+                        )}
                       />
                     </div>
                   </div>
@@ -605,11 +789,16 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
                         )}
                         {groupOptions.map((option: SelectOption) => {
                           const selected = isSelected(option.value);
+                          const optIndex = filteredOptions.indexOf(option);
+                          const focused = optIndex === focusedIndex;
 
                           if (renderOption) {
                             return (
                               <div
                                 key={option.value}
+                                ref={(el) => {
+                                  itemRefs.current[optIndex] = el;
+                                }}
                                 onClick={() =>
                                   !option.disabled && handleSelect(option.value)
                                 }
@@ -618,11 +807,18 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
                                     variant,
                                     disabled: option.disabled,
                                   }),
+                                  focused && "bg-foreground/10",
+                                  "outline-none",
+                                  classNames?.item,
                                   optionClassName
                                 )}
                                 data-selected={selected}
+                                data-focused={focused}
+                                tabIndex={-1}
                                 role="option"
                                 aria-selected={selected}
+                                aria-setsize={filteredOptions.length}
+                                aria-posinset={optIndex + 1}
                               >
                                 {renderOption(option)}
                               </div>
@@ -632,6 +828,9 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
                           return (
                             <div
                               key={option.value}
+                              ref={(el) => {
+                                itemRefs.current[optIndex] = el;
+                              }}
                               onClick={() =>
                                 !option.disabled && handleSelect(option.value)
                               }
@@ -640,11 +839,18 @@ const SelectPropsBase = forwardRef<HTMLDivElement, SelectProps>(
                                   variant,
                                   disabled: option.disabled,
                                 }),
+                                focused && "bg-foreground/10",
+                                "outline-none",
+                                classNames?.item,
                                 optionClassName
                               )}
                               data-selected={selected}
+                              data-focused={focused}
+                              tabIndex={-1}
                               role="option"
                               aria-selected={selected}
+                              aria-setsize={filteredOptions.length}
+                              aria-posinset={optIndex + 1}
                             >
                               {showCheckmarks && (
                                 <span
@@ -852,7 +1058,16 @@ export const SelectContent = ({ children, className }: SelectContentProps) => {
   const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
 
   // FIX: Extract specific values from context to satisfy exhaustive-deps
-  const { open, onOpenChange, triggerRef, variant } = context;
+  const { open, onOpenChange, triggerRef, variant, contentRef } = context;
+
+  // Mirror the container node into context so keyboard nav can query options
+  const setContainerRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      containerRef.current = node;
+      if (contentRef) contentRef.current = node;
+    },
+    [contentRef]
+  );
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -914,7 +1129,7 @@ export const SelectContent = ({ children, className }: SelectContentProps) => {
 
   return createPortal(
     <div
-      ref={containerRef}
+      ref={setContainerRef}
       className={cn(selectMenuVariants({ variant }), className)}
       style={{
         position: "absolute",
@@ -954,7 +1169,13 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
       onOpenChange,
       disabled: contextDisabled,
       variant,
+      items,
     } = context;
+
+    // Position info for screen readers (registration order = render order)
+    const itemKeys = Array.from(items.keys());
+    const posinset = itemKeys.indexOf(value) + 1;
+    const isDisabled = disabled || contextDisabled;
 
     // Register this item - NO CLEANUP to persist when dropdown closes
     useEffect(() => {
@@ -1000,14 +1221,19 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
         className={cn(
           selectOptionVariants({
             variant,
-            disabled: disabled || contextDisabled,
+            disabled: isDisabled,
           }),
           "flex items-center gap-2 cursor-pointer",
+          "outline-none focus:bg-foreground/10",
           className
         )}
         data-selected={isSelected}
+        tabIndex={-1}
         role="option"
         aria-selected={isSelected}
+        aria-disabled={isDisabled}
+        aria-setsize={items.size}
+        aria-posinset={posinset}
       >
         <span
           className={cn(

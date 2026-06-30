@@ -1,6 +1,32 @@
 import { ReactNode } from "react";
 
 /**
+ * Slot-styling map for the Table compound component.
+ *
+ * Pass the same `classNames` object to `Table` and its sub-components;
+ * each sub-component consumes only its own key. Individual `className`
+ * props always win over the matching `classNames` key.
+ */
+export interface TableClassNames {
+  /** Outer scroll container rendered by `Table`. */
+  root?: string;
+  /** The `<table>` element inside the container. */
+  table?: string;
+  /** `TableHeader` (`<thead>`). */
+  header?: string;
+  /** `TableBody` (`<tbody>`). */
+  body?: string;
+  /** `TableFooter` (`<tfoot>`). */
+  footer?: string;
+  /** Every `TableRow` (`<tr>`). */
+  row?: string;
+  /** Every `TableHead` (`<th>`). */
+  head?: string;
+  /** Every `TableCell` (`<td>`). */
+  cell?: string;
+}
+
+/**
  * Variant options for Table styling
  */
 export type TableVariant =
@@ -73,6 +99,14 @@ export interface TableProps {
   className?: string;
 
   /**
+   * Slot-Styling API. A single object mapping Table slots to class strings.
+   * `Table` consumes `classNames.root` and `classNames.table`. Forward the
+   * same object to sub-components for their slots. Individual `className`
+   * props always win over the matching `classNames` key.
+   */
+  classNames?: TableClassNames;
+
+  /**
    * Child components (TableHeader, TableBody, TableFooter)
    */
   children: ReactNode;
@@ -93,6 +127,12 @@ export interface TableHeaderProps {
   className?: string;
 
   /**
+   * Slot-Styling API. Forward the same `classNames` object passed to `Table`;
+   * `TableHeader` consumes `classNames.header`. Individual `className` wins.
+   */
+  classNames?: TableClassNames;
+
+  /**
    * Child TableRow component(s)
    */
   children: ReactNode;
@@ -108,6 +148,12 @@ export interface TableBodyProps {
   className?: string;
 
   /**
+   * Slot-Styling API. Forward the same `classNames` object passed to `Table`;
+   * `TableBody` consumes `classNames.body`. Individual `className` wins.
+   */
+  classNames?: TableClassNames;
+
+  /**
    * Child TableRow component(s)
    */
   children: ReactNode;
@@ -121,6 +167,12 @@ export interface TableFooterProps {
    * Custom className
    */
   className?: string;
+
+  /**
+   * Slot-Styling API. Forward the same `classNames` object passed to `Table`;
+   * `TableFooter` consumes `classNames.footer`. Individual `className` wins.
+   */
+  classNames?: TableClassNames;
 
   /**
    * Child TableRow component(s)
@@ -141,6 +193,12 @@ export interface TableRowProps {
    * Custom className
    */
   className?: string;
+
+  /**
+   * Slot-Styling API. Forward the same `classNames` object passed to `Table`;
+   * `TableRow` consumes `classNames.row`. Individual `className` wins.
+   */
+  classNames?: TableClassNames;
 
   /**
    * Click handler
@@ -198,6 +256,12 @@ export interface TableHeadProps {
   className?: string;
 
   /**
+   * Slot-Styling API. Forward the same `classNames` object passed to `Table`;
+   * `TableHead` consumes `classNames.head`. Individual `className` wins.
+   */
+  classNames?: TableClassNames;
+
+  /**
    * Cell content
    */
   children: ReactNode;
@@ -231,6 +295,12 @@ export interface TableCellProps {
    * Custom className
    */
   className?: string;
+
+  /**
+   * Slot-Styling API. Forward the same `classNames` object passed to `Table`;
+   * `TableCell` consumes `classNames.cell`. Individual `className` wins.
+   */
+  classNames?: TableClassNames;
 
   /**
    * Cell content

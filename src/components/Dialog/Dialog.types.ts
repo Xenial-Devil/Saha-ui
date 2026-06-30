@@ -75,6 +75,15 @@ export interface DialogProps {
   headerClassName?: string;
   bodyClassName?: string;
   footerClassName?: string;
+
+  // Slot-Styling API (unified classNames object)
+  classNames?: {
+    overlay?: string;
+    content?: string;
+    header?: string;
+    body?: string;
+    footer?: string;
+  };
 }
 
 export interface DialogContextValue {

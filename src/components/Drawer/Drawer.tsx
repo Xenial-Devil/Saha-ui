@@ -4,6 +4,7 @@ import {
   useEffect,
   useRef,
   useCallback,
+  useId,
   type ReactElement,
 } from "react";
 import { createPortal } from "react-dom";
@@ -64,6 +65,9 @@ export const Drawer = ({
 
   const drawerRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
+
+  // Stable id linking content -> body for aria-describedby
+  const bodyId = useId();
 
   // Store trigger on open
   useEffect(() => {
@@ -249,6 +253,7 @@ export const Drawer = ({
         role="dialog"
         aria-modal={true}
         aria-label="Drawer"
+        aria-describedby={bodyId}
         onClick={(e) => e.stopPropagation()}
       >
         {content?.props?.children}
@@ -271,6 +276,7 @@ export const Drawer = ({
         showOverlay,
         nested,
         zIndex,
+        bodyId,
       }}
     >
       {trigger}

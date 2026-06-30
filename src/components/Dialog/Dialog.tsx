@@ -1,7 +1,15 @@
 "use client";
-import { forwardRef, useEffect, useState, useRef, useCallback } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useId,
+} from "react";
 import { createPortal } from "react-dom";
 import type { DialogProps } from "./Dialog.types";
+import { cn } from "../../lib/utils";
 import { DialogContext, DialogCloseButton } from "./DialogComponents";
 import {
   DialogOverlay,
@@ -88,6 +96,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
       headerClassName,
       bodyClassName,
       footerClassName,
+      classNames,
     },
     ref
   ) => {
@@ -293,6 +302,9 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
       }
     }, [open, returnFocus, nested]);
 
+    // Stable id linking content -> body for aria-describedby
+    const bodyId = useId();
+
     // Don't render if not open and not animating
     if (!open && !isAnimating) return null;
 
@@ -314,7 +326,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           nested={nested}
           onClick={closeOnOverlayClick ? handleClose : undefined}
           state={animationState}
-          className={overlayClassName}
+          className={cn(classNames?.overlay, overlayClassName)}
         />
 
         {/* Dialog Content */}
@@ -344,8 +356,10 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           aria-label={
             ariaLabel || (typeof title === "string" ? title : undefined)
           }
-          aria-describedby={ariaDescribedBy}
-          className={contentClassName}
+          aria-describedby={
+            ariaDescribedBy || (hasCompoundComponents ? undefined : bodyId)
+          }
+          className={cn(classNames?.content, contentClassName)}
         >
           {/* Render compound components OR prop-based content */}
           {hasCompoundComponents ? (
@@ -355,9 +369,11 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
               {/* Header (prop-based) */}
               {showHeader && (title || description || showCloseButton) && (
                 <div
-                  className={`flex items-start justify-between p-6 border-b border-border shrink-0 ${
-                    headerClassName || ""
-                  }`}
+                  className={cn(
+                    "flex items-start justify-between p-6 border-b border-border shrink-0",
+                    classNames?.header,
+                    headerClassName
+                  )}
                 >
                   <div className="flex-1">
                     {title && (
@@ -379,9 +395,13 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
 
               {/* Body (prop-based) */}
               <div
-                className={`flex-1 min-h-0 p-6 ${
-                  scrollBehavior === "inside" ? "overflow-y-auto" : ""
-                } ${bodyClassName || ""}`}
+                id={bodyId}
+                className={cn(
+                  "flex-1 min-h-0 p-6",
+                  scrollBehavior === "inside" ? "overflow-y-auto" : "",
+                  classNames?.body,
+                  bodyClassName
+                )}
               >
                 {children}
               </div>
@@ -389,9 +409,11 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
               {/* Footer (prop-based) */}
               {footer && (
                 <div
-                  className={`flex items-center justify-end gap-3 p-6 border-t border-border shrink-0 ${
-                    footerClassName || ""
-                  }`}
+                  className={cn(
+                    "flex items-center justify-end gap-3 p-6 border-t border-border shrink-0",
+                    classNames?.footer,
+                    footerClassName
+                  )}
                 >
                   {footer}
                 </div>

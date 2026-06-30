@@ -18,6 +18,7 @@ import type {
   BarSeriesConfig,
   LineSeriesConfig,
   AreaSeriesConfig,
+  SeriesConfig,
 } from "../Chart.types";
 
 export function ComposedChartComponent({
@@ -43,9 +44,9 @@ export function ComposedChartComponent({
     "4xl": 800,
   };
 
-  const renderSeries = (series: any, index: number) => {
+  const renderSeries = (series: SeriesConfig, index: number) => {
     const color = series.color || getColor(index);
-    const seriesType = (series as any).type || "bar";
+    const seriesType = ("type" in series ? series.type : undefined) || "bar";
 
     switch (seriesType) {
       case "line": {

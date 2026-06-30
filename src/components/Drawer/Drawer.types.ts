@@ -56,4 +56,6 @@ export interface DrawerContextValue {
   showOverlay: boolean;
   nested: boolean;
   zIndex: number;
+  /** Stable id for the body region, linked from content via aria-describedby */
+  bodyId?: string;
 }

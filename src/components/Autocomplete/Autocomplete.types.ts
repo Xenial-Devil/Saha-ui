@@ -149,7 +149,7 @@ export interface AutocompleteProps {
   ) => React.ReactNode;
 
   /** Custom render input */
-  renderInput?: (props: any) => React.ReactNode;
+  renderInput?: (props: AutocompleteInputRenderProps) => React.ReactNode;
 
   /** Additional CSS classes */
   className?: string;
@@ -165,4 +165,19 @@ export interface AutocompleteProps {
 
   /** Custom children for composable API */
   children?: React.ReactNode;
+}
+
+/** Props passed to a custom `renderInput` function */
+export interface AutocompleteInputRenderProps {
+  ref: React.Ref<HTMLInputElement>;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus: () => void;
+  onBlur: () => void;
+  onKeyDown: React.KeyboardEventHandler<HTMLInputElement>;
+  placeholder?: string;
+  disabled?: boolean;
+  name?: string;
+  id?: string;
+  className?: string;
 }

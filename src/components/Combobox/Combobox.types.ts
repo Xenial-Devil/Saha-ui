@@ -48,7 +48,11 @@ export interface ComboboxGroup {
 }
 
 // Conditional types based on multiple selection
-export interface ComboboxPropsBase {
+export interface ComboboxPropsBase
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    "onChange" | "defaultValue"
+  > {
   /** Options (props-based API) */
   options?: ComboboxOption[] | ComboboxGroup[];
 

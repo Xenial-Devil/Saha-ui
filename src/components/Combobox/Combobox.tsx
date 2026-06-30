@@ -211,6 +211,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       "aria-describedby": ariaDescribedby,
       placement = "bottom",
       disablePortal = false,
+      ...rest
     },
     ref
   ) => {
@@ -601,7 +602,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
 
     return (
       <ComboboxContext.Provider value={contextValue}>
-        <div ref={ref} className={cn("relative w-full", className)}>
+        <div ref={ref} className={cn("relative w-full", className)} {...rest}>
           {/* Label */}
           {label && (
             <label

@@ -22,6 +22,7 @@ import type {
   DropdownItemProps,
   DropdownGroupProps,
   DropdownSeparatorProps,
+  DropdownClassNames,
 } from "./Dropdown.types";
 import { ChevronDown, Search, X } from "lucide-react";
 import {
@@ -106,6 +107,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       className,
       triggerClassName,
       contentClassName,
+      classNames,
       disablePortal = false,
       ...props
     },
@@ -193,7 +195,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         } else if (e.key === "ArrowUp") {
           e.preventDefault();
           setFocusedIndex((prev) => Math.max(prev - 1, 0));
-        } else if (e.key === "Enter") {
+        } else if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           const option = filteredOptions?.[focusedIndex];
           if (option && !option.disabled) {
@@ -289,6 +291,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           className={cn(
             dropdownTriggerVariants({ variant, size }),
             width && `w-[${width}]`,
+            classNames?.trigger,
             triggerClassName
           )}
           aria-haspopup="listbox"
@@ -389,11 +392,18 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
                   )}
 
                   {/* Options */}
-                  <div className="max-h-[280px] overflow-y-auto p-1">
+                  <div
+                    className="max-h-[280px] overflow-y-auto p-1"
+                    role="listbox"
+                    aria-label={typeof label === "string" ? label : "Options"}
+                  >
                     {filteredOptions && filteredOptions.length > 0 ? (
                       filteredOptions.map((option, index) => (
                         <DropdownItem
                           key={option.value}
+                          ref={(el) => {
+                            itemRefs.current[index] = el;
+                          }}
                           value={option.value}
                           label={option.label}
                           icon={option.icon}
@@ -405,9 +415,15 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
                           disabled={option.disabled}
                           divider={option.divider}
                           header={option.header}
+                          role="option"
+                          tabIndex={-1}
+                          aria-selected={index === focusedIndex}
+                          aria-setsize={filteredOptions.length}
+                          aria-posinset={index + 1}
                           data-focused={index === focusedIndex}
                           className={cn(
-                            index === focusedIndex && "bg-muted/50"
+                            index === focusedIndex && "bg-muted/50",
+                            "outline-none"
                           )}
                         />
                       ))

@@ -10,7 +10,11 @@ export interface SelectOption {
   group?: string;
 }
 
-export interface SelectProps {
+export interface SelectProps
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    "onChange" | "defaultValue"
+  > {
   // Basic props
   label?: string;
   description?: string;
@@ -73,4 +77,21 @@ export interface SelectProps {
   className?: string;
   menuClassName?: string;
   optionClassName?: string;
+
+  /**
+   * Slot-Styling API: merge a class into each internal part.
+   * Individual props (`menuClassName`, `optionClassName`) still win if both are set.
+   */
+  classNames?: SelectClassNames;
+}
+
+export interface SelectClassNames {
+  /** The trigger button. */
+  trigger?: string;
+  /** The dropdown content / listbox container. */
+  content?: string;
+  /** Each option / item row. */
+  item?: string;
+  /** The search input (only rendered when `searchable`). */
+  searchInput?: string;
 }

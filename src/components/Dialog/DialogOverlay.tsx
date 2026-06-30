@@ -2,11 +2,15 @@
 
 import { forwardRef } from "react";
 import { cn } from "../../lib/utils";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 import type {
   DialogOverlayProps,
   DialogContentProps,
 } from "./Dialog.subcomponents.types";
 import { contentVariants, overlayVariants } from "./Dialog.styles";
+
+// Neutralizes transitions/animations when the user prefers reduced motion
+const REDUCED_MOTION = "!transition-none !animate-none !duration-0";
 
 /**
  * DialogOverlay - Backdrop overlay component
@@ -16,12 +20,14 @@ export const DialogOverlay = forwardRef<HTMLDivElement, DialogOverlayProps>(
     { backdrop = "default", nested = false, onClick, state, className },
     ref
   ) => {
+    const prefersReducedMotion = useReducedMotion();
     return (
       <div
         ref={ref}
         className={cn(
           overlayVariants({ backdrop, state }),
           nested && "bg-black/20 backdrop-blur-sm",
+          prefersReducedMotion && REDUCED_MOTION,
           className
         )}
         onClick={onClick}
@@ -61,6 +67,7 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
     },
     ref
   ) => {
+    const prefersReducedMotion = useReducedMotion();
     return (
       <div
         ref={innerRef || ref}
@@ -80,6 +87,7 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
           }),
           scrollBehavior === "outside" && "max-h-[90vh] overflow-y-auto",
           scrollBehavior === "inside" && "max-h-[90vh]",
+          prefersReducedMotion && REDUCED_MOTION,
           className
         )}
         onClick={onClick}

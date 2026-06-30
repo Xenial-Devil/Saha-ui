@@ -9,6 +9,7 @@ import React, {
   useCallback,
 } from "react";
 import { cn } from "../../lib/utils";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 import {
   CarouselProps,
   CarouselContentProps,
@@ -232,6 +233,7 @@ Carousel.displayName = "Carousel";
 const CarouselContent = React.forwardRef<HTMLDivElement, CarouselContentProps>(
   ({ className, children, ...props }, ref) => {
     const { activeIndex, effect } = useCarousel();
+    const prefersReducedMotion = useReducedMotion();
 
     return (
       <div
@@ -242,7 +244,8 @@ const CarouselContent = React.forwardRef<HTMLDivElement, CarouselContentProps>(
         <div
           className={cn(
             "flex h-full transition-transform duration-500 ease-in-out",
-            effect === "slide" && "transform"
+            effect === "slide" && "transform",
+            prefersReducedMotion && "!transition-none !duration-0"
           )}
           style={
             effect === "slide"
@@ -271,6 +274,7 @@ const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
   ({ className, children, ...props }, ref) => {
     const { effect } = useCarousel();
     const isActive = (props as any)["data-active"] === true;
+    const prefersReducedMotion = useReducedMotion();
 
     return (
       <div
@@ -281,6 +285,7 @@ const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
             "absolute inset-0 transition-opacity duration-500",
             isActive ? "opacity-100 z-10" : "opacity-0 z-0",
           ],
+          prefersReducedMotion && "!transition-none !duration-0",
           className
         )}
         {...props}

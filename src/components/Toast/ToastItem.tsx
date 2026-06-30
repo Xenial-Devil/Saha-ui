@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { cn } from "../../lib/utils";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 import type { ToastItemProps } from "./Toast.types";
 // validation removed - development-only checks disabled per user request
 import { toastVariants } from "./Toast.styles";
@@ -252,12 +253,15 @@ export const ToastItem: React.FC<ToastItemProps> = ({
     if (pauseOnHover) setIsPaused(false);
   };
 
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <div
       className={cn(
         toastVariants({ variant, status, animation }),
         "rounded-xl",
         getAnimationClasses(),
+        prefersReducedMotion && "!transition-none !animate-none !duration-0",
         className
       )}
       onMouseEnter={handleMouseEnter}

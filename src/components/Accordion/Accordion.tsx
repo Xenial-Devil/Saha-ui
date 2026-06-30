@@ -113,6 +113,7 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
       variant = "default",
       size = "md",
       className,
+      classNames,
       collapsible = false,
       orientation = "vertical",
       loop = false,
@@ -180,6 +181,7 @@ export const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
           ref={ref}
           className={cn(
             accordionVariants({ variant, size, orientation }),
+            classNames?.root,
             className
           )}
           data-orientation={orientation}
@@ -206,6 +208,7 @@ export const AccordionItem = React.forwardRef<
     {
       value,
       className,
+      classNames,
       disabled = false,
       headingLevel = 3,
       onOpenChange,
@@ -261,6 +264,7 @@ export const AccordionItem = React.forwardRef<
               disabled: isDisabled,
               orientation,
             }),
+            classNames?.item,
             className
           )}
           data-state={isOpen ? "open" : "closed"}
@@ -320,6 +324,7 @@ export const AccordionTrigger = React.forwardRef<
     {
       children,
       className,
+      classNames,
       icon,
       openIcon,
       closedIcon,
@@ -398,6 +403,7 @@ export const AccordionTrigger = React.forwardRef<
           iconPosition,
           disabled,
         }),
+        classNames?.trigger,
         className
       ),
       onClick: handleClick,
@@ -449,6 +455,7 @@ export const AccordionContent = React.forwardRef<
     {
       children,
       className,
+      classNames,
       forceMount = false,
       onAnimationStart,
       onAnimationEnd,
@@ -507,7 +514,7 @@ export const AccordionContent = React.forwardRef<
         aria-labelledby={triggerId}
         hidden={!isOpen && !isAnimating && !forceMount}
         style={animatedStyle}
-        className={cn(accordionContentVariants({ size }), className)}
+        className={cn(accordionContentVariants({ size }), classNames?.content, className)}
         data-state={isOpen ? "open" : "closed"}
         data-animating={isAnimating || undefined}
       >

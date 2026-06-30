@@ -112,10 +112,12 @@ DrawerHeader.displayName = "DrawerHeader";
  * DrawerBody - Main content area
  */
 export const DrawerBody = forwardRef<HTMLDivElement, DrawerBodyProps>(
-  ({ children, className, ...props }, ref) => {
+  ({ children, className, id, ...props }, ref) => {
+    const { bodyId } = useDrawerContext();
     return (
       <div
         ref={ref}
+        id={id ?? bodyId}
         className={cn("flex-1 p-6 overflow-y-auto", className)}
         {...props}
       >

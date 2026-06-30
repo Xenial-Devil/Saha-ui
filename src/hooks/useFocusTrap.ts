@@ -54,6 +54,9 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>(
 
     element.addEventListener("keydown", handleKeyDown);
 
+    // Snapshot the return target now; returnFocus.current may change before cleanup
+    const returnEl = returnFocus?.current ?? null;
+
     // Focus initial element after short delay (animation)
     const focusTimer = setTimeout(() => {
       if (initialFocus) {
@@ -69,8 +72,8 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>(
       clearTimeout(focusTimer);
 
       // Return focus to trigger if specified
-      if (returnFocus?.current) {
-        returnFocus.current.focus();
+      if (returnEl) {
+        returnEl.focus();
       }
     };
   }, [enabled, containerRef, returnFocus, initialFocus]);

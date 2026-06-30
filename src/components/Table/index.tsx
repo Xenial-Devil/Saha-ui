@@ -14,6 +14,7 @@ import type {
   TableVariant,
   TableSize,
   TableDensity,
+  TableClassNames,
 } from "./Table.types";
 // validation removed
 import {
@@ -30,6 +31,7 @@ interface TableContextValue {
   density: TableDensity;
   striped: boolean;
   hoverable: boolean;
+  classNames?: TableClassNames;
 }
 
 const TableContext = createContext<TableContextValue | undefined>(undefined);
@@ -51,6 +53,7 @@ export const Table = React.forwardRef<HTMLDivElement, TableProps>(
       striped = false,
       hoverable = true,
       className,
+      classNames,
       children,
     },
     ref
@@ -65,13 +68,14 @@ export const Table = React.forwardRef<HTMLDivElement, TableProps>(
           density,
           striped,
           hoverable,
+          classNames,
         }}
       >
         <div
           ref={ref}
-          className={cn(tableContainerVariants({ variant }), className)}
+          className={cn(tableContainerVariants({ variant }), classNames?.root, className)}
         >
-          <table className={cn(tableVariants({ size }))}>{children}</table>
+          <table className={cn(tableVariants({ size }), classNames?.table)}>{children}</table>
         </div>
       </TableContext.Provider>
     );
@@ -83,15 +87,16 @@ Table.displayName = "Table";
 export const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   TableHeaderProps
->(({ sticky = false, className, children }, ref) => {
-  const { size } = useTableContext();
+>(({ sticky = false, className, classNames: propClassNames, children }, ref) => {
+  const { size, classNames: ctxClassNames } = useTableContext();
+  const classNames = propClassNames ?? ctxClassNames;
 
   // development-only validation removed
 
   return (
     <thead
       ref={ref}
-      className={cn(tableHeaderVariants({ sticky, size }), className)}
+      className={cn(tableHeaderVariants({ sticky, size }), classNames?.header, className)}
     >
       {children}
     </thead>
@@ -103,9 +108,11 @@ TableHeader.displayName = "TableHeader";
 export const TableBody = React.forwardRef<
   HTMLTableSectionElement,
   TableBodyProps
->(({ className, children }, ref) => {
+>(({ className, classNames: propClassNames, children }, ref) => {
+  const { classNames: ctxClassNames } = useTableContext();
+  const classNames = propClassNames ?? ctxClassNames;
   return (
-    <tbody ref={ref} className={cn(className)}>
+    <tbody ref={ref} className={cn(classNames?.body, className)}>
       {children}
     </tbody>
   );
@@ -116,12 +123,15 @@ TableBody.displayName = "TableBody";
 export const TableFooter = React.forwardRef<
   HTMLTableSectionElement,
   TableFooterProps
->(({ className, children }, ref) => {
+>(({ className, classNames: propClassNames, children }, ref) => {
+  const { classNames: ctxClassNames } = useTableContext();
+  const classNames = propClassNames ?? ctxClassNames;
   return (
     <tfoot
       ref={ref}
       className={cn(
         "border-t-2 border-border bg-muted/50 font-semibold",
+        classNames?.footer,
         className
       )}
     >
@@ -133,8 +143,9 @@ export const TableFooter = React.forwardRef<
 TableFooter.displayName = "TableFooter";
 
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ selected = false, className, onClick, children }, ref) => {
-    const { hoverable, striped } = useTableContext();
+  ({ selected = false, className, classNames: propClassNames, onClick, children }, ref) => {
+    const { hoverable, striped, classNames: ctxClassNames } = useTableContext();
+    const classNames = propClassNames ?? ctxClassNames;
 
     return (
       <tr
@@ -145,6 +156,7 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
             striped,
             selected,
           }),
+          classNames?.row,
           className
         )}
         onClick={onClick}
@@ -168,11 +180,13 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
       sortDirection = null,
       onSort,
       className,
+      classNames: propClassNames,
       children,
     },
     ref
   ) => {
-    const { density } = useTableContext();
+    const { density, classNames: ctxClassNames } = useTableContext();
+    const classNames = propClassNames ?? ctxClassNames;
 
     const renderSortIcon = () => {
       if (!sortDirection) {
@@ -191,6 +205,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         className={cn(
           tableCellVariants({ density, align }),
           sortable && "cursor-pointer select-none",
+          classNames?.head,
           className
         )}
         style={{
@@ -212,13 +227,14 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
 TableHead.displayName = "TableHead";
 
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
-  ({ align = "left", width, minWidth, maxWidth, className, children }, ref) => {
-    const { density } = useTableContext();
+  ({ align = "left", width, minWidth, maxWidth, className, classNames: propClassNames, children }, ref) => {
+    const { density, classNames: ctxClassNames } = useTableContext();
+    const classNames = propClassNames ?? ctxClassNames;
 
     return (
       <td
         ref={ref}
-        className={cn(tableCellVariants({ density, align }), className)}
+        className={cn(tableCellVariants({ density, align }), classNames?.cell, className)}
         style={{
           width,
           minWidth,

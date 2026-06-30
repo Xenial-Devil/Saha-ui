@@ -5,7 +5,7 @@ import { cn } from "../../lib/utils";
 import { DatePicker } from "../DatePicker";
 import { TimePicker } from "../TimePicker";
 import type { DateRange } from "../DatePicker/DatePicker.types";
-import type { TimeValue } from "../TimePicker/TimePicker.types";
+import type { TimeValue, TimeRange } from "../TimePicker/TimePicker.types";
 import type { DateTimePickerProps } from "./DateTimePicker.types";
 import {
   dateTimePickerVariants,
@@ -92,7 +92,7 @@ export const DateTimePicker = forwardRef<HTMLDivElement, DateTimePickerProps>(
       notifyChange(range.startDate, timeValue);
     };
 
-    const handleTimeChange = (time: any) => {
+    const handleTimeChange = (time: TimeValue | TimeRange | null) => {
       // TimePicker onChange sends TimeValue or TimeRange depending on its config.
       // We expect single TimeValue here.
       const t = time as TimeValue | null;

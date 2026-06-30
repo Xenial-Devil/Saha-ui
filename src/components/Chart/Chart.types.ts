@@ -105,7 +105,7 @@ export interface AxisConfig {
   dataKey?: string;
   label?: string;
   hide?: boolean;
-  tickFormatter?: (value: any) => string;
+  tickFormatter?: (value: number | string) => string;
   domain?: [number | string, number | string];
   scale?: "auto" | "linear" | "log" | "sqrt" | "time";
 }
@@ -119,7 +119,7 @@ export interface GridConfig {
 
 export interface TooltipConfig {
   show?: boolean;
-  formatter?: (value: any, name: string) => [string, string];
+  formatter?: (value: number | string, name: string) => [string, string];
   labelFormatter?: (label: string) => string;
   cursor?: boolean | object;
 }

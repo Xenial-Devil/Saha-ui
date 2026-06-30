@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { X, CheckCircle, AlertCircle, AlertTriangle, Info } from "lucide-react";
 import type { SnackbarProps } from "./Snackbar.types";
 export type { SnackbarProps };
@@ -170,6 +171,8 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
       icon ||
       (showIcon && severity !== "default" ? getDefaultIcon(severity) : null);
 
+    const prefersReducedMotion = useReducedMotion();
+
     // Don't render if not open (after animation)
     if (!open) {
       return null;
@@ -180,6 +183,7 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
         ref={ref}
         className={cn(
           snackbarVariants({ severity, variant, position }),
+          prefersReducedMotion && "!transition-none !animate-none !duration-0",
           className,
         )}
         style={{ zIndex, ...style }}

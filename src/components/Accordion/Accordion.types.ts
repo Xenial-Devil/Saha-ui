@@ -1,5 +1,23 @@
 import { ReactNode } from "react";
 
+/**
+ * Slot-styling map for the Accordion compound component.
+ *
+ * Pass the same `classNames` object to `Accordion`, `AccordionItem`,
+ * `AccordionTrigger`, and `AccordionContent`; each sub-component consumes
+ * only its own key. Individual `className` props always win over `classNames`.
+ */
+export interface AccordionClassNames {
+  /** Outer accordion container rendered by `Accordion`. */
+  root?: string;
+  /** Each `AccordionItem` wrapper. */
+  item?: string;
+  /** The `AccordionTrigger` button. */
+  trigger?: string;
+  /** The `AccordionContent` collapsible region. */
+  content?: string;
+}
+
 // Explicit types for better type safety
 export type AccordionVariant =
   | "default"
@@ -59,6 +77,14 @@ export interface AccordionProps {
    * Custom className for the accordion container
    */
   className?: string;
+
+  /**
+   * Slot-Styling API. A single object mapping Accordion slots to class strings.
+   * `Accordion` consumes `classNames.root`. Forward the same object to
+   * `AccordionItem`, `AccordionTrigger`, and `AccordionContent` for their slots.
+   * Individual `className` props always win over the matching `classNames` key.
+   */
+  classNames?: AccordionClassNames;
 
   /**
    * Whether collapsible when type="single" (allows closing the open item)
@@ -140,6 +166,12 @@ export interface AccordionItemProps {
   className?: string;
 
   /**
+   * Slot-Styling API. Forward the same `classNames` object passed to `Accordion`;
+   * `AccordionItem` consumes `classNames.item`. Individual `className` wins.
+   */
+  classNames?: AccordionClassNames;
+
+  /**
    * Whether this item is disabled
    * @default false
    */
@@ -172,6 +204,12 @@ export interface AccordionTriggerProps {
    * Custom className for the trigger
    */
   className?: string;
+
+  /**
+   * Slot-Styling API. Forward the same `classNames` object passed to `Accordion`;
+   * `AccordionTrigger` consumes `classNames.trigger`. Individual `className` wins.
+   */
+  classNames?: AccordionClassNames;
 
   /**
    * Custom icon to display (overrides default)
@@ -228,6 +266,12 @@ export interface AccordionContentProps {
    * Custom className for the content
    */
   className?: string;
+
+  /**
+   * Slot-Styling API. Forward the same `classNames` object passed to `Accordion`;
+   * `AccordionContent` consumes `classNames.content`. Individual `className` wins.
+   */
+  classNames?: AccordionClassNames;
 
   /**
    * Force content to stay mounted in DOM even when closed

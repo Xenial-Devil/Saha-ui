@@ -57,7 +57,7 @@ export interface ColumnDef<TData = any, TValue = any> {
   sortingFn?: (rowA: Row<TData>, rowB: Row<TData>, columnId: string) => number;
 
   /** Custom filter function */
-  filterFn?: (row: Row<TData>, columnId: string, filterValue: any) => boolean;
+  filterFn?: (row: Row<TData>, columnId: string, filterValue: TValue) => boolean;
 
   /** Custom className for header */
   headerClassName?: string;
@@ -114,7 +114,7 @@ export interface SortingState {
  */
 export interface ColumnFilter {
   id: string;
-  value: any;
+  value: unknown;
 }
 
 /**
